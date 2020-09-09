@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: quite-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: system
+          uri: lb://quite-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1

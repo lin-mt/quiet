@@ -1,4 +1,4 @@
-package com.gitee.linmt;
+package com.gitee.quite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
