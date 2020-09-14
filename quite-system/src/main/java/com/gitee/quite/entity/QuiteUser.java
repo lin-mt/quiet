@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.Collection;
@@ -34,6 +36,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String secretCode;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
     
@@ -43,15 +46,19 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Column(name = "email_address")
     private String emailAddress;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "account_non_expired")
     private Whether accountNonExpired;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "account_non_locked")
     private Whether accountNonLocked;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "credentials_non_expired")
     private Whether credentialsNonExpired;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "enabled")
     private Whether enabled;
     
@@ -142,7 +149,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Override
     @Transient
     public boolean isAccountNonExpired() {
-        return Whether.YES.equals(this.accountNonExpired);
+        return Whether.YES.equals(getAccountNonExpired());
     }
     
     public void setAccountNonExpired(Whether accountNonExpired) {
@@ -152,7 +159,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Override
     @Transient
     public boolean isAccountNonLocked() {
-        return Whether.YES.equals(this.accountNonLocked);
+        return Whether.YES.equals(getAccountNonLocked());
     }
     
     public void setAccountNonLocked(Whether accountNonLocked) {
@@ -162,7 +169,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Override
     @Transient
     public boolean isCredentialsNonExpired() {
-        return Whether.YES.equals(this.credentialsNonExpired);
+        return Whether.YES.equals(getCredentialsNonExpired());
     }
     
     public void setCredentialsNonExpired(Whether credentialsNonExpired) {
@@ -172,7 +179,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Override
     @Transient
     public boolean isEnabled() {
-        return Whether.YES.equals(this.enabled);
+        return Whether.YES.equals(getEnabled());
     }
     
     public void setEnabled(Whether enabled) {

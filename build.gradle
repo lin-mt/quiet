@@ -26,7 +26,7 @@ subprojects {
     }
 
     ext {
-        set('springCloudAlibabaVersion', "2.2.1.RELEASE")
+        set('springCloudAlibabaVersion', "2.2.2.RELEASE")
         set('springCloudVersion', "Hoxton.SR8")
     }
 

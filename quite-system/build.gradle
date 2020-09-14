@@ -5,7 +5,6 @@ dependencies {
 	implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
 	implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 	implementation 'com.gitee.lin-mt:result-spring-boot-starter:1.2.0.RELEASE'
-	implementation 'com.gitee.lin-mt:dictionary-enum-spring-boot-jpa:1.2.1.RELEASE'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
