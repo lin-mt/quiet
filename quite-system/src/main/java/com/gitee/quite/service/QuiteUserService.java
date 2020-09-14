@@ -1,6 +1,7 @@
 package com.gitee.quite.service;
 
 import com.gitee.quite.entity.QuiteUser;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -36,5 +37,5 @@ public interface QuiteUserService extends UserDetailsService {
      */
     QuiteUser update(QuiteUser user);
     
-    List<QuiteUser> page();
+    List<QuiteUser> page(QuiteUser params, Pageable page);
 }

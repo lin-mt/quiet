@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class PostParam<T extends BaseEntity> {
     
+    private T params;
+    
     private T save;
     
     private T update;
@@ -34,7 +36,7 @@ public class PostParam<T extends BaseEntity> {
     /**
      * 第几页
      */
-    private Integer pageNumber;
+    private Integer current;
     
     /**
      * 分页大小
@@ -50,6 +52,14 @@ public class PostParam<T extends BaseEntity> {
      * 倒序排序字段
      */
     private List<String> desc;
+    
+    public T getParams() {
+        return params;
+    }
+    
+    public void setParams(T params) {
+        this.params = params;
+    }
     
     public T getSave() {
         checkEntity(save);
@@ -122,17 +132,17 @@ public class PostParam<T extends BaseEntity> {
         this.deleteIds = deleteIds;
     }
     
-    public Integer getPageNumber() {
-        if (pageNumber == null || pageNumber <= 0) {
-            pageNumber = 0;
+    public Integer getCurrent() {
+        if (current == null || current <= 0) {
+            current = 0;
         } else {
-            pageNumber -= 1;
+            current -= 1;
         }
-        return pageNumber;
+        return current;
     }
     
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
+    public void setCurrent(Integer current) {
+        this.current = current;
     }
     
     public Integer getPageSize() {
@@ -178,7 +188,7 @@ public class PostParam<T extends BaseEntity> {
                 }
             }
         }
-        return PageRequest.of(this.getPageNumber(), this.getPageSize(), Sort.by(orders));
+        return PageRequest.of(this.getCurrent(), this.getPageSize(), Sort.by(orders));
     }
     
     /**

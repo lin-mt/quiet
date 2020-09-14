@@ -39,7 +39,7 @@ public class QuiteUserController {
      * @return 注册后的用户信息
      */
     @PostMapping("/register")
-    public Result<QuiteUser> register(@RequestBody SysUserPostParam postParam) {
+    public Result<QuiteUser> register(@RequestBody QuiteUserPostParam postParam) {
         // TODO 可以根据租户的配置确定是否注册就直接启用该用户
         postParam.getSave().setEnabled(Whether.YES);
         return Result.success(quiteUserService.save(postParam.getSave()));
@@ -51,8 +51,8 @@ public class QuiteUserController {
      * @return 查询的用户信息
      */
     @PostMapping("/page")
-    public Result<List<QuiteUser>> page() {
-        return Result.success(quiteUserService.page());
+    public Result<List<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
+        return Result.success(quiteUserService.page(postParam.getParams(), postParam.page()));
     }
     
     /**
@@ -62,7 +62,7 @@ public class QuiteUserController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody SysUserPostParam postParam) {
+    public Result<Object> delete(@RequestBody QuiteUserPostParam postParam) {
         if (quiteUserService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
@@ -76,7 +76,7 @@ public class QuiteUserController {
      * @return 更新后的用户信息
      */
     @PutMapping("/update")
-    public Result<QuiteUser> update(@RequestBody SysUserPostParam postParam) {
+    public Result<QuiteUser> update(@RequestBody QuiteUserPostParam postParam) {
         return Result.success(quiteUserService.update(postParam.getUpdate()));
     }
     
@@ -90,7 +90,7 @@ public class QuiteUserController {
         return Result.success(SpringSecurityUtils.getCurrentUser());
     }
     
-    static class SysUserPostParam extends PostParam<QuiteUser> {
+    static class QuiteUserPostParam extends PostParam<QuiteUser> {
         
         @Override
         public void checkProperties(QuiteUser entity) {

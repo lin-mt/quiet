@@ -7,6 +7,7 @@ import com.gitee.quite.repository.QuiteRoleRepository;
 import com.gitee.quite.repository.QuiteUserRepository;
 import com.gitee.quite.repository.QuiteUserRoleRepository;
 import com.gitee.quite.service.QuiteUserService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,7 +81,7 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     }
     
     @Override
-    public List<QuiteUser> page() {
+    public List<QuiteUser> page(QuiteUser params, Pageable page) {
         return userRepository.findAll();
     }
 }

@@ -33,7 +33,7 @@ public class QuiteRolePermissionController {
      * @return 新增或更新的角色信息
      */
     @PostMapping("/saveOrUpdate")
-    public Result<QuiteRolePermission> saveOrUpdate(@RequestBody SysRolePermissionPostParam postParam) {
+    public Result<QuiteRolePermission> saveOrUpdate(@RequestBody QuiteRolePermissionPostParam postParam) {
         return Result.success(rolePermissionService.saveOrUpdate(postParam.getSaveOrUpdate()));
     }
     
@@ -44,14 +44,14 @@ public class QuiteRolePermissionController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<QuiteRolePermission> delete(@RequestBody SysRolePermissionPostParam postParam) {
+    public Result<QuiteRolePermission> delete(@RequestBody QuiteRolePermissionPostParam postParam) {
         if (rolePermissionService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
         return Result.deleteFailure();
     }
     
-    static class SysRolePermissionPostParam extends PostParam<QuiteRolePermission> {
+    static class QuiteRolePermissionPostParam extends PostParam<QuiteRolePermission> {
         
         @Override
         public void checkProperties(QuiteRolePermission entity) {

@@ -32,7 +32,7 @@ public class QuiteUserRoleController {
      * @return 新增/更新结果
      */
     @PostMapping("/saveOrUpdate")
-    public Result<QuiteUserRole> saveOrUpdate(@RequestBody SysUserRolePostParam postParam) {
+    public Result<QuiteUserRole> saveOrUpdate(@RequestBody QuiteUserRolePostParam postParam) {
         return Result.success(userRoleService.saveOrUpdate(postParam.getSaveOrUpdate()));
     }
     
@@ -43,14 +43,14 @@ public class QuiteUserRoleController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody SysUserRolePostParam postParam) {
+    public Result<Object> delete(@RequestBody QuiteUserRolePostParam postParam) {
         if (userRoleService.delete(postParam.getDeleteIds())) {
             return Result.deleteSuccess();
         }
         return Result.deleteFailure();
     }
     
-    static class SysUserRolePostParam extends PostParam<QuiteUserRole> {
+    static class QuiteUserRolePostParam extends PostParam<QuiteUserRole> {
     
     }
 }

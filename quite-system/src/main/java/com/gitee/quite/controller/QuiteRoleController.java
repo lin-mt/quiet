@@ -35,7 +35,7 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PostMapping("/save")
-    public Result<QuiteRole> save(@RequestBody SysRolePostParam postParam) {
+    public Result<QuiteRole> save(@RequestBody QuiteRolePostParam postParam) {
         return Result.success(roleService.save(postParam.getSave()));
     }
     
@@ -46,7 +46,7 @@ public class QuiteRoleController {
      * @return Result
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody SysRolePostParam postParam) {
+    public Result<Object> delete(@RequestBody QuiteRolePostParam postParam) {
         if (roleService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
@@ -60,11 +60,11 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PutMapping("/update")
-    public Result<QuiteRole> update(@RequestBody SysRolePostParam postParam) {
+    public Result<QuiteRole> update(@RequestBody QuiteRolePostParam postParam) {
         return Result.success(roleService.update(postParam.getUpdate()));
     }
     
-    static class SysRolePostParam extends PostParam<QuiteRole> {
+    static class QuiteRolePostParam extends PostParam<QuiteRole> {
         
         @Override
         public void checkProperties(QuiteRole entity) {

@@ -34,7 +34,7 @@ public class QuitePermissionController {
      * @return 新增或更新的权限信息
      */
     @PostMapping("/saveOrUpdate")
-    public Result<QuitePermission> save(@RequestBody SysPermissionPostParam postParam) {
+    public Result<QuitePermission> save(@RequestBody QuitePermissionPostParam postParam) {
         return Result.success(permissionService.saveOrUpdate(postParam.getSaveOrUpdate()));
     }
     
@@ -45,14 +45,14 @@ public class QuitePermissionController {
      * @return 删除的权限信息
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody SysPermissionPostParam postParam) {
+    public Result<Object> delete(@RequestBody QuitePermissionPostParam postParam) {
         if (permissionService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
         return Result.deleteFailure();
     }
     
-    static class SysPermissionPostParam extends PostParam<QuitePermission> {
+    static class QuitePermissionPostParam extends PostParam<QuitePermission> {
         
         @Override
         public void checkProperties(QuitePermission entity) {
