@@ -1,12 +1,16 @@
 package com.gitee.quite.service.impl;
 
+import com.gitee.linmt.exception.ServiceException;
 import com.gitee.quite.entity.QuiteUser;
 import com.gitee.quite.entity.QuiteUserRole;
-import com.gitee.linmt.exception.ServiceException;
 import com.gitee.quite.repository.QuiteRoleRepository;
 import com.gitee.quite.repository.QuiteUserRepository;
 import com.gitee.quite.repository.QuiteUserRoleRepository;
 import com.gitee.quite.service.QuiteUserService;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.gitee.quite.entity.QQuiteUser.quiteUser;
+
 /**
  * 用户 Service 实现类.
  *
@@ -25,6 +31,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuiteUserServiceImpl implements QuiteUserService {
+    
+    private final JPAQueryFactory jpaQueryFactory;
     
     private final QuiteUserRepository userRepository;
     
@@ -34,8 +42,10 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     
     private final PasswordEncoder passwordEncoder;
     
-    public QuiteUserServiceImpl(QuiteUserRepository userRepository, QuiteUserRoleRepository userRoleRepository,
-            QuiteRoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public QuiteUserServiceImpl(JPAQueryFactory jpaQueryFactory, QuiteUserRepository userRepository,
+            QuiteUserRoleRepository userRoleRepository, QuiteRoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
+        this.jpaQueryFactory = jpaQueryFactory;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.roleRepository = roleRepository;
@@ -81,7 +91,30 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     }
     
     @Override
-    public List<QuiteUser> page(QuiteUser params, Pageable page) {
-        return userRepository.findAll();
+    public QueryResults<QuiteUser> pageByEntity(QuiteUser params, Pageable page) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (params.getId() != null) {
+            builder.and(quiteUser.id.eq(params.getId()));
+        }
+        if (StringUtils.isNoneBlank(params.getUsername())) {
+            builder.and(quiteUser.username.contains(params.getUsername()));
+        }
+        if (StringUtils.isNoneBlank(params.getPhoneNumber())) {
+            builder.and(quiteUser.phoneNumber.eq(params.getPhoneNumber()));
+        }
+        if (StringUtils.isNoneBlank(params.getEmailAddress())) {
+            builder.and(quiteUser.emailAddress.eq(params.getEmailAddress()));
+        }
+        if (params.getAccountNonExpired() != null) {
+            builder.and(quiteUser.accountNonExpired.eq(params.getAccountNonExpired()));
+        }
+        if (params.getAccountNonLocked() != null) {
+            builder.and(quiteUser.accountNonLocked.eq(params.getAccountNonLocked()));
+        }
+        if (params.getCredentialsNonExpired() != null) {
+            builder.and(quiteUser.credentialsNonExpired.eq(params.getCredentialsNonExpired()));
+        }
+        return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset())
+                .limit(page.getPageSize()).fetchResults();
     }
 }

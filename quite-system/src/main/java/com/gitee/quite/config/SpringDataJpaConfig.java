@@ -1,6 +1,7 @@
 package com.gitee.quite.config;
 
 import com.gitee.quite.entity.QuiteUser;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -10,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
@@ -27,6 +30,18 @@ import java.util.Optional;
 @Configuration
 @EnableJpaAuditing(modifyOnCreate = false)
 public class SpringDataJpaConfig {
+    
+    @PersistenceContext
+    private final EntityManager entityManager;
+    
+    public SpringDataJpaConfig(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
+    @Bean
+    public JPAQueryFactory jpaQueryFactory() {
+        return new JPAQueryFactory(entityManager);
+    }
     
     @Bean
     public SpringSecurityAuditorAware springSecurityAuditorAware() {

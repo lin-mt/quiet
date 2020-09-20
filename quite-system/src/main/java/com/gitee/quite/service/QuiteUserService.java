@@ -1,10 +1,9 @@
 package com.gitee.quite.service;
 
 import com.gitee.quite.entity.QuiteUser;
+import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
 
 /**
  * 用户 Service.
@@ -37,5 +36,12 @@ public interface QuiteUserService extends UserDetailsService {
      */
     QuiteUser update(QuiteUser user);
     
-    List<QuiteUser> page(QuiteUser params, Pageable page);
+    /**
+     * 根据实体数据查询.
+     *
+     * @param params 查询参数
+     * @param page   分页参数
+     * @return 查询结果
+     */
+    QueryResults<QuiteUser> pageByEntity(QuiteUser params, Pageable page);
 }

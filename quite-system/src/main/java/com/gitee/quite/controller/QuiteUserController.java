@@ -1,12 +1,13 @@
 package com.gitee.quite.controller;
 
-import com.gitee.quite.base.PostParam;
 import com.gitee.linmt.entity.Result;
+import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.base.PostParam;
 import com.gitee.quite.entity.QuiteUser;
 import com.gitee.quite.enums.Whether;
-import com.gitee.linmt.exception.ServiceException;
 import com.gitee.quite.service.QuiteUserService;
 import com.gitee.quite.util.SpringSecurityUtils;
+import com.querydsl.core.QueryResults;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 用户 Controller.
@@ -51,8 +50,8 @@ public class QuiteUserController {
      * @return 查询的用户信息
      */
     @PostMapping("/page")
-    public Result<List<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
-        return Result.success(quiteUserService.page(postParam.getParams(), postParam.page()));
+    public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
+        return Result.success(quiteUserService.pageByEntity(postParam.getParams(), postParam.page()));
     }
     
     /**
