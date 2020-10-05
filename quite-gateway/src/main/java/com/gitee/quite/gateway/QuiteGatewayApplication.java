@@ -1,4 +1,4 @@
-package com.gitee.quite.system;
+package com.gitee.quite.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
