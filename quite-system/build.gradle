@@ -20,19 +20,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-def queryDslSourceDirectory = 'src/main/generated'
-
 querydsl {
     jpa = true
-    querydslSourcesDir = queryDslSourceDirectory
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir queryDslSourceDirectory
-        }
-    }
 }
 
 compileQuerydsl {
