@@ -1,4 +1,4 @@
-package com.gitee.quite.system;
+package com.gitee.quite.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
