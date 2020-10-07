@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @QuitePermissionCheck
 public class QuitePermission extends BaseEntity {
     
-    @NotEmpty(message = "{url.pattern}{not.empty}")
+    @NotEmpty(message = "{permission.url.pattern}{not.empty}")
     private String urlPattern;
     
     private String preFilterValue;
