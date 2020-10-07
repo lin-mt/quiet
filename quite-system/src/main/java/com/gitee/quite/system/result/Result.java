@@ -13,22 +13,22 @@ import java.util.Arrays;
 public class Result<T> {
     
     /**
-     * 结果类型.
+     * 请求结果.
      */
     private final ResultType result;
     
     /**
-     * msg 格式编码.
+     * code.
      */
     private String code;
     
     /**
-     * 返回信息.
+     * 返回的信息.
      */
     private String message;
     
     /**
-     * 执行结果.
+     * 返回的数据.
      */
     private T data;
     
