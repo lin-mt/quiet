@@ -2,6 +2,7 @@ package com.gitee.quite.system.base;
 
 /**
  * 数据字典枚举基类.
+ * TODO 数据字典 value 支持国际化
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
