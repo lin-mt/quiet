@@ -1,7 +1,7 @@
 package com.gitee.quite.system.handler;
 
 import com.gitee.quite.system.constant.ResultCode;
-import com.gitee.linmt.entity.Result;
+import com.gitee.quite.system.result.Result;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

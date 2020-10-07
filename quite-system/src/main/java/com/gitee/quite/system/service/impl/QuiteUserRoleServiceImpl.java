@@ -1,7 +1,7 @@
 package com.gitee.quite.system.service.impl;
 
 import com.gitee.quite.system.entity.QuiteUserRole;
-import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.system.exception.ServiceException;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
 import com.gitee.quite.system.repository.QuiteUserRepository;
 import com.gitee.quite.system.repository.QuiteUserRoleRepository;

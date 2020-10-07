@@ -1,11 +1,13 @@
 package com.gitee.quite.system.controller;
 
 import com.gitee.quite.system.base.PostParam;
-import com.gitee.linmt.entity.Result;
 import com.gitee.quite.system.entity.QuitePermission;
-import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuitePermissionService;
-import org.apache.commons.lang3.StringUtils;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
+import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,50 +30,42 @@ public class QuitePermissionController {
     }
     
     /**
-     * 新增或更新权限配置.
+     * 新增权限配置.
      *
-     * @param postParam :saveOrUpdate 新增或更新的权限配置信息
-     * @return 新增或更新的权限信息
+     * @param postParam :save 新增的权限配置信息
+     * @return 新增的权限信息
      */
-    @PostMapping("/saveOrUpdate")
-    public Result<QuitePermission> save(@RequestBody QuitePermissionPostParam postParam) {
-        return Result.success(permissionService.saveOrUpdate(postParam.getSaveOrUpdate()));
+    @PostMapping("/save")
+    public Result<QuitePermission> save(@RequestBody @Validated(Create.class) QuitePermissionPostParam postParam) {
+        return Result.success(permissionService.saveOrUpdate(postParam.getSave()));
+    }
+    
+    /**
+     * 更新权限配置.
+     *
+     * @param postParam :update 更新的权限配置信息
+     * @return 更新的权限信息
+     */
+    @PostMapping("/update")
+    public Result<QuitePermission> Update(@RequestBody @Validated(Update.class) QuitePermissionPostParam postParam) {
+        return Result.success(permissionService.saveOrUpdate(postParam.getUpdate()));
     }
     
     /**
      * 删除权限配置.
      *
      * @param postParam :deleteId 要删除的权限配置信息的ID
-     * @return 删除的权限信息
+     * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody QuitePermissionPostParam postParam) {
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuitePermissionPostParam postParam) {
         if (permissionService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
         return Result.deleteFailure();
     }
     
-    static class QuitePermissionPostParam extends PostParam<QuitePermission> {
-        
-        @Override
-        public void checkProperties(QuitePermission entity) {
-            if (StringUtils.isBlank(entity.getUrlPattern())) {
-                throw new ServiceException("E0301");
-            }
-            if (StringUtils.isNotBlank(entity.getPostAuthorizeValue())) {
-                return;
-            }
-            if (StringUtils.isNotBlank(entity.getPostFilterValue())) {
-                return;
-            }
-            if (StringUtils.isNotBlank(entity.getPreAuthorizeValue())) {
-                return;
-            }
-            if (StringUtils.isNotBlank(entity.getPreFilterValue())) {
-                return;
-            }
-            throw new ServiceException("E0302");
-        }
+    static class QuitePermissionPostParam extends PostParam<QuitePermission, QuitePermission> {
+    
     }
 }

@@ -1,9 +1,8 @@
 package com.gitee.quite.system.controller;
 
 import com.gitee.quite.system.base.PostParam;
-import com.gitee.linmt.entity.Result;
 import com.gitee.quite.system.entity.QuiteRolePermission;
-import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteRolePermissionService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +26,25 @@ public class QuiteRolePermissionController {
     }
     
     /**
-     * 新增或更新角色-权限信息.
+     * 新增角色-权限信息.
      *
-     * @param postParam ：saveOrUpdate 新增或更新的角色-权限信息
-     * @return 新增或更新的角色信息
+     * @param postParam ：save 新增的角色-权限信息
+     * @return 新增的角色信息
      */
-    @PostMapping("/saveOrUpdate")
-    public Result<QuiteRolePermission> saveOrUpdate(@RequestBody QuiteRolePermissionPostParam postParam) {
-        return Result.success(rolePermissionService.saveOrUpdate(postParam.getSaveOrUpdate()));
+    @PostMapping("/save")
+    public Result<QuiteRolePermission> save(@RequestBody QuiteRolePermissionPostParam postParam) {
+        return Result.success(rolePermissionService.saveOrUpdate(postParam.getSave()));
+    }
+    
+    /**
+     * 更新角色-权限信息.
+     *
+     * @param postParam ：update 更新的角色-权限信息
+     * @return 更新的角色信息
+     */
+    @PostMapping("/update")
+    public Result<QuiteRolePermission> update(@RequestBody QuiteRolePermissionPostParam postParam) {
+        return Result.success(rolePermissionService.saveOrUpdate(postParam.getUpdate()));
     }
     
     /**
@@ -51,14 +61,8 @@ public class QuiteRolePermissionController {
         return Result.deleteFailure();
     }
     
-    static class QuiteRolePermissionPostParam extends PostParam<QuiteRolePermission> {
-        
-        @Override
-        public void checkProperties(QuiteRolePermission entity) {
-            if (entity.getRoleId() == null || entity.getPermissionId() == null) {
-                throw new ServiceException("E0401");
-            }
-        }
+    static class QuiteRolePermissionPostParam extends PostParam<QuiteRolePermission, QuiteRolePermission> {
+    
     }
     
 }

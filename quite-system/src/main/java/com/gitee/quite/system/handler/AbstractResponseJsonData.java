@@ -1,7 +1,7 @@
 package com.gitee.quite.system.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.linmt.entity.Result;
+import com.gitee.quite.system.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

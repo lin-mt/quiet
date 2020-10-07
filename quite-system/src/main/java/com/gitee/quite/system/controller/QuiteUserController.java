@@ -1,10 +1,9 @@
 package com.gitee.quite.system.controller;
 
-import com.gitee.linmt.entity.Result;
-import com.gitee.linmt.exception.ServiceException;
 import com.gitee.quite.system.base.PostParam;
 import com.gitee.quite.system.entity.QuiteUser;
 import com.gitee.quite.system.enums.Whether;
+import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteUserService;
 import com.gitee.quite.system.util.SpringSecurityUtils;
 import com.querydsl.core.QueryResults;
@@ -51,7 +50,7 @@ public class QuiteUserController {
      */
     @PostMapping("/page")
     public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
-        return Result.success(quiteUserService.pageByEntity(postParam.getParams(), postParam.page()));
+        return Result.success(quiteUserService.pageByEntity(postParam.getParam(), postParam.page()));
     }
     
     /**
@@ -89,16 +88,7 @@ public class QuiteUserController {
         return Result.success(SpringSecurityUtils.getCurrentUser());
     }
     
-    static class QuiteUserPostParam extends PostParam<QuiteUser> {
-        
-        @Override
-        public void checkProperties(QuiteUser entity) {
-            if (entity.getUsername() == null) {
-                throw new ServiceException("E0001");
-            }
-            if (entity.getSecretCode() == null) {
-                throw new ServiceException("E0002");
-            }
-        }
+    static class QuiteUserPostParam extends PostParam<QuiteUser, QuiteUser> {
+    
     }
 }

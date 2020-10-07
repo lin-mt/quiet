@@ -1,11 +1,13 @@
 package com.gitee.quite.system.entity;
 
 import com.gitee.quite.system.base.BaseEntity;
+import com.gitee.quite.system.validation.annotation.QuitePermissionCheck;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 权限.
@@ -14,8 +16,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "quite_permission")
+@QuitePermissionCheck
 public class QuitePermission extends BaseEntity {
     
+    @NotEmpty(message = "{url.pattern}{not.empty}")
     private String urlPattern;
     
     private String preFilterValue;

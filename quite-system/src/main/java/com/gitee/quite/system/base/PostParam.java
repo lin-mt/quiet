@@ -1,6 +1,11 @@
 package com.gitee.quite.system.base;
 
-import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
+import com.gitee.quite.system.validation.group.curd.batch.DeleteBatch;
+import com.gitee.quite.system.validation.group.curd.batch.RetrieveBatch;
+import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
+import com.gitee.quite.system.validation.group.curd.single.RetrieveSingle;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -15,22 +22,28 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class PostParam<T extends BaseEntity> {
+public class PostParam<T extends BaseEntity, P> {
     
-    private T params;
+    private P param;
     
+    @Valid
+    @NotNull(groups = Create.class, message = "{save.entity.info}{not.null}")
     private T save;
     
+    @Valid
+    @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
     private T update;
     
-    private T saveOrUpdate;
-    
+    @NotNull(groups = RetrieveSingle.class)
     private Long getId;
     
+    @NotNull(groups = DeleteSingle.class)
     private Long deleteId;
     
+    @NotNull(groups = RetrieveBatch.class)
     private List<Long> getIds;
     
+    @NotNull(groups = DeleteBatch.class)
     private List<Long> deleteIds;
     
     /**
@@ -53,19 +66,16 @@ public class PostParam<T extends BaseEntity> {
      */
     private List<String> desc;
     
-    public T getParams() {
-        return params;
+    public P getParam() {
+        return param;
     }
     
-    public void setParams(T params) {
-        this.params = params;
+    public void setParam(P param) {
+        this.param = param;
     }
     
     public T getSave() {
-        checkEntity(save);
-        if (save.getId() != null) {
-            throw new ServiceException("IdShouldBeNull");
-        }
+        checkProperties(save);
         return save;
     }
     
@@ -74,10 +84,7 @@ public class PostParam<T extends BaseEntity> {
     }
     
     public T getUpdate() {
-        if (update.getId() == null) {
-            throw new ServiceException("IdCanNotBeNull");
-        }
-        checkEntity(update);
+        checkProperties(update);
         return update;
     }
     
@@ -85,19 +92,7 @@ public class PostParam<T extends BaseEntity> {
         this.update = update;
     }
     
-    public T getSaveOrUpdate() {
-        checkEntity(saveOrUpdate);
-        return saveOrUpdate;
-    }
-    
-    public void setSaveOrUpdate(T saveOrUpdate) {
-        this.saveOrUpdate = saveOrUpdate;
-    }
-    
     public Long getGetId() {
-        if (getId == null) {
-            throw new ServiceException("IdCanNotBeNull");
-        }
         return getId;
     }
     
@@ -106,9 +101,6 @@ public class PostParam<T extends BaseEntity> {
     }
     
     public Long getDeleteId() {
-        if (deleteId == null) {
-            throw new ServiceException("IdCanNotBeNull");
-        }
         return deleteId;
     }
     
@@ -192,20 +184,7 @@ public class PostParam<T extends BaseEntity> {
     }
     
     /**
-     * 校验实例属性是否符合业务要求，该方法只能在 get 方法中调用，否则 Jackson 序列化时就会报错，就无法抛出我们指定的异常， 也无法在全局异常中统一处理，同时在序列化时我们无法预知业务是更新还是保存或者其他操作，将该方法放在
-     * get 方法中才能做到需要时才校验.
-     *
-     * @param entity 保存或更新的实例
-     */
-    private void checkEntity(T entity) {
-        if (entity == null) {
-            throw new ServiceException("CanNotBeNull", "保存或更新的实体");
-        }
-        checkProperties(entity);
-    }
-    
-    /**
-     * 校验保存或更新的实例属性是否正确.
+     * 校验实例属性
      *
      * @param entity 保存或更新的实例
      */

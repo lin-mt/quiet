@@ -1,11 +1,9 @@
 package com.gitee.quite.system.controller;
 
 import com.gitee.quite.system.base.PostParam;
-import com.gitee.linmt.entity.Result;
 import com.gitee.quite.system.entity.QuiteRole;
-import com.gitee.linmt.exception.ServiceException;
+import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteRoleService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -64,13 +62,7 @@ public class QuiteRoleController {
         return Result.success(roleService.update(postParam.getUpdate()));
     }
     
-    static class QuiteRolePostParam extends PostParam<QuiteRole> {
-        
-        @Override
-        public void checkProperties(QuiteRole entity) {
-            if (StringUtils.isBlank(entity.getRoleName())) {
-                throw new ServiceException("E0101");
-            }
-        }
+    static class QuiteRolePostParam extends PostParam<QuiteRole, QuiteRole> {
+    
     }
 }

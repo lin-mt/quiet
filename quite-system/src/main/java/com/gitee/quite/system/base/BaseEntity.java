@@ -1,5 +1,7 @@
 package com.gitee.quite.system.base;
 
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 /**
@@ -25,6 +29,8 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     
     @Id
+    @Null(groups = Create.class, message = "id {null}")
+    @NotNull(groups = Update.class, message = "id {not.null}")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SnowFlakeIdGenerator")
     @GenericGenerator(name = "SnowFlakeIdGenerator", strategy = "com.gitee.quite.system.id.SnowFlakeIdGenerator")

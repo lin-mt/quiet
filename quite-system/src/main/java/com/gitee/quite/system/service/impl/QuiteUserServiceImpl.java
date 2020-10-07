@@ -1,8 +1,8 @@
 package com.gitee.quite.system.service.impl;
 
-import com.gitee.linmt.exception.ServiceException;
 import com.gitee.quite.system.entity.QuiteUser;
 import com.gitee.quite.system.entity.QuiteUserRole;
+import com.gitee.quite.system.exception.ServiceException;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
 import com.gitee.quite.system.repository.QuiteUserRepository;
 import com.gitee.quite.system.repository.QuiteUserRoleRepository;
@@ -114,7 +114,7 @@ public class QuiteUserServiceImpl implements QuiteUserService {
         if (params.getCredentialsNonExpired() != null) {
             builder.and(quiteUser.credentialsNonExpired.eq(params.getCredentialsNonExpired()));
         }
-        return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset()).limit(page.getPageSize())
+                .fetchResults();
     }
 }
