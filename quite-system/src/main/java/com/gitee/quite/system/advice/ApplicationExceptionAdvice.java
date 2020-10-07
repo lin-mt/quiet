@@ -18,9 +18,9 @@ import java.util.Objects;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestControllerAdvice
-public class ServiceExceptionAdvice {
+public class ApplicationExceptionAdvice {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceExceptionAdvice.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationExceptionAdvice.class);
     
     /**
      * 处理业务异常.
@@ -30,7 +30,7 @@ public class ServiceExceptionAdvice {
      */
     @ExceptionHandler(value = ServiceException.class)
     public Result<Object> handleServiceException(final ServiceException e) {
-        ServiceExceptionAdvice.LOGGER.error("业务异常", e);
+        ApplicationExceptionAdvice.LOGGER.error("业务异常", e);
         if (Objects.nonNull(e.getCode())) {
             return Result.exceptionMsg(e.getCode(), e.getMsgParam());
         }
@@ -45,7 +45,7 @@ public class ServiceExceptionAdvice {
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public Result<Object> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        ServiceExceptionAdvice.LOGGER.error("参数校验异常", e);
+        ApplicationExceptionAdvice.LOGGER.error("参数校验异常", e);
         StringBuilder errorMsg = new StringBuilder();
         if (e.getBindingResult().hasErrors()) {
             List<ObjectError> errors = e.getBindingResult().getAllErrors();
