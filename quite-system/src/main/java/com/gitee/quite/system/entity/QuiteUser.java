@@ -7,6 +7,7 @@ import com.gitee.quite.system.enums.Gender;
 import com.gitee.quite.system.enums.Whether;
 import com.gitee.quite.system.validation.group.curd.base.Create;
 import com.gitee.quite.system.validation.group.curd.base.Update;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -199,10 +199,10 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     
     @Override
     public String toString() {
-        return "SysUser{" + "username='" + username + '\'' + ", secretCode='" + secretCode + '\'' + ", gender='"
-                + gender + '\'' + ", phoneNumber='" + phoneNumber + '\'' + ", emailAddress='" + emailAddress + '\''
-                + ", accountNonExpired=" + accountNonExpired + ", accountNonLocked=" + accountNonLocked
-                + ", credentialsNonExpired=" + credentialsNonExpired + ", enabled=" + enabled + ", authorities="
-                + authorities + '}';
+        return new ToStringBuilder(this).append("username", username).append("avatar", avatar)
+                .append("secretCode", secretCode).append("gender", gender).append("phoneNumber", phoneNumber)
+                .append("emailAddress", emailAddress).append("accountNonExpired", accountNonExpired)
+                .append("accountNonLocked", accountNonLocked).append("credentialsNonExpired", credentialsNonExpired)
+                .append("enabled", enabled).append("authorities", authorities).toString();
     }
 }
