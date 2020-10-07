@@ -42,11 +42,11 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
         role.setRoleName(role.getRoleName().toUpperCase());
         QuiteRole quiteRole = roleRepository.getByRoleName(role.getRoleName());
         if (quiteRole != null && !quiteRole.getId().equals(role.getId())) {
-            throw new ServiceException("S0101", role.getRoleName());
+            throw new ServiceException("role.name.exist", role.getRoleName());
         }
         if (role.getParentId() != null) {
             if (!roleRepository.existsById(role.getParentId())) {
-                throw new ServiceException("S0102", role.getParentId());
+                throw new ServiceException("role.parent.id.no.exist", role.getParentId());
             }
         }
     }

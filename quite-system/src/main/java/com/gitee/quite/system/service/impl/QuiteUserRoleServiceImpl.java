@@ -34,11 +34,11 @@ public class QuiteUserRoleServiceImpl implements QuiteUserRoleService {
     
     @Override
     public QuiteUserRole saveOrUpdate(final QuiteUserRole userRole) {
-        if (!userRepository.existsById(userRole.getRoleId())) {
-            throw new ServiceException("S0201", userRole.getUserId());
+        if (!userRepository.existsById(userRole.getUserId())) {
+            throw new ServiceException("userRole.user.id.no.exist", userRole.getUserId());
         }
         if (!roleRepository.existsById(userRole.getRoleId())) {
-            throw new ServiceException("S0202", userRole.getRoleId());
+            throw new ServiceException("userRole.role.id.no.exist", userRole.getRoleId());
         }
         Optional<QuiteUserRole> exist = userRoleRepository
                 .findByUserIdAndRoleId(userRole.getUserId(), userRole.getRoleId());

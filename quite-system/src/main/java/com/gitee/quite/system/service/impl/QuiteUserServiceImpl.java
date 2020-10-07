@@ -69,7 +69,7 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     @Override
     public QuiteUser save(QuiteUser quiteUser) {
         if (userRepository.getByUsername(quiteUser.getUsername()) != null) {
-            throw new ServiceException("S0001", quiteUser.getUsername());
+            throw new ServiceException("user.username.exist", quiteUser.getUsername());
         }
         quiteUser.setSecretCode(passwordEncoder.encode(quiteUser.getSecretCode()));
         return userRepository.saveAndFlush(quiteUser);
@@ -85,7 +85,7 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     public QuiteUser update(QuiteUser user) {
         QuiteUser exist = userRepository.getByUsername(user.getUsername());
         if (exist != null && !exist.getId().equals(user.getId())) {
-            throw new ServiceException("S0001", user.getUsername());
+            throw new ServiceException("user.username.exist", user.getUsername());
         }
         return userRepository.saveAndFlush(user);
     }
