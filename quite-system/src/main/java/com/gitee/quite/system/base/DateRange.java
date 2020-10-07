@@ -5,7 +5,7 @@ import com.gitee.quite.system.validation.annotation.DateRangeCheck;
 import java.time.LocalDateTime;
 
 /**
- * 时间返回的查询参数.
+ * 时间范围的查询参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */

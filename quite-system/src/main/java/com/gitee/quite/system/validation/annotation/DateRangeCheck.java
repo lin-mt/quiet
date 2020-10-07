@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * 数据范围的参数校验.
+ * 时间范围的参数校验.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
@@ -22,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = DateRangeValidator.class)
 public @interface DateRangeCheck {
     
-    String message() default "{permission.config.can.not.all.empty}";
+    String message() default "{dateRange.start.before.end}";
     
     Class<?>[] groups() default {};
     
