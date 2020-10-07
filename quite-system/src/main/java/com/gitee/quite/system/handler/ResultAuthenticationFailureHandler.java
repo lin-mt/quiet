@@ -1,11 +1,15 @@
 package com.gitee.quite.system.handler;
 
-import com.gitee.quite.system.constant.ResultCode;
+import com.gitee.quite.system.config.ApplicationConfig;
+import com.gitee.quite.system.constant.AccountCode;
 import com.gitee.quite.system.result.Result;
+import com.gitee.quite.system.util.MessageUtils;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,11 +23,15 @@ import java.io.IOException;
 public class ResultAuthenticationFailureHandler extends AbstractResponseJsonData
         implements AuthenticationFailureHandler {
     
+    @Resource(name = ApplicationConfig.COMMON_MESSAGE_SOURCE)
+    private MessageSource messageSource;
+    
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException {
         logger.error("用户登陆失败", exception);
-        Result<Object> result = Result.failure().setCode(ResultCode.LOGIN_FAILURE).setMessage("用户名或密码错误");
+        Result<Object> result = Result.failure().setCode(AccountCode.LOGIN_FAILURE)
+                .setMessage(MessageUtils.getMessage(request, messageSource, AccountCode.LOGIN_FAILURE));
         responseJsonData(response, result);
     }
 }
