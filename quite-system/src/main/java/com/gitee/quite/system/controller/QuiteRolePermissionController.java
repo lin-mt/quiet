@@ -4,6 +4,10 @@ import com.gitee.quite.system.base.PostParam;
 import com.gitee.quite.system.entity.QuiteRolePermission;
 import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteRolePermissionService;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
+import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +36,8 @@ public class QuiteRolePermissionController {
      * @return 新增的角色信息
      */
     @PostMapping("/save")
-    public Result<QuiteRolePermission> save(@RequestBody QuiteRolePermissionPostParam postParam) {
+    public Result<QuiteRolePermission> save(
+            @RequestBody @Validated(Create.class) QuiteRolePermissionPostParam postParam) {
         return Result.success(rolePermissionService.saveOrUpdate(postParam.getSave()));
     }
     
@@ -43,7 +48,8 @@ public class QuiteRolePermissionController {
      * @return 更新的角色信息
      */
     @PostMapping("/update")
-    public Result<QuiteRolePermission> update(@RequestBody QuiteRolePermissionPostParam postParam) {
+    public Result<QuiteRolePermission> update(
+            @RequestBody @Validated(Update.class) QuiteRolePermissionPostParam postParam) {
         return Result.success(rolePermissionService.saveOrUpdate(postParam.getUpdate()));
     }
     
@@ -54,7 +60,8 @@ public class QuiteRolePermissionController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<QuiteRolePermission> delete(@RequestBody QuiteRolePermissionPostParam postParam) {
+    public Result<QuiteRolePermission> delete(
+            @RequestBody @Validated(DeleteSingle.class) QuiteRolePermissionPostParam postParam) {
         if (rolePermissionService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }

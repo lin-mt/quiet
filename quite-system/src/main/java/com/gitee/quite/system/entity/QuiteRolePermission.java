@@ -1,11 +1,14 @@
 package com.gitee.quite.system.entity;
 
 import com.gitee.quite.system.base.BaseEntity;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * 角色-权限.
@@ -16,8 +19,10 @@ import javax.persistence.Table;
 @Table(name = "quite_role_permission")
 public class QuiteRolePermission extends BaseEntity {
     
+    @NotNull(groups = {Create.class, Update.class}, message = "{rolePermission.roleId}{not.null}")
     private Long roleId;
     
+    @NotNull(groups = {Create.class, Update.class}, message = "{rolePermission.permissionId}{not.null}")
     private Long permissionId;
     
     @Basic

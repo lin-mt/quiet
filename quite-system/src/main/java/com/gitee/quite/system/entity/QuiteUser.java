@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quite.system.base.BaseEntity;
 import com.gitee.quite.system.enums.Gender;
 import com.gitee.quite.system.enums.Whether;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 /**
@@ -27,6 +31,7 @@ import java.util.Collection;
 public class QuiteUser extends BaseEntity implements UserDetails, CredentialsContainer {
     
     @Column(name = "username")
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{user.username}{not.empty}")
     private String username;
     
     @Column(name = "avatar")
@@ -34,6 +39,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     
     @Column(name = "secret_code")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{user.secretCode}{not.empty}")
     private String secretCode;
     
     @Enumerated(EnumType.STRING)

@@ -6,7 +6,11 @@ import com.gitee.quite.system.enums.Whether;
 import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteUserService;
 import com.gitee.quite.system.util.SpringSecurityUtils;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
+import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
 import com.querydsl.core.QueryResults;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +41,7 @@ public class QuiteUserController {
      * @return 注册后的用户信息
      */
     @PostMapping("/register")
-    public Result<QuiteUser> register(@RequestBody QuiteUserPostParam postParam) {
+    public Result<QuiteUser> register(@RequestBody @Validated(Create.class) QuiteUserPostParam postParam) {
         // TODO 可以根据租户的配置确定是否注册就直接启用该用户
         postParam.getSave().setEnabled(Whether.YES);
         return Result.success(quiteUserService.save(postParam.getSave()));
@@ -60,7 +64,7 @@ public class QuiteUserController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody QuiteUserPostParam postParam) {
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserPostParam postParam) {
         if (quiteUserService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
@@ -74,7 +78,7 @@ public class QuiteUserController {
      * @return 更新后的用户信息
      */
     @PutMapping("/update")
-    public Result<QuiteUser> update(@RequestBody QuiteUserPostParam postParam) {
+    public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserPostParam postParam) {
         return Result.success(quiteUserService.update(postParam.getUpdate()));
     }
     

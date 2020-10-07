@@ -34,16 +34,16 @@ public class PostParam<T extends BaseEntity, P> {
     @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
     private T update;
     
-    @NotNull(groups = RetrieveSingle.class)
+    @NotNull(groups = RetrieveSingle.class, message = "id {not.null}")
     private Long getId;
     
-    @NotNull(groups = DeleteSingle.class)
+    @NotNull(groups = DeleteSingle.class, message = "id {not.null}")
     private Long deleteId;
     
-    @NotNull(groups = RetrieveBatch.class)
+    @NotNull(groups = RetrieveBatch.class, message = "id {not.null}")
     private List<Long> getIds;
     
-    @NotNull(groups = DeleteBatch.class)
+    @NotNull(groups = DeleteBatch.class, message = "id {not.null}")
     private List<Long> deleteIds;
     
     /**

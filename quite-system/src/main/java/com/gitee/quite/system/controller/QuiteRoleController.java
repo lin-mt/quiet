@@ -4,6 +4,10 @@ import com.gitee.quite.system.base.PostParam;
 import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteRoleService;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
+import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,7 +37,7 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PostMapping("/save")
-    public Result<QuiteRole> save(@RequestBody QuiteRolePostParam postParam) {
+    public Result<QuiteRole> save(@RequestBody @Validated(Create.class) QuiteRolePostParam postParam) {
         return Result.success(roleService.save(postParam.getSave()));
     }
     
@@ -44,7 +48,7 @@ public class QuiteRoleController {
      * @return Result
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody QuiteRolePostParam postParam) {
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteRolePostParam postParam) {
         if (roleService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
@@ -58,7 +62,7 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PutMapping("/update")
-    public Result<QuiteRole> update(@RequestBody QuiteRolePostParam postParam) {
+    public Result<QuiteRole> update(@RequestBody @Validated(Update.class) QuiteRolePostParam postParam) {
         return Result.success(roleService.update(postParam.getUpdate()));
     }
     

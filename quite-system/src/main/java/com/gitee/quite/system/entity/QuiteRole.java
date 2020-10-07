@@ -1,6 +1,8 @@
 package com.gitee.quite.system.entity;
 
 import com.gitee.quite.system.base.BaseEntity;
+import com.gitee.quite.system.validation.group.curd.base.Create;
+import com.gitee.quite.system.validation.group.curd.base.Update;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Basic;
@@ -8,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 角色.
@@ -20,8 +23,10 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
     
     private Long parentId;
     
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleName}{not.empty}")
     private String roleName;
     
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleCnName}{not.empty}")
     private String roleCnName;
     
     private String remarks;
