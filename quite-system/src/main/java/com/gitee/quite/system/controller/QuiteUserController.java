@@ -54,7 +54,7 @@ public class QuiteUserController {
      */
     @PostMapping("/page")
     public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
-        return Result.success(quiteUserService.pageByEntity(postParam.getParam(), postParam.page()));
+        return Result.success(quiteUserService.pageByEntity(postParam.getParams(), postParam.page()));
     }
     
     /**

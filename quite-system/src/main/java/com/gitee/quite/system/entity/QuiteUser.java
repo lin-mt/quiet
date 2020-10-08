@@ -8,6 +8,7 @@ import com.gitee.quite.system.enums.Whether;
 import com.gitee.quite.system.validation.group.curd.base.Create;
 import com.gitee.quite.system.validation.group.curd.base.Update;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
@@ -46,23 +48,25 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Column(name = "gender")
     private Gender gender;
     
+    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{phone.number.length}")
     @Column(name = "phone_number")
     private String phoneNumber;
     
+    @Email(groups = {Create.class, Update.class}, message = "{email.address}")
     @Column(name = "email_address")
     private String emailAddress;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_non_expired")
-    private Whether accountNonExpired;
+    @Column(name = "account_expired")
+    private Whether accountExpired;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_non_locked")
-    private Whether accountNonLocked;
+    @Column(name = "account_locked")
+    private Whether accountLocked;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "credentials_non_expired")
-    private Whether credentialsNonExpired;
+    @Column(name = "credentials_expired")
+    private Whether credentialsExpired;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "enabled")
@@ -120,16 +124,16 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
         this.emailAddress = emailAddress;
     }
     
-    public Whether getAccountNonExpired() {
-        return accountNonExpired;
+    public Whether getAccountExpired() {
+        return accountExpired;
     }
     
-    public Whether getAccountNonLocked() {
-        return accountNonLocked;
+    public Whether getAccountLocked() {
+        return accountLocked;
     }
     
-    public Whether getCredentialsNonExpired() {
-        return credentialsNonExpired;
+    public Whether getCredentialsExpired() {
+        return credentialsExpired;
     }
     
     public Whether getEnabled() {
@@ -155,31 +159,31 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Override
     @Transient
     public boolean isAccountNonExpired() {
-        return Whether.YES.equals(getAccountNonExpired());
+        return Whether.NO.equals(getAccountExpired());
     }
     
-    public void setAccountNonExpired(Whether accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
+    public void setAccountExpired(Whether accountExpired) {
+        this.accountExpired = accountExpired;
     }
     
     @Override
     @Transient
     public boolean isAccountNonLocked() {
-        return Whether.YES.equals(getAccountNonLocked());
+        return Whether.NO.equals(getAccountLocked());
     }
     
-    public void setAccountNonLocked(Whether accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
+    public void setAccountLocked(Whether accountLocked) {
+        this.accountLocked = accountLocked;
     }
     
     @Override
     @Transient
     public boolean isCredentialsNonExpired() {
-        return Whether.YES.equals(getCredentialsNonExpired());
+        return Whether.NO.equals(getCredentialsExpired());
     }
     
-    public void setCredentialsNonExpired(Whether credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
+    public void setCredentialsExpired(Whether credentialsExpired) {
+        this.credentialsExpired = credentialsExpired;
     }
     
     @Override
@@ -201,8 +205,8 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     public String toString() {
         return new ToStringBuilder(this).append("username", username).append("avatar", avatar)
                 .append("secretCode", secretCode).append("gender", gender).append("phoneNumber", phoneNumber)
-                .append("emailAddress", emailAddress).append("accountNonExpired", accountNonExpired)
-                .append("accountNonLocked", accountNonLocked).append("credentialsNonExpired", credentialsNonExpired)
+                .append("emailAddress", emailAddress).append("accountNonExpired", accountExpired)
+                .append("accountNonLocked", accountLocked).append("credentialsNonExpired", credentialsExpired)
                 .append("enabled", enabled).append("authorities", authorities).toString();
     }
 }

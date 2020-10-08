@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class PostParam<T extends BaseEntity, P> {
     
-    private P param;
+    private P params;
     
     @Valid
     @NotNull(groups = Create.class, message = "{save.entity.info}{not.null}")
@@ -66,12 +66,12 @@ public class PostParam<T extends BaseEntity, P> {
      */
     private List<String> desc;
     
-    public P getParam() {
-        return param;
+    public P getParams() {
+        return params;
     }
     
-    public void setParam(P param) {
-        this.param = param;
+    public void setParams(P params) {
+        this.params = params;
     }
     
     public T getSave() {

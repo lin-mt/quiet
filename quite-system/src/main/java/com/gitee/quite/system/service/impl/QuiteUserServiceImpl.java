@@ -105,14 +105,14 @@ public class QuiteUserServiceImpl implements QuiteUserService {
         if (StringUtils.isNoneBlank(params.getEmailAddress())) {
             builder.and(quiteUser.emailAddress.eq(params.getEmailAddress()));
         }
-        if (params.getAccountNonExpired() != null) {
-            builder.and(quiteUser.accountNonExpired.eq(params.getAccountNonExpired()));
+        if (params.getAccountExpired() != null) {
+            builder.and(quiteUser.accountExpired.eq(params.getAccountExpired()));
         }
-        if (params.getAccountNonLocked() != null) {
-            builder.and(quiteUser.accountNonLocked.eq(params.getAccountNonLocked()));
+        if (params.getAccountLocked() != null) {
+            builder.and(quiteUser.accountLocked.eq(params.getAccountLocked()));
         }
-        if (params.getCredentialsNonExpired() != null) {
-            builder.and(quiteUser.credentialsNonExpired.eq(params.getCredentialsNonExpired()));
+        if (params.getCredentialsExpired() != null) {
+            builder.and(quiteUser.credentialsExpired.eq(params.getCredentialsExpired()));
         }
         return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset()).limit(page.getPageSize())
                 .fetchResults();
