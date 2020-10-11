@@ -3,5 +3,4 @@ dependencies {
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     runtimeOnly 'mysql:mysql-connector-java'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
