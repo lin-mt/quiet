@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.gitee.quite.common.service.config.QuiteServiceConfig,\
+  com.gitee.quite.common.service.config.QuiteJpaConfig

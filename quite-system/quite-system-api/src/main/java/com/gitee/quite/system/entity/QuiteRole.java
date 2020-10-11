@@ -1,8 +1,8 @@
 package com.gitee.quite.system.entity;
 
+import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
-import com.gitee.quite.system.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Basic;

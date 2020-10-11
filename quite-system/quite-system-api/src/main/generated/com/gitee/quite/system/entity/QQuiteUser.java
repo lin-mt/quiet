@@ -19,7 +19,7 @@ public class QQuiteUser extends EntityPathBase<QuiteUser> {
 
     public static final QQuiteUser quiteUser = new QQuiteUser("quiteUser");
 
-    public final com.gitee.quite.system.base.QBaseEntity _super = new com.gitee.quite.system.base.QBaseEntity(this);
+    public final com.gitee.quite.common.service.base.QBaseEntity _super = new com.gitee.quite.common.service.base.QBaseEntity(this);
 
     public final EnumPath<com.gitee.quite.system.enums.Whether> accountExpired = createEnum("accountExpired", com.gitee.quite.system.enums.Whether.class);
 

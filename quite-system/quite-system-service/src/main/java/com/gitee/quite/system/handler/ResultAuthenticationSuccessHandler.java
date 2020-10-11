@@ -1,9 +1,9 @@
 package com.gitee.quite.system.handler;
 
-import com.gitee.quite.system.config.ApplicationConfig;
+import com.gitee.quite.common.service.config.QuiteServiceConfig;
+import com.gitee.quite.common.service.result.Result;
+import com.gitee.quite.common.service.util.MessageUtils;
 import com.gitee.quite.system.constant.AccountCode;
-import com.gitee.quite.system.result.Result;
-import com.gitee.quite.system.util.MessageUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -23,7 +23,7 @@ import java.io.IOException;
 public class ResultAuthenticationSuccessHandler extends AbstractResponseJsonData
         implements AuthenticationSuccessHandler {
     
-    @Resource(name = ApplicationConfig.COMMON_MESSAGE_SOURCE)
+    @Resource(name = QuiteServiceConfig.QUITE_COMMON_MESSAGE_SOURCE)
     private MessageSource messageSource;
     
     @Override

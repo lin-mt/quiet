@@ -1,0 +1,46 @@
+plugins {
+    id 'com.ewerk.gradle.plugins.querydsl'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    compile project(path: ':quite-common:quite-validation', configuration: 'default')
+    compile 'com.querydsl:querydsl-jpa'
+    compile 'com.querydsl:querydsl-apt'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+jar.enabled(true)
+
+def queryDslSourceDirectory = 'src/main/generated'
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = queryDslSourceDirectory
+}
+
+sourceSets {
+    //noinspection GroovyAssignabilityCheck
+    main {
+        java {
+            srcDir queryDslSourceDirectory
+        }
+    }
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}

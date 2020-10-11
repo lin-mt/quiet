@@ -8,5 +8,5 @@ import com.gitee.quite.common.validation.group.curd.Update;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface UpdateBatch extends Update {
-
+    
 }

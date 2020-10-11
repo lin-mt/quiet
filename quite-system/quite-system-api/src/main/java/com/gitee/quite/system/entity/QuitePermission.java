@@ -1,6 +1,6 @@
 package com.gitee.quite.system.entity;
 
-import com.gitee.quite.system.base.BaseEntity;
+import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.system.validation.annotation.QuitePermissionCheck;
 
 import javax.persistence.Basic;

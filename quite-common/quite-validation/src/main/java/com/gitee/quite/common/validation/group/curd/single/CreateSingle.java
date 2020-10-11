@@ -8,5 +8,5 @@ import com.gitee.quite.common.validation.group.curd.Create;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface CreateSingle extends Create {
-
+    
 }

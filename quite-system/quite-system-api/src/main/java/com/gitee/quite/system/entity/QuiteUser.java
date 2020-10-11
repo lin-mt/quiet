@@ -2,9 +2,9 @@ package com.gitee.quite.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
-import com.gitee.quite.system.base.BaseEntity;
 import com.gitee.quite.system.enums.Gender;
 import com.gitee.quite.system.enums.Whether;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -128,12 +128,24 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
         return accountExpired;
     }
     
+    public void setAccountExpired(Whether accountExpired) {
+        this.accountExpired = accountExpired;
+    }
+    
     public Whether getAccountLocked() {
         return accountLocked;
     }
     
+    public void setAccountLocked(Whether accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+    
     public Whether getCredentialsExpired() {
         return credentialsExpired;
+    }
+    
+    public void setCredentialsExpired(Whether credentialsExpired) {
+        this.credentialsExpired = credentialsExpired;
     }
     
     public Whether getEnabled() {
@@ -162,28 +174,16 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
         return Whether.NO.equals(getAccountExpired());
     }
     
-    public void setAccountExpired(Whether accountExpired) {
-        this.accountExpired = accountExpired;
-    }
-    
     @Override
     @Transient
     public boolean isAccountNonLocked() {
         return Whether.NO.equals(getAccountLocked());
     }
     
-    public void setAccountLocked(Whether accountLocked) {
-        this.accountLocked = accountLocked;
-    }
-    
     @Override
     @Transient
     public boolean isCredentialsNonExpired() {
         return Whether.NO.equals(getCredentialsExpired());
-    }
-    
-    public void setCredentialsExpired(Whether credentialsExpired) {
-        this.credentialsExpired = credentialsExpired;
     }
     
     @Override

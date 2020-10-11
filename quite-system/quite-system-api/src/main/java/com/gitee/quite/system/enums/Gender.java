@@ -1,6 +1,6 @@
 package com.gitee.quite.system.enums;
 
-import com.gitee.quite.system.base.DictionaryEnum;
+import com.gitee.quite.common.service.base.DictionaryEnum;
 
 /**
  * 性别.

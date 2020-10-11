@@ -3,15 +3,11 @@ plugins {
 }
 
 dependencies {
-    compile project(path: ':quite-common:quite-validation', configuration: 'default')
-    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile project(path: ':quite-common:quite-service', configuration: 'default')
     compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'com.querydsl:querydsl-jpa'
-    compile 'com.querydsl:querydsl-apt'
 }
 
-jar.enabled = true
+jar.enabled(true)
 
 def queryDslSourceDirectory = 'src/main/generated'
 

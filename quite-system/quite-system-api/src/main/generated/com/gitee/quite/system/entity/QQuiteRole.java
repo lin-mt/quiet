@@ -19,7 +19,7 @@ public class QQuiteRole extends EntityPathBase<QuiteRole> {
 
     public static final QQuiteRole quiteRole = new QQuiteRole("quiteRole");
 
-    public final com.gitee.quite.system.base.QBaseEntity _super = new com.gitee.quite.system.base.QBaseEntity(this);
+    public final com.gitee.quite.common.service.base.QBaseEntity _super = new com.gitee.quite.common.service.base.QBaseEntity(this);
 
     //inherited
     public final NumberPath<Long> creator = _super.creator;
