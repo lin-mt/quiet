@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    compile(project(':quite-common:quite-validation'))
+    compile project(path: ':quite-common:quite-validation', configuration: 'default')
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'

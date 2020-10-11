@@ -1,9 +1,10 @@
 rootProject.name = 'quite'
 include 'quite-gateway'
+include 'quite-common:quite-validation'
+findProject(':quite-common:quite-validation')?.name = 'quite-validation'
 include 'quite-system:quite-system-api'
 findProject(':quite-system:quite-system-api')?.name = 'quite-system-api'
 include 'quite-system:quite-system-service'
 findProject(':quite-system:quite-system-service')?.name = 'quite-system-service'
-include 'quite-common:quite-validation'
-findProject(':quite-common:quite-validation')?.name = 'quite-validation'
+
 

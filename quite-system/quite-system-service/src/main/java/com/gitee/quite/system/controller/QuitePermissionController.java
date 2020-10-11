@@ -1,8 +1,8 @@
 package com.gitee.quite.system.controller;
 
-import com.gitee.quite.common.validation.curd.base.Create;
-import com.gitee.quite.common.validation.curd.base.Update;
-import com.gitee.quite.common.validation.curd.single.DeleteSingle;
+import com.gitee.quite.common.validation.group.curd.Create;
+import com.gitee.quite.common.validation.group.curd.Update;
+import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.system.base.PostParam;
 import com.gitee.quite.system.entity.QuitePermission;
 import com.gitee.quite.system.result.Result;

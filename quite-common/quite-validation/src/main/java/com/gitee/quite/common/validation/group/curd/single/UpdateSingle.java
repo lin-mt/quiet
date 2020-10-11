@@ -1,6 +1,6 @@
-package com.gitee.quite.common.validation.curd.single;
+package com.gitee.quite.common.validation.group.curd.single;
 
-import com.gitee.quite.common.validation.curd.base.Update;
+import com.gitee.quite.common.validation.group.curd.Update;
 
 /**
  * 更新一条数据.

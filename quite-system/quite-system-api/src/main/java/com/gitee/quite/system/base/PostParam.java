@@ -1,11 +1,11 @@
 package com.gitee.quite.system.base;
 
-import com.gitee.quite.system.validation.group.curd.base.Create;
-import com.gitee.quite.system.validation.group.curd.base.Update;
-import com.gitee.quite.system.validation.group.curd.batch.DeleteBatch;
-import com.gitee.quite.system.validation.group.curd.batch.RetrieveBatch;
-import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
-import com.gitee.quite.system.validation.group.curd.single.RetrieveSingle;
+import com.gitee.quite.common.validation.group.curd.Create;
+import com.gitee.quite.common.validation.group.curd.Update;
+import com.gitee.quite.common.validation.group.curd.batch.DeleteBatch;
+import com.gitee.quite.common.validation.group.curd.batch.RetrieveBatch;
+import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quite.common.validation.group.curd.single.RetrieveSingle;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.PageRequest;
