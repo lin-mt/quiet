@@ -1,7 +1,7 @@
-package com.gitee.quite.system.validation.validator;
+package com.gitee.quite.common.validation.validator;
 
-import com.gitee.quite.system.base.DateRange;
-import com.gitee.quite.system.validation.annotation.DateRangeCheck;
+import com.gitee.quite.common.validation.annotation.DateRangeCheck;
+import com.gitee.quite.common.validation.entity.DateRange;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

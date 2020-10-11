@@ -2,11 +2,11 @@ package com.gitee.quite.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gitee.quite.common.validation.curd.base.Create;
+import com.gitee.quite.common.validation.curd.base.Update;
 import com.gitee.quite.system.base.BaseEntity;
 import com.gitee.quite.system.enums.Gender;
 import com.gitee.quite.system.enums.Whether;
-import com.gitee.quite.system.validation.group.curd.base.Create;
-import com.gitee.quite.system.validation.group.curd.base.Update;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.CredentialsContainer;
@@ -48,11 +48,11 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Column(name = "gender")
     private Gender gender;
     
-    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{phone.number.length}")
+    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{user.phone.number.length}")
     @Column(name = "phone_number")
     private String phoneNumber;
     
-    @Email(groups = {Create.class, Update.class}, message = "{email.address}")
+    @Email(groups = {Create.class, Update.class}, message = "{user.email.address}")
     @Column(name = "email_address")
     private String emailAddress;
     

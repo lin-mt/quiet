@@ -1,6 +1,6 @@
-package com.gitee.quite.system.validation.annotation;
+package com.gitee.quite.common.validation.annotation;
 
-import com.gitee.quite.system.validation.validator.DateRangeValidator;
+import com.gitee.quite.common.validation.validator.DateRangeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

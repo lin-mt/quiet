@@ -1,4 +1,7 @@
-package com.gitee.quite.system.base;
+package com.gitee.quite.common.validation.entity;
+
+
+import com.gitee.quite.common.validation.annotation.DateRangeCheck;
 
 import java.time.LocalDateTime;
 
@@ -7,6 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@DateRangeCheck
 public class DateRange {
     
     private LocalDateTime start;

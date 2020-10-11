@@ -1,12 +1,12 @@
 package com.gitee.quite.system.controller;
 
+import com.gitee.quite.common.validation.curd.base.Create;
+import com.gitee.quite.common.validation.curd.base.Update;
+import com.gitee.quite.common.validation.curd.single.DeleteSingle;
 import com.gitee.quite.system.base.PostParam;
 import com.gitee.quite.system.entity.QuiteRolePermission;
 import com.gitee.quite.system.result.Result;
 import com.gitee.quite.system.service.QuiteRolePermissionService;
-import com.gitee.quite.system.validation.group.curd.base.Create;
-import com.gitee.quite.system.validation.group.curd.base.Update;
-import com.gitee.quite.system.validation.group.curd.single.DeleteSingle;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;

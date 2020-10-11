@@ -1,4 +1,4 @@
-package com.gitee.quite.system.validation.group.curd.base;
+package com.gitee.quite.common.validation.curd.base;
 
 import javax.validation.groups.Default;
 

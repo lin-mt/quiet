@@ -1,6 +1,6 @@
-package com.gitee.quite.system.validation.group.curd.batch;
+package com.gitee.quite.common.validation.curd.batch;
 
-import com.gitee.quite.system.validation.group.curd.base.Delete;
+import com.gitee.quite.common.validation.curd.base.Delete;
 
 /**
  * 批量删除.

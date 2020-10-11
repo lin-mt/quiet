@@ -1,6 +1,6 @@
-package com.gitee.quite.system.validation.group.curd.batch;
+package com.gitee.quite.common.validation.curd.batch;
 
-import com.gitee.quite.system.validation.group.curd.base.Retrieve;
+import com.gitee.quite.common.validation.curd.base.Retrieve;
 
 /**
  * 批量查询.

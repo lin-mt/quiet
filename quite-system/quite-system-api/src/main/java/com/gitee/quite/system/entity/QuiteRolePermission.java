@@ -1,8 +1,8 @@
 package com.gitee.quite.system.entity;
 
+import com.gitee.quite.common.validation.curd.base.Create;
+import com.gitee.quite.common.validation.curd.base.Update;
 import com.gitee.quite.system.base.BaseEntity;
-import com.gitee.quite.system.validation.group.curd.base.Create;
-import com.gitee.quite.system.validation.group.curd.base.Update;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
