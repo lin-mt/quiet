@@ -40,7 +40,7 @@ public class QuiteUserController {
      * @param postParam :save 用户信息
      * @return 注册后的用户信息
      */
-    @PostMapping("/register")
+    @PostMapping("/registered")
     public Result<QuiteUser> register(@RequestBody @Validated(Create.class) QuiteUserPostParam postParam) {
         // TODO 可以根据租户的配置确定是否注册就直接启用该用户
         postParam.getSave().setEnabled(Whether.YES);
