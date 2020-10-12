@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Component
 public class LongConverter implements Converter<Long, String> {
     
     @Override

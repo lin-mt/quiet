@@ -1,12 +1,12 @@
 package com.gitee.quite.system.controller;
 
 import com.gitee.quite.common.service.base.PostParam;
+import com.gitee.quite.common.service.enums.Whether;
 import com.gitee.quite.common.service.result.Result;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
 import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.system.entity.QuiteUser;
-import com.gitee.quite.system.enums.Whether;
 import com.gitee.quite.system.service.QuiteUserService;
 import com.gitee.quite.system.util.SpringSecurityUtils;
 import com.querydsl.core.QueryResults;
