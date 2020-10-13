@@ -1,6 +1,5 @@
 package com.gitee.quite.common.service.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quite.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quite.common.service.advice.ResultAdvice;
 import com.gitee.quite.common.service.converter.LongConverter;
@@ -102,8 +101,8 @@ public class QuiteServiceConfig {
     }
     
     @Bean
-    public DictionarySerializer dictionarySerializer(ObjectMapper objectMapper) {
-        return new DictionarySerializer(objectMapper);
+    public DictionarySerializer dictionarySerializer() {
+        return new DictionarySerializer();
     }
     
     @Bean

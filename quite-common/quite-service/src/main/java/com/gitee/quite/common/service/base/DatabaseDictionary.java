@@ -22,21 +22,21 @@ public class DatabaseDictionary<T extends DatabaseDictionary<T>> implements Dict
         return PREFIX + code;
     }
     
-    public void setCode(String code) {
-        this.code = code;
-    }
-    
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
     @Override
     public String getCode() {
         return code;
     }
     
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     @Override
     public String getValue() {
         return value;
+    }
+    
+    public void setValue(String value) {
+        this.value = value;
     }
 }

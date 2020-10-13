@@ -4,7 +4,6 @@ import com.gitee.quite.common.service.aware.QuiteAuditorAware;
 import com.gitee.quite.system.entity.QuiteUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

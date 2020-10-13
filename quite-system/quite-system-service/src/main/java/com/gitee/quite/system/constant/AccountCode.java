@@ -19,10 +19,10 @@ public final class AccountCode {
     
     public static final String NO_PERMISSION = buildCode("no.permission");
     
-    private static String buildCode(String code) {
-        return PREFIX + code;
+    private AccountCode() {
     }
     
-    private AccountCode() {
+    private static String buildCode(String code) {
+        return PREFIX + code;
     }
 }
