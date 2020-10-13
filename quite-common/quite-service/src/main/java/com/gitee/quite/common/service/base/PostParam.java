@@ -7,15 +7,15 @@ import com.gitee.quite.common.validation.group.curd.batch.RetrieveBatch;
 import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.common.validation.group.curd.single.RetrieveSingle;
 import com.google.common.collect.Lists;
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Post 请求参数.
@@ -24,7 +24,15 @@ import java.util.List;
  */
 public class PostParam<T extends BaseEntity, P> {
     
+    private static final String ASCEND = "ascend";
+    
+    private static final String DESCEND = "descend";
+    
     private P params;
+    
+    private Map<String, List<String>> filter;
+    
+    private Map<String, String> sorter;
     
     @Valid
     @NotNull(groups = Create.class, message = "{save.entity.info}{not.null}")
@@ -56,22 +64,28 @@ public class PostParam<T extends BaseEntity, P> {
      */
     private Integer pageSize;
     
-    /**
-     * 正序排序字段
-     */
-    private List<String> asc;
-    
-    /**
-     * 倒序排序字段
-     */
-    private List<String> desc;
-    
     public P getParams() {
         return params;
     }
     
     public void setParams(P params) {
         this.params = params;
+    }
+    
+    public Map<String, List<String>> getFilter() {
+        return filter;
+    }
+    
+    public void setFilter(Map<String, List<String>> filter) {
+        this.filter = filter;
+    }
+    
+    public Map<String, String> getSorter() {
+        return sorter;
+    }
+    
+    public void setSorter(Map<String, String> sorter) {
+        this.sorter = sorter;
     }
     
     public T getSave() {
@@ -148,35 +162,15 @@ public class PostParam<T extends BaseEntity, P> {
         this.pageSize = pageSize;
     }
     
-    public List<String> getAsc() {
-        return asc;
-    }
-    
-    public void setAsc(List<String> asc) {
-        this.asc = asc;
-    }
-    
-    public List<String> getDesc() {
-        return desc;
-    }
-    
-    public void setDesc(List<String> desc) {
-        this.desc = desc;
-    }
-    
     public Pageable page() {
         List<Sort.Order> orders = Lists.newArrayList();
-        if (!CollectionUtils.isEmpty(this.getAsc())) {
-            for (String asc : this.getAsc()) {
-                if (!StringUtils.hasText(asc)) {
-                    orders.add(Sort.Order.asc(asc));
+        if (MapUtils.isNotEmpty(this.getSorter())) {
+            for (Map.Entry<String, String> entry : this.getSorter().entrySet()) {
+                if (ASCEND.equals(entry.getValue())) {
+                    orders.add(Sort.Order.asc(entry.getKey()));
                 }
-            }
-        }
-        if (!CollectionUtils.isEmpty(this.getDesc())) {
-            for (String desc : this.getDesc()) {
-                if (!StringUtils.hasText(desc)) {
-                    orders.add(Sort.Order.asc(desc));
+                if (DESCEND.equals(entry.getValue())) {
+                    orders.add(Sort.Order.desc(entry.getKey()));
                 }
             }
         }
