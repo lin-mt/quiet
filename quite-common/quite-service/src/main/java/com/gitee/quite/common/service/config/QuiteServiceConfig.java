@@ -90,13 +90,13 @@ public class QuiteServiceConfig {
     }
     
     @Bean
-    public DatabaseDictionaryDeserializer databaseDictionaryDeserializer() {
-        return new DatabaseDictionaryDeserializer();
+    public DatabaseDictionaryDeserializer<?> databaseDictionaryDeserializer() {
+        return new DatabaseDictionaryDeserializer<>();
     }
     
     @Bean
-    public DictionarySerializer dictionarySerializer() {
-        return new DictionarySerializer();
+    public DictionarySerializer<?> dictionarySerializer() {
+        return new DictionarySerializer<>();
     }
     
     @Bean
