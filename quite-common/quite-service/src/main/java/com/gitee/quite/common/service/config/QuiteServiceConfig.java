@@ -2,7 +2,6 @@ package com.gitee.quite.common.service.config;
 
 import com.gitee.quite.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quite.common.service.advice.ResultAdvice;
-import com.gitee.quite.common.service.converter.LongConverter;
 import com.gitee.quite.common.service.id.IdGenerator;
 import com.gitee.quite.common.service.jackson.deserializer.DatabaseDictionaryDeserializer;
 import com.gitee.quite.common.service.jackson.deserializer.LongDeserializer;
@@ -88,11 +87,6 @@ public class QuiteServiceConfig {
     @Bean
     public ResultAdvice<?> resultAdvice() {
         return new ResultAdvice<>();
-    }
-    
-    @Bean
-    public LongConverter longConverter() {
-        return new LongConverter();
     }
     
     @Bean
