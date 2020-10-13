@@ -15,13 +15,14 @@ import java.io.IOException;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @JsonComponent
-public class DatabaseDictionaryDeserializer extends JsonDeserializer<DatabaseDictionary<?>> {
+public class DatabaseDictionaryDeserializer<T extends DatabaseDictionary<T>>
+        extends JsonDeserializer<DatabaseDictionary<T>> {
     
     @Override
-    public DatabaseDictionary<?> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+    public DatabaseDictionary<T> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
         if (!StringUtils.isBlank(jsonParser.getText())) {
-            DatabaseDictionary<?> dictionary = new DatabaseDictionary<>();
+            DatabaseDictionary<T> dictionary = new DatabaseDictionary<>();
             dictionary.setCode(jsonParser.getText());
             return dictionary;
         }

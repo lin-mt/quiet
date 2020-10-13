@@ -27,12 +27,13 @@ import java.io.IOException;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @JsonComponent
-public class DictionarySerializer extends JsonSerializer<Dictionary<?>> implements ApplicationContextAware {
+public class DictionarySerializer<T extends Dictionary<T>> extends JsonSerializer<Dictionary<T>>
+        implements ApplicationContextAware {
     
     private ApplicationContext applicationContext;
     
     @Override
-    public void serialize(Dictionary<?> dictionary, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+    public void serialize(Dictionary<T> dictionary, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
             throws IOException {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
