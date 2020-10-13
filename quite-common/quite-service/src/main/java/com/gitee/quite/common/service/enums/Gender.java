@@ -1,14 +1,13 @@
 package com.gitee.quite.common.service.enums;
 
-import com.gitee.quite.common.service.base.Dictionary;
+import com.gitee.quite.common.service.base.EnumDictionary;
 
 /**
  * 性别.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum Gender implements Dictionary {
-    
+public enum Gender implements EnumDictionary<Gender> {
     
     /**
      * 男

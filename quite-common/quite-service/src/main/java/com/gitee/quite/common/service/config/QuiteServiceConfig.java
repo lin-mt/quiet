@@ -1,11 +1,13 @@
 package com.gitee.quite.common.service.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quite.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quite.common.service.advice.ResultAdvice;
-import com.gitee.quite.common.service.converter.DictionaryConverter;
 import com.gitee.quite.common.service.converter.LongConverter;
 import com.gitee.quite.common.service.id.IdGenerator;
+import com.gitee.quite.common.service.jackson.deserializer.DatabaseDictionaryDeserializer;
 import com.gitee.quite.common.service.jackson.deserializer.LongDeserializer;
+import com.gitee.quite.common.service.jackson.serializer.DictionarySerializer;
 import com.gitee.quite.common.service.jackson.serializer.LongSerializer;
 import com.gitee.quite.common.service.util.ApplicationUtil;
 import com.gitee.quite.common.service.util.SnowFlakeIdWorker;
@@ -95,8 +97,13 @@ public class QuiteServiceConfig {
     }
     
     @Bean
-    public DictionaryConverter dictionaryConverter() {
-        return new DictionaryConverter();
+    public DatabaseDictionaryDeserializer databaseDictionaryDeserializer() {
+        return new DatabaseDictionaryDeserializer();
+    }
+    
+    @Bean
+    public DictionarySerializer dictionarySerializer(ObjectMapper objectMapper) {
+        return new DictionarySerializer(objectMapper);
     }
     
     @Bean
