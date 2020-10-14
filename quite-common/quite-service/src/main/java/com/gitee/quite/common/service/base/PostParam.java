@@ -152,7 +152,7 @@ public class PostParam<T extends BaseEntity, P> {
     }
     
     public Integer getPageSize() {
-        if (pageSize == null || pageSize <= 0) {
+        if (pageSize == null || pageSize < 0) {
             pageSize = 20;
         }
         return pageSize;
