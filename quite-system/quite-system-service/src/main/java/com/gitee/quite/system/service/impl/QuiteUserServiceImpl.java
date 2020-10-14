@@ -87,6 +87,7 @@ public class QuiteUserServiceImpl implements QuiteUserService {
         if (exist != null && !exist.getId().equals(user.getId())) {
             throw new ServiceException("user.username.exist", user.getUsername());
         }
+        user.setSecretCode(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
     

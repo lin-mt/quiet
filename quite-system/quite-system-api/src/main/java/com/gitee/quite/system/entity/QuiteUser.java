@@ -93,6 +93,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
         this.avatar = avatar;
     }
     
+    @JsonIgnore
     public String getSecretCode() {
         return secretCode;
     }

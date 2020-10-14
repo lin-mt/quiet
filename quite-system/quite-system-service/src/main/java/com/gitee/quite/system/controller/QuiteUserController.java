@@ -10,6 +10,7 @@ import com.gitee.quite.system.entity.QuiteUser;
 import com.gitee.quite.system.service.QuiteUserService;
 import com.gitee.quite.system.util.SpringSecurityUtils;
 import com.querydsl.core.QueryResults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,6 +79,7 @@ public class QuiteUserController {
      * @return 更新后的用户信息
      */
     @PutMapping("/update")
+    @PreAuthorize(value = "#postParam.update.id == authentication.principal.id")
     public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserPostParam postParam) {
         return Result.success(quiteUserService.update(postParam.getUpdate()));
     }

@@ -42,15 +42,18 @@ public class DictionarySerializer<T extends Dictionary<T>> extends JsonSerialize
             MessageSource messageSource = applicationContext
                     .getBean(QuiteServiceConfig.QUITE_DICTIONARY_MESSAGE_SOURCE, MessageSource.class);
             String message;
+            String codeFieldValue;
+            jsonGenerator.writeStartObject();
             if (dictionary.getClass().isEnum()) {
                 message = MessageUtils.getMessage(request, messageSource,
                         EnumDictionary.buildEnumMessageSourceKey(dictionary.getCode()));
+                codeFieldValue = ((Enum<?>) dictionary).name();
             } else {
                 message = MessageUtils.getMessage(request, messageSource,
                         DatabaseDictionary.buildDatabaseMessageSourceKey(dictionary.getCode()));
+                codeFieldValue = dictionary.getCode();
             }
-            jsonGenerator.writeStartObject();
-            jsonGenerator.writeStringField(Dictionary.Field.CODE.getFieldName(), dictionary.getCode());
+            jsonGenerator.writeStringField(Dictionary.Field.CODE.getFieldName(), codeFieldValue);
             jsonGenerator.writeStringField(Dictionary.Field.VALUE.getFieldName(),
                     StringUtils.isBlank(message) ? dictionary.getCode() : message);
             jsonGenerator.writeEndObject();
