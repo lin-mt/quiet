@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 /**
@@ -49,7 +50,8 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     @Column(name = "gender")
     private Gender gender;
     
-    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{user.phone.number.length}")
+    @Pattern(regexp = "^1\\d{10}$", message = "{user.phoneNumber.wrong}")
+    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{user.phoneNumber.wrong}")
     @Column(name = "phone_number")
     private String phoneNumber;
     

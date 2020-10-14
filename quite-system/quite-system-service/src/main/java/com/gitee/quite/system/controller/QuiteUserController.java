@@ -81,7 +81,8 @@ public class QuiteUserController {
     @PutMapping("/update")
     @PreAuthorize(value = "#postParam.update.id == authentication.principal.id")
     public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserPostParam postParam) {
-        return Result.success(quiteUserService.update(postParam.getUpdate()));
+        quiteUserService.update(postParam.getUpdate());
+        return Result.updateSuccess();
     }
     
     /**
