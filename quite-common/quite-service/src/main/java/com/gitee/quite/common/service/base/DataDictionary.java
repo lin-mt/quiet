@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DatabaseDictionary<T extends DatabaseDictionary<T>> implements Dictionary<T> {
+public class DataDictionary<T extends DataDictionary<T>> implements Dictionary<T> {
     
     public static final String PREFIX = "database.";
     
@@ -20,6 +20,10 @@ public class DatabaseDictionary<T extends DatabaseDictionary<T>> implements Dict
             throw new IllegalArgumentException("数据字典编码不能为空！");
         }
         return PREFIX + code;
+    }
+    
+    protected T of(String code) {
+        throw new RuntimeException("子类需要实现该方法");
     }
     
     @Override

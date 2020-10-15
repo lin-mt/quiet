@@ -3,7 +3,7 @@ package com.gitee.quite.common.service.jackson.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.gitee.quite.common.service.base.DatabaseDictionary;
+import com.gitee.quite.common.service.base.DataDictionary;
 import com.gitee.quite.common.service.base.Dictionary;
 import com.gitee.quite.common.service.base.EnumDictionary;
 import com.gitee.quite.common.service.config.QuiteServiceConfig;
@@ -50,7 +50,7 @@ public class DictionarySerializer<T extends Dictionary<T>> extends JsonSerialize
                 codeFieldValue = ((Enum<?>) dictionary).name();
             } else {
                 message = MessageUtils.getMessage(request, messageSource,
-                        DatabaseDictionary.buildDatabaseMessageSourceKey(dictionary.getCode()));
+                        DataDictionary.buildDatabaseMessageSourceKey(dictionary.getCode()));
                 codeFieldValue = dictionary.getCode();
             }
             jsonGenerator.writeStringField(Dictionary.Field.CODE.getFieldName(), codeFieldValue);

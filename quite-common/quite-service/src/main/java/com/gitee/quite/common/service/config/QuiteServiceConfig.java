@@ -3,7 +3,7 @@ package com.gitee.quite.common.service.config;
 import com.gitee.quite.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quite.common.service.advice.ResultAdvice;
 import com.gitee.quite.common.service.id.IdGenerator;
-import com.gitee.quite.common.service.jackson.deserializer.DatabaseDictionaryDeserializer;
+import com.gitee.quite.common.service.jackson.deserializer.DataDictionaryDeserializer;
 import com.gitee.quite.common.service.jackson.deserializer.LongDeserializer;
 import com.gitee.quite.common.service.jackson.serializer.DictionarySerializer;
 import com.gitee.quite.common.service.jackson.serializer.LongSerializer;
@@ -90,8 +90,8 @@ public class QuiteServiceConfig {
     }
     
     @Bean
-    public DatabaseDictionaryDeserializer<?> databaseDictionaryDeserializer() {
-        return new DatabaseDictionaryDeserializer<>();
+    public DataDictionaryDeserializer<?> databaseDictionaryDeserializer() {
+        return new DataDictionaryDeserializer<>();
     }
     
     @Bean
