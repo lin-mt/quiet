@@ -100,6 +100,9 @@ public class QuiteUserServiceImpl implements QuiteUserService {
         if (StringUtils.isNoneBlank(params.getUsername())) {
             builder.and(quiteUser.username.contains(params.getUsername()));
         }
+        if (params.getGender() != null) {
+            builder.and(quiteUser.gender.eq(params.getGender()));
+        }
         if (StringUtils.isNoneBlank(params.getPhoneNumber())) {
             builder.and(quiteUser.phoneNumber.eq(params.getPhoneNumber()));
         }
