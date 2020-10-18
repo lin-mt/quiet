@@ -7,7 +7,7 @@ package com.gitee.quite.system.constant;
  */
 public interface Url {
     
-    String REGISTER = "/user/register";
+    String REGISTER = "/user/registered";
     
     String LOGIN_BY_ACCOUNT = "/login/account";
     
