@@ -11,6 +11,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static com.gitee.quite.system.entity.QQuiteRole.quiteRole;
 
 /**
@@ -56,8 +61,20 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
         Wus.NotBlankContains(params.getRoleName(), quiteRole.roleName, builder);
         Wus.NotBlankContains(params.getRoleCnName(), quiteRole.roleCnName, builder);
         Wus.NotBlankContains(params.getRemarks(), quiteRole.remarks, builder);
-        return jpaQueryFactory.selectFrom(quiteRole).where(builder).offset(page.getOffset()).limit(page.getPageSize())
-                .fetchResults();
+        QueryResults<QuiteRole> results = jpaQueryFactory.selectFrom(quiteRole).where(builder).offset(page.getOffset())
+                .limit(page.getPageSize()).fetchResults();
+        if (!results.getResults().isEmpty()) {
+            Set<Long> parentIds = results.getResults().stream().filter(role -> !Objects.isNull(role.getParentId()))
+                    .map(QuiteRole::getParentId).collect(Collectors.toSet());
+            Map<Long, QuiteRole> idToRoleInfo = roleRepository.findAllById(parentIds).stream()
+                    .collect(Collectors.toMap(QuiteRole::getId, role -> role));
+            for (QuiteRole role : results.getResults()) {
+                if (role.getParentId() != null) {
+                    role.setParentRoleName(idToRoleInfo.get(role.getParentId()).getRoleName());
+                }
+            }
+        }
+        return results;
     }
     
     private void checkRoleInfo(QuiteRole role) {

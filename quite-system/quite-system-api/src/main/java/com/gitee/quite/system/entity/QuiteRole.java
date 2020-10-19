@@ -31,6 +31,9 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
     
     private String remarks;
     
+    @Transient
+    private String parentRoleName;
+    
     @Override
     @Transient
     public String getAuthority() {
@@ -77,4 +80,11 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
         this.remarks = remarks;
     }
     
+    public String getParentRoleName() {
+        return parentRoleName;
+    }
+    
+    public void setParentRoleName(String parentRoleName) {
+        this.parentRoleName = parentRoleName;
+    }
 }
