@@ -1,6 +1,7 @@
 package com.gitee.quite.system.service.impl;
 
 import com.gitee.quite.common.service.exception.ServiceException;
+import com.gitee.quite.common.service.util.Wus;
 import com.gitee.quite.system.entity.QuiteUser;
 import com.gitee.quite.system.entity.QuiteUserRole;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
@@ -10,7 +11,6 @@ import com.gitee.quite.system.service.QuiteUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -92,32 +92,16 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     }
     
     @Override
-    public QueryResults<QuiteUser> pageByEntity(QuiteUser params, Pageable page) {
+    public QueryResults<QuiteUser> page(QuiteUser params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (params.getId() != null) {
-            builder.and(quiteUser.id.eq(params.getId()));
-        }
-        if (StringUtils.isNoneBlank(params.getUsername())) {
-            builder.and(quiteUser.username.contains(params.getUsername()));
-        }
-        if (params.getGender() != null) {
-            builder.and(quiteUser.gender.eq(params.getGender()));
-        }
-        if (StringUtils.isNoneBlank(params.getPhoneNumber())) {
-            builder.and(quiteUser.phoneNumber.eq(params.getPhoneNumber()));
-        }
-        if (StringUtils.isNoneBlank(params.getEmailAddress())) {
-            builder.and(quiteUser.emailAddress.eq(params.getEmailAddress()));
-        }
-        if (params.getAccountExpired() != null) {
-            builder.and(quiteUser.accountExpired.eq(params.getAccountExpired()));
-        }
-        if (params.getAccountLocked() != null) {
-            builder.and(quiteUser.accountLocked.eq(params.getAccountLocked()));
-        }
-        if (params.getCredentialsExpired() != null) {
-            builder.and(quiteUser.credentialsExpired.eq(params.getCredentialsExpired()));
-        }
+        Wus.NotNullEq(params.getId(), quiteUser.id, builder);
+        Wus.NotBlankContains(params.getUsername(), quiteUser.username, builder);
+        Wus.NotNullEq(params.getGender(), quiteUser.gender, builder);
+        Wus.NotBlankContains(params.getPhoneNumber(), quiteUser.phoneNumber, builder);
+        Wus.NotBlankContains(params.getEmailAddress(), quiteUser.emailAddress, builder);
+        Wus.NotNullEq(params.getAccountExpired(), quiteUser.accountExpired, builder);
+        Wus.NotNullEq(params.getAccountLocked(), quiteUser.accountLocked, builder);
+        Wus.NotNullEq(params.getCredentialsExpired(), quiteUser.credentialsExpired, builder);
         return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset()).limit(page.getPageSize())
                 .fetchResults();
     }

@@ -43,5 +43,5 @@ public interface QuiteUserService extends UserDetailsService {
      * @param page   分页参数
      * @return 查询结果
      */
-    QueryResults<QuiteUser> pageByEntity(QuiteUser params, Pageable page);
+    QueryResults<QuiteUser> page(QuiteUser params, Pageable page);
 }

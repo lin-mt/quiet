@@ -7,6 +7,7 @@ import com.gitee.quite.common.validation.group.curd.Update;
 import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.service.QuiteRoleService;
+import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,16 @@ public class QuiteRoleController {
     
     public QuiteRoleController(QuiteRoleService roleService) {
         this.roleService = roleService;
+    }
+    
+    /**
+     * 查询角色.
+     *
+     * @return 查询所有信息
+     */
+    @PostMapping("/page")
+    public Result<QueryResults<QuiteRole>> page(@RequestBody QuiteRolePostParam postParam) {
+        return Result.success(roleService.page(postParam.getParams(), postParam.page()));
     }
     
     /**
