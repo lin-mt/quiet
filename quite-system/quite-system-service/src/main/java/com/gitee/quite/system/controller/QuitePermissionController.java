@@ -7,6 +7,7 @@ import com.gitee.quite.common.validation.group.curd.Update;
 import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.system.entity.QuitePermission;
 import com.gitee.quite.system.service.QuitePermissionService;
+import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,16 @@ public class QuitePermissionController {
     
     public QuitePermissionController(QuitePermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+    
+    /**
+     * 查询权限信息.
+     *
+     * @return 查询的权限配置信息
+     */
+    @PostMapping("/page")
+    public Result<QueryResults<QuitePermission>> page(@RequestBody QuitePermissionPostParam postParam) {
+        return Result.success(permissionService.page(postParam.getParams(), postParam.page()));
     }
     
     /**

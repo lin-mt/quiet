@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class QuiteUserController {
     
-    private final QuiteUserService quiteUserService;
+    private final QuiteUserService userService;
     
-    public QuiteUserController(QuiteUserService quiteUserService) {
-        this.quiteUserService = quiteUserService;
+    public QuiteUserController(QuiteUserService userService) {
+        this.userService = userService;
     }
     
     /**
@@ -45,7 +45,7 @@ public class QuiteUserController {
     public Result<QuiteUser> register(@RequestBody @Validated(Create.class) QuiteUserPostParam postParam) {
         // TODO 可以根据租户的配置确定是否注册就直接启用该用户
         postParam.getSave().setEnabled(Whether.YES);
-        return Result.success(quiteUserService.save(postParam.getSave()));
+        return Result.success(userService.save(postParam.getSave()));
     }
     
     /**
@@ -55,7 +55,7 @@ public class QuiteUserController {
      */
     @PostMapping("/page")
     public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
-        return Result.success(quiteUserService.page(postParam.getParams(), postParam.page()));
+        return Result.success(userService.page(postParam.getParams(), postParam.page()));
     }
     
     /**
@@ -66,7 +66,7 @@ public class QuiteUserController {
      */
     @DeleteMapping("/delete")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserPostParam postParam) {
-        if (quiteUserService.delete(postParam.getDeleteId())) {
+        if (userService.delete(postParam.getDeleteId())) {
             return Result.deleteSuccess();
         }
         return Result.deleteFailure();
@@ -81,7 +81,7 @@ public class QuiteUserController {
     @PutMapping("/update")
     @PreAuthorize(value = "#postParam.update.id == authentication.principal.id")
     public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserPostParam postParam) {
-        quiteUserService.update(postParam.getUpdate());
+        userService.update(postParam.getUpdate());
         return Result.updateSuccess();
     }
     

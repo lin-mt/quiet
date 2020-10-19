@@ -19,7 +19,10 @@ import javax.validation.constraints.NotEmpty;
 @QuitePermissionCheck
 public class QuitePermission extends BaseEntity {
     
-    @NotEmpty(message = "{permission.url.pattern}{not.empty}")
+    @NotEmpty(message = "{permission.applicationName}{not.empty}")
+    private String applicationName;
+    
+    @NotEmpty(message = "{permission.urlPattern}{not.empty}")
     private String urlPattern;
     
     private String preFilterValue;
@@ -31,6 +34,16 @@ public class QuitePermission extends BaseEntity {
     private String postFilterValue;
     
     private String postAuthorizeValue;
+    
+    @Basic
+    @Column(name = "application_name")
+    public String getApplicationName() {
+        return applicationName;
+    }
+    
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
     
     @Basic
     @Column(name = "url_pattern")
