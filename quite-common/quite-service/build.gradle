@@ -13,6 +13,7 @@ dependencies {
     compile 'com.querydsl:querydsl-jpa'
     compile 'com.querydsl:querydsl-apt'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'

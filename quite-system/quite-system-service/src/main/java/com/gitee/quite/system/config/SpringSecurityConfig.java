@@ -6,10 +6,8 @@ import com.gitee.quite.system.handler.AuthenticationJsonEntryPointHandler;
 import com.gitee.quite.system.handler.ResultAccessDeniedHandler;
 import com.gitee.quite.system.service.QuiteUserService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,8 +22,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @EnableWebSecurity
-@Configuration(proxyBeanMethods = false)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     
     private final QuiteUserService userService;
