@@ -9,10 +9,17 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,9 +37,13 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
     
     private final JPAQueryFactory jpaQueryFactory;
     
-    public QuiteRoleServiceImpl(QuiteRoleRepository roleRepository, JPAQueryFactory jpaQueryFactory) {
+    private String rolePrefix = "ROLE_";
+    
+    public QuiteRoleServiceImpl(QuiteRoleRepository roleRepository, JPAQueryFactory jpaQueryFactory,
+            Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
         this.roleRepository = roleRepository;
         this.jpaQueryFactory = jpaQueryFactory;
+        grantedAuthorityDefaults.ifPresent(prefix -> rolePrefix = prefix.getRolePrefix());
     }
     
     @Override
@@ -75,6 +86,25 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
             }
         }
         return results;
+    }
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getReachableGrantedAuthorities(
+            Collection<? extends GrantedAuthority> authorities) {
+        if (authorities == null || authorities.isEmpty()) {
+            return AuthorityUtils.NO_AUTHORITIES;
+        }
+        Set<String> roleNames = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        Set<QuiteRole> reachableRoles = new HashSet<>();
+        while (!roleNames.isEmpty()) {
+            List<QuiteRole> roles = roleRepository.findByRoleNameIn(roleNames);
+            reachableRoles.addAll(roles.stream().peek(r -> r.setRoleName(rolePrefix + r.getRoleName()))
+                    .collect(Collectors.toSet()));
+            Set<Long> parentIds = roles.stream().map(QuiteRole::getId).collect(Collectors.toSet());
+            roleNames = roleRepository.findByParentIdIn(parentIds).stream().map(QuiteRole::getRoleName)
+                    .collect(Collectors.toSet());
+        }
+        return reachableRoles;
     }
     
     private void checkRoleInfo(QuiteRole role) {

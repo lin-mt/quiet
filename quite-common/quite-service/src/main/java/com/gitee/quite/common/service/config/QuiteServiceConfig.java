@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.time.Duration;
@@ -79,6 +80,12 @@ public class QuiteServiceConfig {
         messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
         messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
         return messageSource;
+    }
+    
+    
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("QUITE_ROLE_");
     }
     
     @Bean
