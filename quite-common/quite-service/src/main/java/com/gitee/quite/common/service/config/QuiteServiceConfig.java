@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -30,7 +29,6 @@ import java.time.Duration;
  */
 @Configuration
 @EnableConfigurationProperties(IdGenerator.class)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 public class QuiteServiceConfig {
     
