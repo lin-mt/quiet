@@ -25,18 +25,15 @@ import com.gitee.quite.common.service.jackson.serializer.DictionarySerializer;
 import com.gitee.quite.common.service.jackson.serializer.LongSerializer;
 import com.gitee.quite.common.service.util.ApplicationUtil;
 import com.gitee.quite.common.service.util.SnowFlakeIdWorker;
+import com.gitee.quite.common.validation.utils.MessageSourceUtil;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
-import java.time.Duration;
 
 /**
  * 所有服务的共同配置信息.
@@ -64,38 +61,13 @@ public class QuiteServiceConfig {
     
     @Bean(QUITE_COMMON_MESSAGE_SOURCE)
     public MessageSource commonMessageSource(MessageSourceProperties properties) {
-        return buildMessageSource(properties, "quite-common");
+        return MessageSourceUtil.buildMessageSource(properties, "quite-common");
     }
     
     @Bean(QUITE_DICTIONARY_MESSAGE_SOURCE)
     public MessageSource dictionaryMessageSource(MessageSourceProperties properties) {
-        return buildMessageSource(properties, "quite-enum-dictionary", "quite-dictionary");
+        return MessageSourceUtil.buildMessageSource(properties, "quite-enum-dictionary", "quite-dictionary");
     }
-    
-    @Bean
-    public LocalValidatorFactoryBean getValidator(MessageSourceProperties properties) {
-        LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
-        localValidatorFactoryBean
-                .setValidationMessageSource(buildMessageSource(properties, "quite-validation", "validation"));
-        return localValidatorFactoryBean;
-    }
-    
-    private MessageSource buildMessageSource(MessageSourceProperties properties, String... basenames) {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames(basenames);
-        if (properties.getEncoding() != null) {
-            messageSource.setDefaultEncoding(properties.getEncoding().name());
-        }
-        messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
-        Duration cacheDuration = properties.getCacheDuration();
-        if (cacheDuration != null) {
-            messageSource.setCacheMillis(cacheDuration.toMillis());
-        }
-        messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
-        messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
-        return messageSource;
-    }
-    
     
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
