@@ -24,6 +24,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * 权限.
@@ -35,21 +36,33 @@ import javax.validation.constraints.NotEmpty;
 @QuitePermissionCheck
 public class QuitePermission extends BaseEntity {
     
+    /**
+     * 应用名称
+     */
     @NotEmpty(message = "{permission.applicationName}{not.empty}")
     private String applicationName;
     
+    /**
+     * URL 匹配规则
+     */
     @NotEmpty(message = "{permission.urlPattern}{not.empty}")
     private String urlPattern;
     
-    private String preFilterValue;
+    /**
+     * 请求方法
+     */
+    private String requestMethod;
     
-    private String preFilterFilterTarget;
+    /**
+     * 角色ID
+     */
+    @NotNull(message = "{permission.roleId}{not.null}")
+    private Long roleId;
     
-    private String preAuthorizeValue;
-    
-    private String postFilterValue;
-    
-    private String postAuthorizeValue;
+    /**
+     * 备注
+     */
+    private String remark;
     
     @Basic
     @Column(name = "application_name")
@@ -72,53 +85,32 @@ public class QuitePermission extends BaseEntity {
     }
     
     @Basic
-    @Column(name = "pre_filter_value")
-    public String getPreFilterValue() {
-        return preFilterValue;
+    @Column(name = "request_method")
+    public String getRequestMethod() {
+        return requestMethod;
     }
     
-    public void setPreFilterValue(String preFilterValue) {
-        this.preFilterValue = preFilterValue;
-    }
-    
-    @Basic
-    @Column(name = "pre_filter_filter_target")
-    public String getPreFilterFilterTarget() {
-        return preFilterFilterTarget;
-    }
-    
-    public void setPreFilterFilterTarget(String preFilterFilterTarget) {
-        this.preFilterFilterTarget = preFilterFilterTarget;
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
     
     @Basic
-    @Column(name = "pre_authorize_value")
-    public String getPreAuthorizeValue() {
-        return preAuthorizeValue;
+    @Column(name = "role_id")
+    public Long getRoleId() {
+        return roleId;
     }
     
-    public void setPreAuthorizeValue(String preAuthorizeValue) {
-        this.preAuthorizeValue = preAuthorizeValue;
-    }
-    
-    @Basic
-    @Column(name = "post_filter_value")
-    public String getPostFilterValue() {
-        return postFilterValue;
-    }
-    
-    public void setPostFilterValue(String postFilterValue) {
-        this.postFilterValue = postFilterValue;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
     
     @Basic
-    @Column(name = "post_authorize_value")
-    public String getPostAuthorizeValue() {
-        return postAuthorizeValue;
+    @Column(name = "remark")
+    public String getRemark() {
+        return remark;
     }
     
-    public void setPostAuthorizeValue(String postAuthorizeValue) {
-        this.postAuthorizeValue = postAuthorizeValue;
+    public void setRemark(String description) {
+        this.remark = description;
     }
-    
 }

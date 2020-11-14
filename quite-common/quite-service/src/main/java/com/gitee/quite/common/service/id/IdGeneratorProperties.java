@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @ConfigurationProperties(prefix = "quite.id-generator")
-public class IdGenerator {
+public class IdGeneratorProperties {
     
     private Integer workerId = 0;
     
