@@ -14,17 +14,31 @@
  * limitations under the License.
  */
 
-package com.gitee.quite.common.service.config;
+package com.gitee.quite.common.service.security;
 
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.List;
+import java.util.Set;
 
 /**
- * .
+ * 安全配置信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class QuiteSecurityConfig extends GlobalMethodSecurityConfiguration {
-
+@ConfigurationProperties(prefix = "quite.security")
+public class QuiteSecurityProperties {
+    
+    /**
+     * 不需要校验权限的 url
+     */
+    private Set<String> ignoreUrls;
+    
+    public Set<String> getIgnoreUrls() {
+        return ignoreUrls;
+    }
+    
+    public void setIgnoreUrls(Set<String> ignoreUrls) {
+        this.ignoreUrls = ignoreUrls;
+    }
 }

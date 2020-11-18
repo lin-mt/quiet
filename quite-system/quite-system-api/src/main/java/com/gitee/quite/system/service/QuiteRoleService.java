@@ -21,6 +21,9 @@ import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 角色 Service.
  *
@@ -51,6 +54,14 @@ public interface QuiteRoleService extends RoleHierarchy {
      * @return true：删除成功
      */
     boolean delete(Long deleteId);
+    
+    /**
+     * 根据 ID 批量查找角色信息
+     *
+     * @param ids ID 集合
+     * @return 角色信息集合
+     */
+    List<QuiteRole> findAllByIds(Collection<Long> ids);
     
     /**
      * 查询所有角色信息

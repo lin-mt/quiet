@@ -14,27 +14,17 @@
  * limitations under the License.
  */
 
-package com.gitee.quite.system.repository;
+package com.gitee.quite.common.service.config;
 
-import com.gitee.quite.system.entity.QuitePermission;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**
- * 查询权限信息.
+ * 方法安全配置.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Repository
-public interface QuitePermissionRepository extends JpaRepository<QuitePermission, Long> {
-    
-    /**
-     * 根据应用名称查询权限配置信息
-     *
-     * @param applciatioonName 应用名称
-     * @return 该应用的所有权限配置
-     */
-    List<QuitePermission> findAllByApplicationName(String applciatioonName);
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class QuiteMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+
 }

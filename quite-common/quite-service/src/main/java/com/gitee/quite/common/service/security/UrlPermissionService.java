@@ -14,27 +14,22 @@
  * limitations under the License.
  */
 
-package com.gitee.quite.system.repository;
-
-import com.gitee.quite.system.entity.QuitePermission;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+package com.gitee.quite.common.service.security;
 
 import java.util.List;
 
 /**
- * 查询权限信息.
+ * Url 权限 Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Repository
-public interface QuitePermissionRepository extends JpaRepository<QuitePermission, Long> {
+public interface UrlPermissionService {
     
     /**
-     * 根据应用名称查询权限配置信息
+     * 根据应用名称获取全部 Url 权限配置信息
      *
-     * @param applciatioonName 应用名称
-     * @return 该应用的所有权限配置
+     * @param applicationName 应用名称
+     * @return 该应用的Url配置信息
      */
-    List<QuitePermission> findAllByApplicationName(String applciatioonName);
+    List<UrlPermission> listUrlPermission(String applicationName);
 }

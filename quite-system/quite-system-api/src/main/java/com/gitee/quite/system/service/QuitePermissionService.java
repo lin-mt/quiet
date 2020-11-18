@@ -16,6 +16,7 @@
 
 package com.gitee.quite.system.service;
 
+import com.gitee.quite.common.service.security.UrlPermissionService;
 import com.gitee.quite.system.entity.QuitePermission;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ import org.springframework.data.domain.Pageable;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuitePermissionService {
+public interface QuitePermissionService extends UrlPermissionService {
     
     /**
      * 新增或更新权限信息.

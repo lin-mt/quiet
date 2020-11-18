@@ -16,15 +16,26 @@
 
 package com.gitee.quite.system.service.impl;
 
+import com.gitee.quite.common.service.exception.ServiceException;
+import com.gitee.quite.common.service.security.UrlPermission;
 import com.gitee.quite.common.service.util.Wus;
 import com.gitee.quite.system.entity.QuitePermission;
+import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.repository.QuitePermissionRepository;
 import com.gitee.quite.system.service.QuitePermissionService;
+import com.gitee.quite.system.service.QuiteRoleService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.gitee.quite.system.entity.QQuitePermission.quitePermission;
 
@@ -40,9 +51,13 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     
     private final QuitePermissionRepository permissionRepository;
     
-    public QuitePermissionServiceImpl(QuitePermissionRepository permissionRepository, JPAQueryFactory jpaQueryFactory) {
-        this.permissionRepository = permissionRepository;
+    private final QuiteRoleService roleService;
+    
+    public QuitePermissionServiceImpl(JPAQueryFactory jpaQueryFactory, QuitePermissionRepository permissionRepository,
+            QuiteRoleService roleService) {
         this.jpaQueryFactory = jpaQueryFactory;
+        this.permissionRepository = permissionRepository;
+        this.roleService = roleService;
     }
     
     @Override
@@ -62,13 +77,31 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
         Wus.NotNullEq(params.getId(), quitePermission.id, builder);
         Wus.NotBlankContains(params.getApplicationName(), quitePermission.applicationName, builder);
         Wus.NotBlankContains(params.getUrlPattern(), quitePermission.urlPattern, builder);
-        Wus.NotBlankContains(params.getPreFilterValue(), quitePermission.preFilterValue, builder);
-        Wus.NotBlankContains(params.getPreFilterFilterTarget(), quitePermission.preFilterFilterTarget, builder);
-        Wus.NotBlankContains(params.getPreAuthorizeValue(), quitePermission.preAuthorizeValue, builder);
-        Wus.NotBlankContains(params.getPostFilterValue(), quitePermission.postFilterValue, builder);
-        Wus.NotBlankContains(params.getPostAuthorizeValue(), quitePermission.postAuthorizeValue, builder);
         return jpaQueryFactory.selectFrom(quitePermission).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
     }
     
+    @Override
+    public List<UrlPermission> listUrlPermission(String applicationName) {
+        List<QuitePermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
+        List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());
+        if (!permissions.isEmpty()) {
+            Set<Long> roleIds = permissions.stream().map(QuitePermission::getRoleId).collect(Collectors.toSet());
+            Map<Long, String> roleIdToRoleName = roleService.findAllByIds(roleIds).stream()
+                    .collect(Collectors.toMap(QuiteRole::getId, QuiteRole::getRoleName));
+            UrlPermission urlPermission;
+            for (QuitePermission permission : permissions) {
+                urlPermission = new UrlPermission();
+                urlPermission.setUrlPattern(permission.getUrlPattern());
+                urlPermission.setRequestMethod(permission.getRequestMethod());
+                String roleName = roleIdToRoleName.get(permission.getRoleId());
+                if (StringUtils.isBlank(roleName)) {
+                    throw new ServiceException("permission.roleId.notExist");
+                }
+                urlPermission.setRoleName(roleName);
+                urlPermissions.add(urlPermission);
+            }
+        }
+        return urlPermissions;
+    }
 }

@@ -81,6 +81,11 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
     }
     
     @Override
+    public List<QuiteRole> findAllByIds(Collection<Long> ids) {
+        return roleRepository.findAllById(ids);
+    }
+    
+    @Override
     public QueryResults<QuiteRole> page(QuiteRole params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         Wus.NotNullEq(params.getId(), quiteRole.id, builder);

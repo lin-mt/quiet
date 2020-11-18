@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gitee.quite.common.service.config.QuiteServiceConfig,\
   com.gitee.quite.common.service.config.QuiteJpaConfig,\
-  com.gitee.quite.common.service.config.QuiteSecurityConfig
+  com.gitee.quite.common.service.config.QuiteServiceConfig,\
+  com.gitee.quite.common.service.config.QuiteWebSecurityConfig,\
+  com.gitee.quite.common.service.config.QuiteMethodSecurityConfig
