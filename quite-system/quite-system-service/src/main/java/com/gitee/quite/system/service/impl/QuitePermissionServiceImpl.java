@@ -83,6 +83,7 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     
     @Override
     public List<UrlPermission> listUrlPermission(String applicationName) {
+        // TODO 使用缓存
         List<QuitePermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
         List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());
         if (!permissions.isEmpty()) {
