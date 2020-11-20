@@ -75,8 +75,11 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     public QueryResults<QuitePermission> page(QuitePermission params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         Wus.NotNullEq(params.getId(), quitePermission.id, builder);
+        Wus.NotNullEq(params.getRoleId(), quitePermission.roleId, builder);
+        Wus.NotBlankEq(params.getRequestMethod(), quitePermission.requestMethod, builder);
         Wus.NotBlankContains(params.getApplicationName(), quitePermission.applicationName, builder);
         Wus.NotBlankContains(params.getUrlPattern(), quitePermission.urlPattern, builder);
+        Wus.NotBlankContains(params.getRemark(), quitePermission.remark, builder);
         return jpaQueryFactory.selectFrom(quitePermission).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
     }

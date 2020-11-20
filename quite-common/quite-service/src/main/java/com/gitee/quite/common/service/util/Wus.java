@@ -39,6 +39,12 @@ public final class Wus {
         }
     }
     
+    public static void NotBlankEq(String param, StringPath path, BooleanBuilder builder) {
+        if (StringUtils.isNoneBlank(param)) {
+            builder.and(path.eq(param));
+        }
+    }
+    
     public static <T extends Enum<T>> void NotNullEq(T param, EnumPath<T> path, BooleanBuilder builder) {
         if (param != null) {
             builder.and(path.eq(param));
@@ -50,5 +56,5 @@ public final class Wus {
             builder.and(path.contains(param));
         }
     }
-
+    
 }
