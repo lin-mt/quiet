@@ -65,7 +65,8 @@ public class QuiteRoleController {
      */
     @PostMapping("/save")
     public Result<QuiteRole> save(@RequestBody @Validated(Create.class) QuiteRolePostParam postParam) {
-        return Result.success(roleService.save(postParam.getSave()));
+        roleService.save(postParam.getSave());
+        return Result.createSuccess();
     }
     
     /**
@@ -90,7 +91,8 @@ public class QuiteRoleController {
      */
     @PutMapping("/update")
     public Result<QuiteRole> update(@RequestBody @Validated(Update.class) QuiteRolePostParam postParam) {
-        return Result.success(roleService.update(postParam.getUpdate()));
+        roleService.update(postParam.getUpdate());
+        return Result.updateSuccess();
     }
     
     static class QuiteRolePostParam extends PostParam<QuiteRole, QuiteRole> {
