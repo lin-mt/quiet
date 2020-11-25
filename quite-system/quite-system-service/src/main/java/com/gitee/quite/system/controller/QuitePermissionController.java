@@ -27,6 +27,7 @@ import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,9 +74,10 @@ public class QuitePermissionController {
      * @param postParam :update 更新的权限配置信息
      * @return 更新的权限信息
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Result<QuitePermission> Update(@RequestBody @Validated(Update.class) QuitePermissionPostParam postParam) {
-        return Result.success(permissionService.saveOrUpdate(postParam.getUpdate()));
+        permissionService.saveOrUpdate(postParam.getUpdate());
+        return Result.updateSuccess();
     }
     
     /**
@@ -86,10 +88,8 @@ public class QuitePermissionController {
      */
     @DeleteMapping("/delete")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuitePermissionPostParam postParam) {
-        if (permissionService.delete(postParam.getDeleteId())) {
-            return Result.deleteSuccess();
-        }
-        return Result.deleteFailure();
+        permissionService.delete(postParam.getDeleteId());
+        return Result.deleteSuccess();
     }
     
     static class QuitePermissionPostParam extends PostParam<QuitePermission, QuitePermission> {

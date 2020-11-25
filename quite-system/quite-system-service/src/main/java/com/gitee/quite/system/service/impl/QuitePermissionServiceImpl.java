@@ -28,6 +28,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     private final QuiteRoleService roleService;
     
     public QuitePermissionServiceImpl(JPAQueryFactory jpaQueryFactory, QuitePermissionRepository permissionRepository,
-            QuiteRoleService roleService) {
+            @Lazy QuiteRoleService roleService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.permissionRepository = permissionRepository;
         this.roleService = roleService;
@@ -62,13 +63,15 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     
     @Override
     public QuitePermission saveOrUpdate(QuitePermission permission) {
-        return permissionRepository.save(permission);
+        if (!roleService.existsById(permission.getRoleId())) {
+            throw new ServiceException("role.id.not.exist", permission.getRoleId());
+        }
+        return permissionRepository.saveAndFlush(permission);
     }
     
     @Override
-    public boolean delete(Long deleteId) {
+    public void delete(Long deleteId) {
         permissionRepository.deleteById(deleteId);
-        return true;
     }
     
     @Override

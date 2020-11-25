@@ -42,9 +42,8 @@ public interface QuitePermissionService extends UrlPermissionService {
      * 删除权限信息.
      *
      * @param deleteId 要删除的权限信息的ID
-     * @return true：删除成功
      */
-    boolean delete(Long deleteId);
+    void delete(Long deleteId);
     
     /**
      * 分页查询权限配置信息
