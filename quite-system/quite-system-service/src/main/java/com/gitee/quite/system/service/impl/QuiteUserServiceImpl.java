@@ -93,6 +93,10 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     
     @Override
     public boolean delete(Long deleteId) {
+        // 删除用户-角色信息
+        userRoleRepository.deleteByUserId(deleteId);
+        // TODO 删除跟用户相关的其他信息
+        // 删除用户信息
         userRepository.deleteById(deleteId);
         return true;
     }

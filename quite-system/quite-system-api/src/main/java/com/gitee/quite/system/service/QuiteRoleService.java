@@ -71,4 +71,12 @@ public interface QuiteRoleService extends RoleHierarchy {
      * @return 查询结果
      */
     QueryResults<QuiteRole> page(QuiteRole params, Pageable page);
+    
+    /**
+     * 根据角色 ID 删除角色
+     *
+     * @param deleteId 要删除的角色 ID
+     * @return 删除是否成功，true：删除成功，false：删除失败
+     */
+    boolean deleteRole(Long deleteId);
 }

@@ -81,11 +81,10 @@ public class QuiteUserController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
+    @PreAuthorize(value = "hasRole('Admin')")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserPostParam postParam) {
-        if (userService.delete(postParam.getDeleteId())) {
-            return Result.deleteSuccess();
-        }
-        return Result.deleteFailure();
+        userService.delete(postParam.getDeleteId());
+        return Result.deleteSuccess();
     }
     
     /**

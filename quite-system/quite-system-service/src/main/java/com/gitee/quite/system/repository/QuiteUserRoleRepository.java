@@ -55,4 +55,11 @@ public interface QuiteUserRoleRepository extends JpaRepository<QuiteUserRole, Lo
      * @return true：删除成功
      */
     boolean deleteByIdIn(List<Long> ids);
+    
+    /**
+     * 根据用户 ID 删除用户的所有角色信息
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(Long userId);
 }

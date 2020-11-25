@@ -24,6 +24,7 @@ import com.gitee.quite.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.service.QuiteRoleService;
 import com.querydsl.core.QueryResults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,11 +77,10 @@ public class QuiteRoleController {
      * @return Result
      */
     @DeleteMapping("/delete")
+    @PreAuthorize(value = "hasRole('Admin')")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteRolePostParam postParam) {
-        if (roleService.delete(postParam.getDeleteId())) {
-            return Result.deleteSuccess();
-        }
-        return Result.deleteFailure();
+        roleService.deleteRole(postParam.getDeleteId());
+        return Result.deleteSuccess();
     }
     
     /**

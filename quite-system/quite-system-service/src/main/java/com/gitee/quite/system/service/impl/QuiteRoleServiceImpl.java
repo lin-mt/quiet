@@ -24,6 +24,7 @@ import com.gitee.quite.system.service.QuiteRoleService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -110,8 +112,23 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
     }
     
     @Override
+    public boolean deleteRole(Long deleteId) {
+        Optional<QuiteRole> exist = roleRepository.findById(deleteId);
+        if (exist.isEmpty()) {
+            throw new ServiceException("role.not.exist");
+        }
+        List<QuiteRole> children = roleRepository.findByParentIdIn(Collections.singleton(exist.get().getId()));
+        if (CollectionUtils.isNotEmpty(children)) {
+            throw new ServiceException("role.can.not.delete.has.children");
+        }
+        roleRepository.deleteById(deleteId);
+        return true;
+    }
+    
+    @Override
     public Collection<? extends GrantedAuthority> getReachableGrantedAuthorities(
             Collection<? extends GrantedAuthority> authorities) {
+        // TODO 添加缓存
         if (authorities == null || authorities.isEmpty()) {
             return AuthorityUtils.NO_AUTHORITIES;
         }
