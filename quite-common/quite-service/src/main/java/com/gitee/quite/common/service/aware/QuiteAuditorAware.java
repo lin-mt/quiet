@@ -38,6 +38,7 @@ public interface QuiteAuditorAware extends AuditorAware<Long> {
     @NonNull
     @Override
     default Optional<Long> getCurrentAuditor() {
+        // TODO 设置创建者和更新者信息
         return Optional.empty();
     }
     
