@@ -125,4 +125,9 @@ public class QuiteUserServiceImpl implements QuiteUserService {
         return jpaQueryFactory.selectFrom(quiteUser).where(builder).offset(page.getOffset()).limit(page.getPageSize())
                 .fetchResults();
     }
+    
+    @Override
+    public boolean existsById(Long userId) {
+        return userRepository.existsById(userId);
+    }
 }

@@ -76,7 +76,14 @@ public interface QuiteRoleService extends RoleHierarchy {
      * 根据角色 ID 删除角色
      *
      * @param deleteId 要删除的角色 ID
-     * @return 删除是否成功，true：删除成功，false：删除失败
      */
-    boolean deleteRole(Long deleteId);
+    void deleteRole(Long deleteId);
+    
+    /**
+     * 判断该角色 ID 是否存在
+     *
+     * @param roleId 角色ID
+     * @return true：存在，false：不存在
+     */
+    boolean existsById(Long roleId);
 }

@@ -21,6 +21,8 @@ import com.gitee.quite.system.entity.QuitePermission;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * 权限 Service.
  *
@@ -52,4 +54,12 @@ public interface QuitePermissionService extends UrlPermissionService {
      * @return 查询结果
      */
     QueryResults<QuitePermission> page(QuitePermission params, Pageable page);
+    
+    /**
+     * 根据角色 ID 查询该角色下的权限配置信息
+     *
+     * @param roleId 角色ID
+     * @return 该角色下的所有权限配置信息
+     */
+    List<QuitePermission> listByRoleId(Long roleId);
 }

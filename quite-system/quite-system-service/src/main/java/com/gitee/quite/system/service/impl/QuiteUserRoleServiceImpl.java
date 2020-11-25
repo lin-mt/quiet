@@ -18,10 +18,10 @@ package com.gitee.quite.system.service.impl;
 
 import com.gitee.quite.common.service.exception.ServiceException;
 import com.gitee.quite.system.entity.QuiteUserRole;
-import com.gitee.quite.system.repository.QuiteRoleRepository;
-import com.gitee.quite.system.repository.QuiteUserRepository;
 import com.gitee.quite.system.repository.QuiteUserRoleRepository;
+import com.gitee.quite.system.service.QuiteRoleService;
 import com.gitee.quite.system.service.QuiteUserRoleService;
+import com.gitee.quite.system.service.QuiteUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,25 +35,25 @@ import java.util.Optional;
 @Service
 public class QuiteUserRoleServiceImpl implements QuiteUserRoleService {
     
-    private final QuiteUserRepository userRepository;
-    
-    private final QuiteRoleRepository roleRepository;
-    
     private final QuiteUserRoleRepository userRoleRepository;
     
-    public QuiteUserRoleServiceImpl(QuiteUserRepository userRepository, QuiteRoleRepository roleRepository,
-            QuiteUserRoleRepository userRoleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    private final QuiteUserService userService;
+    
+    private final QuiteRoleService roleService;
+    
+    public QuiteUserRoleServiceImpl(QuiteUserRoleRepository userRoleRepository, QuiteUserService userService,
+            QuiteRoleService roleService) {
         this.userRoleRepository = userRoleRepository;
+        this.userService = userService;
+        this.roleService = roleService;
     }
     
     @Override
     public QuiteUserRole saveOrUpdate(final QuiteUserRole userRole) {
-        if (!userRepository.existsById(userRole.getUserId())) {
+        if (!userService.existsById(userRole.getUserId())) {
             throw new ServiceException("userRole.user.id.no.exist", userRole.getUserId());
         }
-        if (!roleRepository.existsById(userRole.getRoleId())) {
+        if (!roleService.existsById(userRole.getRoleId())) {
             throw new ServiceException("userRole.role.id.no.exist", userRole.getRoleId());
         }
         Optional<QuiteUserRole> exist = userRoleRepository

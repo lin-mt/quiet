@@ -85,6 +85,11 @@ public class QuitePermissionServiceImpl implements QuitePermissionService {
     }
     
     @Override
+    public List<QuitePermission> listByRoleId(Long roleId) {
+        return permissionRepository.findAllByRoleId(roleId);
+    }
+    
+    @Override
     public List<UrlPermission> listUrlPermission(String applicationName) {
         // TODO 使用缓存
         List<QuitePermission> permissions = permissionRepository.findAllByApplicationName(applicationName);

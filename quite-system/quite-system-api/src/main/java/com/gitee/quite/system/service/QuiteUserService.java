@@ -60,4 +60,12 @@ public interface QuiteUserService extends UserDetailsService {
      * @return 查询结果
      */
     QueryResults<QuiteUser> page(QuiteUser params, Pageable page);
+    
+    /**
+     * 判断该用户 ID 是否存在
+     *
+     * @param userId 用户ID
+     * @return true：存在，false：不存在
+     */
+    boolean existsById(Long userId);
 }

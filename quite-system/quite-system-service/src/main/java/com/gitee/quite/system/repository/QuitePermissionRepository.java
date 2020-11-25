@@ -37,4 +37,12 @@ public interface QuitePermissionRepository extends JpaRepository<QuitePermission
      * @return 该应用的所有权限配置
      */
     List<QuitePermission> findAllByApplicationName(String applciatioonName);
+    
+    /**
+     * 根据角色 ID 查询该角色下的所有权限配置信息
+     *
+     * @param roleId 角色ID
+     * @return 该角色下的所有权限配置信息
+     */
+    List<QuitePermission> findAllByRoleId(Long roleId);
 }

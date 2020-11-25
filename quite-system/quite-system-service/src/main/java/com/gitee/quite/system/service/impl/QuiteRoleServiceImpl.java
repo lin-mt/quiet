@@ -18,8 +18,10 @@ package com.gitee.quite.system.service.impl;
 
 import com.gitee.quite.common.service.exception.ServiceException;
 import com.gitee.quite.common.service.util.Wus;
+import com.gitee.quite.system.entity.QuitePermission;
 import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
+import com.gitee.quite.system.service.QuitePermissionService;
 import com.gitee.quite.system.service.QuiteRoleService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
@@ -51,17 +53,21 @@ import static com.gitee.quite.system.entity.QQuiteRole.quiteRole;
 @Service
 public class QuiteRoleServiceImpl implements QuiteRoleService {
     
+    private final JPAQueryFactory jpaQueryFactory;
+    
     private final QuiteRoleRepository roleRepository;
     
-    private final JPAQueryFactory jpaQueryFactory;
+    private final QuitePermissionService permissionService;
     
     private String rolePrefix = "ROLE_";
     
-    public QuiteRoleServiceImpl(QuiteRoleRepository roleRepository, JPAQueryFactory jpaQueryFactory,
-            Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
-        this.roleRepository = roleRepository;
+    public QuiteRoleServiceImpl(JPAQueryFactory jpaQueryFactory,
+            Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults, QuiteRoleRepository roleRepository,
+            QuitePermissionService permissionService) {
         this.jpaQueryFactory = jpaQueryFactory;
         grantedAuthorityDefaults.ifPresent(prefix -> rolePrefix = prefix.getRolePrefix());
+        this.roleRepository = roleRepository;
+        this.permissionService = permissionService;
     }
     
     @Override
@@ -112,7 +118,7 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
     }
     
     @Override
-    public boolean deleteRole(Long deleteId) {
+    public void deleteRole(Long deleteId) {
         Optional<QuiteRole> exist = roleRepository.findById(deleteId);
         if (exist.isEmpty()) {
             throw new ServiceException("role.not.exist");
@@ -121,8 +127,16 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
         if (CollectionUtils.isNotEmpty(children)) {
             throw new ServiceException("role.can.not.delete.has.children");
         }
+        List<QuitePermission> permissions = permissionService.listByRoleId(deleteId);
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            throw new ServiceException("role.can.not.delete.has.permission.config");
+        }
         roleRepository.deleteById(deleteId);
-        return true;
+    }
+    
+    @Override
+    public boolean existsById(Long roleId) {
+        return roleRepository.existsById(roleId);
     }
     
     @Override
