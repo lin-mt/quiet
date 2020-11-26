@@ -40,6 +40,7 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@SuppressWarnings("unused")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
