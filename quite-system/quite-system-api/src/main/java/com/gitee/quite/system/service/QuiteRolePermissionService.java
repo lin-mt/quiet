@@ -37,7 +37,6 @@ public interface QuiteRolePermissionService {
      * 删除角色-权限信息.
      *
      * @param deleteId 要删除的角色-权限信息ID
-     * @return true：删除成功
      */
-    boolean delete(Long deleteId);
+    void delete(Long deleteId);
 }

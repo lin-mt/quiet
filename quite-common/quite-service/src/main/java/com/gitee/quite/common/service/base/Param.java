@@ -34,20 +34,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Post 请求参数.
+ * 请求参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class PostParam<T extends BaseEntity, P> {
+public class Param<T extends BaseEntity, P> {
     
     private static final String ASCEND = "ascend";
     
     private static final String DESCEND = "descend";
     
+    /**
+     * 查询条件
+     */
     private P params;
     
+    /**
+     * 过滤条件
+     */
     private Map<String, List<String>> filter;
     
+    /**
+     * 排序条件
+     */
     private Map<String, String> sorter;
     
     @Valid

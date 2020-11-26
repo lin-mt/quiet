@@ -16,7 +16,7 @@
 
 package com.gitee.quite.system.controller;
 
-import com.gitee.quite.common.service.base.PostParam;
+import com.gitee.quite.common.service.base.Param;
 import com.gitee.quite.common.service.result.Result;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
@@ -54,7 +54,7 @@ public class QuiteRoleController {
      * @return 查询所有信息
      */
     @PostMapping("/page")
-    public Result<QueryResults<QuiteRole>> page(@RequestBody QuiteRolePostParam postParam) {
+    public Result<QueryResults<QuiteRole>> page(@RequestBody QuiteRoleParam postParam) {
         return Result.success(roleService.page(postParam.getParams(), postParam.page()));
     }
     
@@ -65,9 +65,8 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PostMapping("/save")
-    public Result<QuiteRole> save(@RequestBody @Validated(Create.class) QuiteRolePostParam postParam) {
-        roleService.save(postParam.getSave());
-        return Result.createSuccess();
+    public Result<QuiteRole> save(@RequestBody @Validated(Create.class) QuiteRoleParam postParam) {
+        return Result.createSuccess(roleService.save(postParam.getSave()));
     }
     
     /**
@@ -78,7 +77,7 @@ public class QuiteRoleController {
      */
     @DeleteMapping("/delete")
     @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteRolePostParam postParam) {
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteRoleParam postParam) {
         roleService.deleteRole(postParam.getDeleteId());
         return Result.deleteSuccess();
     }
@@ -90,12 +89,11 @@ public class QuiteRoleController {
      * @return 新增后的角色信息
      */
     @PutMapping("/update")
-    public Result<QuiteRole> update(@RequestBody @Validated(Update.class) QuiteRolePostParam postParam) {
-        roleService.update(postParam.getUpdate());
-        return Result.updateSuccess();
+    public Result<QuiteRole> update(@RequestBody @Validated(Update.class) QuiteRoleParam postParam) {
+        return Result.updateSuccess(roleService.update(postParam.getUpdate()));
     }
     
-    static class QuiteRolePostParam extends PostParam<QuiteRole, QuiteRole> {
+    static class QuiteRoleParam extends Param<QuiteRole, QuiteRole> {
     
     }
 }

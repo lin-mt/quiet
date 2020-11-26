@@ -16,7 +16,7 @@
 
 package com.gitee.quite.system.controller;
 
-import com.gitee.quite.common.service.base.PostParam;
+import com.gitee.quite.common.service.base.Param;
 import com.gitee.quite.common.service.enums.Whether;
 import com.gitee.quite.common.service.result.Result;
 import com.gitee.quite.common.validation.group.curd.Create;
@@ -58,7 +58,7 @@ public class QuiteUserController {
      * @return 注册后的用户信息
      */
     @PostMapping("/registered")
-    public Result<QuiteUser> register(@RequestBody @Validated(Create.class) QuiteUserPostParam postParam) {
+    public Result<QuiteUser> register(@RequestBody @Validated(Create.class) QuiteUserParam postParam) {
         // TODO 可以根据租户的配置确定是否注册就直接启用该用户
         postParam.getSave().setEnabled(Whether.YES);
         return Result.success(userService.save(postParam.getSave()));
@@ -70,7 +70,7 @@ public class QuiteUserController {
      * @return 查询的用户信息
      */
     @PostMapping("/page")
-    public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserPostParam postParam) {
+    public Result<QueryResults<QuiteUser>> page(@RequestBody QuiteUserParam postParam) {
         return Result.success(userService.page(postParam.getParams(), postParam.page()));
     }
     
@@ -82,7 +82,7 @@ public class QuiteUserController {
      */
     @DeleteMapping("/delete")
     @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserPostParam postParam) {
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserParam postParam) {
         userService.delete(postParam.getDeleteId());
         return Result.deleteSuccess();
     }
@@ -95,9 +95,8 @@ public class QuiteUserController {
      */
     @PutMapping("/update")
     @PreAuthorize(value = "#postParam.update.id == authentication.principal.id || hasRole('Admin')")
-    public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserPostParam postParam) {
-        userService.update(postParam.getUpdate());
-        return Result.updateSuccess();
+    public Result<QuiteUser> update(@RequestBody @Validated(Update.class) QuiteUserParam postParam) {
+        return Result.updateSuccess(userService.update(postParam.getUpdate()));
     }
     
     /**
@@ -110,7 +109,7 @@ public class QuiteUserController {
         return Result.success(SpringSecurityUtils.getCurrentUser());
     }
     
-    static class QuiteUserPostParam extends PostParam<QuiteUser, QuiteUser> {
+    static class QuiteUserParam extends Param<QuiteUser, QuiteUser> {
     
     }
 }

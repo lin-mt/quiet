@@ -16,7 +16,7 @@
 
 package com.gitee.quite.system.controller;
 
-import com.gitee.quite.common.service.base.PostParam;
+import com.gitee.quite.common.service.base.Param;
 import com.gitee.quite.common.service.result.Result;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
@@ -52,9 +52,8 @@ public class QuiteRolePermissionController {
      * @return 新增的角色信息
      */
     @PostMapping("/save")
-    public Result<QuiteRolePermission> save(
-            @RequestBody @Validated(Create.class) QuiteRolePermissionPostParam postParam) {
-        return Result.success(rolePermissionService.saveOrUpdate(postParam.getSave()));
+    public Result<QuiteRolePermission> save(@RequestBody @Validated(Create.class) QuiteRolePermissionParam postParam) {
+        return Result.createSuccess(rolePermissionService.saveOrUpdate(postParam.getSave()));
     }
     
     /**
@@ -65,8 +64,8 @@ public class QuiteRolePermissionController {
      */
     @PostMapping("/update")
     public Result<QuiteRolePermission> update(
-            @RequestBody @Validated(Update.class) QuiteRolePermissionPostParam postParam) {
-        return Result.success(rolePermissionService.saveOrUpdate(postParam.getUpdate()));
+            @RequestBody @Validated(Update.class) QuiteRolePermissionParam postParam) {
+        return Result.updateSuccess(rolePermissionService.saveOrUpdate(postParam.getUpdate()));
     }
     
     /**
@@ -77,14 +76,12 @@ public class QuiteRolePermissionController {
      */
     @DeleteMapping("/delete")
     public Result<QuiteRolePermission> delete(
-            @RequestBody @Validated(DeleteSingle.class) QuiteRolePermissionPostParam postParam) {
-        if (rolePermissionService.delete(postParam.getDeleteId())) {
-            return Result.deleteSuccess();
-        }
-        return Result.deleteFailure();
+            @RequestBody @Validated(DeleteSingle.class) QuiteRolePermissionParam postParam) {
+        rolePermissionService.delete(postParam.getDeleteId());
+        return Result.deleteSuccess();
     }
     
-    static class QuiteRolePermissionPostParam extends PostParam<QuiteRolePermission, QuiteRolePermission> {
+    static class QuiteRolePermissionParam extends Param<QuiteRolePermission, QuiteRolePermission> {
     
     }
     

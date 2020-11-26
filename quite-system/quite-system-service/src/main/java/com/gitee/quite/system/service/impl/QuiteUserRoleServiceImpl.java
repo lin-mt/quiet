@@ -63,7 +63,7 @@ public class QuiteUserRoleServiceImpl implements QuiteUserRoleService {
     }
     
     @Override
-    public boolean delete(List<Long> ids) {
-        return userRoleRepository.deleteByIdIn(ids);
+    public void deleteByIds(List<Long> ids) {
+        userRoleRepository.deleteByIdIn(ids);
     }
 }

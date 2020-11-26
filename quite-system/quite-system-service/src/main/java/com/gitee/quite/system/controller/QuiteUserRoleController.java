@@ -16,7 +16,7 @@
 
 package com.gitee.quite.system.controller;
 
-import com.gitee.quite.common.service.base.PostParam;
+import com.gitee.quite.common.service.base.Param;
 import com.gitee.quite.common.service.result.Result;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
@@ -52,7 +52,7 @@ public class QuiteUserRoleController {
      * @return 新增结果
      */
     @PostMapping("/save")
-    public Result<QuiteUserRole> save(@RequestBody @Validated(Create.class) QuiteUserRolePostParam postParam) {
+    public Result<QuiteUserRole> save(@RequestBody @Validated(Create.class) QuiteUserRoleParam postParam) {
         return Result.success(userRoleService.saveOrUpdate(postParam.getSave()));
     }
     
@@ -63,8 +63,8 @@ public class QuiteUserRoleController {
      * @return 更新结果
      */
     @PostMapping("/update")
-    public Result<QuiteUserRole> saveOrUpdate(@RequestBody @Validated(Update.class) QuiteUserRolePostParam postParam) {
-        return Result.success(userRoleService.saveOrUpdate(postParam.getUpdate()));
+    public Result<QuiteUserRole> saveOrUpdate(@RequestBody @Validated(Update.class) QuiteUserRoleParam postParam) {
+        return Result.updateSuccess(userRoleService.saveOrUpdate(postParam.getUpdate()));
     }
     
     /**
@@ -74,14 +74,12 @@ public class QuiteUserRoleController {
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserRolePostParam postParam) {
-        if (userRoleService.delete(postParam.getDeleteIds())) {
-            return Result.deleteSuccess();
-        }
-        return Result.deleteFailure();
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuiteUserRoleParam postParam) {
+        userRoleService.deleteByIds(postParam.getDeleteIds());
+        return Result.deleteSuccess();
     }
     
-    static class QuiteUserRolePostParam extends PostParam<QuiteUserRole, QuiteUserRole> {
+    static class QuiteUserRoleParam extends Param<QuiteUserRole, QuiteUserRole> {
     
     }
 }

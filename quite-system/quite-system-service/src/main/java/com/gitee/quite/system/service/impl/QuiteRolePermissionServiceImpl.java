@@ -46,8 +46,7 @@ public class QuiteRolePermissionServiceImpl implements QuiteRolePermissionServic
     }
     
     @Override
-    public boolean delete(Long deleteId) {
+    public void delete(Long deleteId) {
         rolePermissionRepository.deleteById(deleteId);
-        return true;
     }
 }

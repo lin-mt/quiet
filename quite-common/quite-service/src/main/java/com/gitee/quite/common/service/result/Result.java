@@ -245,6 +245,20 @@ public class Result<T> {
     }
     
     /**
+     * 创建成果.
+     *
+     * @param data 创建的数据
+     * @param <T>  T
+     * @return result
+     */
+    public static <T> Result<T> createSuccess(T data) {
+        final Result<T> result = new Result<>(ResultType.SUCCESS);
+        result.data = data;
+        result.curdType = CurdType.CREATE_SUCCESS;
+        return result;
+    }
+    
+    /**
      * 创建失败.
      *
      * @param <T> T
@@ -264,6 +278,20 @@ public class Result<T> {
      */
     public static <T> Result<T> updateSuccess() {
         final Result<T> result = new Result<>(ResultType.SUCCESS);
+        result.curdType = CurdType.UPDATE_SUCCESS;
+        return result;
+    }
+    
+    /**
+     * 更新成功.
+     *
+     * @param data 更新后的数据
+     * @param <T>  T
+     * @return result
+     */
+    public static <T> Result<T> updateSuccess(T data) {
+        final Result<T> result = new Result<>(ResultType.SUCCESS);
+        result.data = data;
         result.curdType = CurdType.UPDATE_SUCCESS;
         return result;
     }

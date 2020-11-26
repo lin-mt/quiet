@@ -16,29 +16,37 @@
 
 package com.gitee.quite.system.service;
 
-import com.gitee.quite.system.entity.QuiteUserRole;
-
-import java.util.List;
+import com.gitee.quite.system.entity.QuiteDepartment;
+import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Pageable;
 
 /**
- * 用户-角色 Service.
+ * 部门Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuiteUserRoleService {
+public interface QuiteDepartmentService {
     
     /**
-     * 用户新增或更新角色信息.
+     * 分页查询部门数据
      *
-     * @param quiteUserRole 用户-角色信息
-     * @return 用户-角色关联信息
+     * @param params 查询条件
+     * @param page   分页参数
+     * @return 查询结果
      */
-    QuiteUserRole saveOrUpdate(QuiteUserRole quiteUserRole);
+    QueryResults<QuiteDepartment> page(QuiteDepartment params, Pageable page);
     
     /**
-     * 批量删除用户的角色信息.
+     * 保存或者更新部门数据
      *
-     * @param ids 要删除的id集合
+     * @param department 保存或者更新的部门ID
      */
-    void deleteByIds(List<Long> ids);
+    QuiteDepartment saveOrUpdate(QuiteDepartment department);
+    
+    /**
+     * 删除部门数据
+     *
+     * @param deleteId 要删除的部门ID
+     */
+    void delete(Long deleteId);
 }

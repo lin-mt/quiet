@@ -14,31 +14,25 @@
  * limitations under the License.
  */
 
-package com.gitee.quite.system.service;
+package com.gitee.quite.system.repository;
 
-import com.gitee.quite.system.entity.QuiteUserRole;
-
-import java.util.List;
+import com.gitee.quite.system.entity.QuiteDepartment;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * 用户-角色 Service.
+ * 部门Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuiteUserRoleService {
+@Repository
+public interface QuiteDepartmentRepository extends JpaRepository<QuiteDepartment, Long> {
     
     /**
-     * 用户新增或更新角色信息.
+     * 根据部门名称查询部门信息
      *
-     * @param quiteUserRole 用户-角色信息
-     * @return 用户-角色关联信息
+     * @param departmentName 部门名称
+     * @return 部门信息
      */
-    QuiteUserRole saveOrUpdate(QuiteUserRole quiteUserRole);
-    
-    /**
-     * 批量删除用户的角色信息.
-     *
-     * @param ids 要删除的id集合
-     */
-    void deleteByIds(List<Long> ids);
+    QuiteDepartment getByDepartmentName(String departmentName);
 }
