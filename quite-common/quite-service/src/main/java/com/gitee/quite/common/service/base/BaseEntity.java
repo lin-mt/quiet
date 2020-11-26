@@ -56,13 +56,13 @@ public class BaseEntity {
     @Column(name = "creator", updatable = false)
     private Long creator;
     
-    @CreatedDate
-    @Column(name = "gmt_create", updatable = false)
-    private LocalDateTime gmtCreate;
-    
     @LastModifiedBy
     @Column(name = "updater", updatable = false)
     private Long updater;
+    
+    @CreatedDate
+    @Column(name = "gmt_create", updatable = false)
+    private LocalDateTime gmtCreate;
     
     @LastModifiedDate
     @Column(name = "gmt_update", insertable = false)
