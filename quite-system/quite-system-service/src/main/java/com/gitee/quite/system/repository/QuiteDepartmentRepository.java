@@ -20,6 +20,8 @@ import com.gitee.quite.system.entity.QuiteDepartment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 部门Repository.
  *
@@ -35,4 +37,12 @@ public interface QuiteDepartmentRepository extends JpaRepository<QuiteDepartment
      * @return 部门信息
      */
     QuiteDepartment getByDepartmentName(String departmentName);
+    
+    /**
+     * 根据部门 ID 查询子部门信息
+     *
+     * @param parentId 父级部门ID
+     * @return 所有子部门信息
+     */
+    List<QuiteDepartment> findAllByParentId(Long parentId);
 }

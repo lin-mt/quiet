@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
-@RequestMapping("department")
+@RequestMapping("/department")
 public class QuiteDepartmentController {
     
     private final QuiteDepartmentService departmentService;

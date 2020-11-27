@@ -24,6 +24,7 @@ import com.gitee.quite.system.service.QuiteDepartmentService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,7 @@ public class QuiteDepartmentServiceImpl implements QuiteDepartmentService {
                 throw new ServiceException("department.not.exit.id", department.getParentId());
             }
             QuiteDepartment exist = departmentRepository.getByDepartmentName(department.getDepartmentName());
-            if (!exist.getId().equals(department.getId())) {
+            if (exist != null && !exist.getId().equals(department.getId())) {
                 throw new ServiceException("department.departmentName.exist", department.getDepartmentName());
             }
         }
@@ -73,6 +74,9 @@ public class QuiteDepartmentServiceImpl implements QuiteDepartmentService {
     
     @Override
     public void delete(Long deleteId) {
+        if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
+            throw new ServiceException("department.has.children.can.not.deleted");
+        }
         // TODO 删除前确认是否有人员在该部门下
         departmentRepository.deleteById(deleteId);
     }
