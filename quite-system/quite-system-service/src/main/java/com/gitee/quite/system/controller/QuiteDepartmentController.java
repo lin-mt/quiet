@@ -48,7 +48,7 @@ public class QuiteDepartmentController {
     }
     
     /**
-     * 查询部门信息.
+     * 分页查询部门信息.
      *
      * @return 查询的部门信息
      */

@@ -48,7 +48,7 @@ public class QuitePermissionController {
     }
     
     /**
-     * 查询权限信息.
+     * 分页查询权限信息.
      *
      * @return 查询的权限配置信息
      */

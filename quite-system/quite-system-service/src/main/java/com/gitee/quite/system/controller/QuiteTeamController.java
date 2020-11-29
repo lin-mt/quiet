@@ -49,9 +49,9 @@ public class QuiteTeamController {
     }
     
     /**
-     * 查询角色.
+     * 分页查询团队信息.
      *
-     * @return 查询所有信息
+     * @return 团队信息
      */
     @PostMapping("/page")
     public Result<QueryResults<QuiteTeam>> page(@RequestBody QuiteTeamParam param) {
@@ -59,10 +59,10 @@ public class QuiteTeamController {
     }
     
     /**
-     * 新增角色.
+     * 新增团队.
      *
-     * @param param :save 新增的角色信息
-     * @return 新增后的角色信息
+     * @param param :save 新增的团队信息
+     * @return 新增后的团队信息
      */
     @PostMapping("/save")
     public Result<QuiteTeam> save(@RequestBody @Validated(Create.class) QuiteTeamParam param) {
@@ -70,9 +70,9 @@ public class QuiteTeamController {
     }
     
     /**
-     * 删除角色.
+     * 删除团队.
      *
-     * @param param :deleteId 删除的角色ID
+     * @param param :deleteId 删除的团队ID
      * @return Result
      */
     @DeleteMapping("/delete")
@@ -83,10 +83,10 @@ public class QuiteTeamController {
     }
     
     /**
-     * 更新角色.
+     * 更新团队.
      *
-     * @param param :update 更新的角色信息
-     * @return 新增后的角色信息
+     * @param param :update 更新的团队信息
+     * @return 新增后的团队信息
      */
     @PutMapping("/update")
     public Result<QuiteTeam> update(@RequestBody @Validated(Update.class) QuiteTeamParam param) {

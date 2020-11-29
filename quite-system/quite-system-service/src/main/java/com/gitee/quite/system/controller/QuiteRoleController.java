@@ -49,7 +49,7 @@ public class QuiteRoleController {
     }
     
     /**
-     * 查询角色.
+     * 分页查询角色.
      *
      * @return 查询所有信息
      */

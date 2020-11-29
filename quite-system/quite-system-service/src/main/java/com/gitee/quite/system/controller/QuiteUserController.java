@@ -65,7 +65,7 @@ public class QuiteUserController {
     }
     
     /**
-     * 查询用户.
+     * 分页查询用户.
      *
      * @return 查询的用户信息
      */
