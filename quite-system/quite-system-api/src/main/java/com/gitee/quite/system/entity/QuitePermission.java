@@ -17,6 +17,7 @@
 package com.gitee.quite.system.entity;
 
 import com.gitee.quite.common.service.base.BaseEntity;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -60,6 +61,7 @@ public class QuitePermission extends BaseEntity {
     /**
      * 备注
      */
+    @Length(max = 100, message = "{permission.remark}{length.max.limit}")
     private String remark;
     
     @Basic

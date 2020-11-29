@@ -100,7 +100,7 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
         Wus.NotNullEq(params.getParentId(), quiteRole.parentId, builder);
         Wus.NotBlankContains(params.getRoleName(), quiteRole.roleName, builder);
         Wus.NotBlankContains(params.getRoleCnName(), quiteRole.roleCnName, builder);
-        Wus.NotBlankContains(params.getRemarks(), quiteRole.remarks, builder);
+        Wus.NotBlankContains(params.getRemark(), quiteRole.remarks, builder);
         QueryResults<QuiteRole> results = jpaQueryFactory.selectFrom(quiteRole).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
         if (!results.getResults().isEmpty()) {

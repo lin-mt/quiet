@@ -51,7 +51,7 @@ public class QuiteUser extends BaseEntity implements UserDetails, CredentialsCon
     
     @Column(name = "username")
     @NotEmpty(groups = {Create.class, Update.class}, message = "{user.username}{not.empty}")
-    @Length(max = 10, message = "{user.username.length}{max.length.limit}")
+    @Length(max = 10, message = "{user.username.length}{length.max.limitt}")
     private String username;
     
     @Column(name = "avatar")

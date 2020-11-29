@@ -53,41 +53,41 @@ public class QuitePermissionController {
      * @return 查询的权限配置信息
      */
     @PostMapping("/page")
-    public Result<QueryResults<QuitePermission>> page(@RequestBody QuitePermissionParam postParam) {
-        return Result.success(permissionService.page(postParam.getParams(), postParam.page()));
+    public Result<QueryResults<QuitePermission>> page(@RequestBody QuitePermissionParam param) {
+        return Result.success(permissionService.page(param.getParams(), param.page()));
     }
     
     /**
      * 新增权限配置.
      *
-     * @param postParam :save 新增的权限配置信息
+     * @param param :save 新增的权限配置信息
      * @return 新增的权限信息
      */
     @PostMapping("/save")
-    public Result<QuitePermission> save(@RequestBody @Validated(Create.class) QuitePermissionParam postParam) {
-        return Result.createSuccess(permissionService.saveOrUpdate(postParam.getSave()));
+    public Result<QuitePermission> save(@RequestBody @Validated(Create.class) QuitePermissionParam param) {
+        return Result.createSuccess(permissionService.saveOrUpdate(param.getSave()));
     }
     
     /**
      * 更新权限配置.
      *
-     * @param postParam :update 更新的权限配置信息
+     * @param param :update 更新的权限配置信息
      * @return 更新的权限信息
      */
     @PutMapping("/update")
-    public Result<QuitePermission> update(@RequestBody @Validated(Update.class) QuitePermissionParam postParam) {
-        return Result.updateSuccess(permissionService.saveOrUpdate(postParam.getUpdate()));
+    public Result<QuitePermission> update(@RequestBody @Validated(Update.class) QuitePermissionParam param) {
+        return Result.updateSuccess(permissionService.saveOrUpdate(param.getUpdate()));
     }
     
     /**
      * 删除权限配置.
      *
-     * @param postParam :deleteId 要删除的权限配置信息的ID
+     * @param param :deleteId 要删除的权限配置信息的ID
      * @return 删除结果
      */
     @DeleteMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuitePermissionParam postParam) {
-        permissionService.delete(postParam.getDeleteId());
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuitePermissionParam param) {
+        permissionService.delete(param.getDeleteId());
         return Result.deleteSuccess();
     }
     

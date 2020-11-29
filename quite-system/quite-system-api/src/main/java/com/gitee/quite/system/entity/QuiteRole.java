@@ -19,6 +19,7 @@ package com.gitee.quite.system.entity;
 import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Basic;
@@ -40,12 +41,15 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
     private Long parentId;
     
     @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleName}{not.empty}")
+    @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
     private String roleName;
     
     @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleCnName}{not.empty}")
+    @Length(max = 30, message = "{role.roleCnName.length}{length.max.limit}")
     private String roleCnName;
     
-    private String remarks;
+    @Length(max = 100, message = "{role.remark}{length.max.limit}")
+    private String remark;
     
     @Transient
     private String parentRoleName;
@@ -87,13 +91,13 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
     }
     
     @Basic
-    @Column(name = "remarks")
-    public String getRemarks() {
-        return remarks;
+    @Column(name = "remark")
+    public String getRemark() {
+        return remark;
     }
     
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setRemark(String remarks) {
+        this.remark = remarks;
     }
     
     public String getParentRoleName() {

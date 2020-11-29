@@ -17,11 +17,15 @@
 package com.gitee.quite.system.entity;
 
 import com.gitee.quite.common.service.base.BaseEntity;
+import com.gitee.quite.common.validation.group.curd.Create;
+import com.gitee.quite.common.validation.group.curd.Update;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 部门信息.
@@ -35,6 +39,7 @@ public class QuiteDepartment extends BaseEntity {
     /**
      * 部门名称
      */
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{department.name}{not.empty}")
     private String departmentName;
     
     /**
@@ -45,6 +50,7 @@ public class QuiteDepartment extends BaseEntity {
     /**
      * 备注
      */
+    @Length(max = 100, message = "{department.remark}{length.max.limit}")
     private String remark;
     
     @Basic
