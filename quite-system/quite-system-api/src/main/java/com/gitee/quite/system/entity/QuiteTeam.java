@@ -40,13 +40,13 @@ public class QuiteTeam  extends BaseEntity {
      * 团队名称
      */
     @NotEmpty(groups = {Create.class, Update.class}, message = "{team.teamName}{not.empty}")
-    @Length(max = 8, message = "{team.teamName.length}{length.max.limit}")
+    @Length(max = 16, message = "{team.teamName.length}{length.max.limit}")
     private String teamName;
     
     /**
      * 标语
      */
-    @Length(max = 15, message = "{team.slogan.length}{length.max.limit}")
+    @Length(max = 30, message = "{team.slogan.length}{length.max.limit}")
     private String slogan;
     
     @Basic

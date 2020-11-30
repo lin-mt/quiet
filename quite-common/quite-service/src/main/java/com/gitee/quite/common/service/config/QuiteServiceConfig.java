@@ -71,7 +71,7 @@ public class QuiteServiceConfig {
     
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("QUITE_ROLE_");
+        return new GrantedAuthorityDefaults("");
     }
     
     @Bean
