@@ -39,6 +39,7 @@ public class QuitePermission extends BaseEntity {
      * 应用名称
      */
     @NotEmpty(message = "{permission.applicationName}{not.empty}")
+    @Length(max = 100, message = "{permission.applicationName.length}{length.max.limit}")
     private String applicationName;
     
     /**
