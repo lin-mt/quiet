@@ -45,6 +45,7 @@ public class QuitePermission extends BaseEntity {
      * URL 匹配规则
      */
     @NotEmpty(message = "{permission.urlPattern}{not.empty}")
+    @Length(max = 100, message = "{permission.urlPattern.length}{length.max.limit}")
     private String urlPattern;
     
     /**
