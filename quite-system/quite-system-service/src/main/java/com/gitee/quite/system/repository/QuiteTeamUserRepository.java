@@ -20,6 +20,8 @@ import com.gitee.quite.system.entity.QuiteTeamUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 团队成员 Repository.
  *
@@ -27,5 +29,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuiteTeamUserRepository extends JpaRepository<QuiteTeamUser, Long> {
-
+    
+    /**
+     * 根据团队ID查询该团队下的所有成员
+     *
+     * @param teamId 团队ID
+     * @return 该团队下的所有成员信息
+     */
+    List<QuiteTeamUser> findAllByTeamId(Long teamId);
+    
+    /**
+     * 查询该用户属于哪些团队
+     *
+     * @param userId 用户ID
+     * @return 该用户所属的所有团队
+     */
+    List<QuiteTeamUser> findAllByUserId(Long userId);
 }
