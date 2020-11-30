@@ -20,6 +20,8 @@ import com.gitee.quite.system.entity.QuiteDepartmentUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 部门成员信息 repository.
  *
@@ -27,5 +29,20 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuiteDepartmentUserRepository extends JpaRepository<QuiteDepartmentUser, Long> {
-
+    
+    /**
+     * 根据部门ID查询用户信息
+     *
+     * @param departmentId 部门ID
+     * @return 该部门下的用户信息
+     */
+    List<QuiteDepartmentUser> findAllByDepartmentId(Long departmentId);
+    
+    /**
+     * 根据用户查询该用户所属部门
+     *
+     * @param userId 用户ID
+     * @return 用户ID所属部门信息
+     */
+    QuiteDepartmentUser getByUserId(Long userId);
 }
