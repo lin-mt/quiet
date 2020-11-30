@@ -16,33 +16,16 @@
 
 package com.gitee.quite.system.repository;
 
-import com.gitee.quite.system.entity.QuitePermission;
+import com.gitee.quite.system.entity.QuiteDepartmentUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
- * 查询权限信息.
+ * 部门成员信息 repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuitePermissionRepository extends JpaRepository<QuitePermission, Long> {
-    
-    /**
-     * 根据应用名称查询权限配置信息
-     *
-     * @param applicationName 应用名称
-     * @return 该应用的所有权限配置
-     */
-    List<QuitePermission> findAllByApplicationName(String applicationName);
-    
-    /**
-     * 根据角色 ID 查询该角色下的所有权限配置信息
-     *
-     * @param roleId 角色ID
-     * @return 该角色下的所有权限配置信息
-     */
-    List<QuitePermission> findAllByRoleId(Long roleId);
+public interface QuiteDepartmentUserRepository extends JpaRepository<QuiteDepartmentUser, Long> {
+
 }
