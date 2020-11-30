@@ -16,6 +16,7 @@
 
 package com.gitee.quite.system.service.impl;
 
+import com.gitee.quite.common.service.exception.ServiceException;
 import com.gitee.quite.common.service.util.Wus;
 import com.gitee.quite.system.entity.QuiteTeam;
 import com.gitee.quite.system.repository.QuiteTeamRepository;
@@ -49,6 +50,7 @@ public class QuiteTeamServiceImpl implements QuiteTeamService {
     @Override
     public QueryResults<QuiteTeam> page(QuiteTeam params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
+        Wus.NotNullEq(params.getId(), quiteTeam.id, builder);
         Wus.NotBlankContains(params.getTeamName(), quiteTeam.teamName, builder);
         Wus.NotBlankContains(params.getSlogan(), quiteTeam.slogan, builder);
         return jpaQueryFactory.selectFrom(quiteTeam).where(builder).offset(page.getOffset()).limit(page.getPageSize())
@@ -57,11 +59,16 @@ public class QuiteTeamServiceImpl implements QuiteTeamService {
     
     @Override
     public QuiteTeam saveOrUpdate(QuiteTeam team) {
-        return null;
+        QuiteTeam exist = teamRepository.getByTeamName(team.getTeamName());
+        if (exist != null && !exist.getId().equals(team.getId())) {
+            throw new ServiceException("team.teamName.exist", team.getTeamName());
+        }
+        return teamRepository.saveAndFlush(team);
     }
     
     @Override
     public void deleteTeam(Long deleteId) {
-    
+        // TODO 删除团队中的成员信息
+        teamRepository.deleteById(deleteId);
     }
 }

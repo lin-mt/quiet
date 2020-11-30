@@ -27,5 +27,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuiteTeamRepository extends JpaRepository<QuiteTeam, Long> {
-
+    
+    /**
+     * 根据团队名称查询团队信息
+     *
+     * @param teamName 团队名称
+     * @return 团队信息
+     */
+    QuiteTeam getByTeamName(String teamName);
 }
