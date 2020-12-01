@@ -21,12 +21,18 @@ import com.gitee.quite.common.service.util.Wus;
 import com.gitee.quite.system.entity.QuiteDepartment;
 import com.gitee.quite.system.repository.QuiteDepartmentRepository;
 import com.gitee.quite.system.service.QuiteDepartmentService;
+import com.gitee.quite.system.service.QuiteDepartmentUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.gitee.quite.system.entity.QQuiteDepartment.quiteDepartment;
 
@@ -42,9 +48,13 @@ public class QuiteDepartmentServiceImpl implements QuiteDepartmentService {
     
     private final QuiteDepartmentRepository departmentRepository;
     
-    public QuiteDepartmentServiceImpl(JPAQueryFactory jpaQueryFactory, QuiteDepartmentRepository departmentRepository) {
+    private final QuiteDepartmentUserService departmentUserService;
+    
+    public QuiteDepartmentServiceImpl(JPAQueryFactory jpaQueryFactory, QuiteDepartmentRepository departmentRepository,
+            QuiteDepartmentUserService departmentUserService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.departmentRepository = departmentRepository;
+        this.departmentUserService = departmentUserService;
     }
     
     @Override
@@ -77,7 +87,27 @@ public class QuiteDepartmentServiceImpl implements QuiteDepartmentService {
         if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
             throw new ServiceException("department.has.children.can.not.deleted");
         }
-        // TODO 删除前确认是否有人员在该部门下
+        if (CollectionUtils.isNotEmpty(departmentUserService.listAllByDepartmentId(deleteId))) {
+            throw new ServiceException("department.has.member.can.not.deleted");
+        }
         departmentRepository.deleteById(deleteId);
+    }
+    
+    @Override
+    public List<QuiteDepartment> tree() {
+        List<QuiteDepartment> all = departmentRepository.findAll();
+        Map<Long, QuiteDepartment> deptIdToInfo = new HashMap<>();
+        for (QuiteDepartment department : all) {
+            deptIdToInfo.put(department.getId(), department);
+        }
+        List<QuiteDepartment> result = new ArrayList<>();
+        for (QuiteDepartment department : all) {
+            if (department.getParentId() == null) {
+                result.add(department);
+            } else {
+                deptIdToInfo.get(department.getParentId()).getChildren().add(department);
+            }
+        }
+        return result;
     }
 }

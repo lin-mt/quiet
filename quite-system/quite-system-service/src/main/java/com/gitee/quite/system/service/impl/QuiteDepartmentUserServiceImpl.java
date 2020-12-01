@@ -16,8 +16,12 @@
 
 package com.gitee.quite.system.service.impl;
 
+import com.gitee.quite.system.entity.QuiteDepartmentUser;
+import com.gitee.quite.system.repository.QuiteDepartmentUserRepository;
 import com.gitee.quite.system.service.QuiteDepartmentUserService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 部门成员信息 service 实现类.
@@ -26,5 +30,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class QuiteDepartmentUserServiceImpl implements QuiteDepartmentUserService {
-
+    
+    private final QuiteDepartmentUserRepository departmentUserRepository;
+    
+    public QuiteDepartmentUserServiceImpl(QuiteDepartmentUserRepository departmentUserRepository) {
+        this.departmentUserRepository = departmentUserRepository;
+    }
+    
+    @Override
+    public List<QuiteDepartmentUser> listAllByDepartmentId(Long departmentId) {
+        return departmentUserRepository.findAllByDepartmentId(departmentId);
+    }
+    
+    @Override
+    public void deleteByUserId(Long userId) {
+        departmentUserRepository.deleteByUserId(userId);
+    }
 }

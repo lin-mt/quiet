@@ -22,5 +22,11 @@ package com.gitee.quite.system.service;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuiteTeamUserService {
-
+    
+    /**
+     * 根据用户ID删除该用户的团队信息
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(Long userId);
 }

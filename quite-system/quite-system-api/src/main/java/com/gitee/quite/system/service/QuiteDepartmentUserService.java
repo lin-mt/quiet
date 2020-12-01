@@ -16,11 +16,29 @@
 
 package com.gitee.quite.system.service;
 
+import com.gitee.quite.system.entity.QuiteDepartmentUser;
+
+import java.util.List;
+
 /**
  * 部门成员信息 service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuiteDepartmentUserService {
-
+    
+    /**
+     * 根据部门ID获取该部门下的所有用户
+     *
+     * @param departmentId 部门ID
+     * @return 该部门下的所有用户
+     */
+    List<QuiteDepartmentUser> listAllByDepartmentId(Long departmentId);
+    
+    /**
+     * 根据用户ID删除该用户的部门信息
+     *
+     * @param userId 用户信息
+     */
+    void deleteByUserId(Long userId);
 }

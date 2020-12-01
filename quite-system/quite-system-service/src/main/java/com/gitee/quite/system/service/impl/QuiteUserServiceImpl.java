@@ -23,6 +23,8 @@ import com.gitee.quite.system.entity.QuiteUserRole;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
 import com.gitee.quite.system.repository.QuiteUserRepository;
 import com.gitee.quite.system.repository.QuiteUserRoleRepository;
+import com.gitee.quite.system.service.QuiteDepartmentUserService;
+import com.gitee.quite.system.service.QuiteTeamUserService;
 import com.gitee.quite.system.service.QuiteUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
@@ -58,14 +60,21 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     
     private final PasswordEncoder passwordEncoder;
     
+    private final QuiteDepartmentUserService departmentUserService;
+    
+    private final QuiteTeamUserService teamUserService;
+    
     public QuiteUserServiceImpl(JPAQueryFactory jpaQueryFactory, QuiteUserRepository userRepository,
             QuiteUserRoleRepository userRoleRepository, QuiteRoleRepository roleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, QuiteDepartmentUserService departmentUserService,
+            QuiteTeamUserService teamUserService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.departmentUserService = departmentUserService;
+        this.teamUserService = teamUserService;
     }
     
     @Override
@@ -95,6 +104,10 @@ public class QuiteUserServiceImpl implements QuiteUserService {
     public boolean delete(Long deleteId) {
         // 删除用户-角色信息
         userRoleRepository.deleteByUserId(deleteId);
+        // 删除部门-用户信息
+        departmentUserService.deleteByUserId(deleteId);
+        // 删除团队-用户信息
+        teamUserService.deleteByUserId(deleteId);
         // TODO 删除跟用户相关的其他信息
         // 删除用户信息
         userRepository.deleteById(deleteId);

@@ -45,4 +45,11 @@ public interface QuiteTeamUserRepository extends JpaRepository<QuiteTeamUser, Lo
      * @return 该用户所属的所有团队
      */
     List<QuiteTeamUser> findAllByUserId(Long userId);
+    
+    /**
+     * 根据用户ID删除该用户的所有团队信息
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(Long userId);
 }

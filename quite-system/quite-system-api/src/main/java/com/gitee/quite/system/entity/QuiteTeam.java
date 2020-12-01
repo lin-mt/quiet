@@ -34,7 +34,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "quite_team")
-public class QuiteTeam  extends BaseEntity {
+public class QuiteTeam extends BaseEntity {
     
     /**
      * 团队名称

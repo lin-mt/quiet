@@ -45,4 +45,11 @@ public interface QuiteDepartmentUserRepository extends JpaRepository<QuiteDepart
      * @return 用户ID所属部门信息
      */
     QuiteDepartmentUser getByUserId(Long userId);
+    
+    /**
+     * 根据用户ID删除该用户的部门信息
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(Long userId);
 }

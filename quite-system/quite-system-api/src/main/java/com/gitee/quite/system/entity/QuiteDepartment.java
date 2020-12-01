@@ -25,7 +25,10 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 部门信息.
@@ -53,6 +56,12 @@ public class QuiteDepartment extends BaseEntity {
      */
     @Length(max = 100, message = "{department.remark}{length.max.limit}")
     private String remark;
+    
+    /**
+     * 子部门信息
+     */
+    @Transient
+    private List<QuiteDepartment> children = new ArrayList<>();
     
     @Basic
     @Column(name = "department_name")
@@ -82,5 +91,13 @@ public class QuiteDepartment extends BaseEntity {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    public List<QuiteDepartment> getChildren() {
+        return children;
+    }
+    
+    public void setChildren(List<QuiteDepartment> children) {
+        this.children = children;
     }
 }

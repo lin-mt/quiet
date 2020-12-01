@@ -16,6 +16,7 @@
 
 package com.gitee.quite.system.service.impl;
 
+import com.gitee.quite.system.repository.QuiteTeamUserRepository;
 import com.gitee.quite.system.service.QuiteTeamUserService;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class QuiteTeamUserServiceImpl implements QuiteTeamUserService {
-
+    
+    private final QuiteTeamUserRepository teamUserRepository;
+    
+    public QuiteTeamUserServiceImpl(QuiteTeamUserRepository teamUserRepository) {
+        this.teamUserRepository = teamUserRepository;
+    }
+    
+    @Override
+    public void deleteByUserId(Long userId) {
+        teamUserRepository.deleteByUserId(userId);
+    }
 }
