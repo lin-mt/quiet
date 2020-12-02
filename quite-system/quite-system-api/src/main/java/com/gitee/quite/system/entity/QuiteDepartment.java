@@ -19,6 +19,7 @@ package com.gitee.quite.system.entity;
 import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Basic;
@@ -61,7 +62,7 @@ public class QuiteDepartment extends BaseEntity {
      * 子部门信息
      */
     @Transient
-    private List<QuiteDepartment> children = new ArrayList<>();
+    private List<QuiteDepartment> children;
     
     @Basic
     @Column(name = "department_name")
@@ -99,5 +100,12 @@ public class QuiteDepartment extends BaseEntity {
     
     public void setChildren(List<QuiteDepartment> children) {
         this.children = children;
+    }
+    
+    public void addChildren(QuiteDepartment children) {
+        if (CollectionUtils.isEmpty(this.getChildren())) {
+            this.setChildren(new ArrayList<>());
+        }
+        this.getChildren().add(children);
     }
 }

@@ -105,7 +105,7 @@ public class QuiteDepartmentServiceImpl implements QuiteDepartmentService {
             if (department.getParentId() == null) {
                 result.add(department);
             } else {
-                deptIdToInfo.get(department.getParentId()).getChildren().add(department);
+                deptIdToInfo.get(department.getParentId()).addChildren(department);
             }
         }
         return result;
