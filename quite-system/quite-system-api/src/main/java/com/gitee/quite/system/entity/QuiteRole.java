@@ -19,6 +19,7 @@ package com.gitee.quite.system.entity;
 import com.gitee.quite.common.service.base.BaseEntity;
 import com.gitee.quite.common.validation.group.curd.Create;
 import com.gitee.quite.common.validation.group.curd.Update;
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -28,6 +29,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 角色.
@@ -38,21 +41,42 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "quite_role")
 public class QuiteRole extends BaseEntity implements GrantedAuthority {
     
+    /*
+     * 父角色ID
+     */
     private Long parentId;
     
+    /**
+     * 角色名称
+     */
     @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleName}{not.empty}")
     @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
     private String roleName;
     
+    /**
+     * 角色中文名
+     */
     @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleCnName}{not.empty}")
     @Length(max = 30, message = "{role.roleCnName.length}{length.max.limit}")
     private String roleCnName;
     
+    /**
+     * 备注
+     */
     @Length(max = 100, message = "{role.remark}{length.max.limit}")
     private String remark;
     
+    /**
+     * 父角色名称
+     */
     @Transient
     private String parentRoleName;
+    
+    /**
+     * 子角色
+     */
+    @Transient
+    private List<QuiteRole> children;
     
     @Override
     @Transient
@@ -106,5 +130,20 @@ public class QuiteRole extends BaseEntity implements GrantedAuthority {
     
     public void setParentRoleName(String parentRoleName) {
         this.parentRoleName = parentRoleName;
+    }
+    
+    public List<QuiteRole> getChildren() {
+        return children;
+    }
+    
+    public void setChildren(List<QuiteRole> children) {
+        this.children = children;
+    }
+    
+    public void addChildren(QuiteRole role) {
+        if (CollectionUtils.isEmpty(getChildren())) {
+            setChildren(new ArrayList<>());
+        }
+        getChildren().add(role);
     }
 }

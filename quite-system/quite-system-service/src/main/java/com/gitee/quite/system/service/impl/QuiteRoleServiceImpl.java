@@ -18,6 +18,7 @@ package com.gitee.quite.system.service.impl;
 
 import com.gitee.quite.common.service.exception.ServiceException;
 import com.gitee.quite.common.service.util.Wus;
+import com.gitee.quite.system.entity.QuiteDepartment;
 import com.gitee.quite.system.entity.QuitePermission;
 import com.gitee.quite.system.entity.QuiteRole;
 import com.gitee.quite.system.repository.QuiteRoleRepository;
@@ -33,8 +34,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -104,8 +107,8 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
         QueryResults<QuiteRole> results = jpaQueryFactory.selectFrom(quiteRole).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
         if (!results.getResults().isEmpty()) {
-            Set<Long> parentIds = results.getResults().stream().filter(role -> !Objects.isNull(role.getParentId()))
-                    .map(QuiteRole::getParentId).collect(Collectors.toSet());
+            Set<Long> parentIds = results.getResults().stream().map(QuiteRole::getParentId)
+                    .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());
             Map<Long, QuiteRole> idToRoleInfo = roleRepository.findAllById(parentIds).stream()
                     .collect(Collectors.toMap(QuiteRole::getId, role -> role));
             for (QuiteRole role : results.getResults()) {
@@ -137,6 +140,24 @@ public class QuiteRoleServiceImpl implements QuiteRoleService {
     @Override
     public boolean existsById(Long roleId) {
         return roleRepository.existsById(roleId);
+    }
+    
+    @Override
+    public List<QuiteRole> tree() {
+        List<QuiteRole> allRole = roleRepository.findAll();
+        Map<Long, QuiteRole> roleIdToInfo = new HashMap<>();
+        for (QuiteRole role : allRole) {
+            roleIdToInfo.put(role.getId(), role);
+        }
+        List<QuiteRole> result = new ArrayList<>();
+        for (QuiteRole role : allRole) {
+            if (role.getParentId() == null) {
+                result.add(role);
+            } else {
+                roleIdToInfo.get(role.getParentId()).addChildren(role);
+            }
+        }
+        return result;
     }
     
     @Override

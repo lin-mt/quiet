@@ -27,11 +27,14 @@ import com.querydsl.core.QueryResults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 角色 Controller.
@@ -46,6 +49,16 @@ public class QuiteRoleController {
     
     public QuiteRoleController(QuiteRoleService roleService) {
         this.roleService = roleService;
+    }
+    
+    /**
+     * 以树形结构查询角色之间的关联信息.
+     *
+     * @return 角色之间的关联关系
+     */
+    @GetMapping("/tree")
+    public Result<List<QuiteRole>> tree() {
+        return Result.success(roleService.tree());
     }
     
     /**

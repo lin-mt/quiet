@@ -86,4 +86,11 @@ public interface QuiteRoleService extends RoleHierarchy {
      * @return true：存在，false：不存在
      */
     boolean existsById(Long roleId);
+    
+    /**
+     * 查询角色信息，以树形结构返回
+     *
+     * @return 树形结构的角色信息
+     */
+    List<QuiteRole> tree();
 }
