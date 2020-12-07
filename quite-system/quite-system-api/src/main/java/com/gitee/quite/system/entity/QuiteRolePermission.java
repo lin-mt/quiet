@@ -35,9 +35,15 @@ import javax.validation.constraints.NotNull;
 @Table(name = "quite_role_permission")
 public class QuiteRolePermission extends BaseEntity {
     
+    /**
+     * 角色 ID
+     */
     @NotNull(groups = {Create.class, Update.class}, message = "{rolePermission.roleId}{not.null}")
     private Long roleId;
     
+    /**
+     * 权限 ID
+     */
     @NotNull(groups = {Create.class, Update.class}, message = "{rolePermission.permissionId}{not.null}")
     private Long permissionId;
     

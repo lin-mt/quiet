@@ -49,48 +49,81 @@ import java.util.Collection;
 @Table(name = "quite_user")
 public class QuiteUser extends BaseEntity implements UserDetails, CredentialsContainer {
     
+    /**
+     * 用户名
+     */
     @Column(name = "username")
     @NotEmpty(groups = {Create.class, Update.class}, message = "{user.username}{not.empty}")
     @Length(max = 10, message = "{user.username.length}{length.max.limitt}")
     private String username;
     
+    /**
+     * 头像地址
+     */
     @Column(name = "avatar")
     private String avatar;
     
+    /**
+     * 密码
+     */
     @Column(name = "secret_code")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(groups = {Create.class, Update.class}, message = "{user.secretCode}{not.empty}")
     private String secretCode;
     
+    /**
+     * 性别
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private Gender gender;
     
+    /**
+     * 电话号码（手机号码）
+     */
     @Pattern(regexp = "^1\\d{10}$", message = "{user.phoneNumber.wrong}")
     @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{user.phoneNumber.wrong}")
     @Column(name = "phone_number")
     private String phoneNumber;
     
+    /**
+     * 邮箱地址
+     */
     @Email(groups = {Create.class, Update.class}, message = "{user.email.address}")
     @Column(name = "email_address")
     private String emailAddress;
     
+    /**
+     * 账号是否过期
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "account_expired")
     private Whether accountExpired;
     
+    /**
+     * 账号是否被锁
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "account_locked")
     private Whether accountLocked;
     
+    /**
+     * 密码是否过期
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "credentials_expired")
     private Whether credentialsExpired;
     
+    /**
+     * 账号是否启用
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "enabled")
     private Whether enabled;
     
+    /**
+     * 角色集合
+     */
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
     
