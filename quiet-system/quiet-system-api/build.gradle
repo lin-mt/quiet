@@ -14,7 +14,36 @@
  * limitations under the License.
  */
 
+plugins {
+    id 'com.ewerk.gradle.plugins.querydsl'
+}
+
 dependencies {
-    implementation(project(':quite-system:quite-system-api'))
-    runtimeOnly 'mysql:mysql-connector-java'
+    compile project(path: ':quiet-common:quiet-service', configuration: 'default')
+}
+
+jar.enabled(true)
+
+def queryDslSourceDirectory = 'src/main/generated'
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = queryDslSourceDirectory
+}
+
+sourceSets {
+    //noinspection GroovyAssignabilityCheck
+    main {
+        java {
+            srcDir queryDslSourceDirectory
+        }
+    }
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
 }

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = 'quite'
-include 'quite-gateway'
-include 'quite-common:quite-validation'
-findProject(':quite-common:quite-validation')?.name = 'quite-validation'
-include 'quite-common:quite-service'
-findProject(':quite-common:quite-service')?.name = 'quite-service'
-include 'quite-system:quite-system-api'
-findProject(':quite-system:quite-system-api')?.name = 'quite-system-api'
-include 'quite-system:quite-system-service'
-findProject(':quite-system:quite-system-service')?.name = 'quite-system-service'
+rootProject.name = 'quiet'
+include 'quiet-gateway'
+include 'quiet-common:quiet-validation'
+findProject(':quiet-common:quiet-validation')?.name = 'quiet-validation'
+include 'quiet-common:quiet-service'
+findProject(':quiet-common:quiet-service')?.name = 'quiet-service'
+include 'quiet-system:quiet-system-api'
+findProject(':quiet-system:quiet-system-api')?.name = 'quiet-system-api'
+include 'quiet-system:quiet-system-service'
+findProject(':quiet-system:quiet-system-service')?.name = 'quiet-system-service'
 
 
