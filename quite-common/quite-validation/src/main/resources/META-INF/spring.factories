@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gitee.quite.common.validation.config.QuiteValidation
+  com.gitee.quiet.common.validation.config.QuietValidation
