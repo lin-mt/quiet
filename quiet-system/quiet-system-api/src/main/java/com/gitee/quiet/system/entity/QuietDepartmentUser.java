@@ -30,7 +30,7 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "quite_department_user")
+@Table(name = "quiet_department_user")
 public class QuietDepartmentUser extends BaseEntity {
     
     /**

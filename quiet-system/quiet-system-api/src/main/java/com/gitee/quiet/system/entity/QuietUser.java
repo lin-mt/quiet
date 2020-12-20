@@ -46,7 +46,7 @@ import java.util.Collection;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "quite_user")
+@Table(name = "quiet_user")
 public class QuietUser extends BaseEntity implements UserDetails, CredentialsContainer {
     
     /**

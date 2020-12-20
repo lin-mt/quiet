@@ -37,7 +37,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "quite_department")
+@Table(name = "quiet_department")
 public class QuietDepartment extends BaseEntity {
     
     /**

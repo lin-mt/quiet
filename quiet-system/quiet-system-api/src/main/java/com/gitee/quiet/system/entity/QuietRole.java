@@ -38,7 +38,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "quite_role")
+@Table(name = "quiet_role")
 public class QuietRole extends BaseEntity implements GrantedAuthority {
     
     /*
