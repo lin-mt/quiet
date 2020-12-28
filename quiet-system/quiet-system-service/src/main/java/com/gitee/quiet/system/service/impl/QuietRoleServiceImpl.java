@@ -160,6 +160,11 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     @Override
+    public Collection<? extends GrantedAuthority> findAllById(Set<Long> roleIds) {
+        return roleRepository.findAllById(roleIds);
+    }
+    
+    @Override
     public Collection<? extends GrantedAuthority> getReachableGrantedAuthorities(
             Collection<? extends GrantedAuthority> authorities) {
         // TODO 添加缓存

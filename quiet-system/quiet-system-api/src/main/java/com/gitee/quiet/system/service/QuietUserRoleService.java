@@ -41,4 +41,19 @@ public interface QuietUserRoleService {
      * @param ids 要删除的id集合
      */
     void deleteByIds(List<Long> ids);
+    
+    /**
+     * 根据用户ID查询用户角色信息
+     *
+     * @param userId 用户ID
+     * @return 用户角色信息
+     */
+    List<QuietUserRole> findByUserId(Long userId);
+    
+    /**
+     * 删除用户的角色信息
+     *
+     * @param userId 要删除角色信息的用户ID
+     */
+    void deleteByUserId(Long userId);
 }

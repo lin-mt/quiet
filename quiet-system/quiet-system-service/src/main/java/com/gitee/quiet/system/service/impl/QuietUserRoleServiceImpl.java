@@ -66,4 +66,14 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     public void deleteByIds(List<Long> ids) {
         userRoleRepository.deleteByIdIn(ids);
     }
+    
+    @Override
+    public List<QuietUserRole> findByUserId(Long userId) {
+        return userRoleRepository.findByUserId(userId);
+    }
+    
+    @Override
+    public void deleteByUserId(Long userId) {
+        userRoleRepository.deleteByUserId(userId);
+    }
 }

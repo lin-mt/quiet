@@ -20,11 +20,11 @@ import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.Where;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
-import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.system.repository.QuietUserRepository;
-import com.gitee.quiet.system.repository.QuietUserRoleRepository;
 import com.gitee.quiet.system.service.QuietDepartmentUserService;
+import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
+import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
@@ -52,27 +52,26 @@ public class QuietUserServiceImpl implements QuietUserService {
     
     private final JPAQueryFactory jpaQueryFactory;
     
+    private final PasswordEncoder passwordEncoder;
+    
     private final QuietUserRepository userRepository;
     
-    private final QuietUserRoleRepository userRoleRepository;
+    private final QuietUserRoleService userRoleService;
     
-    private final QuietRoleRepository roleRepository;
-    
-    private final PasswordEncoder passwordEncoder;
+    private final QuietRoleService roleService;
     
     private final QuietDepartmentUserService departmentUserService;
     
     private final QuietTeamUserService teamUserService;
     
-    public QuietUserServiceImpl(JPAQueryFactory jpaQueryFactory, QuietUserRepository userRepository,
-            QuietUserRoleRepository userRoleRepository, QuietRoleRepository roleRepository,
-            PasswordEncoder passwordEncoder, QuietDepartmentUserService departmentUserService,
-            QuietTeamUserService teamUserService) {
+    public QuietUserServiceImpl(JPAQueryFactory jpaQueryFactory, PasswordEncoder passwordEncoder,
+            QuietUserRepository userRepository, QuietUserRoleService userRoleService, QuietRoleService roleService,
+            QuietDepartmentUserService departmentUserService, QuietTeamUserService teamUserService) {
         this.jpaQueryFactory = jpaQueryFactory;
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.userRoleService = userRoleService;
+        this.roleService = roleService;
         this.departmentUserService = departmentUserService;
         this.teamUserService = teamUserService;
     }
@@ -83,10 +82,10 @@ public class QuietUserServiceImpl implements QuietUserService {
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        List<QuietUserRole> quietUserRoles = userRoleRepository.findByUserId(user.getId());
+        List<QuietUserRole> quietUserRoles = userRoleService.findByUserId(user.getId());
         if (!CollectionUtils.isEmpty(quietUserRoles)) {
             Set<Long> roleIds = quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-            user.setAuthorities(roleRepository.findAllById(roleIds));
+            user.setAuthorities(roleService.findAllById(roleIds));
         }
         return user;
     }
@@ -103,7 +102,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     @Override
     public boolean delete(Long deleteId) {
         // 删除用户-角色信息
-        userRoleRepository.deleteByUserId(deleteId);
+        userRoleService.deleteByUserId(deleteId);
         // 删除部门-用户信息
         departmentUserService.deleteByUserId(deleteId);
         // 删除团队-用户信息

@@ -20,9 +20,11 @@ import com.gitee.quiet.system.entity.QuietRole;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 角色 Service.
@@ -85,6 +87,7 @@ public interface QuietRoleService extends RoleHierarchy {
      * @param roleId 角色ID
      * @return true：存在，false：不存在
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean existsById(Long roleId);
     
     /**
@@ -93,4 +96,12 @@ public interface QuietRoleService extends RoleHierarchy {
      * @return 树形结构的角色信息
      */
     List<QuietRole> tree();
+    
+    /**
+     * 根据角色ID集合查询角色信息
+     *
+     * @param roleIds 角色ID集合
+     * @return 角色信息
+     */
+    Collection<? extends GrantedAuthority> findAllById(Set<Long> roleIds);
 }
