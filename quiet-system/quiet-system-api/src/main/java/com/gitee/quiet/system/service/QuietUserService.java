@@ -16,10 +16,16 @@
 
 package com.gitee.quiet.system.service;
 
+import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户 Service.
@@ -68,4 +74,12 @@ public interface QuietUserService extends UserDetailsService {
      * @return true：存在，false：不存在
      */
     boolean existsById(Long userId);
+    
+    /**
+     * 批量查询用户拥有的角色
+     *
+     * @param userIds 要查询的用户信息
+     * @return 用户ID与角色信息的对应集合
+     */
+    Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds);
 }

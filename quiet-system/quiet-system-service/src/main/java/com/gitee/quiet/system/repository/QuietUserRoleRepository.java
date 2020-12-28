@@ -20,6 +20,7 @@ import com.gitee.quiet.system.entity.QuietUserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,4 +62,12 @@ public interface QuietUserRoleRepository extends JpaRepository<QuietUserRole, Lo
      * @param userId 用户ID
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 根据用户ID查询拥有的所有角色信息
+     *
+     * @param userIds 用户ID
+     * @return 指定用户集合中拥有的所有角色信息
+     */
+    List<QuietUserRole> findByUserIdIn(Collection<Long> userIds);
 }

@@ -22,8 +22,10 @@ import com.gitee.quiet.system.repository.QuietUserRoleRepository;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +43,7 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     
     private final QuietRoleService roleService;
     
-    public QuietUserRoleServiceImpl(QuietUserRoleRepository userRoleRepository, QuietUserService userService,
+    public QuietUserRoleServiceImpl(QuietUserRoleRepository userRoleRepository, @Lazy QuietUserService userService,
             QuietRoleService roleService) {
         this.userRoleRepository = userRoleRepository;
         this.userService = userService;
@@ -75,5 +77,10 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     @Override
     public void deleteByUserId(Long userId) {
         userRoleRepository.deleteByUserId(userId);
+    }
+    
+    @Override
+    public List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds) {
+        return userRoleRepository.findByUserIdIn(userIds);
     }
 }

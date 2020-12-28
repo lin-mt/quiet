@@ -18,6 +18,7 @@ package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietUserRole;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,4 +57,12 @@ public interface QuietUserRoleService {
      * @param userId 要删除角色信息的用户ID
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 根据用户ID查询拥有的所有角色信息
+     *
+     * @param userIds 用户ID
+     * @return 角色信息
+     */
+    List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
 }

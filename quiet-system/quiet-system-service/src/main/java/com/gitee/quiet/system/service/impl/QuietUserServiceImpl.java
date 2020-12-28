@@ -18,6 +18,7 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.repository.QuietUserRepository;
@@ -29,14 +30,19 @@ import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,7 +89,7 @@ public class QuietUserServiceImpl implements QuietUserService {
             throw new UsernameNotFoundException("用户不存在");
         }
         List<QuietUserRole> quietUserRoles = userRoleService.findByUserId(user.getId());
-        if (!CollectionUtils.isEmpty(quietUserRoles)) {
+        if (CollectionUtils.isNotEmpty(quietUserRoles)) {
             Set<Long> roleIds = quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
             user.setAuthorities(roleService.findAllById(roleIds));
         }
@@ -134,12 +140,47 @@ public class QuietUserServiceImpl implements QuietUserService {
         Where.NotNullEq(params.getAccountExpired(), quietUser.accountExpired, builder);
         Where.NotNullEq(params.getAccountLocked(), quietUser.accountLocked, builder);
         Where.NotNullEq(params.getCredentialsExpired(), quietUser.credentialsExpired, builder);
-        return jpaQueryFactory.selectFrom(quietUser).where(builder).offset(page.getOffset()).limit(page.getPageSize())
-                .fetchResults();
+        QueryResults<QuietUser> results = jpaQueryFactory.selectFrom(quietUser).where(builder).offset(page.getOffset())
+                .limit(page.getPageSize()).fetchResults();
+        if (CollectionUtils.isNotEmpty(results.getResults())) {
+            Set<Long> userIds = results.getResults().stream().map(QuietUser::getId).collect(Collectors.toSet());
+            Map<Long, List<QuietRole>> userIdToRoleInfo = this.mapUserIdToRoleInfo(userIds);
+            for (QuietUser user : results.getResults()) {
+                user.setAuthorities(userIdToRoleInfo.get(user.getId()));
+            }
+        }
+        return results;
     }
     
     @Override
     public boolean existsById(Long userId) {
         return userRepository.existsById(userId);
+    }
+    
+    @Override
+    public Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            return Collections.emptyMap();
+        }
+        List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
+        if (CollectionUtils.isNotEmpty(allUserRoles)) {
+            Map<Long, List<QuietUserRole>> userIdToUserRoles = allUserRoles.stream()
+                    .collect(Collectors.groupingBy(QuietUserRole::getUserId));
+            Set<Long> roleIds = allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
+            Map<Long, QuietRole> roleIdToRoleInfo = roleService.findAllByIds(roleIds).stream()
+                    .collect(Collectors.toMap(QuietRole::getId, val -> val));
+            Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
+            for (Long userId : userIds) {
+                List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
+                result.put(userId, new ArrayList<>());
+                if (CollectionUtils.isNotEmpty(userRoles)) {
+                    for (QuietUserRole userRole : userRoles) {
+                        result.get(userId).add(roleIdToRoleInfo.get(userRole.getRoleId()));
+                    }
+                }
+            }
+            return result;
+        }
+        return Collections.emptyMap();
     }
 }
