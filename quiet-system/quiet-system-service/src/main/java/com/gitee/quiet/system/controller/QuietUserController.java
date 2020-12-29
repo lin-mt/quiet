@@ -17,6 +17,8 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.entity.QuietUserRole;
+import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.util.SpringSecurityUtils;
 import com.gitee.quiet.common.service.base.Param;
 import com.gitee.quiet.common.service.enums.Whether;
@@ -47,8 +49,11 @@ public class QuietUserController {
     
     private final QuietUserService userService;
     
-    public QuietUserController(QuietUserService userService) {
+    private final QuietUserRoleService userRoleService;
+    
+    public QuietUserController(QuietUserService userService, QuietUserRoleService userRoleService) {
         this.userService = userService;
+        this.userRoleService = userRoleService;
     }
     
     /**
@@ -80,7 +85,7 @@ public class QuietUserController {
      * @param postParam :deleteId 要删除的用户ID
      * @return 删除结果
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize(value = "hasRole('Admin')")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietUserParam postParam) {
         userService.delete(postParam.getDeleteId());
@@ -93,7 +98,7 @@ public class QuietUserController {
      * @param postParam :update 要更新的用户信息
      * @return 更新后的用户信息
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     @PreAuthorize(value = "#postParam.update.id == authentication.principal.id || hasRole('Admin')")
     public Result<QuietUser> update(@RequestBody @Validated(Update.class) QuietUserParam postParam) {
         return Result.updateSuccess(userService.update(postParam.getUpdate()));
@@ -107,6 +112,12 @@ public class QuietUserController {
     @GetMapping("/currentUserInfo")
     public Result<QuietUser> currentUserInfo() {
         return Result.success(SpringSecurityUtils.getCurrentUser());
+    }
+    
+    @PostMapping("/removeRole")
+    public Result<Object> removeRole(@RequestBody QuietUserRole delete) {
+        userRoleService.deleteUserRole(delete.getUserId(), delete.getRoleId());
+        return Result.deleteSuccess();
     }
     
     static class QuietUserParam extends Param<QuietUser, QuietUser> {

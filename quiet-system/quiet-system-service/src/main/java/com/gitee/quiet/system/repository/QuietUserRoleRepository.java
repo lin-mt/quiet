@@ -70,4 +70,12 @@ public interface QuietUserRoleRepository extends JpaRepository<QuietUserRole, Lo
      * @return 指定用户集合中拥有的所有角色信息
      */
     List<QuietUserRole> findByUserIdIn(Collection<Long> userIds);
+    
+    /**
+     * 删除某个用户的某个角色
+     *
+     * @param userId 用户ID
+     * @param roleId 角色ID
+     */
+    void deleteByUserIdAndRoleId(Long userId, Long roleId);
 }

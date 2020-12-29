@@ -65,4 +65,12 @@ public interface QuietUserRoleService {
      * @return 角色信息
      */
     List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
+    
+    /**
+     * 删除某个用户的某个角色
+     *
+     * @param userId 用户ID
+     * @param roleId 角色ID
+     */
+    void deleteUserRole(Long userId, Long roleId);
 }
