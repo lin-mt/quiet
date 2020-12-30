@@ -16,8 +16,10 @@
 
 package com.gitee.quiet.common.validation.config;
 
-import com.gitee.quiet.common.validation.utils.MessageSourceUtil;
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
+import com.gitee.quiet.common.validation.advice.ValidationExceptionAdvice;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -28,13 +30,24 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-public class QuietValidation {
+public class QuietValidationConfig {
+    
+    public static final String QUIET_VALIDATION_MESSAGE_SOURCE = "quietValidationMessageSource";
     
     @Bean
     public LocalValidatorFactoryBean getValidator(MessageSourceProperties properties) {
         LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
-        localValidatorFactoryBean.setValidationMessageSource(
-                MessageSourceUtil.buildMessageSource(properties, "quiet-validation", "validation"));
+        localValidatorFactoryBean.setValidationMessageSource(messageSource(properties));
         return localValidatorFactoryBean;
+    }
+    
+    @Bean(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
+    public MessageSource messageSource(MessageSourceProperties properties) {
+        return MessageSourceUtil.buildMessageSource(properties, "quiet-validation", "validation");
+    }
+    
+    @Bean
+    public ValidationExceptionAdvice validationExceptionAdvice() {
+        return new ValidationExceptionAdvice();
     }
 }

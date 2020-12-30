@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.exception;
-
-import com.gitee.quiet.common.base.exception.QuietException;
+package com.gitee.quiet.common.base.constant;
 
 /**
- * 服务异常.
+ * Result 特殊 Code 常量.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ServiceException extends QuietException {
+public final class ResultCode {
     
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
+    public static final String NO_LOGIN = "NO_LOGIN";
+    
+    public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
+    
+    public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
+    
+    public static final String LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+    
+    public static final String NO_PERMISSION = "NO_PERMISSION";
+    
+    private ResultCode() {
     }
 }

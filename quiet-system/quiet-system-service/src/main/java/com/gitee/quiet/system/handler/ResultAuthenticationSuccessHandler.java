@@ -18,8 +18,8 @@ package com.gitee.quiet.system.handler;
 
 import com.gitee.quiet.system.constant.AccountCode;
 import com.gitee.quiet.common.service.config.QuietServiceConfig;
-import com.gitee.quiet.common.service.result.Result;
-import com.gitee.quiet.common.service.util.MessageUtils;
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -47,7 +47,7 @@ public class ResultAuthenticationSuccessHandler extends AbstractResponseJsonData
             Authentication authentication) throws IOException {
         logger.info("用户登录成功：{}", authentication);
         Result<Object> result = Result.success().setCode(AccountCode.LOGIN_SUCCESS)
-                .setMessage(MessageUtils.getMessage(request, messageSource, AccountCode.LOGIN_SUCCESS));
+                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGIN_SUCCESS));
         responseJsonData(response, result);
     }
 }

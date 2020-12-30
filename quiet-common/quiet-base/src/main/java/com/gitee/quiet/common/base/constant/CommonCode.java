@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.result;
+package com.gitee.quiet.common.base.constant;
 
 /**
- * 请求结果枚举.
+ * 通用 Code.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum ResultType {
+public final class CommonCode {
     
-    /**
-     * 成功.
-     */
-    SUCCESS,
-    /**
-     * 警告.
-     */
-    WARNING,
-    /**
-     * 失败.
-     */
-    FAILURE,
-    /**
-     * 异常.
-     */
-    EXCEPTION
+    public static final String PREFIX = "common.";
+    
+    public static final String UNKNOWN_CODE = "unknown.code";
+    
+    private CommonCode() {
+    }
+    
+    public static String removePrefix(String code) {
+        return code.substring(PREFIX.length());
+    }
 }

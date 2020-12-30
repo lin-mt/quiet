@@ -16,16 +16,13 @@
 
 package com.gitee.quiet.common.service.advice;
 
+import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,25 +48,5 @@ public class ApplicationExceptionAdvice {
             return Result.exceptionMsg(e.getCode(), e.getMsgParam());
         }
         return Result.exception().setMessage(e.getMessage());
-    }
-    
-    /**
-     * 处理参数校验异常.
-     *
-     * @param e ServiceException
-     * @return Result
-     */
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public Result<Object> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        ApplicationExceptionAdvice.LOGGER.error("参数校验异常", e);
-        StringBuilder errorMsg = new StringBuilder();
-        if (e.getBindingResult().hasErrors()) {
-            List<ObjectError> errors = e.getBindingResult().getAllErrors();
-            for (ObjectError error : errors) {
-                errorMsg.append(error.getDefaultMessage()).append("; ");
-            }
-            errorMsg.setLength(errorMsg.length() - 2);
-        }
-        return Result.exception().setMessage(errorMsg.toString());
     }
 }

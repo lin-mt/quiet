@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.constant;
+package com.gitee.quiet.system.params;
+
+import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.system.entity.QuietUserRole;
 
 /**
- * Result 特殊 Code 常量.
+ * 用户-角色Controller参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class ResultCode {
-    
-    public static final String NO_LOGIN = "NO_LOGIN";
-    
-    public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
-    
-    public static final String LOGIN_FAILURE = "LOGIN_FAILURE";
-    
-    public static final String LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-    
-    public static final String NO_PERMISSION = "NO_PERMISSION";
-    
-    private ResultCode() {
-    }
+public class QuietUserRoleParam extends Param<QuietUserRole, QuietUserRole> {
+
 }

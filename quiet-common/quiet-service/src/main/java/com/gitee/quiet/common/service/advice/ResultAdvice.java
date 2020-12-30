@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.common.service.advice;
 
+import com.gitee.quiet.common.base.constant.CommonCode;
 import com.gitee.quiet.common.service.config.QuietServiceConfig;
-import com.gitee.quiet.common.service.constant.CommonCode;
-import com.gitee.quiet.common.service.result.Result;
+import com.gitee.quiet.common.base.result.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +70,7 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
             if (Objects.isNull(result.getCode()) && result.getCurdType() != null) {
                 result.setCode(result.getCurdType().getCode());
             }
-            if (StringUtils.isNoneBlank(result.getCode())) {
+            if (StringUtils.isNoneBlank(result.getCode()) && StringUtils.isBlank(result.getMessage())) {
                 List<Locale> locales = Collections.emptyList();
                 try {
                     locales = serverHttpRequest.getHeaders().getAcceptLanguageAsLocales();

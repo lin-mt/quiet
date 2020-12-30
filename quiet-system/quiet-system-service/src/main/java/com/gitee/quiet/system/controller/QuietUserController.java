@@ -16,27 +16,28 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.entity.QuietUserRole;
-import com.gitee.quiet.system.service.QuietUserRoleService;
-import com.gitee.quiet.system.util.SpringSecurityUtils;
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.enums.Whether;
-import com.gitee.quiet.common.service.result.Result;
+import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.util.ValidationUtils;
+import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.params.QuietUserParam;
+import com.gitee.quiet.system.params.QuietUserRoleParam;
+import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.system.util.SpringSecurityUtils;
 import com.querydsl.core.QueryResults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 /**
  * 用户 Controller.
@@ -109,18 +110,17 @@ public class QuietUserController {
      *
      * @return 当前登陆人信息
      */
-    @GetMapping("/currentUserInfo")
+    @PostMapping("/currentUserInfo")
     public Result<QuietUser> currentUserInfo() {
         return Result.success(SpringSecurityUtils.getCurrentUser());
     }
     
     @PostMapping("/removeRole")
-    public Result<Object> removeRole(@RequestBody QuietUserRole delete) {
-        userRoleService.deleteUserRole(delete.getUserId(), delete.getRoleId());
+    public Result<Object> removeRole(@RequestBody QuietUserRoleParam postParam) {
+        ValidationUtils.notNull(postParam.getParams().getUserId(), "userRole.useId.not.null");
+        ValidationUtils.notNull(postParam.getParams().getRoleId(), "userRole.roleId.not.null");
+        userRoleService.deleteUserRole(postParam.getParams().getUserId(), postParam.getParams().getRoleId());
         return Result.deleteSuccess();
     }
     
-    static class QuietUserParam extends Param<QuietUser, QuietUser> {
-    
-    }
 }

@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.result;
+package com.gitee.quiet.common.base.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.gitee.quiet.common.service.exception.ServiceException;
 
 import java.util.Arrays;
 
@@ -354,30 +353,6 @@ public class Result<T> {
         final Result<T> result = new Result<>(ResultType.FAILURE);
         result.curdType = CurdType.DELETE_FAILURE;
         return result;
-    }
-    
-    /**
-     * 如果执行成功则获取数据，否则抛出异常.
-     *
-     * @return 执行结果
-     */
-    public T ifSuccess() {
-        if (ResultType.SUCCESS.equals(getResult())) {
-            return getData();
-        }
-        throw new ServiceException(getMessage()).setCode(getCode());
-    }
-    
-    /**
-     * 如果执行 成功/异常 则获取数据，否则抛出异常.
-     *
-     * @return 执行结果
-     */
-    public T ifSuccessOrWarning() {
-        if (ResultType.SUCCESS.equals(getResult()) || ResultType.WARNING.equals(getResult())) {
-            return getData();
-        }
-        throw new ServiceException(getMessage()).setCode(getCode());
     }
     
     public ResultType getResult() {

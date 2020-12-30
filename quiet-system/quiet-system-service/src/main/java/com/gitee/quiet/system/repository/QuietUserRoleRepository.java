@@ -18,7 +18,9 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.system.entity.QuietUserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -77,5 +79,6 @@ public interface QuietUserRoleRepository extends JpaRepository<QuietUserRole, Lo
      * @param userId 用户ID
      * @param roleId 角色ID
      */
+    @Transactional
     void deleteByUserIdAndRoleId(Long userId, Long roleId);
 }

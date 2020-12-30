@@ -14,18 +14,29 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.exception;
-
-import com.gitee.quiet.common.base.exception.QuietException;
+package com.gitee.quiet.common.base.result;
 
 /**
- * 服务异常.
+ * 请求结果枚举.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ServiceException extends QuietException {
+public enum ResultType {
     
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
-    }
+    /**
+     * 成功.
+     */
+    SUCCESS,
+    /**
+     * 警告.
+     */
+    WARNING,
+    /**
+     * 失败.
+     */
+    FAILURE,
+    /**
+     * 异常.
+     */
+    EXCEPTION
 }

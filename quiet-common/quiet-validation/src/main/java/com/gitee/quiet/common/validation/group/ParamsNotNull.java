@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.constant;
+package com.gitee.quiet.common.validation.group;
+
+import javax.validation.groups.Default;
 
 /**
- * 通用 Code.
+ * Param 的 params 属性不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class CommonCode {
-    
-    public static final String PREFIX = "common.";
-    
-    public static final String UNKNOWN_CODE = "unknown.code";
-    
-    private CommonCode() {
-    }
-    
-    public static String removePrefix(String code) {
-        return code.substring(PREFIX.length());
-    }
+public interface ParamsNotNull extends Default {
+
 }

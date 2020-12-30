@@ -18,8 +18,8 @@ package com.gitee.quiet.system.handler;
 
 import com.gitee.quiet.system.constant.AccountCode;
 import com.gitee.quiet.common.service.config.QuietServiceConfig;
-import com.gitee.quiet.common.service.result.Result;
-import com.gitee.quiet.common.service.util.MessageUtils;
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.system.util.SpringSecurityUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
@@ -47,7 +47,7 @@ public class ResultAccessDeniedHandler extends AbstractResponseJsonData implemen
             throws IOException {
         logger.error("用户：{} 无权限访问：{}", SpringSecurityUtils.getCurrentUserId(), request.getRequestURI(), exception);
         Result<Object> result = Result.failure().setCode(AccountCode.NO_PERMISSION)
-                .setMessage(MessageUtils.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
+                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
         responseJsonData(response, result);
     }
 }

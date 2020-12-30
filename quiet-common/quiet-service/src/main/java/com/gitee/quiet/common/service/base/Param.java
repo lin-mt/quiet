@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.base;
 
+import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.batch.DeleteBatch;
@@ -45,8 +46,9 @@ public class Param<T extends BaseEntity, P> {
     private static final String DESCEND = "descend";
     
     /**
-     * 查询条件
+     * 参数
      */
+    @NotNull(groups = ParamsNotNull.class, message = "{param.params}{not.null}")
     private P params;
     
     /**

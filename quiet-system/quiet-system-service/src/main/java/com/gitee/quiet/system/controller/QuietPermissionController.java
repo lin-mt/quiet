@@ -16,18 +16,16 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.system.entity.QuietPermission;
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.common.service.result.Result;
+import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.system.entity.QuietPermission;
+import com.gitee.quiet.system.params.QuietPermissionParam;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,7 +72,7 @@ public class QuietPermissionController {
      * @param param :update 更新的权限配置信息
      * @return 更新的权限信息
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result<QuietPermission> update(@RequestBody @Validated(Update.class) QuietPermissionParam param) {
         return Result.updateSuccess(permissionService.saveOrUpdate(param.getUpdate()));
     }
@@ -85,13 +83,10 @@ public class QuietPermissionController {
      * @param param :deleteId 要删除的权限配置信息的ID
      * @return 删除结果
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietPermissionParam param) {
         permissionService.delete(param.getDeleteId());
         return Result.deleteSuccess();
     }
     
-    static class QuietPermissionParam extends Param<QuietPermission, QuietPermission> {
-    
-    }
 }

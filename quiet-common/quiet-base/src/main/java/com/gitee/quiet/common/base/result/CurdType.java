@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.result;
+package com.gitee.quiet.common.base.result;
 
-import com.gitee.quiet.common.service.constant.CurdCode;
+import com.gitee.quiet.common.base.constant.CurdCode;
 
 /**
  * Curd 结果类型.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.constant;
+package com.gitee.quiet.common.base.constant;
 
 /**
  * 增删改查通用 Code.

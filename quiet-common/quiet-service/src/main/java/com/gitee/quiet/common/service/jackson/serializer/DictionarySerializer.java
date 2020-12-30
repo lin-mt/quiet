@@ -23,7 +23,7 @@ import com.gitee.quiet.common.service.base.DataDictionary;
 import com.gitee.quiet.common.service.base.Dictionary;
 import com.gitee.quiet.common.service.base.EnumDictionary;
 import com.gitee.quiet.common.service.config.QuietServiceConfig;
-import com.gitee.quiet.common.service.util.MessageUtils;
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.jackson.JsonComponent;
@@ -61,11 +61,11 @@ public class DictionarySerializer<T extends Dictionary<T>> extends JsonSerialize
             String codeFieldValue;
             jsonGenerator.writeStartObject();
             if (dictionary.getClass().isEnum()) {
-                message = MessageUtils.getMessage(request, messageSource,
+                message = MessageSourceUtil.getMessage(request, messageSource,
                         EnumDictionary.buildEnumMessageSourceKey(dictionary.getCode()));
                 codeFieldValue = ((Enum<?>) dictionary).name();
             } else {
-                message = MessageUtils.getMessage(request, messageSource,
+                message = MessageSourceUtil.getMessage(request, messageSource,
                         DataDictionary.buildDatabaseMessageSourceKey(dictionary.getCode()));
                 codeFieldValue = dictionary.getCode();
             }

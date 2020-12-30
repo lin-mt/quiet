@@ -16,19 +16,16 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.system.entity.QuietDepartment;
-import com.gitee.quiet.system.service.QuietDepartmentService;
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.common.service.result.Result;
+import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.system.params.QuietDepartmentParam;
+import com.gitee.quiet.system.service.QuietDepartmentService;
 import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +62,7 @@ public class QuietDepartmentController {
      *
      * @return 查询的部门信息
      */
-    @GetMapping("/tree")
+    @PostMapping("/tree")
     public Result<List<QuietDepartment>> tree() {
         return Result.success(departmentService.tree());
     }
@@ -87,7 +84,7 @@ public class QuietDepartmentController {
      * @param param :update 更新的部门信息
      * @return 更新的部门信息
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result<QuietDepartment> update(@RequestBody @Validated(Update.class) QuietDepartmentParam param) {
         return Result.updateSuccess(departmentService.saveOrUpdate(param.getUpdate()));
     }
@@ -98,13 +95,10 @@ public class QuietDepartmentController {
      * @param param :deleteId 要删除的部门的ID
      * @return 删除结果
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietDepartmentParam param) {
         departmentService.delete(param.getDeleteId());
         return Result.deleteSuccess();
     }
     
-    static class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
-        
-    }
 }

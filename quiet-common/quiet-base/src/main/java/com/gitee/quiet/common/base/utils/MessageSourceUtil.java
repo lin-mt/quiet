@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.util;
+package com.gitee.quiet.common.base.utils;
 
-import com.gitee.quiet.common.service.constant.CommonCode;
+import com.gitee.quiet.common.base.constant.CommonCode;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +36,7 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class MessageUtils {
+public class MessageSourceUtil {
     
     public static String getMessage(HttpServletRequest request, MessageSource messageSource, String code,
             Object... param) {
@@ -74,5 +77,21 @@ public class MessageUtils {
             message = messageSource.getMessage(CommonCode.UNKNOWN_CODE, new Object[] {code}, locale);
         }
         return message;
+    }
+    
+    public static MessageSource buildMessageSource(MessageSourceProperties properties, String... basenames) {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasenames(basenames);
+        if (properties.getEncoding() != null) {
+            messageSource.setDefaultEncoding(properties.getEncoding().name());
+        }
+        messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+        Duration cacheDuration = properties.getCacheDuration();
+        if (cacheDuration != null) {
+            messageSource.setCacheMillis(cacheDuration.toMillis());
+        }
+        messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+        messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
+        return messageSource;
     }
 }

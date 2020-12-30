@@ -16,16 +16,16 @@
 
 package com.gitee.quiet.common.service.config;
 
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.jackson.serializer.DictionarySerializer;
-import com.gitee.quiet.common.service.util.ApplicationUtil;
-import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import com.gitee.quiet.common.service.jackson.deserializer.DataDictionaryDeserializer;
 import com.gitee.quiet.common.service.jackson.deserializer.LongDeserializer;
+import com.gitee.quiet.common.service.jackson.serializer.DictionarySerializer;
 import com.gitee.quiet.common.service.jackson.serializer.LongSerializer;
-import com.gitee.quiet.common.validation.utils.MessageSourceUtil;
+import com.gitee.quiet.common.service.util.ApplicationUtil;
+import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

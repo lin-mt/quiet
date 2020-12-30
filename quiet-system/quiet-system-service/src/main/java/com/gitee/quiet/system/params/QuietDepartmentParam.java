@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.exception;
+package com.gitee.quiet.system.params;
 
-import com.gitee.quiet.common.base.exception.QuietException;
+import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.system.entity.QuietDepartment;
 
 /**
- * 服务异常.
+ * 部门Controller参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ServiceException extends QuietException {
-    
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
-    }
+public class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
+
 }

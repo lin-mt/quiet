@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.exception;
-
-import com.gitee.quiet.common.base.exception.QuietException;
-
-/**
- * 服务异常.
- *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
- */
-public class ServiceException extends QuietException {
-    
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
-    }
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
+    compile 'org.springframework.boot:spring-boot-starter-web'
 }
+
+jar.enabled(true)

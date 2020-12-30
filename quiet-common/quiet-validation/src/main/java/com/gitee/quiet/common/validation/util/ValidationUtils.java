@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.exception;
+package com.gitee.quiet.common.validation.util;
 
-import com.gitee.quiet.common.base.exception.QuietException;
+import com.gitee.quiet.common.validation.exception.ValidationException;
+
+import java.util.Objects;
 
 /**
- * 服务异常.
+ * 验证工具类.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ServiceException extends QuietException {
+public final class ValidationUtils {
     
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
+    private ValidationUtils() {
+    }
+    
+    public static void notNull(Object o, String code, Object ...msgParam) {
+        if (Objects.isNull(o)) {
+            throw new ValidationException(code, msgParam);
+        }
     }
 }

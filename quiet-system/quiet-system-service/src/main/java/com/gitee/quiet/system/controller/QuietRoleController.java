@@ -16,20 +16,17 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.system.entity.QuietRole;
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.common.service.result.Result;
+import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.system.entity.QuietRole;
+import com.gitee.quiet.system.params.QuietRoleParam;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.QueryResults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +53,7 @@ public class QuietRoleController {
      *
      * @return 角色之间的关联关系
      */
-    @GetMapping("/tree")
+    @PostMapping("/tree")
     public Result<List<QuietRole>> tree() {
         return Result.success(roleService.tree());
     }
@@ -88,7 +85,7 @@ public class QuietRoleController {
      * @param postParam :deleteId 删除的角色ID
      * @return Result
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize(value = "hasRole('Admin')")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietRoleParam postParam) {
         roleService.deleteRole(postParam.getDeleteId());
@@ -101,12 +98,9 @@ public class QuietRoleController {
      * @param postParam :update 更新的角色信息
      * @return 新增后的角色信息
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleParam postParam) {
         return Result.updateSuccess(roleService.update(postParam.getUpdate()));
     }
     
-    static class QuietRoleParam extends Param<QuietRole, QuietRole> {
-    
-    }
 }
