@@ -61,9 +61,8 @@ public class ValidationExceptionAdvice {
         if (e.getBindingResult().hasErrors()) {
             List<ObjectError> errors = e.getBindingResult().getAllErrors();
             for (ObjectError error : errors) {
-                errorMsg.append(error.getDefaultMessage()).append("; ");
+                errorMsg.append(error.getDefaultMessage()).append(";");
             }
-            errorMsg.setLength(errorMsg.length() - 2);
         }
         return Result.exception().setMessage(errorMsg.toString());
     }
