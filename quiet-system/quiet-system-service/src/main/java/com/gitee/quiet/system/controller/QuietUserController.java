@@ -116,7 +116,7 @@ public class QuietUserController {
     }
     
     @PostMapping("/removeRole")
-    public Result<Object> removeRole(@RequestBody QuietUserRoleParam postParam) {
+    public Result<Object> removeRole(@RequestBody @Validated(ParamsNotNull.class) QuietUserRoleParam postParam) {
         ValidationUtils.notNull(postParam.getParams().getUserId(), "userRole.useId.not.null");
         ValidationUtils.notNull(postParam.getParams().getRoleId(), "userRole.roleId.not.null");
         userRoleService.deleteUserRole(postParam.getParams().getUserId(), postParam.getParams().getRoleId());
