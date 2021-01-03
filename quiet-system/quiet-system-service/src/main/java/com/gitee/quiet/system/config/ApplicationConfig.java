@@ -37,11 +37,4 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
     
-    @Bean
-    public LocalValidatorFactoryBean validatorFactoryBean(MessageSourceProperties properties) {
-        LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
-        localValidatorFactoryBean.setValidationMessageSource(
-                MessageSourceUtil.buildMessageSource(properties, "quiet-validation", "validation"));
-        return localValidatorFactoryBean;
-    }
 }
