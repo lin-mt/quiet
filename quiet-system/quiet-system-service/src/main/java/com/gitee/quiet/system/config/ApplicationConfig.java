@@ -16,13 +16,10 @@
 
 package com.gitee.quiet.system.config;
 
-import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * 配置类.

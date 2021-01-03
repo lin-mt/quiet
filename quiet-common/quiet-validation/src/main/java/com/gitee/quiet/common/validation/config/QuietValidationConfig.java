@@ -18,10 +18,10 @@ package com.gitee.quiet.common.validation.config;
 
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.common.validation.advice.ValidationExceptionAdvice;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
-import org.springframework.boot.validation.MessageInterpolatorFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,12 +44,10 @@ public class QuietValidationConfig {
     }
     
     @Bean
-    public LocalValidatorFactoryBean validatorFactoryBean(MessageSourceProperties properties) {
+    public LocalValidatorFactoryBean validatorFactoryBean(
+            @Qualifier(QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE) MessageSource messageSource) {
         LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-        factoryBean.setValidationMessageSource(
-                MessageSourceUtil.buildMessageSource(properties, "quiet-validation", "validation"));
-        MessageInterpolatorFactory interpolatorFactory = new MessageInterpolatorFactory();
-        factoryBean.setMessageInterpolator(interpolatorFactory.getObject());
+        factoryBean.setValidationMessageSource(messageSource);
         return factoryBean;
     }
     
