@@ -22,12 +22,16 @@ import com.gitee.quiet.system.repository.QuietUserRoleRepository;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 用户-角色 Service 实现类.
@@ -87,5 +91,28 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     @Override
     public void deleteUserRole(Long userId, Long roleId) {
         userRoleRepository.deleteByUserIdAndRoleId(userId, roleId);
+    }
+    
+    @Override
+    public void addRoles(List<QuietUserRole> userRoles) {
+        Map<Long, List<QuietUserRole>> userIdToRoles = userRoles.stream()
+                .collect(Collectors.groupingBy(QuietUserRole::getUserId));
+        for (Map.Entry<Long, List<QuietUserRole>> entry : userIdToRoles.entrySet()) {
+            List<QuietUserRole> roles = userRoleRepository.findByUserId(entry.getKey());
+            if (CollectionUtils.isNotEmpty(roles)) {
+                Iterator<QuietUserRole> iterator = userRoles.iterator();
+                while (iterator.hasNext()) {
+                    QuietUserRole next = iterator.next();
+                    for (QuietUserRole has : roles) {
+                        if (next.getUserId().equals(has.getUserId()) && next.getRoleId().equals(has.getRoleId())) {
+                            iterator.remove();
+                        }
+                    }
+                }
+            }
+        }
+        if (CollectionUtils.isNotEmpty(userRoles)) {
+            userRoleRepository.saveAll(userRoles);
+        }
     }
 }

@@ -73,4 +73,11 @@ public interface QuietUserRoleService {
      * @param roleId 角色ID
      */
     void deleteUserRole(Long userId, Long roleId);
+    
+    /**
+     * 批量新增用户角色信息
+     *
+     * @param userRoles 要新增的数据
+     */
+    void addRoles(List<QuietUserRole> userRoles);
 }

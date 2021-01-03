@@ -19,6 +19,7 @@ package com.gitee.quiet.common.service.base;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.curd.batch.CreateBatch;
 import com.gitee.quiet.common.validation.group.curd.batch.DeleteBatch;
 import com.gitee.quiet.common.validation.group.curd.batch.RetrieveBatch;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
@@ -30,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +66,11 @@ public class Param<T extends BaseEntity, P> {
     @Valid
     @NotNull(groups = Create.class, message = "{save.entity.info}{not.null}")
     private T save;
+    
+    @Valid
+    @NotEmpty(groups = CreateBatch.class, message = "{save.batch}{not.empty}")
+    @NotNull(groups = {CreateBatch.class, Create.class}, message = "{save.entity.info}{not.null}")
+    private List<T> saveBatch;
     
     @Valid
     @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
@@ -122,6 +129,14 @@ public class Param<T extends BaseEntity, P> {
     
     public void setSave(T save) {
         this.save = save;
+    }
+    
+    public List<T> getSaveBatch() {
+        return saveBatch;
+    }
+    
+    public void setSaveBatch(List<T> saveBatch) {
+        this.saveBatch = saveBatch;
     }
     
     public T getUpdate() {
