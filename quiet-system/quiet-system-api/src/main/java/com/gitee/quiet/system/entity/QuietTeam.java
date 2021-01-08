@@ -60,13 +60,13 @@ public class QuietTeam extends BaseEntity {
      * 团队PO
      */
     @Transient
-    private List<QuietUser> productOwner;
+    private List<QuietUser> productOwners;
     
     /**
      * 团队SM
      */
     @Transient
-    private List<QuietUser> scrumMaster;
+    private List<QuietUser> scrumMasters;
     
     /**
      * 团队成员
@@ -102,20 +102,20 @@ public class QuietTeam extends BaseEntity {
         this.roleIdToUsers = roleIdToUsers;
     }
     
-    public List<QuietUser> getProductOwner() {
-        return productOwner;
+    public List<QuietUser> getProductOwners() {
+        return productOwners;
     }
     
-    public void setProductOwner(List<QuietUser> productOwner) {
-        this.productOwner = productOwner;
+    public void setProductOwners(List<QuietUser> productOwners) {
+        this.productOwners = productOwners;
     }
     
-    public List<QuietUser> getScrumMaster() {
-        return scrumMaster;
+    public List<QuietUser> getScrumMasters() {
+        return scrumMasters;
     }
     
-    public void setScrumMaster(List<QuietUser> scrumMaster) {
-        this.scrumMaster = scrumMaster;
+    public void setScrumMasters(List<QuietUser> scrumMasters) {
+        this.scrumMasters = scrumMasters;
     }
     
     public List<QuietUser> getMembers() {

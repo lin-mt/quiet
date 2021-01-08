@@ -32,16 +32,10 @@ import javax.validation.constraints.NotNull;
 public class QuietTeamUserRole extends BaseEntity {
     
     /**
-     * 团队ID
+     * 团队-用户ID
      */
-    @NotNull(message = "{userTeamRole.teamId}{not.null}")
-    private Long teamId;
-    
-    /**
-     * 用户ID
-     */
-    @NotNull(message = "{userTeamRole.userId}{not.null}")
-    private Long userId;
+    @NotNull(message = "{userTeamRole.teamUserId}{not.null}")
+    private Long teamUserId;
     
     /**
      * 角色ID
@@ -49,20 +43,12 @@ public class QuietTeamUserRole extends BaseEntity {
     @NotNull(message = "{userTeamRole.roleId}{not.null}")
     private Long roleId;
     
-    public Long getTeamId() {
-        return teamId;
+    public Long getTeamUserId() {
+        return teamUserId;
     }
     
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
-    
-    public Long getUserId() {
-        return userId;
-    }
-    
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setTeamUserId(Long teamUserId) {
+        this.teamUserId = teamUserId;
     }
     
     public Long getRoleId() {

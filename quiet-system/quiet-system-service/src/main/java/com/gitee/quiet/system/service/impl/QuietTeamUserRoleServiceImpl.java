@@ -39,12 +39,12 @@ public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
     }
     
     @Override
-    public List<QuietTeamUserRole> findByTeamIds(Set<Long> teamIds) {
-        return teamUserRoleRepository.findByTeamIdIsIn(teamIds);
+    public List<QuietTeamUserRole> findByTeamUserIds(Set<Long> teamUserIds) {
+        return teamUserRoleRepository.findByTeamUserIdIsIn(teamUserIds);
     }
     
     @Override
-    public void deleteByUserId(Long userId) {
-        teamUserRoleRepository.deleteByUserId(userId);
+    public void deleteByTeamUserIds(Set<Long> teamUserIds) {
+        teamUserRoleRepository.deleteByTeamUserIdIsIn(teamUserIds);
     }
 }

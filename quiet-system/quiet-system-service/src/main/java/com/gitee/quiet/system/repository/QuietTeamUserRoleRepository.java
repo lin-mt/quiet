@@ -33,17 +33,17 @@ import java.util.List;
 public interface QuietTeamUserRoleRepository extends JpaRepository<QuietTeamUserRole, Long> {
     
     /**
-     * 根据团队ID批量查询团队成员的角色信息
+     * 根据团队-用户ID批量查询团队成员的角色信息
      *
-     * @param teamIds 团队ID集合
+     * @param teamUserIds 团队-用户ID集合
      * @return 团队成员的角色信息
      */
-    List<QuietTeamUserRole> findByTeamIdIsIn(Collection<? extends Serializable> teamIds);
+    List<QuietTeamUserRole> findByTeamUserIdIsIn(Collection<? extends Serializable> teamUserIds);
     
     /**
-     * 根据用户ID删除用户的团队角色信息
+     * 根据团队-用户ID批量删除用户的团队角色信息
      *
-     * @param userId 用户ID
+     * @param teamUserIds 团队-用户ID
      */
-    void deleteByUserId(Long userId);
+    void deleteByTeamUserIdIsIn(Collection<? extends Serializable> teamUserIds);
 }

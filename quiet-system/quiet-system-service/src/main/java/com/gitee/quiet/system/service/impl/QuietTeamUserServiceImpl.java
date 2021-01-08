@@ -20,6 +20,7 @@ import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.repository.QuietTeamUserRepository;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,8 +48,12 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     
     @Override
     public void deleteByUserId(Long userId) {
+        List<QuietTeamUser> allTeamUser = teamUserRepository.findAllByUserId(userId);
+        if (CollectionUtils.isNotEmpty(allTeamUser)) {
+            teamUserRoleService
+                    .deleteByTeamUserIds(allTeamUser.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+        }
         teamUserRepository.deleteByUserId(userId);
-        teamUserRoleService.deleteByUserId(userId);
     }
     
     @Override

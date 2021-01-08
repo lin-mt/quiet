@@ -85,40 +85,44 @@ public class QuietTeamController {
         QueryResults<QuietTeam> result = teamService.page(param.getParams(), param.page());
         if (CollectionUtils.isNotEmpty(result.getResults())) {
             Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
-            List<QuietTeamUserRole> userTeamRoles = userTeamRoleService.findByTeamIds(teamIds);
-            Set<Long> allUserIds = teamUserService.findAllUsersByTeamIds(teamIds).stream().map(QuietTeamUser::getUserId)
-                    .collect(Collectors.toSet());
+            List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
+            Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
+                    .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
+            Set<Long> allUserIds = allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
+            List<QuietTeamUserRole> userTeamRoles = userTeamRoleService
+                    .findByTeamUserIds(allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+            Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles = userTeamRoles.stream()
+                    .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
             Map<Long, QuietUser> userIdToUserInfo = userService.findByUserIds(allUserIds).stream()
                     .collect(Collectors.toMap(QuietUser::getId, u -> u));
-            Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = teamUserService.mapTeamIdToTeamUsers(teamIds);
-            Map<Long, List<QuietTeamUserRole>> teamIdToUserRoles = userTeamRoles.stream()
-                    .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamId));
             QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
             QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
             for (QuietTeam quietTeam : result.getResults()) {
                 List<QuietTeamUser> quietTeamUsers = teamIdToTeamUsers.get(quietTeam.getId());
                 if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
-                    List<QuietUser> members = new ArrayList<>(quietTeamUsers.size());
+                    List<QuietUser> members = new ArrayList<>();
+                    List<QuietUser> teamProductOwners = new ArrayList<>();
+                    List<QuietUser> teamScrumMasters = new ArrayList<>();
                     for (QuietTeamUser quietTeamUser : quietTeamUsers) {
-                        members.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                        List<QuietTeamUserRole> quietTeamUserRoles = teamUserIdToRoles.get(quietTeamUser.getId());
+                        if (CollectionUtils.isNotEmpty(quietTeamUserRoles)) {
+                            for (QuietTeamUserRole quietTeamUserRole : quietTeamUserRoles) {
+                                if (quietTeamUserRole.getRoleId().equals(productOwner.getId())) {
+                                    teamProductOwners.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                                }
+                                if (quietTeamUserRole.getRoleId().equals(scrumMaster.getId())) {
+                                    teamScrumMasters.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                                }
+                            }
+                        } else {
+                            members.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                        }
                     }
                     quietTeam.setMembers(members);
+                    quietTeam.setProductOwners(teamProductOwners);
+                    quietTeam.setScrumMasters(teamScrumMasters);
                 }
-                List<QuietTeamUserRole> quietTeamUserRoles = teamIdToUserRoles.get(quietTeam.getId());
-                if (CollectionUtils.isNotEmpty(quietTeamUserRoles)) {
-                    List<QuietUser> teamProductOwner = new ArrayList<>();
-                    List<QuietUser> teamScrumMaster = new ArrayList<>();
-                    for (QuietTeamUserRole quietTeamUserRole : quietTeamUserRoles) {
-                        if (quietTeamUserRole.getRoleId().equals(productOwner.getId())) {
-                            teamProductOwner.add(userIdToUserInfo.get(quietTeamUserRole.getUserId()));
-                        }
-                        if (quietTeamUserRole.getRoleId().equals(scrumMaster.getId())) {
-                            teamScrumMaster.add(userIdToUserInfo.get(quietTeamUserRole.getUserId()));
-                        }
-                    }
-                    quietTeam.setProductOwner(teamProductOwner);
-                    quietTeam.setScrumMaster(teamScrumMaster);
-                }
+                
             }
         }
         return Result.success(result);

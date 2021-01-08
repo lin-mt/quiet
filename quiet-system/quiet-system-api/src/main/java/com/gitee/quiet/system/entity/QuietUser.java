@@ -123,6 +123,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      * 角色集合
      */
     @Transient
+    @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
     
     @Override

@@ -34,12 +34,12 @@ public interface QuietTeamUserRoleService {
      * @param teamIds 团队ID集合
      * @return 团队成员的角色信息
      */
-    List<QuietTeamUserRole> findByTeamIds(Set<Long> teamIds);
+    List<QuietTeamUserRole> findByTeamUserIds(Set<Long> teamIds);
     
     /**
-     * 根据用户ID删除用户的团队角色信息
+     * 根据团队-用户ID批量删除用户的团队角色信息
      *
-     * @param userId 用户ID
+     * @param teamUserIds 团队-用户ID集合
      */
-    void deleteByUserId(Long userId);
+    void deleteByTeamUserIds(Set<Long> teamUserIds);
 }
