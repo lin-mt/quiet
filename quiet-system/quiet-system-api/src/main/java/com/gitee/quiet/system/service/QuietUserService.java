@@ -82,4 +82,12 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户ID与角色信息的对应集合
      */
     Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds);
+    
+    /**
+     * 根据用户ID批量查询信息
+     *
+     * @param userIds 用户ID集合
+     * @return 用户信息
+     */
+    List<QuietUser> findByUserIds(Set<Long> userIds);
 }

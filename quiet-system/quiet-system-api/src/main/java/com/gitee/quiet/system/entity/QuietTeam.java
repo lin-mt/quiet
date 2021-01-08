@@ -17,15 +17,16 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 团队.
@@ -39,7 +40,7 @@ public class QuietTeam extends BaseEntity {
     /**
      * 团队名称
      */
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{team.teamName}{not.empty}")
+    @NotEmpty(message = "{team.teamName}{not.empty}")
     @Length(max = 16, message = "{team.teamName.length}{length.max.limit}")
     private String teamName;
     
@@ -48,6 +49,30 @@ public class QuietTeam extends BaseEntity {
      */
     @Length(max = 30, message = "{team.slogan.length}{length.max.limit}")
     private String slogan;
+    
+    /**
+     * 团队角色与成员信息信息
+     */
+    @Transient
+    private Map<Long, List<QuietUser>> roleIdToUsers;
+    
+    /**
+     * 团队PO
+     */
+    @Transient
+    private List<QuietUser> productOwner;
+    
+    /**
+     * 团队SM
+     */
+    @Transient
+    private List<QuietUser> scrumMaster;
+    
+    /**
+     * 团队成员
+     */
+    @Transient
+    private List<QuietUser> members;
     
     @Basic
     @Column(name = "team_name")
@@ -67,5 +92,37 @@ public class QuietTeam extends BaseEntity {
     
     public void setSlogan(String slogan) {
         this.slogan = slogan;
+    }
+    
+    public Map<Long, List<QuietUser>> getRoleIdToUsers() {
+        return roleIdToUsers;
+    }
+    
+    public void setRoleIdToUsers(Map<Long, List<QuietUser>> roleIdToUsers) {
+        this.roleIdToUsers = roleIdToUsers;
+    }
+    
+    public List<QuietUser> getProductOwner() {
+        return productOwner;
+    }
+    
+    public void setProductOwner(List<QuietUser> productOwner) {
+        this.productOwner = productOwner;
+    }
+    
+    public List<QuietUser> getScrumMaster() {
+        return scrumMaster;
+    }
+    
+    public void setScrumMaster(List<QuietUser> scrumMaster) {
+        this.scrumMaster = scrumMaster;
+    }
+    
+    public List<QuietUser> getMembers() {
+        return members;
+    }
+    
+    public void setMembers(List<QuietUser> members) {
+        this.members = members;
     }
 }

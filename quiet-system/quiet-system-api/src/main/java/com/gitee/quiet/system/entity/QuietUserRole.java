@@ -17,8 +17,6 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -38,13 +36,13 @@ public class QuietUserRole extends BaseEntity {
     /**
      * 用户ID
      */
-    @NotNull(groups = {Create.class, Update.class}, message = "{userRole.userId}{not.null}")
+    @NotNull(message = "{userRole.userId}{not.null}")
     private Long userId;
     
     /**
      * 角色ID
      */
-    @NotNull(groups = {Create.class, Update.class}, message = "{userRole.roleId}{not.null}")
+    @NotNull(message = "{userRole.roleId}{not.null}")
     private Long roleId;
     
     @Basic

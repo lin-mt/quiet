@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.common.validation.group.curd.single;
 
-import com.gitee.quiet.common.validation.group.curd.Retrieve;
+import javax.validation.groups.Default;
 
 /**
  * 查询一条数据.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface RetrieveSingle extends Retrieve {
+public interface RetrieveSingle extends Default {
 
 }

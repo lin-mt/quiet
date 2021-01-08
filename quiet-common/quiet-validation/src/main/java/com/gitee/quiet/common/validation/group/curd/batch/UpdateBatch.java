@@ -16,11 +16,13 @@
 
 package com.gitee.quiet.common.validation.group.curd.batch;
 
+import javax.validation.groups.Default;
+
 /**
  * 批量更新.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface UpdateBatch {
+public interface UpdateBatch extends Default {
     
 }

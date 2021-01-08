@@ -69,7 +69,7 @@ public class Param<T extends BaseEntity, P> {
     
     @Valid
     @NotEmpty(groups = CreateBatch.class, message = "{save.batch}{not.empty}")
-    @NotNull(groups = {CreateBatch.class, Create.class}, message = "{save.entity.info}{not.null}")
+    @NotNull(groups = CreateBatch.class, message = "{save.entity.info}{not.null}")
     private List<T> saveBatch;
     
     @Valid

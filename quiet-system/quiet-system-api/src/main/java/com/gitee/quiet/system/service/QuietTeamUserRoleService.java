@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,32 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.curd.single;
+package com.gitee.quiet.system.service;
 
-import javax.validation.groups.Default;
+import com.gitee.quiet.system.entity.QuietTeamUserRole;
+
+import java.util.List;
+import java.util.Set;
 
 /**
- * 删除一条数据.
+ * 用户团队角色 Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DeleteSingle extends Default {
-
+public interface QuietTeamUserRoleService {
+    
+    /**
+     * 根据团队ID批量查询团队的角色信息
+     *
+     * @param teamIds 团队ID集合
+     * @return 团队成员的角色信息
+     */
+    List<QuietTeamUserRole> findByTeamIds(Set<Long> teamIds);
+    
+    /**
+     * 根据用户ID删除用户的团队角色信息
+     *
+     * @param userId 用户ID
+     */
+    void deleteByUserId(Long userId);
 }

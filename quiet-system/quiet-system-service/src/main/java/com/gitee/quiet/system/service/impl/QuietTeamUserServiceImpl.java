@@ -16,9 +16,16 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.system.service.QuietTeamUserService;
+import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.repository.QuietTeamUserRepository;
+import com.gitee.quiet.system.service.QuietTeamUserRoleService;
+import com.gitee.quiet.system.service.QuietTeamUserService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 团队成员信息service实现类.
@@ -30,12 +37,28 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     
     private final QuietTeamUserRepository teamUserRepository;
     
-    public QuietTeamUserServiceImpl(QuietTeamUserRepository teamUserRepository) {
+    private final QuietTeamUserRoleService teamUserRoleService;
+    
+    public QuietTeamUserServiceImpl(QuietTeamUserRepository teamUserRepository,
+            QuietTeamUserRoleService teamUserRoleService) {
         this.teamUserRepository = teamUserRepository;
+        this.teamUserRoleService = teamUserRoleService;
     }
     
     @Override
     public void deleteByUserId(Long userId) {
         teamUserRepository.deleteByUserId(userId);
+        teamUserRoleService.deleteByUserId(userId);
+    }
+    
+    @Override
+    public Map<Long, List<QuietTeamUser>> mapTeamIdToTeamUsers(Set<Long> teamIds) {
+        return teamUserRepository.findByTeamIdIsIn(teamIds).stream()
+                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
+    }
+    
+    @Override
+    public List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds) {
+        return teamUserRepository.findByTeamIdIsIn(teamIds);
     }
 }

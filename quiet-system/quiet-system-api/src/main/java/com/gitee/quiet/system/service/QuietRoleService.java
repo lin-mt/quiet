@@ -104,4 +104,12 @@ public interface QuietRoleService extends RoleHierarchy {
      * @return 角色信息
      */
     Collection<? extends GrantedAuthority> findAllById(Set<Long> roleIds);
+    
+    /**
+     * 根据角色名称查询数据
+     *
+     * @param roleName 角色名称
+     * @return 角色数据
+     */
+    QuietRole findByRoleName(String roleName);
 }

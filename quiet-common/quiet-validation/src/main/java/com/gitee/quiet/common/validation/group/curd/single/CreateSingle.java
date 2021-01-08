@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.common.validation.group.curd.single;
 
-import com.gitee.quiet.common.validation.group.curd.Create;
+import javax.validation.groups.Default;
 
 /**
  * 新增一条信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface CreateSingle extends Create {
+public interface CreateSingle extends Default {
     
 }

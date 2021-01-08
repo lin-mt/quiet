@@ -16,6 +16,12 @@
 
 package com.gitee.quiet.system.service;
 
+import com.gitee.quiet.system.entity.QuietTeamUser;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 团队成员信息 Service.
  *
@@ -29,4 +35,20 @@ public interface QuietTeamUserService {
      * @param userId 用户ID
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 根据团队ID批量查询成员信息
+     *
+     * @param teamIds 团队ID
+     * @return 团队ID跟成员信息的映射关系
+     */
+    Map<Long, List<QuietTeamUser>> mapTeamIdToTeamUsers(Set<Long> teamIds);
+    
+    /**
+     * 批量查询团队中的成员信息
+     *
+     * @param teamIds 团队ID
+     * @return 所有成员信息
+     */
+    List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds);
 }

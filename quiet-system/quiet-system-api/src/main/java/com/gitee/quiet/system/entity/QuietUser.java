@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.enums.Gender;
 import com.gitee.quiet.common.service.enums.Whether;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.CredentialsContainer;
@@ -53,7 +51,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      * 用户名
      */
     @Column(name = "username")
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{user.username}{not.empty}")
+    @NotEmpty(message = "{user.username}{not.empty}")
     @Length(max = 10, message = "{user.username.length}{length.max.limitt}")
     private String username;
     
@@ -68,7 +66,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      */
     @Column(name = "secret_code")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{user.secretCode}{not.empty}")
+    @NotEmpty(message = "{user.secretCode}{not.empty}")
     private String secretCode;
     
     /**
@@ -82,14 +80,14 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      * 电话号码（手机号码）
      */
     @Pattern(regexp = "^1\\d{10}$", message = "{user.phoneNumber.wrong}")
-    @Length(groups = {Create.class, Update.class}, min = 11, max = 11, message = "{user.phoneNumber.wrong}")
+    @Length(min = 11, max = 11, message = "{user.phoneNumber.wrong}")
     @Column(name = "phone_number")
     private String phoneNumber;
     
     /**
      * 邮箱地址
      */
-    @Email(groups = {Create.class, Update.class}, message = "{user.email.address}")
+    @Email(message = "{user.email.address}")
     @Column(name = "email_address")
     private String emailAddress;
     

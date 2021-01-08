@@ -33,6 +33,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -164,6 +165,16 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         return roleRepository.findAllById(roleIds);
     }
     
+    @NotNull
+    @Override
+    public QuietRole findByRoleName(@NotNull String roleName) {
+        QuietRole quietRole = roleRepository.findByRoleName(roleName);
+        if (quietRole == null) {
+            throw new ServiceException("role.roleName.does.not.exist", roleName);
+        }
+        return quietRole;
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getReachableGrantedAuthorities(
             Collection<? extends GrantedAuthority> authorities) {
@@ -185,7 +196,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     private void checkRoleInfo(QuietRole role) {
-        QuietRole quietRole = roleRepository.getByRoleName(role.getRoleName());
+        QuietRole quietRole = roleRepository.findByRoleName(role.getRoleName());
         if (quietRole != null && !quietRole.getId().equals(role.getId())) {
             throw new ServiceException("role.name.exist", role.getRoleName());
         }

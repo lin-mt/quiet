@@ -183,4 +183,9 @@ public class QuietUserServiceImpl implements QuietUserService {
         }
         return Collections.emptyMap();
     }
+    
+    @Override
+    public List<QuietUser> findByUserIds(Set<Long> userIds) {
+        return userRepository.findByIdIsIn(userIds);
+    }
 }

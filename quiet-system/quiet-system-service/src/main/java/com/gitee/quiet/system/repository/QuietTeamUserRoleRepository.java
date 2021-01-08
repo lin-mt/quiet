@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,43 +16,34 @@
 
 package com.gitee.quiet.system.repository;
 
-import com.gitee.quiet.system.entity.QuietRole;
+import com.gitee.quiet.system.entity.QuietTeamUserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
- * 查询角色信息.
+ * 用户团队角色Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietRoleRepository extends JpaRepository<QuietRole, Long> {
+public interface QuietTeamUserRoleRepository extends JpaRepository<QuietTeamUserRole, Long> {
     
     /**
-     * 根据角色名称获取角色信息.
+     * 根据团队ID批量查询团队成员的角色信息
      *
-     * @param roleName 角色名称
-     * @return 角色信息
+     * @param teamIds 团队ID集合
+     * @return 团队成员的角色信息
      */
-    QuietRole findByRoleName(String roleName);
+    List<QuietTeamUserRole> findByTeamIdIsIn(Collection<? extends Serializable> teamIds);
     
     /**
-     * 根据角色名称批量查找角色信息
+     * 根据用户ID删除用户的团队角色信息
      *
-     * @param roleNames 要查找的角色名称集合
-     * @return 角色信息
+     * @param userId 用户ID
      */
-    List<QuietRole> findByRoleNameIn(Set<String> roleNames);
-    
-    /**
-     * 根据 ID 查询子角色集合数据
-     *
-     * @param parentIds 父 ID 集合
-     * @return 子角色集合信息
-     */
-    List<QuietRole> findByParentIdIn(Collection<Long> parentIds);
+    void deleteByUserId(Long userId);
 }

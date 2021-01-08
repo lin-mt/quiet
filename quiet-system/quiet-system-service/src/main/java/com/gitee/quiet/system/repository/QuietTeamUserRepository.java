@@ -20,6 +20,8 @@ import com.gitee.quiet.system.entity.QuietTeamUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -52,4 +54,12 @@ public interface QuietTeamUserRepository extends JpaRepository<QuietTeamUser, Lo
      * @param userId 用户ID
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 根据团队ID批量查询成员信息
+     *
+     * @param teamIds 团队ID集合
+     * @return 成员信息
+     */
+    List<QuietTeamUser> findByTeamIdIsIn(Collection<? extends Serializable> teamIds);
 }

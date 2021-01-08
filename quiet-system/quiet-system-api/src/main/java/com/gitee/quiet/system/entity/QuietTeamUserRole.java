@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,35 +18,53 @@ package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- * 角色-权限.
+ * 用户所在团队的角色信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Entity
-@Table(name = "quiet_role_permission")
-public class QuietRolePermission extends BaseEntity {
+@Table
+@Entity(name = "quiet_team_user_role")
+public class QuietTeamUserRole extends BaseEntity {
     
     /**
-     * 角色 ID
+     * 团队ID
      */
-    @NotNull(message = "{rolePermission.roleId}{not.null}")
+    @NotNull(message = "{userTeamRole.teamId}{not.null}")
+    private Long teamId;
+    
+    /**
+     * 用户ID
+     */
+    @NotNull(message = "{userTeamRole.userId}{not.null}")
+    private Long userId;
+    
+    /**
+     * 角色ID
+     */
+    @NotNull(message = "{userTeamRole.roleId}{not.null}")
     private Long roleId;
     
-    /**
-     * 权限 ID
-     */
-    @NotNull(message = "{rolePermission.permissionId}{not.null}")
-    private Long permissionId;
+    public Long getTeamId() {
+        return teamId;
+    }
     
-    @Basic
-    @Column(name = "role_id")
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    
     public Long getRoleId() {
         return roleId;
     }
@@ -54,15 +72,4 @@ public class QuietRolePermission extends BaseEntity {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
-    
-    @Basic
-    @Column(name = "permission_id")
-    public Long getPermissionId() {
-        return permissionId;
-    }
-    
-    public void setPermissionId(Long permissionId) {
-        this.permissionId = permissionId;
-    }
-    
 }

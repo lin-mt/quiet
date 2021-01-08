@@ -17,8 +17,6 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,14 +47,14 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
     /**
      * 角色名称
      */
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleName}{not.empty}")
+    @NotEmpty(message = "{role.roleName}{not.empty}")
     @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
     private String roleName;
     
     /**
      * 角色中文名
      */
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{role.roleCnName}{not.empty}")
+    @NotEmpty(message = "{role.roleCnName}{not.empty}")
     @Length(max = 30, message = "{role.roleCnName.length}{length.max.limit}")
     private String roleCnName;
     

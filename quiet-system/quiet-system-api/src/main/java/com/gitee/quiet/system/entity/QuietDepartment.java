@@ -43,7 +43,7 @@ public class QuietDepartment extends BaseEntity {
     /**
      * 部门名称
      */
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{department.departmentName}{not.empty}")
+    @NotEmpty(message = "{department.departmentName}{not.empty}")
     @Length(max = 10, message = "{department.departmentName.length}{length.max.limit}")
     private String departmentName;
     
