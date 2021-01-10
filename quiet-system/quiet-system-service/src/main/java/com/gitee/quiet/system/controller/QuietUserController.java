@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
+import java.util.List;
 
 /**
  * 用户 Controller.
@@ -56,6 +56,12 @@ public class QuietUserController {
     public QuietUserController(QuietUserService userService, QuietUserRoleService userRoleService) {
         this.userService = userService;
         this.userRoleService = userRoleService;
+    }
+    
+    @PostMapping("/listUsersByUsername")
+    public Result<List<QuietUser>> listUsersByUsername(
+            @RequestBody @Validated(ParamsNotNull.class) QuietUserParam postParam) {
+        return Result.success(userService.listUsersByUsername(postParam.getParams().getUsername(), 9));
     }
     
     /**

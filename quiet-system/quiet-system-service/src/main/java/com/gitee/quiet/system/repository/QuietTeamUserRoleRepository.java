@@ -45,5 +45,5 @@ public interface QuietTeamUserRoleRepository extends JpaRepository<QuietTeamUser
      *
      * @param teamUserIds 团队-用户ID
      */
-    void deleteByTeamUserIdIsIn(Collection<? extends Serializable> teamUserIds);
+    void removeAllByTeamUserIdIsIn(Collection<? extends Serializable> teamUserIds);
 }

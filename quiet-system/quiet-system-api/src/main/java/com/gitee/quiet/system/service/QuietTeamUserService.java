@@ -51,4 +51,27 @@ public interface QuietTeamUserService {
      * @return 所有成员信息
      */
     List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds);
+    
+    /**
+     * 删除某个团队的所有成员信息
+     *
+     * @param teamId 团队ID
+     */
+    void deleteByTeamId(Long teamId);
+    
+    /**
+     * 批量保存团队成员信息，不检查是否团队已有成员信息
+     *
+     * @param quietTeamUsers 要保存的团队成员信息
+     */
+    void saveAllWithoutCheck(List<QuietTeamUser> quietTeamUsers);
+    
+    /**
+     * 根据团队ID和用户ID查询该团队下的团队-用户关系，如果用户ID不在团队中，则返回的集合中就没有该用户与团队的关系数据
+     *
+     * @param teamId  团队ID
+     * @param userIds 要查询的用户ID
+     * @return 在该团队中的团队和用户关系集合
+     */
+    List<QuietTeamUser> findByTeamIdAndUserIds(Long teamId, Set<Long> userIds);
 }

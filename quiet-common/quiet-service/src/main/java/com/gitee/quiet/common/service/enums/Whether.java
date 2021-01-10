@@ -16,14 +16,12 @@
 
 package com.gitee.quiet.common.service.enums;
 
-import com.gitee.quiet.common.service.base.EnumDictionary;
-
 /**
  * 是否.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum Whether implements EnumDictionary<Whether> {
+public enum Whether {
     
     /**
      * 是
@@ -33,7 +31,5 @@ public enum Whether implements EnumDictionary<Whether> {
     /**
      * 否
      */
-    NO,
-    ;
-    
+    NO
 }

@@ -58,4 +58,13 @@ public class QuietTeamUserRole extends BaseEntity {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
+    
+    public QuietTeamUserRole() {
+    }
+    
+    public QuietTeamUserRole(@NotNull(message = "{userTeamRole.teamUserId}{not.null}") Long teamUserId,
+            @NotNull(message = "{userTeamRole.roleId}{not.null}") Long roleId) {
+        this.teamUserId = teamUserId;
+        this.roleId = roleId;
+    }
 }

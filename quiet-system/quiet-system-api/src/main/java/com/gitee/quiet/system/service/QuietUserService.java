@@ -90,4 +90,13 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户信息
      */
     List<QuietUser> findByUserIds(Set<Long> userIds);
+    
+    /**
+     * 根据用户名查询用户信息
+     *
+     * @param username 用户名
+     * @param limit    查询多少用户信息，小于1则查询所有
+     * @return 用户信息
+     */
+    List<QuietUser> listUsersByUsername(String username, int limit);
 }

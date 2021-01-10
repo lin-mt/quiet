@@ -21,7 +21,9 @@ import com.gitee.quiet.system.repository.QuietTeamUserRepository;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,7 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     private final QuietTeamUserRoleService teamUserRoleService;
     
     public QuietTeamUserServiceImpl(QuietTeamUserRepository teamUserRepository,
-            QuietTeamUserRoleService teamUserRoleService) {
+            @Lazy QuietTeamUserRoleService teamUserRoleService) {
         this.teamUserRepository = teamUserRepository;
         this.teamUserRoleService = teamUserRoleService;
     }
@@ -65,5 +67,26 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     @Override
     public List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds) {
         return teamUserRepository.findByTeamIdIsIn(teamIds);
+    }
+    
+    @Override
+    @Transactional
+    public void deleteByTeamId(Long teamId) {
+        List<QuietTeamUser> allUsers = teamUserRepository.findAllByTeamId(teamId);
+        if (CollectionUtils.isNotEmpty(allUsers)) {
+            teamUserRoleService
+                    .deleteByTeamUserIds(allUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+            teamUserRepository.deleteByTeamId(teamId);
+        }
+    }
+    
+    @Override
+    public void saveAllWithoutCheck(List<QuietTeamUser> quietTeamUsers) {
+        teamUserRepository.saveAll(quietTeamUsers);
+    }
+    
+    @Override
+    public List<QuietTeamUser> findByTeamIdAndUserIds(Long teamId, Set<Long> userIds) {
+        return teamUserRepository.findAllByTeamIdAndUserIdIsIn(teamId, userIds);
     }
 }

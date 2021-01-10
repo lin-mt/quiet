@@ -29,12 +29,13 @@ import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -188,5 +189,19 @@ public class QuietUserServiceImpl implements QuietUserService {
     @Override
     public List<QuietUser> findByUserIds(Set<Long> userIds) {
         return userRepository.findByIdIsIn(userIds);
+    }
+    
+    @Override
+    public List<QuietUser> listUsersByUsername(String username, int limit) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isBlank(username)) {
+            return new ArrayList<>();
+        }
+        builder.and(quietUser.username.contains(username));
+        JPAQuery<QuietUser> where = jpaQueryFactory.selectFrom(quietUser).where(builder);
+        if (limit > 0) {
+            where.limit(limit);
+        }
+        return where.fetchResults().getResults();
     }
 }

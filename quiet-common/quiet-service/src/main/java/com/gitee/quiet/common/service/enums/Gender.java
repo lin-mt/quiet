@@ -16,14 +16,12 @@
 
 package com.gitee.quiet.common.service.enums;
 
-import com.gitee.quiet.common.service.base.EnumDictionary;
-
 /**
  * 性别.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum Gender implements EnumDictionary<Gender> {
+public enum Gender {
     
     /**
      * 男
@@ -33,7 +31,5 @@ public enum Gender implements EnumDictionary<Gender> {
     /**
      * 女
      */
-    FEMALE,
-    ;
-    
+    FEMALE
 }
