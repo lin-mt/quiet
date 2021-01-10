@@ -103,7 +103,7 @@ public interface QuietRoleService extends RoleHierarchy {
      * @param roleIds 角色ID集合
      * @return 角色信息
      */
-    Collection<? extends GrantedAuthority> findAllById(Set<Long> roleIds);
+    Collection<QuietRole> findAllById(Set<Long> roleIds);
     
     /**
      * 根据角色名称查询数据

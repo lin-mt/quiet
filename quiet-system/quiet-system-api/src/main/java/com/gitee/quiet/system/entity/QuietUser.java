@@ -123,8 +123,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      * 角色集合
      */
     @Transient
-    @JsonIgnore
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<QuietRole> authorities;
     
     @Override
     public String getUsername() {
@@ -209,7 +208,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
         return authorities;
     }
     
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    public void setAuthorities(Collection<QuietRole> authorities) {
         this.authorities = authorities;
     }
     

@@ -16,11 +16,11 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.Where;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
+import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.BooleanBuilder;
@@ -161,7 +161,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     @Override
-    public Collection<? extends GrantedAuthority> findAllById(Set<Long> roleIds) {
+    public Collection<QuietRole> findAllById(Set<Long> roleIds) {
         return roleRepository.findAllById(roleIds);
     }
     
