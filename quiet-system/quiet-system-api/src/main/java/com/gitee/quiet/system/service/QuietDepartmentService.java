@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
@@ -58,4 +59,14 @@ public interface QuietDepartmentService {
      * @return 所有部门信息
      */
     List<QuietDepartment> tree();
+    
+    /**
+     * 分页查询部门下的用户信息
+     *
+     * @param departmentId 部门ID
+     * @param params       用户过滤条件
+     * @param page         分页信息
+     * @return 部门下的用户信息
+     */
+    QueryResults<QuietUser> pageUser(Long departmentId, QuietUser params, Pageable page);
 }

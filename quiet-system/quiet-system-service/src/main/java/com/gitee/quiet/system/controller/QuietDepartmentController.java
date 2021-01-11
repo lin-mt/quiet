@@ -21,7 +21,9 @@ import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.params.QuietDepartmentParam;
+import com.gitee.quiet.system.params.QuietUserParam;
 import com.gitee.quiet.system.service.QuietDepartmentService;
 import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
@@ -45,6 +47,16 @@ public class QuietDepartmentController {
     
     public QuietDepartmentController(QuietDepartmentService departmentService) {
         this.departmentService = departmentService;
+    }
+    
+    /**
+     * 分页查询部门的用户信息.
+     *
+     * @return 查询的部门用户信息
+     */
+    @PostMapping("/pageUser")
+    public Result<QueryResults<QuietUser>> pageUser(@RequestBody QuietUserParam param) {
+        return Result.success(departmentService.pageUser(param.getDepartmentId(), param.getParams(), param.page()));
     }
     
     /**

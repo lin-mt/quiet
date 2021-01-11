@@ -25,5 +25,17 @@ import com.gitee.quiet.system.entity.QuietUser;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietUserParam extends Param<QuietUser, QuietUser> {
-
+    
+    /**
+     * 部门ID
+     */
+    private Long departmentId;
+    
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+    
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 }

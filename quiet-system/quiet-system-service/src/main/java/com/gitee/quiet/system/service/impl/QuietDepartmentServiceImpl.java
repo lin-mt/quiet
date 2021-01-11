@@ -16,12 +16,14 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.system.repository.QuietDepartmentRepository;
-import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.Where;
 import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.repository.QuietDepartmentRepository;
 import com.gitee.quiet.system.service.QuietDepartmentService;
+import com.gitee.quiet.system.service.QuietDepartmentUserService;
+import com.gitee.quiet.system.util.EntityWhereBuilder;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -29,12 +31,15 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
+import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartmentUser;
+import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
 /**
  * 部门Srvice实现类.
@@ -109,5 +114,17 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
             }
         }
         return result;
+    }
+    
+    @Override
+    public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, Pageable page) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (params != null) {
+            EntityWhereBuilder.build(params, builder);
+        }
+        builder.and(quietDepartmentUser.departmentId.eq(departmentId));
+        return jpaQueryFactory.selectFrom(quietUser).leftJoin(quietDepartmentUser)
+                .on(quietUser.id.eq(quietDepartmentUser.userId)).where(builder).offset(page.getOffset())
+                .limit(page.getPageSize()).fetchResults();
     }
 }

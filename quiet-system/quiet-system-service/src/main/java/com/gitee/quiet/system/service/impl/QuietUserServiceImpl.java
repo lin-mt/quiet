@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
@@ -27,6 +26,7 @@ import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.system.util.EntityWhereBuilder;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -134,14 +134,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     @Override
     public QueryResults<QuietUser> page(QuietUser params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
-        Where.NotNullEq(params.getId(), quietUser.id, builder);
-        Where.NotBlankContains(params.getUsername(), quietUser.username, builder);
-        Where.NotNullEq(params.getGender(), quietUser.gender, builder);
-        Where.NotBlankContains(params.getPhoneNumber(), quietUser.phoneNumber, builder);
-        Where.NotBlankContains(params.getEmailAddress(), quietUser.emailAddress, builder);
-        Where.NotNullEq(params.getAccountExpired(), quietUser.accountExpired, builder);
-        Where.NotNullEq(params.getAccountLocked(), quietUser.accountLocked, builder);
-        Where.NotNullEq(params.getCredentialsExpired(), quietUser.credentialsExpired, builder);
+        EntityWhereBuilder.build(params, builder);
         QueryResults<QuietUser> results = jpaQueryFactory.selectFrom(quietUser).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
         if (CollectionUtils.isNotEmpty(results.getResults())) {
