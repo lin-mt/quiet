@@ -19,6 +19,7 @@ package com.gitee.quiet.system.service;
 import com.gitee.quiet.system.entity.QuietDepartmentUser;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 部门成员信息 service.
@@ -41,4 +42,12 @@ public interface QuietDepartmentUserService {
      * @param userId 用户信息
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 为部门批量添加用户
+     *
+     * @param departmentId 要添加的部门ID
+     * @param userIds      部门新增的用户ID集合
+     */
+    void addUsers(Long departmentId, Set<Long> userIds);
 }

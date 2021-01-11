@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
@@ -25,6 +26,7 @@ import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.params.QuietDepartmentParam;
 import com.gitee.quiet.system.params.QuietUserParam;
 import com.gitee.quiet.system.service.QuietDepartmentService;
+import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +47,23 @@ public class QuietDepartmentController {
     
     private final QuietDepartmentService departmentService;
     
-    public QuietDepartmentController(QuietDepartmentService departmentService) {
+    private final QuietDepartmentUserService departmentUserService;
+    
+    public QuietDepartmentController(QuietDepartmentService departmentService,
+            QuietDepartmentUserService departmentUserService) {
         this.departmentService = departmentService;
+        this.departmentUserService = departmentUserService;
+    }
+    
+    /**
+     * 部门添加成员信息.
+     *
+     * @return 查询的部门用户信息
+     */
+    @PostMapping("/addUsers")
+    public Result<Object> addUsers(@RequestBody @Validated(IdNotNull.class) QuietDepartmentParam param) {
+        departmentUserService.addUsers(param.getId(), param.getUserIds());
+        return Result.success();
     }
     
     /**

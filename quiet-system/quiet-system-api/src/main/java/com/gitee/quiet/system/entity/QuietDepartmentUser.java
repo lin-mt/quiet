@@ -45,6 +45,15 @@ public class QuietDepartmentUser extends BaseEntity {
     @NotNull(message = "{departmentUser.userId}{not.null}")
     private Long userId;
     
+    public QuietDepartmentUser(@NotNull(message = "{departmentUser.departmentId}{not.null}") Long departmentId,
+            @NotNull(message = "{departmentUser.userId}{not.null}") Long userId) {
+        this.departmentId = departmentId;
+        this.userId = userId;
+    }
+    
+    public QuietDepartmentUser() {
+    }
+    
     @Basic
     @Column(name = "department_id")
     public Long getDepartmentId() {

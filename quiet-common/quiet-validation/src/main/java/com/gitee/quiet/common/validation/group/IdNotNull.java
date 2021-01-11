@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
-
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDepartment;
-
-import java.util.List;
-import java.util.Set;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 部门Controller参数.
+ * Id 不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
+public interface IdNotNull {
 
-    private Set<Long> userIds;
-    
-    public Set<Long> getUserIds() {
-        return userIds;
-    }
-    
-    public void setUserIds(Set<Long> userIds) {
-        this.userIds = userIds;
-    }
 }

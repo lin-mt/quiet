@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.base;
 
+import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -52,6 +53,9 @@ public class Param<T extends BaseEntity, P> {
      */
     @NotNull(groups = ParamsNotNull.class, message = "{param.params}{not.null}")
     private P params;
+    
+    @NotNull(groups = IdNotNull.class, message = "{param.id}{not.null}")
+    private Long id;
     
     /**
      * 过滤条件
@@ -104,6 +108,14 @@ public class Param<T extends BaseEntity, P> {
     
     public void setParams(P params) {
         this.params = params;
+    }
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
     }
     
     public Map<String, List<String>> getFilter() {
