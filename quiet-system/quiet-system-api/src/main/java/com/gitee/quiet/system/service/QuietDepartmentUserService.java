@@ -50,4 +50,12 @@ public interface QuietDepartmentUserService {
      * @param userIds      部门新增的用户ID集合
      */
     void addUsers(Long departmentId, Set<Long> userIds);
+    
+    /**
+     * 批量删除部门中的某些用户
+     *
+     * @param departmentId 要删除的用户所在的部门ID
+     * @param userIds      要删除的用户ID
+     */
+    void removeUsers(Long departmentId, Set<Long> userIds);
 }

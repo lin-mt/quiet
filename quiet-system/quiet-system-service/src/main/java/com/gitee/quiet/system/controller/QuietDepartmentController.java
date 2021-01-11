@@ -58,7 +58,18 @@ public class QuietDepartmentController {
     /**
      * 部门添加成员信息.
      *
-     * @return 查询的部门用户信息
+     * @return 删除的部门用户信息
+     */
+    @PostMapping("/removeUsers")
+    public Result<Object> removeUsers(@RequestBody @Validated(IdNotNull.class) QuietDepartmentParam param) {
+        departmentUserService.removeUsers(param.getId(), param.getUserIds());
+        return Result.success();
+    }
+    
+    /**
+     * 部门添加成员信息.
+     *
+     * @return 添加部门用户信息
      */
     @PostMapping("/addUsers")
     public Result<Object> addUsers(@RequestBody @Validated(IdNotNull.class) QuietDepartmentParam param) {

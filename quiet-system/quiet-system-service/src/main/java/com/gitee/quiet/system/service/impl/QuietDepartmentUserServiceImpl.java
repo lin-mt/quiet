@@ -21,8 +21,8 @@ import com.gitee.quiet.system.repository.QuietDepartmentUserRepository;
 import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,5 +68,11 @@ public class QuietDepartmentUserServiceImpl implements QuietDepartmentUserServic
             }
             departmentUserRepository.saveAll(newUserInfo);
         }
+    }
+    
+    @Override
+    @Transactional
+    public void removeUsers(Long departmentId, Set<Long> userIds) {
+        departmentUserRepository.deleteAllByDepartmentIdAndUserIdIsIn(departmentId, userIds);
     }
 }

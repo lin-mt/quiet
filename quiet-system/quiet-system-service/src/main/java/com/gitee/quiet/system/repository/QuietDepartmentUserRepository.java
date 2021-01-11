@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 部门成员信息 repository.
@@ -52,4 +53,12 @@ public interface QuietDepartmentUserRepository extends JpaRepository<QuietDepart
      * @param userId 用户ID
      */
     void deleteByUserId(Long userId);
+    
+    /**
+     * 批量删除某部门的用户
+     *
+     * @param departmentId 要删除的用户所在的部门ID
+     * @param userIds      要删除的用户ID
+     */
+    void deleteAllByDepartmentIdAndUserIdIsIn(Long departmentId, Set<Long> userIds);
 }
