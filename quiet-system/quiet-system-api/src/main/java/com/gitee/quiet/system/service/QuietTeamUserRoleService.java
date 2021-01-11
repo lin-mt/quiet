@@ -50,5 +50,5 @@ public interface QuietTeamUserRoleService {
      * @param userIds  要添加角色的用户ID集合
      * @param roleName 角色名称
      */
-    void addRoleForTeamWithoutCheck(Long teamId, Set<Long> userIds, String roleName);
+    void addRoleForTeam(Long teamId, Set<Long> userIds, String roleName);
 }

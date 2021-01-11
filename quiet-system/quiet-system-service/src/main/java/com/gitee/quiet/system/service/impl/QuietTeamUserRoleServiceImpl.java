@@ -25,13 +25,16 @@ import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户团队角色Service实现类.
@@ -69,13 +72,23 @@ public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
     }
     
     @Override
-    public void addRoleForTeamWithoutCheck(@NotNull Long teamId, @NotEmpty Set<Long> userIds, @NotNull String roleName) {
-        List<QuietTeamUser> quietTeamUsers = teamUserService.findByTeamIdAndUserIds(teamId, userIds);
-        if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
+    public void addRoleForTeam(@NotNull Long teamId, @NotEmpty Set<Long> userIds,
+            @NotNull String roleName) {
+        List<QuietTeamUser> teamUsers = teamUserService.findByTeamIdAndUserIds(teamId, userIds);
+        Map<Long, QuietTeamUserRole> teamUserIdToRole = this
+                .findByTeamUserIds(teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet())).stream()
+                .collect(Collectors.toMap(QuietTeamUserRole::getTeamUserId, v -> v));
+        if (CollectionUtils.isNotEmpty(teamUsers)) {
             QuietRole role = roleService.findByRoleName(roleName);
-            List<QuietTeamUserRole> newRoles = new ArrayList<>(quietTeamUsers.size());
-            for (QuietTeamUser quietTeamUser : quietTeamUsers) {
-                newRoles.add(new QuietTeamUserRole(quietTeamUser.getId(), role.getId()));
+            List<QuietTeamUserRole> newRoles = new ArrayList<>(teamUsers.size());
+            for (QuietTeamUser teamUser : teamUsers) {
+                if (MapUtils.isNotEmpty(teamUserIdToRole)) {
+                    QuietTeamUserRole exist = teamUserIdToRole.get(teamUser.getId());
+                    if (exist != null && exist.getRoleId().equals(role.getId())) {
+                        continue;
+                    }
+                }
+                newRoles.add(new QuietTeamUserRole(teamUser.getId(), role.getId()));
             }
             teamUserRoleRepository.saveAll(newRoles);
         }

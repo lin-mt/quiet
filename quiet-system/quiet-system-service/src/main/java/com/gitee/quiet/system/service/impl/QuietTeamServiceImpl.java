@@ -152,13 +152,13 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         teamUserService.saveAllWithoutCheck(quietTeamUsers);
         // 添加 PO 角色
         if (CollectionUtils.isNotEmpty(team.getProductOwners())) {
-            teamUserRoleService.addRoleForTeamWithoutCheck(team.getId(),
+            teamUserRoleService.addRoleForTeam(team.getId(),
                     team.getProductOwners().stream().map(QuietUser::getId).collect(Collectors.toSet()),
                     RoleNames.ProductOwner);
         }
         // 添加 SM 角色
         if (CollectionUtils.isNotEmpty(team.getScrumMasters())) {
-            teamUserRoleService.addRoleForTeamWithoutCheck(team.getId(),
+            teamUserRoleService.addRoleForTeam(team.getId(),
                     team.getScrumMasters().stream().map(QuietUser::getId).collect(Collectors.toSet()),
                     RoleNames.ScrumMaster);
         }
