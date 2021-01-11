@@ -19,13 +19,17 @@ package com.gitee.quiet.system.service.impl;
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
+import com.gitee.quiet.system.entity.QuietTeamUserRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietTeamRepository;
+import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamService;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
+import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,6 +40,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,12 +63,19 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     
     private final QuietTeamUserRoleService teamUserRoleService;
     
+    private final QuietRoleService roleService;
+    
+    private final QuietUserService userService;
+    
     public QuietTeamServiceImpl(JPAQueryFactory jpaQueryFactory, QuietTeamRepository teamRepository,
-            QuietTeamUserService teamUserService, QuietTeamUserRoleService teamUserRoleService) {
+            QuietTeamUserService teamUserService, QuietTeamUserRoleService teamUserRoleService,
+            QuietRoleService roleService, QuietUserService userService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.teamRepository = teamRepository;
         this.teamUserService = teamUserService;
         this.teamUserRoleService = teamUserRoleService;
+        this.roleService = roleService;
+        this.userService = userService;
     }
     
     @Override
@@ -72,8 +84,51 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         Where.NotNullEq(params.getId(), quietTeam.id, builder);
         Where.NotBlankContains(params.getTeamName(), quietTeam.teamName, builder);
         Where.NotBlankContains(params.getSlogan(), quietTeam.slogan, builder);
-        return jpaQueryFactory.selectFrom(quietTeam).where(builder).offset(page.getOffset()).limit(page.getPageSize())
-                .fetchResults();
+        QueryResults<QuietTeam> result = jpaQueryFactory.selectFrom(quietTeam).where(builder).offset(page.getOffset())
+                .limit(page.getPageSize()).fetchResults();
+        if (CollectionUtils.isNotEmpty(result.getResults())) {
+            Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
+            List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
+            Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
+                    .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
+            Set<Long> allUserIds = allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
+            List<QuietTeamUserRole> userTeamRoles = teamUserRoleService
+                    .findByTeamUserIds(allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+            Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles = userTeamRoles.stream()
+                    .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
+            Map<Long, QuietUser> userIdToUserInfo = userService.findByUserIds(allUserIds).stream()
+                    .collect(Collectors.toMap(QuietUser::getId, u -> u));
+            QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
+            QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
+            for (QuietTeam quietTeam : result.getResults()) {
+                List<QuietTeamUser> quietTeamUsers = teamIdToTeamUsers.get(quietTeam.getId());
+                if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
+                    List<QuietUser> members = new ArrayList<>();
+                    List<QuietUser> teamProductOwners = new ArrayList<>();
+                    List<QuietUser> teamScrumMasters = new ArrayList<>();
+                    for (QuietTeamUser quietTeamUser : quietTeamUsers) {
+                        List<QuietTeamUserRole> quietTeamUserRoles = teamUserIdToRoles.get(quietTeamUser.getId());
+                        if (CollectionUtils.isNotEmpty(quietTeamUserRoles)) {
+                            for (QuietTeamUserRole quietTeamUserRole : quietTeamUserRoles) {
+                                if (quietTeamUserRole.getRoleId().equals(productOwner.getId())) {
+                                    teamProductOwners.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                                }
+                                if (quietTeamUserRole.getRoleId().equals(scrumMaster.getId())) {
+                                    teamScrumMasters.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                                }
+                            }
+                        } else {
+                            members.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
+                        }
+                    }
+                    quietTeam.setMembers(members);
+                    quietTeam.setProductOwners(teamProductOwners);
+                    quietTeam.setScrumMasters(teamScrumMasters);
+                }
+                
+            }
+        }
+        return result;
     }
     
     @Override
