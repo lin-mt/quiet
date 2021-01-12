@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +82,22 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     }
     
     @Override
-    public void saveAllWithoutCheck(List<QuietTeamUser> quietTeamUsers) {
+    public void addUsers(Long teamId, Set<Long> userIds) {
+        if (CollectionUtils.isEmpty(userIds) || teamId == null) {
+            return;
+        }
+        Set<Long> allExistUserIds = this.findAllUsersByTeamIds(Set.of(teamId)).stream().map(QuietTeamUser::getUserId)
+                .collect(Collectors.toSet());
+        if (CollectionUtils.isNotEmpty(allExistUserIds)) {
+            userIds.removeAll(allExistUserIds);
+            if (userIds.isEmpty()) {
+                return;
+            }
+        }
+        List<QuietTeamUser> quietTeamUsers = new ArrayList<>(userIds.size());
+        for (Long memberId : userIds) {
+            quietTeamUsers.add(new QuietTeamUser(teamId, memberId));
+        }
         teamUserRepository.saveAll(quietTeamUsers);
     }
     

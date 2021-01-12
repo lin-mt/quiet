@@ -60,11 +60,12 @@ public interface QuietTeamUserService {
     void deleteByTeamId(Long teamId);
     
     /**
-     * 批量保存团队成员信息，不检查是否团队已有成员信息
+     * 为团队批量添加成员
      *
-     * @param quietTeamUsers 要保存的团队成员信息
+     * @param teamId 团队ID
+     * @param userIds 要添加的用户ID集合
      */
-    void saveAllWithoutCheck(List<QuietTeamUser> quietTeamUsers);
+    void addUsers(Long teamId, Set<Long> userIds);
     
     /**
      * 根据团队ID和用户ID查询该团队下的团队-用户关系，如果用户ID不在团队中，则返回的集合中就没有该用户与团队的关系数据

@@ -144,12 +144,8 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         this.addMemberId(memberIds, team.getMembers());
         this.addMemberId(memberIds, team.getProductOwners());
         this.addMemberId(memberIds, team.getScrumMasters());
-        List<QuietTeamUser> quietTeamUsers = new ArrayList<>(memberIds.size());
-        for (Long memberId : memberIds) {
-            quietTeamUsers.add(new QuietTeamUser(team.getId(), memberId));
-        }
         // 添加团队成员信息
-        teamUserService.saveAllWithoutCheck(quietTeamUsers);
+        teamUserService.addUsers(team.getId(), memberIds);
         // 添加 PO 角色
         if (CollectionUtils.isNotEmpty(team.getProductOwners())) {
             teamUserRoleService.addRoleForTeam(team.getId(),
