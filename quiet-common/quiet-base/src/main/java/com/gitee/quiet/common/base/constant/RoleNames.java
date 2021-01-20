@@ -24,7 +24,7 @@ package com.gitee.quiet.common.base.constant;
 @SuppressWarnings("AlibabaConstantFieldShouldBeUpperCase")
 public interface RoleNames {
     
-    // 为了更加角色名称更加直观，没有采用大写+下划线的命名风格
+    // 为了角色名称更加直观，没有采用大写+下划线的命名风格
     
     String SystemAdmin = "SystemAdmin";
     String Admin = "Admin";
