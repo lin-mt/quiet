@@ -27,7 +27,7 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class EntityWhereBuilder {
+public final class EntityWhereBuilder {
     
     private EntityWhereBuilder() {
     }

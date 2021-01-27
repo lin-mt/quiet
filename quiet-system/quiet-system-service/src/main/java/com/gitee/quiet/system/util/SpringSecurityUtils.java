@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.util;
 
 import com.gitee.quiet.system.entity.QuietUser;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -35,7 +36,11 @@ public class SpringSecurityUtils {
      * @return 登录人.
      */
     public static QuietUser getCurrentUser() {
-        return ((QuietUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            return (QuietUser) authentication.getPrincipal();
+        }
+        return null;
     }
     
     /**

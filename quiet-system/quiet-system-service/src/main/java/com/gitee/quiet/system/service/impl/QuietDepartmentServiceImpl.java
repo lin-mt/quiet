@@ -42,7 +42,7 @@ import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartment
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
 /**
- * 部门Srvice实现类.
+ * 部门Service实现类.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
@@ -65,10 +65,12 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     @Override
     public QueryResults<QuietDepartment> page(QuietDepartment params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
-        Where.NotNullEq(params.getId(), quietDepartment.id, builder);
-        Where.NotNullEq(params.getParentId(), quietDepartment.parentId, builder);
-        Where.NotBlankContains(params.getDepartmentName(), quietDepartment.departmentName, builder);
-        Where.NotBlankContains(params.getRemark(), quietDepartment.remark, builder);
+        if (params != null) {
+            Where.NotNullEq(params.getId(), quietDepartment.id, builder);
+            Where.NotNullEq(params.getParentId(), quietDepartment.parentId, builder);
+            Where.NotBlankContains(params.getDepartmentName(), quietDepartment.departmentName, builder);
+            Where.NotBlankContains(params.getRemark(), quietDepartment.remark, builder);
+        }
         return jpaQueryFactory.selectFrom(quietDepartment).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
     }
@@ -117,7 +119,8 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, Pageable page) {
+    public QueryResults<QuietUser> pageUser(@NotNull(message = "{query.departmentId}{not.null}") Long departmentId,
+            QuietUser params, Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
             EntityWhereBuilder.build(params, builder);
