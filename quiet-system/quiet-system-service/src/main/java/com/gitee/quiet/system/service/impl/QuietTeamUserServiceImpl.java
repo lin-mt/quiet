@@ -25,6 +25,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     }
     
     @Override
-    public void deleteByUserId(Long userId) {
+    public void deleteByUserId(@NotNull Long userId) {
         List<QuietTeamUser> allTeamUser = teamUserRepository.findAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(allTeamUser)) {
             teamUserRoleService
@@ -60,19 +62,19 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     }
     
     @Override
-    public Map<Long, List<QuietTeamUser>> mapTeamIdToTeamUsers(Set<Long> teamIds) {
+    public Map<Long, List<QuietTeamUser>> mapTeamIdToTeamUsers(@NotNull @NotEmpty Set<Long> teamIds) {
         return teamUserRepository.findByTeamIdIsIn(teamIds).stream()
                 .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
     }
     
     @Override
-    public List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds) {
+    public List<QuietTeamUser> findAllUsersByTeamIds(@NotNull @NotEmpty Set<Long> teamIds) {
         return teamUserRepository.findByTeamIdIsIn(teamIds);
     }
     
     @Override
-    @Transactional
-    public void deleteByTeamId(Long teamId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteByTeamId(@NotNull Long teamId) {
         List<QuietTeamUser> allUsers = teamUserRepository.findAllByTeamId(teamId);
         if (CollectionUtils.isNotEmpty(allUsers)) {
             teamUserRoleService
@@ -82,8 +84,8 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     }
     
     @Override
-    public void addUsers(Long teamId, Set<Long> userIds) {
-        if (CollectionUtils.isEmpty(userIds) || teamId == null) {
+    public void addUsers(@NotNull Long teamId, Set<Long> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
             return;
         }
         Set<Long> allExistUserIds = this.findAllUsersByTeamIds(Set.of(teamId)).stream().map(QuietTeamUser::getUserId)
@@ -102,7 +104,7 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     }
     
     @Override
-    public List<QuietTeamUser> findByTeamIdAndUserIds(Long teamId, Set<Long> userIds) {
+    public List<QuietTeamUser> findByTeamIdAndUserIds(@NotNull Long teamId, @NotNull @NotEmpty Set<Long> userIds) {
         return teamUserRepository.findAllByTeamIdAndUserIdIsIn(teamId, userIds);
     }
 }

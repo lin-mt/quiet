@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    public QuietPermission saveOrUpdate(QuietPermission permission) {
+    public QuietPermission saveOrUpdate(@NotNull QuietPermission permission) {
         if (!roleService.existsById(permission.getRoleId())) {
             throw new ServiceException("role.id.not.exist", permission.getRoleId());
         }
@@ -70,30 +71,32 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    public void delete(Long deleteId) {
+    public void delete(@NotNull Long deleteId) {
         permissionRepository.deleteById(deleteId);
     }
     
     @Override
-    public QueryResults<QuietPermission> page(QuietPermission params, Pageable page) {
+    public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
-        Where.NotNullEq(params.getId(), quietPermission.id, builder);
-        Where.NotNullEq(params.getRoleId(), quietPermission.roleId, builder);
-        Where.NotBlankEq(params.getRequestMethod(), quietPermission.requestMethod, builder);
-        Where.NotBlankContains(params.getApplicationName(), quietPermission.applicationName, builder);
-        Where.NotBlankContains(params.getUrlPattern(), quietPermission.urlPattern, builder);
-        Where.NotBlankContains(params.getRemark(), quietPermission.remark, builder);
+        if (params != null) {
+            Where.NotNullEq(params.getId(), quietPermission.id, builder);
+            Where.NotNullEq(params.getRoleId(), quietPermission.roleId, builder);
+            Where.NotBlankEq(params.getRequestMethod(), quietPermission.requestMethod, builder);
+            Where.NotBlankContains(params.getApplicationName(), quietPermission.applicationName, builder);
+            Where.NotBlankContains(params.getUrlPattern(), quietPermission.urlPattern, builder);
+            Where.NotBlankContains(params.getRemark(), quietPermission.remark, builder);
+        }
         return jpaQueryFactory.selectFrom(quietPermission).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
     }
     
     @Override
-    public List<QuietPermission> listByRoleId(Long roleId) {
+    public List<QuietPermission> listByRoleId(@NotNull Long roleId) {
         return permissionRepository.findAllByRoleId(roleId);
     }
     
     @Override
-    public List<UrlPermission> listUrlPermission(String applicationName) {
+    public List<UrlPermission> listUrlPermission(@NotNull String applicationName) {
         // TODO 使用缓存
         List<QuietPermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
         List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());

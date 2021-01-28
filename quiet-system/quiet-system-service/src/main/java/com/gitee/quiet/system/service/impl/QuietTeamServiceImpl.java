@@ -37,6 +37,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -79,11 +80,13 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     
     @Override
-    public QueryResults<QuietTeam> page(QuietTeam params, Pageable page) {
+    public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
-        Where.NotNullEq(params.getId(), quietTeam.id, builder);
-        Where.NotBlankContains(params.getTeamName(), quietTeam.teamName, builder);
-        Where.NotBlankContains(params.getSlogan(), quietTeam.slogan, builder);
+        if (params != null) {
+            Where.NotNullEq(params.getId(), quietTeam.id, builder);
+            Where.NotBlankContains(params.getTeamName(), quietTeam.teamName, builder);
+            Where.NotBlankContains(params.getSlogan(), quietTeam.slogan, builder);
+        }
         QueryResults<QuietTeam> result = jpaQueryFactory.selectFrom(quietTeam).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
         if (CollectionUtils.isNotEmpty(result.getResults())) {
@@ -132,7 +135,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     
     @Override
-    public QuietTeam saveOrUpdate(QuietTeam team) {
+    public QuietTeam saveOrUpdate(@NotNull QuietTeam team) {
         QuietTeam exist = teamRepository.getByTeamName(team.getTeamName());
         if (exist != null && !exist.getId().equals(team.getId())) {
             throw new ServiceException("team.teamName.exist", team.getTeamName());
@@ -162,7 +165,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         return teamRepository.saveAndFlush(team);
     }
     
-    private void addMemberId(Set<Long> memberIds, List<QuietUser> members) {
+    private void addMemberId(@NotNull Set<Long> memberIds, List<QuietUser> members) {
         if (CollectionUtils.isNotEmpty(members)) {
             for (QuietUser member : members) {
                 memberIds.add(member.getId());
@@ -171,7 +174,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     
     @Override
-    public void deleteTeam(Long deleteId) {
+    public void deleteTeam(@NotNull Long deleteId) {
         // TODO 删除团队中的成员信息
         // 删除团队成员信息
         teamUserService.deleteByTeamId(deleteId);

@@ -26,6 +26,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -55,7 +57,7 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     }
     
     @Override
-    public QuietUserRole saveOrUpdate(final QuietUserRole userRole) {
+    public QuietUserRole saveOrUpdate(@NotNull QuietUserRole userRole) {
         if (!userService.existsById(userRole.getUserId())) {
             throw new ServiceException("userRole.user.id.no.exist", userRole.getUserId());
         }
@@ -69,27 +71,27 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     }
     
     @Override
-    public void deleteByIds(List<Long> ids) {
+    public void deleteByIds(@NotNull @NotEmpty List<Long> ids) {
         userRoleRepository.deleteByIdIn(ids);
     }
     
     @Override
-    public List<QuietUserRole> findByUserId(Long userId) {
+    public List<QuietUserRole> findByUserId(@NotNull Long userId) {
         return userRoleRepository.findByUserId(userId);
     }
     
     @Override
-    public void deleteByUserId(Long userId) {
+    public void deleteByUserId(@NotNull Long userId) {
         userRoleRepository.deleteByUserId(userId);
     }
     
     @Override
-    public List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds) {
+    public List<QuietUserRole> findRolesByUserIds(@NotNull @NotEmpty Collection<Long> userIds) {
         return userRoleRepository.findByUserIdIn(userIds);
     }
     
     @Override
-    public void deleteUserRole(Long userId, Long roleId) {
+    public void deleteUserRole(@NotNull Long userId, @NotNull Long roleId) {
         userRoleRepository.deleteByUserIdAndRoleId(userId, roleId);
     }
     

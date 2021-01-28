@@ -39,6 +39,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -85,7 +87,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         QuietUser user = userRepository.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在");
@@ -99,7 +101,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public QuietUser save(QuietUser quietUser) {
+    public QuietUser save(@NotNull QuietUser quietUser) {
         if (userRepository.getByUsername(quietUser.getUsername()) != null) {
             throw new ServiceException("user.username.exist", quietUser.getUsername());
         }
@@ -108,7 +110,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public boolean delete(Long deleteId) {
+    public boolean delete(@NotNull Long deleteId) {
         // 删除用户-角色信息
         userRoleService.deleteByUserId(deleteId);
         // 删除部门-用户信息
@@ -122,7 +124,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public QuietUser update(QuietUser user) {
+    public QuietUser update(@NotNull QuietUser user) {
         QuietUser exist = userRepository.getByUsername(user.getUsername());
         if (exist != null && !exist.getId().equals(user.getId())) {
             throw new ServiceException("user.username.exist", user.getUsername());
@@ -132,7 +134,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public QueryResults<QuietUser> page(QuietUser params, Pageable page) {
+    public QueryResults<QuietUser> page(QuietUser params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         EntityWhereBuilder.build(params, builder);
         QueryResults<QuietUser> results = jpaQueryFactory.selectFrom(quietUser).where(builder).offset(page.getOffset())
@@ -148,39 +150,38 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public boolean existsById(Long userId) {
+    public boolean existsById(@NotNull Long userId) {
         return userRepository.existsById(userId);
     }
     
     @Override
     public Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds) {
-        if (CollectionUtils.isEmpty(userIds)) {
-            return Collections.emptyMap();
-        }
-        List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
-        if (CollectionUtils.isNotEmpty(allUserRoles)) {
-            Map<Long, List<QuietUserRole>> userIdToUserRoles = allUserRoles.stream()
-                    .collect(Collectors.groupingBy(QuietUserRole::getUserId));
-            Set<Long> roleIds = allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-            Map<Long, QuietRole> roleIdToRoleInfo = roleService.findAllByIds(roleIds).stream()
-                    .collect(Collectors.toMap(QuietRole::getId, val -> val));
-            Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
-            for (Long userId : userIds) {
-                List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
-                result.put(userId, new ArrayList<>());
-                if (CollectionUtils.isNotEmpty(userRoles)) {
-                    for (QuietUserRole userRole : userRoles) {
-                        result.get(userId).add(roleIdToRoleInfo.get(userRole.getRoleId()));
+        if (CollectionUtils.isNotEmpty(userIds)) {
+            List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
+            if (CollectionUtils.isNotEmpty(allUserRoles)) {
+                Map<Long, List<QuietUserRole>> userIdToUserRoles = allUserRoles.stream()
+                        .collect(Collectors.groupingBy(QuietUserRole::getUserId));
+                Set<Long> roleIds = allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
+                Map<Long, QuietRole> roleIdToRoleInfo = roleService.findAllByIds(roleIds).stream()
+                        .collect(Collectors.toMap(QuietRole::getId, val -> val));
+                Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
+                for (Long userId : userIds) {
+                    List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
+                    result.put(userId, new ArrayList<>());
+                    if (CollectionUtils.isNotEmpty(userRoles)) {
+                        for (QuietUserRole userRole : userRoles) {
+                            result.get(userId).add(roleIdToRoleInfo.get(userRole.getRoleId()));
+                        }
                     }
                 }
+                return result;
             }
-            return result;
         }
         return Collections.emptyMap();
     }
     
     @Override
-    public List<QuietUser> findByUserIds(Set<Long> userIds) {
+    public List<QuietUser> findByUserIds(@NotNull @NotEmpty Set<Long> userIds) {
         return userRepository.findByIdIsIn(userIds);
     }
     

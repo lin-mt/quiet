@@ -23,7 +23,6 @@ import com.gitee.quiet.system.repository.QuietTeamUserRoleRepository;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
@@ -44,18 +43,14 @@ import java.util.stream.Collectors;
 @Service
 public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietTeamUserRoleRepository teamUserRoleRepository;
     
     private final QuietTeamUserService teamUserService;
     
     private final QuietRoleService roleService;
     
-    public QuietTeamUserRoleServiceImpl(JPAQueryFactory jpaQueryFactory,
-            QuietTeamUserRoleRepository teamUserRoleRepository, QuietTeamUserService teamUserService,
-            QuietRoleService roleService) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietTeamUserRoleServiceImpl(QuietTeamUserRoleRepository teamUserRoleRepository,
+            QuietTeamUserService teamUserService, QuietRoleService roleService) {
         this.teamUserRoleRepository = teamUserRoleRepository;
         this.teamUserService = teamUserService;
         this.roleService = roleService;
@@ -67,13 +62,12 @@ public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
     }
     
     @Override
-    public void deleteByTeamUserIds(Set<Long> teamUserIds) {
+    public void deleteByTeamUserIds(@NotNull @NotEmpty Set<Long> teamUserIds) {
         teamUserRoleRepository.removeAllByTeamUserIdIsIn(teamUserIds);
     }
     
     @Override
-    public void addRoleForTeam(@NotNull Long teamId, @NotEmpty Set<Long> userIds,
-            @NotNull String roleName) {
+    public void addRoleForTeam(@NotNull Long teamId, @NotEmpty Set<Long> userIds, @NotNull String roleName) {
         List<QuietTeamUser> teamUsers = teamUserService.findByTeamIdAndUserIds(teamId, userIds);
         Map<Long, QuietTeamUserRole> teamUserIdToRole = this
                 .findByTeamUserIds(teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet())).stream()

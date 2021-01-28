@@ -23,6 +23,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,12 @@ public class QuietDepartmentUserServiceImpl implements QuietDepartmentUserServic
     }
     
     @Override
-    public List<QuietDepartmentUser> listAllByDepartmentId(Long departmentId) {
+    public List<QuietDepartmentUser> listAllByDepartmentId(@NotNull Long departmentId) {
         return departmentUserRepository.findAllByDepartmentId(departmentId);
     }
     
     @Override
-    public void deleteByUserId(Long userId) {
+    public void deleteByUserId(@NotNull Long userId) {
         departmentUserRepository.deleteByUserId(userId);
     }
     
@@ -71,8 +72,8 @@ public class QuietDepartmentUserServiceImpl implements QuietDepartmentUserServic
     }
     
     @Override
-    @Transactional
-    public void removeUsers(Long departmentId, Set<Long> userIds) {
+    @Transactional(rollbackFor = Exception.class)
+    public void removeUsers(@NotNull Long departmentId, @NotNull @NotEmpty Set<Long> userIds) {
         departmentUserRepository.deleteAllByDepartmentIdAndUserIdIsIn(departmentId, userIds);
     }
 }

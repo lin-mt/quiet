@@ -16,10 +16,12 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.system.repository.QuietRolePermissionRepository;
 import com.gitee.quiet.system.entity.QuietRolePermission;
+import com.gitee.quiet.system.repository.QuietRolePermissionRepository;
 import com.gitee.quiet.system.service.QuietRolePermissionService;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 角色-权限 Service 实现类.
@@ -36,7 +38,7 @@ public class QuietRolePermissionServiceImpl implements QuietRolePermissionServic
     }
     
     @Override
-    public QuietRolePermission saveOrUpdate(QuietRolePermission rolePermission) {
+    public QuietRolePermission saveOrUpdate(@NotNull QuietRolePermission rolePermission) {
         QuietRolePermission exist = rolePermissionRepository
                 .getByRoleIdAndPermissionId(rolePermission.getRoleId(), rolePermission.getPermissionId());
         if (exist != null) {
@@ -46,7 +48,7 @@ public class QuietRolePermissionServiceImpl implements QuietRolePermissionServic
     }
     
     @Override
-    public void delete(Long deleteId) {
+    public void delete(@NotNull Long deleteId) {
         rolePermissionRepository.deleteById(deleteId);
     }
 }

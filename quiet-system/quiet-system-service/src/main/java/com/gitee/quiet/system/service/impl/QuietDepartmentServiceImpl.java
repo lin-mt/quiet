@@ -63,7 +63,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public QueryResults<QuietDepartment> page(QuietDepartment params, Pageable page) {
+    public QueryResults<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
             Where.NotNullEq(params.getId(), quietDepartment.id, builder);
@@ -76,7 +76,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public QuietDepartment saveOrUpdate(QuietDepartment department) {
+    public QuietDepartment saveOrUpdate(@NotNull QuietDepartment department) {
         if (department.getParentId() != null) {
             if (!departmentRepository.existsById(department.getParentId())) {
                 throw new ServiceException("department.not.exit.id", department.getParentId());
@@ -90,7 +90,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public void delete(Long deleteId) {
+    public void delete(@NotNull Long deleteId) {
         if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
             throw new ServiceException("department.has.children.can.not.deleted");
         }
@@ -119,8 +119,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public QueryResults<QuietUser> pageUser(@NotNull(message = "{query.departmentId}{not.null}") Long departmentId,
-            QuietUser params, Pageable page) {
+    public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
             EntityWhereBuilder.build(params, builder);
