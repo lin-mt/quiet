@@ -15,8 +15,8 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 //noinspection GroovyAssignabilityCheck
@@ -46,8 +46,8 @@ subprojects {
     }
 
     ext {
-        set('springCloudAlibabaVersion', '2.2.3.RELEASE')
-        set('springCloudVersion', 'Hoxton.SR8')
+        set('springCloudAlibabaVersion', '2.2.5.RELEASE')
+        set('springCloudVersion', 'Hoxton.SR9')
     }
 
     repositories {
@@ -60,10 +60,12 @@ subprojects {
     }
 
     dependencies {
-        implementation 'com.google.guava:guava:29.0-jre'
+        implementation 'com.google.guava:guava:30.1-jre'
         implementation 'org.apache.commons:commons-lang3:3.11'
         implementation 'org.apache.commons:commons-collections4:4.4'
-        testCompile group: 'junit', name: 'junit', version: '4.12'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
     }
 
     test {
