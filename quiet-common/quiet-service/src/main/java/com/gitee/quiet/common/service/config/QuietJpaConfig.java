@@ -50,9 +50,8 @@ public class QuietJpaConfig {
     
     @Bean
     @ConditionalOnMissingBean(AuditorAware.class)
-    public QuietAuditorAware quietAuditorAware() {
-        return new QuietAuditorAware() {
-        };
+    public QuietAuditorAware auditorAware() {
+        return new QuietAuditorAware();
     }
     
 }

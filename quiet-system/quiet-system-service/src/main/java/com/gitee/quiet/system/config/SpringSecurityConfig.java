@@ -79,17 +79,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/oauth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
-                    .authenticationEntryPoint(authenticationJsonEntryPointHandler)
-                    .accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationJsonEntryPointHandler)
+                .accessDeniedHandler(accessDeniedHandler)
                 .and()
-                    .logout()
+                .logout()
                 .logoutUrl(Url.LOGOUT)
-                    .addLogoutHandler(logoutHandler)
-                    .logoutSuccessHandler(logoutSuccessHandler);
-        // @formatter:on
+                .addLogoutHandler(logoutHandler)
+                .logoutSuccessHandler(logoutSuccessHandler);
+//        // @formatter:on
         http.addFilterAt(loginByAccountFilter, UsernamePasswordAuthenticationFilter.class);
     }
     

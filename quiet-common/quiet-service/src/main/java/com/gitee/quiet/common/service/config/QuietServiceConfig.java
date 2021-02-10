@@ -35,14 +35,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 
+
 /**
  * 所有服务的共同配置信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-@EnableConfigurationProperties(IdGeneratorProperties.class)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
+@EnableConfigurationProperties(IdGeneratorProperties.class)
 public class QuietServiceConfig {
     
     public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";

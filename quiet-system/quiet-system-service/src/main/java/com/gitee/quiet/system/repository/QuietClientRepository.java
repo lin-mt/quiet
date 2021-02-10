@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.config;
+package com.gitee.quiet.system.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.gitee.quiet.system.entity.QuietClient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * 配置类.
+ * 客户端 Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Configuration
-public class ApplicationConfig {
+@Repository
+@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
+public interface QuietClientRepository extends JpaRepository<QuietClient, Long> {
     
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    /**
+     * 根据客户端 ID 查询客户端信息
+     *
+     * @param clientId 客户端 ID
+     * @return 客户端信息
+     */
+    QuietClient findByClientId(String clientId);
     
 }

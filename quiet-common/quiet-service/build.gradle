@@ -28,8 +28,11 @@ dependencies {
     compile project(path: ':quiet-common:quiet-validation', configuration: 'default')
     compile 'com.querydsl:querydsl-jpa'
     compile 'com.querydsl:querydsl-apt'
-    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-data-redis'
+    compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
