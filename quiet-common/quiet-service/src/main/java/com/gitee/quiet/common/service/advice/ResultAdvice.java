@@ -17,8 +17,8 @@
 package com.gitee.quiet.common.service.advice;
 
 import com.gitee.quiet.common.base.constant.CommonCode;
-import com.gitee.quiet.common.service.config.QuietServiceConfig;
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.service.config.QuietMessageSourceConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
     @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
     private MessageSource messageSource;
     
-    @Resource(name = QuietServiceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+    @Resource(name = QuietMessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
     private MessageSource commonMessageSource;
     
     @Override

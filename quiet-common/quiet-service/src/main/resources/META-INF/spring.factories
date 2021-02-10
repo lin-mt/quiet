@@ -3,5 +3,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.gitee.quiet.common.service.config.QuietServiceConfig,\
   com.gitee.quiet.common.service.config.QuietSecurityConfig,\
   com.gitee.quiet.common.service.config.QuietWebSecurityConfig,\
+  com.gitee.quiet.common.service.config.QuietMessageSourceConfig,\
   com.gitee.quiet.common.service.config.QuietResourceServerConfig,\
   com.gitee.quiet.common.service.config.QuietMethodSecurityConfig

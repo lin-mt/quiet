@@ -16,10 +16,10 @@
 
 package com.gitee.quiet.system.handler;
 
-import com.gitee.quiet.system.constant.AccountCode;
-import com.gitee.quiet.common.service.config.QuietServiceConfig;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
+import com.gitee.quiet.common.service.config.QuietMessageSourceConfig;
+import com.gitee.quiet.system.constant.AccountCode;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -38,7 +38,7 @@ import java.io.IOException;
 @Component
 public class ResultLogoutSuccessHandler extends AbstractResponseJsonData implements LogoutSuccessHandler {
     
-    @Resource(name = QuietServiceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+    @Resource(name = QuietMessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
     private MessageSource messageSource;
     
     @Override
