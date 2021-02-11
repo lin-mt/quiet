@@ -1,7 +1,6 @@
 package com.gitee.quiet.common.service.config;
 
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
@@ -15,7 +14,6 @@ import org.springframework.context.support.AbstractApplicationContext;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-@EnableAutoConfiguration
 public class QuietMessageSourceConfig {
     
     public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
