@@ -21,8 +21,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.enums.Gender;
 import com.gitee.quiet.common.service.enums.Whether;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,11 +38,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -47,12 +60,87 @@ import java.util.Collection;
 @Table(name = "quiet_user")
 public class QuietUser extends BaseEntity implements UserDetails, CredentialsContainer {
     
+    // TODO 自定义序列化 Token 将参数提取到 BaseEnity
+    @Id
+    @Null(groups = Create.class, message = "id {null}")
+    @NotNull(groups = Update.class, message = "id {not.null}")
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SnowFlakeIdGenerator")
+    @GenericGenerator(name = "SnowFlakeIdGenerator", strategy = "com.gitee.quiet.common.service.id.SnowFlakeIdGenerator")
+    private Long id;
+    
+    @CreatedBy
+    @Column(name = "creator", updatable = false)
+    private Long creator;
+    
+    @LastModifiedBy
+    @Column(name = "updater", insertable = false)
+    private Long updater;
+    
+    @CreatedDate
+    @Column(name = "gmt_create", updatable = false)
+    private LocalDateTime gmtCreate;
+    
+    @LastModifiedDate
+    @Column(name = "gmt_update", insertable = false)
+    private LocalDateTime gmtUpdate;
+    
+    @Override
+    public Long getId() {
+        return id;
+    }
+    
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Override
+    public Long getCreator() {
+        return creator;
+    }
+    
+    @Override
+    public void setCreator(Long createBy) {
+        this.creator = createBy;
+    }
+    
+    @Override
+    public LocalDateTime getGmtCreate() {
+        return gmtCreate;
+    }
+    
+    @Override
+    public void setGmtCreate(LocalDateTime gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+    
+    @Override
+    public Long getUpdater() {
+        return updater;
+    }
+    
+    @Override
+    public void setUpdater(Long updateBy) {
+        this.updater = updateBy;
+    }
+    
+    @Override
+    public LocalDateTime getGmtUpdate() {
+        return gmtUpdate;
+    }
+    
+    @Override
+    public void setGmtUpdate(LocalDateTime gmtUpdate) {
+        this.gmtUpdate = gmtUpdate;
+    }
+    
     /**
      * 用户名
      */
     @Column(name = "username")
     @NotEmpty(message = "{user.username}{not.empty}")
-    @Length(max = 10, message = "{user.username.length}{length.max.limitt}")
+    @Length(max = 10, message = "{user.username.length}{length.max.limit}")
     private String username;
     
     /**

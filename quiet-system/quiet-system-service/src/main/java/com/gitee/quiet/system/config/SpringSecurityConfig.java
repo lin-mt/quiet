@@ -22,6 +22,7 @@ import com.gitee.quiet.system.handler.AuthenticationJsonEntryPointHandler;
 import com.gitee.quiet.system.handler.ResultAccessDeniedHandler;
 import com.gitee.quiet.system.service.QuietUserService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,21 +47,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     
     private final ResultAccessDeniedHandler accessDeniedHandler;
     
-    private final AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler;
-    
     private final LogoutHandler logoutHandler;
+    
+    private final AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler;
     
     private final LogoutSuccessHandler logoutSuccessHandler;
     
     public SpringSecurityConfig(QuietUserService userService, LoginByAccountFilter loginByAccountFilter,
-            ResultAccessDeniedHandler accessDeniedHandler,
-            AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler, LogoutHandler logoutHandler,
-            LogoutSuccessHandler logoutSuccessHandler) {
+            ResultAccessDeniedHandler accessDeniedHandler, LogoutHandler logoutHandler,
+            LogoutSuccessHandler logoutSuccessHandler,
+            AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler) {
         this.userService = userService;
         this.loginByAccountFilter = loginByAccountFilter;
         this.accessDeniedHandler = accessDeniedHandler;
-        this.authenticationJsonEntryPointHandler = authenticationJsonEntryPointHandler;
         this.logoutHandler = logoutHandler;
+        this.authenticationJsonEntryPointHandler = authenticationJsonEntryPointHandler;
         this.logoutSuccessHandler = logoutSuccessHandler;
     }
     
@@ -79,6 +80,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS)
+                .permitAll()
                 .antMatchers("/oauth/**")
                 .permitAll()
                 .anyRequest()

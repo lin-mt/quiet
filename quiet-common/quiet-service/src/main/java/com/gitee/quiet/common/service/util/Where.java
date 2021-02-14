@@ -32,26 +32,26 @@ public final class Where {
     private Where() {
     }
     
-    public static <T extends Number & Comparable<?>> void NotNullEq(T param, NumberPath<T> path,
+    public static <T extends Number & Comparable<?>> void notNullEq(T param, NumberPath<T> path,
             BooleanBuilder builder) {
         if (param != null) {
             builder.and(path.eq(param));
         }
     }
     
-    public static void NotBlankEq(String param, StringPath path, BooleanBuilder builder) {
+    public static void notBlankEq(String param, StringPath path, BooleanBuilder builder) {
         if (StringUtils.isNoneBlank(param)) {
             builder.and(path.eq(param));
         }
     }
     
-    public static <T extends Enum<T>> void NotNullEq(T param, EnumPath<T> path, BooleanBuilder builder) {
+    public static <T extends Enum<T>> void notNullEq(T param, EnumPath<T> path, BooleanBuilder builder) {
         if (param != null) {
             builder.and(path.eq(param));
         }
     }
     
-    public static void NotBlankContains(String param, StringPath path, BooleanBuilder builder) {
+    public static void notBlankContains(String param, StringPath path, BooleanBuilder builder) {
         if (StringUtils.isNoneBlank(param)) {
             builder.and(path.contains(param));
         }

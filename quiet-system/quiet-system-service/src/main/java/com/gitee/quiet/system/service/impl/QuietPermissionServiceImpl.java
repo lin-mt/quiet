@@ -79,12 +79,12 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
-            Where.NotNullEq(params.getId(), quietPermission.id, builder);
-            Where.NotNullEq(params.getRoleId(), quietPermission.roleId, builder);
-            Where.NotBlankEq(params.getRequestMethod(), quietPermission.requestMethod, builder);
-            Where.NotBlankContains(params.getApplicationName(), quietPermission.applicationName, builder);
-            Where.NotBlankContains(params.getUrlPattern(), quietPermission.urlPattern, builder);
-            Where.NotBlankContains(params.getRemark(), quietPermission.remark, builder);
+            Where.notNullEq(params.getId(), quietPermission.id, builder);
+            Where.notNullEq(params.getRoleId(), quietPermission.roleId, builder);
+            Where.notBlankEq(params.getRequestMethod(), quietPermission.requestMethod, builder);
+            Where.notBlankContains(params.getApplicationName(), quietPermission.applicationName, builder);
+            Where.notBlankContains(params.getUrlPattern(), quietPermission.urlPattern, builder);
+            Where.notBlankContains(params.getRemark(), quietPermission.remark, builder);
         }
         return jpaQueryFactory.selectFrom(quietPermission).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();

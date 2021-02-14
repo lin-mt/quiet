@@ -16,6 +16,10 @@
 
 package com.gitee.quiet.system.service;
 
+import com.gitee.quiet.common.service.enums.Operation;
+import com.gitee.quiet.system.entity.QuietClient;
+import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 
 /**
@@ -24,5 +28,54 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietClientService extends ClientDetailsService {
-
+    
+    /**
+     * 分页查询客户端信息
+     *
+     * @param params 查询参数
+     * @param page   分页参数
+     * @return 客户端信息
+     */
+    QueryResults<QuietClient> page(QuietClient params, Pageable page);
+    
+    /**
+     * 新增客户端信息
+     *
+     * @param save 要新增的客户端信息
+     * @return 新增后的客户端信息
+     */
+    QuietClient save(QuietClient save);
+    
+    /**
+     * 删除客户端信息
+     *
+     * @param clientId 要删除的客户端的ID
+     */
+    void deleteClient(Long clientId);
+    
+    /**
+     * 更新客户端信息
+     *
+     * @param update 要更新的客户端信息
+     * @return 更新后的客户端信息
+     */
+    QuietClient update(QuietClient update);
+    
+    /**
+     * 移除客户端的授权范围
+     *
+     * @param id        要移除授权范围的客户端的ID
+     * @param scope     要移除的授权范围
+     * @param operation 操作类型：添加、移除
+     */
+    void changeClientScope(Long id, String scope, Operation operation);
+    
+    /**
+     * 移除客户端的授权类型
+     *
+     * @param id                  要移除授权类型的客户端的ID
+     * @param authorizedGrantType 要移除的授权类型
+     * @param operation           操作类型：添加、移除
+     */
+    void changeClientAuthorizedGrantType(Long id, String authorizedGrantType, Operation operation);
 }

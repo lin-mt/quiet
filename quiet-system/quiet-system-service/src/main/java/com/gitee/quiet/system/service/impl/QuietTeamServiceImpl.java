@@ -83,9 +83,9 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
-            Where.NotNullEq(params.getId(), quietTeam.id, builder);
-            Where.NotBlankContains(params.getTeamName(), quietTeam.teamName, builder);
-            Where.NotBlankContains(params.getSlogan(), quietTeam.slogan, builder);
+            Where.notNullEq(params.getId(), quietTeam.id, builder);
+            Where.notBlankContains(params.getTeamName(), quietTeam.teamName, builder);
+            Where.notBlankContains(params.getSlogan(), quietTeam.slogan, builder);
         }
         QueryResults<QuietTeam> result = jpaQueryFactory.selectFrom(quietTeam).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();

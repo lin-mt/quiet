@@ -27,6 +27,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
@@ -100,11 +101,11 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     public QueryResults<QuietRole> page(QuietRole params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
-            Where.NotNullEq(params.getId(), quietRole.id, builder);
-            Where.NotNullEq(params.getParentId(), quietRole.parentId, builder);
-            Where.NotBlankContains(params.getRoleName(), quietRole.roleName, builder);
-            Where.NotBlankContains(params.getRoleCnName(), quietRole.roleCnName, builder);
-            Where.NotBlankContains(params.getRemark(), quietRole.remark, builder);
+            Where.notNullEq(params.getId(), quietRole.id, builder);
+            Where.notNullEq(params.getParentId(), quietRole.parentId, builder);
+            Where.notBlankContains(params.getRoleName(), quietRole.roleName, builder);
+            Where.notBlankContains(params.getRoleCnName(), quietRole.roleCnName, builder);
+            Where.notBlankContains(params.getRemark(), quietRole.remark, builder);
         }
         QueryResults<QuietRole> results = jpaQueryFactory.selectFrom(quietRole).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();
@@ -188,8 +189,11 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         List<QuietRole> reachableRoles = new ArrayList<>();
         while (!roleNames.isEmpty()) {
             List<QuietRole> roles = roleRepository.findByRoleNameIn(roleNames);
-            reachableRoles.addAll(roles.stream().peek(r -> r.setRoleName(rolePrefix + r.getRoleName()))
-                    .collect(Collectors.toSet()));
+            reachableRoles.addAll(roles.stream().peek(r -> {
+                if (StringUtils.isNoneBlank(r.getRoleName()) && !r.getRoleName().startsWith(rolePrefix)) {
+                    r.setRoleName(rolePrefix + r.getRoleName());
+                }
+            }).collect(Collectors.toSet()));
             Set<Long> parentIds = roles.stream().map(QuietRole::getId).collect(Collectors.toSet());
             roleNames = roleRepository.findByParentIdIn(parentIds).stream().map(QuietRole::getRoleName)
                     .collect(Collectors.toSet());

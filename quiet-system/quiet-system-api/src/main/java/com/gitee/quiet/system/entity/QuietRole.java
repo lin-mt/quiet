@@ -39,7 +39,7 @@ import java.util.List;
 @Table(name = "quiet_role")
 public class QuietRole extends BaseEntity implements GrantedAuthority {
     
-    /*
+    /**
      * 父角色ID
      */
     private Long parentId;

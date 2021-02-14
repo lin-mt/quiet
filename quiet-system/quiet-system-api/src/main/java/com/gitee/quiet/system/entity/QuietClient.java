@@ -17,11 +17,13 @@
 package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.converter.SetStringConverter;
 import com.gitee.quiet.common.service.enums.Whether;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -33,7 +35,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,22 +51,34 @@ import java.util.Set;
 @Table(name = "quiet_client")
 public class QuietClient extends BaseEntity implements ClientDetails {
     
-    @Column(name = "client_id")
+    @Column(name = "client_id", length = 20)
+    @NotEmpty(message = "{client.clientId}{not.empty}")
+    @Length(max = 20, message = "{client.clientId.length}{length.max.limit}")
     private String clientId;
+    
+    @Column(name = "client_name", length = 30)
+    @NotEmpty(message = "{client.clientName}{not.empty}")
+    @Length(max = 30, message = "{client.clientName.length}{length.max.limit}")
+    private String clientName;
+    
+    @Column(name = "client_secret", length = 60)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotEmpty(message = "{client.clientSecret}{not.empty}")
+    @Length(max = 60, message = "{client.clientSecret.length}{length.max.limit}")
+    private String clientSecret;
     
     @Column(name = "resource_ids")
     @Convert(converter = SetStringConverter.class)
     private Set<String> resourceIds;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "secret_required")
+    @Column(name = "secret_required", length = 3)
+    @NotNull(message = "{client.secretRequired}{not.null}")
     private Whether secretRequired;
     
-    @Column(name = "client_secret")
-    private String clientSecret;
-    
     @Enumerated(EnumType.STRING)
-    @Column(name = "scoped")
+    @Column(name = "scoped", length = 3)
+    @NotNull(message = "{client.scoped}{not.null}")
     private Whether scoped;
     
     @Column(name = "scope")
@@ -77,14 +94,21 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     private Set<String> registeredRedirectUri;
     
     @Column(name = "access_token_validity_seconds")
+    @NotNull(message = "{client.accessTokenValiditySeconds}{not.null}")
     private Integer accessTokenValiditySeconds;
     
     @Column(name = "refresh_token_validity_seconds")
+    @NotNull(message = "{client.refreshTokenValiditySeconds}{not.null}")
     private Integer refreshTokenValiditySeconds;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "auto_approve")
+    @Column(name = "auto_approve", length = 3)
+    @NotNull(message = "{client.autoApprove}{not.null}")
     private Whether autoApprove;
+    
+    @Column(name = "remark", length = 100)
+    @Length(max = 100, message = "{client.remark.length}{length.max.limit}")
+    private String remark;
     
     @Override
     public String getClientId() {
@@ -93,6 +117,23 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+    
+    public void setSecretRequired(Whether secretRequired) {
+        this.secretRequired = secretRequired;
+    }
+    
+    @Override
+    public String getClientSecret() {
+        return clientSecret;
+    }
+    
+    public String getClientName() {
+        return clientName;
+    }
+    
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
     
     @Override
@@ -107,7 +148,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
      */
     @Override
     @Transient
-    @JsonIgnore
     public boolean isSecretRequired() {
         return Whether.YES.equals(getSecretRequired());
     }
@@ -120,15 +160,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return secretRequired;
     }
     
-    public void setSecretRequired(Whether secretRequired) {
-        this.secretRequired = secretRequired;
-    }
-    
-    @Override
-    public String getClientSecret() {
-        return clientSecret;
-    }
-    
     /**
      * Whether this client is limited to a specific scope. If false, the scope of the authentication request will be
      * ignored.
@@ -137,7 +168,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
      */
     @Override
     @Transient
-    @JsonIgnore
     public boolean isScoped() {
         return Whether.YES.equals(getScoped());
     }
@@ -186,7 +216,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
      */
     @Override
     @Transient
-    @JsonIgnore
     public Collection<GrantedAuthority> getAuthorities() {
         return CollectionUtils.emptyCollection();
     }
@@ -217,7 +246,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
      */
     @Override
     @Transient
-    @JsonIgnore
     public boolean isAutoApprove(String scope) {
         LoggerFactory.getLogger(QuietClient.class).info(scope);
         return true;
@@ -248,6 +276,14 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         this.autoApprove = autoApprove;
     }
     
+    public String getRemark() {
+        return remark;
+    }
+    
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+    
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("clientId", clientId).append("resourceIds", resourceIds)
@@ -257,6 +293,52 @@ public class QuietClient extends BaseEntity implements ClientDetails {
                 .append("accessTokenValiditySeconds", accessTokenValiditySeconds)
                 .append("refreshTokenValiditySeconds", refreshTokenValiditySeconds).append("autoApprove", autoApprove)
                 .toString();
+    }
+    
+    /**
+     * 添加客户端支持的认证类型
+     *
+     * @param authorizedGrantType 要添加的认证类型
+     */
+    public void addAuthorizedGrantType(String authorizedGrantType) {
+        if (getAuthorizedGrantTypes() == null) {
+            setAuthorizedGrantTypes(new HashSet<>());
+        }
+        getAuthorizedGrantTypes().add(authorizedGrantType);
+    }
+    
+    /**
+     * 删除客户端支持的认证类型
+     *
+     * @param authorizedGrantType 要删除的认证类型
+     */
+    public void removeAuthorizedGrantType(String authorizedGrantType) {
+        if (CollectionUtils.isNotEmpty(getAuthorizedGrantTypes())) {
+            getAuthorizedGrantTypes().remove(authorizedGrantType);
+        }
+    }
+    
+    /**
+     * 添加客户端的授权范围
+     *
+     * @param scope 要添加的授权范围
+     */
+    public void addScope(String scope) {
+        if (getScope() == null) {
+            setScope(new HashSet<>());
+        }
+        getScope().add(scope);
+    }
+    
+    /**
+     * 删除客户端的授权范围
+     *
+     * @param scope 要删除的授权范围
+     */
+    public void removeScope(String scope) {
+        if (CollectionUtils.isNotEmpty(getScope())) {
+            getScope().remove(scope);
+        }
     }
     
 }

@@ -40,6 +40,7 @@ public class QuietSecurityConfig {
     
     @Bean
     public TokenStore redisTokenStore() {
+        // TODO 自定义序列化与反序列化 Token 方式
         return new RedisTokenStore(redisConnectionFactory);
     }
     

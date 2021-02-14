@@ -18,9 +18,9 @@ package com.gitee.quiet.system.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.system.constant.Url;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.handler.ResultAuthenticationFailureHandler;
 import com.gitee.quiet.system.handler.ResultAuthenticationSuccessHandler;
-import com.gitee.quiet.system.entity.QuietUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;

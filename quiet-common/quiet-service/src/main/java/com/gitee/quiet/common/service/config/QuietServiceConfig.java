@@ -55,7 +55,7 @@ public class QuietServiceConfig {
     
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("");
+        return new GrantedAuthorityDefaults("ROLE_");
     }
     
     @Bean

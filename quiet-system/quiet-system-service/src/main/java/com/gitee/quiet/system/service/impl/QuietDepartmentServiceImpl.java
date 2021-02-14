@@ -66,10 +66,10 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     public QueryResults<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
         BooleanBuilder builder = new BooleanBuilder();
         if (params != null) {
-            Where.NotNullEq(params.getId(), quietDepartment.id, builder);
-            Where.NotNullEq(params.getParentId(), quietDepartment.parentId, builder);
-            Where.NotBlankContains(params.getDepartmentName(), quietDepartment.departmentName, builder);
-            Where.NotBlankContains(params.getRemark(), quietDepartment.remark, builder);
+            Where.notNullEq(params.getId(), quietDepartment.id, builder);
+            Where.notNullEq(params.getParentId(), quietDepartment.parentId, builder);
+            Where.notBlankContains(params.getDepartmentName(), quietDepartment.departmentName, builder);
+            Where.notBlankContains(params.getRemark(), quietDepartment.remark, builder);
         }
         return jpaQueryFactory.selectFrom(quietDepartment).where(builder).offset(page.getOffset())
                 .limit(page.getPageSize()).fetchResults();

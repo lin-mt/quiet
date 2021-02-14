@@ -58,7 +58,7 @@ public class BaseEntity {
     private Long creator;
     
     @LastModifiedBy
-    @Column(name = "updater", updatable = false)
+    @Column(name = "updater", insertable = false)
     private Long updater;
     
     @CreatedDate

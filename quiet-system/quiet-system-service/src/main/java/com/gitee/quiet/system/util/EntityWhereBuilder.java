@@ -34,14 +34,14 @@ public final class EntityWhereBuilder {
     
     public static void build(QuietUser params, BooleanBuilder builder) {
         if (params != null) {
-            Where.NotNullEq(params.getId(), quietUser.id, builder);
-            Where.NotBlankContains(params.getUsername(), quietUser.username, builder);
-            Where.NotNullEq(params.getGender(), quietUser.gender, builder);
-            Where.NotBlankContains(params.getPhoneNumber(), quietUser.phoneNumber, builder);
-            Where.NotBlankContains(params.getEmailAddress(), quietUser.emailAddress, builder);
-            Where.NotNullEq(params.getAccountExpired(), quietUser.accountExpired, builder);
-            Where.NotNullEq(params.getAccountLocked(), quietUser.accountLocked, builder);
-            Where.NotNullEq(params.getCredentialsExpired(), quietUser.credentialsExpired, builder);
+            Where.notNullEq(params.getId(), quietUser.id, builder);
+            Where.notBlankContains(params.getUsername(), quietUser.username, builder);
+            Where.notNullEq(params.getGender(), quietUser.gender, builder);
+            Where.notBlankContains(params.getPhoneNumber(), quietUser.phoneNumber, builder);
+            Where.notBlankContains(params.getEmailAddress(), quietUser.emailAddress, builder);
+            Where.notNullEq(params.getAccountExpired(), quietUser.accountExpired, builder);
+            Where.notNullEq(params.getAccountLocked(), quietUser.accountLocked, builder);
+            Where.notNullEq(params.getCredentialsExpired(), quietUser.credentialsExpired, builder);
         }
     }
 }
