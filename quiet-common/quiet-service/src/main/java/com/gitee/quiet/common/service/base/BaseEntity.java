@@ -33,6 +33,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -43,7 +44,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings("unused")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     
     @Id
     @Null(groups = Create.class, message = "id {null}")
