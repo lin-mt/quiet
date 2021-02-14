@@ -11,7 +11,7 @@
 5. 方法内的注释，使用`//+空格+注释内容`
 6. 如果出现循环依赖，则根据控制台的输出顺序，从第二个开始依次添加注解`@Lazy`，直至循环依赖解决
 7. 根据 ID 批量查询数据的时候，入参只能是`Collection<Long>`或者`Set<Long>`
-8. 中间表不提供`Controller`，如`用户-角色`表不提供`QuietUserRoleController`，如有需求操作该表数据，则根据需求的条件，将功能写在条件对应的`Controller`，并在该`Controller`注入中间表的`Service`，使用该`Service`删除数据
-   > 实现功能：根据用户ID删除某个角色，则该功能的接口写在`QuietUserController`，使用`QuietUserRoleService`删除数据
+8. 中间表不提供`Controller`，如`用户-角色`表不提供`QuietUserRoleController`，如有需求操作该表数据，则根据需求的条件，将功能写在条件对应的`Controller`，并在该`Controller`注入中间表的`Service`，使用该`Service`处理数据
+   > 实现功能：根据用户ID删除用户的某个角色，则该功能的接口写在`QuietUserController`，使用`QuietUserRoleService`删除数据
 9. 类`com.gitee.quiet.common.service.base.Param` 及其子类，不能作为`Service`方法的形参，必须将属性作为形参
 10. `Controller`的所有请求方法全部为`POST`
