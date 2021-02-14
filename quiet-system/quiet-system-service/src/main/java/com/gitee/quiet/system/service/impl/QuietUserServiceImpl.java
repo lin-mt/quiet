@@ -192,10 +192,10 @@ public class QuietUserServiceImpl implements QuietUserService {
             return new ArrayList<>();
         }
         builder.and(quietUser.username.contains(username));
-        JPAQuery<QuietUser> where = jpaQueryFactory.selectFrom(quietUser).where(builder);
+        JPAQuery<QuietUser> query = jpaQueryFactory.selectFrom(quietUser).where(builder);
         if (limit > 0) {
-            where.limit(limit);
+            query.limit(limit);
         }
-        return where.fetchResults().getResults();
+        return query.fetchResults().getResults();
     }
 }
