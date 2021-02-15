@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.base.constant;
 
+import org.springframework.lang.NonNull;
+
 /**
  * 角色名称.
  *
@@ -24,10 +26,22 @@ package com.gitee.quiet.common.base.constant;
 @SuppressWarnings("AlibabaConstantFieldShouldBeUpperCase")
 public interface RoleNames {
     
+    String ROLE_PREFIX = "ROLE_";
+    
     // 为了角色名称更加直观，没有采用大写+下划线的命名风格
     
-    String SystemAdmin = "SystemAdmin";
-    String Admin = "Admin";
-    String ProductOwner = "ProductOwner";
-    String ScrumMaster = "ScrumMaster";
+    String SystemAdmin = buildRoleName("SystemAdmin");
+    String Admin = buildRoleName("Admin");
+    String ProductOwner = buildRoleName("ProductOwner");
+    String ScrumMaster = buildRoleName("ScrumMaster");
+    
+    /**
+     * 构建角色名称
+     *
+     * @param roleName 角色名称
+     * @return 构建后的角色名称
+     */
+    private static String buildRoleName(@NonNull String roleName) {
+        return ROLE_PREFIX + roleName;
+    }
 }

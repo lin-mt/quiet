@@ -17,21 +17,12 @@
 package com.gitee.quiet.common.service.aware;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
-import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
 import java.util.Optional;
 
 /**
@@ -40,8 +31,6 @@ import java.util.Optional;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietAuditorAware implements AuditorAware<Long> {
-    
-    private final Logger logger = LoggerFactory.getLogger(QuietAuditorAware.class);
     
     /**
      * @return 操作者的 ID
@@ -64,41 +53,6 @@ public class QuietAuditorAware implements AuditorAware<Long> {
             }
         }
         return Optional.ofNullable(id);
-    }
-    
-    @PrePersist
-    public void prePersist(Object o) {
-        logger.info("prePersist:{}", o);
-    }
-    
-    @PreUpdate
-    public void preUpdate(Object o) {
-        logger.info("preUpdate:{}", o);
-    }
-    
-    @PreRemove
-    public void preRemove(Object o) {
-        logger.info("preRemove:{}", o);
-    }
-    
-    @PostLoad
-    public void postLoad(Object o) {
-        logger.info("postLoad:{}", o);
-    }
-    
-    @PostRemove
-    public void postRemove(Object o) {
-        logger.info("postRemove:{}", o);
-    }
-    
-    @PostUpdate
-    public void postUpdate(Object o) {
-        logger.info("postUpdate:{}", o);
-    }
-    
-    @PostPersist
-    public void postPersist(Object o) {
-        logger.info("postPersist:{}", o);
     }
     
 }

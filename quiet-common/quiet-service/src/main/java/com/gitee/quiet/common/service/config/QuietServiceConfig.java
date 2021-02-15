@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.config;
 
+import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
@@ -55,7 +56,7 @@ public class QuietServiceConfig {
     
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("ROLE_");
+        return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
     }
     
     @Bean
