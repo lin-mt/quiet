@@ -33,3 +33,5 @@ dubbo:
     name: dubbo
   scan:
     base-packages: com.gitee.quiet.system.service
+  cloud:
+    subscribed-services:

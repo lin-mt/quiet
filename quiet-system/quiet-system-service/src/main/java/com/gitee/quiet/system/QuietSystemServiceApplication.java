@@ -18,6 +18,8 @@ package com.gitee.quiet.system;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * 启动类.
@@ -25,6 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @SpringBootApplication
+@EnableJpaRepositories(basePackages = "com.gitee.quiet.system.repository")
 public class QuietSystemServiceApplication {
     
     public static void main(String[] args) {
