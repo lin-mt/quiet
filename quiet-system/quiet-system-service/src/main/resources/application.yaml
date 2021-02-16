@@ -26,3 +26,10 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false
     locale: zh_CN
     time-zone: GMT+8
+dubbo:
+  protocol:
+    port: -1
+    id: dubbo
+    name: dubbo
+  scan:
+    base-packages: com.gitee.quiet.system.service

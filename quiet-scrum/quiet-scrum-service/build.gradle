@@ -16,5 +16,6 @@
 
 dependencies {
     implementation(project(':quiet-scrum:quiet-scrum-api'))
+    implementation(project(':quiet-system:quiet-system-api'))
     runtimeOnly 'mysql:mysql-connector-java'
 }

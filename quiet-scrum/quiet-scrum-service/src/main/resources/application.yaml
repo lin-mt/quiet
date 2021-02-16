@@ -37,3 +37,12 @@ security:
       id: ${spring.application.name}
     authorization:
       check-token-access: http://localhost:9000/oauth/check_token
+dubbo:
+  protocol:
+    port: -1
+    id: dubbo
+    name: dubbo
+  cloud:
+    subscribed-services: quiet-system
+  scan:
+    base-packages: com.gitee.quiet.scrum.service

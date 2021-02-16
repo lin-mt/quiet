@@ -28,11 +28,11 @@ import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-
 
 /**
  * 所有服务的共同配置信息.
@@ -40,6 +40,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
+@EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(IdGeneratorProperties.class)
 public class QuietServiceConfig {
@@ -89,3 +90,4 @@ public class QuietServiceConfig {
         return new LongDeserializer();
     }
 }
+

@@ -35,6 +35,8 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-starter-oauth2'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    compile 'com.alibaba.cloud:spring-cloud-starter-dubbo'
+    compile 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 }
 
