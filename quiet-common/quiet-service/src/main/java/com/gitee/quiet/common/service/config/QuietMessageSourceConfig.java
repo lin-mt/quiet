@@ -21,7 +21,7 @@ public class QuietMessageSourceConfig {
     public static final String QUIET_DICTIONARY_MESSAGE_SOURCE = "quietDictionaryMessageSource";
     
     @Bean
-    @ConditionalOnMissingBean(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
+    @ConditionalOnMissingBean(value = MessageSourceProperties.class)
     public MessageSourceProperties messageSourceProperties() {
         return new MessageSourceProperties();
     }
