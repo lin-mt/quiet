@@ -44,7 +44,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings("unused")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity implements Serializable {
+public class BaseEntity extends LoggerEntity implements Serializable {
     
     @Id
     @Null(groups = Create.class, message = "id {null}")

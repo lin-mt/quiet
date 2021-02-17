@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
@@ -23,6 +24,7 @@ import com.gitee.quiet.common.service.id.IdGeneratorProperties;
 import com.gitee.quiet.common.service.jackson.deserializer.LongDeserializer;
 import com.gitee.quiet.common.service.jackson.serializer.LongSerializer;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
+import com.gitee.quiet.common.service.util.EntityJsonLoggerUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -81,5 +83,10 @@ public class QuietServiceConfig {
         return new LongDeserializer();
     }
     
+    @Bean
+    @ConditionalOnMissingBean(EntityJsonLoggerUtil.class)
+    public EntityJsonLoggerUtil entityJsonLoggerUtil(ObjectMapper objectMapper) {
+        return new EntityJsonLoggerUtil(objectMapper);
+    }
 }
 
