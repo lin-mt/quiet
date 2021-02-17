@@ -25,6 +25,7 @@ import com.gitee.quiet.common.service.jackson.serializer.LongSerializer;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
@@ -69,13 +70,16 @@ public class QuietServiceConfig {
     }
     
     @Bean
+    @ConditionalOnMissingBean(value = LongSerializer.class)
     public LongSerializer longSerializer() {
         return new LongSerializer();
     }
     
     @Bean
+    @ConditionalOnMissingBean(value = LongDeserializer.class)
     public LongDeserializer longDeserializer() {
         return new LongDeserializer();
     }
+    
 }
 

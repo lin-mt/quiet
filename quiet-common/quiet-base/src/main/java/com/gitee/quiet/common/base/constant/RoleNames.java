@@ -23,7 +23,7 @@ import org.springframework.lang.NonNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@SuppressWarnings("AlibabaConstantFieldShouldBeUpperCase")
+@SuppressWarnings({"AlibabaConstantFieldShouldBeUpperCase", "unused"})
 public interface RoleNames {
     
     String ROLE_PREFIX = "ROLE_";

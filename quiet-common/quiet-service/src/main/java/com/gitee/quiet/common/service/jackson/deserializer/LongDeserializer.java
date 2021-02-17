@@ -19,6 +19,7 @@ package com.gitee.quiet.common.service.jackson.deserializer;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class LongDeserializer extends JsonDeserializer<Long> {
     
     @Override
     public Long deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        if (jsonParser.getText() != null) {
+        if (StringUtils.isNoneBlank(jsonParser.getText())) {
             return Long.parseLong(jsonParser.getText());
         }
         return null;
