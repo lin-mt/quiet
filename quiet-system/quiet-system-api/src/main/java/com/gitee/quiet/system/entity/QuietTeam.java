@@ -19,7 +19,6 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -40,6 +39,7 @@ public class QuietTeam extends BaseEntity {
     /**
      * 团队名称
      */
+    @Column(name = "team_name", nullable = false, length = 16)
     @NotEmpty(message = "{team.teamName}{not.empty}")
     @Length(max = 16, message = "{team.teamName.length}{length.max.limit}")
     private String teamName;
@@ -47,6 +47,7 @@ public class QuietTeam extends BaseEntity {
     /**
      * 标语
      */
+    @Column(name = "slogan", length = 30)
     @Length(max = 30, message = "{team.slogan.length}{length.max.limit}")
     private String slogan;
     
@@ -74,8 +75,6 @@ public class QuietTeam extends BaseEntity {
     @Transient
     private List<QuietUser> members;
     
-    @Basic
-    @Column(name = "team_name")
     public String getTeamName() {
         return teamName;
     }
@@ -84,8 +83,6 @@ public class QuietTeam extends BaseEntity {
         this.teamName = teamName;
     }
     
-    @Basic
-    @Column(name = "slogan")
     public String getSlogan() {
         return slogan;
     }

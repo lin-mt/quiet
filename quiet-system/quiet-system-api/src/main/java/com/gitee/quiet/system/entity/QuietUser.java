@@ -50,7 +50,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
     /**
      * 用户名
      */
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = 10)
     @NotEmpty(message = "{user.username}{not.empty}")
     @Length(max = 10, message = "{user.username.length}{length.max.limit}")
     private String username;
@@ -58,13 +58,13 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
     /**
      * 头像地址
      */
-    @Column(name = "avatar")
+    @Column(name = "avatar", length = 100)
     private String avatar;
     
     /**
      * 密码
      */
-    @Column(name = "secret_code")
+    @Column(name = "secret_code", nullable = false, length = 30)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "{user.secretCode}{not.empty}")
     private String secretCode;
@@ -73,7 +73,7 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      * 性别
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
+    @Column(name = "gender", length = 6)
     private Gender gender;
     
     /**
@@ -81,42 +81,42 @@ public class QuietUser extends BaseEntity implements UserDetails, CredentialsCon
      */
     @Pattern(regexp = "^1\\d{10}$", message = "{user.phoneNumber.wrong}")
     @Length(min = 11, max = 11, message = "{user.phoneNumber.wrong}")
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 100)
     private String phoneNumber;
     
     /**
      * 邮箱地址
      */
     @Email(message = "{user.email.address}")
-    @Column(name = "email_address")
+    @Column(name = "email_address", length = 100)
     private String emailAddress;
     
     /**
      * 账号是否过期
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_expired")
+    @Column(name = "account_expired", length = 3)
     private Whether accountExpired;
     
     /**
      * 账号是否被锁
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_locked")
+    @Column(name = "account_locked", length = 3)
     private Whether accountLocked;
     
     /**
      * 密码是否过期
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "credentials_expired")
+    @Column(name = "credentials_expired", length = 3)
     private Whether credentialsExpired;
     
     /**
      * 账号是否启用
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "enabled")
+    @Column(name = "enabled", length = 3)
     private Whether enabled;
     
     /**

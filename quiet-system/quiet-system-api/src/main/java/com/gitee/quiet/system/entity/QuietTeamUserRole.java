@@ -18,6 +18,7 @@ package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -34,12 +35,14 @@ public class QuietTeamUserRole extends BaseEntity {
     /**
      * 团队-用户ID
      */
+    @Column(name = "team_user_id", nullable = false)
     @NotNull(message = "{userTeamRole.teamUserId}{not.null}")
     private Long teamUserId;
     
     /**
      * 角色ID
      */
+    @Column(name = "role_id", nullable = false)
     @NotNull(message = "{userTeamRole.roleId}{not.null}")
     private Long roleId;
     

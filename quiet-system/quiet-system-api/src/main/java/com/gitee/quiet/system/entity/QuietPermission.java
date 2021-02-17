@@ -19,7 +19,6 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -38,6 +37,7 @@ public class QuietPermission extends BaseEntity {
     /**
      * 应用名称
      */
+    @Column(name = "application_name", nullable = false, length = 100)
     @NotEmpty(message = "{permission.applicationName}{not.empty}")
     @Length(max = 100, message = "{permission.applicationName.length}{length.max.limit}")
     private String applicationName;
@@ -45,6 +45,7 @@ public class QuietPermission extends BaseEntity {
     /**
      * URL 匹配规则
      */
+    @Column(name = "url_pattern", length = 100)
     @NotEmpty(message = "{permission.urlPattern}{not.empty}")
     @Length(max = 100, message = "{permission.urlPattern.length}{length.max.limit}")
     private String urlPattern;
@@ -52,22 +53,24 @@ public class QuietPermission extends BaseEntity {
     /**
      * 请求方法
      */
+    @Column(name = "request_method", length = 7)
+    @Length(max = 7, message = "{permission.requestMethod.length}{length.max.limit}")
     private String requestMethod;
     
     /**
      * 角色ID
      */
+    @Column(name = "role_id", nullable = false)
     @NotNull(message = "{permission.roleId}{not.null}")
     private Long roleId;
     
     /**
      * 备注
      */
+    @Column(name = "remark", length = 100)
     @Length(max = 100, message = "{permission.remark}{length.max.limit}")
     private String remark;
     
-    @Basic
-    @Column(name = "application_name")
     public String getApplicationName() {
         return applicationName;
     }
@@ -76,8 +79,6 @@ public class QuietPermission extends BaseEntity {
         this.applicationName = applicationName;
     }
     
-    @Basic
-    @Column(name = "url_pattern")
     public String getUrlPattern() {
         return urlPattern;
     }
@@ -86,8 +87,6 @@ public class QuietPermission extends BaseEntity {
         this.urlPattern = urlPattern;
     }
     
-    @Basic
-    @Column(name = "request_method")
     public String getRequestMethod() {
         return requestMethod;
     }
@@ -96,8 +95,6 @@ public class QuietPermission extends BaseEntity {
         this.requestMethod = requestMethod;
     }
     
-    @Basic
-    @Column(name = "role_id")
     public Long getRoleId() {
         return roleId;
     }
@@ -106,8 +103,6 @@ public class QuietPermission extends BaseEntity {
         this.roleId = roleId;
     }
     
-    @Basic
-    @Column(name = "remark")
     public String getRemark() {
         return remark;
     }

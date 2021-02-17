@@ -21,7 +21,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -42,11 +41,13 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
     /**
      * 父角色ID
      */
+    @Column(name = "parent_id")
     private Long parentId;
     
     /**
      * 角色名称
      */
+    @Column(name = "role_name", nullable = false, length = 30)
     @NotEmpty(message = "{role.roleName}{not.empty}")
     @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
     private String roleName;
@@ -54,6 +55,7 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
     /**
      * 角色中文名
      */
+    @Column(name = "role_cn_name", nullable = false, length = 30)
     @NotEmpty(message = "{role.roleCnName}{not.empty}")
     @Length(max = 30, message = "{role.roleCnName.length}{length.max.limit}")
     private String roleCnName;
@@ -61,6 +63,7 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
     /**
      * 备注
      */
+    @Column(name = "remark", length = 100)
     @Length(max = 100, message = "{role.remark}{length.max.limit}")
     private String remark;
     
@@ -82,8 +85,6 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
         return getRoleName();
     }
     
-    @Basic
-    @Column(name = "parent_id")
     public Long getParentId() {
         return parentId;
     }
@@ -92,8 +93,6 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
         this.parentId = parentId;
     }
     
-    @Basic
-    @Column(name = "role_name")
     public String getRoleName() {
         return roleName;
     }
@@ -102,8 +101,6 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
         this.roleName = roleName;
     }
     
-    @Basic
-    @Column(name = "role_cn_name")
     public String getRoleCnName() {
         return roleCnName;
     }
@@ -112,8 +109,6 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
         this.roleCnName = roleCnName;
     }
     
-    @Basic
-    @Column(name = "remark")
     public String getRemark() {
         return remark;
     }

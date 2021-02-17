@@ -18,7 +18,6 @@ package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -36,17 +35,17 @@ public class QuietTeamUser extends BaseEntity {
     /**
      * 团队ID
      */
+    @Column(name = "team_id", nullable = false)
     @NotNull(message = "{teamUser.teamId}{not.null}")
     private Long teamId;
     
     /**
      * 成员ID
      */
+    @Column(name = "user_id", nullable = false)
     @NotNull(message = "{teamUser.userId}{not.null}")
     private Long userId;
     
-    @Basic
-    @Column(name = "team_id")
     public Long getTeamId() {
         return teamId;
     }
@@ -55,8 +54,6 @@ public class QuietTeamUser extends BaseEntity {
         this.teamId = teamId;
     }
     
-    @Basic
-    @Column(name = "user_id")
     public Long getUserId() {
         return userId;
     }

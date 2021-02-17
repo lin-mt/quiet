@@ -51,23 +51,23 @@ import java.util.Set;
 @Table(name = "quiet_client")
 public class QuietClient extends BaseEntity implements ClientDetails {
     
-    @Column(name = "client_id", length = 20)
+    @Column(name = "client_id", length = 20, nullable = false, unique = true)
     @NotEmpty(message = "{client.clientId}{not.empty}")
     @Length(max = 20, message = "{client.clientId.length}{length.max.limit}")
     private String clientId;
     
-    @Column(name = "client_name", length = 30)
+    @Column(name = "client_name", length = 30, nullable = false)
     @NotEmpty(message = "{client.clientName}{not.empty}")
     @Length(max = 30, message = "{client.clientName.length}{length.max.limit}")
     private String clientName;
     
-    @Column(name = "client_secret", length = 60)
+    @Column(name = "client_secret", length = 60, nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "{client.clientSecret}{not.empty}")
     @Length(max = 60, message = "{client.clientSecret.length}{length.max.limit}")
     private String clientSecret;
     
-    @Column(name = "resource_ids")
+    @Column(name = "resource_ids", length = 60)
     @Convert(converter = SetStringConverter.class)
     private Set<String> resourceIds;
     
@@ -85,11 +85,11 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Convert(converter = SetStringConverter.class)
     private Set<String> scope;
     
-    @Column(name = "authorized_grant_types")
+    @Column(name = "authorized_grant_types", length = 60)
     @Convert(converter = SetStringConverter.class)
     private Set<String> authorizedGrantTypes;
     
-    @Column(name = "registered_redirect_uri")
+    @Column(name = "registered_redirect_uri", length = 60)
     @Convert(converter = SetStringConverter.class)
     private Set<String> registeredRedirectUri;
     

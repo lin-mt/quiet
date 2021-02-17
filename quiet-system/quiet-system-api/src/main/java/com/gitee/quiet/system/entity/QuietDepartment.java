@@ -17,12 +17,9 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -43,6 +40,7 @@ public class QuietDepartment extends BaseEntity {
     /**
      * 部门名称
      */
+    @Column(name = "department_name", length = 10, nullable = false)
     @NotEmpty(message = "{department.departmentName}{not.empty}")
     @Length(max = 10, message = "{department.departmentName.length}{length.max.limit}")
     private String departmentName;
@@ -50,11 +48,13 @@ public class QuietDepartment extends BaseEntity {
     /**
      * 父级部门 ID
      */
+    @Column(name = "parent_id")
     private Long parentId;
     
     /**
      * 备注
      */
+    @Column(name = "remark", length = 100)
     @Length(max = 100, message = "{department.remark}{length.max.limit}")
     private String remark;
     
@@ -64,8 +64,6 @@ public class QuietDepartment extends BaseEntity {
     @Transient
     private List<QuietDepartment> children;
     
-    @Basic
-    @Column(name = "department_name")
     public String getDepartmentName() {
         return departmentName;
     }
@@ -74,8 +72,6 @@ public class QuietDepartment extends BaseEntity {
         this.departmentName = departmentName;
     }
     
-    @Basic
-    @Column(name = "parent_id")
     public Long getParentId() {
         return parentId;
     }
@@ -84,8 +80,6 @@ public class QuietDepartment extends BaseEntity {
         this.parentId = parentId;
     }
     
-    @Basic
-    @Column(name = "remark")
     public String getRemark() {
         return remark;
     }

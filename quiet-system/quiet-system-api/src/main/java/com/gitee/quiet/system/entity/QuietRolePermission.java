@@ -18,7 +18,6 @@ package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -36,17 +35,17 @@ public class QuietRolePermission extends BaseEntity {
     /**
      * 角色 ID
      */
+    @Column(name = "role_id", nullable = false)
     @NotNull(message = "{rolePermission.roleId}{not.null}")
     private Long roleId;
     
     /**
      * 权限 ID
      */
+    @Column(name = "permission_id", nullable = false)
     @NotNull(message = "{rolePermission.permissionId}{not.null}")
     private Long permissionId;
     
-    @Basic
-    @Column(name = "role_id")
     public Long getRoleId() {
         return roleId;
     }
@@ -55,8 +54,6 @@ public class QuietRolePermission extends BaseEntity {
         this.roleId = roleId;
     }
     
-    @Basic
-    @Column(name = "permission_id")
     public Long getPermissionId() {
         return permissionId;
     }
