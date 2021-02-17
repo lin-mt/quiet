@@ -20,9 +20,7 @@ import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.jackson.deserializer.DataDictionaryDeserializer;
 import com.gitee.quiet.common.service.jackson.deserializer.LongDeserializer;
-import com.gitee.quiet.common.service.jackson.serializer.DictionarySerializer;
 import com.gitee.quiet.common.service.jackson.serializer.LongSerializer;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
@@ -68,16 +66,6 @@ public class QuietServiceConfig {
     @Bean
     public ResultAdvice<?> resultAdvice() {
         return new ResultAdvice<>();
-    }
-    
-    @Bean
-    public DataDictionaryDeserializer<?> databaseDictionaryDeserializer() {
-        return new DataDictionaryDeserializer<>();
-    }
-    
-    @Bean
-    public DictionarySerializer<?> dictionarySerializer() {
-        return new DictionarySerializer<>();
     }
     
     @Bean

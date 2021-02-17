@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.AbstractApplicationContext;
 
 /**
  * MessageSource 配置类.
@@ -18,8 +17,6 @@ public class QuietMessageSourceConfig {
     
     public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
     
-    public static final String QUIET_DICTIONARY_MESSAGE_SOURCE = "quietDictionaryMessageSource";
-    
     @Bean
     @ConditionalOnMissingBean(value = MessageSourceProperties.class)
     public MessageSourceProperties messageSourceProperties() {
@@ -29,11 +26,6 @@ public class QuietMessageSourceConfig {
     @Bean(QUIET_COMMON_MESSAGE_SOURCE)
     public MessageSource commonMessageSource(MessageSourceProperties properties) {
         return MessageSourceUtil.buildMessageSource(properties, "quiet-common");
-    }
-    
-    @Bean(QUIET_DICTIONARY_MESSAGE_SOURCE)
-    public MessageSource dictionaryMessageSource(MessageSourceProperties properties) {
-        return MessageSourceUtil.buildMessageSource(properties, "quiet-enum-dictionary", "quiet-dictionary");
     }
     
 }
