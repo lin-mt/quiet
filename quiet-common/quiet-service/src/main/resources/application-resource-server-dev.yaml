@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    include: dev
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9000/oauth/token
+      user-authorization-uri: http://localhost:9000/oauth/authorize
+    authorization:
+      check-token-access: http://localhost:9000/oauth/check_token

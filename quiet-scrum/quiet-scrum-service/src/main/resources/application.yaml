@@ -3,45 +3,13 @@ server:
 spring:
   application:
     name: quiet-scrum
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-  datasource:
-    url: jdbc:mysql://localhost:3306/quiet?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root93633
-  jpa:
-    database: mysql
-    show-sql: true
-    generate-ddl: true
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL55Dialect
-  jackson:
-    date-format: 'yyyy-MM-dd HH:mm:ss'
-    deserialization:
-      FAIL_ON_UNKNOWN_PROPERTIES: false
-    locale: zh_CN
-    time-zone: GMT+8
+  profiles:
+    active: resource-server-dev
 security:
   oauth2:
     client:
-      client-id: ${spring.application.name}
       client-secret: quiet
-      access-token-uri: http://localhost:9000/oauth/token
-      user-authorization-uri: http://localhost:9000/oauth/authorize
-    resource:
-      id: ${spring.application.name}
-    authorization:
-      check-token-access: http://localhost:9000/oauth/check_token
 dubbo:
-  protocol:
-    port: -1
-    id: dubbo
-    name: dubbo
   cloud:
     subscribed-services: quiet-system
   scan:
