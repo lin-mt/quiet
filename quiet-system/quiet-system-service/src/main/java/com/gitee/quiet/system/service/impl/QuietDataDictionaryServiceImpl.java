@@ -42,25 +42,13 @@ public class QuietDataDictionaryServiceImpl implements QuietDataDictionaryServic
     
     @Override
     public List<QuietDataDictionary> treeByType(String type) {
-        List<QuietDataDictionary> dictionaries;
+        List<QuietDataDictionary> dataDictionaries;
         if (StringUtils.isNoneBlank(type)) {
-            dictionaries = dataDictionaryRepository.findAllByType(type);
+            dataDictionaries = dataDictionaryRepository.findAllByType(type);
         } else {
-            dictionaries = dataDictionaryRepository.findAll();
+            dataDictionaries = dataDictionaryRepository.findAll();
         }
-        Map<Long, QuietDataDictionary> dataDictionaryToId = new HashMap<>(dictionaries.size());
-        for (QuietDataDictionary department : dictionaries) {
-            dataDictionaryToId.put(department.getId(), department);
-        }
-        List<QuietDataDictionary> result = new ArrayList<>();
-        for (QuietDataDictionary department : dictionaries) {
-            if (department.getParentId() == null) {
-                result.add(department);
-            } else {
-                dataDictionaryToId.get(department.getParentId()).addChildren(department);
-            }
-        }
-        return result;
+        return buildTreeData(dataDictionaries);
     }
     
     @Override
@@ -102,7 +90,38 @@ public class QuietDataDictionaryServiceImpl implements QuietDataDictionaryServic
         return dataDictionaryRepository.saveAndFlush(update);
     }
     
+    @Override
+    public List<QuietDataDictionary> treeByTypeForSelect(String type) {
+        List<QuietDataDictionary> dataDictionaries = dataDictionaryRepository
+                .findAllByTypeAndKeyIsNullAndParentIdIsNull(type);
+        return buildTreeData(dataDictionaries);
+    }
+    
+    private List<QuietDataDictionary> buildTreeData(List<QuietDataDictionary> dataDictionaries) {
+        Map<Long, QuietDataDictionary> dataDictionaryToId = new HashMap<>(dataDictionaries.size());
+        for (QuietDataDictionary department : dataDictionaries) {
+            dataDictionaryToId.put(department.getId(), department);
+        }
+        List<QuietDataDictionary> result = new ArrayList<>();
+        for (QuietDataDictionary department : dataDictionaries) {
+            if (department.getParentId() == null) {
+                result.add(department);
+            } else {
+                dataDictionaryToId.get(department.getParentId()).addChildren(department);
+            }
+        }
+        return result;
+    }
+    
     private void checkDataDictionaryInfo(@NotNull QuietDataDictionary dataDictionary) {
+        if (StringUtils.isBlank(dataDictionary.getKey())) {
+            dataDictionary.setKey(null);
+        }
+        boolean sameNullState = (dataDictionary.getKey() != null && dataDictionary.getParentId() != null) || (
+                dataDictionary.getKey() == null && dataDictionary.getParentId() == null);
+        if (!sameNullState) {
+            throw new ServiceException("dataDictionary.key.parentId.differentNullState");
+        }
         QuietDataDictionary exist = dataDictionaryRepository
                 .findByTypeAndKey(dataDictionary.getType(), dataDictionary.getKey());
         if (exist != null && !exist.getId().equals(dataDictionary.getId())) {

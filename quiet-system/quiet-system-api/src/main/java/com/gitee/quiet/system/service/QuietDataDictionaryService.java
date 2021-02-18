@@ -52,4 +52,12 @@ public interface QuietDataDictionaryService {
      * @return 更新后的数据字典信息
      */
     QuietDataDictionary update(QuietDataDictionary update);
+    
+    /**
+     * 查询数据字典提供选项
+     *
+     * @param type 数据字典类型
+     * @return 该数据字典类型下的选项
+     */
+    List<QuietDataDictionary> treeByTypeForSelect(String type);
 }

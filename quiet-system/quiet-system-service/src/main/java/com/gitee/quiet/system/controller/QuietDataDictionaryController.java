@@ -33,6 +33,16 @@ public class QuietDataDictionaryController {
     }
     
     /**
+     * 根据数据字典类型查询该类型的数据字典的树形结构提供选项
+     *
+     * @return 数据字典树形结构
+     */
+    @PostMapping("/treeByTypeForSelect")
+    public Result<List<QuietDataDictionary>> treeByTypeForSelect(@RequestBody QuietDataDictionaryParam postParam) {
+        return Result.success(dataDictionaryService.treeByTypeForSelect(postParam.getType()));
+    }
+    
+    /**
      * 根据数据字典类型返回该类型的树形结构
      *
      * @return 数据字典树形结构
