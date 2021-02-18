@@ -89,7 +89,7 @@ public class QuietDataDictionaryServiceImpl implements QuietDataDictionaryServic
         if (delete.isEmpty()) {
             throw new ServiceException("dataDictionary.not.exist");
         }
-        List<QuietDataDictionary> children = dataDictionaryRepository.findAllByParentId(delete.get().getParentId());
+        List<QuietDataDictionary> children = dataDictionaryRepository.findAllByParentId(delete.get().getId());
         if (CollectionUtils.isNotEmpty(children)) {
             throw new ServiceException("dataDictionary.can.not.delete.has.children");
         }
