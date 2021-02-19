@@ -22,7 +22,7 @@ plugins {
 //noinspection GroovyAssignabilityCheck
 allprojects {
     group 'com.gitee.lin-mt'
-    version '1.0.0-SNAPSHOT'
+    version '1.0.1'
 }
 
 repositories {
