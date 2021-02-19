@@ -13,9 +13,3 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
-        - id: scrum
-          uri: lb://quiet-scrum
-          predicates:
-            - Path=/scrum/**
-          filters:
-            - StripPrefix=1
