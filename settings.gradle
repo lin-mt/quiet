@@ -28,3 +28,8 @@ include 'quiet-system:quiet-system-api'
 findProject(':quiet-system:quiet-system-api')?.name = 'quiet-system-api'
 include 'quiet-system:quiet-system-service'
 findProject(':quiet-system:quiet-system-service')?.name = 'quiet-system-service'
+
+include 'quiet-scrum:quiet-scrum-api'
+findProject(':quiet-scrum:quiet-scrum-api')?.name = 'quiet-scrum-api'
+include 'quiet-scrum:quiet-scrum-service'
+findProject(':quiet-scrum:quiet-scrum-service')?.name = 'quiet-scrum-service'
