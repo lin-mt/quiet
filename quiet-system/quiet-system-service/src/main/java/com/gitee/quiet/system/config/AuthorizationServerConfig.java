@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.system.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gitee.quiet.common.service.config.QuietUserAuthenticationConverter;
 import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.system.service.QuietUserService;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
@@ -46,19 +49,27 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     
     private final TokenStore redisTokenStore;
     
+    private final ObjectMapper objectMapper;
+    
     public AuthorizationServerConfig(QuietUserService userService, QuietClientService clientService,
-            AuthenticationManager authenticationManager, TokenStore redisTokenStore) {
+            AuthenticationManager authenticationManager, TokenStore redisTokenStore, ObjectMapper objectMapper) {
         this.userService = userService;
         this.clientService = clientService;
         this.authenticationManager = authenticationManager;
         this.redisTokenStore = redisTokenStore;
+        this.objectMapper = objectMapper;
     }
     
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) {
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        QuietUserAuthenticationConverter authenticationConverter = new QuietUserAuthenticationConverter(objectMapper);
+        authenticationConverter.setUserDetailsService(userService);
+        accessTokenConverter.setUserTokenConverter(authenticationConverter);
         // @formatter:off
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userService)
+                .accessTokenConverter(accessTokenConverter)
                 .tokenStore(redisTokenStore);
         // @formatter:on
     }

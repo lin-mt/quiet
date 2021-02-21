@@ -20,7 +20,7 @@ import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.common.service.config.QuietMessageSourceConfig;
 import com.gitee.quiet.system.constant.AccountCode;
-import com.gitee.quiet.system.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

@@ -17,7 +17,9 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.service.base.QuietUserDetails;
 import com.gitee.quiet.common.service.enums.Whether;
+import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -29,7 +31,6 @@ import com.gitee.quiet.system.params.QuietUserParam;
 import com.gitee.quiet.system.params.QuietUserRoleParam;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
-import com.gitee.quiet.system.util.SpringSecurityUtils;
 import com.querydsl.core.QueryResults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -118,7 +119,7 @@ public class QuietUserController {
      * @return 当前登陆人信息
      */
     @PostMapping("/currentUserInfo")
-    public Result<QuietUser> currentUserInfo() {
+    public Result<QuietUserDetails> currentUserInfo() {
         return Result.success(SpringSecurityUtils.getCurrentUser());
     }
     

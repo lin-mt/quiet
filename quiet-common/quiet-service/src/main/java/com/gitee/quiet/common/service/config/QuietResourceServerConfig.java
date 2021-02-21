@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -27,6 +28,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 /**
@@ -44,10 +46,13 @@ public class QuietResourceServerConfig extends ResourceServerConfigurerAdapter {
     
     private final AuthorizationServerProperties authorizationServerProperties;
     
+    private final ObjectMapper objectMapper;
+    
     public QuietResourceServerConfig(ResourceServerProperties resourceServerProperties,
-            AuthorizationServerProperties authorizationServerProperties) {
+            AuthorizationServerProperties authorizationServerProperties, ObjectMapper objectMapper) {
         this.resourceServerProperties = resourceServerProperties;
         this.authorizationServerProperties = authorizationServerProperties;
+        this.objectMapper = objectMapper;
     }
     
     @Override
@@ -59,6 +64,9 @@ public class QuietResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Primary
     public RemoteTokenServices tokenService() {
         RemoteTokenServices tokenService = new RemoteTokenServices();
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        accessTokenConverter.setUserTokenConverter(new QuietUserAuthenticationConverter(objectMapper));
+        tokenService.setAccessTokenConverter(accessTokenConverter);
         tokenService.setClientId(resourceServerProperties.getClientId());
         tokenService.setClientSecret(resourceServerProperties.getClientSecret());
         tokenService.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
