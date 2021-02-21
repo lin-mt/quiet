@@ -6,5 +6,7 @@ security:
     client:
       access-token-uri: http://localhost:9000/oauth/token
       user-authorization-uri: http://localhost:9000/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:9000/oauth/oauth_user
     authorization:
       check-token-access: http://localhost:9000/oauth/check_token

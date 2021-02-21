@@ -16,10 +16,9 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.base.QuietGrantedAuthority;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,21 +35,13 @@ import java.util.List;
  */
 @Entity
 @Table(name = "quiet_role")
-public class QuietRole extends BaseEntity implements GrantedAuthority {
+public class QuietRole extends QuietGrantedAuthority {
     
     /**
      * 父角色ID
      */
     @Column(name = "parent_id")
     private Long parentId;
-    
-    /**
-     * 角色名称
-     */
-    @Column(name = "role_name", nullable = false, length = 30)
-    @NotEmpty(message = "{role.roleName}{not.empty}")
-    @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
-    private String roleName;
     
     /**
      * 角色中文名
@@ -91,14 +82,6 @@ public class QuietRole extends BaseEntity implements GrantedAuthority {
     
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-    
-    public String getRoleName() {
-        return roleName;
-    }
-    
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
     
     public String getRoleCnName() {

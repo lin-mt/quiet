@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.util;
+package com.gitee.quiet.common.service.util;
 
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.common.service.base.QuietUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -35,23 +35,10 @@ public class SpringSecurityUtils {
      *
      * @return 登录人.
      */
-    public static QuietUser getCurrentUser() {
+    public static QuietUserDetails getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            return (QuietUser) authentication.getPrincipal();
-        }
-        return null;
-    }
-    
-    /**
-     * 获取当前登录人用户名.
-     *
-     * @return 当前登录人用户名
-     */
-    public static String getCurrentUserUsername() {
-        QuietUser user = getCurrentUser();
-        if (user != null) {
-            return user.getUsername();
+            return (QuietUserDetails) authentication.getPrincipal();
         }
         return null;
     }
@@ -62,7 +49,7 @@ public class SpringSecurityUtils {
      * @return 当前登录人ID
      */
     public static Long getCurrentUserId() {
-        QuietUser user = getCurrentUser();
+        QuietUserDetails user = getCurrentUser();
         if (user != null) {
             return user.getId();
         }
