@@ -17,4 +17,12 @@ public interface ScrumProjectService {
      * @param userId 用户ID
      */
     List<ScrumProject> allProjectByUserId(Long userId);
+    
+    /**
+     * 新增项目
+     *
+     * @param save 新增的项目信息
+     * @return 新增后的项目信息
+     */
+    ScrumProject save(ScrumProject save);
 }

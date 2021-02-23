@@ -1,10 +1,13 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.enums.BuildTool;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -18,14 +21,31 @@ import javax.validation.constraints.NotNull;
 public class ScrumProject extends BaseEntity {
 
     @NotNull(message = "{project.name}{not.null}")
-    @Length(max = 30, message = "{project.name.length}{{length.max.limit}}")
+    @Length(max = 30, message = "{project.name.length}{length.max.limit}")
     @Column(name = "project_name", nullable = false, length = 30)
     private String name;
     
-    @NotNull(message = "{project.description}{not.null}")
+    @Column(name = "manager", nullable = false)
+    private Long manager;
+    
     @Length(max = 100, message = "{project.description.length}{length.max.limit}")
     @Column(name = "project_description", length = 100)
     private String description;
+    
+    @Length(max = 6, message = "{project.demandPrefix.length}{length.max.limit}")
+    @Column(name = "demand_prefix", length = 6)
+    private String demandPrefix;
+    
+    @Length(max = 6, message = "{project.taskPrefix.length}{length.max.limit}")
+    @Column(name = "task_prefix", length = 6)
+    private String taskPrefix;
+    
+    @Column(name = "task_template_id")
+    private Long taskTemplateId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "build_tool", length = 6)
+    private BuildTool buildTool;
     
     public String getName() {
         return name;
@@ -35,11 +55,51 @@ public class ScrumProject extends BaseEntity {
         this.name = name;
     }
     
+    public Long getManager() {
+        return manager;
+    }
+    
+    public void setManager(Long manager) {
+        this.manager = manager;
+    }
+    
     public String getDescription() {
         return description;
     }
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getDemandPrefix() {
+        return demandPrefix;
+    }
+    
+    public void setDemandPrefix(String demandPrefix) {
+        this.demandPrefix = demandPrefix;
+    }
+    
+    public String getTaskPrefix() {
+        return taskPrefix;
+    }
+    
+    public void setTaskPrefix(String taskPrefix) {
+        this.taskPrefix = taskPrefix;
+    }
+    
+    public Long getTaskTemplateId() {
+        return taskTemplateId;
+    }
+    
+    public void setTaskTemplateId(Long taskTemplateId) {
+        this.taskTemplateId = taskTemplateId;
+    }
+    
+    public BuildTool getBuildTool() {
+        return buildTool;
+    }
+    
+    public void setBuildTool(BuildTool buildTool) {
+        this.buildTool = buildTool;
     }
 }
