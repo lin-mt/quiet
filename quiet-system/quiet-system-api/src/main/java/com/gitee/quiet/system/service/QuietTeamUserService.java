@@ -62,7 +62,7 @@ public interface QuietTeamUserService {
     /**
      * 为团队批量添加成员
      *
-     * @param teamId 团队ID
+     * @param teamId  团队ID
      * @param userIds 要添加的用户ID集合
      */
     void addUsers(Long teamId, Set<Long> userIds);
@@ -75,4 +75,12 @@ public interface QuietTeamUserService {
      * @return 在该团队中的团队和用户关系集合
      */
     List<QuietTeamUser> findByTeamIdAndUserIds(Long teamId, Set<Long> userIds);
+    
+    /**
+     * 根据用户ID查询该用户下的所有团队信息
+     *
+     * @param userId 用户ID
+     * @return 团队信息
+     */
+    List<QuietTeamUser> findAllByUserId(Long userId);
 }
