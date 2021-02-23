@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 团队 Controller.
  *
@@ -44,6 +47,18 @@ public class QuietTeamController {
     
     public QuietTeamController(QuietTeamService teamService) {
         this.teamService = teamService;
+    }
+    
+    /**
+     * 根据团队名称查询团队信息
+     *
+     * @param postParam 查询参数
+     * @return 团队信息
+     */
+    @PostMapping("/listTeamsByTeamName")
+    public Result<List<QuietTeam>> listTeamsByTeamName(
+            @RequestBody @Validated(ParamsNotNull.class) QuietTeamParam postParam) {
+        return Result.success(teamService.listTeamsByTeamName(postParam.getParams().getTeamName(), 9));
     }
     
     /**
