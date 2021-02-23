@@ -21,6 +21,7 @@ import com.gitee.quiet.system.repository.QuietTeamUserRepository;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@DubboService
 public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     
     private final QuietTeamUserRepository teamUserRepository;
@@ -106,5 +108,10 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
     @Override
     public List<QuietTeamUser> findByTeamIdAndUserIds(@NotNull Long teamId, @NotNull @NotEmpty Set<Long> userIds) {
         return teamUserRepository.findAllByTeamIdAndUserIdIsIn(teamId, userIds);
+    }
+    
+    @Override
+    public List<QuietTeamUser> findAllByUserId(@NotNull Long userId) {
+        return teamUserRepository.findAllByUserId(userId);
     }
 }
