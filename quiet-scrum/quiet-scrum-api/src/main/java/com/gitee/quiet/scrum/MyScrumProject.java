@@ -14,42 +14,42 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.service;
+package com.gitee.quiet.scrum;
 
-import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * 项目Service.
+ * 用户参与的所有项目信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ScrumProjectService {
+public class MyScrumProject {
     
     /**
-     * 获取用户的所有项目信息
-     *
-     * @param userId 用户ID
-     * @return 项目信息
+     * 作为项目经理负责的项目
      */
-    MyScrumProject allProjectByUserId(Long userId);
+    private List<ScrumProject> manageProject;
     
     /**
-     * 新增项目
-     *
-     * @param save 新增的项目信息
-     * @return 新增后的项目信息
+     * 参与的项目（非项目经理）
      */
-    ScrumProject save(ScrumProject save);
+    private List<ScrumProject> projects;
     
-    /**
-     * 根据项目ID查询项目信息
-     *
-     * @param ids 项目ID集合
-     * @return 项目信息
-     */
-    List<ScrumProject> findAllByIds(Set<Long> ids);
+    public List<ScrumProject> getManageProject() {
+        return manageProject;
+    }
+    
+    public void setManageProject(List<ScrumProject> manageProject) {
+        this.manageProject = manageProject;
+    }
+    
+    public List<ScrumProject> getProjects() {
+        return projects;
+    }
+    
+    public void setProjects(List<ScrumProject> projects) {
+        this.projects = projects;
+    }
 }

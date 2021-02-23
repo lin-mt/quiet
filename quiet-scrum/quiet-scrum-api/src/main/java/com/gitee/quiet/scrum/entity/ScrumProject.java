@@ -18,6 +18,8 @@ package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.enums.BuildTool;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -25,7 +27,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * 项目.
@@ -119,4 +124,20 @@ public class ScrumProject extends BaseEntity {
     public void setBuildTool(BuildTool buildTool) {
         this.buildTool = buildTool;
     }
+    
+    /**
+     * 负责的团队ID集合
+     */
+    @Transient
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{project.teamIds}{not.empty}")
+    private Set<Long> teamIds;
+    
+    public Set<Long> getTeamIds() {
+        return teamIds;
+    }
+    
+    public void setTeamIds(Set<Long> teamIds) {
+        this.teamIds = teamIds;
+    }
+    
 }

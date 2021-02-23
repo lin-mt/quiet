@@ -14,42 +14,29 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.service;
+package com.gitee.quiet.scrum.repository;
 
-import com.gitee.quiet.scrum.MyScrumProject;
-import com.gitee.quiet.scrum.entity.ScrumProject;
+import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
 
 /**
- * 项目Service.
+ * 项目团队信息repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ScrumProjectService {
+@Repository
+public interface ScrumProjectTeamRepository extends JpaRepository<ScrumProjectTeam, Long> {
     
     /**
-     * 获取用户的所有项目信息
+     * 根据团队ID查询团队负责的所有项目信息
      *
-     * @param userId 用户ID
-     * @return 项目信息
+     * @param teamIds 团队ID集合
+     * @return 团队负责的项目信息
      */
-    MyScrumProject allProjectByUserId(Long userId);
+    List<ScrumProjectTeam> findAllByTeamIdIn(Set<Long> teamIds);
     
-    /**
-     * 新增项目
-     *
-     * @param save 新增的项目信息
-     * @return 新增后的项目信息
-     */
-    ScrumProject save(ScrumProject save);
-    
-    /**
-     * 根据项目ID查询项目信息
-     *
-     * @param ids 项目ID集合
-     * @return 项目信息
-     */
-    List<ScrumProject> findAllByIds(Set<Long> ids);
 }

@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumProject;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 项目repository.
  *
@@ -27,5 +29,21 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumProjectRepository extends JpaRepository<ScrumProject, Long> {
-
+    
+    /**
+     * 根据项目名称和负责经理查询项目信息
+     *
+     * @param name    项目名称
+     * @param manager 项目经理ID
+     * @return 项目信息
+     */
+    ScrumProject findByNameAndManager(String name, Long manager);
+    
+    /**
+     * 根据项目经理ID查询负责的项目信息
+     *
+     * @param manager 项目经理ID
+     * @return 项目信息
+     */
+    List<ScrumProject> findAllByManager(Long manager);
 }

@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
@@ -27,8 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 项目Controller.
@@ -51,7 +50,7 @@ public class ScrumProjectController {
      * @return 项目信息
      */
     @PostMapping("/allMyProjects")
-    public Result<List<ScrumProject>> allMyProjects() {
+    public Result<MyScrumProject> allMyProjects() {
         return Result.success(projectService.allProjectByUserId(SpringSecurityUtils.getCurrentUserId()));
     }
     
