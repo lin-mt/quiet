@@ -20,6 +20,8 @@ import com.gitee.quiet.system.entity.QuietTeam;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * 团队 Service.
  *
@@ -50,4 +52,13 @@ public interface QuietTeamService {
      * @param deleteId 要删除的团队 ID
      */
     void deleteTeam(Long deleteId);
+    
+    /**
+     * 根据团队名称传销团队信息
+     *
+     * @param teamName 团队名称
+     * @param limit    要查询的团队数量
+     * @return 团队信息
+     */
+    List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
 }

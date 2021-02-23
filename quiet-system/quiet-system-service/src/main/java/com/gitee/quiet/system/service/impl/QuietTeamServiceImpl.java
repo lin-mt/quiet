@@ -32,8 +32,10 @@ import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -180,5 +182,19 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         teamUserService.deleteByTeamId(deleteId);
         // 删除团队信息
         teamRepository.deleteById(deleteId);
+    }
+    
+    @Override
+    public List<QuietTeam> listTeamsByTeamName(String teamName, int limit) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (StringUtils.isBlank(teamName)) {
+            return new ArrayList<>();
+        }
+        builder.and(quietTeam.teamName.contains(teamName));
+        JPAQuery<QuietTeam> query = jpaQueryFactory.selectFrom(quietTeam).where(builder);
+        if (limit > 0) {
+            query.limit(limit);
+        }
+        return query.fetchResults().getResults();
     }
 }
