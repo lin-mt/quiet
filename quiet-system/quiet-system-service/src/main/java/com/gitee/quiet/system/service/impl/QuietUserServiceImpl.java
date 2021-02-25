@@ -33,6 +33,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,6 +59,7 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@DubboService
 public class QuietUserServiceImpl implements QuietUserService {
     
     private final JPAQueryFactory jpaQueryFactory;

@@ -142,29 +142,30 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         if (exist != null && !exist.getId().equals(team.getId())) {
             throw new ServiceException("team.teamName.exist", team.getTeamName());
         }
+        // 更新团队信息
+        QuietTeam quietTeam = teamRepository.saveAndFlush(team);
         // 删除所有旧数据，包括团队成员信息、团队成员的角色信息
-        teamUserService.deleteByTeamId(team.getId());
+        teamUserService.deleteByTeamId(quietTeam.getId());
         Set<Long> memberIds = new HashSet<>();
         // 保存成员信息，包括 PO 和 SM
         this.addMemberId(memberIds, team.getMembers());
         this.addMemberId(memberIds, team.getProductOwners());
         this.addMemberId(memberIds, team.getScrumMasters());
         // 添加团队成员信息
-        teamUserService.addUsers(team.getId(), memberIds);
+        teamUserService.addUsers(quietTeam.getId(), memberIds);
         // 添加 PO 角色
         if (CollectionUtils.isNotEmpty(team.getProductOwners())) {
-            teamUserRoleService.addRoleForTeam(team.getId(),
+            teamUserRoleService.addRoleForTeam(quietTeam.getId(),
                     team.getProductOwners().stream().map(QuietUser::getId).collect(Collectors.toSet()),
                     RoleNames.ProductOwner);
         }
         // 添加 SM 角色
         if (CollectionUtils.isNotEmpty(team.getScrumMasters())) {
-            teamUserRoleService.addRoleForTeam(team.getId(),
+            teamUserRoleService.addRoleForTeam(quietTeam.getId(),
                     team.getScrumMasters().stream().map(QuietUser::getId).collect(Collectors.toSet()),
                     RoleNames.ScrumMaster);
         }
-        // 更新团队信息
-        return teamRepository.saveAndFlush(team);
+        return quietTeam;
     }
     
     private void addMemberId(@NotNull Set<Long> memberIds, List<QuietUser> members) {
