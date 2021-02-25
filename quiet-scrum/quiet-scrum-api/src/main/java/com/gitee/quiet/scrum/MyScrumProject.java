@@ -30,19 +30,19 @@ public class MyScrumProject {
     /**
      * 作为项目经理负责的项目
      */
-    private List<ScrumProject> manageProject;
+    private List<ScrumProject> managedProjects;
     
     /**
      * 参与的项目（非项目经理）
      */
     private List<ScrumProject> projects;
     
-    public List<ScrumProject> getManageProject() {
-        return manageProject;
+    public List<ScrumProject> getManagedProjects() {
+        return managedProjects;
     }
     
-    public void setManageProject(List<ScrumProject> manageProject) {
-        this.manageProject = manageProject;
+    public void setManagedProjects(List<ScrumProject> managedProjects) {
+        this.managedProjects = managedProjects;
     }
     
     public List<ScrumProject> getProjects() {

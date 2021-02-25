@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
@@ -24,7 +25,9 @@ import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
 import com.gitee.quiet.system.entity.QuietTeamUser;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietTeamUserService;
+import com.gitee.quiet.system.service.QuietUserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
@@ -32,6 +35,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +54,9 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     @DubboReference
     private QuietTeamUserService teamUserService;
     
+    @DubboReference
+    private QuietUserService userService;
+    
     public ScrumProjectServiceImpl(ScrumProjectRepository projectRepository,
             @Lazy ScrumProjectTeamService projectTeamService) {
         this.projectRepository = projectRepository;
@@ -59,12 +66,23 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     @Override
     public MyScrumProject allProjectByUserId(Long userId) {
         MyScrumProject myScrumProject = new MyScrumProject();
-        List<ScrumProject> manageProjects = projectRepository.findAllByManager(userId);
-        myScrumProject.setManageProject(manageProjects);
+        List<ScrumProject> managedProjects = projectRepository.findAllByManager(userId);
+        myScrumProject.setManagedProjects(managedProjects);
         List<QuietTeamUser> teamUsers = teamUserService.findAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(teamUsers)) {
             Set<Long> teamIds = teamUsers.stream().map(QuietTeamUser::getTeamId).collect(Collectors.toSet());
             List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(teamIds);
+            if (CollectionUtils.isNotEmpty(managedProjects)) {
+                managedProjects.forEach(project -> project.setManagerName(SpringSecurityUtils.getCurrentUserName()));
+                Set<Long> manageProjectIds = managedProjects.stream().map(ScrumProject::getId)
+                        .collect(Collectors.toSet());
+                projects = projects.stream().filter(project -> !manageProjectIds.contains(project.getId()))
+                        .collect(Collectors.toList());
+                Set<Long> managerIds = projects.stream().map(ScrumProject::getManager).collect(Collectors.toSet());
+                Map<Long, String> userIdToUsername = userService.findByUserIds(managerIds).stream()
+                        .collect(Collectors.toMap(QuietUser::getId, QuietUser::getUsername));
+                projects.forEach(project -> project.setManagerName(userIdToUsername.get(project.getManager())));
+            }
             myScrumProject.setProjects(projects);
         }
         return myScrumProject;

@@ -132,6 +132,12 @@ public class ScrumProject extends BaseEntity {
     @NotEmpty(groups = {Create.class, Update.class}, message = "{project.teamIds}{not.empty}")
     private Set<Long> teamIds;
     
+    /**
+     * 项目经理用户名
+     */
+    @Transient
+    private String managerName;
+    
     public Set<Long> getTeamIds() {
         return teamIds;
     }
@@ -140,4 +146,11 @@ public class ScrumProject extends BaseEntity {
         this.teamIds = teamIds;
     }
     
+    public String getManagerName() {
+        return managerName;
+    }
+    
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
 }
