@@ -55,4 +55,17 @@ public class SpringSecurityUtils {
         }
         return null;
     }
+    
+    /**
+     * 获取当前登录人用户名.
+     *
+     * @return 当前登录人用户名
+     */
+    public static String getCurrentUserName() {
+        QuietUserDetails user = getCurrentUser();
+        if (user != null) {
+            return user.getUsername();
+        }
+        return null;
+    }
 }
