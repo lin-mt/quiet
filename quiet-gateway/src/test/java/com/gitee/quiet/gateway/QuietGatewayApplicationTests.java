@@ -21,9 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class QuietGatewayApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+    
+    @Test
+    void contextLoads() {
+    }
+    
 }

@@ -37,12 +37,12 @@ import java.util.Set;
  */
 public class QuietSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     
-    @Value("${spring.application.name}")
-    private String applicationName;
-    
     private final UrlPermissionService urlPermissionService;
     
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    
+    @Value("${spring.application.name}")
+    private String applicationName;
     
     private String rolePrefix = "ROLE_";
     

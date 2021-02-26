@@ -36,6 +36,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,7 @@ import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@DubboService
 public class QuietTeamServiceImpl implements QuietTeamService {
     
     private final JPAQueryFactory jpaQueryFactory;
@@ -197,5 +199,10 @@ public class QuietTeamServiceImpl implements QuietTeamService {
             query.limit(limit);
         }
         return query.fetchResults().getResults();
+    }
+    
+    @Override
+    public List<QuietTeam> findAllByIds(Set<Long> ids) {
+        return teamRepository.findAllById(ids);
     }
 }

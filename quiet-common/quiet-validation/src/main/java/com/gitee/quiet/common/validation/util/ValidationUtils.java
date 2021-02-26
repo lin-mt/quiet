@@ -30,7 +30,7 @@ public final class ValidationUtils {
     private ValidationUtils() {
     }
     
-    public static void notNull(Object o, String code, Object ...msgParam) {
+    public static void notNull(Object o, String code, Object... msgParam) {
         if (Objects.isNull(o)) {
             throw new ValidationException(code, msgParam);
         }

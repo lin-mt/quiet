@@ -119,13 +119,13 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         this.clientId = clientId;
     }
     
-    public void setSecretRequired(Whether secretRequired) {
-        this.secretRequired = secretRequired;
-    }
-    
     @Override
     public String getClientSecret() {
         return clientSecret;
+    }
+    
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
     
     public String getClientName() {
@@ -141,6 +141,10 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return resourceIds;
     }
     
+    public void setResourceIds(Set<String> resourceIds) {
+        this.resourceIds = resourceIds;
+    }
+    
     /**
      * Whether a secret is required to authenticate this client.
      *
@@ -152,12 +156,12 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return Whether.YES.equals(getSecretRequired());
     }
     
-    public void setResourceIds(Set<String> resourceIds) {
-        this.resourceIds = resourceIds;
-    }
-    
     public Whether getSecretRequired() {
         return secretRequired;
+    }
+    
+    public void setSecretRequired(Whether secretRequired) {
+        this.secretRequired = secretRequired;
     }
     
     /**
@@ -170,10 +174,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Transient
     public boolean isScoped() {
         return Whether.YES.equals(getScoped());
-    }
-    
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
     }
     
     public Whether getScoped() {
@@ -207,6 +207,10 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return registeredRedirectUri;
     }
     
+    public void setRegisteredRedirectUri(Set<String> registeredRedirectUri) {
+        this.registeredRedirectUri = registeredRedirectUri;
+    }
+    
     /**
      * Returns the authorities that are granted to the OAuth client. Cannot return <code>null</code>. Note that these
      * are NOT the authorities that are granted to the user with an authorized access token. Instead, these authorities
@@ -218,10 +222,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Transient
     public Collection<GrantedAuthority> getAuthorities() {
         return CollectionUtils.emptyCollection();
-    }
-    
-    public void setRegisteredRedirectUri(Set<String> registeredRedirectUri) {
-        this.registeredRedirectUri = registeredRedirectUri;
     }
     
     @Override
@@ -236,6 +236,10 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     public Integer getRefreshTokenValiditySeconds() {
         return refreshTokenValiditySeconds;
+    }
+    
+    public void setRefreshTokenValiditySeconds(Integer refreshTokenValiditySeconds) {
+        this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
     }
     
     /**
@@ -262,10 +266,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @JsonIgnore
     public Map<String, Object> getAdditionalInformation() {
         return null;
-    }
-    
-    public void setRefreshTokenValiditySeconds(Integer refreshTokenValiditySeconds) {
-        this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
     }
     
     public Whether getAutoApprove() {

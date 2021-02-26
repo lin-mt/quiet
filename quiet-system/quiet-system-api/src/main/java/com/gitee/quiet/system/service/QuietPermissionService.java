@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.common.service.security.UrlPermissionService;
+import com.gitee.quiet.system.entity.QuietPermission;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 

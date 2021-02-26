@@ -21,6 +21,7 @@ import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 团队 Service.
@@ -61,4 +62,12 @@ public interface QuietTeamService {
      * @return 团队信息
      */
     List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
+    
+    /**
+     * 根据团队ID批量查询团队信息
+     *
+     * @param ids 团队ID集合
+     * @return 团队信息
+     */
+    List<QuietTeam> findAllByIds(Set<Long> ids);
 }

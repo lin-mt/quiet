@@ -114,6 +114,12 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     @Column(name = "enabled", length = 3)
     private Whether enabled;
     
+    /**
+     * 角色集合
+     */
+    @Transient
+    private Collection<? extends QuietGrantedAuthority> authorities;
+    
     @Override
     public String getUsername() {
         return username;
@@ -231,12 +237,6 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     public void eraseCredentials() {
         this.secretCode = null;
     }
-    
-    /**
-     * 角色集合
-     */
-    @Transient
-    private Collection<? extends QuietGrantedAuthority> authorities;
     
     @Override
     public Collection<? extends QuietGrantedAuthority> getAuthorities() {
