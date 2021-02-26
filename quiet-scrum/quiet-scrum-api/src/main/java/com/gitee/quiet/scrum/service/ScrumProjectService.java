@@ -52,4 +52,12 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     List<ScrumProject> findAllByIds(Set<Long> ids);
+    
+    /**
+     * 更新项目信息
+     *
+     * @param update 更新的项目信息
+     * @return 更新后的项目信息
+     */
+    ScrumProject update(ScrumProject update);
 }

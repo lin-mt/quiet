@@ -24,16 +24,22 @@ import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
 import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
+import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.service.QuietTeamService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,10 +58,13 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     private final ScrumProjectTeamService projectTeamService;
     
     @DubboReference
-    private QuietTeamUserService teamUserService;
+    private QuietTeamUserService quietTeamUserService;
     
     @DubboReference
-    private QuietUserService userService;
+    private QuietUserService quietUserService;
+    
+    @DubboReference
+    private QuietTeamService quietTeamService;
     
     public ScrumProjectServiceImpl(ScrumProjectRepository projectRepository,
             @Lazy ScrumProjectTeamService projectTeamService) {
@@ -64,11 +73,13 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     }
     
     @Override
-    public MyScrumProject allProjectByUserId(Long userId) {
+    public MyScrumProject allProjectByUserId(@NotNull Long userId) {
         MyScrumProject myScrumProject = new MyScrumProject();
+        Set<Long> allProjectIds = new HashSet<>();
         List<ScrumProject> managedProjects = projectRepository.findAllByManager(userId);
+        managedProjects.forEach(p -> allProjectIds.add(p.getId()));
         myScrumProject.setManagedProjects(managedProjects);
-        List<QuietTeamUser> teamUsers = teamUserService.findAllByUserId(userId);
+        List<QuietTeamUser> teamUsers = quietTeamUserService.findAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(teamUsers)) {
             Set<Long> teamIds = teamUsers.stream().map(QuietTeamUser::getTeamId).collect(Collectors.toSet());
             List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(teamIds);
@@ -78,39 +89,42 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
                         .collect(Collectors.toSet());
                 projects = projects.stream().filter(project -> !manageProjectIds.contains(project.getId()))
                         .collect(Collectors.toList());
-                Set<Long> managerIds = projects.stream().map(ScrumProject::getManager).collect(Collectors.toSet());
-                Map<Long, String> userIdToUsername = userService.findByUserIds(managerIds).stream()
-                        .collect(Collectors.toMap(QuietUser::getId, QuietUser::getUsername));
-                projects.forEach(project -> project.setManagerName(userIdToUsername.get(project.getManager())));
             }
+            Set<Long> managerIds = projects.stream().map(ScrumProject::getManager).collect(Collectors.toSet());
+            Map<Long, String> userIdToUsername = quietUserService.findByUserIds(managerIds).stream()
+                    .collect(Collectors.toMap(QuietUser::getId, QuietUser::getUsername));
+            projects.forEach(project -> {
+                project.setManagerName(userIdToUsername.get(project.getManager()));
+                allProjectIds.add(project.getId());
+            });
             myScrumProject.setProjects(projects);
         }
+        List<ScrumProjectTeam> allProjectTeams = projectTeamService.findAllByProjectIds(allProjectIds);
+        Set<Long> allTeamIds = allProjectTeams.stream().map(ScrumProjectTeam::getTeamId).collect(Collectors.toSet());
+        Map<Long, List<ScrumProjectTeam>> projectIdToTeams = allProjectTeams.stream()
+                .collect(Collectors.groupingBy(ScrumProjectTeam::getProjectId));
+        Map<Long, QuietTeam> teamIdToTeamInfos = quietTeamService.findAllByIds(allTeamIds).stream()
+                .collect(Collectors.toMap(QuietTeam::getId, q -> q));
+        addTeamInfo(managedProjects, projectIdToTeams, teamIdToTeamInfos);
+        addTeamInfo(myScrumProject.getProjects(), projectIdToTeams, teamIdToTeamInfos);
         return myScrumProject;
     }
     
-    @Override
-    public ScrumProject save(ScrumProject save) {
-        ScrumProject exist = projectRepository.findByNameAndManager(save.getName(), save.getManager());
-        if (exist != null) {
-            throw new ServiceException("project.manager.projectName.exist", save.getName());
-        }
-        List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(save.getTeamIds());
+    private void addTeamInfo(List<ScrumProject> projects, Map<Long, List<ScrumProjectTeam>> projectIdToTeams,
+            Map<Long, QuietTeam> teamIdToTeamInfos) {
         if (CollectionUtils.isNotEmpty(projects)) {
-            List<ScrumProject> duplicateProjectName = projects.stream()
-                    .filter(project -> project.getName().equals(save.getName())).collect(Collectors.toList());
-            if (CollectionUtils.isNotEmpty(duplicateProjectName)) {
-                throw new ServiceException("project.team.projectName.duplicate", save.getName());
-            }
+            projects.forEach(project -> {
+                List<ScrumProjectTeam> projectTeams = projectIdToTeams.get(project.getId());
+                projectTeams.forEach(pt -> project.addTeamInfo(teamIdToTeamInfos.get(pt.getTeamId())));
+            });
         }
+    }
+    
+    @Override
+    public ScrumProject save(@NotNull ScrumProject save) {
+        checkProjectInfo(save);
         ScrumProject project = projectRepository.save(save);
-        List<ScrumProjectTeam> projectTeams = new ArrayList<>(save.getTeamIds().size());
-        for (Long teamId : save.getTeamIds()) {
-            ScrumProjectTeam projectTeam = new ScrumProjectTeam();
-            projectTeam.setTeamId(teamId);
-            projectTeam.setProjectId(project.getId());
-            projectTeams.add(projectTeam);
-        }
-        projectTeamService.saveAll(projectTeams);
+        addProjectTeams(save.getTeamIds(), project);
         return project;
     }
     
@@ -120,5 +134,44 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
             return projectRepository.findAllById(ids);
         }
         return List.of();
+    }
+    
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ScrumProject update(@NotNull ScrumProject update) {
+        if (!projectRepository.existsById(update.getId())) {
+            throw new ServiceException("project.id.not.exist", update.getId());
+        }
+        projectTeamService.deleteAllByProjectId(update.getId());
+        checkProjectInfo(update);
+        ScrumProject project = projectRepository.saveAndFlush(update);
+        addProjectTeams(update.getTeamIds(), project);
+        return project;
+    }
+    
+    private void checkProjectInfo(ScrumProject project) {
+        ScrumProject exist = projectRepository.findByNameAndManager(project.getName(), project.getManager());
+        if (exist != null && !exist.getId().equals(project.getId())) {
+            throw new ServiceException("project.manager.projectName.exist", project.getName());
+        }
+        List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(project.getTeamIds());
+        if (CollectionUtils.isNotEmpty(projects)) {
+            List<ScrumProject> duplicateProjectName = projects.stream()
+                    .filter(p -> p.getName().equals(project.getName())).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(duplicateProjectName)) {
+                throw new ServiceException("project.team.projectName.duplicate", project.getName());
+            }
+        }
+    }
+    
+    private void addProjectTeams(@NotNull @NotEmpty Set<Long> teamIds, ScrumProject project) {
+        List<ScrumProjectTeam> projectTeams = new ArrayList<>(teamIds.size());
+        for (Long teamId : teamIds) {
+            ScrumProjectTeam projectTeam = new ScrumProjectTeam();
+            projectTeam.setTeamId(teamId);
+            projectTeam.setProjectId(project.getId());
+            projectTeams.add(projectTeam);
+        }
+        projectTeamService.saveAll(projectTeams);
     }
 }

@@ -20,6 +20,7 @@ import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.enums.BuildTool;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.system.entity.QuietTeam;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -30,6 +31,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -68,6 +71,25 @@ public class ScrumProject extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "build_tool", length = 6)
     private BuildTool buildTool;
+    
+    /**
+     * 负责的团队ID集合
+     */
+    @Transient
+    @NotEmpty(groups = {Create.class, Update.class}, message = "{project.teamIds}{not.empty}")
+    private Set<Long> teamIds;
+    
+    /**
+     * 项目经理用户名
+     */
+    @Transient
+    private String managerName;
+    
+    /**
+     * 负责该项目的团队信息
+     */
+    @Transient
+    private List<QuietTeam> teams;
     
     public String getName() {
         return name;
@@ -125,19 +147,6 @@ public class ScrumProject extends BaseEntity {
         this.buildTool = buildTool;
     }
     
-    /**
-     * 负责的团队ID集合
-     */
-    @Transient
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{project.teamIds}{not.empty}")
-    private Set<Long> teamIds;
-    
-    /**
-     * 项目经理用户名
-     */
-    @Transient
-    private String managerName;
-    
     public Set<Long> getTeamIds() {
         return teamIds;
     }
@@ -152,5 +161,20 @@ public class ScrumProject extends BaseEntity {
     
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+    
+    public List<QuietTeam> getTeams() {
+        return teams;
+    }
+    
+    public void setTeams(List<QuietTeam> teams) {
+        this.teams = teams;
+    }
+    
+    public void addTeamInfo(QuietTeam quietTeam) {
+        if (getTeams() == null) {
+            setTeams(new ArrayList<>());
+        }
+        getTeams().add(quietTeam);
     }
 }

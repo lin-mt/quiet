@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
@@ -63,6 +64,17 @@ public class ScrumProjectController {
     @PostMapping("/save")
     public Result<ScrumProject> save(@RequestBody @Validated(Create.class) ScrumProjectParam param) {
         return Result.createSuccess(projectService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新项目
+     *
+     * @param param :update 更新的项目信息
+     * @return 更新后的项目信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectParam param) {
+        return Result.updateSuccess(projectService.update(param.getUpdate()));
     }
     
 }

@@ -39,4 +39,18 @@ public interface ScrumProjectTeamRepository extends JpaRepository<ScrumProjectTe
      */
     List<ScrumProjectTeam> findAllByTeamIdIn(Set<Long> teamIds);
     
+    /**
+     * 根据项目ID查询所有项目团队信息
+     *
+     * @param projectIds 项目ID集合
+     * @return 项目团队信息
+     */
+    List<ScrumProjectTeam> findAllByProjectIdIn(Set<Long> projectIds);
+    
+    /**
+     * 根据项目ID删除项目的团队信息
+     *
+     * @param projectId 要删除团队信息的项目ID
+     */
+    void deleteAllByProjectId(Long projectId);
 }

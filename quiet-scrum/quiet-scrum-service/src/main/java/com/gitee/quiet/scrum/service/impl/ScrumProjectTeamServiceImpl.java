@@ -23,6 +23,7 @@ import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -61,5 +62,16 @@ public class ScrumProjectTeamServiceImpl implements ScrumProjectTeamService {
     @Override
     public List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams) {
         return projectTeamRepository.saveAll(projectTeams);
+    }
+    
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAllByProjectId(Long projectId) {
+        projectTeamRepository.deleteAllByProjectId(projectId);
+    }
+    
+    @Override
+    public List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds) {
+        return projectTeamRepository.findAllByProjectIdIn(projectIds);
     }
 }

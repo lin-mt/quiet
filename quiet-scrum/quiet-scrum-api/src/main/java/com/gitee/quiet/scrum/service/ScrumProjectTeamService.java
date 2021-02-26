@@ -46,4 +46,18 @@ public interface ScrumProjectTeamService {
     @SuppressWarnings("UnusedReturnValue")
     List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams);
     
+    /**
+     * 根据项目ID删除该项目的所有团队信息
+     *
+     * @param projectId 要删除团队信息的项目ID
+     */
+    void deleteAllByProjectId(Long projectId);
+    
+    /**
+     * 根据项目ID查询所有项目团队信息
+     *
+     * @param projectIds 项目ID集合
+     * @return 项目团队信息
+     */
+    List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds);
 }
