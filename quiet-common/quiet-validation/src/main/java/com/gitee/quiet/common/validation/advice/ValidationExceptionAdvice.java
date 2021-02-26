@@ -81,8 +81,7 @@ public class ValidationExceptionAdvice {
         if (servletRequestAttributes != null) {
             HttpServletRequest request = servletRequestAttributes.getRequest();
             if (Objects.nonNull(e.getCode())) {
-                return Result.exception()
-                        .setCode(e.getCode())
+                return Result.exception().setCode(e.getCode())
                         .setMessage(MessageSourceUtil.getMessage(request, messageSource, e.getCode(), e.getMsgParam()));
             }
         }

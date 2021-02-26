@@ -46,6 +46,15 @@ public class QuietTeamUser extends BaseEntity {
     @NotNull(message = "{teamUser.userId}{not.null}")
     private Long userId;
     
+    public QuietTeamUser() {
+    }
+    
+    public QuietTeamUser(@NotNull(message = "{teamUser.teamId}{not.null}") Long teamId,
+            @NotNull(message = "{teamUser.userId}{not.null}") Long userId) {
+        this.teamId = teamId;
+        this.userId = userId;
+    }
+    
     public Long getTeamId() {
         return teamId;
     }
@@ -59,15 +68,6 @@ public class QuietTeamUser extends BaseEntity {
     }
     
     public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-    
-    public QuietTeamUser() {
-    }
-    
-    public QuietTeamUser(@NotNull(message = "{teamUser.teamId}{not.null}") Long teamId,
-            @NotNull(message = "{teamUser.userId}{not.null}") Long userId) {
-        this.teamId = teamId;
         this.userId = userId;
     }
 }

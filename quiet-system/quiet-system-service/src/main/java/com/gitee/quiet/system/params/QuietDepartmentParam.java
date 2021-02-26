@@ -19,7 +19,6 @@ package com.gitee.quiet.system.params;
 import com.gitee.quiet.common.service.base.Param;
 import com.gitee.quiet.system.entity.QuietDepartment;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,7 +27,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
-
+    
     private Set<Long> userIds;
     
     public Set<Long> getUserIds() {
