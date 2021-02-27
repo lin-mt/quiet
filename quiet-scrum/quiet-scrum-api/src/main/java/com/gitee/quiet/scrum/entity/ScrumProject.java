@@ -65,8 +65,8 @@ public class ScrumProject extends BaseEntity {
     @Column(name = "task_prefix", length = 6)
     private String taskPrefix;
     
-    @Column(name = "task_template_id")
-    private Long taskTemplateId;
+    @Column(name = "template_id")
+    private Long templateId;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "build_tool", length = 6)
@@ -131,12 +131,12 @@ public class ScrumProject extends BaseEntity {
         this.taskPrefix = taskPrefix;
     }
     
-    public Long getTaskTemplateId() {
-        return taskTemplateId;
+    public Long getTemplateId() {
+        return templateId;
     }
     
-    public void setTaskTemplateId(Long taskTemplateId) {
-        this.taskTemplateId = taskTemplateId;
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
     }
     
     public BuildTool getBuildTool() {
