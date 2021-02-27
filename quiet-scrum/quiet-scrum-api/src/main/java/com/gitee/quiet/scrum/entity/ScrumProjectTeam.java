@@ -32,10 +32,16 @@ import javax.validation.constraints.NotNull;
 @Table(name = "scrum_project_team")
 public class ScrumProjectTeam extends BaseEntity {
     
+    /**
+     * 项目ID
+     */
     @NotNull(message = "{projectTeam.projectId}{not.null}")
     @Column(name = "project_id", nullable = false)
     private Long projectId;
     
+    /**
+     * 团队ID
+     */
     @NotNull(message = "{projectTeam.teamId}{not.null}")
     @Column(name = "team_id", nullable = false)
     private Long teamId;

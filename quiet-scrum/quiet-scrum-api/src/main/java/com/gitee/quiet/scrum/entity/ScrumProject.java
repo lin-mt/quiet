@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.base.SerialEntity;
 import com.gitee.quiet.common.service.enums.BuildTool;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -42,32 +42,53 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "scrum_project")
-public class ScrumProject extends BaseEntity {
+public class ScrumProject extends SerialEntity {
     
+    /**
+     * 项目名称
+     */
     @NotNull(message = "{project.name}{not.null}")
     @Length(max = 30, message = "{project.name.length}{length.max.limit}")
     @Column(name = "project_name", nullable = false, length = 30)
     private String name;
     
+    /**
+     * 项目经理
+     */
     @NotNull(message = "{project.manager}{not.null}")
     @Column(name = "manager", nullable = false)
     private Long manager;
     
+    /**
+     * 项目描述信息
+     */
     @Length(max = 100, message = "{project.description.length}{length.max.limit}")
     @Column(name = "project_description", length = 100)
     private String description;
     
+    /**
+     * 需求前缀
+     */
     @Length(max = 6, message = "{project.demandPrefix.length}{length.max.limit}")
     @Column(name = "demand_prefix", length = 6)
     private String demandPrefix;
     
+    /**
+     * 任务前缀
+     */
     @Length(max = 6, message = "{project.taskPrefix.length}{length.max.limit}")
     @Column(name = "task_prefix", length = 6)
     private String taskPrefix;
     
+    /**
+     * 模板ID
+     */
     @Column(name = "template_id")
     private Long templateId;
     
+    /**
+     * 构建工具
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "build_tool", length = 6)
     private BuildTool buildTool;
