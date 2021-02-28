@@ -48,7 +48,7 @@ public class QuietRole extends QuietGrantedAuthority {
      */
     @Column(name = "role_cn_name", nullable = false, length = 30)
     @NotEmpty(message = "{role.roleCnName}{not.empty}")
-    @Length(max = 30, message = "{role.roleCnName.length}{length.max.limit}")
+    @Length(max = 30, message = "{role.roleCnName}{length.max.limit}")
     private String roleCnName;
     
     /**

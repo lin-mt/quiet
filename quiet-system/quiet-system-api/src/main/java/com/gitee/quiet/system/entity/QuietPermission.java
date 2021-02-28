@@ -39,7 +39,7 @@ public class QuietPermission extends BaseEntity {
      */
     @Column(name = "application_name", nullable = false, length = 100)
     @NotEmpty(message = "{permission.applicationName}{not.empty}")
-    @Length(max = 100, message = "{permission.applicationName.length}{length.max.limit}")
+    @Length(max = 100, message = "{permission.applicationName}{length.max.limit}")
     private String applicationName;
     
     /**
@@ -47,14 +47,14 @@ public class QuietPermission extends BaseEntity {
      */
     @Column(name = "url_pattern", length = 100)
     @NotEmpty(message = "{permission.urlPattern}{not.empty}")
-    @Length(max = 100, message = "{permission.urlPattern.length}{length.max.limit}")
+    @Length(max = 100, message = "{permission.urlPattern}{length.max.limit}")
     private String urlPattern;
     
     /**
      * 请求方法
      */
     @Column(name = "request_method", length = 7)
-    @Length(max = 7, message = "{permission.requestMethod.length}{length.max.limit}")
+    @Length(max = 7, message = "{permission.requestMethod}{length.max.limit}")
     private String requestMethod;
     
     /**

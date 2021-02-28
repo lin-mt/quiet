@@ -37,7 +37,7 @@ public class QuietGrantedAuthority extends BaseEntity implements GrantedAuthorit
      */
     @Column(name = "role_name", nullable = false, length = 30)
     @NotEmpty(message = "{role.roleName}{not.empty}")
-    @Length(max = 30, message = "{role.roleName.length}{length.max.limit}")
+    @Length(max = 30, message = "{role.roleName}{length.max.limit}")
     private String roleName;
     
     @Override

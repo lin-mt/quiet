@@ -41,14 +41,14 @@ public class QuietTeam extends BaseEntity {
      */
     @Column(name = "team_name", nullable = false, length = 16)
     @NotEmpty(message = "{team.teamName}{not.empty}")
-    @Length(max = 16, message = "{team.teamName.length}{length.max.limit}")
+    @Length(max = 16, message = "{team.teamName}{length.max.limit}")
     private String teamName;
     
     /**
      * 标语
      */
     @Column(name = "slogan", length = 30)
-    @Length(max = 30, message = "{team.slogan.length}{length.max.limit}")
+    @Length(max = 30, message = "{team.slogan}{length.max.limit}")
     private String slogan;
     
     /**

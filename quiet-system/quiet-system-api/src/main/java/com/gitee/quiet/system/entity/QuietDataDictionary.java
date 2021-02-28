@@ -33,7 +33,7 @@ import javax.persistence.Table;
 public class QuietDataDictionary extends DataDictionary {
     
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{dataDictionary.remark.length}{length.max.limit}")
+    @Length(max = 100, message = "{dataDictionary.remark}{length.max.limit}")
     private String remark;
     
     public String getRemark() {
