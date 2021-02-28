@@ -204,7 +204,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     private void checkRoleInfo(@NotNull QuietRole role) {
         QuietRole quietRole = roleRepository.findByRoleName(role.getRoleName());
         if (quietRole != null && !quietRole.getId().equals(role.getId())) {
-            throw new ServiceException("role.name.exist", role.getRoleName());
+            throw new ServiceException("role.roleName.exist", role.getRoleName());
         }
         if (role.getParentId() != null) {
             if (!roleRepository.existsById(role.getParentId())) {

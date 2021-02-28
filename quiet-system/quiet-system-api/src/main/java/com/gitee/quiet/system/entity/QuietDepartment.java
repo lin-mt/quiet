@@ -42,7 +42,7 @@ public class QuietDepartment extends BaseEntity {
      */
     @Column(name = "department_name", length = 10, nullable = false)
     @NotEmpty(message = "{department.departmentName}{not.empty}")
-    @Length(max = 10, message = "{department.departmentName.length}{length.max.limit}")
+    @Length(max = 10, message = "{department.departmentName}{length.max.limit}")
     private String departmentName;
     
     /**

@@ -47,7 +47,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      */
     @Column(name = "username", nullable = false, length = 10)
     @NotEmpty(message = "{user.username}{not.empty}")
-    @Length(max = 10, message = "{user.username.length}{length.max.limit}")
+    @Length(max = 10, message = "{user.username}{length.max.limit}")
     private String username;
     
     /**
@@ -62,6 +62,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     @Column(name = "secret_code", nullable = false, length = 30)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "{user.secretCode}{not.empty}")
+    @Length(message = "{user.secretCode}{length.max.limit}", max = 30)
     private String secretCode;
     
     /**

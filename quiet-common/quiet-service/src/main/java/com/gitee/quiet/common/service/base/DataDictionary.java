@@ -42,14 +42,14 @@ public class DataDictionary extends BaseEntity implements Serializable {
      */
     @NotNull(groups = {Create.class, Update.class}, message = "{dataDictionary.type}{not.null}")
     @Column(name = "dictionary_type", nullable = false, length = 30)
-    @Length(max = 30, message = "{dataDictionary.type.length}{length.max.limit}")
+    @Length(max = 30, message = "{dataDictionary.type}{length.max.limit}")
     private String type;
     
     /**
      * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
      */
     @Column(name = "dictionary_key", nullable = false, length = 30)
-    @Length(max = 30, message = "{dataDictionary.key.length}{length.max.limit}")
+    @Length(max = 30, message = "{dataDictionary.key}{length.max.limit}")
     private String key;
     
     /**
@@ -57,7 +57,7 @@ public class DataDictionary extends BaseEntity implements Serializable {
      */
     @NotNull(groups = {Create.class, Update.class}, message = "{dataDictionary.value}{not.null}")
     @Column(name = "dictionary_value", unique = true, nullable = false, length = 30)
-    @Length(max = 30, message = "{dataDictionary.value.length}{length.max.limit}")
+    @Length(max = 30, message = "{dataDictionary.value}{length.max.limit}")
     private String value;
     
     /**

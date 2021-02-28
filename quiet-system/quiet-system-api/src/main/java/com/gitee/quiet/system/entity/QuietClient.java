@@ -53,18 +53,18 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     
     @Column(name = "client_id", length = 20, nullable = false, unique = true)
     @NotEmpty(message = "{client.clientId}{not.empty}")
-    @Length(max = 20, message = "{client.clientId.length}{length.max.limit}")
+    @Length(max = 20, message = "{client.clientId}{length.max.limit}")
     private String clientId;
     
     @Column(name = "client_name", length = 30, nullable = false)
     @NotEmpty(message = "{client.clientName}{not.empty}")
-    @Length(max = 30, message = "{client.clientName.length}{length.max.limit}")
+    @Length(max = 30, message = "{client.clientName}{length.max.limit}")
     private String clientName;
     
     @Column(name = "client_secret", length = 60, nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "{client.clientSecret}{not.empty}")
-    @Length(max = 60, message = "{client.clientSecret.length}{length.max.limit}")
+    @Length(max = 60, message = "{client.clientSecret}{length.max.limit}")
     private String clientSecret;
     
     @Column(name = "resource_ids", length = 60)
@@ -107,7 +107,7 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     private Whether autoApprove;
     
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{client.remark.length}{length.max.limit}")
+    @Length(max = 100, message = "{client.remark}{length.max.limit}")
     private String remark;
     
     @Override
