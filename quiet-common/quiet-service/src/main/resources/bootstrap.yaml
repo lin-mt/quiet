@@ -25,3 +25,7 @@ dubbo:
     port: -1
     id: dubbo
     name: dubbo
+  consumer:
+    filter: add-security-context-to-rpc-context
+  provider:
+    filter: get-security-context-from-rpc-context

@@ -1,0 +1,2 @@
+add-security-context-to-rpc-context=com.gitee.quiet.common.service.dubbo.filter.AddSecurityContextToRpcContextFilter
+get-security-context-from-rpc-context=com.gitee.quiet.common.service.dubbo.filter.GetSecurityContextFromRpcContextFilter
