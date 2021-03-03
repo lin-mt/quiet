@@ -27,5 +27,5 @@ public interface DubboConstants {
     
     String CONSUMER = "consumer";
     
-    String SECURITY_CONTEXT = "security-context";
+    String SECURITY_CONTEXT = "security.context";
 }
