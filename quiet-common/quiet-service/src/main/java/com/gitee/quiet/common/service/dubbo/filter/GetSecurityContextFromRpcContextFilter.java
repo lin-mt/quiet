@@ -22,10 +22,10 @@ import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 
 /**
  * 提供者从 rpc 上下文获取 SecurityContext.
@@ -35,17 +35,23 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Activate(group = DubboConstants.PROVIDER)
 public class GetSecurityContextFromRpcContextFilter implements Filter {
     
+    private static final JdkSerializationStrategy SERIALIZATION_STRATEGY = new JdkSerializationStrategy();
+    
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        Object context = RpcContext.getContext().get(DubboConstants.SECURITY_CONTEXT);
-        if (context instanceof SecurityContext) {
-            SecurityContext securityContext = (SecurityContext) context;
+        Object securityContextAttachment = invocation.getObjectAttachment(DubboConstants.SECURITY_CONTEXT);
+        if (securityContextAttachment instanceof byte[]) {
+            byte[] securityContextByteArray = (byte[]) securityContextAttachment;
+            SecurityContext securityContext = SERIALIZATION_STRATEGY
+                    .deserialize(securityContextByteArray, SecurityContext.class);
             SecurityContextHolder.setContext(securityContext);
         }
         try {
             return invoker.invoke(invocation);
         } finally {
-            SecurityContextHolder.clearContext();
+            if (securityContextAttachment instanceof byte[]) {
+                SecurityContextHolder.clearContext();
+            }
         }
     }
 }

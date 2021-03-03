@@ -22,10 +22,10 @@ import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
 
 /**
  * 消费者在 rpc 上下文添加 SecurityContext.
@@ -35,10 +35,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Activate(group = DubboConstants.CONSUMER)
 public class AddSecurityContextToRpcContextFilter implements Filter {
     
+    private static final JdkSerializationStrategy SERIALIZATION_STRATEGY = new JdkSerializationStrategy();
+    
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        RpcContext.getContext().set(DubboConstants.SECURITY_CONTEXT, securityContext);
+        if (securityContext != null) {
+            byte[] serialize = SERIALIZATION_STRATEGY.serialize(securityContext);
+            invocation.setObjectAttachment(DubboConstants.SECURITY_CONTEXT, serialize);
+        }
         return invoker.invoke(invocation);
     }
 }
