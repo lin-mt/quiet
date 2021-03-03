@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.service.base;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -31,7 +33,8 @@ public class SerialEntity extends BaseEntity implements WithSerial, Comparable<S
     /**
      * 序号
      */
-    @Column(name = "serial_number")
+    @ColumnDefault("0")
+    @Column(name = "serial_number", nullable = false)
     private int serialNumber;
     
     @Override
