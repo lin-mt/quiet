@@ -30,7 +30,8 @@ import javax.validation.constraints.NotEmpty;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class QuietGrantedAuthority extends BaseEntity implements GrantedAuthority {
+public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends ParentEntity<T>
+        implements GrantedAuthority {
     
     /**
      * 角色名称

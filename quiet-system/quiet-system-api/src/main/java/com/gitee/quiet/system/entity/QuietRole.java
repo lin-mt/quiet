@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.QuietGrantedAuthority;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -25,8 +24,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 角色.
@@ -35,13 +32,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "quiet_role")
-public class QuietRole extends QuietGrantedAuthority {
-    
-    /**
-     * 父角色ID
-     */
-    @Column(name = "parent_id")
-    private Long parentId;
+public class QuietRole extends QuietGrantedAuthority<QuietRole> {
     
     /**
      * 角色中文名
@@ -64,24 +55,10 @@ public class QuietRole extends QuietGrantedAuthority {
     @Transient
     private String parentRoleName;
     
-    /**
-     * 子角色
-     */
-    @Transient
-    private List<QuietRole> children;
-    
     @Override
     @Transient
     public String getAuthority() {
         return getRoleName();
-    }
-    
-    public Long getParentId() {
-        return parentId;
-    }
-    
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
     
     public String getRoleCnName() {
@@ -108,18 +85,4 @@ public class QuietRole extends QuietGrantedAuthority {
         this.parentRoleName = parentRoleName;
     }
     
-    public List<QuietRole> getChildren() {
-        return children;
-    }
-    
-    public void setChildren(List<QuietRole> children) {
-        this.children = children;
-    }
-    
-    public void addChildren(QuietRole role) {
-        if (CollectionUtils.isEmpty(getChildren())) {
-            setChildren(new ArrayList<>());
-        }
-        getChildren().add(role);
-    }
 }
