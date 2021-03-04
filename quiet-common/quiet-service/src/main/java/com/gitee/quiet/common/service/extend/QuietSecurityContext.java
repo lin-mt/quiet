@@ -34,7 +34,7 @@ public class QuietSecurityContext implements SecurityContext {
     
     private final String tokenValue;
     
-    private SecurityContext securityContext;
+    private final SecurityContext securityContext = SecurityContextHolder.getContext();
     
     public QuietSecurityContext(@NotBlank String tokenValue) {
         this.tokenValue = tokenValue;
@@ -42,7 +42,6 @@ public class QuietSecurityContext implements SecurityContext {
     
     @Override
     public Authentication getAuthentication() {
-        initSecurityContext();
         if (securityContext.getAuthentication() != null) {
             return securityContext.getAuthentication();
         }
@@ -54,13 +53,7 @@ public class QuietSecurityContext implements SecurityContext {
     
     @Override
     public void setAuthentication(Authentication authentication) {
-        initSecurityContext();
         securityContext.setAuthentication(authentication);
     }
     
-    private void initSecurityContext() {
-        if (securityContext == null) {
-            securityContext = SecurityContextHolder.getContext();
-        }
-    }
 }
