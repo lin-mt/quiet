@@ -20,6 +20,7 @@ import com.gitee.quiet.common.service.util.ApplicationUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.validation.constraints.NotBlank;
@@ -33,7 +34,7 @@ public class QuietSecurityContext implements SecurityContext {
     
     private final String tokenValue;
     
-    private Authentication authentication;
+    private SecurityContext securityContext;
     
     public QuietSecurityContext(@NotBlank String tokenValue) {
         this.tokenValue = tokenValue;
@@ -41,22 +42,23 @@ public class QuietSecurityContext implements SecurityContext {
     
     @Override
     public Authentication getAuthentication() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if (!(securityContext instanceof QuietSecurityContext)) {
-            if (securityContext.getAuthentication() != null) {
-                return securityContext.getAuthentication();
-            }
+        if (securityContext == null) {
+            securityContext = SecurityContextHolder.getContext();
         }
-        if (authentication != null) {
-            return authentication;
+        if (securityContext.getAuthentication() != null) {
+            return securityContext.getAuthentication();
         }
         TokenStore tokenStore = ApplicationUtil.getBean(TokenStore.class);
-        this.setAuthentication(tokenStore.readAuthentication(tokenValue));
-        return authentication;
+        OAuth2Authentication authentication = tokenStore.readAuthentication(tokenValue);
+        this.setAuthentication(authentication);
+        return securityContext.getAuthentication();
     }
     
     @Override
     public void setAuthentication(Authentication authentication) {
-        this.authentication = authentication;
+        if (securityContext == null) {
+            securityContext = SecurityContextHolder.getContext();
+        }
+        securityContext.setAuthentication(authentication);
     }
 }
