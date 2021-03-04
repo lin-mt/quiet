@@ -18,6 +18,8 @@ package com.gitee.quiet.common.service.base;
 
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -42,6 +44,8 @@ import java.time.LocalDateTime;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @SuppressWarnings("unused")
+@DynamicInsert
+@DynamicUpdate
 @MappedSuperclass
 @EntityListeners({AuditingEntityListener.class, EntityLoggingListener.class})
 public class BaseEntity implements Serializable {

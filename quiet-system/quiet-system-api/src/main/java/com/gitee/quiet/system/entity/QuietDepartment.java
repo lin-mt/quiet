@@ -16,17 +16,13 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
-import org.apache.commons.collections4.CollectionUtils;
+import com.gitee.quiet.common.service.base.ParentEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 部门信息.
@@ -35,7 +31,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "quiet_department")
-public class QuietDepartment extends BaseEntity {
+public class QuietDepartment extends ParentEntity<QuietDepartment> {
     
     /**
      * 部门名称
@@ -46,23 +42,11 @@ public class QuietDepartment extends BaseEntity {
     private String departmentName;
     
     /**
-     * 父级部门 ID
-     */
-    @Column(name = "parent_id")
-    private Long parentId;
-    
-    /**
      * 备注
      */
     @Column(name = "remark", length = 100)
     @Length(max = 100, message = "{department.remark}{length.max.limit}")
     private String remark;
-    
-    /**
-     * 子部门信息
-     */
-    @Transient
-    private List<QuietDepartment> children;
     
     public String getDepartmentName() {
         return departmentName;
@@ -70,14 +54,6 @@ public class QuietDepartment extends BaseEntity {
     
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
-    }
-    
-    public Long getParentId() {
-        return parentId;
-    }
-    
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
     
     public String getRemark() {
@@ -88,18 +64,4 @@ public class QuietDepartment extends BaseEntity {
         this.remark = remark;
     }
     
-    public List<QuietDepartment> getChildren() {
-        return children;
-    }
-    
-    public void setChildren(List<QuietDepartment> children) {
-        this.children = children;
-    }
-    
-    public void addChildren(QuietDepartment children) {
-        if (CollectionUtils.isEmpty(this.getChildren())) {
-            this.setChildren(new ArrayList<>());
-        }
-        this.getChildren().add(children);
-    }
 }

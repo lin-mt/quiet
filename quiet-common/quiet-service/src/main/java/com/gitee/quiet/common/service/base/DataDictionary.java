@@ -18,16 +18,12 @@ package com.gitee.quiet.common.service.base;
 
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
-import org.apache.dubbo.common.utils.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 数据字典.
@@ -35,7 +31,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class DataDictionary extends BaseEntity implements Serializable {
+public class DataDictionary extends ParentEntity<DataDictionary> implements Serializable {
     
     /**
      * 数据字典类型
@@ -60,15 +56,6 @@ public class DataDictionary extends BaseEntity implements Serializable {
     @Length(max = 30, message = "{dataDictionary.value}{length.max.limit}")
     private String value;
     
-    /**
-     * 父级ID
-     */
-    @Column(name = "parent_id")
-    private Long parentId;
-    
-    @Transient
-    private List<DataDictionary> children;
-    
     public String getType() {
         return type;
     }
@@ -91,28 +78,5 @@ public class DataDictionary extends BaseEntity implements Serializable {
     
     public void setValue(String value) {
         this.value = value;
-    }
-    
-    public Long getParentId() {
-        return parentId;
-    }
-    
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-    
-    public List<DataDictionary> getChildren() {
-        return children;
-    }
-    
-    public void setChildren(List<DataDictionary> children) {
-        this.children = children;
-    }
-    
-    public void addChildren(DataDictionary dataDictionary) {
-        if (CollectionUtils.isEmpty(getChildren())) {
-            setChildren(new ArrayList<>());
-        }
-        getChildren().add(dataDictionary);
     }
 }
