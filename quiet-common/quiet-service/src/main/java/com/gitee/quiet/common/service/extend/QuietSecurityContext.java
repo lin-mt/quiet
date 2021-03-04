@@ -42,10 +42,7 @@ public class QuietSecurityContext implements SecurityContext {
     
     @Override
     public Authentication getAuthentication() {
-        if (securityContext == null) {
-            securityContext = SecurityContextHolder.getContext();
-        }
-        if (securityContext.getAuthentication() != null) {
+        if (securityContext != null && securityContext.getAuthentication() != null) {
             return securityContext.getAuthentication();
         }
         TokenStore tokenStore = ApplicationUtil.getBean(TokenStore.class);
