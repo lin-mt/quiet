@@ -14,36 +14,40 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.dubbo.filter;
+package com.gitee.quiet.common.service.dubbo.filter.provider;
 
 import com.gitee.quiet.common.service.constant.DubboConstants;
+import com.gitee.quiet.common.service.extend.QuietSecurityContext;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.Filter;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.Result;
 import org.apache.dubbo.rpc.RpcException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 /**
- * 消费者在 rpc 上下文添加 SecurityContext.
+ * 提供者从 rpc 上下文获取 tokenValue.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Activate(group = DubboConstants.CONSUMER)
-public class AddSecurityContextToRpcContextFilter implements Filter {
-    
-    private static final JdkSerializationStrategy SERIALIZATION_STRATEGY = new JdkSerializationStrategy();
+@Activate(group = DubboConstants.PROVIDER)
+public class AccessTokenValueFilter implements Filter {
     
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        if (securityContext != null) {
-            byte[] serialize = SERIALIZATION_STRATEGY.serialize(securityContext);
-            invocation.setObjectAttachment(DubboConstants.SECURITY_CONTEXT, serialize);
+        String tokenValue = invocation.getAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
+        if (StringUtils.isNotBlank(tokenValue)) {
+            SecurityContextHolder.setContext(new QuietSecurityContext(tokenValue));
         }
-        return invoker.invoke(invocation);
+        try {
+            return invoker.invoke(invocation);
+        } finally {
+            if (StringUtils.isNotBlank(tokenValue)) {
+                SecurityContextHolder.clearContext();
+            }
+        }
     }
 }

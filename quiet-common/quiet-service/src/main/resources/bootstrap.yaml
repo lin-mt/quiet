@@ -26,6 +26,6 @@ dubbo:
     id: dubbo
     name: dubbo
   consumer:
-    filter: add-security-context-to-rpc-context
+    filter: token-value-consumer
   provider:
-    filter: get-security-context-from-rpc-context
+    filter: token-value-provider
