@@ -26,7 +26,6 @@ import org.springframework.stereotype.Repository;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-@SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
 public interface QuietClientRepository extends JpaRepository<QuietClient, Long> {
     
     /**
