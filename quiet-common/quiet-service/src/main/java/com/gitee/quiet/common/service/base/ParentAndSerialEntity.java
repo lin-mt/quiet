@@ -27,8 +27,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends BaseEntity
-        implements WithParent<T>, WithSerial {
+public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends BaseEntity implements Parent<T>, Serial {
     
     /**
      * 序号

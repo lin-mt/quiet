@@ -27,7 +27,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implements WithParent<T> {
+public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implements Parent<T> {
     
     /**
      * 父级ID

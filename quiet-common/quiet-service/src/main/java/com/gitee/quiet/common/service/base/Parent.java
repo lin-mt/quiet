@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface WithParent<T extends WithParent<T>> {
+public interface Parent<T extends Parent<T>> {
     
     /**
      * 获取父的ID
