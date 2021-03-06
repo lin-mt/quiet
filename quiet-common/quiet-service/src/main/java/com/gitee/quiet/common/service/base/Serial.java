@@ -16,12 +16,14 @@
 
 package com.gitee.quiet.common.service.base;
 
+import javax.annotation.Nullable;
+
 /**
  * 可排序.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface WithSerial {
+public interface Serial extends Comparable<Serial> {
     
     /**
      * 获取排序的序号
@@ -36,4 +38,18 @@ public interface WithSerial {
      * @param serialNumber 序号
      */
     void setSerialNumber(int serialNumber);
+    
+    /**
+     * 跟其他对象进行比较
+     *
+     * @param other 比较的对象
+     * @return 比较结果
+     */
+    @Override
+    default int compareTo(@Nullable Serial other) {
+        if (other == null) {
+            return 1;
+        }
+        return Integer.compare(getSerialNumber(), other.getSerialNumber());
+    }
 }

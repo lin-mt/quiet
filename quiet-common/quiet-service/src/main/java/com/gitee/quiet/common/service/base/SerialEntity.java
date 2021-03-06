@@ -18,7 +18,6 @@ package com.gitee.quiet.common.service.base;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
@@ -28,7 +27,7 @@ import javax.persistence.MappedSuperclass;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class SerialEntity extends BaseEntity implements WithSerial, Comparable<SerialEntity> {
+public class SerialEntity extends BaseEntity implements Serial {
     
     /**
      * 序号
@@ -47,11 +46,4 @@ public class SerialEntity extends BaseEntity implements WithSerial, Comparable<S
         this.serialNumber = serialNumber;
     }
     
-    @Override
-    public int compareTo(@Nullable SerialEntity other) {
-        if (other == null) {
-            return 1;
-        }
-        return Integer.compare(getSerialNumber(), other.getSerialNumber());
-    }
 }
