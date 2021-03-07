@@ -58,8 +58,8 @@ public interface Parent<T extends Parent<T>> {
     default void addChildren(T children) {
         if (CollectionUtils.isEmpty(getChildren())) {
             setChildren(new ArrayList<>());
-            if (CollectionUtils.isEmpty(getChildren())) {
-                throw new ServiceException("设置子级集合后仍然为空");
+            if (getChildren() == null) {
+                throw new ServiceException("设置子级信息后仍为 null");
             }
         }
         getChildren().add(children);
