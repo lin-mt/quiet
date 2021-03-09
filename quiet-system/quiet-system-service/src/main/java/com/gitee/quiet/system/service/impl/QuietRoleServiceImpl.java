@@ -17,13 +17,13 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
@@ -99,16 +99,17 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     
     @Override
     public QueryResults<QuietRole> page(QuietRole params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietRole.id, builder);
-            Where.notNullEq(params.getParentId(), quietRole.parentId, builder);
-            Where.notBlankContains(params.getRoleName(), quietRole.roleName, builder);
-            Where.notBlankContains(params.getRoleCnName(), quietRole.roleCnName, builder);
-            Where.notBlankContains(params.getRemark(), quietRole.remark, builder);
+            // @formatter:off
+            select.notNullEq(params.getId(), quietRole.id)
+                    .notNullEq(params.getParentId(), quietRole.parentId)
+                    .notBlankContains(params.getRoleName(), quietRole.roleName)
+                    .notBlankContains(params.getRoleCnName(), quietRole.roleCnName)
+                    .notBlankContains(params.getRemark(), quietRole.remark);
+            // @formatter:on
         }
-        QueryResults<QuietRole> results = jpaQueryFactory.selectFrom(quietRole).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        QueryResults<QuietRole> results = select.from(jpaQueryFactory, quietRole, page);
         if (!results.getResults().isEmpty()) {
             Set<Long> parentIds = results.getResults().stream().map(QuietRole::getParentId)
                     .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());

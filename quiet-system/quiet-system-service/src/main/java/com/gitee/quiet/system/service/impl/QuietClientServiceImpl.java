@@ -18,11 +18,11 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.enums.Operation;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.repository.QuietClientRepository;
 import com.gitee.quiet.system.service.QuietClientService;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.slf4j.Logger;
@@ -73,18 +73,19 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     @Override
     public QueryResults<QuietClient> page(QuietClient params, Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietClient.id, builder);
-            Where.notNullEq(params.getAutoApprove(), quietClient.autoApprove, builder);
-            Where.notNullEq(params.getScoped(), quietClient.scoped, builder);
-            Where.notNullEq(params.getSecretRequired(), quietClient.secretRequired, builder);
-            Where.notBlankContains(params.getClientId(), quietClient.clientId, builder);
-            Where.notBlankContains(params.getClientName(), quietClient.clientName, builder);
-            Where.notBlankContains(params.getRemark(), quietClient.remark, builder);
+            // @formatter:off
+            select.notNullEq(params.getId(), quietClient.id)
+                    .notNullEq(params.getAutoApprove(), quietClient.autoApprove)
+                    .notNullEq(params.getScoped(), quietClient.scoped)
+                    .notNullEq(params.getSecretRequired(), quietClient.secretRequired)
+                    .notBlankContains(params.getClientId(), quietClient.clientId)
+                    .notBlankContains(params.getClientName(), quietClient.clientName)
+                    .notBlankContains(params.getRemark(), quietClient.remark);
+            // @formatter:on
         }
-        return jpaQueryFactory.selectFrom(quietClient).where(builder).offset(page.getOffset()).limit(page.getPageSize())
-                .fetchResults();
+        return select.from(jpaQueryFactory, quietClient, page);
     }
     
     @Override

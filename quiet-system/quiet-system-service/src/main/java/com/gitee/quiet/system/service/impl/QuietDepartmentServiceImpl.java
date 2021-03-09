@@ -17,7 +17,8 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietDepartmentRepository;
@@ -64,15 +65,14 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     
     @Override
     public QueryResults<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietDepartment.id, builder);
-            Where.notNullEq(params.getParentId(), quietDepartment.parentId, builder);
-            Where.notBlankContains(params.getDepartmentName(), quietDepartment.departmentName, builder);
-            Where.notBlankContains(params.getRemark(), quietDepartment.remark, builder);
+            select.notNullEq(params.getId(), quietDepartment.id)
+                    .notNullEq(params.getParentId(), quietDepartment.parentId)
+                    .notBlankContains(params.getDepartmentName(), quietDepartment.departmentName)
+                    .notBlankContains(params.getRemark(), quietDepartment.remark);
         }
-        return jpaQueryFactory.selectFrom(quietDepartment).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        return select.from(jpaQueryFactory, quietDepartment, page);
     }
     
     @Override
