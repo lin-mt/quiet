@@ -18,7 +18,8 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
@@ -85,14 +86,15 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     
     @Override
     public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietTeam.id, builder);
-            Where.notBlankContains(params.getTeamName(), quietTeam.teamName, builder);
-            Where.notBlankContains(params.getSlogan(), quietTeam.slogan, builder);
+            // @formatter:off
+            select.notNullEq(params.getId(), quietTeam.id)
+                    .notBlankContains(params.getTeamName(), quietTeam.teamName)
+                    .notBlankContains(params.getSlogan(), quietTeam.slogan);
+            // @formatter:on
         }
-        QueryResults<QuietTeam> result = jpaQueryFactory.selectFrom(quietTeam).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        QueryResults<QuietTeam> result = select.from(jpaQueryFactory, quietTeam, page);
         if (CollectionUtils.isNotEmpty(result.getResults())) {
             Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
             List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);

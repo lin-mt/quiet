@@ -17,11 +17,11 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.Where;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietDataDictionary;
 import com.gitee.quiet.system.repository.QuietDataDictionaryRepository;
 import com.gitee.quiet.system.service.QuietDataDictionaryService;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
@@ -69,16 +69,15 @@ public class QuietDataDictionaryServiceImpl implements QuietDataDictionaryServic
     
     @Override
     public QueryResults<QuietDataDictionary> page(QuietDataDictionary params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietDataDictionary.id, builder);
-            Where.notBlankContains(params.getType(), quietDataDictionary.type, builder);
-            Where.notBlankContains(params.getKey(), quietDataDictionary.key, builder);
-            Where.notBlankContains(params.getRemark(), quietDataDictionary.remark, builder);
-            Where.notNullEq(params.getParentId(), quietDataDictionary.parentId, builder);
+            select.notNullEq(params.getId(), quietDataDictionary.id)
+                    .notBlankContains(params.getType(), quietDataDictionary.type)
+                    .notBlankContains(params.getKey(), quietDataDictionary.key)
+                    .notBlankContains(params.getRemark(), quietDataDictionary.remark)
+                    .notNullEq(params.getParentId(), quietDataDictionary.parentId);
         }
-        return jpaQueryFactory.selectFrom(quietDataDictionary).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        return select.from(jpaQueryFactory, quietDataDictionary, page);
     }
     
     @Override

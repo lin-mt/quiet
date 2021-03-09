@@ -17,14 +17,14 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.security.UrlPermission;
-import com.gitee.quiet.common.service.util.Where;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietPermissionRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -77,17 +77,18 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     
     @Override
     public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
         if (params != null) {
-            Where.notNullEq(params.getId(), quietPermission.id, builder);
-            Where.notNullEq(params.getRoleId(), quietPermission.roleId, builder);
-            Where.notBlankEq(params.getRequestMethod(), quietPermission.requestMethod, builder);
-            Where.notBlankContains(params.getApplicationName(), quietPermission.applicationName, builder);
-            Where.notBlankContains(params.getUrlPattern(), quietPermission.urlPattern, builder);
-            Where.notBlankContains(params.getRemark(), quietPermission.remark, builder);
+            // @formatter:off
+            select.notNullEq(params.getId(), quietPermission.id)
+                    .notNullEq(params.getRoleId(), quietPermission.roleId)
+                    .notBlankEq(params.getRequestMethod(), quietPermission.requestMethod)
+                    .notBlankContains(params.getApplicationName(), quietPermission.applicationName)
+                    .notBlankContains(params.getUrlPattern(), quietPermission.urlPattern)
+                    .notBlankContains(params.getRemark(), quietPermission.remark);
+            // @formatter:on
         }
-        return jpaQueryFactory.selectFrom(quietPermission).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        return select.from(jpaQueryFactory, quietPermission, page);
     }
     
     @Override
