@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.util;
+package com.gitee.quiet.common.service.jpa;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
@@ -27,44 +28,41 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class WhereBooleanBuilder {
+public class SelectBooleanBuilder extends SelectBuilder {
     
     private final BooleanBuilder builder;
     
-    private WhereBooleanBuilder() {
-        builder = new BooleanBuilder();
+    public SelectBooleanBuilder() {
+        this.builder = new BooleanBuilder();
     }
     
-    public static WhereBooleanBuilder create() {
-        return new WhereBooleanBuilder();
-    }
-    
-    public BooleanBuilder getBuilder() {
+    @Override
+    public Predicate getPredicate() {
         return builder;
     }
     
-    public <T extends Number & Comparable<?>> WhereBooleanBuilder notNullEq(T param, NumberPath<T> path) {
+    public <T extends Number & Comparable<?>> SelectBooleanBuilder notNullEq(T param, NumberPath<T> path) {
         if (param != null) {
             builder.and(path.eq(param));
         }
         return this;
     }
     
-    public WhereBooleanBuilder notBlankEq(String param, StringPath path) {
+    public SelectBooleanBuilder notBlankEq(String param, StringPath path) {
         if (StringUtils.isNoneBlank(param)) {
             builder.and(path.eq(param));
         }
         return this;
     }
     
-    public <T extends Enum<T>> WhereBooleanBuilder notNullEq(T param, EnumPath<T> path) {
+    public <T extends Enum<T>> SelectBooleanBuilder notNullEq(T param, EnumPath<T> path) {
         if (param != null) {
             builder.and(path.eq(param));
         }
         return this;
     }
     
-    public WhereBooleanBuilder notBlankContains(String param, StringPath path) {
+    public SelectBooleanBuilder notBlankContains(String param, StringPath path) {
         if (StringUtils.isNoneBlank(param)) {
             builder.and(path.contains(param));
         }
