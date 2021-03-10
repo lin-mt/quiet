@@ -18,6 +18,7 @@ package com.gitee.quiet.common.service.base;
 
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,6 +28,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -114,4 +116,8 @@ public class BaseEntity implements Serializable {
         this.gmtUpdate = gmtUpdate;
     }
     
+    @Nullable
+    public BooleanBuilder entityBooleanBuilder() {
+        return null;
+    }
 }
