@@ -24,7 +24,6 @@ import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietDepartmentRepository;
 import com.gitee.quiet.system.service.QuietDepartmentService;
 import com.gitee.quiet.system.service.QuietDepartmentUserService;
-import com.gitee.quiet.system.util.EntityWhereBuilder;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -120,10 +119,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     
     @Override
     public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
-        if (params != null) {
-            EntityWhereBuilder.build(params, builder);
-        }
+        BooleanBuilder builder = SelectBuilder.booleanBuilder(params).getPredicate();
         builder.and(quietDepartmentUser.departmentId.eq(departmentId));
         return jpaQueryFactory.selectFrom(quietUser).leftJoin(quietDepartmentUser)
                 .on(quietUser.id.eq(quietDepartmentUser.userId)).where(builder).offset(page.getOffset())

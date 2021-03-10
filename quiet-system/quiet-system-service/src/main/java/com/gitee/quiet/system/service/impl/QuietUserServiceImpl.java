@@ -17,6 +17,8 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
@@ -26,7 +28,6 @@ import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
-import com.gitee.quiet.system.util.EntityWhereBuilder;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -137,10 +138,8 @@ public class QuietUserServiceImpl implements QuietUserService {
     
     @Override
     public QueryResults<QuietUser> page(QuietUser params, @NotNull Pageable page) {
-        BooleanBuilder builder = new BooleanBuilder();
-        EntityWhereBuilder.build(params, builder);
-        QueryResults<QuietUser> results = jpaQueryFactory.selectFrom(quietUser).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+        SelectBooleanBuilder select = SelectBuilder.booleanBuilder(params);
+        QueryResults<QuietUser> results = select.from(jpaQueryFactory, quietUser, page);
         if (CollectionUtils.isNotEmpty(results.getResults())) {
             Set<Long> userIds = results.getResults().stream().map(QuietUser::getId).collect(Collectors.toSet());
             Map<Long, List<QuietRole>> userIdToRoleInfo = this.mapUserIdToRoleInfo(userIds);

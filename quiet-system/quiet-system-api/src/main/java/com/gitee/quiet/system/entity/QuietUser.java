@@ -17,9 +17,13 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.QuietUserDetails;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
 /**
  * 用户信息.
@@ -29,5 +33,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "quiet_user")
 public class QuietUser extends QuietUserDetails {
-
+    
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        // @formatter:off
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietUser.id)
+                .notBlankContains(getUsername(), quietUser.username)
+                .notNullEq(getGender(), quietUser.gender)
+                .notBlankContains(getPhoneNumber(), quietUser.phoneNumber)
+                .notBlankContains(getEmailAddress(), quietUser.emailAddress)
+                .notNullEq(getAccountExpired(), quietUser.accountExpired)
+                .notNullEq(getAccountLocked(), quietUser.accountLocked)
+                .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired)
+                .getPredicate();
+        // @formatter:on
+    }
 }

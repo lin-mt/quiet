@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.service.jpa;
 
+import com.gitee.quiet.common.service.base.BaseEntity;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Predicate;
@@ -30,10 +32,20 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public abstract class SelectBuilder {
+public abstract class SelectBuilder<T extends Predicate> {
     
+    @NotNull
     public static SelectBooleanBuilder booleanBuilder() {
         return new SelectBooleanBuilder();
+    }
+    
+    @NotNull
+    public static SelectBooleanBuilder booleanBuilder(BaseEntity entity) {
+        BooleanBuilder builder = null;
+        if (entity != null) {
+            builder = entity.booleanBuilder();
+        }
+        return new SelectBooleanBuilder(builder);
     }
     
     /**
@@ -41,11 +53,16 @@ public abstract class SelectBuilder {
      *
      * @return 查询条件
      */
-    public abstract Predicate getPredicate();
+    @NotNull
+    public abstract T getPredicate();
     
-    public <T> QueryResults<T> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<T> from,
+    public <E> QueryResults<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from,
             Pageable page) {
-        JPAQuery<T> selectFrom = jpaQueryFactory.selectFrom(from).where(getPredicate());
+        Predicate predicate = getPredicate();
+        if (predicate == null) {
+            throw new IllegalStateException("SelectBuilder 子类实现的方法不能返回 null");
+        }
+        JPAQuery<E> selectFrom = jpaQueryFactory.selectFrom(from).where(predicate);
         if (page != null) {
             selectFrom.offset(page.getOffset()).limit(page.getPageSize());
         }

@@ -17,7 +17,6 @@
 package com.gitee.quiet.common.service.jpa;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
@@ -28,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class SelectBooleanBuilder extends SelectBuilder {
+public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     
     private final BooleanBuilder builder;
     
@@ -36,8 +35,12 @@ public class SelectBooleanBuilder extends SelectBuilder {
         this.builder = new BooleanBuilder();
     }
     
+    public SelectBooleanBuilder(BooleanBuilder builder) {
+        this.builder = builder == null ? new BooleanBuilder() : builder;
+    }
+    
     @Override
-    public Predicate getPredicate() {
+    public BooleanBuilder getPredicate() {
         return builder;
     }
     
