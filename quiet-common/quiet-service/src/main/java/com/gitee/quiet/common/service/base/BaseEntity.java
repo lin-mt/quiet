@@ -117,7 +117,7 @@ public class BaseEntity implements Serializable {
     }
     
     @Nullable
-    public BooleanBuilder entityBooleanBuilder() {
+    public BooleanBuilder booleanBuilder() {
         return null;
     }
 }

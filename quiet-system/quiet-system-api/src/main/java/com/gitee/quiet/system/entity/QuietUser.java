@@ -35,7 +35,7 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 public class QuietUser extends QuietUserDetails {
     
     @Override
-    public BooleanBuilder entityBooleanBuilder() {
+    public BooleanBuilder booleanBuilder() {
         // @formatter:off
         return SelectBuilder.booleanBuilder().notNullEq(getId(), quietUser.id)
                 .notBlankContains(getUsername(), quietUser.username)
@@ -44,7 +44,8 @@ public class QuietUser extends QuietUserDetails {
                 .notBlankContains(getEmailAddress(), quietUser.emailAddress)
                 .notNullEq(getAccountExpired(), quietUser.accountExpired)
                 .notNullEq(getAccountLocked(), quietUser.accountLocked)
-                .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired).getPredicate();
+                .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired)
+                .getPredicate();
         // @formatter:on
     }
 }

@@ -43,7 +43,7 @@ public abstract class SelectBuilder<T extends Predicate> {
     public static SelectBooleanBuilder booleanBuilder(BaseEntity entity) {
         BooleanBuilder builder = null;
         if (entity != null) {
-            builder = entity.entityBooleanBuilder();
+            builder = entity.booleanBuilder();
         }
         return new SelectBooleanBuilder(builder);
     }
