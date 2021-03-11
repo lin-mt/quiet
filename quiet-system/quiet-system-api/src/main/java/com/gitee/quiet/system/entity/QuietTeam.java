@@ -17,8 +17,11 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -26,6 +29,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Map;
+
+import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
 
 /**
  * 团队.
@@ -121,5 +126,13 @@ public class QuietTeam extends BaseEntity {
     
     public void setMembers(List<QuietUser> members) {
         this.members = members;
+    }
+    
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietTeam.id)
+                .notBlankContains(getTeamName(), quietTeam.teamName).notBlankContains(getSlogan(), quietTeam.slogan)
+                .getPredicate();
     }
 }

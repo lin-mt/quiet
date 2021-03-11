@@ -17,12 +17,17 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.ParentEntity;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 
 /**
  * 部门信息.
@@ -64,4 +69,12 @@ public class QuietDepartment extends ParentEntity<QuietDepartment> {
         this.remark = remark;
     }
     
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietDepartment.id)
+                .notNullEq(getParentId(), quietDepartment.parentId)
+                .notBlankContains(getDepartmentName(), quietDepartment.departmentName)
+                .notBlankContains(getRemark(), quietDepartment.remark).getPredicate();
+    }
 }

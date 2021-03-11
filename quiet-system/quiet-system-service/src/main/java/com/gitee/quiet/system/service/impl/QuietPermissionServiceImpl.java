@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.security.UrlPermission;
 import com.gitee.quiet.system.entity.QuietPermission;
@@ -77,18 +76,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     
     @Override
     public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            // @formatter:off
-            select.notNullEq(params.getId(), quietPermission.id)
-                    .notNullEq(params.getRoleId(), quietPermission.roleId)
-                    .notBlankEq(params.getRequestMethod(), quietPermission.requestMethod)
-                    .notBlankContains(params.getApplicationName(), quietPermission.applicationName)
-                    .notBlankContains(params.getUrlPattern(), quietPermission.urlPattern)
-                    .notBlankContains(params.getRemark(), quietPermission.remark);
-            // @formatter:on
-        }
-        return select.from(jpaQueryFactory, quietPermission, page);
+        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietPermission, page);
     }
     
     @Override

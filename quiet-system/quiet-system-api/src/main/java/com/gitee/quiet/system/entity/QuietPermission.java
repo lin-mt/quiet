@@ -17,13 +17,18 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
 
 /**
  * 权限.
@@ -109,5 +114,16 @@ public class QuietPermission extends BaseEntity {
     
     public void setRemark(String description) {
         this.remark = description;
+    }
+    
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietPermission.id)
+                .notNullEq(getRoleId(), quietPermission.roleId)
+                .notBlankEq(getRequestMethod(), quietPermission.requestMethod)
+                .notBlankContains(getApplicationName(), quietPermission.applicationName)
+                .notBlankContains(getUrlPattern(), quietPermission.urlPattern)
+                .notBlankContains(getRemark(), quietPermission.remark).getPredicate();
     }
 }

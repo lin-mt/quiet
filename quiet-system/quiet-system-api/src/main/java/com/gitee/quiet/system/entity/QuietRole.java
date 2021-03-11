@@ -17,13 +17,18 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.QuietGrantedAuthority;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+
+import static com.gitee.quiet.system.entity.QQuietRole.quietRole;
 
 /**
  * 角色.
@@ -85,4 +90,12 @@ public class QuietRole extends QuietGrantedAuthority<QuietRole> {
         this.parentRoleName = parentRoleName;
     }
     
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietRole.id)
+                .notNullEq(getParentId(), quietRole.parentId).notBlankContains(getRoleName(), quietRole.roleName)
+                .notBlankContains(getRoleCnName(), quietRole.roleCnName).notBlankContains(getRemark(), quietRole.remark)
+                .getPredicate();
+    }
 }
