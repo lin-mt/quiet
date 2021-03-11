@@ -18,7 +18,6 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.enums.Operation;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.repository.QuietClientRepository;
@@ -73,19 +72,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     @Override
     public QueryResults<QuietClient> page(QuietClient params, Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            // @formatter:off
-            select.notNullEq(params.getId(), quietClient.id)
-                    .notNullEq(params.getAutoApprove(), quietClient.autoApprove)
-                    .notNullEq(params.getScoped(), quietClient.scoped)
-                    .notNullEq(params.getSecretRequired(), quietClient.secretRequired)
-                    .notBlankContains(params.getClientId(), quietClient.clientId)
-                    .notBlankContains(params.getClientName(), quietClient.clientName)
-                    .notBlankContains(params.getRemark(), quietClient.remark);
-            // @formatter:on
-        }
-        return select.from(jpaQueryFactory, quietClient, page);
+        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietClient, page);
     }
     
     @Override

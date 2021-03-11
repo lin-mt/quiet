@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
@@ -64,14 +63,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     
     @Override
     public QueryResults<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            select.notNullEq(params.getId(), quietDepartment.id)
-                    .notNullEq(params.getParentId(), quietDepartment.parentId)
-                    .notBlankContains(params.getDepartmentName(), quietDepartment.departmentName)
-                    .notBlankContains(params.getRemark(), quietDepartment.remark);
-        }
-        return select.from(jpaQueryFactory, quietDepartment, page);
+        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietDepartment, page);
     }
     
     @Override

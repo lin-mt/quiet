@@ -18,7 +18,6 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietTeam;
@@ -86,15 +85,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     
     @Override
     public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            // @formatter:off
-            select.notNullEq(params.getId(), quietTeam.id)
-                    .notBlankContains(params.getTeamName(), quietTeam.teamName)
-                    .notBlankContains(params.getSlogan(), quietTeam.slogan);
-            // @formatter:on
-        }
-        QueryResults<QuietTeam> result = select.from(jpaQueryFactory, quietTeam, page);
+        QueryResults<QuietTeam> result = SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietTeam, page);
         if (CollectionUtils.isNotEmpty(result.getResults())) {
             Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
             List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);

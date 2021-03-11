@@ -37,7 +37,8 @@ public class QuietUser extends QuietUserDetails {
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
-        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietUser.id)
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), quietUser.id)
                 .notBlankContains(getUsername(), quietUser.username)
                 .notNullEq(getGender(), quietUser.gender)
                 .notBlankContains(getPhoneNumber(), quietUser.phoneNumber)

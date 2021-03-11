@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietDataDictionary;
 import com.gitee.quiet.system.repository.QuietDataDictionaryRepository;
@@ -69,15 +68,7 @@ public class QuietDataDictionaryServiceImpl implements QuietDataDictionaryServic
     
     @Override
     public QueryResults<QuietDataDictionary> page(QuietDataDictionary params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            select.notNullEq(params.getId(), quietDataDictionary.id)
-                    .notBlankContains(params.getType(), quietDataDictionary.type)
-                    .notBlankContains(params.getKey(), quietDataDictionary.key)
-                    .notBlankContains(params.getRemark(), quietDataDictionary.remark)
-                    .notNullEq(params.getParentId(), quietDataDictionary.parentId);
-        }
-        return select.from(jpaQueryFactory, quietDataDictionary, page);
+        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietDataDictionary, page);
     }
     
     @Override

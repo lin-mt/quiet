@@ -17,11 +17,16 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.base.DataDictionary;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import static com.gitee.quiet.system.entity.QQuietDataDictionary.quietDataDictionary;
 
 /**
  * 数据字典.
@@ -42,5 +47,15 @@ public class QuietDataDictionary extends DataDictionary {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietDataDictionary.id)
+                .notBlankContains(getType(), quietDataDictionary.type)
+                .notBlankContains(getKey(), quietDataDictionary.key)
+                .notBlankContains(getRemark(), quietDataDictionary.remark)
+                .notNullEq(getParentId(), quietDataDictionary.parentId).getPredicate();
     }
 }

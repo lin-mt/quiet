@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
@@ -99,17 +98,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     
     @Override
     public QueryResults<QuietRole> page(QuietRole params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder();
-        if (params != null) {
-            // @formatter:off
-            select.notNullEq(params.getId(), quietRole.id)
-                    .notNullEq(params.getParentId(), quietRole.parentId)
-                    .notBlankContains(params.getRoleName(), quietRole.roleName)
-                    .notBlankContains(params.getRoleCnName(), quietRole.roleCnName)
-                    .notBlankContains(params.getRemark(), quietRole.remark);
-            // @formatter:on
-        }
-        QueryResults<QuietRole> results = select.from(jpaQueryFactory, quietRole, page);
+        QueryResults<QuietRole> results = SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietRole, page);
         if (!results.getResults().isEmpty()) {
             Set<Long> parentIds = results.getResults().stream().map(QuietRole::getParentId)
                     .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());

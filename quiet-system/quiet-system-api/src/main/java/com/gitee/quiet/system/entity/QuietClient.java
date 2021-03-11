@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.service.base.BaseEntity;
 import com.gitee.quiet.common.service.converter.SetStringConverter;
 import com.gitee.quiet.common.service.enums.Whether;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -41,6 +44,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
 
 /**
  * Quiet 客户端.
@@ -341,4 +346,19 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         }
     }
     
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        // @formatter:off
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), quietClient.id)
+                .notNullEq(getAutoApprove(), quietClient.autoApprove)
+                .notNullEq(getScoped(), quietClient.scoped)
+                .notNullEq(getSecretRequired(), quietClient.secretRequired)
+                .notBlankContains(getClientId(), quietClient.clientId)
+                .notBlankContains(getClientName(), quietClient.clientName)
+                .notBlankContains(getRemark(), quietClient.remark)
+                .getPredicate();
+        // @formatter:on
+    }
 }
