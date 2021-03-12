@@ -40,6 +40,7 @@ public class QuietUser extends QuietUserDetails {
         return SelectBuilder.booleanBuilder()
                 .notNullEq(getId(), quietUser.id)
                 .notBlankContains(getUsername(), quietUser.username)
+                .notBlankContains(getNickname(), quietUser.nickname)
                 .notNullEq(getGender(), quietUser.gender)
                 .notBlankContains(getPhoneNumber(), quietUser.phoneNumber)
                 .notBlankContains(getEmailAddress(), quietUser.emailAddress)

@@ -119,11 +119,15 @@ public class QuietPermission extends BaseEntity {
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
-        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietPermission.id)
+        // @formatter:off
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), quietPermission.id)
                 .notNullEq(getRoleId(), quietPermission.roleId)
                 .notBlankEq(getRequestMethod(), quietPermission.requestMethod)
                 .notBlankContains(getApplicationName(), quietPermission.applicationName)
                 .notBlankContains(getUrlPattern(), quietPermission.urlPattern)
-                .notBlankContains(getRemark(), quietPermission.remark).getPredicate();
+                .notBlankContains(getRemark(), quietPermission.remark)
+                .getPredicate();
+        // @formatter:on
     }
 }

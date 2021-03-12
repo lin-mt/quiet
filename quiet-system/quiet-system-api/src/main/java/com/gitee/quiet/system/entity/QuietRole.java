@@ -93,9 +93,14 @@ public class QuietRole extends QuietGrantedAuthority<QuietRole> {
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
-        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietRole.id)
-                .notNullEq(getParentId(), quietRole.parentId).notBlankContains(getRoleName(), quietRole.roleName)
-                .notBlankContains(getRoleCnName(), quietRole.roleCnName).notBlankContains(getRemark(), quietRole.remark)
+        // @formatter:off
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), quietRole.id)
+                .notNullEq(getParentId(), quietRole.parentId)
+                .notBlankContains(getRoleName(), quietRole.roleName)
+                .notBlankContains(getRoleCnName(), quietRole.roleCnName)
+                .notBlankContains(getRemark(), quietRole.remark)
                 .getPredicate();
+        // @formatter:on
     }
 }
