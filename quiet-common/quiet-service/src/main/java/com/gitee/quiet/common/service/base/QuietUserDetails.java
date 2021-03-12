@@ -51,6 +51,14 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     private String username;
     
     /**
+     * 昵称
+     */
+    @Column(name = "nickname", nullable = false, length = 10)
+    @NotEmpty(message = "{user.nickname}{not.empty}")
+    @Length(max = 10, message = "{user.nickname}{length.max.limit}")
+    private String nickname;
+    
+    /**
      * 头像地址
      */
     @Column(name = "avatar", length = 100)
@@ -119,7 +127,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 角色集合
      */
     @Transient
-    private Collection<? extends QuietGrantedAuthority> authorities;
+    private Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities;
     
     @Override
     public String getUsername() {
@@ -128,6 +136,14 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public String getNickname() {
+        return nickname;
+    }
+    
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
     
     public String getAvatar() {
@@ -240,11 +256,11 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     }
     
     @Override
-    public Collection<? extends QuietGrantedAuthority> getAuthorities() {
+    public Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> getAuthorities() {
         return authorities;
     }
     
-    public void setAuthorities(Collection<? extends QuietGrantedAuthority> authorities) {
+    public void setAuthorities(Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities) {
         this.authorities = authorities;
     }
     
