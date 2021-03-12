@@ -52,10 +52,13 @@ public class QuietDataDictionary extends DataDictionary {
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
-        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietDataDictionary.id)
+        // @formatter:off
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), quietDataDictionary.id)
                 .notBlankContains(getType(), quietDataDictionary.type)
                 .notBlankContains(getKey(), quietDataDictionary.key)
                 .notBlankContains(getRemark(), quietDataDictionary.remark)
                 .notNullEq(getParentId(), quietDataDictionary.parentId).getPredicate();
+        // @formatter:on
     }
 }
