@@ -61,10 +61,23 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人用户名
      */
-    public static String getCurrentUserName() {
+    public static String getCurrentUsername() {
         QuietUserDetails user = getCurrentUser();
         if (user != null) {
             return user.getUsername();
+        }
+        return null;
+    }
+    
+    /**
+     * 获取当前登录人昵称.
+     *
+     * @return 当前登录人昵称
+     */
+    public static String getCurrentNickname() {
+        QuietUserDetails user = getCurrentUser();
+        if (user != null) {
+            return user.getNickname();
         }
         return null;
     }
