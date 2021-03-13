@@ -17,10 +17,13 @@
 package com.gitee.quiet.common.service.jpa;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.annotation.Nullable;
 
 /**
  * 构建 BooleanBuilder.
@@ -42,6 +45,34 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     @Override
     public BooleanBuilder getPredicate() {
         return builder;
+    }
+    
+    public SelectBooleanBuilder and(@Nullable Predicate right) {
+        builder.and(right);
+        return this;
+    }
+    
+    public SelectBooleanBuilder andAnyOf(Predicate... args) {
+        builder.andAnyOf(args);
+        return this;
+    }
+    
+    public SelectBooleanBuilder andNot(Predicate right) {
+        return and(right.not());
+    }
+    
+    public SelectBooleanBuilder or(@Nullable Predicate right) {
+        builder.or(right);
+        return this;
+    }
+    
+    public SelectBooleanBuilder orAllOf(Predicate... args) {
+        builder.orAllOf(args);
+        return this;
+    }
+    
+    public SelectBooleanBuilder orNot(Predicate right) {
+        return or(right.not());
     }
     
     public <T extends Number & Comparable<?>> SelectBooleanBuilder notNullEq(T param, NumberPath<T> path) {
