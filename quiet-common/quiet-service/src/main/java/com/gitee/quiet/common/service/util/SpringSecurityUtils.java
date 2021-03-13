@@ -61,7 +61,7 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人用户名
      */
-    public static String getCurrentUsername() {
+    public static String getCurrentUserUsername() {
         QuietUserDetails user = getCurrentUser();
         if (user != null) {
             return user.getUsername();
@@ -74,7 +74,7 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人昵称
      */
-    public static String getCurrentNickname() {
+    public static String getCurrentUserNickname() {
         QuietUserDetails user = getCurrentUser();
         if (user != null) {
             return user.getNickname();
