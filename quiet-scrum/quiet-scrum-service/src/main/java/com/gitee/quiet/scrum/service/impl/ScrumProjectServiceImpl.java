@@ -84,7 +84,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
             Set<Long> teamIds = teamUsers.stream().map(QuietTeamUser::getTeamId).collect(Collectors.toSet());
             List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(teamIds);
             if (CollectionUtils.isNotEmpty(managedProjects)) {
-                managedProjects.forEach(project -> project.setManagerName(SpringSecurityUtils.getCurrentNickname()));
+                managedProjects.forEach(project -> project.setManagerName(SpringSecurityUtils.getCurrentUserNickname()));
                 Set<Long> manageProjectIds = managedProjects.stream().map(ScrumProject::getId)
                         .collect(Collectors.toSet());
                 projects = projects.stream().filter(project -> !manageProjectIds.contains(project.getId()))
