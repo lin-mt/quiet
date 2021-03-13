@@ -60,8 +60,7 @@ public class QuietUserController {
     }
     
     @PostMapping("/listUsersByName")
-    public Result<List<QuietUser>> listUsersByName(
-            @RequestBody @Validated(ParamsNotNull.class) QuietUserParam postParam) {
+    public Result<List<QuietUser>> listUsersByName(@RequestBody QuietUserParam postParam) {
         return Result.success(userService.listUsersByName(postParam.getName(), 9));
     }
     
