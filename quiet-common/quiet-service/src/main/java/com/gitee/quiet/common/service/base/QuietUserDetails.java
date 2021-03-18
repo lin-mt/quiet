@@ -51,12 +51,12 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     private String username;
     
     /**
-     * 昵称
+     * 全名（姓名）
      */
-    @Column(name = "nickname", nullable = false, length = 10)
-    @NotEmpty(message = "{user.nickname}{not.empty}")
-    @Length(max = 10, message = "{user.nickname}{length.max.limit}")
-    private String nickname;
+    @Column(name = "full_name", nullable = false, length = 10)
+    @NotEmpty(message = "{user.fullName}{not.empty}")
+    @Length(max = 10, message = "{user.fullName}{length.max.limit}")
+    private String fullName;
     
     /**
      * 头像地址
@@ -138,12 +138,12 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
         this.username = username;
     }
     
-    public String getNickname() {
-        return nickname;
+    public String getFullName() {
+        return fullName;
     }
     
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     
     public String getAvatar() {

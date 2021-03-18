@@ -92,9 +92,9 @@ public interface QuietUserService extends UserDetailsService {
     List<QuietUser> findByUserIds(Set<Long> userIds);
     
     /**
-     * 根据用户名/昵称查询用户信息
+     * 根据用户名/全名查询用户信息
      *
-     * @param name  用户名/昵称
+     * @param name  用户名/全名
      * @param limit 查询多少用户信息，小于1则查询所有
      * @return 用户信息
      */

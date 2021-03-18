@@ -192,7 +192,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         if (StringUtils.isBlank(name)) {
             return new ArrayList<>();
         }
-        builder.and(quietUser.username.contains(name).or(quietUser.nickname.contains(name)));
+        builder.and(quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
         JPAQuery<QuietUser> query = jpaQueryFactory.selectFrom(quietUser).where(builder);
         if (limit > 0) {
             query.limit(limit);
