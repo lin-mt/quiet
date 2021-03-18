@@ -32,7 +32,7 @@ public class QuietUserParam extends Param<QuietUser, QuietUser> {
     private Long departmentId;
     
     /**
-     * 名称（用户名、昵称）
+     * 名称（用户名、全名）
      */
     private String name;
     

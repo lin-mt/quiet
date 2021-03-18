@@ -70,14 +70,14 @@ public class SpringSecurityUtils {
     }
     
     /**
-     * 获取当前登录人昵称.
+     * 获取当前登录人全名.
      *
-     * @return 当前登录人昵称
+     * @return 当前登录人全名
      */
-    public static String getCurrentUserNickname() {
+    public static String getCurrentUserFullName() {
         QuietUserDetails user = getCurrentUser();
         if (user != null) {
-            return user.getNickname();
+            return user.getFullName();
         }
         return null;
     }
