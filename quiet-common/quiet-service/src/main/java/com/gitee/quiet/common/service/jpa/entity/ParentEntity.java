@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.base;
+package com.gitee.quiet.common.service.jpa.entity;
+
+import com.gitee.quiet.common.service.base.Parent;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -22,18 +24,12 @@ import javax.persistence.Transient;
 import java.util.List;
 
 /**
- * 带有父子关系且有优先级信息的实体.
+ * 带有父子关系的实体信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @MappedSuperclass
-public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends BaseEntity implements Parent<T>, Serial {
-    
-    /**
-     * 序号
-     */
-    @Column(name = "serial_number")
-    private int serialNumber;
+public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implements Parent<T> {
     
     /**
      * 父级ID
@@ -43,16 +39,6 @@ public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends B
     
     @Transient
     private List<T> children;
-    
-    @Override
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-    
-    @Override
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
     
     @Override
     public Long getParentId() {

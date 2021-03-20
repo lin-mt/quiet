@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.base;
 
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;

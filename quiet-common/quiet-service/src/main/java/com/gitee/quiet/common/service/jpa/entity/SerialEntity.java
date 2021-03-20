@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.base;
+package com.gitee.quiet.common.service.jpa.entity;
 
+import com.gitee.quiet.common.service.base.Serial;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;

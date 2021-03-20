@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.common.service.util;
 
-import com.gitee.quiet.common.service.base.QuietUserDetails;
+import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

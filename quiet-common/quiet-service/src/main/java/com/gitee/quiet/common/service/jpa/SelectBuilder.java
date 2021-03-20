@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.common.service.jpa;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.EntityPath;

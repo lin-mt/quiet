@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.common.service.converter;
 
-import com.gitee.quiet.common.service.base.DataDictionary;
+import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
 import org.apache.commons.lang3.StringUtils;
 

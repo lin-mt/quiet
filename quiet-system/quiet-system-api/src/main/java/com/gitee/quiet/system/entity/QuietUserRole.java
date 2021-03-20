@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

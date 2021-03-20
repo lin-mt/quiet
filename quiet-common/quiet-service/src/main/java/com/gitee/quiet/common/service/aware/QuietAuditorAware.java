@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.common.service.aware;
 
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
