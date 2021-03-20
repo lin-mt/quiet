@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.base;
+package com.gitee.quiet.common.service.jpa.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

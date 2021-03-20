@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.base;
+package com.gitee.quiet.common.service.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

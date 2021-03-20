@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.base.QuietUserDetails;
+import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.gitee.quiet.common.service.enums.Whether;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;

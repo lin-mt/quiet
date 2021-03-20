@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.base.DataDictionary;
+import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;

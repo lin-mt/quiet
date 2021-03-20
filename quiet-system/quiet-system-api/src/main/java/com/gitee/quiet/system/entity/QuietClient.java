@@ -18,7 +18,7 @@ package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gitee.quiet.common.service.base.BaseEntity;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.common.service.converter.SetStringConverter;
 import com.gitee.quiet.common.service.enums.Whether;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
