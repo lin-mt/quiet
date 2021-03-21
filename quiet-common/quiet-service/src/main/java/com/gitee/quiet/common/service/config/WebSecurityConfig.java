@@ -43,13 +43,13 @@ import java.util.Optional;
 @Configuration
 @ConditionalOnBean(UrlPermissionService.class)
 @EnableConfigurationProperties(QuietSecurityProperties.class)
-public class QuietWebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     private final UrlPermissionService urlPermissionService;
     
     private final GrantedAuthorityDefaults grantedAuthorityDefaults;
     
-    public QuietWebSecurityConfig(Optional<UrlPermissionService> urlPermissionService,
+    public WebSecurityConfig(Optional<UrlPermissionService> urlPermissionService,
             Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
         this.urlPermissionService = urlPermissionService.orElseThrow();
         this.grantedAuthorityDefaults = grantedAuthorityDefaults.orElse(null);

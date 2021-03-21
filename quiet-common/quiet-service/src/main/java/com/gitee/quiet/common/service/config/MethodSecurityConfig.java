@@ -25,6 +25,6 @@ import org.springframework.security.config.annotation.method.configuration.Globa
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class QuietMethodSecurityConfig extends GlobalMethodSecurityConfiguration {
+public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
 }
