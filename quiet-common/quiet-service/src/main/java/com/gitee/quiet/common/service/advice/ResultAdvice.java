@@ -35,7 +35,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -66,7 +69,20 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
     public Result<T> beforeBodyWrite(final Result<T> result, @NonNull final MethodParameter methodParameter,
             @NonNull final MediaType mediaType, @NonNull final Class<? extends HttpMessageConverter<?>> aClass,
             @NonNull final ServerHttpRequest serverHttpRequest, @NonNull final ServerHttpResponse serverHttpResponse) {
-        if (Objects.nonNull(result) && StringUtils.isBlank(result.getMessage())) {
+        if (Objects.nonNull(result)) {
+            fillMessage(result, serverHttpRequest);
+            sortResultData(result);
+        }
+        LOGGER.info("result data: {}", result);
+        return result;
+    }
+    
+    private void sortResultData(Result<T> result) {
+        // TODO auto sort
+    }
+    
+    private void fillMessage(Result<T> result, ServerHttpRequest serverHttpRequest) {
+        if (StringUtils.isBlank(result.getMessage())) {
             if (Objects.isNull(result.getCode()) && result.getCurdType() != null) {
                 result.setCode(result.getCurdType().getCode());
             }
@@ -96,8 +112,6 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
                 }
             }
         }
-        LOGGER.info("返回数据: {}", result);
-        return result;
     }
     
     private String getMessage(Locale locale, String code, Object... param) {
