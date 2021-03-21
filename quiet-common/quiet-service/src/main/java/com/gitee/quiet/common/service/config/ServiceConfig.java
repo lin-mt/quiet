@@ -42,7 +42,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(IdGeneratorProperties.class)
-public class QuietServiceConfig {
+public class ServiceConfig {
     
     @Bean
     public ApplicationUtil applicationUtil() {

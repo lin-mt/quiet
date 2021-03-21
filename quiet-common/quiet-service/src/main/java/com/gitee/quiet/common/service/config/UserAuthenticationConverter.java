@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
+public class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
     
     public static final String QUIET_USER_DETAILS = "quiet_user_details";
     
@@ -42,7 +42,7 @@ public class QuietUserAuthenticationConverter extends DefaultUserAuthenticationC
     
     private Collection<? extends GrantedAuthority> defaultAuthorities;
     
-    public QuietUserAuthenticationConverter(ObjectMapper objectMapper) {
+    public UserAuthenticationConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
     

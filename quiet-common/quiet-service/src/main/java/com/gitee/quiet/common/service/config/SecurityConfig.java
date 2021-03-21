@@ -30,11 +30,11 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-public class QuietSecurityConfig {
+public class SecurityConfig {
     
     private final RedisConnectionFactory redisConnectionFactory;
     
-    public QuietSecurityConfig(RedisConnectionFactory redisConnectionFactory) {
+    public SecurityConfig(RedisConnectionFactory redisConnectionFactory) {
         this.redisConnectionFactory = redisConnectionFactory;
     }
     

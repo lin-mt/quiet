@@ -18,7 +18,7 @@ package com.gitee.quiet.system.handler;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import com.gitee.quiet.common.service.config.QuietMessageSourceConfig;
+import com.gitee.quiet.common.service.config.MessageSourceConfig;
 import com.gitee.quiet.system.constant.AccountCode;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
@@ -39,7 +39,7 @@ import java.io.IOException;
 public class ResultAuthenticationFailureHandler extends AbstractResponseJsonData
         implements AuthenticationFailureHandler {
     
-    @Resource(name = QuietMessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
     private MessageSource messageSource;
     
     @Override

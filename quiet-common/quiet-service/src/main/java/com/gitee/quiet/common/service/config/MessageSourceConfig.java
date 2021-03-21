@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,42 +16,32 @@
 
 package com.gitee.quiet.common.service.config;
 
-import com.gitee.quiet.common.service.aware.QuietAuditorAware;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
- * 所有服务的 Jpa 配置.
+ * MessageSource 配置类.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-@EnableJpaAuditing(modifyOnCreate = false)
-public class QuietJpaConfig {
+public class MessageSourceConfig {
     
-    @PersistenceContext
-    private final EntityManager entityManager;
-    
-    public QuietJpaConfig(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
     
     @Bean
-    public JPAQueryFactory jpaQueryFactory() {
-        return new JPAQueryFactory(entityManager);
+    @ConditionalOnMissingBean(value = MessageSourceProperties.class)
+    public MessageSourceProperties messageSourceProperties() {
+        return new MessageSourceProperties();
     }
     
-    @Bean
-    @ConditionalOnMissingBean(AuditorAware.class)
-    public QuietAuditorAware auditorAware() {
-        return new QuietAuditorAware();
+    @Bean(QUIET_COMMON_MESSAGE_SOURCE)
+    public MessageSource commonMessageSource(MessageSourceProperties properties) {
+        return MessageSourceUtil.buildMessageSource(properties, "quiet-common");
     }
     
 }

@@ -40,7 +40,7 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @EnableResourceServer
 @EnableConfigurationProperties(AuthorizationServerProperties.class)
 @ConditionalOnMissingBean(value = AuthorizationServerConfigurer.class)
-public class QuietResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     
     private final ResourceServerProperties resourceServerProperties;
     
@@ -48,7 +48,7 @@ public class QuietResourceServerConfig extends ResourceServerConfigurerAdapter {
     
     private final ObjectMapper objectMapper;
     
-    public QuietResourceServerConfig(ResourceServerProperties resourceServerProperties,
+    public ResourceServerConfig(ResourceServerProperties resourceServerProperties,
             AuthorizationServerProperties authorizationServerProperties, ObjectMapper objectMapper) {
         this.resourceServerProperties = resourceServerProperties;
         this.authorizationServerProperties = authorizationServerProperties;
@@ -65,7 +65,7 @@ public class QuietResourceServerConfig extends ResourceServerConfigurerAdapter {
     public RemoteTokenServices tokenService() {
         RemoteTokenServices tokenService = new RemoteTokenServices();
         DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(new QuietUserAuthenticationConverter(objectMapper));
+        accessTokenConverter.setUserTokenConverter(new UserAuthenticationConverter(objectMapper));
         tokenService.setAccessTokenConverter(accessTokenConverter);
         tokenService.setClientId(resourceServerProperties.getClientId());
         tokenService.setClientSecret(resourceServerProperties.getClientSecret());

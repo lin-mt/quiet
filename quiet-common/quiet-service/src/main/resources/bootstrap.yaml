@@ -26,6 +26,7 @@ dubbo:
     id: dubbo
     name: dubbo
   consumer:
+    check: false
     filter: token-value-consumer
   provider:
     filter: token-value-provider

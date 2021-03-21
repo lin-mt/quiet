@@ -18,7 +18,7 @@ package com.gitee.quiet.common.service.advice;
 
 import com.gitee.quiet.common.base.constant.CommonCode;
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.config.QuietMessageSourceConfig;
+import com.gitee.quiet.common.service.config.MessageSourceConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +53,7 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
     @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
     private MessageSource messageSource;
     
-    @Resource(name = QuietMessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
     private MessageSource commonMessageSource;
     
     @Override
@@ -66,7 +66,20 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
     public Result<T> beforeBodyWrite(final Result<T> result, @NonNull final MethodParameter methodParameter,
             @NonNull final MediaType mediaType, @NonNull final Class<? extends HttpMessageConverter<?>> aClass,
             @NonNull final ServerHttpRequest serverHttpRequest, @NonNull final ServerHttpResponse serverHttpResponse) {
-        if (Objects.nonNull(result) && StringUtils.isBlank(result.getMessage())) {
+        if (Objects.nonNull(result)) {
+            fillMessage(result, serverHttpRequest);
+            sortResultData(result);
+        }
+        LOGGER.info("result data: {}", result);
+        return result;
+    }
+    
+    private void sortResultData(Result<T> result) {
+        // TODO auto sort
+    }
+    
+    private void fillMessage(Result<T> result, ServerHttpRequest serverHttpRequest) {
+        if (StringUtils.isBlank(result.getMessage())) {
             if (Objects.isNull(result.getCode()) && result.getCurdType() != null) {
                 result.setCode(result.getCurdType().getCode());
             }
@@ -96,8 +109,6 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
                 }
             }
         }
-        LOGGER.info("返回数据: {}", result);
-        return result;
     }
     
     private String getMessage(Locale locale, String code, Object... param) {
