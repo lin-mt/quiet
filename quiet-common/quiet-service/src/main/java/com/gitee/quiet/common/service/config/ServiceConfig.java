@@ -20,8 +20,7 @@ import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.jackson.deserializer.LongDeserializer;
-import com.gitee.quiet.common.service.jackson.serializer.LongSerializer;
+import com.gitee.quiet.common.service.jackson.LongJsonComponent;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -70,15 +69,9 @@ public class ServiceConfig {
     }
     
     @Bean
-    @ConditionalOnMissingBean(value = LongSerializer.class)
-    public LongSerializer longSerializer() {
-        return new LongSerializer();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(value = LongDeserializer.class)
-    public LongDeserializer longDeserializer() {
-        return new LongDeserializer();
+    @ConditionalOnMissingBean(value = LongJsonComponent.class)
+    public LongJsonComponent longJsonComponent() {
+        return new LongJsonComponent();
     }
     
 }
