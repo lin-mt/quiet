@@ -1,3 +1,4 @@
+# todo 从数据库读取路由配置信息
 spring:
   cloud:
     gateway:

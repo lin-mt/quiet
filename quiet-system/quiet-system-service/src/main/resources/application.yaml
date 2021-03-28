@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
   config:
-    import: classpath:application-dev.yaml
+    import: classpath:application-all.yaml
 server:
   port: 9000
 dubbo:
@@ -12,9 +12,3 @@ dubbo:
     base-packages: com.gitee.quiet.system.service
   cloud:
     subscribed-services:
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-    import: classpath:application-dev.yaml
