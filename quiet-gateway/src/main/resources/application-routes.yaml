@@ -8,6 +8,12 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
+        - id: scrum
+          uri: lb://quiet-scrum
+          predicates:
+            - Path=/scrum/**
+          filters:
+            - StripPrefix=1
 ---
 spring:
   config:
@@ -20,5 +26,11 @@ spring:
           uri: http://localhost:9000
           predicates:
             - Path=/system/**
+          filters:
+            - StripPrefix=1
+        - id: scrum
+          uri: http://localhost:9001
+          predicates:
+            - Path=/scrum/**
           filters:
             - StripPrefix=1

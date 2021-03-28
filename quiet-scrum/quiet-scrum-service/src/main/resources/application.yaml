@@ -4,7 +4,9 @@ spring:
   application:
     name: quiet-scrum
   profiles:
-    active: resource-server-dev
+    active: dev
+  config:
+    import: classpath:application-resource-server.yaml
 security:
   oauth2:
     client:
