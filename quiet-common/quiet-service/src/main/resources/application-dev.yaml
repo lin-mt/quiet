@@ -1,26 +1,14 @@
 spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-  datasource:
-    url: jdbc:mysql://localhost:3306/quiet?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: root93633
-    hikari:
-      connection-timeout: 30000
-      idle-timeout: 300000
-      pool-name: jpa-hikari-pool
-      max-lifetime: 900000
-      maximum-pool-size: 8
-      minimum-idle: 8
-      connection-test-query: select 1 from dual
-      auto-commit: true
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    database: 0
+  profiles:
+    active: dev
+  config:
+    import: classpath:application-mysql.yaml,classpath:application-redis.yaml,classpath:application-registry.yaml
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: classpath:application-mysql.yaml,classpath:application-redis.yaml,classpath:application-registry.yaml
 logging:
   level:
     org.hibernate.type.descriptor.sql.BasicBinder: trace

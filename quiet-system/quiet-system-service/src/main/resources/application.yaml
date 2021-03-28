@@ -1,12 +1,20 @@
-server:
-  port: 9000
 spring:
   application:
     name: quiet-system
   profiles:
     active: dev
+  config:
+    import: classpath:application-dev.yaml
+server:
+  port: 9000
 dubbo:
   scan:
     base-packages: com.gitee.quiet.system.service
   cloud:
     subscribed-services:
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+    import: classpath:application-dev.yaml
