@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: system
+          uri: lb://quiet-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    gateway:
+      routes:
+        - id: system
+          uri: http://localhost:9000
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
