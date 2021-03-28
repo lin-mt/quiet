@@ -1,8 +1,6 @@
 spring:
-  profiles:
-    active: dev
   config:
-    import: classpath:application-dev.yaml
+    import: classpath:application-all.yaml
 security:
   oauth2:
     client:
@@ -17,7 +15,6 @@ spring:
   config:
     activate:
       on-profile: dev
-    import: classpath:application-dev.yaml
 security:
   oauth2:
     client:
