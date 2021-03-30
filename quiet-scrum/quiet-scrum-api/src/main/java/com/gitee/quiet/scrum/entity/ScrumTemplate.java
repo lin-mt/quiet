@@ -46,11 +46,11 @@ public class ScrumTemplate extends BaseEntity {
     private String name;
     
     /**
-     * 模板描述信息
+     * 模板备注信息
      */
-    @Column(name = "template_description", length = 30)
-    @Length(message = "{template.description}{length.max.limit}", max = 30)
-    private String description;
+    @Column(name = "remark", length = 30)
+    @Length(message = "{template.remark}{length.max.limit}", max = 30)
+    private String remark;
     
     public String getName() {
         return name;
@@ -60,11 +60,11 @@ public class ScrumTemplate extends BaseEntity {
         this.name = name;
     }
     
-    public String getDescription() {
-        return description;
+    public String getRemark() {
+        return remark;
     }
     
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -46,6 +46,13 @@ public class ScrumPriority extends SerialEntity {
     private String name;
     
     /**
+     * 图标的十六进制颜色
+     */
+    @Column(name = "color_hex", length = 7)
+    @Length(message = "{priority.colorHex}{length.max.limit}", max = 7)
+    private String colorHex;
+    
+    /**
      * 模板ID
      */
     @Column(name = "template_id", nullable = false)
@@ -53,11 +60,11 @@ public class ScrumPriority extends SerialEntity {
     private Long templateId;
     
     /**
-     * 描述信息
+     * 备注信息
      */
-    @Column(name = "priority_description", length = 100)
-    @Length(message = "{priority.description}{length.max.limit}", max = 100)
-    private String description;
+    @Column(name = "remark", length = 100)
+    @Length(message = "{priority.remark}{length.max.limit}", max = 100)
+    private String remark;
     
     public String getName() {
         return name;
@@ -65,6 +72,14 @@ public class ScrumPriority extends SerialEntity {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getColorHex() {
+        return colorHex;
+    }
+    
+    public void setColorHex(String colorHex) {
+        this.colorHex = colorHex;
     }
     
     public Long getTemplateId() {
@@ -75,11 +90,11 @@ public class ScrumPriority extends SerialEntity {
         this.templateId = templateId;
     }
     
-    public String getDescription() {
-        return description;
+    public String getRemark() {
+        return remark;
     }
     
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -16,16 +16,20 @@
 
 package com.gitee.quiet.scrum.entity;
 
+import com.gitee.quiet.common.service.jpa.converter.SetLongStringConverter;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * 任务信息.
@@ -67,6 +71,14 @@ public class ScrumTask extends SerialEntity {
     private Long executorId;
     
     /**
+     * 参与者（最多20人参与）
+     */
+    @Column(name = "participant", length = 380)
+    @Size(message = "{task.participant}{size.max.limit}", max = 20)
+    @Convert(converter = SetLongStringConverter.class)
+    private Set<Long> participant;
+    
+    /**
      * 任务备注信息
      */
     @Column(name = "remark", length = 3000)
@@ -103,6 +115,14 @@ public class ScrumTask extends SerialEntity {
     
     public void setExecutorId(Long executorId) {
         this.executorId = executorId;
+    }
+    
+    public Set<Long> getParticipant() {
+        return participant;
+    }
+    
+    public void setParticipant(Set<Long> participant) {
+        this.participant = participant;
     }
     
     public String getRemark() {

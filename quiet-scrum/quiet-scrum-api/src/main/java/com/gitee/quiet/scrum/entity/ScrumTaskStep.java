@@ -53,11 +53,11 @@ public class ScrumTaskStep extends SerialEntity {
     private Long templateId;
     
     /**
-     * 步骤描述信息
+     * 步骤备注信息
      */
-    @Column(name = "step_description", length = 30)
-    @Length(message = "{taskStep.description}{length.max.limit}", max = 30)
-    private String description;
+    @Column(name = "remark", length = 30)
+    @Length(message = "{taskStep.remark}{length.max.limit}", max = 30)
+    private String remark;
     
     public String getName() {
         return name;
@@ -75,11 +75,11 @@ public class ScrumTaskStep extends SerialEntity {
         this.templateId = templateId;
     }
     
-    public String getDescription() {
-        return description;
+    public String getRemark() {
+        return remark;
     }
     
-    public void setDescription(String description) {
-        this.description = description;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

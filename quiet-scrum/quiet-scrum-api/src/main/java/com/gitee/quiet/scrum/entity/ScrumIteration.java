@@ -56,7 +56,7 @@ public class ScrumIteration extends SerialEntity {
      * 备注信息
      */
     @Column(name = "remark", nullable = false, length = 1000)
-    @Length(message = "{iteration.title}{length.max.limit}", max = 1000)
+    @Length(message = "{iteration.remark}{length.max.limit}", max = 1000)
     private String remark;
     
     public String getName() {
