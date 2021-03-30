@@ -24,32 +24,34 @@ import javax.persistence.Converter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 /**
- * 实体Set属性转换数据库String.
+ * Set<Long> 与 String 的转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Converter
-public class SetStringConverter implements AttributeConverter<Set<String>, String> {
+public class SetLongStringConverter implements AttributeConverter<Set<Long>, String> {
     
     @Override
-    public String convertToDatabaseColumn(Set<String> attribute) {
+    public String convertToDatabaseColumn(Set<Long> attribute) {
         if (CollectionUtils.isEmpty(attribute)) {
             return null;
         }
-        return String.join(ConverterConstant.DELIMITER, attribute);
+        return String.join(ConverterConstant.DELIMITER,
+                attribute.stream().map(Object::toString).collect(Collectors.toSet()));
     }
     
     @Override
-    public Set<String> convertToEntityAttribute(String dbData) {
-        Set<String> attribute = new HashSet<>();
+    public Set<Long> convertToEntityAttribute(String dbData) {
+        Set<Long> attribute = new HashSet<>();
         if (StringUtils.isBlank(dbData)) {
             return attribute;
         }
         StringTokenizer st = new StringTokenizer(dbData, ConverterConstant.DELIMITER);
         while (st.hasMoreTokens()) {
-            attribute.add(st.nextToken());
+            attribute.add(Long.parseLong(st.nextToken()));
         }
         return attribute;
     }
