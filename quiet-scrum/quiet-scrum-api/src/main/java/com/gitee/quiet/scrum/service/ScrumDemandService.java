@@ -16,11 +16,23 @@
 
 package com.gitee.quiet.scrum.service;
 
+import com.gitee.quiet.scrum.entity.ScrumDemand;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 /**
  * 需求service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumDemandService {
-
+    
+    /**
+     * 根据迭代ID查询该迭代的所有需求
+     *
+     * @param iterationId 迭代ID
+     * @return 迭代中的所有需求
+     */
+    List<ScrumDemand> findAllByIteration(@NotNull Long iterationId);
 }

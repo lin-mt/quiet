@@ -16,8 +16,13 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 需求信息service实现类.
@@ -26,5 +31,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScrumDemandServiceImpl implements ScrumDemandService {
-
+    
+    private final ScrumDemandRepository demandRepository;
+    
+    public ScrumDemandServiceImpl(ScrumDemandRepository demandRepository) {
+        this.demandRepository = demandRepository;
+    }
+    
+    @Override
+    public List<ScrumDemand> findAllByIteration(@NotNull Long iterationId) {
+        return demandRepository.findAllByIterationId(iterationId);
+    }
 }

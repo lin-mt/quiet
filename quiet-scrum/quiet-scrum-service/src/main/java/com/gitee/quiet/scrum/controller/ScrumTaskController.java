@@ -16,8 +16,17 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.params.ScrumTaskParam;
+import com.gitee.quiet.scrum.service.ScrumTaskService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 任务Controller.
@@ -27,5 +36,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/task")
 public class ScrumTaskController {
-
+    
+    private final ScrumTaskService taskService;
+    
+    public ScrumTaskController(ScrumTaskService taskService) {
+        this.taskService = taskService;
+    }
+    
+    /**
+     * 查询需求的所有任务信息
+     *
+     * @param param 查询参数
+     * @return 根据需求ID以及任务步骤ID分组后的任务集合
+     */
+    @PostMapping("/findAllTaskByDemandIds")
+    public Result<Map<Long, Map<Long, List<ScrumTask>>>> findAllTaskByDemandIds(@RequestBody ScrumTaskParam param) {
+        return Result.success(taskService.findAllTaskByDemandIds(param.getDemandIds()));
+    }
 }

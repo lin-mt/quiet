@@ -16,11 +16,24 @@
 
 package com.gitee.quiet.scrum.service;
 
+import com.gitee.quiet.scrum.entity.ScrumTask;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 任务信息service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumTaskService {
-
+    
+    /**
+     * 根据需求ID集合查询指定需求下的所有任务，并根据任务步骤进行分组
+     *
+     * @param demandIds 需求ID集合
+     * @return 根据需求ID和任务步骤分组后的任务集合
+     */
+    Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds);
 }

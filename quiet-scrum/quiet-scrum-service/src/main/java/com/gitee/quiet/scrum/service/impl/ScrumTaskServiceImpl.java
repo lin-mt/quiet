@@ -16,8 +16,15 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 任务信息service实现类.
@@ -26,5 +33,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScrumTaskServiceImpl implements ScrumTaskService {
-
+    
+    private final ScrumTaskRepository taskRepository;
+    
+    public ScrumTaskServiceImpl(ScrumTaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
+    
+    @Override
+    public Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds) {
+        return taskRepository.findAllByDemandIdIn(demandIds).stream().collect(
+                Collectors.groupingBy(ScrumTask::getDemandId, Collectors.groupingBy(ScrumTask::getTaskStepId)));
+    }
 }

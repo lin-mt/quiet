@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 需求repository.
  *
@@ -27,5 +29,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> {
-
+    
+    /**
+     * 根据迭代ID查询该迭代的所有需求
+     *
+     * @param iterationId 迭代ID
+     * @return 迭代中的所有需求
+     */
+    List<ScrumDemand> findAllByIterationId(Long iterationId);
 }

@@ -20,6 +20,9 @@ import com.gitee.quiet.scrum.entity.ScrumTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 任务repository.
  *
@@ -27,5 +30,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long> {
-
+    
+    /**
+     * 根据需求ID查询任务信息
+     *
+     * @param demandIds 需求ID集合
+     * @return 所有任务信息
+     */
+    List<ScrumTask> findAllByDemandIdIn(Set<Long> demandIds);
 }

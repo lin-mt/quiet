@@ -16,8 +16,19 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.ParamsNotNull;
+import com.gitee.quiet.common.validation.util.ValidationUtils;
+import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.params.ScrumDemandParam;
+import com.gitee.quiet.scrum.service.ScrumDemandService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 需求Controller.
@@ -27,5 +38,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/demand")
 public class ScrumDemandController {
-
+    
+    private final ScrumDemandService demandService;
+    
+    public ScrumDemandController(ScrumDemandService demandService) {
+        this.demandService = demandService;
+    }
+    
+    /**
+     * 查询一个迭代下的所有需求信息
+     *
+     * @param param :params:iterationId 迭代ID
+     * @return 需求信息
+     */
+    @PostMapping("/findAllByIteration")
+    public Result<List<ScrumDemand>> findAllByIteration(
+            @RequestBody @Validated(ParamsNotNull.class) ScrumDemandParam param) {
+        ValidationUtils.notNull(param.getParams().getIterationId(), "demand.iterationId.can.notNull");
+        return Result.success(demandService.findAllByIteration(param.getParams().getIterationId()));
+    }
+    
 }
