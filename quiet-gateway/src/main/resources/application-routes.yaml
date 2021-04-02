@@ -23,17 +23,3 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  cloud:
-    gateway:
-      routes:
-        - id: system
-          uri: lb://quiet-system
-          predicates:
-            - Path=/system/**
-          filters:
-            - StripPrefix=1
