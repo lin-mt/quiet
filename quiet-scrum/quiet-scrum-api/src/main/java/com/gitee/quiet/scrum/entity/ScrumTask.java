@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -77,6 +78,18 @@ public class ScrumTask extends SerialEntity {
     private Set<Long> participant;
     
     /**
+     * 需求开始时间
+     */
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+    
+    /**
+     * 需求结束时间
+     */
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+    
+    /**
      * 任务备注信息
      */
     @Column(name = "remark", length = 3000)
@@ -121,6 +134,22 @@ public class ScrumTask extends SerialEntity {
     
     public void setParticipant(Set<Long> participant) {
         this.participant = participant;
+    }
+    
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+    
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+    
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+    
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
     
     public String getRemark() {

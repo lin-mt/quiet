@@ -27,6 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
@@ -75,6 +76,18 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     private Long priorityId;
     
     /**
+     * 需求开始时间
+     */
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+    
+    /**
+     * 需求结束时间
+     */
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+    
+    /**
      * 备注信息
      */
     @Column(name = "remark", length = 3000)
@@ -119,6 +132,22 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     
     public void setPriorityId(Long priorityId) {
         this.priorityId = priorityId;
+    }
+    
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+    
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+    
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+    
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
     
     public String getRemark() {
