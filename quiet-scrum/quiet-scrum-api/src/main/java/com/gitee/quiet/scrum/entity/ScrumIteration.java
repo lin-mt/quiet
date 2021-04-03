@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,15 +39,15 @@ public class ScrumIteration extends SerialEntity {
      */
     @Column(name = "iteration_name", nullable = false, length = 30)
     @Length(message = "{iteration.name}{length.max.limit}", max = 30)
-    @NotNull(message = "{iteration.name}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{iteration.name}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{iteration.name}{not.null}")
+    @NotEmpty(message = "{iteration.name}{not.empty}")
     private String name;
     
     /**
      * 所属版本ID
      */
     @Column(name = "version_id", nullable = false)
-    @NotNull(message = "{iteration.versionId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{iteration.versionId}{not.null}")
     private Long versionId;
     
     /**

@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,15 +39,15 @@ public class ScrumTaskStep extends SerialEntity {
      */
     @Column(name = "step_name", nullable = false, length = 10)
     @Length(message = "{taskStep.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{taskStep.name}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{taskStep.name}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{taskStep.name}{not.null}")
+    @NotEmpty(message = "{taskStep.name}{not.empty}")
     private String name;
     
     /**
      * 所属模板ID
      */
     @Column(name = "template_id", nullable = false)
-    @NotNull(message = "{taskStep.templateId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{taskStep.templateId}{not.null}")
     private Long templateId;
     
     /**

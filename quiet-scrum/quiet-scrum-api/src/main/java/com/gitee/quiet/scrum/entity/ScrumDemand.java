@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,15 +39,15 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
      */
     @Column(name = "title", nullable = false, length = 30)
     @Length(message = "{demand.title}{length.max.limit}", max = 30)
-    @NotNull(message = "{demand.title}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{demand.title}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{demand.title}{not.null}")
+    @NotEmpty(message = "{demand.title}{not.empty}")
     private String title;
     
     /**
      * 项目ID
      */
     @Column(name = "project_id", nullable = false)
-    @NotNull(message = "{demand.projectId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{demand.projectId}{not.null}")
     private Long projectId;
     
     /**
@@ -62,7 +60,7 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
      * 优先级ID
      */
     @Column(name = "priority_id", nullable = false)
-    @NotNull(message = "{demand.priorityId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{demand.priorityId}{not.null}")
     private Long priorityId;
     
     /**

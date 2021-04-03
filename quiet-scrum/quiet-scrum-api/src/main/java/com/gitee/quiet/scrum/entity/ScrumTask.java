@@ -18,8 +18,6 @@ package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.converter.SetLongStringConverter;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -45,29 +43,29 @@ public class ScrumTask extends SerialEntity {
      */
     @Column(name = "title", nullable = false, length = 10)
     @Length(message = "{task.title}{length.max.limit}", max = 10)
-    @NotNull(message = "{task.title}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{task.title}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{task.title}{not.null}")
+    @NotEmpty(message = "{task.title}{not.empty}")
     private String title;
     
     /**
      * 所属需求ID
      */
     @Column(name = "demand_id", nullable = false)
-    @NotNull(message = "{task.demandId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{task.demandId}{not.null}")
     private Long demandId;
     
     /**
      * 任务的当前步骤ID
      */
     @Column(name = "task_step_id", nullable = false)
-    @NotNull(message = "{task.taskStepId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{task.taskStepId}{not.null}")
     private Long taskStepId;
     
     /**
      * 执行者
      */
     @Column(name = "executor_id", nullable = false)
-    @NotNull(message = "{task.executorId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{task.executorId}{not.null}")
     private Long executorId;
     
     /**

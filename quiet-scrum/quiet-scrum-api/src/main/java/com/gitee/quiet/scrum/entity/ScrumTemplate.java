@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,8 +39,8 @@ public class ScrumTemplate extends BaseEntity {
      */
     @Column(name = "template_name", nullable = false, length = 10)
     @Length(message = "{template.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{template.name}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{template.name}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{template.name}{not.null}")
+    @NotEmpty(message = "{template.name}{not.empty}")
     private String name;
     
     /**

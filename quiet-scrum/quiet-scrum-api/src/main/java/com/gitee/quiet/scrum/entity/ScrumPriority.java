@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,8 +39,8 @@ public class ScrumPriority extends SerialEntity {
      */
     @Column(name = "priority_name", nullable = false, length = 10)
     @Length(message = "{priority.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{priority.name}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{priority.name}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{priority.name}{not.null}")
+    @NotEmpty(message = "{priority.name}{not.empty}")
     private String name;
     
     /**
@@ -56,7 +54,7 @@ public class ScrumPriority extends SerialEntity {
      * 模板ID
      */
     @Column(name = "template_id", nullable = false)
-    @NotNull(message = "{priority.templateId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{priority.templateId}{not.null}")
     private Long templateId;
     
     /**

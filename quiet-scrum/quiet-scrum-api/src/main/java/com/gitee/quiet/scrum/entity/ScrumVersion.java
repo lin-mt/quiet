@@ -17,8 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -41,15 +39,15 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
      */
     @Column(name = "version_name", nullable = false, length = 10)
     @Length(message = "{version.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{version.name}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{version.name}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{version.name}{not.null}")
+    @NotEmpty(message = "{version.name}{not.empty}")
     private String name;
     
     /**
      * 所属项目ID
      */
     @Column(name = "project_id", nullable = false)
-    @NotNull(message = "{version.projectId}{not.null}", groups = {Create.class, Update.class})
+    @NotNull(message = "{version.projectId}{not.null}")
     private Long projectId;
     
     /**
@@ -57,8 +55,8 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
      */
     @Column(name = "remark", nullable = false, length = 1500)
     @Length(message = "{version.remark}{length.max.limit}", max = 1500)
-    @NotNull(message = "{version.remark}{not.null}", groups = {Create.class, Update.class})
-    @NotEmpty(message = "{version.remark}{not.empty}", groups = {Create.class, Update.class})
+    @NotNull(message = "{version.remark}{not.null}")
+    @NotEmpty(message = "{version.remark}{not.empty}")
     private String remark;
     
     public String getName() {
