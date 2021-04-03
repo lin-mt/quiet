@@ -16,14 +16,19 @@
 
 package com.gitee.quiet.scrum.entity;
 
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
+import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
 /**
  * 需求信息.
@@ -42,6 +47,12 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     @NotNull(message = "{demand.title}{not.null}")
     @NotEmpty(message = "{demand.title}{not.empty}")
     private String title;
+    
+    /**
+     * 执行者
+     */
+    @Column(name = "executor_id", nullable = false)
+    private Long executorId;
     
     /**
      * 项目ID
@@ -78,6 +89,14 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
         this.title = title;
     }
     
+    public Long getExecutorId() {
+        return executorId;
+    }
+    
+    public void setExecutorId(Long executorId) {
+        this.executorId = executorId;
+    }
+    
     public Long getProjectId() {
         return projectId;
     }
@@ -108,5 +127,20 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    @Nullable
+    @Override
+    public BooleanBuilder booleanBuilder() {
+        // @formatter:off
+        return SelectBuilder.booleanBuilder()
+                .notNullEq(getId(), scrumDemand.id)
+                .notBlankContains(getTitle(), scrumDemand.title)
+                .notNullEq(getExecutorId(), scrumDemand.executorId)
+                .notNullEq(getProjectId(), scrumDemand.projectId)
+                .notNullEq(getIterationId(), scrumDemand.iterationId)
+                .notNullEq(getPriorityId(), scrumDemand.priorityId)
+                .getPredicate();
+        // @formatter:on
     }
 }
