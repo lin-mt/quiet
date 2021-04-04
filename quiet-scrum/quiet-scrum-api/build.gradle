@@ -14,37 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id 'com.ewerk.gradle.plugins.querydsl'
-}
-
 dependencies {
     compile project(path: ':quiet-common:quiet-service', configuration: 'default')
     compile project(path: ':quiet-system:quiet-system-api', configuration: 'default')
+
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
+    annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
+    annotationProcessor "javax.annotation:javax.annotation-api:1.3.2"
 }
 
-jar.enabled(true)
-
-def queryDslSourceDirectory = 'src/main/generated'
-
-querydsl {
-    jpa = true
-    querydslSourcesDir = queryDslSourceDirectory
+bootJar {
+    enabled = false
 }
 
-sourceSets {
-    //noinspection GroovyAssignabilityCheck
-    main {
-        java {
-            srcDir queryDslSourceDirectory
-        }
-    }
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-    querydsl.extendsFrom compileClasspath
+jar {
+    enabled = true
 }
