@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 数据字典.
+ * 数据字典. // todo 支持 QueryDsl
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */

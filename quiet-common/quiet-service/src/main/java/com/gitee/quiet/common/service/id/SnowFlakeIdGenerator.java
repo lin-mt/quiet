@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -31,9 +33,23 @@ import java.io.Serializable;
  */
 public class SnowFlakeIdGenerator implements IdentifierGenerator {
     
+    private volatile SnowFlakeIdWorker snowFlakeIdWorker;
+    
+    private static final Logger logger = LoggerFactory.getLogger(SnowFlakeIdGenerator.class);
+    
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        return ApplicationUtil.getBean(SnowFlakeIdWorker.class).nextId();
+        if (snowFlakeIdWorker == null) {
+            synchronized (SnowFlakeIdGenerator.class) {
+                logger.info("start init snowFlakeIdWorker from context.");
+                if (snowFlakeIdWorker == null) {
+                    snowFlakeIdWorker = ApplicationUtil.getBean(SnowFlakeIdWorker.class);
+                }
+            }
+        }
+        long id = snowFlakeIdWorker.nextId();
+        logger.info("snowFlakeId {}", id);
+        return id;
     }
     
 }
