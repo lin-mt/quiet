@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.common.service.jpa.converter;
 
-import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
+import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.AttributeConverter;
@@ -28,7 +28,7 @@ import javax.persistence.Converter;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Converter
+@Converter(autoApply = true)
 public class DataDictionaryStringConverter implements AttributeConverter<DataDictionary, String> {
     
     @Override
