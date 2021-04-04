@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,7 +26,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import static com.gitee.quiet.system.entity.QQuietDataDictionary.quietDataDictionary;
+import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 
 /**
  * 数据字典.
@@ -34,11 +34,11 @@ import static com.gitee.quiet.system.entity.QQuietDataDictionary.quietDataDictio
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "quiet_data_dictionary")
-public class QuietDataDictionary extends DataDictionary {
+@Table(name = "quiet_dictionary")
+public class QuietDictionary extends Dictionary {
     
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{dataDictionary.remark}{length.max.limit}")
+    @Length(max = 100, message = "{dictionary.remark}{length.max.limit}")
     private String remark;
     
     public String getRemark() {
@@ -54,11 +54,11 @@ public class QuietDataDictionary extends DataDictionary {
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
         return SelectBuilder.booleanBuilder()
-                .notNullEq(getId(), quietDataDictionary.id)
-                .notBlankContains(getType(), quietDataDictionary.type)
-                .notBlankContains(getKey(), quietDataDictionary.key)
-                .notBlankContains(getRemark(), quietDataDictionary.remark)
-                .notNullEq(getParentId(), quietDataDictionary.parentId).getPredicate();
+                .notNullEq(getId(), quietDictionary.id)
+                .notBlankContains(getType(), quietDictionary.type)
+                .notBlankContains(getKey(), quietDictionary.key)
+                .notBlankContains(getRemark(), quietDictionary.remark)
+                .notNullEq(getParentId(), quietDictionary.parentId).getPredicate();
         // @formatter:on
     }
 }

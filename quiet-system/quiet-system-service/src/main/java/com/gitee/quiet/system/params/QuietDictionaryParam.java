@@ -17,14 +17,14 @@
 package com.gitee.quiet.system.params;
 
 import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDataDictionary;
+import com.gitee.quiet.system.entity.QuietDictionary;
 
 /**
  * 数据字典请求参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDataDictionaryParam extends Param<QuietDataDictionary, QuietDataDictionary> {
+public class QuietDictionaryParam extends Param<QuietDictionary, QuietDictionary> {
     
     /**
      * 数据字典类型
