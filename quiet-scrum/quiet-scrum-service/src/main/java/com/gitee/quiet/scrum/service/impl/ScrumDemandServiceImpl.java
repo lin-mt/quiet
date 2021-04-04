@@ -16,13 +16,23 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
 /**
  * 需求信息service实现类.
@@ -32,14 +42,47 @@ import java.util.List;
 @Service
 public class ScrumDemandServiceImpl implements ScrumDemandService {
     
+    private final JPAQueryFactory jpaQueryFactory;
+    
     private final ScrumDemandRepository demandRepository;
     
-    public ScrumDemandServiceImpl(ScrumDemandRepository demandRepository) {
+    public ScrumDemandServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumDemandRepository demandRepository) {
+        this.jpaQueryFactory = jpaQueryFactory;
         this.demandRepository = demandRepository;
     }
     
     @Override
-    public List<ScrumDemand> findAllByIteration(@NotNull Long iterationId) {
+    public List<ScrumDemand> findAllByIteration(@Validated @NotNull Long iterationId) {
         return demandRepository.findAllByIterationId(iterationId);
+    }
+    
+    @Override
+    public QueryResults<ScrumDemand> page(ScrumDemand params, Pageable page) {
+        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, scrumDemand, page);
+    }
+    
+    @Override
+    public ScrumDemand save(@Validated(Create.class) @NotNull ScrumDemand save) {
+        checkDemand(save);
+        return demandRepository.save(save);
+    }
+    
+    @Override
+    public ScrumDemand update(@Validated(Update.class) @NotNull ScrumDemand update) {
+        checkDemand(update);
+        return demandRepository.save(update);
+    }
+    
+    private void checkDemand(@NotNull ScrumDemand demand) {
+        ScrumDemand exist = demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
+        if (exist != null && !exist.getId().equals(demand.getId())) {
+            throw new ServiceException("demand.in.project.title.exist", demand.getTitle());
+        }
+        if (demand.getParentId() != null && !demandRepository.existsById(demand.getParentId())) {
+            throw new ServiceException("demand.parentId.not.exist", demand.getParentId());
+        }
+        if (demand.getOptimizeDemandId() != null && !demandRepository.existsById(demand.getOptimizeDemandId())) {
+            throw new ServiceException("demand.optimizeDemandId.not.exist", demand.getOptimizeDemandId());
+        }
     }
 }

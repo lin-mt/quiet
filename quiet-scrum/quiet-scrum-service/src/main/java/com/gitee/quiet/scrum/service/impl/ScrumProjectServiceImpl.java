@@ -156,10 +156,10 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         }
         List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(project.getTeamIds());
         if (CollectionUtils.isNotEmpty(projects)) {
-            List<ScrumProject> duplicateProjectName = projects.stream()
-                    .filter(p -> p.getName().equals(project.getName())).collect(Collectors.toList());
-            if (CollectionUtils.isNotEmpty(duplicateProjectName)) {
-                throw new ServiceException("project.team.projectName.duplicate", project.getName());
+            List<ScrumProject> existProjectName = projects.stream().filter(p -> p.getName().equals(project.getName()))
+                    .collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(existProjectName)) {
+                throw new ServiceException("project.team.projectName.exist", project.getName());
             }
         }
     }

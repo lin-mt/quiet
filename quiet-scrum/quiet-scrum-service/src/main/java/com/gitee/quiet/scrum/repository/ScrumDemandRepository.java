@@ -37,4 +37,13 @@ public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> 
      * @return 迭代中的所有需求
      */
     List<ScrumDemand> findAllByIterationId(Long iterationId);
+    
+    /**
+     * 根据项目ID和需求标题查询需求信息
+     *
+     * @param projectId 项目ID
+     * @param title     需求标题
+     * @return 需求信息
+     */
+    ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
 }

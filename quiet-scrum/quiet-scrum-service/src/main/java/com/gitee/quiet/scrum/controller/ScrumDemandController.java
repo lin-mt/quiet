@@ -18,10 +18,13 @@ package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.util.ValidationUtils;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.params.ScrumDemandParam;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.querydsl.core.QueryResults;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +49,28 @@ public class ScrumDemandController {
     }
     
     /**
+     * 创建需求
+     *
+     * @param param :save 创建的需求信息
+     * @return 创建后的需求信息
+     */
+    @PostMapping("/save")
+    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandParam param) {
+        return Result.success(demandService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新需求
+     *
+     * @param param :update 更新的需求信息
+     * @return 更新后的需求信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandParam param) {
+        return Result.success(demandService.update(param.getUpdate()));
+    }
+    
+    /**
      * 查询一个迭代下的所有需求信息
      *
      * @param param :params:iterationId 迭代ID
@@ -56,6 +81,17 @@ public class ScrumDemandController {
             @RequestBody @Validated(ParamsNotNull.class) ScrumDemandParam param) {
         ValidationUtils.notNull(param.getParams().getIterationId(), "demand.iterationId.can.notNull");
         return Result.success(demandService.findAllByIteration(param.getParams().getIterationId()));
+    }
+    
+    /**
+     * 分页查询需求信息
+     *
+     * @param param 查询参数
+     * @return 查询结果
+     */
+    @PostMapping("/page")
+    public Result<QueryResults<ScrumDemand>> page(@RequestBody ScrumDemandParam param) {
+        return Result.success(demandService.page(param.getParams(), param.page()));
     }
     
 }

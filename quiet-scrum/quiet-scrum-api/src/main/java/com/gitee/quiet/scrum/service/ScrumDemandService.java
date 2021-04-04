@@ -17,6 +17,8 @@
 package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -35,4 +37,29 @@ public interface ScrumDemandService {
      * @return 迭代中的所有需求
      */
     List<ScrumDemand> findAllByIteration(@NotNull Long iterationId);
+    
+    /**
+     * 分页查询需求信息
+     *
+     * @param params 查询参数
+     * @param page   分页参数
+     * @return 需求信息
+     */
+    QueryResults<ScrumDemand> page(ScrumDemand params, Pageable page);
+    
+    /**
+     * 创建需求
+     *
+     * @param save 新需求
+     * @return 创建后的需求信息
+     */
+    ScrumDemand save(@NotNull ScrumDemand save);
+    
+    /**
+     * 更新需求
+     *
+     * @param update 更新的需求信息
+     * @return 更新后的需求信息
+     */
+    ScrumDemand update(@NotNull ScrumDemand update);
 }
