@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
@@ -50,6 +51,13 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     private String title;
     
     /**
+     * 需求类型
+     */
+    @Column(name = "demand_type", nullable = false, length = 60)
+    @NotNull(message = "{demand.type}{not.null}")
+    private DataDictionary type;
+    
+    /**
      * 执行者
      */
     @Column(name = "executor_id", nullable = false)
@@ -61,6 +69,12 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     @Column(name = "project_id", nullable = false)
     @NotNull(message = "{demand.projectId}{not.null}")
     private Long projectId;
+    
+    /**
+     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
+     */
+    @Column(name = "optimize_demand_id")
+    private Long optimizeDemandId;
     
     /**
      * 所属迭代ID
@@ -102,6 +116,14 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
         this.title = title;
     }
     
+    public DataDictionary getType() {
+        return type;
+    }
+    
+    public void setType(DataDictionary type) {
+        this.type = type;
+    }
+    
     public Long getExecutorId() {
         return executorId;
     }
@@ -116,6 +138,14 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+    
+    public Long getOptimizeDemandId() {
+        return optimizeDemandId;
+    }
+    
+    public void setOptimizeDemandId(Long optimizeDemandId) {
+        this.optimizeDemandId = optimizeDemandId;
     }
     
     public Long getIterationId() {
@@ -167,6 +197,7 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
                 .notBlankContains(getTitle(), scrumDemand.title)
                 .notNullEq(getExecutorId(), scrumDemand.executorId)
                 .notNullEq(getProjectId(), scrumDemand.projectId)
+                .notNullEq(getOptimizeDemandId(), scrumDemand.optimizeDemandId)
                 .notNullEq(getIterationId(), scrumDemand.iterationId)
                 .notNullEq(getPriorityId(), scrumDemand.priorityId)
                 .getPredicate();
