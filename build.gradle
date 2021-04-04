@@ -15,55 +15,61 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.4.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+    id "org.springframework.boot" version "2.4.4"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 //noinspection GroovyAssignabilityCheck
 allprojects {
-    group 'com.gitee.lin-mt'
-    version '1.0.1'
+    group "com.gitee.lin-mt"
+    version "1.0.1"
 }
 
 repositories {
     //noinspection GroovyAssignabilityCheck
-    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url "https://maven.aliyun.com/repository/public/" }
     //noinspection GroovyAssignabilityCheck
-    maven { url 'https://maven.aliyun.com/repository/spring/' }
+    maven { url "https://maven.aliyun.com/repository/spring/" }
     mavenLocal()
     mavenCentral()
 }
 
 //noinspection GroovyAssignabilityCheck
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
+    buildscript {
+        ext {
+            jacksonDatabindVersion = "2.12.2"
+            queryDslVersion = "4.4.0"
+            springCloudVersion = "2020.0.2"
+            springCloudAlibabaVersion = "2020.0.RC1"
+            springSecurityOauth2Version = "2.5.0.RELEASE"
+            springSecurityOauth2AutoconfigureVersion = "2.4.4"
+        }
+    }
+
+    apply plugin: "java"
+    apply plugin: "org.springframework.boot"
+    apply plugin: "io.spring.dependency-management"
 
     jar {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    ext {
-        set('springCloudVersion', '2020.0.2')
-        set('springCloudAlibabaVersion', '2020.0.RC1')
-    }
-
     repositories {
         //noinspection GroovyAssignabilityCheck
-        maven { url 'https://maven.aliyun.com/repository/public/' }
+        maven { url "https://maven.aliyun.com/repository/public/" }
         //noinspection GroovyAssignabilityCheck
-        maven { url 'https://maven.aliyun.com/repository/spring/' }
+        maven { url "https://maven.aliyun.com/repository/spring/" }
         mavenLocal()
         mavenCentral()
     }
 
     dependencies {
-        implementation 'com.google.guava:guava:30.1-jre'
-        implementation 'org.apache.commons:commons-lang3:3.11'
-        implementation 'org.apache.commons:commons-collections4:4.4'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        implementation "com.google.guava:guava:30.1-jre"
+        implementation "org.apache.commons:commons-lang3:3.11"
+        implementation "org.apache.commons:commons-collections4:4.4"
+        testImplementation "org.springframework.boot:spring-boot-starter-test"
     }
 
     test {
