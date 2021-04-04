@@ -17,7 +17,7 @@
 package com.gitee.quiet.common.service.jpa.converter;
 
 import com.gitee.quiet.common.service.constant.ServiceConstant;
-import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.AttributeConverter;
@@ -29,27 +29,27 @@ import javax.persistence.Converter;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Converter(autoApply = true)
-public class DataDictionaryStringConverter implements AttributeConverter<DataDictionary, String> {
+public class DictionaryStringConverter implements AttributeConverter<Dictionary, String> {
     
     @Override
-    public String convertToDatabaseColumn(DataDictionary attribute) {
+    public String convertToDatabaseColumn(Dictionary attribute) {
         if (attribute != null) {
-            return attribute.getType() + ServiceConstant.DataDictionary.SPLIT + attribute.getKey();
+            return attribute.getType() + ServiceConstant.Dictionary.SPLIT + attribute.getKey();
         }
         return null;
     }
     
     @Override
-    public DataDictionary convertToEntityAttribute(String dbData) {
+    public Dictionary convertToEntityAttribute(String dbData) {
         if (StringUtils.isNoneBlank(dbData)) {
-            String[] split = dbData.split(ServiceConstant.DataDictionary.SPLIT_REGEX);
-            if (split.length < ServiceConstant.DataDictionary.ARRAY_MIN_LENGTH) {
+            String[] split = dbData.split(ServiceConstant.Dictionary.SPLIT_REGEX);
+            if (split.length < ServiceConstant.Dictionary.ARRAY_MIN_LENGTH) {
                 throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含type和key");
             }
-            DataDictionary dataDictionary = new DataDictionary();
-            dataDictionary.setType(split[0]);
-            dataDictionary.setKey(split[1]);
-            return dataDictionary;
+            Dictionary dictionary = new Dictionary();
+            dictionary.setType(split[0]);
+            dictionary.setKey(split[1]);
+            return dictionary;
         }
         return null;
     }

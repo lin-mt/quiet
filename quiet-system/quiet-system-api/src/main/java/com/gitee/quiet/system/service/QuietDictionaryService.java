@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.system.entity.QuietDataDictionary;
+import com.gitee.quiet.system.entity.QuietDictionary;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuietDataDictionaryService {
+public interface QuietDictionaryService {
     
     /**
      * 根据数据字典类型返回该类型的树形结构
@@ -35,7 +35,7 @@ public interface QuietDataDictionaryService {
      * @param type 数据字典类型
      * @return type的树形结构
      */
-    List<QuietDataDictionary> treeByType(String type);
+    List<QuietDictionary> treeByType(String type);
     
     /**
      * 分页查询数据字典.
@@ -44,7 +44,7 @@ public interface QuietDataDictionaryService {
      * @param page   分页参数
      * @return 查询的所有信息
      */
-    QueryResults<QuietDataDictionary> page(QuietDataDictionary params, Pageable page);
+    QueryResults<QuietDictionary> page(QuietDictionary params, Pageable page);
     
     /**
      * 新增数据字典.
@@ -52,7 +52,7 @@ public interface QuietDataDictionaryService {
      * @param save 新增的数据字典信息
      * @return 新增后的数据字典信息
      */
-    QuietDataDictionary save(QuietDataDictionary save);
+    QuietDictionary save(QuietDictionary save);
     
     /**
      * 根据数据字典ID删除数据
@@ -67,7 +67,7 @@ public interface QuietDataDictionaryService {
      * @param update 要更新的数据字典
      * @return 更新后的数据字典信息
      */
-    QuietDataDictionary update(QuietDataDictionary update);
+    QuietDictionary update(QuietDictionary update);
     
     /**
      * 查询数据字典提供选项
@@ -75,5 +75,5 @@ public interface QuietDataDictionaryService {
      * @param type 数据字典类型
      * @return 该数据字典类型下的选项
      */
-    List<QuietDataDictionary> treeByTypeForSelect(String type);
+    List<QuietDictionary> treeByTypeForSelect(String type);
 }

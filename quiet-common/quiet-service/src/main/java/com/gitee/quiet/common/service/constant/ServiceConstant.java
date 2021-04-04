@@ -26,7 +26,7 @@ public final class ServiceConstant {
     private ServiceConstant() {
     }
     
-    public static final class DataDictionary {
+    public static final class Dictionary {
         
         // 分隔符
         public static final String SPLIT = ".";
@@ -37,7 +37,7 @@ public final class ServiceConstant {
         // 至少需要包含 type 和 key
         public static final Integer ARRAY_MIN_LENGTH = 2;
         
-        private DataDictionary() {
+        private Dictionary() {
         }
         
     }
