@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,14 @@
  */
 
 dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.11.2'
-    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web"
 }
 
-jar.enabled(true)
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
