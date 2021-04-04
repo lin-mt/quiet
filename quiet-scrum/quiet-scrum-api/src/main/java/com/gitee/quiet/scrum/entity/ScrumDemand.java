@@ -17,7 +17,7 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.DataDictionary;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
@@ -55,7 +55,7 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
      */
     @Column(name = "demand_type", nullable = false, length = 60)
     @NotNull(message = "{demand.type}{not.null}")
-    private DataDictionary type;
+    private Dictionary type;
     
     /**
      * 执行者
@@ -116,11 +116,11 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
         this.title = title;
     }
     
-    public DataDictionary getType() {
+    public Dictionary getType() {
         return type;
     }
     
-    public void setType(DataDictionary type) {
+    public void setType(Dictionary type) {
         this.type = type;
     }
     
