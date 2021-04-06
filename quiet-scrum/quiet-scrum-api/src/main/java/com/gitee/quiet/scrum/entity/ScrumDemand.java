@@ -194,6 +194,7 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
         // @formatter:off
         return SelectBuilder.booleanBuilder()
                 .notNullEq(getId(), scrumDemand.id)
+                .notNullEq(getType(), scrumDemand.type)
                 .notBlankContains(getTitle(), scrumDemand.title)
                 .notNullEq(getExecutorId(), scrumDemand.executorId)
                 .notNullEq(getProjectId(), scrumDemand.projectId)
