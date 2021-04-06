@@ -17,6 +17,7 @@
 package com.gitee.quiet.common.service.config;
 
 import com.gitee.quiet.common.service.aware.QuietAuditorAware;
+import com.gitee.quiet.common.service.jpa.converter.CustomConverter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -35,7 +36,7 @@ import javax.persistence.PersistenceContext;
  */
 @Configuration
 @EnableJpaAuditing(modifyOnCreate = false)
-@AutoConfigurationPackage(basePackages = "com.gitee.quiet.common.service.jpa.converter")
+@AutoConfigurationPackage(basePackageClasses = CustomConverter.class)
 public class JpaConfig {
     
     @PersistenceContext
