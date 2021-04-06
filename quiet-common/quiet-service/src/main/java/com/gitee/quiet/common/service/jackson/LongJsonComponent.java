@@ -36,22 +36,6 @@ import java.io.IOException;
 public class LongJsonComponent {
     
     /**
-     * java.lang.Long 序列化
-     *
-     * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
-     */
-    public static class LongSerializer extends JsonSerializer<Long> {
-        
-        @Override
-        public void serialize(Long longValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                throws IOException {
-            if (longValue != null) {
-                jsonGenerator.writeString(longValue.toString());
-            }
-        }
-    }
-    
-    /**
      * java.lang.Long 反序列化
      *
      * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
@@ -67,4 +51,21 @@ public class LongJsonComponent {
             return null;
         }
     }
+    
+    /**
+     * java.lang.Long 序列化
+     *
+     * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+     */
+    public static class LongSerializer extends JsonSerializer<Long> {
+        
+        @Override
+        public void serialize(Long longValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+                throws IOException {
+            if (longValue != null) {
+                jsonGenerator.writeString(longValue.toString());
+            }
+        }
+    }
+    
 }

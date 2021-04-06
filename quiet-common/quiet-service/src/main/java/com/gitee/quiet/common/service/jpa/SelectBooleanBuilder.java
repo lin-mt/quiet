@@ -16,11 +16,14 @@
 
 package com.gitee.quiet.common.service.jpa;
 
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.common.service.jpa.entity.QDictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
@@ -99,6 +102,13 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     public SelectBooleanBuilder notBlankContains(String param, StringPath path) {
         if (StringUtils.isNoneBlank(param)) {
             builder.and(path.contains(param));
+        }
+        return this;
+    }
+    
+    public SelectBooleanBuilder notNullEq(Dictionary type, QDictionary qDictionary) {
+        if (ObjectUtils.allNotNull(type, type.getType(), type.getKey())) {
+            builder.and(qDictionary.isType(type));
         }
         return this;
     }

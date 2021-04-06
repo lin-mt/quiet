@@ -16,9 +16,7 @@
 
 package com.gitee.quiet.common.service.jpa.converter;
 
-import com.gitee.quiet.common.service.constant.ServiceConstant;
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -34,23 +32,13 @@ public class DictionaryStringConverter implements AttributeConverter<Dictionary,
     @Override
     public String convertToDatabaseColumn(Dictionary attribute) {
         if (attribute != null) {
-            return attribute.getType() + ServiceConstant.Dictionary.SPLIT + attribute.getKey();
+            return Dictionary.convertToString(attribute);
         }
         return null;
     }
     
     @Override
     public Dictionary convertToEntityAttribute(String dbData) {
-        if (StringUtils.isNoneBlank(dbData)) {
-            String[] split = dbData.split(ServiceConstant.Dictionary.SPLIT_REGEX);
-            if (split.length < ServiceConstant.Dictionary.ARRAY_MIN_LENGTH) {
-                throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含type和key");
-            }
-            Dictionary dictionary = new Dictionary();
-            dictionary.setType(split[0]);
-            dictionary.setKey(split[1]);
-            return dictionary;
-        }
-        return null;
+        return Dictionary.convertFromString(dbData);
     }
 }

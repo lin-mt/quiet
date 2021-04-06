@@ -16,10 +16,16 @@
 
 package com.gitee.quiet.common.service.jpa.entity;
 
+import com.gitee.quiet.common.service.constant.ServiceConstant;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import com.querydsl.core.annotations.QueryDelegate;
+import com.querydsl.core.annotations.QueryEntity;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
@@ -30,6 +36,7 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@QueryEntity
 @MappedSuperclass
 public class Dictionary extends ParentEntity<Dictionary> implements Serializable {
     
@@ -55,6 +62,49 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     @Column(name = "dictionary_value", unique = true, nullable = false, length = 30)
     @Length(max = 30, message = "{dictionary.value}{length.max.limit}")
     private String value;
+    
+    @QueryDelegate(Dictionary.class)
+    public static BooleanExpression isType(QDictionary dictionary, Dictionary other) {
+        return dictionary.type.eq(other.getType()).and(dictionary.key.eq(other.getKey()));
+    }
+    
+    /**
+     * String 转为 数据字典
+     *
+     * @param dictionaryStr 要转换的字符串
+     * @return 转换后的字符串
+     */
+    @Nullable
+    public static Dictionary convertFromString(String dictionaryStr) {
+        if (StringUtils.isNotBlank(dictionaryStr)) {
+            String[] split = dictionaryStr.split(ServiceConstant.Dictionary.SPLIT_REGEX);
+            if (split.length < ServiceConstant.Dictionary.ARRAY_MIN_LENGTH) {
+                throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含type和key");
+            }
+            Dictionary dictionary = new Dictionary();
+            dictionary.setType(split[0]);
+            dictionary.setKey(split[1]);
+            return dictionary;
+        }
+        return null;
+    }
+    
+    /**
+     * 数据字典转换为字符串
+     *
+     * @param dictionary 要转换的数据字典
+     * @return 转换后的字符串
+     */
+    @Nullable
+    public static String convertToString(Dictionary dictionary) {
+        if (dictionary != null) {
+            if (!StringUtils.isNotBlank(dictionary.getType()) || !StringUtils.isNotBlank(dictionary.getKey())) {
+                throw new IllegalArgumentException("数据字典的 type 和 key 都不能为空");
+            }
+            return dictionary.getType() + ServiceConstant.Dictionary.SPLIT + dictionary.getKey();
+        }
+        return null;
+    }
     
     public String getType() {
         return type;
