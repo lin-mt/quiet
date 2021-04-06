@@ -19,9 +19,7 @@ package com.gitee.quiet.common.service.jpa.entity;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
-import com.querydsl.core.annotations.QueryDelegate;
 import com.querydsl.core.annotations.QueryEntity;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,7 +30,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 数据字典. // todo 支持 QueryDsl
+ * 数据字典.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
@@ -62,11 +60,6 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     @Column(name = "dictionary_value", unique = true, nullable = false, length = 30)
     @Length(max = 30, message = "{dictionary.value}{length.max.limit}")
     private String value;
-    
-    @QueryDelegate(Dictionary.class)
-    public static BooleanExpression isType(QDictionary dictionary, Dictionary other) {
-        return dictionary.type.eq(other.getType()).and(dictionary.key.eq(other.getKey()));
-    }
     
     /**
      * String 转为 数据字典

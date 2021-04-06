@@ -106,9 +106,9 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         return this;
     }
     
-    public SelectBooleanBuilder notNullEq(Dictionary type, QDictionary qDictionary) {
-        if (ObjectUtils.allNotNull(type, type.getType(), type.getKey())) {
-            builder.and(qDictionary.isType(type));
+    public SelectBooleanBuilder notNullEq(Dictionary dictionary, QDictionary qDictionary) {
+        if (ObjectUtils.allNotNull(dictionary, dictionary.getType(), dictionary.getKey())) {
+            builder.and(qDictionary.eq(dictionary));
         }
         return this;
     }
