@@ -20,6 +20,7 @@ import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
+import com.gitee.quiet.common.service.jackson.DictionaryJsonComponent;
 import com.gitee.quiet.common.service.jackson.LongJsonComponent;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
@@ -72,6 +73,12 @@ public class ServiceConfig {
     @ConditionalOnMissingBean(value = LongJsonComponent.class)
     public LongJsonComponent longJsonComponent() {
         return new LongJsonComponent();
+    }
+    
+    @Bean
+    @ConditionalOnMissingBean(value = DictionaryJsonComponent.class)
+    public DictionaryJsonComponent dictionaryJsonComponent() {
+        return new DictionaryJsonComponent();
     }
     
 }
