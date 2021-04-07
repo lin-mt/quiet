@@ -58,17 +58,17 @@ public interface Serial extends Comparable<Serial> {
     }
     
     class Util {
-        
-        static <T extends Serial> void resetSerialNumber(List<T> entities) {
-            if (CollectionUtils.isEmpty(entities)) {
+    
+        public static <T extends Serial> void resetSerialNumber(List<T> serials) {
+            if (CollectionUtils.isEmpty(serials)) {
                 return;
             }
-            entities.removeIf(Objects::isNull);
-            for (int i = 0; i < entities.size(); i++) {
-                entities.get(i).setSerialNumber(i);
+            serials.removeIf(Objects::isNull);
+            for (int i = 0; i < serials.size(); i++) {
+                serials.get(i).setSerialNumber(i);
             }
         }
-        
+    
     }
     
 }
