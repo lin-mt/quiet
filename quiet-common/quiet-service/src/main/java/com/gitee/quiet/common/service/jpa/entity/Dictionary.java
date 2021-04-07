@@ -49,7 +49,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     /**
      * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
      */
-    @Column(name = "dictionary_key", nullable = false, length = 30)
+    @Column(name = "dictionary_key", length = 30)
     @Length(max = 30, message = "{dictionary.key}{length.max.limit}")
     private String key;
     
@@ -57,7 +57,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
      * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
      */
     @NotNull(groups = {Create.class, Update.class}, message = "{dictionary.value}{not.null}")
-    @Column(name = "dictionary_value", unique = true, nullable = false, length = 30)
+    @Column(name = "dictionary_value", nullable = false, length = 30)
     @Length(max = 30, message = "{dictionary.value}{length.max.limit}")
     private String value;
     
@@ -72,7 +72,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
         if (StringUtils.isNotBlank(dictionaryStr)) {
             String[] split = dictionaryStr.split(ServiceConstant.Dictionary.SPLIT_REGEX);
             if (split.length < ServiceConstant.Dictionary.ARRAY_MIN_LENGTH) {
-                throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含type和key");
+                throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含 type 和 key");
             }
             Dictionary dictionary = new Dictionary();
             dictionary.setType(split[0]);

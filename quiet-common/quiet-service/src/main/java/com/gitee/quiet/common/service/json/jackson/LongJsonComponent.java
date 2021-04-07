@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.jackson;
+package com.gitee.quiet.common.service.json.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
