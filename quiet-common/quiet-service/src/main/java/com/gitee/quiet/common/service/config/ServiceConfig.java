@@ -20,15 +20,14 @@ import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
 import com.gitee.quiet.common.service.advice.ResultAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.jackson.DictionaryJsonComponent;
-import com.gitee.quiet.common.service.jackson.LongJsonComponent;
+import com.gitee.quiet.common.service.json.jackson.CustomJsonComponent;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
@@ -41,6 +40,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @Configuration
 @EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
+@ComponentScan(basePackageClasses = CustomJsonComponent.class)
 @EnableConfigurationProperties(IdGeneratorProperties.class)
 public class ServiceConfig {
     
@@ -67,18 +67,6 @@ public class ServiceConfig {
     @Bean
     public ResultAdvice<?> resultAdvice() {
         return new ResultAdvice<>();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(value = LongJsonComponent.class)
-    public LongJsonComponent longJsonComponent() {
-        return new LongJsonComponent();
-    }
-    
-    @Bean
-    @ConditionalOnMissingBean(value = DictionaryJsonComponent.class)
-    public DictionaryJsonComponent dictionaryJsonComponent() {
-        return new DictionaryJsonComponent();
     }
     
 }
