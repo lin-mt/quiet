@@ -25,8 +25,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.common.service.util.GsonUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
@@ -40,8 +38,6 @@ import java.util.Map;
 @JsonComponent
 public class DictionaryJsonComponent {
     
-    private static final Logger logger = LoggerFactory.getLogger(DictionaryJsonComponent.class);
-    
     /**
      * com.gitee.quiet.common.service.jpa.entity.Dictionary 反序列化
      *
@@ -53,7 +49,6 @@ public class DictionaryJsonComponent {
         public Dictionary deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
                 throws IOException {
             if (StringUtils.isNoneBlank(jsonParser.getText())) {
-                logger.info(jsonParser.getText());
                 return Dictionary.convertFromString(jsonParser.getText());
             }
             return null;
