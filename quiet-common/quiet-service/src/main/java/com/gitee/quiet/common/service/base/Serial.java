@@ -16,7 +16,11 @@
 
 package com.gitee.quiet.common.service.base;
 
+import org.apache.dubbo.common.utils.CollectionUtils;
+
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 可排序.
@@ -52,4 +56,19 @@ public interface Serial extends Comparable<Serial> {
         }
         return Integer.compare(getSerialNumber(), other.getSerialNumber());
     }
+    
+    class Util {
+        
+        static <T extends Serial> void resetSerialNumber(List<T> entities) {
+            if (CollectionUtils.isEmpty(entities)) {
+                return;
+            }
+            entities.removeIf(Objects::isNull);
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).setSerialNumber(i);
+            }
+        }
+        
+    }
+    
 }
