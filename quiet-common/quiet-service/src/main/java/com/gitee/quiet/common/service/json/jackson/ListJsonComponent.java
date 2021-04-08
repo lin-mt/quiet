@@ -20,7 +20,6 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.util.GsonUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.boot.jackson.JsonComponent;
 
@@ -69,7 +68,11 @@ public class ListJsonComponent {
                         index++;
                     }
                 }
-                jsonGenerator.writeObject(GsonUtil.fromJson(GsonUtil.toJson(listValue), Object[].class));
+                jsonGenerator.writeStartArray();
+                for (T t : listValue) {
+                    jsonGenerator.writeObject(t);
+                }
+                jsonGenerator.writeEndArray();
             }
             jsonGenerator.flush();
         }
