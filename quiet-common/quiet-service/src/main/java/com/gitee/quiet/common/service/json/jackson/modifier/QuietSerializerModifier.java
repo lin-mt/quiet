@@ -41,14 +41,14 @@ public class QuietSerializerModifier extends BeanSerializerModifier {
     }
     
     private static class CustomListSerializer extends AsArraySerializerBase<List<Object>> {
-    
+        
         private final IndexedListSerializer defaultSerializer;
-    
+        
         public CustomListSerializer(IndexedListSerializer defaultSerializer, TypeFactory tf) {
             super(List.class, tf.constructSimpleType(Object.class, new JavaType[] {}), false, null, null);
             this.defaultSerializer = defaultSerializer;
         }
-    
+        
         private CustomListSerializer(CustomListSerializer src, BeanProperty prop, TypeSerializer vts,
                 JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
             super(src, prop, vts, valueSerializer, unwrapSingle);
