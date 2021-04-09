@@ -35,7 +35,7 @@ public class QuietSerializerModifier extends BeanSerializerModifier {
     public JsonSerializer<?> modifyCollectionSerializer(SerializationConfig config, CollectionType valueType,
             BeanDescription beanDesc, JsonSerializer<?> serializer) {
         if (serializer instanceof IndexedListSerializer && List.class.isAssignableFrom(beanDesc.getBeanClass())) {
-            return new CustomerListSerializer((IndexedListSerializer) serializer, config.getTypeFactory());
+            return new CustomListSerializer((IndexedListSerializer) serializer, config.getTypeFactory());
         }
         return super.modifyCollectionSerializer(config, valueType, beanDesc, serializer);
     }
@@ -44,12 +44,12 @@ public class QuietSerializerModifier extends BeanSerializerModifier {
         
         private final IndexedListSerializer defaultSerializer;
         
-        public CustomerListSerializer(IndexedListSerializer defaultSerializer, TypeFactory tf) {
+        public CustomListSerializer(IndexedListSerializer defaultSerializer, TypeFactory tf) {
             super(List.class, tf.constructSimpleType(Object.class, new JavaType[] {}), false, null, null);
             this.defaultSerializer = defaultSerializer;
         }
         
-        private CustomerListSerializer(CustomerListSerializer src, BeanProperty prop, TypeSerializer vts,
+        private CustomListSerializer(CustomListSerializer src, BeanProperty prop, TypeSerializer vts,
                 JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
             super(src, prop, vts, valueSerializer, unwrapSingle);
             this.defaultSerializer = src.defaultSerializer;
@@ -58,7 +58,7 @@ public class QuietSerializerModifier extends BeanSerializerModifier {
         @Override
         public AsArraySerializerBase<List<Object>> withResolved(BeanProperty property, TypeSerializer vts,
                 JsonSerializer<?> elementSerializer, Boolean unwrapSingle) {
-            return new CustomerListSerializer(this, property, vts, elementSerializer, unwrapSingle);
+            return new CustomListSerializer(this, property, vts, elementSerializer, unwrapSingle);
         }
         
         @Override

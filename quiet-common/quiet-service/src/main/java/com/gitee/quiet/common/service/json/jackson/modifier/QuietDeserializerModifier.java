@@ -26,14 +26,14 @@ public class QuietDeserializerModifier extends BeanDeserializerModifier {
     public JsonDeserializer<?> modifyCollectionDeserializer(DeserializationConfig config, CollectionType type,
             BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
         if (deserializer instanceof CollectionDeserializer) {
-            return new CustomerCollectionDeserializer((CollectionDeserializer) deserializer);
+            return new CustomCollectionDeserializer((CollectionDeserializer) deserializer);
         }
         return super.modifyCollectionDeserializer(config, type, beanDesc, deserializer);
     }
     
-    private static class CustomerCollectionDeserializer extends CollectionDeserializer {
+    private static class CustomCollectionDeserializer extends CollectionDeserializer {
         
-        public CustomerCollectionDeserializer(CollectionDeserializer deserializer) {
+        public CustomCollectionDeserializer(CollectionDeserializer deserializer) {
             super(deserializer);
         }
         
@@ -53,7 +53,7 @@ public class QuietDeserializerModifier extends BeanDeserializerModifier {
         @Override
         public CollectionDeserializer createContextual(DeserializationContext context, BeanProperty property)
                 throws JsonMappingException {
-            return new CustomerCollectionDeserializer(super.createContextual(context, property));
+            return new CustomCollectionDeserializer(super.createContextual(context, property));
         }
     }
     
