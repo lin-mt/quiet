@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.ReferenceType;
 import com.gitee.quiet.common.service.base.Serial;
 
 import java.io.IOException;
@@ -30,12 +29,6 @@ public class QuietDeserializerModifier extends BeanDeserializerModifier {
             return new CustomerCollectionDeserializer((CollectionDeserializer) deserializer);
         }
         return super.modifyCollectionDeserializer(config, type, beanDesc, deserializer);
-    }
-    
-    @Override
-    public JsonDeserializer<?> modifyReferenceDeserializer(DeserializationConfig config, ReferenceType type,
-            BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
-        return super.modifyReferenceDeserializer(config, type, beanDesc, deserializer);
     }
     
     private static class CustomerCollectionDeserializer extends CollectionDeserializer {
