@@ -46,9 +46,9 @@ import java.util.Objects;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestControllerAdvice
-public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
+public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>> {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResultAdvice.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
     
     @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
     private MessageSource messageSource;
@@ -68,14 +68,9 @@ public class ResultAdvice<T> implements ResponseBodyAdvice<Result<T>> {
             @NonNull final ServerHttpRequest serverHttpRequest, @NonNull final ServerHttpResponse serverHttpResponse) {
         if (Objects.nonNull(result)) {
             fillMessage(result, serverHttpRequest);
-            sortResultData(result);
         }
         LOGGER.info("result data: {}", result);
         return result;
-    }
-    
-    private void sortResultData(Result<T> result) {
-        // TODO auto sort
     }
     
     private void fillMessage(Result<T> result, ServerHttpRequest serverHttpRequest) {

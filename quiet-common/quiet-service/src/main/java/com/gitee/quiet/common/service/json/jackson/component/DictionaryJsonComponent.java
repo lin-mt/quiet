@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.json.jackson;
+package com.gitee.quiet.common.service.json.jackson.component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -71,13 +71,13 @@ public class DictionaryJsonComponent {
                 SerializerProvider serializerProvider) throws IOException {
             if (dictionaryValue != null) {
                 if (dictionaryValue.getId() != null) {
-                    logger.info("write dictionary object.");
                     jsonGenerator.writeStartObject();
                     for (Field field : Dictionary.class.getFields()) {
                         if (field.getAnnotation(JsonIgnore.class) != null && field.trySetAccessible()) {
                             try {
                                 jsonGenerator.writeObjectField(field.getName(), field.get(dictionaryValue));
                             } catch (IllegalAccessException ignore) {
+                                logger.error("dictionary serializer error.");
                             }
                         }
                     }
