@@ -17,3 +17,4 @@
 9. 类`com.gitee.quiet.common.service.base.Param` 及其子类，不能作为`Service`方法的形参
 10. `Controller`的所有请求方法全部为`POST`
 11. 所有 `Service` 方法的参数尽量加上注解，例如不能为空的加上 `@NotNull`
+12. 所有缓存全部添加在 `Service` 实现类，在对应的 `Service` 实现类必须有一个缓存 key 前缀为 CACHE_INFO：`${应用名称}:${模块名称}:${业务名称（去掉前缀的表名）}`
