@@ -25,7 +25,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * 安全配置.
+ * 安全配置. todo 使用新的安全框架
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */

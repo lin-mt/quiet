@@ -19,7 +19,7 @@ package com.gitee.quiet.common.service.security;
 import java.util.List;
 
 /**
- * Url 权限 Service.
+ * Url 权限 Service. todo 添加获取应用权限的 Bean
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */

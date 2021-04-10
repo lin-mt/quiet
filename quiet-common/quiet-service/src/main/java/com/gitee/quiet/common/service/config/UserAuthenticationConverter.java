@@ -30,7 +30,6 @@ import java.util.Map;
 
 /**
  * ResourceAuthentication 和 ResourceServer之间的用户信息转换.
- * TODO update security
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */

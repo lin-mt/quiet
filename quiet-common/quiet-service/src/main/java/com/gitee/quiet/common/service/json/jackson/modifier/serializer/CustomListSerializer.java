@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 lin-mt@outlook.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.gitee.quiet.common.service.json.jackson.modifier.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -34,15 +50,13 @@ public class CustomListSerializer extends AsArraySerializerBase<List<Object>> {
         this.defaultSerializer = defaultSerializer;
     }
     
-    private CustomListSerializer(CustomListSerializer src, BeanProperty prop, TypeSerializer vts,
-            JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
+    private CustomListSerializer(CustomListSerializer src, BeanProperty prop, TypeSerializer vts, JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
         super(src, prop, vts, valueSerializer, unwrapSingle);
         this.defaultSerializer = src.defaultSerializer;
     }
     
     @Override
-    public AsArraySerializerBase<List<Object>> withResolved(BeanProperty property, TypeSerializer vts,
-            JsonSerializer<?> elementSerializer, Boolean unwrapSingle) {
+    public AsArraySerializerBase<List<Object>> withResolved(BeanProperty property, TypeSerializer vts, JsonSerializer<?> elementSerializer, Boolean unwrapSingle) {
         return new CustomListSerializer(this, property, vts, elementSerializer, unwrapSingle);
     }
     
@@ -69,8 +83,7 @@ public class CustomListSerializer extends AsArraySerializerBase<List<Object>> {
     }
     
     @Override
-    protected void serializeContents(List<Object> value, JsonGenerator gen, SerializerProvider provider)
-            throws IOException {
+    protected void serializeContents(List<Object> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         defaultSerializer.serializeContents(value, gen, provider);
     }
     
