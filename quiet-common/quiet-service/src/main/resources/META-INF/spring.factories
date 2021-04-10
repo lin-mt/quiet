@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.gitee.quiet.common.service.config.JpaConfig,\
+  com.gitee.quiet.common.service.config.CacheConfig,\
   com.gitee.quiet.common.service.config.ServiceConfig,\
   com.gitee.quiet.common.service.config.SecurityConfig,\
   com.gitee.quiet.common.service.config.WebSecurityConfig,\

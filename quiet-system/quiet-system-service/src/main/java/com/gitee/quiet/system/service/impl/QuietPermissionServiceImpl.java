@@ -27,6 +27,8 @@ import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,10 @@ import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
 @Service
 public class QuietPermissionServiceImpl implements QuietPermissionService {
     
+    public static final String CACHE_INFO = "quiet:system:permission";
+    
+    public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":applicationName";
+    
     private final JPAQueryFactory jpaQueryFactory;
     
     private final QuietPermissionRepository permissionRepository;
@@ -62,6 +68,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
+    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#permission.applicationName")
     public QuietPermission saveOrUpdate(@NotNull QuietPermission permission) {
         if (!roleService.existsById(permission.getRoleId())) {
             throw new ServiceException("role.id.not.exist", permission.getRoleId());
@@ -70,8 +77,11 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    public void delete(@NotNull Long deleteId) {
+    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#result.applicationName")
+    public QuietPermission delete(@NotNull Long deleteId) {
+        QuietPermission deleted = permissionRepository.getOne(deleteId);
         permissionRepository.deleteById(deleteId);
+        return deleted;
     }
     
     @Override
@@ -85,8 +95,8 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
+    @Cacheable(value = CACHE_INFO_APPLICATION_NAME, key = "#applicationName")
     public List<UrlPermission> listUrlPermission(@NotNull String applicationName) {
-        // TODO 使用缓存
         List<QuietPermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
         List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());
         if (!permissions.isEmpty()) {
