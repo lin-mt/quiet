@@ -42,8 +42,9 @@ public interface QuietPermissionService extends UrlPermissionService {
      * 删除权限信息.
      *
      * @param deleteId 要删除的权限信息的ID
+     * @return 删除的权限信息
      */
-    void delete(Long deleteId);
+    QuietPermission delete(Long deleteId);
     
     /**
      * 分页查询权限配置信息

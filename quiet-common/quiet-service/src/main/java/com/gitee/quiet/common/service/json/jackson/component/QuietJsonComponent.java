@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.security;
-
-import java.util.List;
+package com.gitee.quiet.common.service.json.jackson.component;
 
 /**
- * Url 权限 Service. todo 添加获取应用权限的 Bean
+ * 自定义 Json 序列化与反序列化.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface UrlPermissionService {
-    
-    /**
-     * 根据应用名称获取全部 Url 权限配置信息
-     *
-     * @param applicationName 应用名称
-     * @return 该应用的Url配置信息
-     */
-    List<UrlPermission> listUrlPermission(String applicationName);
+public interface QuietJsonComponent {
+
 }

@@ -136,7 +136,6 @@ public class Param<T extends BaseEntity, P> {
     }
     
     public T getSave() {
-        checkProperties(save);
         return save;
     }
     
@@ -153,7 +152,6 @@ public class Param<T extends BaseEntity, P> {
     }
     
     public T getUpdate() {
-        checkProperties(update);
         return update;
     }
     
@@ -230,14 +228,5 @@ public class Param<T extends BaseEntity, P> {
             }
         }
         return PageRequest.of(this.getCurrent(), this.getPageSize(), Sort.by(orders));
-    }
-    
-    /**
-     * 校验实例属性
-     *
-     * @param entity 保存或更新的实例
-     */
-    public void checkProperties(T entity) {
-    
     }
 }

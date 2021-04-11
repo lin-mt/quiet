@@ -14,43 +14,24 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.base;
+package com.gitee.quiet.common.service.json.jackson.module;
 
-import javax.annotation.Nullable;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.gitee.quiet.common.service.json.jackson.modifier.QuietDeserializerModifier;
+import com.gitee.quiet.common.service.json.jackson.modifier.QuietSerializerModifier;
 
 /**
- * 可排序.
+ * QuietSimpleModule.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Serial extends Comparable<Serial> {
+public class QuietSimpleModule extends SimpleModule {
     
-    /**
-     * 获取排序的序号
-     *
-     * @return 序号
-     */
-    int getSerialNumber();
-    
-    /**
-     * 设置排序的序号
-     *
-     * @param serialNumber 序号
-     */
-    void setSerialNumber(int serialNumber);
-    
-    /**
-     * 跟其他对象进行比较
-     *
-     * @param other 比较的对象
-     * @return 比较结果
-     */
     @Override
-    default int compareTo(@Nullable Serial other) {
-        if (other == null) {
-            return 1;
-        }
-        return Integer.compare(getSerialNumber(), other.getSerialNumber());
+    public void setupModule(SetupContext context) {
+        super.setupModule(context);
+        context.addBeanDeserializerModifier(new QuietDeserializerModifier());
+        context.addBeanSerializerModifier(new QuietSerializerModifier());
     }
     
 }

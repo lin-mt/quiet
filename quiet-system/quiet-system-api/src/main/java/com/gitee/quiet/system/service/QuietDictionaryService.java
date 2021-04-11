@@ -58,8 +58,9 @@ public interface QuietDictionaryService {
      * 根据数据字典ID删除数据
      *
      * @param id 要删除的数据字典ID
+     * @return 删除的字典信息
      */
-    void delete(Long id);
+    QuietDictionary delete(Long id);
     
     /**
      * 更新数据字典

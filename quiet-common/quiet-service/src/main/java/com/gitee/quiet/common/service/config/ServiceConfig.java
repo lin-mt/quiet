@@ -16,11 +16,12 @@
 
 package com.gitee.quiet.common.service.config;
 
+import com.fasterxml.jackson.databind.Module;
 import com.gitee.quiet.common.base.constant.RoleNames;
-import com.gitee.quiet.common.service.advice.ApplicationExceptionAdvice;
-import com.gitee.quiet.common.service.advice.ResultAdvice;
+import com.gitee.quiet.common.service.advice.QuietAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.json.jackson.CustomJsonComponent;
+import com.gitee.quiet.common.service.json.jackson.component.QuietJsonComponent;
+import com.gitee.quiet.common.service.json.jackson.module.QuietSimpleModule;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -40,7 +41,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @Configuration
 @EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@ComponentScan(basePackageClasses = CustomJsonComponent.class)
+@ComponentScan(basePackageClasses = {QuietJsonComponent.class, QuietAdvice.class})
 @EnableConfigurationProperties(IdGeneratorProperties.class)
 public class ServiceConfig {
     
@@ -60,13 +61,8 @@ public class ServiceConfig {
     }
     
     @Bean
-    public ApplicationExceptionAdvice applicationExceptionAdvice() {
-        return new ApplicationExceptionAdvice();
-    }
-    
-    @Bean
-    public ResultAdvice<?> resultAdvice() {
-        return new ResultAdvice<>();
+    public Module module() {
+        return new QuietSimpleModule();
     }
     
 }
