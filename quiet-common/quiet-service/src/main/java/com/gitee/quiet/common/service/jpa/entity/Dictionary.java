@@ -41,7 +41,6 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     /**
      * 数据字典类型
      */
-    @NotNull(groups = {Create.class, Update.class}, message = "{dictionary.type}{not.null}")
     @Column(name = "dictionary_type", nullable = false, length = 30)
     @Length(max = 30, message = "{dictionary.type}{length.max.limit}")
     private String type;
@@ -56,10 +55,10 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     /**
      * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
      */
-    @NotNull(groups = {Create.class, Update.class}, message = "{dictionary.value}{not.null}")
-    @Column(name = "dictionary_value", nullable = false, length = 30)
-    @Length(max = 30, message = "{dictionary.value}{length.max.limit}")
-    private String value;
+    @NotNull(groups = {Create.class, Update.class}, message = "{dictionary.label}{not.null}")
+    @Column(name = "label", nullable = false, length = 30)
+    @Length(max = 30, message = "{dictionary.label}{length.max.limit}")
+    private String label;
     
     /**
      * String 转为 数据字典
@@ -115,11 +114,11 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
         this.key = key;
     }
     
-    public String getValue() {
-        return value;
+    public String getLabel() {
+        return label;
     }
     
-    public void setValue(String value) {
-        this.value = value;
+    public void setLabel(String value) {
+        this.label = value;
     }
 }

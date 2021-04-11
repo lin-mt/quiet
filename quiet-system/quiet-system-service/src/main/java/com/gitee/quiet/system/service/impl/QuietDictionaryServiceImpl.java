@@ -143,14 +143,22 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
         if (!sameNullState) {
             throw new ServiceException("dictionary.key.parentId.differentNullState");
         }
+        if (dictionary.getParentId() != null) {
+            // 有父数据字典ID，将当前的数据字典 type 设置为父数据字典 type
+            Optional<QuietDictionary> parent = dictionaryRepository.findById(dictionary.getParentId());
+            if (parent.isEmpty()) {
+                throw new ServiceException("dictionary.parentId.not.exist", dictionary.getParentId());
+            }
+            dictionary.setType(parent.get().getType());
+        } else {
+            // 没有父数据字典ID，当前的数据字典 type 必填
+            if (StringUtils.isBlank(dictionary.getType())) {
+                throw new ServiceException("dictionary.type.required");
+            }
+        }
         QuietDictionary exist = dictionaryRepository.findByTypeAndKey(dictionary.getType(), dictionary.getKey());
         if (exist != null && !exist.getId().equals(dictionary.getId())) {
             throw new ServiceException("dictionary.type.key.exist", dictionary.getType(), dictionary.getKey());
-        }
-        if (dictionary.getParentId() != null) {
-            if (!dictionaryRepository.existsById(dictionary.getParentId())) {
-                throw new ServiceException("dictionary.parentId.not.exist", dictionary.getParentId());
-            }
         }
     }
 }
