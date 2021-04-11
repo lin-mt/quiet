@@ -16,3 +16,7 @@ dubbo:
     subscribed-services: quiet-system
   scan:
     base-packages: com.gitee.quiet.scrum.service
+quiet:
+  id-generator:
+    worker-id: 2
+    data-center-id: 0
