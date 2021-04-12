@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Converter
+@Converter(autoApply = true)
 public class SetLongStringConverter implements AttributeConverter<Set<Long>, String> {
     
     @Override
