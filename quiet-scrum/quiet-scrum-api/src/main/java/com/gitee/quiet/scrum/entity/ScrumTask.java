@@ -16,12 +16,10 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.converter.SetLongStringConverter;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -74,7 +72,6 @@ public class ScrumTask extends SerialEntity {
      */
     @Column(name = "participant", length = 380)
     @Size(message = "{task.participant}{size.max.limit}", max = 20)
-    @Convert(converter = SetLongStringConverter.class)
     private Set<Long> participant;
     
     /**
