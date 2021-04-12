@@ -313,9 +313,9 @@ public class Result<T> {
      * @param <T> T
      * @return result
      */
-    public static <T> Result<T> retrieveSuccess() {
+    public static <T> Result<T> readSuccess() {
         final Result<T> result = new Result<>(ResultType.SUCCESS);
-        result.curdType = CurdType.RETRIEVE_SUCCESS;
+        result.curdType = CurdType.READ_SUCCESS;
         return result;
     }
     
@@ -325,9 +325,9 @@ public class Result<T> {
      * @param <T> T
      * @return result
      */
-    public static <T> Result<T> retrieveFailure() {
+    public static <T> Result<T> readFailure() {
         final Result<T> result = new Result<>(ResultType.FAILURE);
-        result.curdType = CurdType.RETRIEVE_FAILURE;
+        result.curdType = CurdType.READ_FAILURE;
         return result;
     }
     

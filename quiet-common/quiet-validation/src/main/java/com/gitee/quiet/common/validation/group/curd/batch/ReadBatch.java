@@ -23,6 +23,6 @@ import javax.validation.groups.Default;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface RetrieveBatch extends Default {
+public interface ReadBatch extends Default {
 
 }

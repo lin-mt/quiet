@@ -33,9 +33,9 @@ public final class CurdCode {
     
     public static final String UPDATE_FAILURE = buildCode("update.failure");
     
-    public static final String RETRIEVE_SUCCESS = buildCode("retrieve.success");
+    public static final String READ_SUCCESS = buildCode("read.success");
     
-    public static final String RETRIEVE_FAILURE = buildCode("retrieve.failure");
+    public static final String READ_FAILURE = buildCode("read.failure");
     
     public static final String DELETE_SUCCESS = buildCode("delete.success");
     

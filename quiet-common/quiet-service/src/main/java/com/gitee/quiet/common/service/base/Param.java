@@ -23,9 +23,9 @@ import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.batch.CreateBatch;
 import com.gitee.quiet.common.validation.group.curd.batch.DeleteBatch;
-import com.gitee.quiet.common.validation.group.curd.batch.RetrieveBatch;
+import com.gitee.quiet.common.validation.group.curd.batch.ReadBatch;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
-import com.gitee.quiet.common.validation.group.curd.single.RetrieveSingle;
+import com.gitee.quiet.common.validation.group.curd.single.ReadSingle;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.data.domain.PageRequest;
@@ -81,13 +81,13 @@ public class Param<T extends BaseEntity, P> {
     @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
     private T update;
     
-    @NotNull(groups = RetrieveSingle.class, message = "id {not.null}")
+    @NotNull(groups = ReadSingle.class, message = "id {not.null}")
     private Long getId;
     
     @NotNull(groups = DeleteSingle.class, message = "id {not.null}")
     private Long deleteId;
     
-    @NotNull(groups = RetrieveBatch.class, message = "id {not.null}")
+    @NotNull(groups = ReadBatch.class, message = "id {not.null}")
     private List<Long> getIds;
     
     @NotNull(groups = DeleteBatch.class, message = "id {not.null}")
