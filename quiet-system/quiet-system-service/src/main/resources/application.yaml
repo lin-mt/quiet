@@ -12,3 +12,7 @@ dubbo:
     base-packages: com.gitee.quiet.system.service
   cloud:
     subscribed-services:
+quiet:
+  id-generator:
+    worker-id: 1
+    data-center-id: 0
