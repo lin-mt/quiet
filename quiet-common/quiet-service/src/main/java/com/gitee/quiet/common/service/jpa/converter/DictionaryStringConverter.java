@@ -31,10 +31,7 @@ public class DictionaryStringConverter implements AttributeConverter<Dictionary,
     
     @Override
     public String convertToDatabaseColumn(Dictionary attribute) {
-        if (attribute != null) {
-            return Dictionary.convertToString(attribute);
-        }
-        return null;
+        return Dictionary.convertToString(attribute);
     }
     
     @Override
