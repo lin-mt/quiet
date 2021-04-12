@@ -64,7 +64,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
      * String 转为 数据字典
      *
      * @param dictionaryStr 要转换的字符串
-     * @return 转换后的字符串
+     * @return 转换后的数据字典
      */
     @Nullable
     public static Dictionary convertFromString(String dictionaryStr) {
