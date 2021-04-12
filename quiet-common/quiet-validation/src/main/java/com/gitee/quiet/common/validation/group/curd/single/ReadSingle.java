@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.curd;
+package com.gitee.quiet.common.validation.group.curd.single;
 
 import javax.validation.groups.Default;
 
 /**
- * 查询.
+ * 查询一条数据.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Retrieve extends Default {
+public interface ReadSingle extends Default {
 
 }

@@ -44,11 +44,11 @@ public enum CurdType {
     /**
      * 查询成功.
      */
-    RETRIEVE_SUCCESS(CurdCode.RETRIEVE_SUCCESS),
+    READ_SUCCESS(CurdCode.READ_SUCCESS),
     /**
      * 查询失败.
      */
-    RETRIEVE_FAILURE(CurdCode.RETRIEVE_FAILURE),
+    READ_FAILURE(CurdCode.READ_FAILURE),
     /**
      * 删除成功.
      */
