@@ -17,7 +17,7 @@ spring:
       idle-timeout: 300000
       pool-name: jpa-hikari-pool
       max-lifetime: 900000
-      maximum-pool-size: 8
+      maximum-pool-size: 12
       minimum-idle: 8
       connection-test-query: select 1 from dual
       auto-commit: true
