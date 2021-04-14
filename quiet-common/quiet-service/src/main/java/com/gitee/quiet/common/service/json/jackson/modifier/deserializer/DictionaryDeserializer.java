@@ -40,7 +40,7 @@ public class DictionaryDeserializer extends BeanDeserializer {
     
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
-        if (jsonParser.getCurrentToken() == JsonToken.VALUE_STRING) {
+        if (JsonToken.VALUE_STRING.equals(jsonParser.getCurrentToken())) {
             return Dictionary.convertFromString(jsonParser.getText());
         }
         return defaultBeanDeserializer.deserialize(jsonParser, context);
