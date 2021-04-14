@@ -75,13 +75,20 @@ public class ScrumTask extends SerialEntity {
     private Set<Long> participant;
     
     /**
-     * 需求开始时间
+     * 前置任务
+     */
+    @Column(name = "pre_task", length = 380)
+    @Size(message = "{task.preTask}{size.max.limit}", max = 20)
+    private Set<Long> preTask;
+    
+    /**
+     * 任务开始时间
      */
     @Column(name = "start_time")
     private LocalDateTime startTime;
     
     /**
-     * 需求结束时间
+     * 任务结束时间
      */
     @Column(name = "end_time")
     private LocalDateTime endTime;
@@ -131,6 +138,14 @@ public class ScrumTask extends SerialEntity {
     
     public void setParticipant(Set<Long> participant) {
         this.participant = participant;
+    }
+    
+    public Set<Long> getPreTask() {
+        return preTask;
+    }
+    
+    public void setPreTask(Set<Long> preTask) {
+        this.preTask = preTask;
     }
     
     public LocalDateTime getStartTime() {
