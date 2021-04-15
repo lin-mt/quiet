@@ -20,6 +20,7 @@ import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
@@ -75,6 +76,18 @@ public class ScrumProjectController {
     @PostMapping("/update")
     public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectParam param) {
         return Result.updateSuccess(projectService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 删除项目
+     *
+     * @param param :deleteId 删除的项目ID
+     * @return 更新后的项目信息
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumProjectParam param) {
+        projectService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
     }
     
 }

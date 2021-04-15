@@ -16,11 +16,19 @@
 
 package com.gitee.quiet.scrum.service;
 
+import java.util.Set;
+
 /**
  * 迭代信息service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumIterationService {
-
+    
+    /**
+     * 根据版本ID集合批量删除迭代信息
+     *
+     * @param versionIds 要删除的迭代信息所属的版本ID集合
+     */
+    void deleteByVersionIds(Set<Long> versionIds);
 }

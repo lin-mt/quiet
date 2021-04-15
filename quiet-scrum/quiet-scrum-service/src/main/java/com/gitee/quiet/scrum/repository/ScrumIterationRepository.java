@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumIteration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 /**
  * 迭代信息repository.
  *
@@ -27,5 +29,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumIterationRepository extends JpaRepository<ScrumIteration, Long> {
-
+    
+    /**
+     * 根据版本ID集合批量删除迭代信息
+     *
+     * @param versionIds 要删除的迭代所属的版本ID集合
+     */
+    void deleteAllByVersionIdIn(Set<Long> versionIds);
 }

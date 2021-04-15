@@ -16,11 +16,19 @@
 
 package com.gitee.quiet.scrum.service;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 项目版本信息service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumVersionService {
-
+    
+    /**
+     * 根据项目ID删除版本信息
+     *
+     * @param projectId 要删除版本信息的项目ID
+     */
+    void deleteAllByProjectId(@NotNull Long projectId);
 }

@@ -36,4 +36,11 @@ public interface ScrumTaskService {
      * @return 根据需求ID和任务步骤分组后的任务集合
      */
     Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds);
+    
+    /**
+     * 根据需求ID集合批量删除任务信息
+     *
+     * @param demandIds 要删除的任务所属的需求ID集合
+     */
+    void deleteAllByDemandIds(Set<Long> demandIds);
 }

@@ -22,8 +22,10 @@ import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
 import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
+import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
+import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;
@@ -57,6 +59,10 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     
     private final ScrumProjectTeamService projectTeamService;
     
+    private final ScrumVersionService versionService;
+    
+    private final ScrumDemandService demandService;
+    
     @DubboReference
     private QuietTeamUserService quietTeamUserService;
     
@@ -67,9 +73,12 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     private QuietTeamService quietTeamService;
     
     public ScrumProjectServiceImpl(ScrumProjectRepository projectRepository,
-            @Lazy ScrumProjectTeamService projectTeamService) {
+            @Lazy ScrumProjectTeamService projectTeamService, ScrumVersionService versionService,
+            ScrumDemandService demandService) {
         this.projectRepository = projectRepository;
         this.projectTeamService = projectTeamService;
+        this.versionService = versionService;
+        this.demandService = demandService;
     }
     
     @Override
@@ -147,6 +156,17 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         ScrumProject project = projectRepository.saveAndFlush(update);
         addProjectTeams(update.getTeamIds(), project);
         return project;
+    }
+    
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Long id) {
+        // 删除版本信息
+        versionService.deleteAllByProjectId(id);
+        // 删除需求信息
+        demandService.deleteAllByProjectId(id);
+        // 删除项目团队信息
+        projectTeamService.deleteAllByProjectId(id);
     }
     
     private void checkProjectInfo(ScrumProject project) {

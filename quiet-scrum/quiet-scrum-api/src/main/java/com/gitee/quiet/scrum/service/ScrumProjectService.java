@@ -60,4 +60,11 @@ public interface ScrumProjectService {
      * @return 更新后的项目信息
      */
     ScrumProject update(ScrumProject update);
+    
+    /**
+     * 根据项目ID删除项目信息
+     *
+     * @param id 要删除的项目的ID
+     */
+    void deleteById(Long id);
 }

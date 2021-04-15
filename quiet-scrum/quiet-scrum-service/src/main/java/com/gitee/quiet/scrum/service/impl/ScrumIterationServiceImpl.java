@@ -16,8 +16,13 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 /**
  * 迭代信息service实现类.
@@ -26,5 +31,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScrumIterationServiceImpl implements ScrumIterationService {
-
+    
+    private final ScrumIterationRepository iterationRepository;
+    
+    public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository) {
+        this.iterationRepository = iterationRepository;
+    }
+    
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteByVersionIds(Set<Long> versionIds) {
+        if (CollectionUtils.isNotEmpty(versionIds)) {
+            iterationRepository.deleteAllByVersionIdIn(versionIds);
+        }
+    }
 }

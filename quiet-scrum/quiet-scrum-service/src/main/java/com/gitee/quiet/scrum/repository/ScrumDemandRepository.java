@@ -46,4 +46,12 @@ public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> 
      * @return 需求信息
      */
     ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
+    
+    /**
+     * 根据项目ID批量查询需求信息
+     *
+     * @param projectId 项目ID
+     * @return 项目的所有需求信息
+     */
+    List<ScrumDemand> findAllByProjectId(Long projectId);
 }

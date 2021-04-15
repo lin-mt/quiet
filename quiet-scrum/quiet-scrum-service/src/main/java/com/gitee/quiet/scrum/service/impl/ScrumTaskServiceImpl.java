@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.service.impl;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,5 +45,12 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
     public Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds) {
         return taskRepository.findAllByDemandIdIn(demandIds).stream().collect(
                 Collectors.groupingBy(ScrumTask::getDemandId, Collectors.groupingBy(ScrumTask::getTaskStepId)));
+    }
+    
+    @Override
+    public void deleteAllByDemandIds(Set<Long> demandIds) {
+        if (CollectionUtils.isNotEmpty(demandIds)) {
+            taskRepository.deleteAllByDemandIdIn(demandIds);
+        }
     }
 }

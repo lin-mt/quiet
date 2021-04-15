@@ -38,4 +38,11 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long> {
      * @return 所有任务信息
      */
     List<ScrumTask> findAllByDemandIdIn(Set<Long> demandIds);
+    
+    /**
+     * 根据需求ID集合批量删除任务信息
+     *
+     * @param demandIds 要删除的任务所属的需求ID集合
+     */
+    void deleteAllByDemandIdIn(Set<Long> demandIds);
 }

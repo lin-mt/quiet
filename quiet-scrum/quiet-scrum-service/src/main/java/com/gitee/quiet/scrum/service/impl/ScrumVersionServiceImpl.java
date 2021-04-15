@@ -16,8 +16,18 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.scrum.entity.ScrumVersion;
+import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
+import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 版本信息service实现类.
@@ -26,5 +36,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScrumVersionServiceImpl implements ScrumVersionService {
-
+    
+    private final ScrumVersionRepository versionRepository;
+    
+    private final ScrumIterationService iterationService;
+    
+    public ScrumVersionServiceImpl(ScrumVersionRepository versionRepository, ScrumIterationService iterationService) {
+        this.versionRepository = versionRepository;
+        this.iterationService = iterationService;
+    }
+    
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAllByProjectId(@NotNull Long projectId) {
+        List<ScrumVersion> versions = versionRepository.findAllByParentId(projectId);
+        if (CollectionUtils.isNotEmpty(versions)) {
+            // 删除版本信息下的迭代信息
+            Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
+            iterationService.deleteByVersionIds(versionIds);
+            versionRepository.deleteByProjectId(projectId);
+        }
+        
+    }
 }

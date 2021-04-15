@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 项目版本repository.
  *
@@ -27,5 +29,19 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long> {
-
+    
+    /**
+     * 根据项目id查询该项目下的所有版本信息
+     *
+     * @param projectId 项目ID
+     * @return 项目的所有版本信息
+     */
+    List<ScrumVersion> findAllByParentId(Long projectId);
+    
+    /**
+     * 根据项目id删除该项目下的所有版本信息
+     *
+     * @param projectId 项目ID
+     */
+    void deleteByProjectId(Long projectId);
 }

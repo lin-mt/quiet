@@ -23,14 +23,18 @@ import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
@@ -46,9 +50,13 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     
     private final ScrumDemandRepository demandRepository;
     
-    public ScrumDemandServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumDemandRepository demandRepository) {
+    private final ScrumTaskService taskService;
+    
+    public ScrumDemandServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumDemandRepository demandRepository,
+            ScrumTaskService taskService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.demandRepository = demandRepository;
+        this.taskService = taskService;
     }
     
     @Override
@@ -71,6 +79,15 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     public ScrumDemand update(@Validated(Update.class) @NotNull ScrumDemand update) {
         checkDemand(update);
         return demandRepository.save(update);
+    }
+    
+    @Override
+    public void deleteAllByProjectId(@NotNull Long projectId) {
+        List<ScrumDemand> demands = demandRepository.findAllByProjectId(projectId);
+        if (CollectionUtils.isNotEmpty(demands)) {
+            Set<Long> demandIds = demands.stream().map(ScrumDemand::getId).collect(Collectors.toSet());
+            taskService.deleteAllByDemandIds(demandIds);
+        }
     }
     
     private void checkDemand(@NotNull ScrumDemand demand) {

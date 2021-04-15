@@ -62,4 +62,11 @@ public interface ScrumDemandService {
      * @return 更新后的需求信息
      */
     ScrumDemand update(@NotNull ScrumDemand update);
+    
+    /**
+     * 根据项目信息删除项目下的需求信息
+     *
+     * @param projectId 要删除需求的项目ID
+     */
+    void deleteAllByProjectId(@NotNull Long projectId);
 }
