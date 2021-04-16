@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.jpa.entity;
 
+import com.gitee.quiet.common.service.base.TypeKey;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -36,7 +37,7 @@ import java.io.Serializable;
  */
 @QueryEntity
 @MappedSuperclass
-public class Dictionary extends ParentEntity<Dictionary> implements Serializable {
+public class Dictionary extends ParentEntity<Dictionary> implements Serializable, TypeKey {
     
     /**
      * 数据字典类型
@@ -98,6 +99,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
         return null;
     }
     
+    @Override
     public String getType() {
         return type;
     }
@@ -106,6 +108,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
         this.type = type;
     }
     
+    @Override
     public String getKey() {
         return key;
     }
