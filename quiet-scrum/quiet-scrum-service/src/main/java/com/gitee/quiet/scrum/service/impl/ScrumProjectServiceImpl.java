@@ -167,6 +167,8 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         demandService.deleteAllByProjectId(id);
         // 删除项目团队信息
         projectTeamService.deleteAllByProjectId(id);
+        // 删除项目信息
+        projectRepository.deleteById(id);
     }
     
     private void checkProjectInfo(ScrumProject project) {

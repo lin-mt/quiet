@@ -56,6 +56,5 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             iterationService.deleteByVersionIds(versionIds);
             versionRepository.deleteByProjectId(projectId);
         }
-        
     }
 }
