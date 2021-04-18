@@ -20,10 +20,12 @@ import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.system.entity.QuietTeam;
@@ -63,6 +65,8 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     
     private final ScrumDemandService demandService;
     
+    private final ScrumTemplateService templateService;
+    
     @DubboReference
     private QuietTeamUserService quietTeamUserService;
     
@@ -74,19 +78,24 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     
     public ScrumProjectServiceImpl(ScrumProjectRepository projectRepository,
             @Lazy ScrumProjectTeamService projectTeamService, ScrumVersionService versionService,
-            ScrumDemandService demandService) {
+            ScrumDemandService demandService, @Lazy ScrumTemplateService templateService) {
         this.projectRepository = projectRepository;
         this.projectTeamService = projectTeamService;
         this.versionService = versionService;
         this.demandService = demandService;
+        this.templateService = templateService;
     }
     
     @Override
     public MyScrumProject allProjectByUserId(@NotNull Long userId) {
         MyScrumProject myScrumProject = new MyScrumProject();
         Set<Long> allProjectIds = new HashSet<>();
+        Set<Long> allTemplateIds = new HashSet<>();
         List<ScrumProject> projectManaged = projectRepository.findAllByManager(userId);
-        projectManaged.forEach(p -> allProjectIds.add(p.getId()));
+        projectManaged.forEach(p -> {
+            allProjectIds.add(p.getId());
+            allTemplateIds.add(p.getTemplateId());
+        });
         myScrumProject.setProjectManaged(projectManaged);
         List<QuietTeamUser> teamUsers = quietTeamUserService.findAllByUserId(userId);
         if (CollectionUtils.isNotEmpty(teamUsers)) {
@@ -105,6 +114,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
             projectInvolved.forEach(project -> {
                 project.setManagerName(userIdToFullName.get(project.getManager()));
                 allProjectIds.add(project.getId());
+                allTemplateIds.add(project.getTemplateId());
             });
             myScrumProject.setProjectInvolved(projectInvolved);
         }
@@ -114,15 +124,18 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
                 .collect(Collectors.groupingBy(ScrumProjectTeam::getProjectId));
         Map<Long, QuietTeam> teamIdToTeamInfos = quietTeamService.findAllByIds(allTeamIds).stream()
                 .collect(Collectors.toMap(QuietTeam::getId, q -> q));
-        addTeamInfo(projectManaged, projectIdToTeams, teamIdToTeamInfos);
-        addTeamInfo(myScrumProject.getProjectInvolved(), projectIdToTeams, teamIdToTeamInfos);
+        Map<Long, ScrumTemplate> templateIdToInfos = templateService.findAllByIds(allTemplateIds).stream()
+                .collect(Collectors.toMap(ScrumTemplate::getId, s -> s));
+        addExpandInfo(projectManaged, projectIdToTeams, teamIdToTeamInfos, templateIdToInfos);
+        addExpandInfo(myScrumProject.getProjectInvolved(), projectIdToTeams, teamIdToTeamInfos, templateIdToInfos);
         return myScrumProject;
     }
     
-    private void addTeamInfo(List<ScrumProject> projects, Map<Long, List<ScrumProjectTeam>> projectIdToTeams,
-            Map<Long, QuietTeam> teamIdToTeamInfos) {
+    private void addExpandInfo(List<ScrumProject> projects, Map<Long, List<ScrumProjectTeam>> projectIdToTeams,
+            Map<Long, QuietTeam> teamIdToTeamInfos, Map<Long, ScrumTemplate> templateIdToInfos) {
         if (CollectionUtils.isNotEmpty(projects)) {
             projects.forEach(project -> {
+                project.setTemplateName(templateIdToInfos.get(project.getTemplateId()).getName());
                 List<ScrumProjectTeam> projectTeams = projectIdToTeams.get(project.getId());
                 projectTeams.forEach(pt -> project.addTeamInfo(teamIdToTeamInfos.get(pt.getTeamId())));
             });

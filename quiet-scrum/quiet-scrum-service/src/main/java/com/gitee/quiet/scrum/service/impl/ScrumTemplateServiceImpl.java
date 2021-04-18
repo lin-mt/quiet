@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
@@ -25,14 +26,20 @@ import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.vo.AllTemplate;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.gitee.quiet.scrum.entity.QScrumTemplate.scrumTemplate;
 
 /**
  * 模板信息Service实现类.
@@ -44,13 +51,16 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     
     private final ScrumTemplateRepository templateRepository;
     
+    private final JPAQueryFactory jpaQueryFactory;
+    
     private final ScrumTaskStepService taskStepService;
     
     private final ScrumProjectService projectService;
     
-    public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, ScrumTaskStepService taskStepService,
-            ScrumProjectService projectService) {
+    public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, JPAQueryFactory jpaQueryFactory,
+            ScrumTaskStepService taskStepService, ScrumProjectService projectService) {
         this.templateRepository = templateRepository;
+        this.jpaQueryFactory = jpaQueryFactory;
         this.taskStepService = taskStepService;
         this.projectService = projectService;
     }
@@ -94,6 +104,24 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
             throw new ServiceException("template.hasProjectUse.can.not.delete");
         }
         templateRepository.deleteById(id);
+    }
+    
+    @Override
+    public List<ScrumTemplate> listByName(String name, long limit) {
+        if (StringUtils.isBlank(name)) {
+            return List.of();
+        }
+        JPAQuery<ScrumTemplate> templateJPAQuery = SelectBooleanBuilder.booleanBuilder()
+                .notBlankContains(name, scrumTemplate.name).from(jpaQueryFactory, scrumTemplate);
+        if (limit > 0) {
+            templateJPAQuery.limit(limit);
+        }
+        return templateJPAQuery.fetchResults().getResults();
+    }
+    
+    @Override
+    public List<ScrumTemplate> findAllByIds(Set<Long> ids) {
+        return templateRepository.findAllById(ids);
     }
     
     public void checkInfo(@NotNull ScrumTemplate template) {

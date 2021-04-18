@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 项目模板Controller.
  *
@@ -87,5 +89,16 @@ public class ScrumTemplateController {
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumTemplateParam param) {
         templateService.deleteById(param.getDeleteId());
         return Result.deleteSuccess();
+    }
+    
+    /**
+     * 根据模板名称查询模板信息
+     *
+     * @param param 查询参数
+     * @return 查询结果
+     */
+    @PostMapping("/listByName")
+    public Result<List<ScrumTemplate>> listByName(@RequestBody ScrumTemplateParam param) {
+        return Result.success(templateService.listByName(param.getName(), 9L));
     }
 }

@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.vo.AllTemplate;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 模板信息Service.
@@ -57,4 +59,21 @@ public interface ScrumTemplateService {
      * @param id 要删除的模板的ID
      */
     void deleteById(@NotNull Long id);
+    
+    /**
+     * 根据模板名称查询模板信息
+     *
+     * @param name  模板名称
+     * @param limit 查询的模板数量
+     * @return 查询结果
+     */
+    List<ScrumTemplate> listByName(String name, long limit);
+    
+    /**
+     * 根据模板ID批量查询模板信息
+     *
+     * @param ids 模板ID集合
+     * @return 模板信息
+     */
+    List<ScrumTemplate> findAllByIds(Set<Long> ids);
 }

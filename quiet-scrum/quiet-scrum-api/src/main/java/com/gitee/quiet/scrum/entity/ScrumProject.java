@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.common.service.enums.BuildTool;
+import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.system.entity.QuietTeam;
@@ -84,6 +84,7 @@ public class ScrumProject extends SerialEntity {
      * 模板ID
      */
     @Column(name = "template_id")
+    @NotNull(message = "{project.templateId}{not.null}")
     private Long templateId;
     
     /**
@@ -105,6 +106,12 @@ public class ScrumProject extends SerialEntity {
      */
     @Transient
     private String managerName;
+    
+    /**
+     * 模板名称
+     */
+    @Transient
+    private String templateName;
     
     /**
      * 负责该项目的团队信息
@@ -182,6 +189,14 @@ public class ScrumProject extends SerialEntity {
     
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+    
+    public String getTemplateName() {
+        return templateName;
+    }
+    
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
     
     public List<QuietTeam> getTeams() {

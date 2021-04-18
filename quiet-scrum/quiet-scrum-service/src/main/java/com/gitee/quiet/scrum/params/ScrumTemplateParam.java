@@ -25,5 +25,17 @@ import com.gitee.quiet.scrum.entity.ScrumTemplate;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ScrumTemplateParam extends Param<ScrumTemplate, ScrumTemplate> {
-
+    
+    /**
+     * 模板名称
+     */
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
 }
