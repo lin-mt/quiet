@@ -68,4 +68,12 @@ public abstract class SelectBuilder<T extends Predicate> {
         }
         return selectFrom.fetchResults();
     }
+    
+    public <E> JPAQuery<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from) {
+        Predicate predicate = getPredicate();
+        if (predicate == null) {
+            throw new IllegalStateException("SelectBuilder 子类实现的方法不能返回 null");
+        }
+        return jpaQueryFactory.selectFrom(from).where(predicate);
+    }
 }
