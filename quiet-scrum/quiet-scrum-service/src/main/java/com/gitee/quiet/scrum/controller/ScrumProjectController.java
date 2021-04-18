@@ -21,10 +21,10 @@ import com.gitee.quiet.common.service.util.SpringSecurityUtils;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
-import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
+import com.gitee.quiet.scrum.vo.MyScrumProject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -82,7 +82,7 @@ public class ScrumProjectController {
      * 删除项目
      *
      * @param param :deleteId 删除的项目ID
-     * @return 更新后的项目信息
+     * @return 删除结果
      */
     @PostMapping("/delete")
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumProjectParam param) {

@@ -14,25 +14,36 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 任务步骤查询参数.
+ * 所有的模板信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTaskStepParam extends Param<ScrumTaskStep, ScrumTaskStep> {
+public class AllTemplate {
     
-    private Long templateId;
+    /**
+     * 登陆人创建的模板
+     */
+    private final List<ScrumTemplate> templateCreated = new ArrayList<>();
     
-    public Long getTemplateId() {
-        return templateId;
+    /**
+     * 非登陆人创建的可选的模板
+     */
+    private final List<ScrumTemplate> templateSelectable = new ArrayList<>();
+    
+    public List<ScrumTemplate> getTemplateCreated() {
+        return templateCreated;
     }
     
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
+    public List<ScrumTemplate> getTemplateSelectable() {
+        return templateSelectable;
     }
+    
 }

@@ -22,8 +22,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 项目模板.
@@ -44,11 +46,23 @@ public class ScrumTemplate extends BaseEntity {
     private String name;
     
     /**
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStep> taskSteps;
+    
+    /**
      * 模板备注信息
      */
     @Column(name = "remark", length = 30)
     @Length(message = "{template.remark}{length.max.limit}", max = 30)
     private String remark;
+    
+    /**
+     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
+     */
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean enable;
     
     public String getName() {
         return name;
@@ -58,11 +72,27 @@ public class ScrumTemplate extends BaseEntity {
         this.name = name;
     }
     
+    public boolean isEnable() {
+        return enable;
+    }
+    
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+    
     public String getRemark() {
         return remark;
     }
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    public List<ScrumTaskStep> getTaskSteps() {
+        return taskSteps;
+    }
+    
+    public void setTaskSteps(List<ScrumTaskStep> taskSteps) {
+        this.taskSteps = taskSteps;
     }
 }

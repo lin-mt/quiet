@@ -53,4 +53,9 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
             taskRepository.deleteAllByDemandIdIn(demandIds);
         }
     }
+    
+    @Override
+    public List<ScrumTask> findAllByTaskStepId(Long taskStepId) {
+        return taskRepository.findAllByTaskStepId(taskStepId);
+    }
 }

@@ -16,6 +16,17 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import com.gitee.quiet.scrum.params.ScrumTemplateParam;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
+import com.gitee.quiet.scrum.vo.AllTemplate;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +38,54 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/template")
 public class ScrumTemplateController {
-
+    
+    private final ScrumTemplateService templateService;
+    
+    public ScrumTemplateController(ScrumTemplateService templateService) {
+        this.templateService = templateService;
+    }
+    
+    /**
+     * 查询所有的模板信息
+     *
+     * @return 根据是否创建人创建的模板进行分组
+     */
+    @PostMapping("/allTemplates")
+    public Result<AllTemplate> allTemplates() {
+        return Result.success(templateService.allTemplates());
+    }
+    
+    /**
+     * 新增模板
+     *
+     * @param param :save 新增的模板信息
+     * @return 新增后的模板信息
+     */
+    @PostMapping("/save")
+    public Result<ScrumTemplate> save(@RequestBody @Validated(Create.class) ScrumTemplateParam param) {
+        return Result.createSuccess(templateService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新模板
+     *
+     * @param param :update 更新的模板信息
+     * @return 更新后的模板信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumTemplate> update(@RequestBody @Validated(Update.class) ScrumTemplateParam param) {
+        return Result.updateSuccess(templateService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 删除模板
+     *
+     * @param param :deleteId 删除的模板ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumTemplateParam param) {
+        templateService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
+    }
 }

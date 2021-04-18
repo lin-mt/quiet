@@ -16,43 +16,34 @@
 
 package com.gitee.quiet.scrum.repository;
 
-import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * 任务步骤repository.
+ * 模板Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumTaskStepRepository extends JpaRepository<ScrumTaskStep, Long> {
+public interface ScrumTemplateRepository extends JpaRepository<ScrumTemplate, Long> {
     
     /**
-     * 根据模板ID和步骤名称查询步骤信息
+     * 查询启用的或者创建者为 creator 的模板信息
      *
-     * @param templateId 模板ID
-     * @param name       任务步骤名称
-     * @return 任务步骤信息
+     * @param enable  是否启用
+     * @param creator 创建者ID
+     * @return 是否启用为enable或者创建者为creator创建模板信息
      */
-    ScrumTaskStep findByTemplateIdAndName(Long templateId, String name);
+    List<ScrumTemplate> findAllByEnableOrCreator(boolean enable, Long creator);
     
     /**
-     * 根据模板ID查询所有任务步骤
+     * 根据模板名称查找模板信息
      *
-     * @param templateId 模板ID
-     * @return 任务步骤信息
+     * @param name 模板名称
+     * @return 模板信息
      */
-    List<ScrumTaskStep> findAllByTemplateId(Long templateId);
-    
-    /**
-     * 根据模板ID集合查询所有任务步骤
-     *
-     * @param templateIds 模板ID集合
-     * @return 所有任务步骤信息
-     */
-    List<ScrumTaskStep> findAllByTemplateIdIn(Set<Long> templateIds);
+    ScrumTemplate findByName(String name);
 }

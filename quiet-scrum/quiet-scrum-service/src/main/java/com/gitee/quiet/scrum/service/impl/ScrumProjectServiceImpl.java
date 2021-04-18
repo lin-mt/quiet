@@ -18,7 +18,6 @@ package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
-import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
 import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
@@ -26,6 +25,7 @@ import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;
@@ -96,8 +96,8 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
                 projectManaged.forEach(project -> project.setManagerName(SpringSecurityUtils.getCurrentUserFullName()));
                 Set<Long> manageProjectIds = projectManaged.stream().map(ScrumProject::getId)
                         .collect(Collectors.toSet());
-                projectInvolved = projectInvolved.stream().filter(project -> !manageProjectIds.contains(project.getId()))
-                        .collect(Collectors.toList());
+                projectInvolved = projectInvolved.stream()
+                        .filter(project -> !manageProjectIds.contains(project.getId())).collect(Collectors.toList());
             }
             Set<Long> managerIds = projectInvolved.stream().map(ScrumProject::getManager).collect(Collectors.toSet());
             Map<Long, String> userIdToFullName = quietUserService.findByUserIds(managerIds).stream()
@@ -169,6 +169,11 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         projectTeamService.deleteAllByProjectId(id);
         // 删除项目信息
         projectRepository.deleteById(id);
+    }
+    
+    @Override
+    public long countByTemplateId(Long templateId) {
+        return projectRepository.countByTemplateId(templateId);
     }
     
     private void checkProjectInfo(ScrumProject project) {

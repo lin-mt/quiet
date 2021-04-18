@@ -43,4 +43,12 @@ public interface ScrumTaskService {
      * @param demandIds 要删除的任务所属的需求ID集合
      */
     void deleteAllByDemandIds(Set<Long> demandIds);
+    
+    /**
+     * 根据任务步骤查询任务信息
+     *
+     * @param taskStepId 任务步骤ID
+     * @return 处于该任务步骤下的所有任务
+     */
+    List<ScrumTask> findAllByTaskStepId(Long taskStepId);
 }

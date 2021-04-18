@@ -1,0 +1,105 @@
+/*
+ * Copyright 2021 lin-mt@outlook.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.gitee.quiet.scrum.service.impl;
+
+import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
+import com.gitee.quiet.scrum.service.ScrumProjectService;
+import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
+import com.gitee.quiet.scrum.vo.AllTemplate;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * 模板信息Service实现类.
+ *
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
+@Service
+public class ScrumTemplateServiceImpl implements ScrumTemplateService {
+    
+    private final ScrumTemplateRepository templateRepository;
+    
+    private final ScrumTaskStepService taskStepService;
+    
+    private final ScrumProjectService projectService;
+    
+    public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, ScrumTaskStepService taskStepService,
+            ScrumProjectService projectService) {
+        this.templateRepository = templateRepository;
+        this.taskStepService = taskStepService;
+        this.projectService = projectService;
+    }
+    
+    @Override
+    public AllTemplate allTemplates() {
+        Long currentUserId = SpringSecurityUtils.getCurrentUserId();
+        List<ScrumTemplate> templates = templateRepository.findAllByEnableOrCreator(true, currentUserId);
+        Map<Long, List<ScrumTaskStep>> templateIdToTaskSteps = new HashMap<>(templates.size());
+        if (CollectionUtils.isNotEmpty(templates)) {
+            templateIdToTaskSteps = taskStepService
+                    .findAllByTemplateIds(templates.stream().map(ScrumTemplate::getId).collect(Collectors.toSet()));
+        }
+        AllTemplate allTemplate = new AllTemplate();
+        for (ScrumTemplate template : templates) {
+            template.setTaskSteps(templateIdToTaskSteps.get(template.getId()));
+            if (template.getCreator().equals(currentUserId)) {
+                allTemplate.getTemplateCreated().add(template);
+            } else {
+                allTemplate.getTemplateSelectable().add(template);
+            }
+        }
+        return allTemplate;
+    }
+    
+    @Override
+    public ScrumTemplate save(ScrumTemplate save) {
+        checkInfo(save);
+        return templateRepository.save(save);
+    }
+    
+    @Override
+    public ScrumTemplate update(ScrumTemplate update) {
+        checkInfo(update);
+        return templateRepository.saveAndFlush(update);
+    }
+    
+    @Override
+    public void deleteById(Long id) {
+        if (projectService.countByTemplateId(id) > 0) {
+            throw new ServiceException("template.hasProjectUse.can.not.delete");
+        }
+        templateRepository.deleteById(id);
+    }
+    
+    public void checkInfo(@NotNull ScrumTemplate template) {
+        ScrumTemplate exist = templateRepository.findByName(template.getName());
+        if (exist != null && !exist.getName().equals(template.getName())) {
+            throw new ServiceException("template.name.exist", template.getName());
+        }
+    }
+}

@@ -16,8 +16,22 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.validation.group.curd.Create;
+import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.curd.batch.UpdateBatch;
+import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.params.ScrumTaskStepParam;
+import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 任务步骤 Controller.
@@ -27,5 +41,58 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/taskStep")
 public class ScrumTaskStepController {
-
+    
+    private final ScrumTaskStepService taskStepService;
+    
+    public ScrumTaskStepController(ScrumTaskStepService taskStepService) {
+        this.taskStepService = taskStepService;
+    }
+    
+    /**
+     * 新增任务步骤
+     *
+     * @param param :save 新增的任务步骤信息
+     * @return 新增后的任务步骤信息
+     */
+    @PostMapping("/save")
+    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepParam param) {
+        return Result.createSuccess(taskStepService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新任务步骤
+     *
+     * @param params :update 更新的任务步骤信息
+     * @return 更新后的任务步骤信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepParam params) {
+        return Result.updateSuccess(taskStepService.update(params.getUpdate()));
+    }
+    
+    /**
+     * 删除任务步骤
+     *
+     * @param param :deleteId 删除的任务步骤ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumTaskStepParam param) {
+        taskStepService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
+    }
+    
+    @PostMapping("/updateBatch")
+    public Result<Object> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumTaskStepParam param) {
+        taskStepService.updateBatch(param.getUpdateBatch());
+        return Result.success();
+    }
+    
+    @PostMapping("getAllByTemplateId")
+    public Result<List<ScrumTaskStep>> getAllByTemplateId(@RequestBody ScrumTaskStepParam param) {
+        if (param.getTemplateId() == null) {
+            throw new ServiceException("controller.taskStep.getAllTaskStepByTemplateId.templateId.notNull");
+        }
+        return Result.success(taskStepService.findAllByTemplateId(param.getTemplateId()));
+    }
 }

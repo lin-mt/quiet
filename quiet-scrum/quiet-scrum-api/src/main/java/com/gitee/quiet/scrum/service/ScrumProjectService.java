@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.service;
 
-import com.gitee.quiet.scrum.MyScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProject;
+import com.gitee.quiet.scrum.vo.MyScrumProject;
 
 import java.util.List;
 import java.util.Set;
@@ -67,4 +67,12 @@ public interface ScrumProjectService {
      * @param id 要删除的项目的ID
      */
     void deleteById(Long id);
+    
+    /**
+     * 统计多少项目用了指定的模板
+     *
+     * @param templateId 统计的模板ID
+     * @return 使用了该模板的项目数量
+     */
+    long countByTemplateId(Long templateId);
 }

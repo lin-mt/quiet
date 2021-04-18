@@ -46,4 +46,12 @@ public interface ScrumProjectRepository extends JpaRepository<ScrumProject, Long
      * @return 项目信息
      */
     List<ScrumProject> findAllByManager(Long manager);
+    
+    /**
+     * 统计多少项目用了指定的模板
+     *
+     * @param templateId 统计的模板ID
+     * @return 使用了该模板的项目数量
+     */
+    long countByTemplateId(Long templateId);
 }

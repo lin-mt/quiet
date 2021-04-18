@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum;
+package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.entity.ScrumProject;
 
