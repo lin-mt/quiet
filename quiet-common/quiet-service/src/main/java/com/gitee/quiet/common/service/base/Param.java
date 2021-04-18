@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.batch.CreateBatch;
 import com.gitee.quiet.common.validation.group.curd.batch.DeleteBatch;
 import com.gitee.quiet.common.validation.group.curd.batch.ReadBatch;
+import com.gitee.quiet.common.validation.group.curd.batch.UpdateBatch;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
 import com.gitee.quiet.common.validation.group.curd.single.ReadSingle;
 import com.google.common.collect.Lists;
@@ -74,8 +75,11 @@ public class Param<T extends BaseEntity, P> {
     
     @Valid
     @NotEmpty(groups = CreateBatch.class, message = "{save.batch}{not.empty}")
-    @NotNull(groups = CreateBatch.class, message = "{save.entity.info}{not.null}")
     private List<T> saveBatch;
+    
+    @Valid
+    @NotEmpty(groups = UpdateBatch.class, message = "{update.batch}{not.empty}")
+    private List<T> updateBatch;
     
     @Valid
     @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
@@ -149,6 +153,14 @@ public class Param<T extends BaseEntity, P> {
     
     public void setSaveBatch(List<T> saveBatch) {
         this.saveBatch = saveBatch;
+    }
+    
+    public List<T> getUpdateBatch() {
+        return updateBatch;
+    }
+    
+    public void setUpdateBatch(List<T> updateBatch) {
+        this.updateBatch = updateBatch;
     }
     
     public T getUpdate() {
