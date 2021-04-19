@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@ package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
+import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +37,7 @@ public interface ScrumProjectService {
      * @param userId 用户ID
      * @return 项目信息
      */
-    MyScrumProject allProjectByUserId(Long userId);
+    MyScrumProject allProjectByUserId(@NotNull Long userId);
     
     /**
      * 新增项目
@@ -43,7 +45,7 @@ public interface ScrumProjectService {
      * @param save 新增的项目信息
      * @return 新增后的项目信息
      */
-    ScrumProject save(ScrumProject save);
+    ScrumProject save(@NotNull ScrumProject save);
     
     /**
      * 根据项目ID查询项目信息
@@ -59,14 +61,14 @@ public interface ScrumProjectService {
      * @param update 更新的项目信息
      * @return 更新后的项目信息
      */
-    ScrumProject update(ScrumProject update);
+    ScrumProject update(@NotNull ScrumProject update);
     
     /**
      * 根据项目ID删除项目信息
      *
      * @param id 要删除的项目的ID
      */
-    void deleteById(Long id);
+    void deleteById(@NotNull Long id);
     
     /**
      * 统计多少项目用了指定的模板
@@ -74,5 +76,13 @@ public interface ScrumProjectService {
      * @param templateId 统计的模板ID
      * @return 使用了该模板的项目数量
      */
-    long countByTemplateId(Long templateId);
+    long countByTemplateId(@NotNull Long templateId);
+    
+    /**
+     * 获取项目的详细信息
+     *
+     * @param id 项目ID
+     * @return 项目详细信息
+     */
+    ScrumProjectDetail getDetail(@NotNull Long id);
 }

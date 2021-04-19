@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 package com.gitee.quiet.scrum.service;
 
+import com.gitee.quiet.scrum.entity.ScrumIteration;
+
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,4 +34,12 @@ public interface ScrumIterationService {
      * @param versionIds 要删除的迭代信息所属的版本ID集合
      */
     void deleteByVersionIds(Set<Long> versionIds);
+    
+    /**
+     * 根据版本ID集合批量查询迭代信息
+     *
+     * @param versionIds 要查询的版本ID集合
+     * @return 指定版本中所有的迭代信息
+     */
+    List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds);
 }

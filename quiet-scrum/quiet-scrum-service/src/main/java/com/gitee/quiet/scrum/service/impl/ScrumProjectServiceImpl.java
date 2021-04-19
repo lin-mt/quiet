@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import com.gitee.quiet.scrum.service.ScrumProjectTeamService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
+import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;
@@ -187,6 +188,18 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     @Override
     public long countByTemplateId(Long templateId) {
         return projectRepository.countByTemplateId(templateId);
+    }
+    
+    @Override
+    public ScrumProjectDetail getDetail(Long id) {
+        ScrumProjectDetail projectDetail = new ScrumProjectDetail();
+        projectDetail.setProject(
+                projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id)));
+        Set<Long> teamIds = projectTeamService.findAllByProjectIds(Set.of(id)).stream().map(ScrumProjectTeam::getTeamId)
+                .collect(Collectors.toSet());
+        projectDetail.setTeams(quietTeamService.findAllByIdsIncludeMembers(teamIds));
+        projectDetail.setVersions(versionService.findAllByProjectIdIncludeIterations(id));
+        return projectDetail;
     }
     
     private void checkProjectInfo(ScrumProject project) {

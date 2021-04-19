@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,17 +31,17 @@ import java.util.List;
 public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long> {
     
     /**
-     * 根据项目id查询该项目下的所有版本信息
-     *
-     * @param projectId 项目ID
-     * @return 项目的所有版本信息
-     */
-    List<ScrumVersion> findAllByParentId(Long projectId);
-    
-    /**
      * 根据项目id删除该项目下的所有版本信息
      *
      * @param projectId 项目ID
      */
     void deleteByProjectId(Long projectId);
+    
+    /**
+     * 根据项目ID查询项目版本信息
+     *
+     * @param projectId 项目ID
+     * @return 项目所有版本信息
+     */
+    List<ScrumVersion> findAllByProjectId(Long projectId);
 }

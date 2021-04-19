@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,14 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,5 +46,13 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         if (CollectionUtils.isNotEmpty(versionIds)) {
             iterationRepository.deleteAllByVersionIdIn(versionIds);
         }
+    }
+    
+    @Override
+    public List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds) {
+        if (CollectionUtils.isNotEmpty(versionIds)) {
+            return iterationRepository.findAllByVersionIdIn(versionIds);
+        }
+        return List.of();
     }
 }

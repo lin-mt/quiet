@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,10 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 项目的版本信息.
@@ -59,6 +61,12 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     @NotEmpty(message = "{version.remark}{not.empty}")
     private String remark;
     
+    /**
+     * 迭代信息
+     */
+    @Transient
+    private List<ScrumIteration> iterations;
+    
     public String getName() {
         return name;
     }
@@ -81,5 +89,13 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    public List<ScrumIteration> getIterations() {
+        return iterations;
+    }
+    
+    public void setIterations(List<ScrumIteration> iterations) {
+        this.iterations = iterations;
     }
 }

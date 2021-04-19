@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
@@ -25,6 +26,7 @@ import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
+import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +46,11 @@ public class ScrumProjectController {
     
     public ScrumProjectController(ScrumProjectService projectService) {
         this.projectService = projectService;
+    }
+    
+    @PostMapping("/detail")
+    public Result<ScrumProjectDetail> detail(@RequestBody @Validated(IdNotNull.class) ScrumProjectParam param) {
+        return Result.success(projectService.getDetail(param.getId()));
     }
     
     /**

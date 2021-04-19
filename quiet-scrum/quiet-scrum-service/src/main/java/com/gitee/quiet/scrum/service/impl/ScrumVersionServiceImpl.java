@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.common.service.util.EntityUtils;
+import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,12 +52,27 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteAllByProjectId(@NotNull Long projectId) {
-        List<ScrumVersion> versions = versionRepository.findAllByParentId(projectId);
+        List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
         if (CollectionUtils.isNotEmpty(versions)) {
             // 删除版本信息下的迭代信息
             Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
             iterationService.deleteByVersionIds(versionIds);
             versionRepository.deleteByProjectId(projectId);
         }
+    }
+    
+    @Override
+    public List<ScrumVersion> findAllByProjectIdIncludeIterations(Long projectId) {
+        List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
+        if (CollectionUtils.isNotEmpty(versions)) {
+            Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
+            List<ScrumIteration> iterations = iterationService.findAllByVersionIds(versionIds);
+            Map<Long, List<ScrumIteration>> versionIdToIterations = iterations.stream()
+                    .collect(Collectors.groupingBy(ScrumIteration::getVersionId));
+            for (ScrumVersion version : versions) {
+                version.setIterations(versionIdToIterations.getOrDefault(version.getId(), List.of()));
+            }
+        }
+        return EntityUtils.buildTreeData(versions);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.entity.ScrumIteration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,4 +37,12 @@ public interface ScrumIterationRepository extends JpaRepository<ScrumIteration, 
      * @param versionIds 要删除的迭代所属的版本ID集合
      */
     void deleteAllByVersionIdIn(Set<Long> versionIds);
+    
+    /**
+     * 根据版本ID查询迭代信息
+     *
+     * @param versionIds 要查询的版本ID集合
+     * @return 所有迭代信息
+     */
+    List<ScrumIteration> findAllByVersionIdIn(Set<Long> versionIds);
 }
