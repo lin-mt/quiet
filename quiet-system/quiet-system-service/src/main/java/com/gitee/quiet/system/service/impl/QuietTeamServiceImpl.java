@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,5 +197,26 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     @Override
     public List<QuietTeam> findAllByIds(Set<Long> ids) {
         return teamRepository.findAllById(ids);
+    }
+    
+    @Override
+    public List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids) {
+        List<QuietTeam> teams = teamRepository.findAllById(ids);
+        List<QuietTeamUser> teamUsers = teamUserService.findAllUsersByTeamIds(ids);
+        Map<Long, Set<Long>> teamIdToUserIds = teamUsers.stream()
+                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(Collectors
+                        .toMap(Map.Entry::getKey,
+                                e -> e.getValue().stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet())));
+        Set<Long> userIds = teamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
+        Map<Long, QuietUser> userIdToInfo = userService.findByUserIds(userIds).stream()
+                .collect(Collectors.toMap(QuietUser::getId, u -> u));
+        for (QuietTeam team : teams) {
+            List<QuietUser> members = new ArrayList<>();
+            for (Long userId : teamIdToUserIds.get(team.getId())) {
+                members.add(userIdToInfo.get(userId));
+            }
+            team.setMembers(members);
+        }
+        return teams;
     }
 }

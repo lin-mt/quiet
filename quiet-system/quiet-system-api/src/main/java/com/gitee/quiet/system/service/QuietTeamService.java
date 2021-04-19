@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,4 +70,12 @@ public interface QuietTeamService {
      * @return 团队信息
      */
     List<QuietTeam> findAllByIds(Set<Long> ids);
+    
+    /**
+     * 根据团队ID批量查询团队信息，包含团队的成员信息
+     *
+     * @param ids 团队ID集合
+     * @return 团队信息
+     */
+    List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids);
 }
