@@ -17,7 +17,7 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
@@ -103,7 +103,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
             Set<Long> teamIds = teamUsers.stream().map(QuietTeamUser::getTeamId).collect(Collectors.toSet());
             List<ScrumProject> projectInvolved = projectTeamService.findAllProjectsByTeamIds(teamIds);
             if (CollectionUtils.isNotEmpty(projectManaged)) {
-                projectManaged.forEach(project -> project.setManagerName(SpringSecurityUtils.getCurrentUserFullName()));
+                projectManaged.forEach(project -> project.setManagerName(CurrentUserUtil.getFullName()));
                 Set<Long> manageProjectIds = projectManaged.stream().map(ScrumProject::getId)
                         .collect(Collectors.toSet());
                 projectInvolved = projectInvolved.stream()

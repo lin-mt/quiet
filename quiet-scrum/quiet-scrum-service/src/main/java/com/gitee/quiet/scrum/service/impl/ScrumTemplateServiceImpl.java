@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
-import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
@@ -67,7 +67,7 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     
     @Override
     public AllTemplate allTemplates() {
-        Long currentUserId = SpringSecurityUtils.getCurrentUserId();
+        Long currentUserId = CurrentUserUtil.getId();
         List<ScrumTemplate> templates = templateRepository.findAllByEnableOrCreator(true, currentUserId);
         Map<Long, List<ScrumTaskStep>> templateIdToTaskSteps = new HashMap<>(templates.size());
         if (CollectionUtils.isNotEmpty(templates)) {

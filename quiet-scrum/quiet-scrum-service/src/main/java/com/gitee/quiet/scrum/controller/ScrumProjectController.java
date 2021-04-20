@@ -17,7 +17,7 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -60,7 +60,7 @@ public class ScrumProjectController {
      */
     @PostMapping("/allMyProjects")
     public Result<MyScrumProject> allMyProjects() {
-        return Result.success(projectService.allProjectByUserId(SpringSecurityUtils.getCurrentUserId()));
+        return Result.success(projectService.allProjectByUserId(CurrentUserUtil.getId()));
     }
     
     /**
