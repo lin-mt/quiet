@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,7 +154,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     @Override
-    public Collection<QuietRole> findAllById(@NotNull @NotEmpty Set<Long> roleIds) {
+    public List<QuietRole> findAllById(@NotNull @NotEmpty Set<Long> roleIds) {
         return roleRepository.findAllById(roleIds);
     }
     

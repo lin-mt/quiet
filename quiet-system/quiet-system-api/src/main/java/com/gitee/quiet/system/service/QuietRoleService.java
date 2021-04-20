@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ public interface QuietRoleService extends RoleHierarchy {
      * @param roleIds 角色ID集合
      * @return 角色信息
      */
-    Collection<QuietRole> findAllById(Set<Long> roleIds);
+    List<QuietRole> findAllById(Set<Long> roleIds);
     
     /**
      * 根据角色名称查询数据

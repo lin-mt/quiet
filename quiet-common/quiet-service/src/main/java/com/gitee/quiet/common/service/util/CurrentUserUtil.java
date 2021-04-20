@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class SpringSecurityUtils {
+public class CurrentUserUtil {
     
-    private SpringSecurityUtils() {
+    private CurrentUserUtil() {
     }
     
     /**
@@ -35,7 +35,7 @@ public class SpringSecurityUtils {
      *
      * @return 登录人.
      */
-    public static QuietUserDetails getCurrentUser() {
+    public static QuietUserDetails get() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             return (QuietUserDetails) authentication.getPrincipal();
@@ -48,8 +48,8 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人ID
      */
-    public static Long getCurrentUserId() {
-        QuietUserDetails user = getCurrentUser();
+    public static Long getId() {
+        QuietUserDetails user = get();
         if (user != null) {
             return user.getId();
         }
@@ -61,8 +61,8 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人用户名
      */
-    public static String getCurrentUserUsername() {
-        QuietUserDetails user = getCurrentUser();
+    public static String getUsername() {
+        QuietUserDetails user = get();
         if (user != null) {
             return user.getUsername();
         }
@@ -74,8 +74,8 @@ public class SpringSecurityUtils {
      *
      * @return 当前登录人全名
      */
-    public static String getCurrentUserFullName() {
-        QuietUserDetails user = getCurrentUser();
+    public static String getFullName() {
+        QuietUserDetails user = get();
         if (user != null) {
             return user.getFullName();
         }
