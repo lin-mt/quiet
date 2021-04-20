@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.json.jackson.module;
+package com.gitee.quiet.common.service.json.module;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.gitee.quiet.common.service.json.jackson.modifier.QuietDeserializerModifier;
-import com.gitee.quiet.common.service.json.jackson.modifier.QuietSerializerModifier;
+import com.gitee.quiet.common.service.json.modifier.QuietDeserializerModifier;
+import com.gitee.quiet.common.service.json.modifier.QuietSerializerModifier;
 
 /**
  * QuietSimpleModule.

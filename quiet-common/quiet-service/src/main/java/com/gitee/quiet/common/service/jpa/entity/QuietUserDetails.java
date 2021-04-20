@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@ package com.gitee.quiet.common.service.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.enums.Gender;
 import com.gitee.quiet.common.service.enums.Whether;
+import com.gitee.quiet.common.service.json.annotation.JsonHasRole;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -99,6 +101,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 账号是否过期
      */
     @Enumerated(EnumType.STRING)
+    @JsonHasRole(RoleNames.Admin)
     @Column(name = "account_expired", length = 3)
     private Whether accountExpired;
     
@@ -106,6 +109,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 账号是否被锁
      */
     @Enumerated(EnumType.STRING)
+    @JsonHasRole(RoleNames.Admin)
     @Column(name = "account_locked", length = 3)
     private Whether accountLocked;
     
@@ -113,6 +117,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 密码是否过期
      */
     @Enumerated(EnumType.STRING)
+    @JsonHasRole(RoleNames.Admin)
     @Column(name = "credentials_expired", length = 3)
     private Whether credentialsExpired;
     
@@ -120,6 +125,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 账号是否启用
      */
     @Enumerated(EnumType.STRING)
+    @JsonHasRole(RoleNames.Admin)
     @Column(name = "enabled", length = 3)
     private Whether enabled;
     
@@ -127,6 +133,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      * 角色集合
      */
     @Transient
+    @JsonHasRole(RoleNames.Admin)
     private Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities;
     
     @Override
@@ -224,24 +231,28 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     
     @Override
     @Transient
+    @JsonHasRole(RoleNames.Admin)
     public boolean isAccountNonExpired() {
         return Whether.NO.equals(getAccountExpired());
     }
     
     @Override
     @Transient
+    @JsonHasRole(RoleNames.Admin)
     public boolean isAccountNonLocked() {
         return Whether.NO.equals(getAccountLocked());
     }
     
     @Override
     @Transient
+    @JsonHasRole(RoleNames.Admin)
     public boolean isCredentialsNonExpired() {
         return Whether.NO.equals(getCredentialsExpired());
     }
     
     @Override
     @Transient
+    @JsonHasRole(RoleNames.Admin)
     public boolean isEnabled() {
         return Whether.YES.equals(getEnabled());
     }

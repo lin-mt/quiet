@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.base.constant;
+package com.gitee.quiet.common.service.json.filter;
 
 /**
- * 角色名称.
+ * 过滤器名称.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@SuppressWarnings({"AlibabaConstantFieldShouldBeUpperCase", "unused"})
-public interface RoleNames {
+public interface JsonFilterName {
     
-    String ROLE_PREFIX = "ROLE_";
-    
-    // 为了角色名称更加直观，没有采用大写+下划线的命名风格
-    
-    String SystemAdmin = "ROLE_SystemAdmin";
-    String Admin = "ROLE_Admin";
-    String ProductOwner = "ROLE_ProductOwner";
-    String ScrumMaster = "ROLE_ScrumMaster";
-    
+    String HAS_ROLE = "hasRole";
 }

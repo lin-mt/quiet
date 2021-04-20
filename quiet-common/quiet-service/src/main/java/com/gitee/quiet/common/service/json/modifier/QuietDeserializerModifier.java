@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.json.jackson.modifier;
+package com.gitee.quiet.common.service.json.modifier;
 
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;
@@ -24,8 +24,8 @@ import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import com.gitee.quiet.common.service.json.jackson.modifier.deserializer.CustomCollectionDeserializer;
-import com.gitee.quiet.common.service.json.jackson.modifier.deserializer.DictionaryDeserializer;
+import com.gitee.quiet.common.service.json.modifier.deserializer.CustomCollectionDeserializer;
+import com.gitee.quiet.common.service.json.modifier.deserializer.DictionaryDeserializer;
 
 /**
  * QuietDeserializerModifier.

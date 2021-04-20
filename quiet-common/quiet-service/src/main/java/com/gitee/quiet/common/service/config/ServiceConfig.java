@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,9 @@
 
 package com.gitee.quiet.common.service.config;
 
-import com.fasterxml.jackson.databind.Module;
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.QuietAdvice;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
-import com.gitee.quiet.common.service.json.jackson.component.QuietJsonComponent;
-import com.gitee.quiet.common.service.json.jackson.module.QuietSimpleModule;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -41,7 +38,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @Configuration
 @EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@ComponentScan(basePackageClasses = {QuietJsonComponent.class, QuietAdvice.class})
+@ComponentScan(basePackageClasses = QuietAdvice.class)
 @EnableConfigurationProperties(IdGeneratorProperties.class)
 public class ServiceConfig {
     
@@ -58,11 +55,6 @@ public class ServiceConfig {
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
-    }
-    
-    @Bean
-    public Module module() {
-        return new QuietSimpleModule();
     }
     
 }

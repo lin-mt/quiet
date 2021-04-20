@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package com.gitee.quiet.system.handler;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.common.service.config.MessageSourceConfig;
-import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.system.constant.AccountCode;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
@@ -45,7 +45,7 @@ public class ResultAccessDeniedHandler extends AbstractResponseJsonData implemen
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception)
             throws IOException {
-        logger.error("用户：{} 无权限访问：{}", SpringSecurityUtils.getCurrentUserId(), request.getRequestURI(), exception);
+        logger.error("用户：{} 无权限访问：{}", CurrentUserUtil.getId(), request.getRequestURI(), exception);
         Result<Object> result = Result.failure().setCode(AccountCode.NO_PERMISSION)
                 .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
         responseJsonData(response, result);

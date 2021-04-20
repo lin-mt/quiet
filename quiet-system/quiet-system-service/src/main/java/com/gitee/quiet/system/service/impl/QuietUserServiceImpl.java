@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -98,7 +99,16 @@ public class QuietUserServiceImpl implements QuietUserService {
         List<QuietUserRole> quietUserRoles = userRoleService.findByUserId(user.getId());
         if (CollectionUtils.isNotEmpty(quietUserRoles)) {
             Set<Long> roleIds = quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-            user.setAuthorities(roleService.findAllById(roleIds));
+            List<QuietRole> roles = roleService.findAllById(roleIds);
+            Collection<? extends GrantedAuthority> reachableGrantedAuthorities = roleService
+                    .getReachableGrantedAuthorities(roles);
+            QuietRole role;
+            for (GrantedAuthority reachableGrantedAuthority : reachableGrantedAuthorities) {
+                role = new QuietRole();
+                role.setRoleName(reachableGrantedAuthority.getAuthority());
+                roles.add(role);
+            }
+            user.setAuthorities(roles);
         }
         return user;
     }

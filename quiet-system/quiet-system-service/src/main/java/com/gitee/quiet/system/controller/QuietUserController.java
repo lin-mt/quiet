@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.gitee.quiet.common.service.enums.Whether;
-import com.gitee.quiet.common.service.util.SpringSecurityUtils;
+import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
@@ -119,7 +119,7 @@ public class QuietUserController {
      */
     @PostMapping("/currentUserInfo")
     public Result<QuietUserDetails> currentUserInfo() {
-        return Result.success(SpringSecurityUtils.getCurrentUser());
+        return Result.success(CurrentUserUtil.get());
     }
     
     @PostMapping("/removeRole")
