@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,4 +99,12 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户信息
      */
     List<QuietUser> listUsersByName(String name, int limit);
+    
+    /**
+     * 根据用户ID获取用户信息
+     *
+     * @param id 用户ID
+     * @return 用户信息
+     */
+    QuietUser findById(Long id);
 }

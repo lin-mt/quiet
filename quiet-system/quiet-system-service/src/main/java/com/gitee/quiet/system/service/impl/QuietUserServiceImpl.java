@@ -209,4 +209,9 @@ public class QuietUserServiceImpl implements QuietUserService {
         }
         return query.fetchResults().getResults();
     }
+    
+    @Override
+    public QuietUser findById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ServiceException("user.id.not.exist", id));
+    }
 }
