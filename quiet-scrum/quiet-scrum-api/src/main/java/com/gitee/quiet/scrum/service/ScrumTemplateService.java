@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,4 +76,12 @@ public interface ScrumTemplateService {
      * @return 模板信息
      */
     List<ScrumTemplate> findAllByIds(Set<Long> ids);
+    
+    /**
+     * 根据模板ID获取模板信息
+     *
+     * @param id 模板ID
+     * @return 模板信息
+     */
+    ScrumTemplate findById(Long id);
 }

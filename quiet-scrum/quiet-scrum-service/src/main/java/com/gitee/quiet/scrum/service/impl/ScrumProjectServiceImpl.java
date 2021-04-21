@@ -202,6 +202,20 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         return projectDetail;
     }
     
+    @Override
+    public ScrumProject projectInfo(Long id) {
+        ScrumProject scrumProject = projectRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+        QuietUser user = quietUserService.findById(scrumProject.getManager());
+        scrumProject.setManagerName(user.getFullName());
+        Set<Long> teamIds = projectTeamService.findAllByProjectIds(Set.of(id)).stream().map(ScrumProjectTeam::getTeamId)
+                .collect(Collectors.toSet());
+        scrumProject.setTemplateName(templateService.findById(scrumProject.getTemplateId()).getName());
+        scrumProject.setTeamIds(teamIds);
+        scrumProject.setTeams(quietTeamService.findAllByIds(teamIds));
+        return scrumProject;
+    }
+    
     private void checkProjectInfo(ScrumProject project) {
         ScrumProject exist = projectRepository.findByNameAndManager(project.getName(), project.getManager());
         if (exist != null && !exist.getId().equals(project.getId())) {

@@ -48,6 +48,23 @@ public class ScrumProjectController {
         this.projectService = projectService;
     }
     
+    /**
+     * 获取项目信息
+     *
+     * @param param :id 项目ID
+     * @return 项目信息
+     */
+    @PostMapping("/projectInfo")
+    public Result<ScrumProject> projectInfo(@RequestBody @Validated(IdNotNull.class) ScrumProjectParam param) {
+        return Result.success(projectService.projectInfo(param.getId()));
+    }
+    
+    /**
+     * 获取项目的详细信息
+     *
+     * @param param 查询参数
+     * @return 项目详细信息
+     */
     @PostMapping("/detail")
     public Result<ScrumProjectDetail> detail(@RequestBody @Validated(IdNotNull.class) ScrumProjectParam param) {
         return Result.success(projectService.getDetail(param.getId()));

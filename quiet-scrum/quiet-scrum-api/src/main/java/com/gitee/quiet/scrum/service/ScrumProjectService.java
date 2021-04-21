@@ -85,4 +85,12 @@ public interface ScrumProjectService {
      * @return 项目详细信息
      */
     ScrumProjectDetail getDetail(@NotNull Long id);
+    
+    /**
+     * 根据项目ID获取项目信息
+     *
+     * @param id 项目ID
+     * @return 项目信息
+     */
+    ScrumProject projectInfo(Long id);
 }
