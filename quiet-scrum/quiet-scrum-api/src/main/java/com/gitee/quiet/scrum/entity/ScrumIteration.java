@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * 迭代信息.
@@ -51,6 +52,18 @@ public class ScrumIteration extends SerialEntity {
     private Long versionId;
     
     /**
+     * 迭代开始时间
+     */
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+    
+    /**
+     * 迭代结束时间
+     */
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
+    
+    /**
      * 备注信息
      */
     @Column(name = "remark", nullable = false, length = 1000)
@@ -71,6 +84,22 @@ public class ScrumIteration extends SerialEntity {
     
     public void setVersionId(Long versionId) {
         this.versionId = versionId;
+    }
+    
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+    
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+    
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+    
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
     
     public String getRemark() {

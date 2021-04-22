@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -93,6 +94,18 @@ public class ScrumProject extends SerialEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "build_tool", length = 6)
     private BuildTool buildTool;
+    
+    /**
+     * 项目开始时间
+     */
+    @Column(name = "start_time")
+    private LocalDateTime startTime;
+    
+    /**
+     * 项目结束时间
+     */
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
     
     /**
      * 负责的团队ID集合
@@ -173,6 +186,22 @@ public class ScrumProject extends SerialEntity {
     
     public void setBuildTool(BuildTool buildTool) {
         this.buildTool = buildTool;
+    }
+    
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+    
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+    
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+    
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
     
     public Set<Long> getTeamIds() {
