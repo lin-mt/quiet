@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,15 @@ package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import com.gitee.quiet.common.service.jpa.converter.SetStringConverter;
-import com.gitee.quiet.common.service.enums.Whether;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.converter.SetStringConverter;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
@@ -34,8 +34,6 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
@@ -76,15 +74,15 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Convert(converter = SetStringConverter.class)
     private Set<String> resourceIds;
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "secret_required", length = 3)
+    @ColumnDefault("0")
+    @Column(name = "secret_required", columnDefinition = "TINYINT(1)", nullable = false)
     @NotNull(message = "{client.secretRequired}{not.null}")
-    private Whether secretRequired;
+    private Boolean secretRequired;
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "scoped", length = 3)
+    @ColumnDefault("0")
+    @Column(name = "scoped", columnDefinition = "TINYINT(1)", nullable = false)
     @NotNull(message = "{client.scoped}{not.null}")
-    private Whether scoped;
+    private Boolean scoped;
     
     @Column(name = "scope")
     @Convert(converter = SetStringConverter.class)
@@ -106,10 +104,10 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @NotNull(message = "{client.refreshTokenValiditySeconds}{not.null}")
     private Integer refreshTokenValiditySeconds;
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "auto_approve", length = 3)
+    @ColumnDefault("0")
+    @Column(name = "auto_approve", columnDefinition = "TINYINT(1)", nullable = false)
     @NotNull(message = "{client.autoApprove}{not.null}")
-    private Whether autoApprove;
+    private Boolean autoApprove;
     
     @Column(name = "remark", length = 100)
     @Length(max = 100, message = "{client.remark}{length.max.limit}")
@@ -158,14 +156,14 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     @Transient
     public boolean isSecretRequired() {
-        return Whether.YES.equals(getSecretRequired());
+        return BooleanUtils.toBoolean(getSecretRequired());
     }
     
-    public Whether getSecretRequired() {
+    public Boolean getSecretRequired() {
         return secretRequired;
     }
     
-    public void setSecretRequired(Whether secretRequired) {
+    public void setSecretRequired(Boolean secretRequired) {
         this.secretRequired = secretRequired;
     }
     
@@ -178,14 +176,14 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     @Transient
     public boolean isScoped() {
-        return Whether.YES.equals(getScoped());
+        return BooleanUtils.toBoolean(getScoped());
     }
     
-    public Whether getScoped() {
+    public Boolean getScoped() {
         return scoped;
     }
     
-    public void setScoped(Whether scoped) {
+    public void setScoped(Boolean scoped) {
         this.scoped = scoped;
     }
     
@@ -256,7 +254,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     @Transient
     public boolean isAutoApprove(String scope) {
-        LoggerFactory.getLogger(QuietClient.class).info(scope);
         return true;
     }
     
@@ -273,11 +270,11 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return null;
     }
     
-    public Whether getAutoApprove() {
+    public Boolean getAutoApprove() {
         return autoApprove;
     }
     
-    public void setAutoApprove(Whether autoApprove) {
+    public void setAutoApprove(Boolean autoApprove) {
         this.autoApprove = autoApprove;
     }
     

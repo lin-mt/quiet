@@ -20,8 +20,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.enums.Gender;
-import com.gitee.quiet.common.service.enums.Whether;
 import com.gitee.quiet.common.service.json.annotation.JsonHasRole;
+import org.apache.commons.lang3.BooleanUtils;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,34 +101,34 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     /**
      * 账号是否过期
      */
-    @Enumerated(EnumType.STRING)
+    @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "account_expired", length = 3)
-    private Whether accountExpired;
+    @Column(name = "account_expired", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean accountExpired;
     
     /**
      * 账号是否被锁
      */
-    @Enumerated(EnumType.STRING)
+    @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "account_locked", length = 3)
-    private Whether accountLocked;
+    @Column(name = "account_locked", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean accountLocked;
     
     /**
      * 密码是否过期
      */
-    @Enumerated(EnumType.STRING)
+    @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "credentials_expired", length = 3)
-    private Whether credentialsExpired;
+    @Column(name = "credentials_expired", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean credentialsExpired;
     
     /**
      * 账号是否启用
      */
-    @Enumerated(EnumType.STRING)
+    @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "enabled", length = 3)
-    private Whether enabled;
+    @Column(name = "enabled", columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean enabled;
     
     /**
      * 角色集合
@@ -194,32 +195,20 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
         this.emailAddress = emailAddress;
     }
     
-    public Whether getAccountExpired() {
+    public Boolean getAccountExpired() {
         return accountExpired;
     }
     
-    public void setAccountExpired(Whether accountExpired) {
+    public void setAccountExpired(Boolean accountExpired) {
         this.accountExpired = accountExpired;
     }
     
-    public Whether getAccountLocked() {
+    public Boolean getAccountLocked() {
         return accountLocked;
     }
     
-    public void setAccountLocked(Whether accountLocked) {
+    public void setAccountLocked(Boolean accountLocked) {
         this.accountLocked = accountLocked;
-    }
-    
-    public Whether getCredentialsExpired() {
-        return credentialsExpired;
-    }
-    
-    public void setCredentialsExpired(Whether credentialsExpired) {
-        this.credentialsExpired = credentialsExpired;
-    }
-    
-    public Whether getEnabled() {
-        return enabled;
     }
     
     @Override
@@ -233,31 +222,41 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     @Transient
     @JsonHasRole(RoleNames.Admin)
     public boolean isAccountNonExpired() {
-        return Whether.NO.equals(getAccountExpired());
+        return !BooleanUtils.toBoolean(getAccountExpired());
     }
     
     @Override
     @Transient
     @JsonHasRole(RoleNames.Admin)
     public boolean isAccountNonLocked() {
-        return Whether.NO.equals(getAccountLocked());
+        return !BooleanUtils.toBoolean(getAccountLocked());
     }
     
     @Override
     @Transient
     @JsonHasRole(RoleNames.Admin)
     public boolean isCredentialsNonExpired() {
-        return Whether.NO.equals(getCredentialsExpired());
+        return !BooleanUtils.toBoolean(getCredentialsExpired());
+    }
+    
+    public Boolean getCredentialsExpired() {
+        return credentialsExpired;
+    }
+    
+    public void setCredentialsExpired(Boolean credentialsExpired) {
+        this.credentialsExpired = credentialsExpired;
     }
     
     @Override
-    @Transient
-    @JsonHasRole(RoleNames.Admin)
     public boolean isEnabled() {
-        return Whether.YES.equals(getEnabled());
+        return BooleanUtils.toBoolean(getEnabled());
     }
     
-    public void setEnabled(Whether enabled) {
+    public Boolean getEnabled() {
+        return enabled;
+    }
+    
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
     

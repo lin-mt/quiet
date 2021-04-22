@@ -20,6 +20,7 @@ import com.gitee.quiet.system.entity.QuietRole;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
@@ -111,4 +112,7 @@ public interface QuietRoleService extends RoleHierarchy {
      * @return 角色数据
      */
     QuietRole findByRoleName(String roleName);
+    
+    @Override
+    List<QuietRole> getReachableGrantedAuthorities(Collection<? extends GrantedAuthority> authorities);
 }
