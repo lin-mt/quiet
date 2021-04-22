@@ -36,7 +36,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -100,14 +99,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         if (CollectionUtils.isNotEmpty(quietUserRoles)) {
             Set<Long> roleIds = quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
             List<QuietRole> roles = roleService.findAllById(roleIds);
-            Collection<? extends GrantedAuthority> reachableGrantedAuthorities = roleService
-                    .getReachableGrantedAuthorities(roles);
-            QuietRole role;
-            for (GrantedAuthority reachableGrantedAuthority : reachableGrantedAuthorities) {
-                role = new QuietRole();
-                role.setRoleName(reachableGrantedAuthority.getAuthority());
-                roles.add(role);
-            }
+            roles.addAll(roleService.getReachableGrantedAuthorities(roles));
             user.setAuthorities(roles);
         }
         return user;

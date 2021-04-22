@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.common.service.jpa.entity.QDictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
@@ -76,6 +77,13 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     
     public SelectBooleanBuilder orNot(Predicate right) {
         return or(right.not());
+    }
+    
+    public SelectBooleanBuilder notNullEq(Boolean param, BooleanPath path) {
+        if (param != null) {
+            builder.and(path.eq(param));
+        }
+        return this;
     }
     
     public <T extends Number & Comparable<?>> SelectBooleanBuilder notNullEq(T param, NumberPath<T> path) {

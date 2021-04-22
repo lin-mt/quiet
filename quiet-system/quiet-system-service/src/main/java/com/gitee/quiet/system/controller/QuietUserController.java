@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.enums.Whether;
 import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.common.validation.group.ParamsNotNull;
@@ -72,8 +71,7 @@ public class QuietUserController {
      */
     @PostMapping("/registered")
     public Result<QuietUser> register(@RequestBody @Validated(Create.class) QuietUserParam postParam) {
-        // TODO 可以根据租户的配置确定是否注册就直接启用该用户
-        postParam.getSave().setEnabled(Whether.YES);
+        // TODO 可以根据配置确定是否注册就直接启用该用户
         return Result.success(userService.save(postParam.getSave()));
     }
     

@@ -30,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
@@ -169,11 +168,10 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     @Override
-    public Collection<? extends GrantedAuthority> getReachableGrantedAuthorities(
-            Collection<? extends GrantedAuthority> authorities) {
+    public List<QuietRole> getReachableGrantedAuthorities(Collection<? extends GrantedAuthority> authorities) {
         // TODO 添加缓存
         if (CollectionUtils.isEmpty(authorities)) {
-            return AuthorityUtils.NO_AUTHORITIES;
+            return List.of();
         }
         Set<String> roleNames = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         List<QuietRole> reachableRoles = new ArrayList<>();
