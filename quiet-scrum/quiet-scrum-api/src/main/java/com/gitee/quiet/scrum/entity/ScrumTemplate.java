@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -61,8 +62,9 @@ public class ScrumTemplate extends BaseEntity {
     /**
      * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
+    @ColumnDefault("0")
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private boolean enable;
+    private Boolean enable;
     
     public String getName() {
         return name;
@@ -72,11 +74,11 @@ public class ScrumTemplate extends BaseEntity {
         this.name = name;
     }
     
-    public boolean isEnable() {
+    public Boolean getEnable() {
         return enable;
     }
     
-    public void setEnable(boolean enable) {
+    public void setEnable(Boolean enable) {
         this.enable = enable;
     }
     
