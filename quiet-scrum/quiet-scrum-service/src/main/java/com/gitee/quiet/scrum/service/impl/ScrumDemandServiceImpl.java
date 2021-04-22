@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,6 +88,11 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
             Set<Long> demandIds = demands.stream().map(ScrumDemand::getId).collect(Collectors.toSet());
             taskService.deleteAllByDemandIds(demandIds);
         }
+    }
+    
+    @Override
+    public long countByPriorityId(Long priorityId) {
+        return demandRepository.countByPriorityId(priorityId);
     }
     
     private void checkDemand(@NotNull ScrumDemand demand) {

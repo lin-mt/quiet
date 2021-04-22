@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,4 +69,12 @@ public interface ScrumDemandService {
      * @param projectId 要删除需求的项目ID
      */
     void deleteAllByProjectId(@NotNull Long projectId);
+    
+    /**
+     * 根据优先级ID统计处于该优先级的需求有多少
+     *
+     * @param priorityId 优先级ID
+     * @return 处于该优先级的需求数量
+     */
+    long countByPriorityId(@NotNull Long priorityId);
 }

@@ -22,6 +22,7 @@ import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
+import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
@@ -57,12 +58,16 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     
     private final ScrumProjectService projectService;
     
+    private final ScrumPriorityService priorityService;
+    
     public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, JPAQueryFactory jpaQueryFactory,
-            ScrumTaskStepService taskStepService, ScrumProjectService projectService) {
+            ScrumTaskStepService taskStepService, ScrumProjectService projectService,
+            ScrumPriorityService priorityService) {
         this.templateRepository = templateRepository;
         this.jpaQueryFactory = jpaQueryFactory;
         this.taskStepService = taskStepService;
         this.projectService = projectService;
+        this.priorityService = priorityService;
     }
     
     @Override
@@ -103,6 +108,10 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         if (projectService.countByTemplateId(id) > 0) {
             throw new ServiceException("template.hasProjectUse.can.not.delete");
         }
+        // 删除任务步骤配置
+        taskStepService.deleteByTemplateId(id);
+        // 删除优先级配置
+        priorityService.deleteByTemplateId(id);
         templateRepository.deleteById(id);
     }
     
@@ -127,6 +136,11 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     @Override
     public ScrumTemplate findById(Long id) {
         return templateRepository.findById(id).orElseThrow(() -> new ServiceException("template.id.not.exist", id));
+    }
+    
+    @Override
+    public boolean existsById(Long id) {
+        return templateRepository.existsById(id);
     }
     
     public void checkInfo(@NotNull ScrumTemplate template) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.repository.ScrumTaskStepRepository;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +43,13 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
     
     private final ScrumTaskService taskService;
     
-    public ScrumTaskStepServiceImpl(ScrumTaskStepRepository taskStepRepository, ScrumTaskService taskService) {
+    private final ScrumTemplateService templateService;
+    
+    public ScrumTaskStepServiceImpl(ScrumTaskStepRepository taskStepRepository, ScrumTaskService taskService,
+            ScrumTemplateService templateService) {
         this.taskStepRepository = taskStepRepository;
         this.taskService = taskService;
+        this.templateService = templateService;
     }
     
     @Override
@@ -89,7 +94,20 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         }
     }
     
+    @Override
+    public void deleteByTemplateId(Long templateId) {
+        List<ScrumTaskStep> taskSteps = taskStepRepository.findAllByTemplateId(templateId);
+        if (CollectionUtils.isNotEmpty(taskSteps)) {
+            for (ScrumTaskStep taskStep : taskSteps) {
+                deleteById(taskStep.getId());
+            }
+        }
+    }
+    
     private void checkInfo(ScrumTaskStep taskStep) {
+        if (!templateService.existsById(taskStep.getTemplateId())) {
+            throw new ServiceException("template.id.not.exist");
+        }
         ScrumTaskStep exist = taskStepRepository.findByTemplateIdAndName(taskStep.getTemplateId(), taskStep.getName());
         if (exist != null && !exist.getId().equals(taskStep.getId())) {
             throw new ServiceException("taskStep.templateId.name.exist", taskStep.getTemplateId(), taskStep.getName());

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import com.gitee.quiet.scrum.entity.ScrumPriority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 优先级repository
  *
@@ -27,5 +29,21 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ScrumPriorityRepository extends JpaRepository<ScrumPriority, Long> {
-
+    
+    /**
+     * 根据模板ID和优先级名称查询优先级信息
+     *
+     * @param templateId 模板ID
+     * @param name       优先级名称
+     * @return 优先级信息
+     */
+    ScrumPriority findByTemplateIdAndName(Long templateId, String name);
+    
+    /**
+     * 根据模板ID查询优先级信息
+     *
+     * @param templateId 模板ID
+     * @return 优先级信息
+     */
+    List<ScrumPriority> findAllByTemplateId(Long templateId);
 }

@@ -84,4 +84,13 @@ public interface ScrumTemplateService {
      * @return 模板信息
      */
     ScrumTemplate findById(Long id);
+    
+    /**
+     * 判断模板ID是否存在
+     *
+     * @param id 模板ID
+     * @return true：存在，false：不存在
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    boolean existsById(Long id);
 }

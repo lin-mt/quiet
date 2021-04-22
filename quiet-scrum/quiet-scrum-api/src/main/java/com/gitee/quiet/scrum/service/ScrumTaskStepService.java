@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,4 +76,11 @@ public interface ScrumTaskStepService {
      * @param taskSteps 任务步骤信息
      */
     void updateBatch(List<ScrumTaskStep> taskSteps);
+    
+    /**
+     * 根据模板ID删除任务步骤配置信息
+     *
+     * @param templateId 模板ID
+     */
+    void deleteByTemplateId(Long templateId);
 }
