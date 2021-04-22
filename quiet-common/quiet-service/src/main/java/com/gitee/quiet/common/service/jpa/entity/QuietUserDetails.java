@@ -70,10 +70,10 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     /**
      * 密码
      */
-    @Column(name = "secret_code", nullable = false, length = 30)
+    @Column(name = "secret_code", nullable = false, length = 60)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotEmpty(message = "{user.secretCode}{not.empty}")
-    @Length(message = "{user.secretCode}{length.max.limit}", max = 30)
+    @Length(message = "{user.secretCode}{length.max.limit}", max = 60)
     private String secretCode;
     
     /**
