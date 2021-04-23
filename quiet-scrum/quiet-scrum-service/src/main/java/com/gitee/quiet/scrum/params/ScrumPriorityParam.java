@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,5 +25,14 @@ import com.gitee.quiet.scrum.entity.ScrumPriority;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ScrumPriorityParam extends Param<ScrumPriority, ScrumPriority> {
-
+    
+    private Long templateId;
+    
+    public Long getTemplateId() {
+        return templateId;
+    }
+    
+    public void setTemplateId(Long templateId) {
+        this.templateId = templateId;
+    }
 }

@@ -66,4 +66,19 @@ public interface ScrumPriorityService {
      * @return 模板下的所有优先级信息
      */
     Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds);
+    
+    /**
+     * 批量更新优先级信息
+     *
+     * @param priorities 要更新的优先级信息
+     */
+    void updateBatch(List<ScrumPriority> priorities);
+    
+    /**
+     * 根据模板ID查询优先级配置信息
+     *
+     * @param templateId 模板ID
+     * @return 模板ID下的所有优先级配置信息
+     */
+    List<ScrumPriority> findAllByTemplateId(Long templateId);
 }

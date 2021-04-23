@@ -23,6 +23,7 @@ import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,8 +45,8 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
     
     private final ScrumDemandService demandService;
     
-    public ScrumPriorityServiceImpl(ScrumPriorityRepository priorityRepository, ScrumTemplateService templateService,
-            ScrumDemandService demandService) {
+    public ScrumPriorityServiceImpl(ScrumPriorityRepository priorityRepository,
+            @Lazy ScrumTemplateService templateService, ScrumDemandService demandService) {
         this.priorityRepository = priorityRepository;
         this.templateService = templateService;
         this.demandService = demandService;
@@ -88,12 +89,27 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
                 .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
     }
     
+    @Override
+    public void updateBatch(List<ScrumPriority> priorities) {
+        if (CollectionUtils.isNotEmpty(priorities)) {
+            for (ScrumPriority priority : priorities) {
+                checkInfo(priority);
+            }
+            priorityRepository.saveAll(priorities);
+        }
+    }
+    
+    @Override
+    public List<ScrumPriority> findAllByTemplateId(Long templateId) {
+        return priorityRepository.findAllByTemplateId(templateId);
+    }
+    
     private void checkInfo(ScrumPriority priority) {
         if (!templateService.existsById(priority.getTemplateId())) {
             throw new ServiceException("template.id.not.exist");
         }
         ScrumPriority exist = priorityRepository.findByTemplateIdAndName(priority.getTemplateId(), priority.getName());
-        if (exist == null || !exist.getId().equals(priority.getId())) {
+        if (exist != null && !exist.getId().equals(priority.getId())) {
             throw new ServiceException("priority.templateId.name.exist", priority.getTemplateId(), priority.getName());
         }
     }

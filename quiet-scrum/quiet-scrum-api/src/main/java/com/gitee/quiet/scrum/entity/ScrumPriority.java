@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -46,6 +47,7 @@ public class ScrumPriority extends SerialEntity {
     /**
      * 图标的十六进制颜色
      */
+    @ColumnDefault("#1890FF")
     @Column(name = "color_hex", length = 7)
     @Length(message = "{priority.colorHex}{length.max.limit}", max = 7)
     private String colorHex;

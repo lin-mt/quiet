@@ -23,6 +23,7 @@ import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
     private final ScrumTemplateService templateService;
     
     public ScrumTaskStepServiceImpl(ScrumTaskStepRepository taskStepRepository, ScrumTaskService taskService,
-            ScrumTemplateService templateService) {
+            @Lazy ScrumTemplateService templateService) {
         this.taskStepRepository = taskStepRepository;
         this.taskService = taskService;
         this.templateService = templateService;
@@ -90,6 +91,9 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
     @Override
     public void updateBatch(List<ScrumTaskStep> taskSteps) {
         if (CollectionUtils.isNotEmpty(taskSteps)) {
+            for (ScrumTaskStep taskStep : taskSteps) {
+                checkInfo(taskStep);
+            }
             taskStepRepository.saveAll(taskSteps);
         }
     }
