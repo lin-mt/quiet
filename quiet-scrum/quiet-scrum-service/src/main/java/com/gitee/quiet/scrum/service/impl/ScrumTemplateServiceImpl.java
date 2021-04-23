@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.service.impl;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.common.service.util.CurrentUserUtil;
+import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
@@ -75,13 +76,16 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         Long currentUserId = CurrentUserUtil.getId();
         List<ScrumTemplate> templates = templateRepository.findAllByEnableOrCreator(true, currentUserId);
         Map<Long, List<ScrumTaskStep>> templateIdToTaskSteps = new HashMap<>(templates.size());
+        Map<Long, List<ScrumPriority>> templateIdToPriorities = new HashMap<>(templates.size());
         if (CollectionUtils.isNotEmpty(templates)) {
-            templateIdToTaskSteps = taskStepService
-                    .findAllByTemplateIds(templates.stream().map(ScrumTemplate::getId).collect(Collectors.toSet()));
+            Set<Long> templateIds = templates.stream().map(ScrumTemplate::getId).collect(Collectors.toSet());
+            templateIdToTaskSteps = taskStepService.findAllByTemplateIds(templateIds);
+            templateIdToPriorities = priorityService.findAllByTemplateIds(templateIds);
         }
         AllTemplate allTemplate = new AllTemplate();
         for (ScrumTemplate template : templates) {
             template.setTaskSteps(templateIdToTaskSteps.get(template.getId()));
+            template.setPriorities(templateIdToPriorities.get(template.getId()));
             if (template.getCreator().equals(currentUserId)) {
                 allTemplate.getTemplateCreated().add(template);
             } else {

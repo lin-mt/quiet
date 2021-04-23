@@ -18,6 +18,10 @@ package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 优先级信息service.
  *
@@ -54,4 +58,12 @@ public interface ScrumPriorityService {
      * @param templateId 模板ID
      */
     void deleteByTemplateId(Long templateId);
+    
+    /**
+     * 根据模板ID集合查询模板的所有优先级配置
+     *
+     * @param templateIds 模板ID集合
+     * @return 模板下的所有优先级信息
+     */
+    Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds);
 }

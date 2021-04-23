@@ -21,6 +21,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 优先级repository
@@ -46,4 +47,12 @@ public interface ScrumPriorityRepository extends JpaRepository<ScrumPriority, Lo
      * @return 优先级信息
      */
     List<ScrumPriority> findAllByTemplateId(Long templateId);
+    
+    /**
+     * 根据模板ID集合批量查询所有的优先级配置
+     *
+     * @param templateIds 模板ID集合
+     * @return 所有优先级配置信息
+     */
+    List<ScrumPriority> findAllByTemplateIdIn(Set<Long> templateIds);
 }

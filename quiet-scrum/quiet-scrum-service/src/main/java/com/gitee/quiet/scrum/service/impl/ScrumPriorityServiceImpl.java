@@ -26,6 +26,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 迭代信息service实现类.
@@ -77,6 +80,12 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
                 deleteById(priority.getId());
             }
         }
+    }
+    
+    @Override
+    public Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds) {
+        return priorityRepository.findAllByTemplateIdIn(templateIds).stream()
+                .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
     }
     
     private void checkInfo(ScrumPriority priority) {
