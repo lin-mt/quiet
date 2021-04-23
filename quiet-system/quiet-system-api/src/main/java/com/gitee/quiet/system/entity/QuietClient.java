@@ -75,12 +75,12 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     private Set<String> resourceIds;
     
     @ColumnDefault("0")
-    @Column(name = "secret_required", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "secret_required", columnDefinition = "TINYINT(1)")
     @NotNull(message = "{client.secretRequired}{not.null}")
     private Boolean secretRequired;
     
     @ColumnDefault("0")
-    @Column(name = "scoped", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "scoped", columnDefinition = "TINYINT(1)")
     @NotNull(message = "{client.scoped}{not.null}")
     private Boolean scoped;
     
