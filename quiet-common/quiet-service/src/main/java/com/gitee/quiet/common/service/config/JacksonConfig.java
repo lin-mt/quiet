@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.common.service.config;
 
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.gitee.quiet.common.service.json.JacksonConfigBasePackage;
@@ -25,7 +24,6 @@ import com.gitee.quiet.common.service.json.filter.JsonFilterName;
 import com.gitee.quiet.common.service.json.module.QuietSimpleModule;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,13 +45,9 @@ public class JacksonConfig {
         this.objectMapper = objectMapper;
     }
     
-    @Bean
-    public Module module() {
-        return new QuietSimpleModule();
-    }
-    
     @PostConstruct
     public void postConstruct() {
+        objectMapper.registerModule(new QuietSimpleModule());
         SimpleFilterProvider filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter(JsonFilterName.HAS_ROLE, new HasRoleAnnotationFilter());
         objectMapper.setFilterProvider(filterProvider);
