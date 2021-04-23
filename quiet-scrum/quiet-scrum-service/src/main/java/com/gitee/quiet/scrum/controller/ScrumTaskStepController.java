@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,12 +82,24 @@ public class ScrumTaskStepController {
         return Result.deleteSuccess();
     }
     
+    /**
+     * 批量更新任务步骤
+     *
+     * @param param :updateBatch 批量更新的步骤信息
+     * @return 更新结果
+     */
     @PostMapping("/updateBatch")
     public Result<Object> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumTaskStepParam param) {
         taskStepService.updateBatch(param.getUpdateBatch());
         return Result.success();
     }
     
+    /**
+     * 根据模板ID查询该模板ID下的所有任务步骤配置信息
+     *
+     * @param param 模板ID
+     * @return 模板下的所有任务步骤配置信息
+     */
     @PostMapping("getAllByTemplateId")
     public Result<List<ScrumTaskStep>> getAllByTemplateId(@RequestBody ScrumTaskStepParam param) {
         if (param.getTemplateId() == null) {
