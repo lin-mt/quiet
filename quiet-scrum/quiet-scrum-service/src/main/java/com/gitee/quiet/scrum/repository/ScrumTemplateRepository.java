@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ public interface ScrumTemplateRepository extends JpaRepository<ScrumTemplate, Lo
     /**
      * 查询启用的或者创建者为 creator 的模板信息
      *
-     * @param enable  是否启用
+     * @param enabled 是否启用
      * @param creator 创建者ID
      * @return 是否启用为enable或者创建者为creator创建模板信息
      */
-    List<ScrumTemplate> findAllByEnableOrCreator(boolean enable, Long creator);
+    List<ScrumTemplate> findAllByEnabledOrCreator(boolean enabled, Long creator);
     
     /**
      * 根据模板名称查找模板信息

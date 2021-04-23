@@ -74,7 +74,7 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     @Override
     public AllTemplate allTemplates() {
         Long currentUserId = CurrentUserUtil.getId();
-        List<ScrumTemplate> templates = templateRepository.findAllByEnableOrCreator(true, currentUserId);
+        List<ScrumTemplate> templates = templateRepository.findAllByEnabledOrCreator(true, currentUserId);
         Map<Long, List<ScrumTaskStep>> templateIdToTaskSteps = new HashMap<>(templates.size());
         Map<Long, List<ScrumPriority>> templateIdToPriorities = new HashMap<>(templates.size());
         if (CollectionUtils.isNotEmpty(templates)) {

@@ -47,17 +47,17 @@ public class ScrumTemplate extends BaseEntity {
     private String name;
     
     /**
-     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
-     */
-    @ColumnDefault("0")
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private Boolean enable;
-    
-    /**
      * 模板中的任务步骤
      */
     @Transient
     List<ScrumTaskStep> taskSteps;
+    
+    /**
+     * 模板备注信息
+     */
+    @Column(name = "remark", length = 30)
+    @Length(message = "{template.remark}{length.max.limit}", max = 30)
+    private String remark;
     
     /**
      * 模板中的优先级配置
@@ -66,11 +66,11 @@ public class ScrumTemplate extends BaseEntity {
     List<ScrumPriority> priorities;
     
     /**
-     * 模板备注信息
+     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
-    @Column(name = "remark", length = 30)
-    @Length(message = "{template.remark}{length.max.limit}", max = 30)
-    private String remark;
+    @ColumnDefault("0")
+    @Column(name = "enabled", columnDefinition = "TINYINT(1)")
+    private Boolean enabled;
     
     public String getName() {
         return name;
@@ -80,12 +80,12 @@ public class ScrumTemplate extends BaseEntity {
         this.name = name;
     }
     
-    public Boolean getEnable() {
-        return enable;
+    public Boolean getEnabled() {
+        return enabled;
     }
     
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
     
     public String getRemark() {
