@@ -103,7 +103,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      */
     @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "account_expired", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "account_expired", columnDefinition = "TINYINT(1)")
     private Boolean accountExpired;
     
     /**
@@ -111,7 +111,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      */
     @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "account_locked", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "account_locked", columnDefinition = "TINYINT(1)")
     private Boolean accountLocked;
     
     /**
@@ -119,7 +119,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      */
     @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "credentials_expired", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "credentials_expired", columnDefinition = "TINYINT(1)")
     private Boolean credentialsExpired;
     
     /**
@@ -127,7 +127,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
      */
     @ColumnDefault("0")
     @JsonHasRole(RoleNames.Admin)
-    @Column(name = "enabled", columnDefinition = "TINYINT(1)", nullable = false)
+    @Column(name = "enabled", columnDefinition = "TINYINT(1)")
     private Boolean enabled;
     
     /**
