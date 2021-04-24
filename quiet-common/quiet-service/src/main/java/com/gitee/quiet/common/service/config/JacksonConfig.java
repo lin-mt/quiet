@@ -22,12 +22,10 @@ import com.gitee.quiet.common.service.json.JacksonConfigBasePackage;
 import com.gitee.quiet.common.service.json.filter.HasRoleAnnotationFilter;
 import com.gitee.quiet.common.service.json.filter.JsonFilterName;
 import com.gitee.quiet.common.service.json.module.QuietSimpleModule;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 /**
  * Jackson配置类.
@@ -35,21 +33,16 @@ import javax.annotation.PostConstruct;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Configuration
-@AutoConfigureAfter(JacksonAutoConfiguration.class)
 @ComponentScan(basePackageClasses = JacksonConfigBasePackage.class)
 public class JacksonConfig {
     
-    private final ObjectMapper objectMapper;
-    
-    public JacksonConfig(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-    
-    @PostConstruct
-    public void postConstruct() {
+    @Bean
+    public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
+        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         objectMapper.registerModule(new QuietSimpleModule());
         SimpleFilterProvider filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter(JsonFilterName.HAS_ROLE, new HasRoleAnnotationFilter());
         objectMapper.setFilterProvider(filterProvider);
+        return objectMapper;
     }
 }
