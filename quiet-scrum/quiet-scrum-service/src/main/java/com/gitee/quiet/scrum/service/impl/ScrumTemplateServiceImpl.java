@@ -147,6 +147,14 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         return templateRepository.existsById(id);
     }
     
+    @Override
+    public ScrumTemplate templateInfo(Long id) {
+        ScrumTemplate template = findById(id);
+        template.setTaskSteps(taskStepService.findAllByTemplateId(id));
+        template.setPriorities(priorityService.findAllByTemplateId(id));
+        return template;
+    }
+    
     public void checkInfo(@NotNull ScrumTemplate template) {
         ScrumTemplate exist = templateRepository.findByName(template.getName());
         if (exist != null && !exist.getName().equals(template.getName())) {

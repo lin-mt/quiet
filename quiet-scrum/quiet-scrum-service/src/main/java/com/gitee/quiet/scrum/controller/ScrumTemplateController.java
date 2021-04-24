@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.IdNotNull;
 import com.gitee.quiet.common.validation.group.curd.Create;
 import com.gitee.quiet.common.validation.group.curd.Update;
 import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
@@ -55,6 +56,17 @@ public class ScrumTemplateController {
     @PostMapping("/allTemplates")
     public Result<AllTemplate> allTemplates() {
         return Result.success(templateService.allTemplates());
+    }
+    
+    /**
+     * 获取模板信息
+     *
+     * @param param :id 模板ID
+     * @return 模板信息
+     */
+    @PostMapping("/templateInfo")
+    public Result<ScrumTemplate> templateInfo(@RequestBody @Validated(IdNotNull.class) ScrumTemplateParam param) {
+        return Result.success(templateService.templateInfo(param.getId()));
     }
     
     /**

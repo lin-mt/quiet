@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright 2021. lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,4 +55,12 @@ public interface ScrumTaskStepRepository extends JpaRepository<ScrumTaskStep, Lo
      * @return 所有任务步骤信息
      */
     List<ScrumTaskStep> findAllByTemplateIdIn(Set<Long> templateIds);
+    
+    /**
+     * 根据模板ID统计该模板下任务有多少步骤
+     *
+     * @param templateId 模板ID
+     * @return 任务步骤数
+     */
+    long countByTemplateId(Long templateId);
 }

@@ -93,4 +93,12 @@ public interface ScrumTemplateService {
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean existsById(Long id);
+    
+    /**
+     * 查询模板信息，包含步骤配置和优先级配置信息
+     *
+     * @param id 模板ID
+     * @return 模板信息
+     */
+    ScrumTemplate templateInfo(Long id);
 }

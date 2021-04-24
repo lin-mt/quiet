@@ -18,6 +18,7 @@ package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskStepRepository;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
@@ -85,7 +86,13 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         if (CollectionUtils.isNotEmpty(taskService.findAllByTaskStepId(id))) {
             throw new ServiceException("taskStep.hasTask.can.not.delete");
         }
+        ScrumTaskStep delete = taskStepRepository.getOne(id);
         taskStepRepository.deleteById(id);
+        if (taskStepRepository.countByTemplateId(delete.getTemplateId()) == 0) {
+            ScrumTemplate template = templateService.findById(delete.getTemplateId());
+            template.setEnabled(false);
+            templateService.update(template);
+        }
     }
     
     @Override
