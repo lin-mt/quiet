@@ -79,12 +79,20 @@ public interface ScrumProjectService {
     long countByTemplateId(@NotNull Long templateId);
     
     /**
-     * 获取项目的详细信息
+     * 获取项目的详细信息，包含团队信息以及版本、迭代信息
      *
      * @param id 项目ID
      * @return 项目详细信息
      */
     ScrumProjectDetail getDetail(@NotNull Long id);
+    
+    /**
+     * 根据项目ID获取项目信息
+     *
+     * @param id 项目ID
+     * @return 项目信息
+     */
+    ScrumProject findById(@NotNull Long id);
     
     /**
      * 根据项目ID获取项目信息

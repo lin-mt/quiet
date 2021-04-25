@@ -193,8 +193,10 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     @Override
     public ScrumProjectDetail getDetail(Long id) {
         ScrumProjectDetail projectDetail = new ScrumProjectDetail();
-        projectDetail.setProject(
-                projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id)));
+        ScrumProject project = findById(id);
+        QuietUser manager = quietUserService.findById(project.getManager());
+        project.setManagerName(manager.getFullName());
+        projectDetail.setProject(project);
         Set<Long> teamIds = projectTeamService.findAllByProjectIds(Set.of(id)).stream().map(ScrumProjectTeam::getTeamId)
                 .collect(Collectors.toSet());
         projectDetail.setTeams(quietTeamService.findAllByIdsIncludeMembers(teamIds));
@@ -203,9 +205,13 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     }
     
     @Override
+    public ScrumProject findById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+    }
+    
+    @Override
     public ScrumProject projectInfo(Long id) {
-        ScrumProject scrumProject = projectRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+        ScrumProject scrumProject = findById(id);
         QuietUser user = quietUserService.findById(scrumProject.getManager());
         scrumProject.setManagerName(user.getFullName());
         Set<Long> teamIds = projectTeamService.findAllByProjectIds(Set.of(id)).stream().map(ScrumProjectTeam::getTeamId)
