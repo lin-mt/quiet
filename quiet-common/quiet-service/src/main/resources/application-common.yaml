@@ -1,6 +1,5 @@
 spring:
   jackson:
-    date-format: 'yyyy-MM-dd HH:mm:ss'
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
     locale: zh_CN
