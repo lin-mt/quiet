@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.IdNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.IdValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.params.ScrumTemplateParam;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
@@ -65,7 +65,7 @@ public class ScrumTemplateController {
      * @return 模板信息
      */
     @PostMapping("/templateInfo")
-    public Result<ScrumTemplate> templateInfo(@RequestBody @Validated(IdNotNull.class) ScrumTemplateParam param) {
+    public Result<ScrumTemplate> templateInfo(@RequestBody @Validated(IdValid.class) ScrumTemplateParam param) {
         return Result.success(templateService.templateInfo(param.getId()));
     }
     

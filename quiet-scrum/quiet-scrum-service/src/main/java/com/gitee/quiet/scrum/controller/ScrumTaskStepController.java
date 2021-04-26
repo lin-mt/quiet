@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.batch.UpdateBatch;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.batch.UpdateBatch;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.params.ScrumTaskStepParam;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;

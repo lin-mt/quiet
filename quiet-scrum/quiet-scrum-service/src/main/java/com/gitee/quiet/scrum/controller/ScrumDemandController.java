@@ -17,9 +17,10 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.ParamsNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.param.OffsetValid;
+import com.gitee.quiet.common.validation.group.param.ParamsValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.common.validation.util.ValidationUtils;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.params.ScrumDemandParam;
@@ -46,6 +47,12 @@ public class ScrumDemandController {
     
     public ScrumDemandController(ScrumDemandService demandService) {
         this.demandService = demandService;
+    }
+    
+    @PostMapping("/scrollUnplanned")
+    public Result<List<ScrumDemand>> scrollUnplanned(
+            @RequestBody @Validated(OffsetValid.class) ScrumDemandParam param) {
+        return null;
     }
     
     /**
@@ -78,7 +85,7 @@ public class ScrumDemandController {
      */
     @PostMapping("/findAllByIteration")
     public Result<List<ScrumDemand>> findAllByIteration(
-            @RequestBody @Validated(ParamsNotNull.class) ScrumDemandParam param) {
+            @RequestBody @Validated(ParamsValid.class) ScrumDemandParam param) {
         ValidationUtils.notNull(param.getParams().getIterationId(), "demand.iterationId.can.notNull");
         return Result.success(demandService.findAllByIteration(param.getParams().getIterationId()));
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.enums.BuildTool;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.system.entity.QuietTeam;
 import org.hibernate.validator.constraints.Length;
 

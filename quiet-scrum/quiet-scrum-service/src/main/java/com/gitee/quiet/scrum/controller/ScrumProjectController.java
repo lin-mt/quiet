@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.IdNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.IdValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.params.ScrumProjectParam;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
@@ -55,7 +55,7 @@ public class ScrumProjectController {
      * @return 项目信息
      */
     @PostMapping("/projectInfo")
-    public Result<ScrumProject> projectInfo(@RequestBody @Validated(IdNotNull.class) ScrumProjectParam param) {
+    public Result<ScrumProject> projectInfo(@RequestBody @Validated(IdValid.class) ScrumProjectParam param) {
         return Result.success(projectService.projectInfo(param.getId()));
     }
     
@@ -66,7 +66,7 @@ public class ScrumProjectController {
      * @return 项目详细信息
      */
     @PostMapping("/detail")
-    public Result<ScrumProjectDetail> detail(@RequestBody @Validated(IdNotNull.class) ScrumProjectParam param) {
+    public Result<ScrumProjectDetail> detail(@RequestBody @Validated(IdValid.class) ScrumProjectParam param) {
         return Result.success(projectService.getDetail(param.getId()));
     }
     
