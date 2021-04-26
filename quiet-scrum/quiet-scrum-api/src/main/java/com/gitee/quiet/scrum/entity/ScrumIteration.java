@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -38,17 +38,16 @@ public class ScrumIteration extends SerialEntity {
     /**
      * 迭代名称
      */
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "iteration_name", nullable = false, length = 30)
-    @Length(message = "{iteration.name}{length.max.limit}", max = 30)
-    @NotNull(message = "{iteration.name}{not.null}")
-    @NotEmpty(message = "{iteration.name}{not.empty}")
     private String name;
     
     /**
      * 所属版本ID
      */
+    @NotNull
     @Column(name = "version_id", nullable = false)
-    @NotNull(message = "{iteration.versionId}{not.null}")
     private Long versionId;
     
     /**
@@ -66,8 +65,8 @@ public class ScrumIteration extends SerialEntity {
     /**
      * 备注信息
      */
+    @Length(max = 1000)
     @Column(name = "remark", nullable = false, length = 1000)
-    @Length(message = "{iteration.remark}{length.max.limit}", max = 1000)
     private String remark;
     
     public String getName() {

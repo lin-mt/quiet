@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -40,45 +40,44 @@ public class ScrumTask extends SerialEntity {
     /**
      * 任务标题
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "title", nullable = false, length = 10)
-    @Length(message = "{task.title}{length.max.limit}", max = 10)
-    @NotNull(message = "{task.title}{not.null}")
-    @NotEmpty(message = "{task.title}{not.empty}")
     private String title;
     
     /**
      * 所属需求ID
      */
+    @NotNull
     @Column(name = "demand_id", nullable = false)
-    @NotNull(message = "{task.demandId}{not.null}")
     private Long demandId;
     
     /**
      * 任务的当前步骤ID
      */
+    @NotNull
     @Column(name = "task_step_id", nullable = false)
-    @NotNull(message = "{task.taskStepId}{not.null}")
     private Long taskStepId;
     
     /**
      * 执行者
      */
+    @NotNull
     @Column(name = "executor_id", nullable = false)
-    @NotNull(message = "{task.executorId}{not.null}")
     private Long executorId;
     
     /**
      * 参与者（最多20人参与）
      */
+    @Size(max = 20)
     @Column(name = "participant", length = 380)
-    @Size(message = "{task.participant}{size.max.limit}", max = 20)
     private Set<Long> participant;
     
     /**
      * 前置任务
      */
+    @Size(max = 20)
     @Column(name = "pre_task", length = 380)
-    @Size(message = "{task.preTask}{size.max.limit}", max = 20)
     private Set<Long> preTask;
     
     /**
@@ -96,8 +95,8 @@ public class ScrumTask extends SerialEntity {
     /**
      * 任务备注信息
      */
+    @Length(max = 3000)
     @Column(name = "remark", length = 3000)
-    @Length(message = "{task.remark}{length.max.limit}", max = 3000)
     private String remark;
     
     public String getTitle() {

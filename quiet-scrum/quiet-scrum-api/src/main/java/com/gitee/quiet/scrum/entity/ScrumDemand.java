@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -44,17 +44,16 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     /**
      * 需求标题
      */
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "title", nullable = false, length = 30)
-    @Length(message = "{demand.title}{length.max.limit}", max = 30)
-    @NotNull(message = "{demand.title}{not.null}")
-    @NotEmpty(message = "{demand.title}{not.empty}")
     private String title;
     
     /**
      * 需求类型
      */
+    @NotNull
     @Column(name = "demand_type", nullable = false, length = 60)
-    @NotNull(message = "{demand.type}{not.null}")
     private Dictionary type;
     
     /**
@@ -66,8 +65,8 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     /**
      * 项目ID
      */
+    @NotNull
     @Column(name = "project_id", nullable = false)
-    @NotNull(message = "{demand.projectId}{not.null}")
     private Long projectId;
     
     /**
@@ -85,8 +84,8 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     /**
      * 优先级ID
      */
+    @NotNull
     @Column(name = "priority_id", nullable = false)
-    @NotNull(message = "{demand.priorityId}{not.null}")
     private Long priorityId;
     
     /**
@@ -104,8 +103,8 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
     /**
      * 备注信息
      */
+    @Length(max = 3000)
     @Column(name = "remark", length = 3000)
-    @Length(message = "{demand.remark}{length.max.limit}", max = 3000)
     private String remark;
     
     public String getTitle() {

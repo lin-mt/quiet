@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,17 +40,16 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     /**
      * 版本名称
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "version_name", nullable = false, length = 10)
-    @Length(message = "{version.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{version.name}{not.null}")
-    @NotEmpty(message = "{version.name}{not.empty}")
     private String name;
     
     /**
      * 所属项目ID
      */
+    @NotNull
     @Column(name = "project_id", nullable = false)
-    @NotNull(message = "{version.projectId}{not.null}")
     private Long projectId;
     
     /**
@@ -68,10 +67,9 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     /**
      * 版本备注信息
      */
+    @NotBlank
+    @Length(max = 1500)
     @Column(name = "remark", nullable = false, length = 1500)
-    @Length(message = "{version.remark}{length.max.limit}", max = 1500)
-    @NotNull(message = "{version.remark}{not.null}")
-    @NotEmpty(message = "{version.remark}{not.empty}")
     private String remark;
     
     /**

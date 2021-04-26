@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -37,24 +37,23 @@ public class ScrumTaskStep extends SerialEntity {
     /**
      * 步骤名称
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "step_name", nullable = false, length = 10)
-    @Length(message = "{taskStep.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{taskStep.name}{not.null}")
-    @NotEmpty(message = "{taskStep.name}{not.empty}")
     private String name;
     
     /**
      * 所属模板ID
      */
+    @NotNull
     @Column(name = "template_id", nullable = false)
-    @NotNull(message = "{taskStep.templateId}{not.null}")
     private Long templateId;
     
     /**
      * 步骤备注信息
      */
+    @Length(max = 30)
     @Column(name = "remark", length = 30)
-    @Length(message = "{taskStep.remark}{length.max.limit}", max = 30)
     private String remark;
     
     public String getName() {

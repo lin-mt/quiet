@@ -35,14 +35,14 @@ public class ScrumProjectTeam extends BaseEntity {
     /**
      * 项目ID
      */
-    @NotNull(message = "{projectTeam.projectId}{not.null}")
+    @NotNull
     @Column(name = "project_id", nullable = false)
     private Long projectId;
     
     /**
      * 团队ID
      */
-    @NotNull(message = "{projectTeam.teamId}{not.null}")
+    @NotNull
     @Column(name = "team_id", nullable = false)
     private Long teamId;
     

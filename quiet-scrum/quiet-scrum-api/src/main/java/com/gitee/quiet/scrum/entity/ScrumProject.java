@@ -18,8 +18,6 @@ package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.enums.BuildTool;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.system.entity.QuietTeam;
 import org.hibernate.validator.constraints.Length;
 
@@ -29,6 +27,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -48,44 +47,44 @@ public class ScrumProject extends SerialEntity {
     /**
      * 项目名称
      */
-    @NotNull(message = "{project.name}{not.null}")
-    @Length(max = 30, message = "{project.name.length}{length.max.limit}")
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "project_name", nullable = false, length = 30)
     private String name;
     
     /**
      * 项目经理
      */
-    @NotNull(message = "{project.manager}{not.null}")
+    @NotNull
     @Column(name = "manager", nullable = false)
     private Long manager;
     
     /**
      * 项目描述信息
      */
-    @Length(max = 100, message = "{project.description.length}{length.max.limit}")
+    @Length(max = 100)
     @Column(name = "project_description", length = 100)
     private String description;
     
     /**
      * 需求前缀
      */
-    @Length(max = 6, message = "{project.demandPrefix.length}{length.max.limit}")
+    @Length(max = 6)
     @Column(name = "demand_prefix", length = 6)
     private String demandPrefix;
     
     /**
      * 任务前缀
      */
-    @Length(max = 6, message = "{project.taskPrefix.length}{length.max.limit}")
+    @Length(max = 6)
     @Column(name = "task_prefix", length = 6)
     private String taskPrefix;
     
     /**
      * 模板ID
      */
+    @NotNull
     @Column(name = "template_id")
-    @NotNull(message = "{project.templateId}{not.null}")
     private Long templateId;
     
     /**
@@ -110,8 +109,8 @@ public class ScrumProject extends SerialEntity {
     /**
      * 负责的团队ID集合
      */
+    @NotEmpty
     @Transient
-    @NotEmpty(groups = {Create.class, Update.class}, message = "{project.teamIds}{not.empty}")
     private Set<Long> teamIds;
     
     /**

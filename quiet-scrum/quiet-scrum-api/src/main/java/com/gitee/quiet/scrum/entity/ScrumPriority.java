@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -38,32 +38,31 @@ public class ScrumPriority extends SerialEntity {
     /**
      * 优先级名称
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "priority_name", nullable = false, length = 10)
-    @Length(message = "{priority.name}{length.max.limit}", max = 10)
-    @NotNull(message = "{priority.name}{not.null}")
-    @NotEmpty(message = "{priority.name}{not.empty}")
     private String name;
     
     /**
      * 图标的十六进制颜色
      */
+    @Length(max = 7)
     @ColumnDefault("#1890FF")
     @Column(name = "color_hex", length = 7)
-    @Length(message = "{priority.colorHex}{length.max.limit}", max = 7)
     private String colorHex;
     
     /**
      * 模板ID
      */
+    @NotNull
     @Column(name = "template_id", nullable = false)
-    @NotNull(message = "{priority.templateId}{not.null}")
     private Long templateId;
     
     /**
      * 备注信息
      */
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(message = "{priority.remark}{length.max.limit}", max = 100)
     private String remark;
     
     public String getName() {
