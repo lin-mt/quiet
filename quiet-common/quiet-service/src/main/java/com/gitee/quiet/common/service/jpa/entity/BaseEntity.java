@@ -56,8 +56,8 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
     
     @Id
-    @Null(groups = Create.class, message = "id {null}")
-    @NotNull(groups = Update.class, message = "id {not.null}")
+    @Null(groups = Create.class)
+    @NotNull(groups = Update.class)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SnowFlakeIdGenerator")
     @GenericGenerator(name = "SnowFlakeIdGenerator", strategy = "com.gitee.quiet.common.service.id.SnowFlakeIdGenerator")

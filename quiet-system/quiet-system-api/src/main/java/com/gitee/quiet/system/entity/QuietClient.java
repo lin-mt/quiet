@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,8 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -54,34 +55,34 @@ import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
 @Table(name = "quiet_client")
 public class QuietClient extends BaseEntity implements ClientDetails {
     
+    @NotBlank
+    @Length(max = 20)
     @Column(name = "client_id", length = 20, nullable = false, unique = true)
-    @NotEmpty(message = "{client.clientId}{not.empty}")
-    @Length(max = 20, message = "{client.clientId}{length.max.limit}")
     private String clientId;
     
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "client_name", length = 30, nullable = false)
-    @NotEmpty(message = "{client.clientName}{not.empty}")
-    @Length(max = 30, message = "{client.clientName}{length.max.limit}")
     private String clientName;
     
+    @NotBlank
+    @Length(max = 60)
     @Column(name = "client_secret", length = 60, nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotEmpty(message = "{client.clientSecret}{not.empty}")
-    @Length(max = 60, message = "{client.clientSecret}{length.max.limit}")
     private String clientSecret;
     
     @Column(name = "resource_ids", length = 60)
     @Convert(converter = SetStringConverter.class)
     private Set<String> resourceIds;
     
+    @NotNull
     @ColumnDefault("0")
     @Column(name = "secret_required", columnDefinition = "TINYINT(1)")
-    @NotNull(message = "{client.secretRequired}{not.null}")
     private Boolean secretRequired;
     
+    @NotNull
     @ColumnDefault("0")
     @Column(name = "scoped", columnDefinition = "TINYINT(1)")
-    @NotNull(message = "{client.scoped}{not.null}")
     private Boolean scoped;
     
     @Column(name = "scope")
@@ -96,21 +97,23 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Convert(converter = SetStringConverter.class)
     private Set<String> registeredRedirectUri;
     
+    @Min(0)
+    @NotNull
     @Column(name = "access_token_validity_seconds")
-    @NotNull(message = "{client.accessTokenValiditySeconds}{not.null}")
     private Integer accessTokenValiditySeconds;
     
+    @Min(0)
+    @NotNull
     @Column(name = "refresh_token_validity_seconds")
-    @NotNull(message = "{client.refreshTokenValiditySeconds}{not.null}")
     private Integer refreshTokenValiditySeconds;
     
+    @NotNull
     @ColumnDefault("0")
     @Column(name = "auto_approve", columnDefinition = "TINYINT(1)", nullable = false)
-    @NotNull(message = "{client.autoApprove}{not.null}")
     private Boolean autoApprove;
     
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{client.remark}{length.max.limit}")
     private String remark;
     
     @Override

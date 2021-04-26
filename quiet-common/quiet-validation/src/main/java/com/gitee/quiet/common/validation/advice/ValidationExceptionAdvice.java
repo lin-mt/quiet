@@ -62,9 +62,7 @@ public class ValidationExceptionAdvice {
             List<ObjectError> errors = e.getBindingResult().getAllErrors();
             for (ObjectError error : errors) {
                 if (error instanceof FieldError) {
-                    String fieldName = ((FieldError) error).getField();
-                    errorMsg.append(fieldName);
-                    errorMsg.append(" ");
+                    errorMsg.append(((FieldError) error).getField());
                 } else {
                     LOGGER.error("错误类型异常未处理：{}", error.getClass());
                 }

@@ -22,7 +22,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 /**
  * QuietGrantedAuthority.
@@ -36,9 +36,9 @@ public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends P
     /**
      * 角色名称
      */
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "role_name", nullable = false, length = 30)
-    @NotEmpty(message = "{role.roleName}{not.empty}")
-    @Length(max = 30, message = "{role.roleName}{length.max.limit}")
     private String roleName;
     
     @Override

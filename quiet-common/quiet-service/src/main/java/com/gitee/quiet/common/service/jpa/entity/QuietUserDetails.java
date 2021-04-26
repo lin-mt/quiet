@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
@@ -48,32 +48,33 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     /**
      * 用户名
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "username", nullable = false, length = 10)
-    @NotEmpty(message = "{user.username}{not.empty}")
-    @Length(max = 10, message = "{user.username}{length.max.limit}")
     private String username;
     
     /**
      * 全名（姓名）
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "full_name", nullable = false, length = 10)
-    @NotEmpty(message = "{user.fullName}{not.empty}")
-    @Length(max = 10, message = "{user.fullName}{length.max.limit}")
     private String fullName;
     
     /**
      * 头像地址
      */
+    @Length(max = 100)
     @Column(name = "avatar", length = 100)
     private String avatar;
     
     /**
      * 密码
      */
+    @NotBlank
+    @Length(max = 60)
     @Column(name = "secret_code", nullable = false, length = 60)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotEmpty(message = "{user.secretCode}{not.empty}")
-    @Length(message = "{user.secretCode}{length.max.limit}", max = 60)
     private String secretCode;
     
     /**
@@ -94,7 +95,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     /**
      * 邮箱地址
      */
-    @Email(message = "{user.email.address}")
+    @Email
     @Column(name = "email_address", length = 100)
     private String emailAddress;
     

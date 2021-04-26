@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.QuietGrantedAuthority;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.QuietGrantedAuthority;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,7 +26,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 import static com.gitee.quiet.system.entity.QQuietRole.quietRole;
 
@@ -42,16 +42,16 @@ public class QuietRole extends QuietGrantedAuthority<QuietRole> {
     /**
      * 角色中文名
      */
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "role_cn_name", nullable = false, length = 30)
-    @NotEmpty(message = "{role.roleCnName}{not.empty}")
-    @Length(max = 30, message = "{role.roleCnName}{length.max.limit}")
     private String roleCnName;
     
     /**
      * 备注
      */
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{role.remark}{length.max.limit}")
     private String remark;
     
     /**

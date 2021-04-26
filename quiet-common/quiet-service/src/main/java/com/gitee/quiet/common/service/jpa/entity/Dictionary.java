@@ -18,8 +18,6 @@ package com.gitee.quiet.common.service.jpa.entity;
 
 import com.gitee.quiet.common.service.base.TypeKey;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.querydsl.core.annotations.QueryEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
@@ -27,7 +25,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -42,23 +40,23 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     /**
      * 数据字典类型
      */
+    @Length(max = 30)
     @Column(name = "dictionary_type", nullable = false, length = 30)
-    @Length(max = 30, message = "{dictionary.type}{length.max.limit}")
     private String type;
     
     /**
      * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
      */
+    @Length(max = 30)
     @Column(name = "dictionary_key", length = 30)
-    @Length(max = 30, message = "{dictionary.key}{length.max.limit}")
     private String key;
     
     /**
      * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
      */
-    @NotNull(groups = {Create.class, Update.class}, message = "{dictionary.label}{not.null}")
+    @NotBlank
+    @Length(max = 30)
     @Column(name = "label", nullable = false, length = 30)
-    @Length(max = 30, message = "{dictionary.label}{length.max.limit}")
     private String label;
     
     /**

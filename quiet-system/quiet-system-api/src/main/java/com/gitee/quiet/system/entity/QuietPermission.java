@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
@@ -42,38 +42,39 @@ public class QuietPermission extends BaseEntity {
     /**
      * 应用名称
      */
+    @NotBlank
+    @Length(max = 100)
     @Column(name = "application_name", nullable = false, length = 100)
-    @NotEmpty(message = "{permission.applicationName}{not.empty}")
-    @Length(max = 100, message = "{permission.applicationName}{length.max.limit}")
     private String applicationName;
     
     /**
      * URL 匹配规则
      */
+    @NotBlank
+    @Length(max = 100)
     @Column(name = "url_pattern", length = 100)
-    @NotEmpty(message = "{permission.urlPattern}{not.empty}")
-    @Length(max = 100, message = "{permission.urlPattern}{length.max.limit}")
     private String urlPattern;
     
     /**
      * 请求方法
      */
+    @NotBlank
+    @Length(max = 7)
     @Column(name = "request_method", length = 7)
-    @Length(max = 7, message = "{permission.requestMethod}{length.max.limit}")
     private String requestMethod;
     
     /**
      * 角色ID
      */
+    @NotNull
     @Column(name = "role_id", nullable = false)
-    @NotNull(message = "{permission.roleId}{not.null}")
     private Long roleId;
     
     /**
      * 备注
      */
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{permission.remark}{length.max.limit}")
     private String remark;
     
     public String getApplicationName() {
