@@ -17,8 +17,8 @@
 package com.gitee.quiet.common.service.config;
 
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,14 +34,15 @@ public class MessageSourceConfig {
     public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
     
     @Bean
-    @ConditionalOnMissingBean(value = MessageSourceProperties.class)
+    @ConfigurationProperties(prefix = "spring.messages")
     public MessageSourceProperties messageSourceProperties() {
         return new MessageSourceProperties();
     }
     
     @Bean(QUIET_COMMON_MESSAGE_SOURCE)
     public MessageSource commonMessageSource(MessageSourceProperties properties) {
-        return MessageSourceUtil.buildMessageSource(properties, "quiet-common");
+        properties.setBasename("quiet-common");
+        return MessageSourceUtil.buildMessageSource(properties);
     }
     
 }

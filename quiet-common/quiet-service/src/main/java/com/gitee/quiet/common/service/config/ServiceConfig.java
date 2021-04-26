@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package com.gitee.quiet.common.service.config;
 
 import com.gitee.quiet.common.base.constant.RoleNames;
-import com.gitee.quiet.common.service.advice.QuietAdvice;
+import com.gitee.quiet.common.service.advice.QuietAdviceBasePackage;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
@@ -38,7 +38,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @Configuration
 @EnableDiscoveryClient
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
-@ComponentScan(basePackageClasses = QuietAdvice.class)
+@ComponentScan(basePackageClasses = QuietAdviceBasePackage.class)
 @EnableConfigurationProperties(IdGeneratorProperties.class)
 public class ServiceConfig {
     
