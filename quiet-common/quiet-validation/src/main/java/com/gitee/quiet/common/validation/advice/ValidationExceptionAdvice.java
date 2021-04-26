@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import com.gitee.quiet.common.validation.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,11 +57,17 @@ public class ValidationExceptionAdvice {
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public Result<Object> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-        ValidationExceptionAdvice.LOGGER.error("参数校验异常", e);
         StringBuilder errorMsg = new StringBuilder();
         if (e.getBindingResult().hasErrors()) {
             List<ObjectError> errors = e.getBindingResult().getAllErrors();
             for (ObjectError error : errors) {
+                if (error instanceof FieldError) {
+                    String fieldName = ((FieldError) error).getField();
+                    errorMsg.append(fieldName);
+                    errorMsg.append(" ");
+                } else {
+                    LOGGER.error("错误类型异常未处理：{}", error.getClass());
+                }
                 errorMsg.append(error.getDefaultMessage()).append(";");
             }
         }

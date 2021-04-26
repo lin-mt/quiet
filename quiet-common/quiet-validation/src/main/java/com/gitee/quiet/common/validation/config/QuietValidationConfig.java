@@ -40,7 +40,7 @@ public class QuietValidationConfig {
     
     @Bean(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
     public MessageSource messageSource(MessageSourceProperties properties) {
-        properties.setBasename("quiet-validation,validation");
+        properties.setBasename("quiet-validation,validation,ValidationMessages");
         return MessageSourceUtil.buildMessageSource(properties);
     }
     

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group;
+package com.gitee.quiet.common.validation.group.param;
 
 /**
  * Id 不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface IdNotNull {
+public interface IdValid {
 
 }

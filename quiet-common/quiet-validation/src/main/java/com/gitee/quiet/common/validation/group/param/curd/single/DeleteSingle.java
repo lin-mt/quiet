@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.curd.batch;
-
-import javax.validation.groups.Default;
+package com.gitee.quiet.common.validation.group.param.curd.single;
 
 /**
- * 批量更新.
+ * 删除一条数据.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface UpdateBatch extends Default {
-    
+public interface DeleteSingle {
+
 }

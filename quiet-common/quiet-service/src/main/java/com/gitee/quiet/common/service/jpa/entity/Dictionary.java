@@ -18,8 +18,8 @@ package com.gitee.quiet.common.service.jpa.entity;
 
 import com.gitee.quiet.common.service.base.TypeKey;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.querydsl.core.annotations.QueryEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;

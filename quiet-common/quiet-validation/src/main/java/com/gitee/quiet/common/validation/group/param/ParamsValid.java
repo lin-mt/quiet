@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.curd.single;
+package com.gitee.quiet.common.validation.group.param;
 
 import javax.validation.groups.Default;
 
 /**
- * 更新一条数据.
+ * Param 的 params 属性不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface UpdateSingle extends Default {
-    
+public interface ParamsValid extends Default {
+
 }
