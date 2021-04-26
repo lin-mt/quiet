@@ -37,12 +37,6 @@ import java.util.List;
 public class ScrumTemplate extends BaseEntity {
     
     /**
-     * 模板中的任务步骤
-     */
-    @Transient
-    List<ScrumTaskStep> taskSteps;
-    
-    /**
      * 模板名称
      */
     @NotBlank
@@ -63,6 +57,12 @@ public class ScrumTemplate extends BaseEntity {
     @Length(max = 30)
     @Column(name = "remark", length = 30)
     private String remark;
+    
+    /**
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStep> taskSteps;
     
     /**
      * 模板中的优先级配置
