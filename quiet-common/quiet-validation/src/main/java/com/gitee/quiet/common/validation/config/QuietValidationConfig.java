@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,8 @@ public class QuietValidationConfig {
     
     @Bean(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
     public MessageSource messageSource(MessageSourceProperties properties) {
-        return MessageSourceUtil.buildMessageSource(properties, "quiet-validation", "validation");
+        properties.setBasename("quiet-validation,validation");
+        return MessageSourceUtil.buildMessageSource(properties);
     }
     
     @Bean

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,9 +79,12 @@ public class MessageSourceUtil {
         return message;
     }
     
-    public static MessageSource buildMessageSource(MessageSourceProperties properties, String... basenames) {
+    public static MessageSource buildMessageSource(MessageSourceProperties properties) {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames(basenames);
+        if (org.springframework.util.StringUtils.hasText(properties.getBasename())) {
+            messageSource.setBasenames(org.springframework.util.StringUtils.commaDelimitedListToStringArray(
+                    org.springframework.util.StringUtils.trimAllWhitespace(properties.getBasename())));
+        }
         if (properties.getEncoding() != null) {
             messageSource.setDefaultEncoding(properties.getEncoding().name());
         }
