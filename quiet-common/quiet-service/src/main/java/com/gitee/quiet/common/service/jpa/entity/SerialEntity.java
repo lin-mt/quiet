@@ -21,6 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Min;
 
 /**
  * 具有排序字段的实体.
@@ -33,6 +34,7 @@ public class SerialEntity extends BaseEntity implements Serial {
     /**
      * 序号
      */
+    @Min(0)
     @ColumnDefault("0")
     @Column(name = "serial_number", nullable = false)
     private int serialNumber;

@@ -39,8 +39,8 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
         @UniqueConstraint(name = "unique_type_key", columnNames = {"dictionary_type", "dictionary_key"})})
 public class QuietDictionary extends Dictionary {
     
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{dictionary.remark}{length.max.limit}")
     private String remark;
     
     public String getRemark() {

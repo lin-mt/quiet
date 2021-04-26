@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ package com.gitee.quiet.system.controller;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.ParamsNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.batch.CreateBatch;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.ParamsValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.batch.CreateBatch;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.common.validation.util.ValidationUtils;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.params.QuietUserParam;
@@ -121,7 +121,7 @@ public class QuietUserController {
     }
     
     @PostMapping("/removeRole")
-    public Result<Object> removeRole(@RequestBody @Validated(ParamsNotNull.class) QuietUserRoleParam postParam) {
+    public Result<Object> removeRole(@RequestBody @Validated(ParamsValid.class) QuietUserRoleParam postParam) {
         ValidationUtils.notNull(postParam.getParams().getUserId(), "userRole.useId.not.null");
         ValidationUtils.notNull(postParam.getParams().getRoleId(), "userRole.roleId.not.null");
         userRoleService.deleteUserRole(postParam.getParams().getUserId(), postParam.getParams().getRoleId());

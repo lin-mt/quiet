@@ -35,22 +35,21 @@ public class QuietTeamUserRole extends BaseEntity {
     /**
      * 团队-用户ID
      */
+    @NotNull
     @Column(name = "team_user_id", nullable = false)
-    @NotNull(message = "{userTeamRole.teamUserId}{not.null}")
     private Long teamUserId;
     
     /**
      * 角色ID
      */
+    @NotNull
     @Column(name = "role_id", nullable = false)
-    @NotNull(message = "{userTeamRole.roleId}{not.null}")
     private Long roleId;
     
     public QuietTeamUserRole() {
     }
     
-    public QuietTeamUserRole(@NotNull(message = "{userTeamRole.teamUserId}{not.null}") Long teamUserId,
-            @NotNull(message = "{userTeamRole.roleId}{not.null}") Long roleId) {
+    public QuietTeamUserRole(@NotNull Long teamUserId, @NotNull Long roleId) {
         this.teamUserId = teamUserId;
         this.roleId = roleId;
     }

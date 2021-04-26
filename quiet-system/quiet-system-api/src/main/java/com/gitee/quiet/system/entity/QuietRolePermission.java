@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,15 +35,15 @@ public class QuietRolePermission extends BaseEntity {
     /**
      * 角色 ID
      */
+    @NotNull
     @Column(name = "role_id", nullable = false)
-    @NotNull(message = "{rolePermission.roleId}{not.null}")
     private Long roleId;
     
     /**
      * 权限 ID
      */
+    @NotNull
     @Column(name = "permission_id", nullable = false)
-    @NotNull(message = "{rolePermission.permissionId}{not.null}")
     private Long permissionId;
     
     public Long getRoleId() {

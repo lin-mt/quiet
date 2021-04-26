@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,22 +35,21 @@ public class QuietTeamUser extends BaseEntity {
     /**
      * 团队ID
      */
+    @NotNull
     @Column(name = "team_id", nullable = false)
-    @NotNull(message = "{teamUser.teamId}{not.null}")
     private Long teamId;
     
     /**
      * 成员ID
      */
+    @NotNull
     @Column(name = "user_id", nullable = false)
-    @NotNull(message = "{teamUser.userId}{not.null}")
     private Long userId;
     
     public QuietTeamUser() {
     }
     
-    public QuietTeamUser(@NotNull(message = "{teamUser.teamId}{not.null}") Long teamId,
-            @NotNull(message = "{teamUser.userId}{not.null}") Long userId) {
+    public QuietTeamUser(@NotNull Long teamId, @NotNull Long userId) {
         this.teamId = teamId;
         this.userId = userId;
     }

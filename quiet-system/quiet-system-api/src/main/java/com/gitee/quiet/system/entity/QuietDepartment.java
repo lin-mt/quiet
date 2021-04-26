@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 
@@ -41,16 +41,16 @@ public class QuietDepartment extends ParentEntity<QuietDepartment> {
     /**
      * 部门名称
      */
+    @NotBlank
+    @Length(max = 10)
     @Column(name = "department_name", length = 10, nullable = false)
-    @NotEmpty(message = "{department.departmentName}{not.empty}")
-    @Length(max = 10, message = "{department.departmentName}{length.max.limit}")
     private String departmentName;
     
     /**
      * 备注
      */
+    @Length(max = 100)
     @Column(name = "remark", length = 100)
-    @Length(max = 100, message = "{department.remark}{length.max.limit}")
     private String remark;
     
     public String getDepartmentName() {

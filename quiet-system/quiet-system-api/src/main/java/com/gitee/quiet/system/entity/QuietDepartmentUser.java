@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,19 +35,18 @@ public class QuietDepartmentUser extends BaseEntity {
     /**
      * 部门ID
      */
+    @NotNull
     @Column(name = "department_id", nullable = false)
-    @NotNull(message = "{departmentUser.departmentId}{not.null}")
     private Long departmentId;
     
     /**
      * 用户ID
      */
+    @NotNull
     @Column(name = "user_id", nullable = false)
-    @NotNull(message = "{departmentUser.userId}{not.null}")
     private Long userId;
     
-    public QuietDepartmentUser(@NotNull(message = "{departmentUser.departmentId}{not.null}") Long departmentId,
-            @NotNull(message = "{departmentUser.userId}{not.null}") Long userId) {
+    public QuietDepartmentUser(@NotNull Long departmentId, @NotNull Long userId) {
         this.departmentId = departmentId;
         this.userId = userId;
     }

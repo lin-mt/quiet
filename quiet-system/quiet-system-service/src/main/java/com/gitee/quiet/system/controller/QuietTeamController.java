@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.ParamsNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.ParamsValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.params.QuietTeamParam;
 import com.gitee.quiet.system.service.QuietTeamService;
@@ -57,7 +57,7 @@ public class QuietTeamController {
      */
     @PostMapping("/listTeamsByTeamName")
     public Result<List<QuietTeam>> listTeamsByTeamName(
-            @RequestBody @Validated(ParamsNotNull.class) QuietTeamParam postParam) {
+            @RequestBody @Validated(ParamsValid.class) QuietTeamParam postParam) {
         return Result.success(teamService.listTeamsByTeamName(postParam.getParams().getTeamName(), 9));
     }
     

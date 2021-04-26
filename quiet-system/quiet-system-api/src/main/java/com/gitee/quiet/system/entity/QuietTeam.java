@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,7 +26,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Map;
 
@@ -44,16 +44,16 @@ public class QuietTeam extends BaseEntity {
     /**
      * 团队名称
      */
+    @NotBlank
+    @Length(max = 16)
     @Column(name = "team_name", nullable = false, length = 16)
-    @NotEmpty(message = "{team.teamName}{not.empty}")
-    @Length(max = 16, message = "{team.teamName}{length.max.limit}")
     private String teamName;
     
     /**
      * 标语
      */
     @Column(name = "slogan", length = 30)
-    @Length(max = 30, message = "{team.slogan}{length.max.limit}")
+    @Length(max = 30)
     private String slogan;
     
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package com.gitee.quiet.common.service.jpa.entity;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.gitee.quiet.common.service.jpa.listener.EntityLoggingListener;
 import com.gitee.quiet.common.service.json.filter.JsonFilterName;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.querydsl.core.BooleanBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -56,8 +56,8 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
     
     @Id
-    @Null(groups = Create.class, message = "id {null}")
-    @NotNull(groups = Update.class, message = "id {not.null}")
+    @Null(groups = Create.class)
+    @NotNull(groups = Update.class)
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SnowFlakeIdGenerator")
     @GenericGenerator(name = "SnowFlakeIdGenerator", strategy = "com.gitee.quiet.common.service.id.SnowFlakeIdGenerator")

@@ -17,16 +17,17 @@
 package com.gitee.quiet.common.service.base;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import com.gitee.quiet.common.validation.group.IdNotNull;
-import com.gitee.quiet.common.validation.group.ParamsNotNull;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.batch.CreateBatch;
-import com.gitee.quiet.common.validation.group.curd.batch.DeleteBatch;
-import com.gitee.quiet.common.validation.group.curd.batch.ReadBatch;
-import com.gitee.quiet.common.validation.group.curd.batch.UpdateBatch;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
-import com.gitee.quiet.common.validation.group.curd.single.ReadSingle;
+import com.gitee.quiet.common.validation.group.param.IdValid;
+import com.gitee.quiet.common.validation.group.param.OffsetValid;
+import com.gitee.quiet.common.validation.group.param.ParamsValid;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.batch.CreateBatch;
+import com.gitee.quiet.common.validation.group.param.curd.batch.DeleteBatch;
+import com.gitee.quiet.common.validation.group.param.curd.batch.ReadBatch;
+import com.gitee.quiet.common.validation.group.param.curd.batch.UpdateBatch;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.curd.single.ReadSingle;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -53,10 +55,10 @@ public class Param<T extends BaseEntity, P> {
     /**
      * 参数
      */
-    @NotNull(groups = ParamsNotNull.class, message = "{param.params}{not.null}")
+    @NotNull(groups = ParamsValid.class)
     private P params;
     
-    @NotNull(groups = IdNotNull.class, message = "{param.id}{not.null}")
+    @NotNull(groups = IdValid.class)
     private Long id;
     
     /**
@@ -70,31 +72,31 @@ public class Param<T extends BaseEntity, P> {
     private Map<String, String> sorter;
     
     @Valid
-    @NotNull(groups = Create.class, message = "{save.entity.info}{not.null}")
+    @NotNull(groups = Create.class)
     private T save;
     
     @Valid
-    @NotEmpty(groups = CreateBatch.class, message = "{save.batch}{not.empty}")
+    @NotEmpty(groups = CreateBatch.class)
     private List<T> saveBatch;
     
     @Valid
-    @NotEmpty(groups = UpdateBatch.class, message = "{update.batch}{not.empty}")
+    @NotEmpty(groups = UpdateBatch.class)
     private List<T> updateBatch;
     
     @Valid
-    @NotNull(groups = Update.class, message = "{update.entity.info}{not.null}")
+    @NotNull(groups = Update.class)
     private T update;
     
-    @NotNull(groups = ReadSingle.class, message = "id {not.null}")
+    @NotNull(groups = ReadSingle.class)
     private Long getId;
     
-    @NotNull(groups = DeleteSingle.class, message = "id {not.null}")
+    @NotNull(groups = DeleteSingle.class)
     private Long deleteId;
     
-    @NotNull(groups = ReadBatch.class, message = "id {not.null}")
+    @NotNull(groups = ReadBatch.class)
     private List<Long> getIds;
     
-    @NotNull(groups = DeleteBatch.class, message = "id {not.null}")
+    @NotNull(groups = DeleteBatch.class)
     private List<Long> deleteIds;
     
     /**
@@ -106,6 +108,13 @@ public class Param<T extends BaseEntity, P> {
      * 分页大小
      */
     private Integer pageSize;
+    
+    /**
+     * 跳过几条数据
+     */
+    @Min(value = 0L, groups = OffsetValid.class)
+    @NotNull(groups = OffsetValid.class)
+    private Integer offset;
     
     public P getParams() {
         return params;
@@ -225,6 +234,17 @@ public class Param<T extends BaseEntity, P> {
     
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+    
+    public Integer getOffset() {
+        if (offset == null) {
+            setOffset(0);
+        }
+        return offset;
+    }
+    
+    public void setOffset(Integer offset) {
+        this.offset = offset;
     }
     
     public Pageable page() {

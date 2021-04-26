@@ -18,9 +18,9 @@ package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.enums.Operation;
-import com.gitee.quiet.common.validation.group.curd.Create;
-import com.gitee.quiet.common.validation.group.curd.Update;
-import com.gitee.quiet.common.validation.group.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.params.QuietClientParam;
 import com.gitee.quiet.system.service.QuietClientService;
