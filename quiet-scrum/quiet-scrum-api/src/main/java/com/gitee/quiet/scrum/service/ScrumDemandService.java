@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,4 +77,14 @@ public interface ScrumDemandService {
      * @return 处于该优先级的需求数量
      */
     long countByPriorityId(@NotNull Long priorityId);
+    
+    /**
+     * 查询待规划的需求
+     *
+     * @param projectId 项目ID
+     * @param offset    跳过的数量
+     * @param limit     查询数量
+     * @return 项目待规划的需求
+     */
+    List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit);
 }

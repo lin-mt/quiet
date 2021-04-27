@@ -95,6 +95,11 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
         return demandRepository.countByPriorityId(priorityId);
     }
     
+    @Override
+    public List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit) {
+        return demandRepository.findAllToBePlanned(projectId, offset, limit);
+    }
+    
     private void checkDemand(@NotNull ScrumDemand demand) {
         ScrumDemand exist = demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
         if (exist != null && !exist.getId().equals(demand.getId())) {

@@ -25,6 +25,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * 优先级.
@@ -47,6 +48,7 @@ public class ScrumPriority extends SerialEntity {
      * 图标的十六进制颜色
      */
     @Length(max = 7)
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
     @ColumnDefault("#1890FF")
     @Column(name = "color_hex", length = 7)
     private String colorHex;

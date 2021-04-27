@@ -17,7 +17,8 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.OffsetValid;
+import com.gitee.quiet.common.validation.group.param.IdValid;
+import com.gitee.quiet.common.validation.group.param.OffsetLimitValid;
 import com.gitee.quiet.common.validation.group.param.ParamsValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
@@ -49,10 +50,16 @@ public class ScrumDemandController {
         this.demandService = demandService;
     }
     
-    @PostMapping("/scrollUnplanned")
-    public Result<List<ScrumDemand>> scrollUnplanned(
-            @RequestBody @Validated(OffsetValid.class) ScrumDemandParam param) {
-        return null;
+    /**
+     * 滚动查询待规划的需求
+     *
+     * @param param :id 项目ID
+     * @return 待规划的需求
+     */
+    @PostMapping("/scrollToBePlanned")
+    public Result<List<ScrumDemand>> scrollToBePlanned(
+            @RequestBody @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandParam param) {
+        return Result.success(demandService.listToBePlanned(param.getId(), param.getOffset(), param.getLimit()));
     }
     
     /**

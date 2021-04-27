@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,6 +102,14 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
     @Override
     public List<ScrumPriority> findAllByTemplateId(Long templateId) {
         return priorityRepository.findAllByTemplateId(templateId);
+    }
+    
+    @Override
+    public List<ScrumPriority> findAllByIds(Set<Long> ids) {
+        if (CollectionUtils.isNotEmpty(ids)) {
+            return priorityRepository.findAllById(ids);
+        }
+        return List.of();
     }
     
     private void checkInfo(ScrumPriority priority) {

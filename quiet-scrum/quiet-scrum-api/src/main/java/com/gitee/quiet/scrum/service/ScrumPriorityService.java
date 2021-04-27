@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,4 +81,12 @@ public interface ScrumPriorityService {
      * @return 模板ID下的所有优先级配置信息
      */
     List<ScrumPriority> findAllByTemplateId(Long templateId);
+    
+    /**
+     * 根据ID集合批量查找优先级信息
+     *
+     * @param ids id集合
+     * @return 优先级信息
+     */
+    List<ScrumPriority> findAllByIds(Set<Long> ids);
 }
