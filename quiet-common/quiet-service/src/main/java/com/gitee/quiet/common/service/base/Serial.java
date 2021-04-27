@@ -16,7 +16,14 @@
 
 package com.gitee.quiet.common.service.base;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 可排序.
@@ -51,6 +58,29 @@ public interface Serial extends Comparable<Serial> {
             return 1;
         }
         return Integer.compare(getSerialNumber(), other.getSerialNumber());
+    }
+    
+    class Utils {
+        
+        public static void sortSerial(List<Object> value) {
+            if (CollectionUtils.isNotEmpty(value)) {
+                Map<Integer, Object> indexToValue = new HashMap<>(value.size());
+                for (int i = 0; i < value.size(); i++) {
+                    Object t = value.get(i);
+                    if (t instanceof Serial) {
+                        indexToValue.put(i, t);
+                    }
+                }
+                if (MapUtils.isNotEmpty(indexToValue)) {
+                    List<Object> sort = indexToValue.values().stream().sorted().collect(Collectors.toList());
+                    int index = 0;
+                    for (Map.Entry<Integer, Object> entry : indexToValue.entrySet()) {
+                        value.set(entry.getKey(), sort.get(index));
+                        index++;
+                    }
+                }
+            }
+        }
     }
     
 }

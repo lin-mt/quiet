@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * Jackson配置类.
@@ -44,10 +45,13 @@ import java.time.format.DateTimeFormatter;
 @ComponentScan(basePackageClasses = JacksonConfigBasePackage.class)
 public class JacksonConfig {
     
+    public static final String QUIET_MODULE_NAME = "QuietSimpleModule";
+    
     @Bean
-    public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
-        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-        QuietSimpleModule module = new QuietSimpleModule();
+    public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder,
+            Optional<BeforeObjectMapperInjection> beforeOptional) {
+        final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        QuietSimpleModule module = new QuietSimpleModule(QUIET_MODULE_NAME);
         // 日期序列化与反序列化
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         module.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
@@ -60,6 +64,12 @@ public class JacksonConfig {
         SimpleFilterProvider filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter(JsonFilterName.HAS_ROLE, new HasRoleAnnotationFilter());
         objectMapper.setFilterProvider(filterProvider);
+        beforeOptional.ifPresent(before -> before.config(objectMapper));
         return objectMapper;
+    }
+    
+    public interface BeforeObjectMapperInjection {
+        
+        void config(ObjectMapper objectMapper);
     }
 }

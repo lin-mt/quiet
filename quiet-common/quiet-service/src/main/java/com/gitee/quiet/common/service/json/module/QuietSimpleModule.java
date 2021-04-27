@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,10 @@ import com.gitee.quiet.common.service.json.modifier.QuietSerializerModifier;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietSimpleModule extends SimpleModule {
+    
+    public QuietSimpleModule(String name) {
+        super(name);
+    }
     
     @Override
     public void setupModule(SetupContext context) {

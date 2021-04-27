@@ -21,6 +21,6 @@ package com.gitee.quiet.common.validation.group.param;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface OffsetValid {
+public interface OffsetLimitValid {
 
 }
