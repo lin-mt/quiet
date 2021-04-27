@@ -18,7 +18,7 @@ package com.gitee.quiet.common.service.base;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.OffsetValid;
+import com.gitee.quiet.common.validation.group.param.OffsetLimitValid;
 import com.gitee.quiet.common.validation.group.param.ParamsValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
@@ -30,6 +30,7 @@ import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.common.validation.group.param.curd.single.ReadSingle;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.MapUtils;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -112,9 +113,16 @@ public class Param<T extends BaseEntity, P> {
     /**
      * 跳过几条数据
      */
-    @Min(value = 0L, groups = OffsetValid.class)
-    @NotNull(groups = OffsetValid.class)
-    private Integer offset;
+    @Min(value = 0L, groups = OffsetLimitValid.class)
+    @NotNull(groups = OffsetLimitValid.class)
+    private Long offset;
+    
+    /**
+     * 查询几条数据
+     */
+    @Range(min = 1L, max = 30L, groups = OffsetLimitValid.class)
+    @NotNull(groups = OffsetLimitValid.class)
+    private Long limit;
     
     public P getParams() {
         return params;
@@ -236,15 +244,20 @@ public class Param<T extends BaseEntity, P> {
         this.pageSize = pageSize;
     }
     
-    public Integer getOffset() {
-        if (offset == null) {
-            setOffset(0);
-        }
+    public Long getOffset() {
         return offset;
     }
     
-    public void setOffset(Integer offset) {
+    public void setOffset(Long offset) {
         this.offset = offset;
+    }
+    
+    public Long getLimit() {
+        return limit;
+    }
+    
+    public void setLimit(Long limit) {
+        this.limit = limit;
     }
     
     public Pageable page() {
