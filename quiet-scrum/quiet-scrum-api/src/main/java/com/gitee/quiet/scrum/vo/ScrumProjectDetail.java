@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.entity.ScrumProject;
-import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.system.entity.QuietTeam;
 
 import java.util.List;
@@ -33,8 +32,6 @@ public class ScrumProjectDetail {
     
     private List<QuietTeam> teams;
     
-    private List<ScrumVersion> versions;
-    
     public ScrumProject getProject() {
         return project;
     }
@@ -49,13 +46,5 @@ public class ScrumProjectDetail {
     
     public void setTeams(List<QuietTeam> teams) {
         this.teams = teams;
-    }
-    
-    public List<ScrumVersion> getVersions() {
-        return versions;
-    }
-    
-    public void setVersions(List<ScrumVersion> versions) {
-        this.versions = versions;
     }
 }
