@@ -67,6 +67,11 @@ public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends B
     }
     
     @Override
+    public Long getKey() {
+        return getId();
+    }
+    
+    @Override
     public List<T> getChildren() {
         return children;
     }
