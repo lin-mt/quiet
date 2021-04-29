@@ -41,6 +41,11 @@ public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implemen
     private List<T> children;
     
     @Override
+    public Object getKey() {
+        return getId();
+    }
+    
+    @Override
     public Long getParentId() {
         return parentId;
     }
