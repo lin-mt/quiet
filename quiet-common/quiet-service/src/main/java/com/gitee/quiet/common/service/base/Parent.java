@@ -27,23 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Parent<T extends Parent<T>> {
-    
-    /**
-     * 前端树形组件使用的 key
-     *
-     * @return key
-     */
-    Object getKey();
-    
-    /**
-     * 前端树形组件使用的 title
-     *
-     * @return title
-     */
-    default String getTitle() {
-        return null;
-    }
+public interface Parent<T extends Parent<T>> extends TitleKey {
     
     /**
      * 获取父的ID
