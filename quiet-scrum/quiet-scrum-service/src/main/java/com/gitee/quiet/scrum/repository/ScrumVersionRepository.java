@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,4 +44,13 @@ public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long
      * @return 项目所有版本信息
      */
     List<ScrumVersion> findAllByProjectId(Long projectId);
+    
+    /**
+     * 根据项目ID和项目名称查询版本信息
+     *
+     * @param projectId 项目ID
+     * @param name      项目名称
+     * @return 版本信息
+     */
+    ScrumVersion findByProjectIdAndName(Long projectId, String name);
 }

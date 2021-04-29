@@ -24,6 +24,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -49,6 +50,20 @@ public class ScrumIteration extends SerialEntity {
     @NotNull
     @Column(name = "version_id", nullable = false)
     private Long versionId;
+    
+    /**
+     * 迭代计划开始日期
+     */
+    @NotNull
+    @Column(name = "plan_start_date", nullable = false)
+    private LocalDate planStartDate;
+    
+    /**
+     * 迭代计划结束日期
+     */
+    @NotNull
+    @Column(name = "plan_end_date", nullable = false)
+    private LocalDate planEndDate;
     
     /**
      * 迭代开始时间
@@ -83,6 +98,22 @@ public class ScrumIteration extends SerialEntity {
     
     public void setVersionId(Long versionId) {
         this.versionId = versionId;
+    }
+    
+    public LocalDate getPlanStartDate() {
+        return planStartDate;
+    }
+    
+    public void setPlanStartDate(LocalDate planStartDate) {
+        this.planStartDate = planStartDate;
+    }
+    
+    public LocalDate getPlanEndDate() {
+        return planEndDate;
+    }
+    
+    public void setPlanEndDate(LocalDate planEndDate) {
+        this.planEndDate = planEndDate;
     }
     
     public LocalDateTime getStartTime() {

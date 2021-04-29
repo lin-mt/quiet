@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.util.EntityUtils;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
@@ -62,7 +63,7 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
     }
     
     @Override
-    public List<ScrumVersion> findAllByProjectIdIncludeIterations(Long projectId) {
+    public List<ScrumVersion> findDetailsByProjectId(Long projectId) {
         List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
         if (CollectionUtils.isNotEmpty(versions)) {
             Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
@@ -74,5 +75,27 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             }
         }
         return EntityUtils.buildTreeData(versions);
+    }
+    
+    @Override
+    public ScrumVersion save(ScrumVersion save) {
+        checkInfo(save);
+        return versionRepository.save(save);
+    }
+    
+    @Override
+    public ScrumVersion update(ScrumVersion update) {
+        checkInfo(update);
+        return versionRepository.saveAndFlush(update);
+    }
+    
+    private void checkInfo(@NotNull ScrumVersion version) {
+        ScrumVersion exist = versionRepository.findByProjectIdAndName(version.getProjectId(), version.getName());
+        if (exist != null && !exist.getName().equals(version.getName())) {
+            throw new ServiceException("version.project.name.exist", version.getProjectId(), version.getName());
+        }
+        if (version.getParentId() != null && !versionRepository.existsById(version.getParentId())) {
+            throw new ServiceException("version.id.not.exit", version.getParentId());
+        }
     }
 }

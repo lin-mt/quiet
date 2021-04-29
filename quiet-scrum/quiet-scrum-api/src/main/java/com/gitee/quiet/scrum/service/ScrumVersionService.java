@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +36,26 @@ public interface ScrumVersionService {
     void deleteAllByProjectId(@NotNull Long projectId);
     
     /**
-     * 查询项目的版本信息，版本中包含迭代信息
+     * v 查询项目的版本信息，版本中包含迭代信息
      *
      * @param projectId 要查询的项目ID
      * @return 版本信息
      */
-    List<ScrumVersion> findAllByProjectIdIncludeIterations(@NotNull Long projectId);
+    List<ScrumVersion> findDetailsByProjectId(@NotNull Long projectId);
+    
+    /**
+     * 新建版本信息
+     *
+     * @param save 新建的版本信息
+     * @return 新建后的版本信息
+     */
+    ScrumVersion save(ScrumVersion save);
+    
+    /**
+     * 更新版本信息
+     *
+     * @param update 更新的版本信息
+     * @return 更新后的版本信息
+     */
+    ScrumVersion update(ScrumVersion update);
 }
