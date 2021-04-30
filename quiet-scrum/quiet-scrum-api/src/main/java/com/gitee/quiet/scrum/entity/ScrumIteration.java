@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.base.TitleKey;
+import com.gitee.quiet.common.service.base.FrontSelect;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import org.hibernate.validator.constraints.Length;
 
@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity implements TitleKey {
+public class ScrumIteration extends SerialEntity implements FrontSelect {
     
     /**
      * 迭代名称
