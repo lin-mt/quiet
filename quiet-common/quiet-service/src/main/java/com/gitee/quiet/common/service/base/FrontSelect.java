@@ -21,7 +21,7 @@ package com.gitee.quiet.common.service.base;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface TitleKey {
+public interface FrontSelect {
     
     /**
      * 前端树形组件使用的 key
@@ -29,6 +29,15 @@ public interface TitleKey {
      * @return key
      */
     Object getKey();
+    
+    /**
+     * 前端树形组件使用的 value
+     *
+     * @return value
+     */
+    default Object getValue() {
+        return getKey();
+    }
     
     /**
      * 前端树形组件使用的 title
