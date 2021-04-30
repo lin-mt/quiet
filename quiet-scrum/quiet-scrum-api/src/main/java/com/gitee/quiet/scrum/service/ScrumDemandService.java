@@ -71,7 +71,7 @@ public interface ScrumDemandService {
     void deleteAllByProjectId(@NotNull Long projectId);
     
     /**
-     * 根据优先级ID统计处于该优先级的需求有多少
+     * 根据优先级ID统计处于该优先级的需求数量
      *
      * @param priorityId 优先级ID
      * @return 处于该优先级的需求数量
@@ -87,4 +87,12 @@ public interface ScrumDemandService {
      * @return 项目待规划的需求
      */
     List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit);
+    
+    /**
+     * 根据迭代ID统计处于该迭代的需求数量
+     *
+     * @param iterationId 迭代ID
+     * @return 处于该迭代的需求数量
+     */
+    long countByIterationId(@NotNull Long iterationId);
 }

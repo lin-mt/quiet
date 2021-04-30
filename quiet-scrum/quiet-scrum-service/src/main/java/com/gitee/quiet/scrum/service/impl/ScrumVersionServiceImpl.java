@@ -96,6 +96,17 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
         }
     }
     
+    @Override
+    public void deleteById(Long id) {
+        if (versionRepository.countByParentId(id) > 0) {
+            throw new ServiceException("version.hasChild.canNotDelete", id);
+        }
+        if (iterationService.countByVersionId(id) > 0) {
+            throw new ServiceException("version.hasIteration.canNotDelete", id);
+        }
+        versionRepository.deleteById(id);
+    }
+    
     private void checkInfo(@NotNull ScrumVersion version) {
         ScrumVersion exist = versionRepository.findByProjectIdAndName(version.getProjectId(), version.getName());
         if (exist != null && !exist.getName().equals(version.getName())) {

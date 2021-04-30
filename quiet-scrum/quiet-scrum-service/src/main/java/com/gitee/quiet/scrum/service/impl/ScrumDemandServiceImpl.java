@@ -100,6 +100,11 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
         return demandRepository.findAllToBePlanned(projectId, offset, limit);
     }
     
+    @Override
+    public long countByIterationId(Long iterationId) {
+        return demandRepository.countByIterationId(iterationId);
+    }
+    
     private void checkDemand(@NotNull ScrumDemand demand) {
         ScrumDemand exist = demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
         if (exist != null && !exist.getId().equals(demand.getId())) {

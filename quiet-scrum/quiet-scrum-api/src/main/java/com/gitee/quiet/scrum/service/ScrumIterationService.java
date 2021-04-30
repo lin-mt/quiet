@@ -18,6 +18,7 @@ package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -58,4 +59,19 @@ public interface ScrumIterationService {
      * @return 更新后的迭代信息
      */
     ScrumIteration update(ScrumIteration update);
+    
+    /**
+     * 根据ID删除迭代信息
+     *
+     * @param id 迭代ID
+     */
+    void deleteById(@NotNull Long id);
+    
+    /**
+     * 根据版本ID统计处于该版本下有多少迭代数量
+     *
+     * @param versionId 版本ID
+     * @return 处于该版本下的迭代数量
+     */
+    long countByVersionId(@NotNull Long versionId);
 }

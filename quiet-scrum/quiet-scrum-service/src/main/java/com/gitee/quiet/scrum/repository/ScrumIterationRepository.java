@@ -54,4 +54,12 @@ public interface ScrumIterationRepository extends JpaRepository<ScrumIteration, 
      * @return 迭代信息
      */
     ScrumIteration findByVersionIdAndName(Long versionId, String name);
+    
+    /**
+     * 根据版本ID统计处于该版本下有多少迭代数量
+     *
+     * @param versionId 版本ID
+     * @return 处于该版本下的迭代数量
+     */
+    long countByVersionId(Long versionId);
 }

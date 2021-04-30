@@ -53,4 +53,12 @@ public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long
      * @return 版本信息
      */
     ScrumVersion findByProjectIdAndName(Long projectId, String name);
+    
+    /**
+     * 根据父版本ID统计该父版本下有多少子版本
+     *
+     * @param parentId 父版本ID
+     * @return 子版本数量
+     */
+    long countByParentId(Long parentId);
 }

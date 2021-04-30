@@ -20,6 +20,7 @@ import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.param.IdValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.params.ScrumVersionParam;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
@@ -78,5 +79,17 @@ public class ScrumVersionController {
     @PostMapping("/update")
     public Result<ScrumVersion> update(@RequestBody @Validated(Update.class) ScrumVersionParam param) {
         return Result.updateSuccess(versionService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 删除版本
+     *
+     * @param param :deleteId 删除的版本ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumVersionParam param) {
+        versionService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
     }
 }

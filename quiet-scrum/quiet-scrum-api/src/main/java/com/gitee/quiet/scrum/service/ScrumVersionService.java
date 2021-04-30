@@ -65,4 +65,11 @@ public interface ScrumVersionService {
      * @param id 版本ID
      */
     void checkIdExist(Long id);
+    
+    /**
+     * 根据版本id删除版本信息
+     *
+     * @param id 版本ID
+     */
+    void deleteById(Long id);
 }

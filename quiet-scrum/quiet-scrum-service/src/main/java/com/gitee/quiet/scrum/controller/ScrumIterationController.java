@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.params.ScrumIterationParam;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
@@ -63,5 +64,17 @@ public class ScrumIterationController {
     @PostMapping("/update")
     public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationParam param) {
         return Result.updateSuccess(iterationService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 删除迭代
+     *
+     * @param param :deleteId 删除的迭代ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumIterationParam param) {
+        iterationService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
     }
 }

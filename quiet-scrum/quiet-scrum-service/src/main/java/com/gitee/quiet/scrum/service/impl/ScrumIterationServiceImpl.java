@@ -19,6 +19,7 @@ package com.gitee.quiet.scrum.service.impl;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
+import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -42,10 +43,13 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     
     private final ScrumVersionService versionService;
     
+    private final ScrumDemandService demandService;
+    
     public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository,
-            @Lazy ScrumVersionService versionService) {
+            @Lazy ScrumVersionService versionService, ScrumDemandService demandService) {
         this.iterationRepository = iterationRepository;
         this.versionService = versionService;
+        this.demandService = demandService;
     }
     
     @Override
@@ -74,6 +78,19 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     public ScrumIteration update(ScrumIteration update) {
         checkInfo(update);
         return iterationRepository.saveAndFlush(update);
+    }
+    
+    @Override
+    public void deleteById(Long id) {
+        if (demandService.countByIterationId(id) > 0) {
+            throw new ServiceException("iteration.hasDemand.canNotDelete", id);
+        }
+        iterationRepository.deleteById(id);
+    }
+    
+    @Override
+    public long countByVersionId(Long versionId) {
+        return iterationRepository.countByVersionId(versionId);
     }
     
     private void checkInfo(@NotNull ScrumIteration iteration) {
