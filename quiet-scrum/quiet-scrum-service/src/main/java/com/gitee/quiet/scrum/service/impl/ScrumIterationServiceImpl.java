@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,17 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
+import com.gitee.quiet.scrum.service.ScrumVersionService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -36,8 +40,12 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     
     private final ScrumIterationRepository iterationRepository;
     
-    public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository) {
+    private final ScrumVersionService versionService;
+    
+    public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository,
+            @Lazy ScrumVersionService versionService) {
         this.iterationRepository = iterationRepository;
+        this.versionService = versionService;
     }
     
     @Override
@@ -54,5 +62,26 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
             return iterationRepository.findAllByVersionIdIn(versionIds);
         }
         return List.of();
+    }
+    
+    @Override
+    public ScrumIteration save(ScrumIteration save) {
+        checkInfo(save);
+        return iterationRepository.save(save);
+    }
+    
+    @Override
+    public ScrumIteration update(ScrumIteration update) {
+        checkInfo(update);
+        return iterationRepository.saveAndFlush(update);
+    }
+    
+    private void checkInfo(@NotNull ScrumIteration iteration) {
+        versionService.checkIdExist(iteration.getVersionId());
+        ScrumIteration exist = iterationRepository
+                .findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
+        if (exist != null && !exist.getId().equals(iteration.getId())) {
+            throw new ServiceException("iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
+        }
     }
 }

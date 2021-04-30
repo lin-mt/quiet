@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,4 +42,20 @@ public interface ScrumIterationService {
      * @return 指定版本中所有的迭代信息
      */
     List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds);
+    
+    /**
+     * 新建迭代
+     *
+     * @param save 新建的迭代信息
+     * @return 新建后的迭代信息
+     */
+    ScrumIteration save(ScrumIteration save);
+    
+    /**
+     * 更新迭代信息
+     *
+     * @param update 更新的迭代信息
+     * @return 更新后的迭代信息
+     */
+    ScrumIteration update(ScrumIteration update);
 }

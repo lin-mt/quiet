@@ -58,4 +58,11 @@ public interface ScrumVersionService {
      * @return 更新后的版本信息
      */
     ScrumVersion update(ScrumVersion update);
+    
+    /**
+     * 根据id判断版本是否存在，不存在则抛出ServiceException异常
+     *
+     * @param id 版本ID
+     */
+    void checkIdExist(Long id);
 }

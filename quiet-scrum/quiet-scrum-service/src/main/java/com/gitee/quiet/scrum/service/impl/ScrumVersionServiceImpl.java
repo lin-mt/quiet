@@ -89,13 +89,20 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
         return versionRepository.saveAndFlush(update);
     }
     
+    @Override
+    public void checkIdExist(Long id) {
+        if (!versionRepository.existsById(id)) {
+            throw new ServiceException("version.id.not.exist");
+        }
+    }
+    
     private void checkInfo(@NotNull ScrumVersion version) {
         ScrumVersion exist = versionRepository.findByProjectIdAndName(version.getProjectId(), version.getName());
         if (exist != null && !exist.getName().equals(version.getName())) {
             throw new ServiceException("version.project.name.exist", version.getProjectId(), version.getName());
         }
         if (version.getParentId() != null && !versionRepository.existsById(version.getParentId())) {
-            throw new ServiceException("version.id.not.exit", version.getParentId());
+            throw new ServiceException("version.id.not.exist", version.getParentId());
         }
     }
 }

@@ -16,6 +16,15 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.scrum.entity.ScrumIteration;
+import com.gitee.quiet.scrum.params.ScrumIterationParam;
+import com.gitee.quiet.scrum.service.ScrumIterationService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +36,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/iteration")
 public class ScrumIterationController {
-
+    
+    private final ScrumIterationService iterationService;
+    
+    public ScrumIterationController(ScrumIterationService iterationService) {
+        this.iterationService = iterationService;
+    }
+    
+    /**
+     * 新建迭代
+     *
+     * @param param :save 新建的迭代信息
+     * @return 新建后的迭代信息
+     */
+    @PostMapping("/save")
+    public Result<ScrumIteration> save(@RequestBody @Validated(Create.class) ScrumIterationParam param) {
+        return Result.createSuccess(iterationService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新迭代信息
+     *
+     * @param param :update 更新的迭代信息
+     * @return 更新后的迭代信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationParam param) {
+        return Result.updateSuccess(iterationService.update(param.getUpdate()));
+    }
 }
