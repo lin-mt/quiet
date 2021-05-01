@@ -17,9 +17,11 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.param.IdValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.params.ScrumIterationParam;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 迭代 Controller.
@@ -76,5 +80,17 @@ public class ScrumIterationController {
     public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumIterationParam param) {
         iterationService.deleteById(param.getDeleteId());
         return Result.deleteSuccess();
+    }
+    
+    /**
+     * 根据迭代ID查询处于该迭代的所有需求
+     *
+     * @param param :id 迭代ID
+     * @return 处于该迭代的所有需求信息
+     */
+    @PostMapping("/findAllDemandsById")
+    public Result<List<ScrumDemand>> findAllDemandsById(
+            @RequestBody @Validated(IdValid.class) ScrumIterationParam param) {
+        return Result.success(iterationService.findAllDemandsById(param.getId()));
     }
 }

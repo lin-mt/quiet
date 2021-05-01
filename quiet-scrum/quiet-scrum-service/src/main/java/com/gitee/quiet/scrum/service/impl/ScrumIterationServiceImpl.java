@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
@@ -91,6 +92,11 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     @Override
     public long countByVersionId(Long versionId) {
         return iterationRepository.countByVersionId(versionId);
+    }
+    
+    @Override
+    public List<ScrumDemand> findAllDemandsById(Long id) {
+        return demandService.findAllByIterationId(id);
     }
     
     private void checkInfo(@NotNull ScrumIteration iteration) {

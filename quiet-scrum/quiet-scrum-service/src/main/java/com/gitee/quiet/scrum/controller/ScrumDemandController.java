@@ -94,7 +94,7 @@ public class ScrumDemandController {
     public Result<List<ScrumDemand>> findAllByIteration(
             @RequestBody @Validated(ParamsValid.class) ScrumDemandParam param) {
         ValidationUtils.notNull(param.getParams().getIterationId(), "demand.iterationId.can.notNull");
-        return Result.success(demandService.findAllByIteration(param.getParams().getIterationId()));
+        return Result.success(demandService.findAllByIterationId(param.getParams().getIterationId()));
     }
     
     /**

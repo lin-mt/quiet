@@ -36,7 +36,7 @@ public interface ScrumDemandService {
      * @param iterationId 迭代ID
      * @return 迭代中的所有需求
      */
-    List<ScrumDemand> findAllByIteration(@NotNull Long iterationId);
+    List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
     
     /**
      * 分页查询需求信息

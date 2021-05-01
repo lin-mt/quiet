@@ -60,7 +60,7 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     }
     
     @Override
-    public List<ScrumDemand> findAllByIteration(@Validated @NotNull Long iterationId) {
+    public List<ScrumDemand> findAllByIterationId(@Validated @NotNull Long iterationId) {
         return demandRepository.findAllByIterationId(iterationId);
     }
     

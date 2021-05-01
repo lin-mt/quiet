@@ -145,4 +145,9 @@ public class ScrumIteration extends SerialEntity implements FrontSelect {
     public Object getKey() {
         return getId();
     }
+    
+    @Override
+    public String getTitle() {
+        return getName();
+    }
 }

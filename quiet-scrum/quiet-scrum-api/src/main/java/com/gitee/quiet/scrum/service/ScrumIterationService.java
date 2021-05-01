@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.scrum.service;
 
+import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 
 import javax.validation.constraints.NotNull;
@@ -74,4 +75,12 @@ public interface ScrumIterationService {
      * @return 处于该版本下的迭代数量
      */
     long countByVersionId(@NotNull Long versionId);
+    
+    /**
+     * 根据ID查询处于该迭代的所有需求循序
+     *
+     * @param id 迭代ID
+     * @return 处于该迭代的所有需求
+     */
+    List<ScrumDemand> findAllDemandsById(Long id);
 }

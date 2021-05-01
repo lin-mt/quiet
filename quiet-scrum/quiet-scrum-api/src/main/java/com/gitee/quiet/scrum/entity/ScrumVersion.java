@@ -156,4 +156,9 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     public void setIterations(List<ScrumIteration> iterations) {
         this.iterations = iterations;
     }
+    
+    @Override
+    public String getTitle() {
+        return getName();
+    }
 }
