@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.common.service.jpa.entity;
 
-import com.gitee.quiet.common.service.base.TypeKey;
 import com.gitee.quiet.common.service.constant.ServiceConstant;
 import com.querydsl.core.annotations.QueryEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +34,15 @@ import java.io.Serializable;
  */
 @QueryEntity
 @MappedSuperclass
-public class Dictionary extends ParentEntity<Dictionary> implements Serializable, TypeKey {
+public class Dictionary extends ParentEntity<Dictionary> implements Serializable {
+    
+    public Dictionary() {
+    }
+    
+    public Dictionary(String type, String key) {
+        this.type = type;
+        this.key = key;
+    }
     
     /**
      * 数据字典类型
@@ -58,6 +65,19 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
     @Length(max = 30)
     @Column(name = "label", nullable = false, length = 30)
     private String label;
+    
+    /**
+     * 根据type和key判断两个数据字典是否是相同的
+     *
+     * @param other 另一个数据字典值
+     * @return true：相同 false：不相同
+     */
+    public boolean same(@Nullable Dictionary other) {
+        if (other == null) {
+            return false;
+        }
+        return getType().equals(other.getType()) && getKey().equals(other.getKey());
+    }
     
     /**
      * String 转为 数据字典
@@ -97,7 +117,6 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
         return null;
     }
     
-    @Override
     public String getType() {
         return type;
     }
