@@ -23,6 +23,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -46,8 +47,9 @@ public final class EntityUtils {
         List<T> treeData = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(source)) {
             Map<Long, T> idToEntity = source.stream().collect(Collectors.toMap(BaseEntity::getId, p -> p));
+            Set<Long> keys = idToEntity.keySet();
             for (T datum : source) {
-                if (datum.getParentId() == null) {
+                if (datum.getParentId() == null || !keys.contains(datum.getParentId())) {
                     treeData.add(datum);
                     continue;
                 }

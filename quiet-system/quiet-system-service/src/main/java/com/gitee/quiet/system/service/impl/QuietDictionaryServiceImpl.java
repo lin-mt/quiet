@@ -18,6 +18,7 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.util.EntityUtils;
 import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.repository.QuietDictionaryRepository;
 import com.gitee.quiet.system.service.QuietDictionaryService;
@@ -25,16 +26,11 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
@@ -48,10 +44,6 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 @Service
 public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     
-    private static final String CACHE_INFO = "quiet:system:dictionary";
-    
-    private static final String TREE_CACHE_INFO = CACHE_INFO + ":tree";
-    
     private final JPAQueryFactory jpaQueryFactory;
     
     private final QuietDictionaryRepository dictionaryRepository;
@@ -62,7 +54,6 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @Cacheable(value = TREE_CACHE_INFO, key = "T(String).valueOf(#type)")
     public List<QuietDictionary> treeByType(String type) {
         List<QuietDictionary> dictionaries;
         if (StringUtils.isNoneBlank(type)) {
@@ -70,7 +61,7 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
         } else {
             dictionaries = dictionaryRepository.findAll();
         }
-        return buildTreeData(dictionaries);
+        return EntityUtils.buildTreeData(dictionaries);
     }
     
     @Override
@@ -79,14 +70,12 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @CacheEvict(value = {CACHE_INFO, TREE_CACHE_INFO}, allEntries = true)
     public QuietDictionary save(@NotNull QuietDictionary save) {
         checkDictionaryInfo(save);
         return dictionaryRepository.save(save);
     }
     
     @Override
-    @CacheEvict(value = {CACHE_INFO, TREE_CACHE_INFO}, allEntries = true)
     public QuietDictionary delete(@NotNull Long id) {
         Optional<QuietDictionary> delete = dictionaryRepository.findById(id);
         if (delete.isEmpty()) {
@@ -101,36 +90,19 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @CacheEvict(value = {CACHE_INFO, TREE_CACHE_INFO}, allEntries = true)
     public QuietDictionary update(@NotNull QuietDictionary update) {
         checkDictionaryInfo(update);
         return dictionaryRepository.saveAndFlush(update);
     }
     
     @Override
-    @Cacheable(value = TREE_CACHE_INFO, key = "#type", condition = "#type != null")
     public List<QuietDictionary> treeByTypeForSelect(String type) {
         if (StringUtils.isBlank(type)) {
             return List.of();
         }
-        List<QuietDictionary> dictionaries = dictionaryRepository.findAllByTypeAndKeyIsNullAndParentIdIsNull(type);
-        return buildTreeData(dictionaries);
-    }
-    
-    private List<QuietDictionary> buildTreeData(List<QuietDictionary> dictionaries) {
-        Map<Long, QuietDictionary> dictionaryToId = new HashMap<>(dictionaries.size());
-        for (QuietDictionary department : dictionaries) {
-            dictionaryToId.put(department.getId(), department);
-        }
-        List<QuietDictionary> result = new ArrayList<>();
-        for (QuietDictionary department : dictionaries) {
-            if (department.getParentId() == null) {
-                result.add(department);
-            } else {
-                dictionaryToId.get(department.getParentId()).addChildren(department);
-            }
-        }
-        return result;
+        List<QuietDictionary> dictionaries = dictionaryRepository
+                .findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(type);
+        return EntityUtils.buildTreeData(dictionaries);
     }
     
     private void checkDictionaryInfo(@NotNull QuietDictionary dictionary) {

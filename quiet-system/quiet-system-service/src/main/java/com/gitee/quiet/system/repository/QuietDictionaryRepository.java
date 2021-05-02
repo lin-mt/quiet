@@ -44,7 +44,7 @@ public interface QuietDictionaryRepository extends JpaRepository<QuietDictionary
      * @param type 要查询的数据字典类型
      * @return 该类型下的所有数据字典信息
      */
-    List<QuietDictionary> findAllByTypeAndKeyIsNullAndParentIdIsNull(String type);
+    List<QuietDictionary> findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(String type);
     
     /**
      * 根据父数据字典ID查询子数据字典信息

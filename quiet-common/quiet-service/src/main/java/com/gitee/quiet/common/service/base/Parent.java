@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Parent<T extends Parent<T>> extends FrontSelect {
+public interface Parent<T> extends FrontSelect {
     
     /**
      * 获取父的ID

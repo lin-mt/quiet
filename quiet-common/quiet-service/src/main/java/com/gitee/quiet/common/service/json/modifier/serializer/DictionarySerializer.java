@@ -40,7 +40,8 @@ public class DictionarySerializer extends BeanSerializerBase {
         this.defaultSerializer = defaultSerializer;
     }
     
-    public DictionarySerializer(BeanSerializerBase defaultSerializer, ObjectIdWriter objectIdWriter, Object propertyFilterId) {
+    public DictionarySerializer(BeanSerializerBase defaultSerializer, ObjectIdWriter objectIdWriter,
+            Object propertyFilterId) {
         super(defaultSerializer, objectIdWriter, propertyFilterId);
         this.defaultSerializer = defaultSerializer;
     }
@@ -75,8 +76,8 @@ public class DictionarySerializer extends BeanSerializerBase {
     
     @Override
     public void serialize(Object bean, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        if (bean instanceof Dictionary && ((Dictionary) bean).getId() == null) {
-            gen.writeString(Dictionary.convertToString(((Dictionary) bean)));
+        if (bean instanceof Dictionary && ((Dictionary<?>) bean).getId() == null) {
+            gen.writeString(Dictionary.convertToString(((Dictionary<?>) bean)));
         } else {
             defaultSerializer.serialize(bean, gen, provider);
         }
