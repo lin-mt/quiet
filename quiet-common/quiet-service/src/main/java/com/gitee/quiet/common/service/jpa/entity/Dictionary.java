@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 @QueryEntity
 @MappedSuperclass
-public class Dictionary extends ParentEntity<Dictionary> implements Serializable {
+public class Dictionary<T extends Dictionary<T>> extends ParentEntity<T> implements Serializable {
     
     public Dictionary() {
     }
@@ -72,7 +72,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
      * @param other 另一个数据字典值
      * @return true：相同 false：不相同
      */
-    public boolean same(@Nullable Dictionary other) {
+    public boolean same(@Nullable Dictionary<T> other) {
         if (other == null) {
             return false;
         }
@@ -86,13 +86,13 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
      * @return 转换后的数据字典
      */
     @Nullable
-    public static Dictionary convertFromString(String dictionaryStr) {
+    public static <T extends Dictionary<T>> Dictionary<T> convertFromString(String dictionaryStr) {
         if (StringUtils.isNotBlank(dictionaryStr)) {
             String[] split = dictionaryStr.split(ServiceConstant.Dictionary.SPLIT_REGEX);
             if (split.length < ServiceConstant.Dictionary.ARRAY_MIN_LENGTH) {
                 throw new IllegalArgumentException("数据库数据字典有误，数据字典必须包含 type 和 key");
             }
-            Dictionary dictionary = new Dictionary();
+            Dictionary<T> dictionary = new Dictionary<>();
             dictionary.setType(split[0]);
             dictionary.setKey(split[1]);
             return dictionary;
@@ -107,7 +107,7 @@ public class Dictionary extends ParentEntity<Dictionary> implements Serializable
      * @return 转换后的字符串
      */
     @Nullable
-    public static String convertToString(Dictionary dictionary) {
+    public static <T extends Dictionary<T>> String convertToString(Dictionary<T> dictionary) {
         if (dictionary != null) {
             if (!StringUtils.isNotBlank(dictionary.getType()) || !StringUtils.isNotBlank(dictionary.getKey())) {
                 throw new IllegalArgumentException("数据字典的 type 和 key 都不能为空");

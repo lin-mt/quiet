@@ -18,6 +18,7 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.util.EntityUtils;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietDepartmentRepository;
@@ -31,10 +32,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartmentUser;
@@ -93,20 +91,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     
     @Override
     public List<QuietDepartment> tree() {
-        List<QuietDepartment> all = departmentRepository.findAll();
-        Map<Long, QuietDepartment> deptIdToInfo = new HashMap<>();
-        for (QuietDepartment department : all) {
-            deptIdToInfo.put(department.getId(), department);
-        }
-        List<QuietDepartment> result = new ArrayList<>();
-        for (QuietDepartment department : all) {
-            if (department.getParentId() == null) {
-                result.add(department);
-            } else {
-                deptIdToInfo.get(department.getParentId()).addChildren(department);
-            }
-        }
-        return result;
+        return EntityUtils.buildTreeData(departmentRepository.findAll());
     }
     
     @Override

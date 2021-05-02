@@ -37,7 +37,7 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 @Entity
 @Table(name = "quiet_dictionary", uniqueConstraints = {
         @UniqueConstraint(name = "unique_type_key", columnNames = {"dictionary_type", "dictionary_key"})})
-public class QuietDictionary extends Dictionary {
+public class QuietDictionary extends Dictionary<QuietDictionary> {
     
     @Length(max = 100)
     @Column(name = "remark", length = 100)
