@@ -7,7 +7,7 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DemandType extends Dictionary {
+public class DemandType extends Dictionary<DemandType> {
     
     private static final String TYPE = DemandType.class.getSimpleName();
     

@@ -100,8 +100,8 @@ public class ScrumPriorityController {
      * @param param 模板ID
      * @return 模板下的所有优先级配置信息
      */
-    @PostMapping("getAllByTemplateId")
-    public Result<List<ScrumPriority>> getAllByTemplateId(@RequestBody ScrumPriorityParam param) {
+    @PostMapping("/findAllByTemplateId")
+    public Result<List<ScrumPriority>> findAllByTemplateId(@RequestBody ScrumPriorityParam param) {
         if (param.getTemplateId() == null) {
             throw new ServiceException("controller.priority.getAllTaskStepByTemplateId.templateId.notNull");
         }

@@ -54,14 +54,8 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
      * 需求类型
      */
     @NotNull
-    @Column(name = "demand_type", nullable = false, length = 60)
-    private Dictionary type;
-    
-    /**
-     * 执行者
-     */
-    @Column(name = "executor_id", nullable = false)
-    private Long executorId;
+    @Column(name = "demand_type", nullable = false, length = 30)
+    private Dictionary<DemandType> type;
     
     /**
      * 项目ID
@@ -116,20 +110,12 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
         this.title = title;
     }
     
-    public Dictionary getType() {
+    public Dictionary<DemandType> getType() {
         return type;
     }
     
-    public void setType(Dictionary type) {
+    public void setType(Dictionary<DemandType> type) {
         this.type = type;
-    }
-    
-    public Long getExecutorId() {
-        return executorId;
-    }
-    
-    public void setExecutorId(Long executorId) {
-        this.executorId = executorId;
     }
     
     public Long getProjectId() {
@@ -196,7 +182,6 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
                 .notNullEq(getId(), scrumDemand.id)
                 .notNullEq(getType(), scrumDemand.type)
                 .notBlankContains(getTitle(), scrumDemand.title)
-                .notNullEq(getExecutorId(), scrumDemand.executorId)
                 .notNullEq(getProjectId(), scrumDemand.projectId)
                 .notNullEq(getOptimizeDemandId(), scrumDemand.optimizeDemandId)
                 .notNullEq(getIterationId(), scrumDemand.iterationId)
