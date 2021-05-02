@@ -49,23 +49,24 @@ public class QuietDictionaryController {
     }
     
     /**
-     * 根据数据字典类型查询该类型的数据字典的树形结构提供选项
+     * 根据数据字典类型查询该类型的数据字典，不包含一级数据字典，type 为空时返回空的集合
      *
-     * @return 数据字典树形结构
+     * @return 数据字典
      */
-    @PostMapping("/treeByTypeForSelect")
-    public Result<List<QuietDictionary>> treeByTypeForSelect(@RequestBody QuietDictionaryParam postParam) {
-        return Result.success(dictionaryService.treeByTypeForSelect(postParam.getType()));
+    @PostMapping("/listByTypeForSelect")
+    public Result<List<QuietDictionary>> listByTypeForSelect(@RequestBody QuietDictionaryParam postParam) {
+        return Result.success(dictionaryService.listByTypeForSelect(postParam.getType()));
     }
     
     /**
-     * 根据数据字典类型返回该类型的树形结构
+     * 根据数据字典类型返回该类型所有字典信息，包含一级数据字典，type 为空的时候可以查询所有字典信息
      *
-     * @return 数据字典树形结构
+     * @param param 数据字典类型
+     * @return 数据字典信息
      */
     @PostMapping("/treeByType")
-    public Result<List<QuietDictionary>> treeByType(@RequestBody QuietDictionaryParam postParam) {
-        return Result.success(dictionaryService.treeByType(postParam.getType()));
+    public Result<List<QuietDictionary>> treeByType(@RequestBody QuietDictionaryParam param) {
+        return Result.success(dictionaryService.treeByType(param.getType()));
     }
     
     /**

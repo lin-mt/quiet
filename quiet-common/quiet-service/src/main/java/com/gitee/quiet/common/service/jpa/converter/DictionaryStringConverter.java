@@ -27,15 +27,15 @@ import javax.persistence.Converter;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Converter(autoApply = true)
-public class DictionaryStringConverter<T extends Dictionary<T>> implements AttributeConverter<Dictionary<T>, String> {
+public class DictionaryStringConverter implements AttributeConverter<Dictionary<?>, String> {
     
     @Override
-    public String convertToDatabaseColumn(Dictionary<T> attribute) {
+    public String convertToDatabaseColumn(Dictionary<?> attribute) {
         return Dictionary.convertToString(attribute);
     }
     
     @Override
-    public Dictionary<T> convertToEntityAttribute(String dbData) {
+    public Dictionary<?> convertToEntityAttribute(String dbData) {
         return Dictionary.convertFromString(dbData);
     }
 }
