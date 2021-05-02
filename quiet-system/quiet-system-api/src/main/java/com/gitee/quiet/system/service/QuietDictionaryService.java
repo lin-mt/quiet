@@ -76,5 +76,5 @@ public interface QuietDictionaryService {
      * @param type 数据字典类型
      * @return 该数据字典类型下的选项
      */
-    List<QuietDictionary> treeByTypeForSelect(String type);
+    List<QuietDictionary> listByTypeForSelect(String type);
 }

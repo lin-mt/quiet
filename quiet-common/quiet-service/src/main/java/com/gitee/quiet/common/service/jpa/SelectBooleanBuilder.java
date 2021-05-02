@@ -23,11 +23,14 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.SetPath;
 import com.querydsl.core.types.dsl.StringPath;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
 /**
  * 构建 BooleanBuilder.
@@ -114,9 +117,19 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         return this;
     }
     
-    public SelectBooleanBuilder notNullEq(Dictionary dictionary, QDictionary qDictionary) {
+    public SelectBooleanBuilder notNullEq(Dictionary<?> dictionary, QDictionary qDictionary) {
         if (ObjectUtils.allNotNull(dictionary, dictionary.getType(), dictionary.getKey())) {
             builder.and(qDictionary.eq(dictionary));
+        }
+        return this;
+    }
+    
+    public <T extends Number & Comparable<?>> SelectBooleanBuilder notEmptyContains(Set<T> set,
+            SetPath<T, NumberPath<T>> path) {
+        if (CollectionUtils.isNotEmpty(set)) {
+            for (T t : set) {
+                builder.and(path.contains(t));
+            }
         }
         return this;
     }

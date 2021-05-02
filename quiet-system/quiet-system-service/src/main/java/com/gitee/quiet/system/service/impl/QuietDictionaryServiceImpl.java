@@ -96,7 +96,7 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    public List<QuietDictionary> treeByTypeForSelect(String type) {
+    public List<QuietDictionary> listByTypeForSelect(String type) {
         if (StringUtils.isBlank(type)) {
             return List.of();
         }
