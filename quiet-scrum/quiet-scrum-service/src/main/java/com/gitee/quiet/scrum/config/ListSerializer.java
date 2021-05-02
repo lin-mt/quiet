@@ -24,16 +24,16 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -67,28 +67,30 @@ public class ListSerializer extends JsonSerializer<List<Object>> {
     
     private void sortScrumDemand(List<Object> value) {
         if (CollectionUtils.isNotEmpty(value)) {
-            Map<Integer, ScrumDemand> indexToValue = new HashMap<>(value.size());
+            Set<Integer> demandIndexes = new TreeSet<>();
+            List<ScrumDemand> demands = new ArrayList<>();
             Set<Long> priorityIds = new HashSet<>(value.size());
             for (int i = 0; i < value.size(); i++) {
                 Object t = value.get(i);
                 if (t instanceof ScrumDemand) {
-                    ScrumDemand scrumDemand = (ScrumDemand) t;
-                    indexToValue.put(i, scrumDemand);
-                    priorityIds.add(scrumDemand.getPriorityId());
+                    ScrumDemand demand = (ScrumDemand) t;
+                    demandIndexes.add(i);
+                    demands.add(demand);
+                    priorityIds.add(demand.getPriorityId());
                 }
             }
-            if (MapUtils.isNotEmpty(indexToValue)) {
-                Map<Long, List<ScrumDemand>> priorityToDemands = indexToValue.values().stream()
+            if (CollectionUtils.isNotEmpty(demandIndexes)) {
+                Iterator<Integer> iterator = demandIndexes.iterator();
+                Map<Long, List<ScrumDemand>> priorityToDemands = demands.stream()
                         .collect(Collectors.groupingBy(ScrumDemand::getPriorityId));
                 List<ScrumPriority> priorities = priorityService.findAllByIds(priorityIds).stream().sorted()
                         .collect(Collectors.toList());
                 for (ScrumPriority priority : priorities) {
-                    List<ScrumDemand> scrumDemands = priorityToDemands.get(priority.getId());
-                    List<Object> objects = new ArrayList<>(scrumDemands);
-                    Serial.Utils.sortSerial(objects);
+                    List<ScrumDemand> sortDemands = priorityToDemands.get(priority.getId());
+                    Serial.Utils.sortSerial(sortDemands);
                     int index = 0;
-                    for (Map.Entry<Integer, ScrumDemand> entry : indexToValue.entrySet()) {
-                        value.set(entry.getKey(), objects.get(index));
+                    while (iterator.hasNext() && index < sortDemands.size()) {
+                        value.set(iterator.next(), sortDemands.get(index));
                         index++;
                     }
                 }
