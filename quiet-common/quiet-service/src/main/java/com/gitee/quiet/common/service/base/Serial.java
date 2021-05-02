@@ -62,19 +62,19 @@ public interface Serial extends Comparable<Serial> {
     
     class Utils {
         
-        public static void sortSerial(List<Object> value) {
+        public static <T> void sortSerial(List<T> value) {
             if (CollectionUtils.isNotEmpty(value)) {
-                Map<Integer, Object> indexToValue = new HashMap<>(value.size());
+                Map<Integer, T> indexToValue = new HashMap<>(value.size());
                 for (int i = 0; i < value.size(); i++) {
-                    Object t = value.get(i);
+                    T t = value.get(i);
                     if (t instanceof Serial) {
                         indexToValue.put(i, t);
                     }
                 }
                 if (MapUtils.isNotEmpty(indexToValue)) {
-                    List<Object> sort = indexToValue.values().stream().sorted().collect(Collectors.toList());
+                    List<T> sort = indexToValue.values().stream().sorted().collect(Collectors.toList());
                     int index = 0;
-                    for (Map.Entry<Integer, Object> entry : indexToValue.entrySet()) {
+                    for (Map.Entry<Integer, T> entry : indexToValue.entrySet()) {
                         value.set(entry.getKey(), sort.get(index));
                         index++;
                     }
