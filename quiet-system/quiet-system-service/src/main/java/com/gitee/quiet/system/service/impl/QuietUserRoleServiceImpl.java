@@ -96,7 +96,7 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     }
     
     @Override
-    public void addRoles(List<QuietUserRole> userRoles) {
+    public List<QuietUserRole> addRoles(List<QuietUserRole> userRoles) {
         Map<Long, List<QuietUserRole>> userIdToRoles = userRoles.stream()
                 .collect(Collectors.groupingBy(QuietUserRole::getUserId));
         for (Map.Entry<Long, List<QuietUserRole>> entry : userIdToRoles.entrySet()) {
@@ -114,7 +114,8 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
             }
         }
         if (CollectionUtils.isNotEmpty(userRoles)) {
-            userRoleRepository.saveAll(userRoles);
+            return userRoleRepository.saveAll(userRoles);
         }
+        return List.of();
     }
 }

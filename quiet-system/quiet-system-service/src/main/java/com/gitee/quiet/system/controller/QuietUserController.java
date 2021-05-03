@@ -26,6 +26,7 @@ import com.gitee.quiet.common.validation.group.param.curd.batch.CreateBatch;
 import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.common.validation.util.ValidationUtils;
 import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.params.QuietUserParam;
 import com.gitee.quiet.system.params.QuietUserRoleParam;
 import com.gitee.quiet.system.service.QuietUserRoleService;
@@ -129,9 +130,8 @@ public class QuietUserController {
     }
     
     @PostMapping("/addRoles")
-    public Result<Object> addRoles(@RequestBody @Validated(CreateBatch.class) QuietUserRoleParam postParam) {
-        userRoleService.addRoles(postParam.getSaveBatch());
-        return Result.createSuccess();
+    public Result<List<QuietUserRole>> addRoles(@RequestBody @Validated(CreateBatch.class) QuietUserRoleParam postParam) {
+        return Result.createSuccess(userRoleService.addRoles(postParam.getSaveBatch()));
     }
     
 }
