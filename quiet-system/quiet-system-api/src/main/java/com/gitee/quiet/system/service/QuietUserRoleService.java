@@ -79,5 +79,5 @@ public interface QuietUserRoleService {
      *
      * @param userRoles 要新增的数据
      */
-    void addRoles(List<QuietUserRole> userRoles);
+    List<QuietUserRole> addRoles(List<QuietUserRole> userRoles);
 }
