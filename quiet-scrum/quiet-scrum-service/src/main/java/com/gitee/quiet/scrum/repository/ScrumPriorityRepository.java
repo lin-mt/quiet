@@ -55,4 +55,12 @@ public interface ScrumPriorityRepository extends JpaRepository<ScrumPriority, Lo
      * @return 所有优先级配置信息
      */
     List<ScrumPriority> findAllByTemplateIdIn(Set<Long> templateIds);
+    
+    /**
+     * 根据模板ID统计优先级数量
+     *
+     * @param templateId 模板ID
+     * @return 优先级数量
+     */
+    long countByTemplateId(Long templateId);
 }

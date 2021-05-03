@@ -115,6 +115,11 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         }
     }
     
+    @Override
+    public long countByTemplateId(Long templateId) {
+        return taskStepRepository.countByTemplateId(templateId);
+    }
+    
     private void checkInfo(ScrumTaskStep taskStep) {
         if (!templateService.existsById(taskStep.getTemplateId())) {
             throw new ServiceException("template.id.not.exist");

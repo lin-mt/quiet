@@ -31,6 +31,7 @@ import com.gitee.quiet.scrum.vo.AllTemplate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -159,6 +160,14 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         ScrumTemplate exist = templateRepository.findByName(template.getName());
         if (exist != null && !exist.getName().equals(template.getName())) {
             throw new ServiceException("template.name.exist", template.getName());
+        }
+        if (BooleanUtils.toBoolean(template.getEnabled())) {
+            if (template.getId() == null || taskStepService.countByTemplateId(template.getId()) == 0) {
+                throw new ServiceException("template.nonTaskStep.canNotEnable", template.getId());
+            }
+            if (template.getId() == null || priorityService.countByTemplateId(template.getId()) == 0) {
+                throw new ServiceException("template.nonPriority.canNotEnable", template.getId());
+            }
         }
     }
 }

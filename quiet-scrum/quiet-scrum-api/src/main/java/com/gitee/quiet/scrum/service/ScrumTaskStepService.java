@@ -83,4 +83,12 @@ public interface ScrumTaskStepService {
      * @param templateId 模板ID
      */
     void deleteByTemplateId(Long templateId);
+    
+    /**
+     * 根据模板ID统计任务步骤数量
+     *
+     * @param templateId 模板ID
+     * @return 任务步骤数
+     */
+    long countByTemplateId(Long templateId);
 }

@@ -18,6 +18,7 @@ package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumPriorityRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
@@ -70,7 +71,13 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
         if (demandService.countByPriorityId(id) > 0) {
             throw new ServiceException("priority.hasDemand.can.not.delete");
         }
+        ScrumPriority delete = priorityRepository.getOne(id);
         priorityRepository.deleteById(id);
+        if (priorityRepository.countByTemplateId(delete.getTemplateId()) == 0) {
+            ScrumTemplate template = templateService.findById(delete.getTemplateId());
+            template.setEnabled(false);
+            templateService.update(template);
+        }
     }
     
     @Override
@@ -110,6 +117,11 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
             return priorityRepository.findAllById(ids);
         }
         return List.of();
+    }
+    
+    @Override
+    public long countByTemplateId(Long templateId) {
+        return priorityRepository.countByTemplateId(templateId);
     }
     
     private void checkInfo(ScrumPriority priority) {

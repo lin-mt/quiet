@@ -89,4 +89,12 @@ public interface ScrumPriorityService {
      * @return 优先级信息
      */
     List<ScrumPriority> findAllByIds(Set<Long> ids);
+    
+    /**
+     * 根据模板ID统计优先级数量
+     *
+     * @param templateId 模板ID
+     * @return 优先级数量
+     */
+    long countByTemplateId(Long templateId);
 }
