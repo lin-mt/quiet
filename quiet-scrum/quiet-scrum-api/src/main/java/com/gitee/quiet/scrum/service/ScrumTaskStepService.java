@@ -75,7 +75,7 @@ public interface ScrumTaskStepService {
      *
      * @param taskSteps 任务步骤信息
      */
-    void updateBatch(List<ScrumTaskStep> taskSteps);
+    List<ScrumTaskStep> updateBatch(List<ScrumTaskStep> taskSteps);
     
     /**
      * 根据模板ID删除任务步骤配置信息

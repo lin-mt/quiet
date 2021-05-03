@@ -96,13 +96,14 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
     }
     
     @Override
-    public void updateBatch(List<ScrumTaskStep> taskSteps) {
+    public List<ScrumTaskStep> updateBatch(List<ScrumTaskStep> taskSteps) {
         if (CollectionUtils.isNotEmpty(taskSteps)) {
             for (ScrumTaskStep taskStep : taskSteps) {
                 checkInfo(taskStep);
             }
-            taskStepRepository.saveAll(taskSteps);
+            return taskStepRepository.saveAll(taskSteps);
         }
+        return List.of();
     }
     
     @Override

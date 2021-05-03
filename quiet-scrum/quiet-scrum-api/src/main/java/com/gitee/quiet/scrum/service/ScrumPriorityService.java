@@ -72,7 +72,7 @@ public interface ScrumPriorityService {
      *
      * @param priorities 要更新的优先级信息
      */
-    void updateBatch(List<ScrumPriority> priorities);
+    List<ScrumPriority> updateBatch(List<ScrumPriority> priorities);
     
     /**
      * 根据模板ID查询优先级配置信息

@@ -97,13 +97,14 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
     }
     
     @Override
-    public void updateBatch(List<ScrumPriority> priorities) {
+    public List<ScrumPriority> updateBatch(List<ScrumPriority> priorities) {
         if (CollectionUtils.isNotEmpty(priorities)) {
             for (ScrumPriority priority : priorities) {
                 checkInfo(priority);
             }
-            priorityRepository.saveAll(priorities);
+            return priorityRepository.saveAll(priorities);
         }
+        return List.of();
     }
     
     @Override

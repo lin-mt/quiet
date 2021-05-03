@@ -89,9 +89,8 @@ public class ScrumTaskStepController {
      * @return 更新结果
      */
     @PostMapping("/updateBatch")
-    public Result<Object> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumTaskStepParam param) {
-        taskStepService.updateBatch(param.getUpdateBatch());
-        return Result.success();
+    public Result<List<ScrumTaskStep>> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumTaskStepParam param) {
+        return Result.success(taskStepService.updateBatch(param.getUpdateBatch()));
     }
     
     /**

@@ -89,9 +89,9 @@ public class ScrumPriorityController {
      * @return 更新结果
      */
     @PostMapping("/updateBatch")
-    public Result<Object> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumPriorityParam param) {
-        priorityService.updateBatch(param.getUpdateBatch());
-        return Result.success();
+    public Result<List<ScrumPriority>> updateBatch(
+            @RequestBody @Validated(UpdateBatch.class) ScrumPriorityParam param) {
+        return Result.success(priorityService.updateBatch(param.getUpdateBatch()));
     }
     
     /**
