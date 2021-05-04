@@ -51,6 +51,17 @@ public class ScrumDemandController {
     }
     
     /**
+     * 规划需求
+     *
+     * @param param :id 需求ID :iterationId 迭代ID
+     * @return :data true：规划成功，false：规划失败
+     */
+    @PostMapping("/planning")
+    private Result<Boolean> planning(@RequestBody @Validated(IdValid.class) ScrumDemandParam param) {
+        return Result.success(demandService.planning(param.getId(), param.getIterationId()));
+    }
+    
+    /**
      * 滚动查询待规划的需求
      *
      * @param param :id 项目ID

@@ -83,4 +83,11 @@ public interface ScrumIterationService {
      * @return 处于该迭代的所有需求
      */
     List<ScrumDemand> findAllDemandsById(Long id);
+    
+    /**
+     * 校验是否存在该id的迭代，不存在则抛出异常
+     *
+     * @param id 迭代id
+     */
+    void checkIdExist(Long id);
 }

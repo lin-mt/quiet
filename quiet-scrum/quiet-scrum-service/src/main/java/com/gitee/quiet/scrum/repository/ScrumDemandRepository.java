@@ -70,7 +70,8 @@ public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> 
      * @param projectId 项目ID
      * @return 项目待规划的需求信息
      */
-    @Query(value = "select * from scrum_demand where iteration_id is null and project_id = ?1 limit ?2, ?3 ", nativeQuery = true)
+    @Query(value = "select * from scrum_demand where iteration_id is null and project_id = ?1 "
+            + "order by gmt_create desc, gmt_update desc limit ?2, ?3 ", nativeQuery = true)
     List<ScrumDemand> findAllToBePlanned(Long projectId, long offset, long limit);
     
     /**

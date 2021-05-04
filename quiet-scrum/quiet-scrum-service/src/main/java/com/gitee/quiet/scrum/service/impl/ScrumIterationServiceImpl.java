@@ -99,6 +99,13 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         return demandService.findAllByIterationId(id);
     }
     
+    @Override
+    public void checkIdExist(Long id) {
+        if (!iterationRepository.existsById(id)) {
+            throw new ServiceException("iteration.id.not.exist", id);
+        }
+    }
+    
     private void checkInfo(@NotNull ScrumIteration iteration) {
         versionService.checkIdExist(iteration.getVersionId());
         ScrumIteration exist = iterationRepository

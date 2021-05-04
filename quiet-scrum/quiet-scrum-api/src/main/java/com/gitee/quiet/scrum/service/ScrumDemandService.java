@@ -95,4 +95,12 @@ public interface ScrumDemandService {
      * @return 处于该迭代的需求数量
      */
     long countByIterationId(@NotNull Long iterationId);
+    
+    /**
+     * 规划需求
+     *
+     * @param id          需求ID
+     * @param iterationId 迭代ID
+     */
+    boolean planning(@NotNull Long id, Long iterationId);
 }

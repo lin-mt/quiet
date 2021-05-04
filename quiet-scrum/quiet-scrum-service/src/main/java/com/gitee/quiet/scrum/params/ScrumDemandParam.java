@@ -25,5 +25,17 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ScrumDemandParam extends Param<ScrumDemand, ScrumDemand> {
-
+    
+    /**
+     * 迭代ID
+     */
+    private Long iterationId;
+    
+    public Long getIterationId() {
+        return iterationId;
+    }
+    
+    public void setIterationId(Long iterationId) {
+        this.iterationId = iterationId;
+    }
 }

@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@JsonComponent
+//@JsonComponent
 public class ListSerializer extends JsonSerializer<List<Object>> {
     
     private final ScrumPriorityService priorityService;
