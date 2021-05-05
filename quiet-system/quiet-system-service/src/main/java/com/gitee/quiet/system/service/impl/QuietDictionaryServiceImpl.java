@@ -46,7 +46,7 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 @Service
 public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     
-    public static final String CACHE_NAME = "quiet:system:dictionary:";
+    public static final String CACHE_NAME = "quiet:system:dictionary";
     
     private final JPAQueryFactory jpaQueryFactory;
     
@@ -74,14 +74,14 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_NAME, key = "#save.type")
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#save.type")
     public QuietDictionary save(@NotNull QuietDictionary save) {
         checkDictionaryInfo(save);
         return dictionaryRepository.save(save);
     }
     
     @Override
-    @CacheEvict(value = CACHE_NAME, key = "#result.type")
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#result.type")
     public QuietDictionary delete(@NotNull Long id) {
         Optional<QuietDictionary> delete = dictionaryRepository.findById(id);
         if (delete.isEmpty()) {
@@ -96,14 +96,14 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_NAME, key = "#update.type")
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#update.type")
     public QuietDictionary update(@NotNull QuietDictionary update) {
         checkDictionaryInfo(update);
         return dictionaryRepository.saveAndFlush(update);
     }
     
     @Override
-    @Cacheable(value = CACHE_NAME, key = "#type", condition = "#type != null ")
+    @Cacheable(cacheNames = CACHE_NAME, key = "#type", condition = "#type != null ", sync = true)
     public List<QuietDictionary> listByTypeForSelect(String type) {
         if (StringUtils.isBlank(type)) {
             return List.of();
