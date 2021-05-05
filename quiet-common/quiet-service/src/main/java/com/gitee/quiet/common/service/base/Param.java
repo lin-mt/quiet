@@ -120,7 +120,7 @@ public class Param<T extends BaseEntity, P> {
     /**
      * 查询几条数据
      */
-    @Range(min = 1L, max = 30L, groups = OffsetLimitValid.class)
+    @Range(max = 30L, groups = OffsetLimitValid.class)
     @NotNull(groups = OffsetLimitValid.class)
     private Long limit;
     
