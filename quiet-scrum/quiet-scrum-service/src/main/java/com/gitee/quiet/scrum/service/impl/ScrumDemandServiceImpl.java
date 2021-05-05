@@ -23,16 +23,12 @@ import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
-import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
@@ -56,14 +52,11 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     
     private final ScrumTaskService taskService;
     
-    private final ScrumIterationService iterationService;
-    
     public ScrumDemandServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumDemandRepository demandRepository,
-            ScrumTaskService taskService, @Lazy ScrumIterationService iterationService) {
+            ScrumTaskService taskService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.demandRepository = demandRepository;
         this.taskService = taskService;
-        this.iterationService = iterationService;
     }
     
     @Override
@@ -110,22 +103,6 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     @Override
     public long countByIterationId(Long iterationId) {
         return demandRepository.countByIterationId(iterationId);
-    }
-    
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean planning(Long id, Long iterationId) {
-        if (!demandRepository.existsById(id)) {
-            throw new ServiceException("demand.parentId.not.exist", id);
-        }
-        JPAUpdateClause update = jpaQueryFactory.update(scrumDemand);
-        if (iterationId == null) {
-            update.setNull(scrumDemand.iterationId);
-        } else {
-            iterationService.checkIdExist(iterationId);
-            update.set(scrumDemand.iterationId, iterationId);
-        }
-        return update.where(scrumDemand.id.eq(id)).execute() == 1;
     }
     
     private void checkDemand(@NotNull ScrumDemand demand) {
