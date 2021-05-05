@@ -95,4 +95,14 @@ public interface ScrumDemandService {
      * @return 处于该迭代的需求数量
      */
     long countByIterationId(@NotNull Long iterationId);
+    
+    /**
+     * 查询迭代的需求
+     *
+     * @param iteration 迭代ID
+     * @param offset    跳过的数量
+     * @param limit     查询数量
+     * @return 迭代的需求
+     */
+    List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
 }

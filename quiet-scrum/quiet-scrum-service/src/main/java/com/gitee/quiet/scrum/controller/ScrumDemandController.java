@@ -63,6 +63,18 @@ public class ScrumDemandController {
     }
     
     /**
+     * 滚动查询迭代的需求
+     *
+     * @param param :id 迭代ID
+     * @return 处于该迭代的需求
+     */
+    @PostMapping("/scrollByIterationId")
+    public Result<List<ScrumDemand>> scrollByIterationId(
+            @RequestBody @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandParam param) {
+        return Result.success(demandService.scrollIteration(param.getId(), param.getOffset(), param.getLimit()));
+    }
+    
+    /**
      * 创建需求
      *
      * @param param :save 创建的需求信息

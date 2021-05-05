@@ -17,12 +17,16 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
+import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
+
 /**
  * 迭代信息service实现类.
  *
@@ -40,14 +46,17 @@ import java.util.Set;
 @Service
 public class ScrumIterationServiceImpl implements ScrumIterationService {
     
+    private final JPAQueryFactory jpaQueryFactory;
+    
     private final ScrumIterationRepository iterationRepository;
     
     private final ScrumVersionService versionService;
     
     private final ScrumDemandService demandService;
     
-    public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository,
+    public ScrumIterationServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumIterationRepository iterationRepository,
             @Lazy ScrumVersionService versionService, ScrumDemandService demandService) {
+        this.jpaQueryFactory = jpaQueryFactory;
         this.iterationRepository = iterationRepository;
         this.versionService = versionService;
         this.demandService = demandService;
@@ -92,11 +101,6 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     @Override
     public long countByVersionId(Long versionId) {
         return iterationRepository.countByVersionId(versionId);
-    }
-    
-    @Override
-    public List<ScrumDemand> findAllDemandsById(Long id) {
-        return demandService.findAllByIterationId(id);
     }
     
     @Override

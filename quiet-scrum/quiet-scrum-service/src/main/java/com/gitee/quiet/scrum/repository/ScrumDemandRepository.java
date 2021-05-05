@@ -18,7 +18,6 @@ package com.gitee.quiet.scrum.repository;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -63,16 +62,6 @@ public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> 
      * @return 处于该优先级的需求数量
      */
     long countByPriorityId(Long priorityId);
-    
-    /**
-     * 根据项目ID批量查询待规划的需求信息
-     *
-     * @param projectId 项目ID
-     * @return 项目待规划的需求信息
-     */
-    @Query(value = "select * from scrum_demand where iteration_id is null and project_id = ?1 "
-            + "order by gmt_create desc, gmt_update desc limit ?2, ?3 ", nativeQuery = true)
-    List<ScrumDemand> findAllToBePlanned(Long projectId, long offset, long limit);
     
     /**
      * 根据迭代ID统计处于该迭代的需求数量
