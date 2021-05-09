@@ -19,7 +19,6 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.validation.group.param.IdValid;
 import com.gitee.quiet.common.validation.group.param.OffsetLimitValid;
-import com.gitee.quiet.common.validation.group.param.ParamsValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
@@ -116,8 +115,7 @@ public class ScrumDemandController {
      * @return 需求信息
      */
     @PostMapping("/findAllByIterationId")
-    public Result<List<ScrumDemand>> findAllByIterationId(
-            @RequestBody @Validated(ParamsValid.class) ScrumDemandParam param) {
+    public Result<List<ScrumDemand>> findAllByIterationId(@RequestBody ScrumDemandParam param) {
         ValidationUtils.notNull(param.getIterationId(), "controller.demand.iterationId.canNotNull");
         return Result.success(demandService.findAllByIterationId(param.getIterationId()));
     }
