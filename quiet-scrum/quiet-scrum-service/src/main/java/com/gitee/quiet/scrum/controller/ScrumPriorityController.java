@@ -103,7 +103,7 @@ public class ScrumPriorityController {
     @PostMapping("/findAllByTemplateId")
     public Result<List<ScrumPriority>> findAllByTemplateId(@RequestBody ScrumPriorityParam param) {
         if (param.getTemplateId() == null) {
-            throw new ServiceException("controller.priority.getAllTaskStepByTemplateId.templateId.notNull");
+            throw new ServiceException("controller.priority.templateId.notNull");
         }
         return Result.success(priorityService.findAllByTemplateId(param.getTemplateId()));
     }

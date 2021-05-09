@@ -102,7 +102,7 @@ public class ScrumTaskStepController {
     @PostMapping("getAllByTemplateId")
     public Result<List<ScrumTaskStep>> getAllByTemplateId(@RequestBody ScrumTaskStepParam param) {
         if (param.getTemplateId() == null) {
-            throw new ServiceException("controller.taskStep.getAllTaskStepByTemplateId.templateId.notNull");
+            throw new ServiceException("controller.taskStep.templateId.notNull");
         }
         return Result.success(taskStepService.findAllByTemplateId(param.getTemplateId()));
     }

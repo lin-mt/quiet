@@ -112,14 +112,14 @@ public class ScrumDemandController {
     /**
      * 查询一个迭代下的所有需求信息
      *
-     * @param param :params:iterationId 迭代ID
+     * @param param :iterationId 迭代ID
      * @return 需求信息
      */
-    @PostMapping("/findAllByIteration")
-    public Result<List<ScrumDemand>> findAllByIteration(
+    @PostMapping("/findAllByIterationId")
+    public Result<List<ScrumDemand>> findAllByIterationId(
             @RequestBody @Validated(ParamsValid.class) ScrumDemandParam param) {
-        ValidationUtils.notNull(param.getParams().getIterationId(), "demand.iterationId.can.notNull");
-        return Result.success(demandService.findAllByIterationId(param.getParams().getIterationId()));
+        ValidationUtils.notNull(param.getIterationId(), "controller.demand.iterationId.canNotNull");
+        return Result.success(demandService.findAllByIterationId(param.getIterationId()));
     }
     
     /**
