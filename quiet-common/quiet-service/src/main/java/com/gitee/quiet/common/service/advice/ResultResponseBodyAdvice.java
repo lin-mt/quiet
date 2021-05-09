@@ -16,12 +16,15 @@
 
 package com.gitee.quiet.common.service.advice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.base.constant.CommonCode;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.config.MessageSourceConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -34,7 +37,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -50,11 +52,20 @@ public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
     
-    @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
     
-    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
-    private MessageSource commonMessageSource;
+    private final MessageSource commonMessageSource;
+    
+    private final ObjectMapper objectMapper;
+    
+    public ResultResponseBodyAdvice(
+            @Qualifier(AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME) MessageSource messageSource,
+            @Qualifier(MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE) MessageSource commonMessageSource,
+            ObjectMapper objectMapper) {
+        this.messageSource = messageSource;
+        this.commonMessageSource = commonMessageSource;
+        this.objectMapper = objectMapper;
+    }
     
     @Override
     public boolean supports(final MethodParameter methodParameter,
@@ -69,7 +80,11 @@ public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>
         if (Objects.nonNull(result)) {
             fillMessage(result, serverHttpRequest);
         }
-        LOGGER.info("result data: {}", result);
+        try {
+            LOGGER.info("result data: {}", objectMapper.writeValueAsString(result));
+        } catch (JsonProcessingException e) {
+            LOGGER.error("result to json string error", e);
+        }
         return result;
     }
     
