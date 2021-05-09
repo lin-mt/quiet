@@ -26,7 +26,6 @@ import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -105,9 +104,8 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     
     @Override
     public List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit) {
-        BooleanBuilder builder = SelectBooleanBuilder.booleanBuilder().notNullEq(projectId, scrumDemand.projectId)
-                .getPredicate().and(scrumDemand.iterationId.isNull());
-        JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(builder)
+        JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder().notNullEq(projectId, scrumDemand.projectId)
+                .and(scrumDemand.iterationId.isNull()).from(jpaQueryFactory, scrumDemand)
                 .orderBy(scrumDemand.gmtCreate.desc());
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
@@ -122,9 +120,8 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     
     @Override
     public List<ScrumDemand> scrollIteration(Long iterationId, Long offset, Long limit) {
-        BooleanBuilder builder = SelectBooleanBuilder.booleanBuilder().notNullEq(iterationId, scrumDemand.iterationId)
-                .getPredicate();
-        JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(builder);
+        JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder()
+                .notNullEq(iterationId, scrumDemand.iterationId).from(jpaQueryFactory, scrumDemand);
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }
