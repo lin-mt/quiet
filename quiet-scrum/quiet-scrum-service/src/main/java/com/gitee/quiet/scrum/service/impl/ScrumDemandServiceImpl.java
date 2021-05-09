@@ -107,7 +107,8 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     public List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit) {
         BooleanBuilder builder = SelectBooleanBuilder.booleanBuilder().notNullEq(projectId, scrumDemand.projectId)
                 .getPredicate().and(scrumDemand.iterationId.isNull());
-        JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(builder);
+        JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(builder)
+                .orderBy(scrumDemand.gmtCreate.desc());
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }
@@ -128,6 +129,15 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }
         return query.fetch();
+    }
+    
+    @Override
+    public void deleteById(Long id) {
+        ScrumDemand delete = demandRepository.getOne(id);
+        if (delete.getIterationId() != null) {
+            throw new ServiceException("demand.iterationId.notNull.canNotDelete");
+        }
+        demandRepository.deleteById(id);
     }
     
     private void checkDemand(@NotNull ScrumDemand demand) {

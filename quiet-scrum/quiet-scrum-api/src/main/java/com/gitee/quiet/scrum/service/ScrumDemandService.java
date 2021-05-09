@@ -105,4 +105,11 @@ public interface ScrumDemandService {
      * @return 迭代的需求
      */
     List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
+    
+    /**
+     * 根据ID删除需求
+     *
+     * @param id 需求ID
+     */
+    void deleteById(Long id);
 }

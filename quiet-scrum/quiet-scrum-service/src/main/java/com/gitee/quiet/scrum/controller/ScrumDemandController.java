@@ -22,6 +22,7 @@ import com.gitee.quiet.common.validation.group.param.OffsetLimitValid;
 import com.gitee.quiet.common.validation.group.param.ParamsValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.common.validation.util.ValidationUtils;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.params.ScrumDemandParam;
@@ -48,6 +49,18 @@ public class ScrumDemandController {
     
     public ScrumDemandController(ScrumDemandService demandService) {
         this.demandService = demandService;
+    }
+    
+    /**
+     * 删除需求
+     *
+     * @param param :deleteId 删除的需求ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumDemandParam param) {
+        demandService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
     }
     
     /**
