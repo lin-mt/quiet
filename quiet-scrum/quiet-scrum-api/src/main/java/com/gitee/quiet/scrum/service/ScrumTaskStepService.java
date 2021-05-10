@@ -91,4 +91,11 @@ public interface ScrumTaskStepService {
      * @return 任务步骤数
      */
     long countByTemplateId(Long templateId);
+    
+    /**
+     * 校验是否存在该任务步骤ID
+     *
+     * @param id 任务步骤ID
+     */
+    void checkIdExist(Long id);
 }

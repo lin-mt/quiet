@@ -53,4 +53,14 @@ public interface ScrumTaskRepository extends JpaRepository<ScrumTask, Long> {
      * @return 处于该任务步骤的所有任务信息
      */
     List<ScrumTask> findAllByTaskStepId(Long taskStepId);
+    
+    /**
+     * 根据需求ID和任务标题查询任务信息
+     *
+     * @param demandId 需求ID
+     * @param title    任务标题
+     * @return 任务信息
+     */
+    ScrumTask findByDemandIdAndTitle(Long demandId, String title);
+    
 }

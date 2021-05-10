@@ -137,6 +137,13 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
         demandRepository.deleteById(id);
     }
     
+    @Override
+    public void checkIdExist(Long id) {
+        if (!demandRepository.existsById(id)) {
+            throw new ServiceException("demand.id.notExist", id);
+        }
+    }
+    
     private void checkDemand(@NotNull ScrumDemand demand) {
         ScrumDemand exist = demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
         if (exist != null && !exist.getId().equals(demand.getId())) {

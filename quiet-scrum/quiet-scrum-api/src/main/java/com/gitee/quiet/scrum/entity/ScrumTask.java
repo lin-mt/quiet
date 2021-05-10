@@ -16,7 +16,9 @@
 
 package com.gitee.quiet.scrum.entity;
 
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.scrum.dictionary.TaskType;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -44,6 +46,13 @@ public class ScrumTask extends SerialEntity {
     @Length(max = 10)
     @Column(name = "title", nullable = false, length = 10)
     private String title;
+    
+    /**
+     * 任务类型
+     */
+    @NotNull
+    @Column(name = "task_type", nullable = false, length = 30)
+    private Dictionary<TaskType> type;
     
     /**
      * 所属需求ID
@@ -105,6 +114,14 @@ public class ScrumTask extends SerialEntity {
     
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public Dictionary<TaskType> getType() {
+        return type;
+    }
+    
+    public void setType(Dictionary<TaskType> type) {
+        this.type = type;
     }
     
     public Long getDemandId() {

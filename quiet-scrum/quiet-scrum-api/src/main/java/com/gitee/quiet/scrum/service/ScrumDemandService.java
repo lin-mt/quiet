@@ -112,4 +112,11 @@ public interface ScrumDemandService {
      * @param id 需求ID
      */
     void deleteById(Long id);
+    
+    /**
+     * 校验是否需求ID是否存在
+     *
+     * @param id 需求ID
+     */
+    void checkIdExist(Long id);
 }

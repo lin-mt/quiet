@@ -17,9 +17,13 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.param.curd.Create;
+import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.params.ScrumTaskParam;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,5 +56,39 @@ public class ScrumTaskController {
     @PostMapping("/findAllTaskByDemandIds")
     public Result<Map<Long, Map<Long, List<ScrumTask>>>> findAllTaskByDemandIds(@RequestBody ScrumTaskParam param) {
         return Result.success(taskService.findAllTaskByDemandIds(param.getDemandIds()));
+    }
+    
+    /**
+     * 创建任务
+     *
+     * @param param :save 创建的任务信息
+     * @return 创建后的任务信息
+     */
+    @PostMapping("/save")
+    public Result<ScrumTask> save(@RequestBody @Validated(Create.class) ScrumTaskParam param) {
+        return Result.success(taskService.save(param.getSave()));
+    }
+    
+    /**
+     * 更新任务
+     *
+     * @param param :update 更新的任务信息
+     * @return 更新后的任务信息
+     */
+    @PostMapping("/update")
+    public Result<ScrumTask> update(@RequestBody @Validated(Update.class) ScrumTaskParam param) {
+        return Result.success(taskService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 删除任务
+     *
+     * @param param :deleteId 删除的任务ID
+     * @return 删除结果
+     */
+    @PostMapping("/delete")
+    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumTaskParam param) {
+        taskService.deleteById(param.getDeleteId());
+        return Result.deleteSuccess();
     }
 }
