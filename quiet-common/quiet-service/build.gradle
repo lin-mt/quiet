@@ -19,6 +19,7 @@ dependencies {
 
     compile "com.querydsl:querydsl-core:${queryDslVersion}"
     compile "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    compile "com.querydsl:querydsl-sql:${queryDslVersion}"
 
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-undertow"
