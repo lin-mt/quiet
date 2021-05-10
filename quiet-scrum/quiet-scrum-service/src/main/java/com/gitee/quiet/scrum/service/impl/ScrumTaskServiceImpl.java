@@ -22,7 +22,6 @@ import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -41,17 +40,14 @@ import java.util.stream.Collectors;
 @Service
 public class ScrumTaskServiceImpl implements ScrumTaskService {
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final ScrumTaskRepository taskRepository;
     
     private final ScrumDemandService demandService;
     
     private final ScrumTaskStepService taskStepService;
     
-    public ScrumTaskServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumTaskRepository taskRepository,
-            @Lazy ScrumDemandService demandService, @Lazy ScrumTaskStepService taskStepService) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public ScrumTaskServiceImpl(ScrumTaskRepository taskRepository, @Lazy ScrumDemandService demandService,
+            @Lazy ScrumTaskStepService taskStepService) {
         this.taskRepository = taskRepository;
         this.demandService = demandService;
         this.taskStepService = taskStepService;
