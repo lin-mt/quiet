@@ -20,3 +20,6 @@ dubbo:
     filter: token-value-consumer
   provider:
     filter: token-value-provider
+quiet:
+  id-generator:
+    max-server-number: 10

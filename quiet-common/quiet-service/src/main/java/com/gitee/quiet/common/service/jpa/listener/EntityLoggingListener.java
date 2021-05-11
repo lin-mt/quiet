@@ -112,7 +112,7 @@ public class EntityLoggingListener {
             cache.getLogger()
                     .info(LOGGER_FORMAT, prefix, cache.getTableName(), objectMapper.writeValueAsString(entity));
         } catch (JsonProcessingException e) {
-            cache.getLogger().error("Json serialization failed when printing log.", e);
+            cache.getLogger().error("{}：Json serialization failed when printing log.", prefix, e);
         }
     }
     
