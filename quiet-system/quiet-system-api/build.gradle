@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 dependencies {
-    compile project(path: ":quiet-common:quiet-service", configuration: "default")
+    api(project(path: ":quiet-common:quiet-service", configuration: "default"))
 
-    compile "com.querydsl:querydsl-core:${queryDslVersion}"
-    compile "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    api("com.querydsl:querydsl-core:${queryDslVersion}")
+    api("com.querydsl:querydsl-jpa:${queryDslVersion}")
 
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
     annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"

@@ -15,8 +15,8 @@
  */
 
 dependencies {
-    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}"
-    compile "org.springframework.boot:spring-boot-starter-web"
+    api("com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}")
+    api("org.springframework.boot:spring-boot-starter-web")
 }
 
 bootJar {

@@ -15,25 +15,25 @@
  */
 
 dependencies {
-    compile project(path: ":quiet-common:quiet-validation", configuration: "default")
+    api(project(path: ":quiet-common:quiet-validation", configuration: "default"))
 
-    compile "com.querydsl:querydsl-core:${queryDslVersion}"
-    compile "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    compile "com.querydsl:querydsl-sql:${queryDslVersion}"
+    api("com.querydsl:querydsl-core:${queryDslVersion}")
+    api("com.querydsl:querydsl-jpa:${queryDslVersion}")
+    api("com.querydsl:querydsl-sql:${queryDslVersion}")
 
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-undertow"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
+    api("org.springframework.boot:spring-boot-starter-web")
+    api("org.springframework.boot:spring-boot-starter-undertow")
+    api("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.boot:spring-boot-starter-data-redis"
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("org.springframework.boot:spring-boot-starter-data-redis")
 
-    compile "org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}"
-    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOauth2AutoconfigureVersion}"
+    api("org.springframework.security.oauth:spring-security-oauth2:${springSecurityOauth2Version}")
+    api("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${springSecurityOauth2AutoconfigureVersion}")
 
-    compile "com.alibaba.cloud:spring-cloud-starter-dubbo"
-    compile "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
-    compile "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
+    api("com.alibaba.cloud:spring-cloud-starter-dubbo")
+    api("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config")
+    api("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery")
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
@@ -43,7 +43,7 @@ dependencies {
 }
 
 configurations {
-    compile.exclude module: "spring-boot-starter-tomcat"
+    api.exclude module: "spring-boot-starter-tomcat"
 }
 
 bootJar {

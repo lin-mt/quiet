@@ -19,22 +19,18 @@ plugins {
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
-//noinspection GroovyAssignabilityCheck
 allprojects {
     group "com.gitee.lin-mt"
     version "1.0.1"
 }
 
 repositories {
-    //noinspection GroovyAssignabilityCheck
     maven { url "https://maven.aliyun.com/repository/public/" }
-    //noinspection GroovyAssignabilityCheck
     maven { url "https://maven.aliyun.com/repository/spring/" }
     mavenLocal()
     mavenCentral()
 }
 
-//noinspection GroovyAssignabilityCheck
 subprojects {
     buildscript {
         ext {
@@ -47,7 +43,7 @@ subprojects {
         }
     }
 
-    apply plugin: "java"
+    apply plugin: "java-library"
     apply plugin: "org.springframework.boot"
     apply plugin: "io.spring.dependency-management"
 
@@ -57,18 +53,16 @@ subprojects {
     }
 
     repositories {
-        //noinspection GroovyAssignabilityCheck
         maven { url "https://maven.aliyun.com/repository/public/" }
-        //noinspection GroovyAssignabilityCheck
         maven { url "https://maven.aliyun.com/repository/spring/" }
         mavenLocal()
         mavenCentral()
     }
 
     dependencies {
-        implementation "com.google.guava:guava:30.1-jre"
-        implementation "org.apache.commons:commons-lang3:3.11"
-        implementation "org.apache.commons:commons-collections4:4.4"
+        api("com.google.guava:guava:30.1-jre")
+        api("org.apache.commons:commons-lang3:3.11")
+        api("org.apache.commons:commons-collections4:4.4")
         testImplementation "org.springframework.boot:spring-boot-starter-test"
     }
 
