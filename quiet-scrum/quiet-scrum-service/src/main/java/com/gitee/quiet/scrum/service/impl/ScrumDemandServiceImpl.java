@@ -110,7 +110,7 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
                 .notNullEq(projectId, scrumDemand.projectId)
                 .notNullEq(filter.getDemandType(), scrumDemand.type)
                 .notNullEq(filter.getPriorityId(), scrumDemand.priorityId)
-                .and(builder -> {
+                .with(builder -> {
                     if (filter.getPlanned() != null) {
                         builder.and(filter.getPlanned() ? scrumDemand.iterationId.isNotNull()
                                 : scrumDemand.iterationId.isNull());
