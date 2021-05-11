@@ -15,8 +15,8 @@
  */
 
 dependencies {
-    compile project(path: ':quiet-common:quiet-service', configuration: 'default')
-    compile project(path: ':quiet-system:quiet-system-api', configuration: 'default')
+    api(project(path: ':quiet-common:quiet-service', configuration: 'default'))
+    api(project(path: ':quiet-system:quiet-system-api', configuration: 'default'))
 
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
     annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
