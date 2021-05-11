@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
 
@@ -82,11 +83,12 @@ public interface ScrumDemandService {
      * 查询待规划的需求
      *
      * @param projectId 项目ID
+     * @param filter    过滤条件
      * @param offset    跳过的数量
      * @param limit     查询数量
      * @return 项目待规划的需求
      */
-    List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit);
+    List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
     
     /**
      * 根据迭代ID统计处于该迭代的需求数量

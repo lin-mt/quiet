@@ -22,6 +22,7 @@ import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
@@ -103,10 +104,19 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     }
     
     @Override
-    public List<ScrumDemand> listToBePlanned(Long projectId, Long offset, Long limit) {
-        JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder().notNullEq(projectId, scrumDemand.projectId)
-                .and(scrumDemand.iterationId.isNull()).from(jpaQueryFactory, scrumDemand)
-                .orderBy(scrumDemand.gmtCreate.desc());
+    public List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit) {
+        // @formatter:off
+        JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder()
+                .notNullEq(projectId, scrumDemand.projectId)
+                .notNullEq(filter.getDemandType(), scrumDemand.type)
+                .notNullEq(filter.getPriorityId(), scrumDemand.priorityId)
+                .and(builder -> {
+                    if (filter.getPlanned() != null) {
+                        builder.and(filter.getPlanned() ? scrumDemand.iterationId.isNotNull()
+                                : scrumDemand.iterationId.isNull());
+                    }
+                }).from(jpaQueryFactory, scrumDemand).orderBy(scrumDemand.gmtCreate.desc());
+        // @formatter:on
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }

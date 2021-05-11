@@ -18,6 +18,7 @@ package com.gitee.quiet.scrum.params;
 
 import com.gitee.quiet.common.service.base.Param;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 
 /**
  * 需求查询参数.
@@ -31,6 +32,19 @@ public class ScrumDemandParam extends Param<ScrumDemand, ScrumDemand> {
      */
     private Long iterationId;
     
+    /**
+     * 过滤条件
+     */
+    private ScrumDemandFilter demandFilter;
+    
+    public ScrumDemandFilter getDemandFilter() {
+        return demandFilter;
+    }
+    
+    public void setDemandFilter(ScrumDemandFilter demandFilter) {
+        this.demandFilter = demandFilter;
+    }
+    
     public Long getIterationId() {
         return iterationId;
     }
@@ -38,4 +52,6 @@ public class ScrumDemandParam extends Param<ScrumDemand, ScrumDemand> {
     public void setIterationId(Long iterationId) {
         this.iterationId = iterationId;
     }
+    
+    
 }

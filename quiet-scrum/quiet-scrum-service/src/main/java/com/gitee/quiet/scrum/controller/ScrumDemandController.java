@@ -71,7 +71,8 @@ public class ScrumDemandController {
     @PostMapping("/scrollToBePlanned")
     public Result<List<ScrumDemand>> scrollToBePlanned(
             @RequestBody @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandParam param) {
-        return Result.success(demandService.listToBePlanned(param.getId(), param.getOffset(), param.getLimit()));
+        return Result.success(demandService
+                .listToBePlanned(param.getId(), param.getDemandFilter(), param.getOffset(), param.getLimit()));
     }
     
     /**
