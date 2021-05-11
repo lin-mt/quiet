@@ -16,7 +16,11 @@
 
 package com.gitee.quiet.common.service.id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import javax.annotation.PostConstruct;
 
 /**
  * ID 生成器配置.
@@ -26,23 +30,63 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "quiet.id-generator")
 public class IdGeneratorProperties {
     
-    private Integer workerId = 0;
+    private static final Logger LOGGER = LoggerFactory.getLogger(IdGeneratorProperties.class);
     
-    private Integer dataCenterId = 0;
+    private long workerId = 1L;
     
-    public Integer getWorkerId() {
+    private long dataCenterId = 0L;
+    
+    private int maxServerNumber = 10;
+    
+    @PostConstruct
+    public void checkIsLegal() {
+        if (dataCenterId > maxServerNumber) {
+            throw new RuntimeException("dataCenterId 不能大于 maxServerNumber");
+        }
+        // machine ID 0 ~ 1023
+        long machineId = getMachineId();
+        if (machineId < 0 || machineId > 1023) {
+            throw new IllegalArgumentException("machineId 需要在 0 ～ 1023 之间");
+        }
+    }
+    
+    public long getMachineId() {
+        return workerId * maxServerNumber + dataCenterId;
+    }
+    
+    public long getWorkerId() {
         return workerId;
     }
     
-    public void setWorkerId(Integer workerId) {
-        this.workerId = workerId == null ? 0 : workerId;
+    public void setWorkerId(long workerId) {
+        if (workerId <= 0) {
+            LOGGER.warn("workerId 不能小于等于 0，当前值：1");
+        } else {
+            this.workerId = workerId;
+        }
     }
     
-    public Integer getDataCenterId() {
+    public long getDataCenterId() {
         return dataCenterId;
     }
     
-    public void setDataCenterId(Integer dataCenterId) {
-        this.dataCenterId = dataCenterId == null ? 0 : dataCenterId;
+    public void setDataCenterId(long dataCenterId) {
+        if (dataCenterId < 0) {
+            LOGGER.warn("dataCenterId 不能小于 0，当前值：0");
+        } else {
+            this.dataCenterId = dataCenterId;
+        }
+    }
+    
+    public int getMaxServerNumber() {
+        return maxServerNumber;
+    }
+    
+    public void setMaxServerNumber(int maxServerNumber) {
+        if (maxServerNumber < 1) {
+            LOGGER.warn("maxServerNumber 不能小于 1，当前值：10");
+        } else {
+            this.maxServerNumber = maxServerNumber;
+        }
     }
 }

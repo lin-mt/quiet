@@ -29,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 
 /**
  * 构建 BooleanBuilder.

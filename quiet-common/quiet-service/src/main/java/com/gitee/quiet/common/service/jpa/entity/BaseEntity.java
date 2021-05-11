@@ -59,8 +59,8 @@ public class BaseEntity implements Serializable {
     @Null(groups = Create.class)
     @NotNull(groups = Update.class)
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "SnowFlakeIdGenerator")
-    @GenericGenerator(name = "SnowFlakeIdGenerator", strategy = "com.gitee.quiet.common.service.id.SnowFlakeIdGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "IdGenerator")
+    @GenericGenerator(name = "IdGenerator", strategy = "com.gitee.quiet.common.service.id.IdGenerator")
     private Long id;
     
     @CreatedBy

@@ -20,10 +20,13 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.gitee.quiet.common.base.constant.Url;
 import com.gitee.quiet.common.service.json.annotation.JsonHasRole;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Collection;
 
@@ -38,6 +41,10 @@ public class HasRoleAnnotationFilter extends SimpleBeanPropertyFilter {
     public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer)
             throws Exception {
         boolean hasRolePermission = false;
+        ServletRequestAttributes request = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (request != null && Url.REGISTER.equals(request.getRequest().getRequestURI())) {
+            return;
+        }
         JsonHasRole jsonHasRole = writer.getAnnotation(JsonHasRole.class);
         if (jsonHasRole != null && StringUtils.isNoneBlank(jsonHasRole.value())) {
             Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication()

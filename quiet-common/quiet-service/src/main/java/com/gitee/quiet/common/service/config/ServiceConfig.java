@@ -20,7 +20,7 @@ import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.QuietAdviceBasePackage;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
-import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
+import com.gitee.quiet.common.service.util.IdWorker;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -48,8 +48,8 @@ public class ServiceConfig {
     }
     
     @Bean
-    public SnowFlakeIdWorker snowFlakeIdWorker(IdGeneratorProperties properties) {
-        return new SnowFlakeIdWorker(properties.getWorkerId(), properties.getDataCenterId());
+    public IdWorker snowFlakeIdWorker(IdGeneratorProperties properties) {
+        return new IdWorker(properties.getMachineId());
     }
     
     @Bean

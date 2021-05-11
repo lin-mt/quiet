@@ -17,7 +17,7 @@
 package com.gitee.quiet.common.service.id;
 
 import com.gitee.quiet.common.service.util.ApplicationUtil;
-import com.gitee.quiet.common.service.util.SnowFlakeIdWorker;
+import com.gitee.quiet.common.service.util.IdWorker;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
@@ -31,24 +31,25 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class SnowFlakeIdGenerator implements IdentifierGenerator {
+@SuppressWarnings("unused")
+public class IdGenerator implements IdentifierGenerator {
     
-    private volatile SnowFlakeIdWorker snowFlakeIdWorker;
+    private volatile IdWorker idWorker;
     
-    private static final Logger logger = LoggerFactory.getLogger(SnowFlakeIdGenerator.class);
+    private static final Logger logger = LoggerFactory.getLogger(IdGenerator.class);
     
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-        if (snowFlakeIdWorker == null) {
-            synchronized (SnowFlakeIdGenerator.class) {
-                logger.info("start init snowFlakeIdWorker from context.");
-                if (snowFlakeIdWorker == null) {
-                    snowFlakeIdWorker = ApplicationUtil.getBean(SnowFlakeIdWorker.class);
+        if (idWorker == null) {
+            synchronized (IdGenerator.class) {
+                logger.info("Get IdWorker From Context.");
+                if (idWorker == null) {
+                    idWorker = ApplicationUtil.getBean(IdWorker.class);
                 }
             }
         }
-        long id = snowFlakeIdWorker.nextId();
-        logger.info("snowFlakeId {}", id);
+        long id = idWorker.nextId();
+        logger.info("GeneratorId {}", id);
         return id;
     }
     
