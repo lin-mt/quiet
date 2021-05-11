@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright (c) 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -101,7 +101,7 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         return this;
     }
     
-    public SelectBooleanBuilder and(@NotNull Consumer<SelectBooleanBuilder> consumer) {
+    public SelectBooleanBuilder with(@NotNull Consumer<SelectBooleanBuilder> consumer) {
         if (consumer != null) {
             consumer.accept(this);
         }
