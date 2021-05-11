@@ -24,10 +24,12 @@ import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 /**
  * 构建 BooleanBuilder.
@@ -100,6 +102,13 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         return this;
     }
     
+    public SelectBooleanBuilder and(@NotNull Consumer<SelectBooleanBuilder> consumer) {
+        if (consumer != null) {
+            consumer.accept(this);
+        }
+        return this;
+    }
+    
     public <T extends Enum<T>> SelectBooleanBuilder notNullEq(T param, EnumPath<T> path) {
         if (param != null) {
             builder.and(path.eq(param));
@@ -115,7 +124,8 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     }
     
     public SelectBooleanBuilder notNullEq(Dictionary<?> dictionary, QDictionary qDictionary) {
-        if (ObjectUtils.allNotNull(dictionary, dictionary.getType(), dictionary.getKey())) {
+        if (dictionary != null && StringUtils.isNoneBlank(dictionary.getType()) && StringUtils
+                .isNoneBlank(dictionary.getKey())) {
             builder.and(qDictionary.eq(dictionary));
         }
         return this;
