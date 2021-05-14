@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,16 +121,17 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     }
     
     @Override
-    public List<ScrumTemplate> listByName(String name, long limit) {
+    public List<ScrumTemplate> listEnabledByName(String name, long limit) {
         if (StringUtils.isBlank(name)) {
             return List.of();
         }
         JPAQuery<ScrumTemplate> templateJPAQuery = SelectBooleanBuilder.booleanBuilder()
-                .notBlankContains(name, scrumTemplate.name).from(jpaQueryFactory, scrumTemplate);
+                .notBlankContains(name, scrumTemplate.name).and(scrumTemplate.enabled.eq(true))
+                .from(jpaQueryFactory, scrumTemplate);
         if (limit > 0) {
             templateJPAQuery.limit(limit);
         }
-        return templateJPAQuery.fetchResults().getResults();
+        return templateJPAQuery.fetch();
     }
     
     @Override

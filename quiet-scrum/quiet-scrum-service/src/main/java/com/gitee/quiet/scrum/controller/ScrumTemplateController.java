@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,13 +104,13 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 根据模板名称查询模板信息
+     * 根据模板名称查询启用的模板信息
      *
      * @param param 查询参数
      * @return 查询结果
      */
-    @PostMapping("/listByName")
-    public Result<List<ScrumTemplate>> listByName(@RequestBody ScrumTemplateParam param) {
-        return Result.success(templateService.listByName(param.getName(), 9L));
+    @PostMapping("/listEnabledByName")
+    public Result<List<ScrumTemplate>> listEnabledByName(@RequestBody ScrumTemplateParam param) {
+        return Result.success(templateService.listEnabledByName(param.getName(), 9L));
     }
 }

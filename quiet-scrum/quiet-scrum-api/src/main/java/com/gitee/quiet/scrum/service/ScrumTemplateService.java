@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,7 @@ public interface ScrumTemplateService {
      * @param limit 查询的模板数量
      * @return 查询结果
      */
-    List<ScrumTemplate> listByName(String name, long limit);
+    List<ScrumTemplate> listEnabledByName(String name, long limit);
     
     /**
      * 根据模板ID批量查询模板信息
