@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -225,6 +225,9 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
         ScrumProject exist = projectRepository.findByNameAndManager(project.getName(), project.getManager());
         if (exist != null && !exist.getId().equals(project.getId())) {
             throw new ServiceException("project.manager.projectName.exist", project.getName());
+        }
+        if (CollectionUtils.isEmpty(project.getTeamIds())) {
+            throw new ServiceException("project.teamIds.canNotEmpty");
         }
         List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(project.getTeamIds());
         if (CollectionUtils.isNotEmpty(projects)) {
