@@ -17,7 +17,6 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -49,9 +48,8 @@ public class ScrumPriority extends SerialEntity {
      */
     @Length(max = 7)
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @ColumnDefault("#1890FF")
-    @Column(name = "color_hex", length = 7)
-    private String colorHex;
+    @Column(name = "color_hex", length = 7, nullable = false)
+    private String colorHex = "#1890FF";
     
     /**
      * 模板ID
