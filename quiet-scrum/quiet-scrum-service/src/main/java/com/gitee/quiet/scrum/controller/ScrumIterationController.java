@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.param.IdValid;
 import com.gitee.quiet.common.validation.group.param.curd.Create;
 import com.gitee.quiet.common.validation.group.param.curd.Update;
 import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
@@ -64,6 +65,28 @@ public class ScrumIterationController {
     @PostMapping("/update")
     public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationParam param) {
         return Result.updateSuccess(iterationService.update(param.getUpdate()));
+    }
+    
+    /**
+     * 开始迭代
+     *
+     * @param param :id 开始迭代的迭代ID
+     * @return 开始迭代的迭代信息
+     */
+    @PostMapping("/start")
+    public Result<ScrumIteration> start(@RequestBody @Validated(IdValid.class) ScrumIterationParam param) {
+        return Result.updateSuccess(iterationService.start(param.getId()));
+    }
+    
+    /**
+     * 结束迭代
+     *
+     * @param param :id 结束迭代的迭代ID
+     * @return 结束迭代的迭代信息
+     */
+    @PostMapping("/end")
+    public Result<ScrumIteration> end(@RequestBody @Validated(IdValid.class) ScrumIterationParam param) {
+        return Result.updateSuccess(iterationService.end(param.getId()));
     }
     
     /**

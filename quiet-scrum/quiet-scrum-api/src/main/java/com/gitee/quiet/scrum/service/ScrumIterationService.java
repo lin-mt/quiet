@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,4 +81,20 @@ public interface ScrumIterationService {
      * @param id 迭代id
      */
     void checkIdExist(Long id);
+    
+    /**
+     * 开始迭代
+     *
+     * @param id 开始迭代的迭代ID
+     * @return 迭代信息
+     */
+    ScrumIteration start(Long id);
+    
+    /**
+     * 结束迭代
+     *
+     * @param id 结束迭代的迭代ID
+     * @return 迭代信息
+     */
+    ScrumIteration end(Long id);
 }
