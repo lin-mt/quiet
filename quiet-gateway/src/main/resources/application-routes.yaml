@@ -30,7 +30,7 @@ spring:
           filters:
             - StripPrefix=1
         - id: scrum
-          uri: http://localhost:9001
+          uri: http://localhost:9010
           predicates:
             - Path=/scrum/**
           filters:
