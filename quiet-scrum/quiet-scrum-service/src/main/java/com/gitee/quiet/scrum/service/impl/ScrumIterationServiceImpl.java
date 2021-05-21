@@ -132,8 +132,8 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
             if (nextIteration == null) {
                 throw new ServiceException("iteration.canNotFindNextIteration");
             } else {
-                ScrumIteration finalNextIteration = nextIteration;
-                unfinished.forEach(demand -> demand.setIterationId(finalNextIteration.getId()));
+                final Long nextIterationId = nextIteration.getId();
+                unfinished.forEach(demand -> demand.setIterationId(nextIterationId));
                 demandService.saveAll(unfinished);
             }
         }
