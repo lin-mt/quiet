@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,16 @@
  */
 
 dependencies {
+    implementation(project(path: ":quiet-common:quiet-base", configuration: "default"))
+
     implementation "org.springframework.cloud:spring-cloud-starter-gateway"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis"
     implementation "org.springframework.cloud:spring-cloud-starter-loadbalancer"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+}
+
+configurations {
+    implementation.exclude module: "spring-boot-starter-web"
 }
