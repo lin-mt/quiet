@@ -4,4 +4,7 @@ spring:
   profiles:
     active: dev
   config:
-    import: classpath:application-registry.yaml,classpath:application-routes.yaml
+    import:
+      - classpath:application-redis.yaml
+      - classpath:application-registry.yaml
+      - classpath:application-routes.yaml

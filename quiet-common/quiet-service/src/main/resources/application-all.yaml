@@ -1,3 +1,7 @@
 spring:
   config:
-    import: classpath:application-mysql.yaml,classpath:application-redis.yaml,classpath:application-registry.yaml,classpath:application-common.yaml
+    import:
+      - classpath:application-common.yaml
+      - classpath:application-mysql.yaml
+      - classpath:application-redis.yaml
+      - classpath:application-registry.yaml
