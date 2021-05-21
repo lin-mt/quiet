@@ -17,7 +17,9 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
+import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
@@ -113,6 +115,28 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     public ScrumIteration end(Long id) {
         ScrumIteration iteration = iterationRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
+        List<ScrumDemand> unfinished = demandService.findAllUnfinished(iteration.getId());
+        if (CollectionUtils.isNotEmpty(unfinished)) {
+            ScrumIteration nextIteration = iterationRepository
+                    .findByVersionIdAndPlanStartDateAfter(iteration.getVersionId(), iteration.getPlanStartDate());
+            if (nextIteration == null) {
+                ScrumVersion nextVersion = versionService.nextVersion(iteration.getVersionId());
+                while (nextVersion != null && nextIteration == null) {
+                    nextIteration = iterationRepository
+                            .findFirstByVersionIdOrderByPlanStartDateAsc(nextVersion.getId());
+                    if (nextIteration == null) {
+                        nextVersion = versionService.nextVersion(nextVersion.getId());
+                    }
+                }
+            }
+            if (nextIteration == null) {
+                throw new ServiceException("iteration.canNotFindNextIteration");
+            } else {
+                ScrumIteration finalNextIteration = nextIteration;
+                unfinished.forEach(demand -> demand.setIterationId(finalNextIteration.getId()));
+                demandService.saveAll(unfinished);
+            }
+        }
         iteration.setEndTime(LocalDateTime.now());
         return iterationRepository.saveAndFlush(iteration);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,4 +74,13 @@ public interface ScrumTaskService {
      * @param id 任务ID
      */
     void deleteById(Long id);
+    
+    /**
+     * 过滤指定项目中指定的需求中未完成的需求
+     *
+     * @param projectId 项目ID
+     * @param demandIds 要过滤的需求ID集合
+     * @return 未完成的需求的ID集合
+     */
+    Set<Long> findUnfinishedDemandIds(Long projectId, Set<Long> demandIds);
 }

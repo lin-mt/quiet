@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,22 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,11 +52,18 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
     
     private final ScrumTaskStepService taskStepService;
     
+    private final ScrumProjectService projectService;
+    
+    private final ScrumTemplateService templateService;
+    
     public ScrumTaskServiceImpl(ScrumTaskRepository taskRepository, @Lazy ScrumDemandService demandService,
-            @Lazy ScrumTaskStepService taskStepService) {
+            @Lazy ScrumTaskStepService taskStepService, @Lazy ScrumProjectService projectService,
+            @Lazy ScrumTemplateService templateService) {
         this.taskRepository = taskRepository;
         this.demandService = demandService;
         this.taskStepService = taskStepService;
+        this.projectService = projectService;
+        this.templateService = templateService;
     }
     
     @Override
@@ -93,6 +106,26 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
             throw new ServiceException("task.preTask.contains.canNotDelete", id);
         }
         taskRepository.deleteById(id);
+    }
+    
+    @Override
+    public Set<Long> findUnfinishedDemandIds(Long projectId, Set<Long> demandIds) {
+        ScrumProject project = projectService.findById(projectId);
+        ScrumTemplate templateInfo = templateService.templateInfo(project.getTemplateId());
+        List<ScrumTaskStep> taskSteps = templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
+        Long lastTaskStepId = taskSteps.get(taskSteps.size() - 1).getId();
+        List<ScrumTask> allTasks = taskRepository.findAllByDemandIdIn(demandIds);
+        Set<Long> hasTaskDemandIds = new HashSet<>();
+        Set<Long> unfinishedDemandIds = new HashSet<>();
+        allTasks.forEach(task -> {
+            hasTaskDemandIds.add(task.getDemandId());
+            if (!task.getTaskStepId().equals(lastTaskStepId)) {
+                unfinishedDemandIds.add(task.getDemandId());
+            }
+        });
+        demandIds.removeAll(hasTaskDemandIds);
+        demandIds.addAll(unfinishedDemandIds);
+        return demandIds;
     }
     
     private void checkTaskInfo(ScrumTask scrumTask) {

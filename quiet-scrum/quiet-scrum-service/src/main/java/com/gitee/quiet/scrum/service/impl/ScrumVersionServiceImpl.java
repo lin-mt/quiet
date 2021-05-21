@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,6 +105,13 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             throw new ServiceException("version.hasIteration.canNotDelete", id);
         }
         versionRepository.deleteById(id);
+    }
+    
+    @Override
+    public ScrumVersion nextVersion(Long id) {
+        ScrumVersion currentVersion = versionRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("version.id.not.exist"));
+        return versionRepository.findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(currentVersion.getPlanStartDate());
     }
     
     private void checkInfo(@NotNull ScrumVersion version) {

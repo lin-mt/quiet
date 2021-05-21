@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,11 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.base.FrontSelect;
+import com.gitee.quiet.common.service.base.Serial;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -149,5 +151,18 @@ public class ScrumIteration extends SerialEntity implements FrontSelect {
     @Override
     public String getTitle() {
         return getName();
+    }
+    
+    @Override
+    public int compareTo(@Nullable Serial other) {
+        int compare = super.compareTo(other);
+        if (compare == 0 && other instanceof ScrumIteration) {
+            ScrumIteration otherIteration = (ScrumIteration) other;
+            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
+            if (compare == 0) {
+                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
+            }
+        }
+        return compare;
     }
 }

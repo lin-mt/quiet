@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.entity.ScrumVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -61,4 +62,12 @@ public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long
      * @return 子版本数量
      */
     long countByParentId(Long parentId);
+    
+    /**
+     * 查询下一个版本的信息
+     *
+     * @param planStartDate 当前版本的计划开始时间
+     * @return 下一个版本的版本信息
+     */
+    ScrumVersion findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(LocalDate planStartDate);
 }

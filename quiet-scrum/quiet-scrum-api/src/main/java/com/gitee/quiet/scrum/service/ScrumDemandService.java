@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,4 +121,19 @@ public interface ScrumDemandService {
      * @param id 需求ID
      */
     void checkIdExist(Long id);
+    
+    /**
+     * 查询指定迭代未完成的所有需求
+     *
+     * @param iterationId 迭代ID
+     * @return 未完成的需求信息
+     */
+    List<ScrumDemand> findAllUnfinished(Long iterationId);
+    
+    /**
+     * 批量保存需求信息
+     *
+     * @param demands 需求信息集合
+     */
+    void saveAll(List<ScrumDemand> demands);
 }

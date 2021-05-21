@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,11 @@
 
 package com.gitee.quiet.scrum.entity;
 
+import com.gitee.quiet.common.service.base.Serial;
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -160,5 +162,18 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
     @Override
     public String getTitle() {
         return getName();
+    }
+    
+    @Override
+    public int compareTo(@Nullable Serial other) {
+        int compare = super.compareTo(other);
+        if (compare == 0 && other instanceof ScrumVersion) {
+            ScrumVersion otherVersion = (ScrumVersion) other;
+            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
+            if (compare == 0) {
+                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
+            }
+        }
+        return compare;
     }
 }

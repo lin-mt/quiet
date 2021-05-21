@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.entity.ScrumIteration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -62,4 +63,21 @@ public interface ScrumIterationRepository extends JpaRepository<ScrumIteration, 
      * @return 处于该版本下的迭代数量
      */
     long countByVersionId(Long versionId);
+    
+    /**
+     * 根据版本ID查询版本下一个迭代信息
+     *
+     * @param versionId     版本ID
+     * @param planStartDate 当前迭代的计划开始时间
+     * @return 下一个迭代迭代信息
+     */
+    ScrumIteration findByVersionIdAndPlanStartDateAfter(Long versionId, LocalDate planStartDate);
+    
+    /**
+     * 根据版本ID查询第一个迭代信息
+     *
+     * @param versionId 版本ID
+     * @return 指定版本的第一个迭代信息
+     */
+    ScrumIteration findFirstByVersionIdOrderByPlanStartDateAsc(Long versionId);
 }

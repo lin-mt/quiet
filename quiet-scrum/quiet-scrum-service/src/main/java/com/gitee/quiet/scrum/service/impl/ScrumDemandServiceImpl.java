@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -152,6 +152,25 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
         if (!demandRepository.existsById(id)) {
             throw new ServiceException("demand.id.notExist", id);
         }
+    }
+    
+    @Override
+    public List<ScrumDemand> findAllUnfinished(Long iterationId) {
+        List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
+        if (CollectionUtils.isNotEmpty(allDemand)) {
+            Set<Long> unfinishedDemandIds = taskService.findUnfinishedDemandIds(allDemand.get(0).getProjectId(),
+                    allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
+            if (CollectionUtils.isNotEmpty(unfinishedDemandIds)) {
+                return allDemand.stream().filter(demand -> unfinishedDemandIds.contains(demand.getId()))
+                        .collect(Collectors.toList());
+            }
+        }
+        return List.of();
+    }
+    
+    @Override
+    public void saveAll(List<ScrumDemand> demands) {
+        demandRepository.saveAll(demands);
     }
     
     private void checkDemand(@NotNull ScrumDemand demand) {
