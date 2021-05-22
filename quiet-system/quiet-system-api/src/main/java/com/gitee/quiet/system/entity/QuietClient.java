@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.gitee.quiet.system.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.converter.SetStringConverter;
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
@@ -32,7 +31,6 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -72,7 +70,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     private String clientSecret;
     
     @Column(name = "resource_ids", length = 60)
-    @Convert(converter = SetStringConverter.class)
     private Set<String> resourceIds;
     
     @NotNull
@@ -86,15 +83,12 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     private Boolean scoped;
     
     @Column(name = "scope")
-    @Convert(converter = SetStringConverter.class)
     private Set<String> scope;
     
     @Column(name = "authorized_grant_types", length = 60)
-    @Convert(converter = SetStringConverter.class)
     private Set<String> authorizedGrantTypes;
     
     @Column(name = "registered_redirect_uri", length = 60)
-    @Convert(converter = SetStringConverter.class)
     private Set<String> registeredRedirectUri;
     
     @Min(0)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     
     public static final String CACHE_INFO = "quiet:system:permission";
     
-    public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":applicationName";
+    public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":application_name";
     
     private final JPAQueryFactory jpaQueryFactory;
     

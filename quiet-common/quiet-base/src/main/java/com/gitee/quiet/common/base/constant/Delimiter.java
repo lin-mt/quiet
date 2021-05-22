@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.jpa.converter;
+package com.gitee.quiet.common.base.constant;
 
 /**
- * java 类型转数据库类型的常量.
+ * 分隔符常量.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ConverterConstant {
+public final class Delimiter {
     
-    String DELIMITER = ",";
+    private Delimiter() {
+    }
+    
+    public static final String COMMA = ",";
 }

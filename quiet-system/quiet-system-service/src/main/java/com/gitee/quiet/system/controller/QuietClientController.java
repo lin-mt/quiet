@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,16 +93,16 @@ public class QuietClientController {
     }
     
     @PostMapping("/removeClientScope")
-    public Result<Object> removeClientScope(@RequestBody QuietClientParam postParam) {
-        clientService.changeClientScope(postParam.getId(), postParam.getClientScope(), Operation.DELETE);
-        return Result.deleteSuccess();
+    public Result<QuietClient> removeClientScope(@RequestBody QuietClientParam postParam) {
+        return Result.success(
+                clientService.changeClientScope(postParam.getId(), postParam.getClientScope(), Operation.DELETE));
     }
     
     @PostMapping("/removeClientAuthorizedGrantType")
-    public Result<Object> removeClientAuthorizedGrantType(@RequestBody QuietClientParam postParam) {
-        clientService.changeClientAuthorizedGrantType(postParam.getId(), postParam.getClientAuthorizedGrantType(),
-                Operation.DELETE);
-        return Result.deleteSuccess();
+    public Result<QuietClient> removeClientAuthorizedGrantType(@RequestBody QuietClientParam postParam) {
+        return Result.success(clientService
+                .changeClientAuthorizedGrantType(postParam.getId(), postParam.getClientAuthorizedGrantType(),
+                        Operation.DELETE));
     }
     
 }
