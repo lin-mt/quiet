@@ -21,6 +21,8 @@ import com.gitee.quiet.system.entity.QuietRoute;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 路由信息Repository.
  *
@@ -37,4 +39,12 @@ public interface QuietRouteRepository extends JpaRepository<QuietRoute, Long> {
      * @return 网关路由信息
      */
     QuietRoute findByRouteIdAndEnvironment(String routeId, Dictionary<?> environment);
+    
+    /**
+     * 查询指定环境下的路由配置
+     *
+     * @param environment 环境
+     * @return 路由信息
+     */
+    List<QuietRoute> findByEnvironment(Dictionary<?> environment);
 }

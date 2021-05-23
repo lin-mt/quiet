@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,12 @@
 
 package com.gitee.quiet.common.service.util;
 
+import com.gitee.quiet.common.base.constant.CommonCode;
 import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Spring Security 工具类.
@@ -35,12 +38,13 @@ public class CurrentUserUtil {
      *
      * @return 登录人.
      */
+    @NotNull
     public static QuietUserDetails get() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            return (QuietUserDetails) authentication.getPrincipal();
+        if (authentication == null) {
+            throw new IllegalStateException(CommonCode.buildCode("account.no.login"));
         }
-        return null;
+        return (QuietUserDetails) authentication.getPrincipal();
     }
     
     /**
@@ -48,12 +52,9 @@ public class CurrentUserUtil {
      *
      * @return 当前登录人ID
      */
+    @NotNull
     public static Long getId() {
-        QuietUserDetails user = get();
-        if (user != null) {
-            return user.getId();
-        }
-        return null;
+        return get().getId();
     }
     
     /**
@@ -61,12 +62,9 @@ public class CurrentUserUtil {
      *
      * @return 当前登录人用户名
      */
+    @NotNull
     public static String getUsername() {
-        QuietUserDetails user = get();
-        if (user != null) {
-            return user.getUsername();
-        }
-        return null;
+        return get().getUsername();
     }
     
     /**
@@ -74,11 +72,8 @@ public class CurrentUserUtil {
      *
      * @return 当前登录人全名
      */
+    @NotNull
     public static String getFullName() {
-        QuietUserDetails user = get();
-        if (user != null) {
-            return user.getFullName();
-        }
-        return null;
+        return get().getFullName();
     }
 }

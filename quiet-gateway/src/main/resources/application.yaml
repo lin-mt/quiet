@@ -8,3 +8,18 @@ spring:
       - classpath:application-redis.yaml
       - classpath:application-registry.yaml
       - classpath:application-routes.yaml
+  jackson:
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+    locale: zh_CN
+    time-zone: GMT+8
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

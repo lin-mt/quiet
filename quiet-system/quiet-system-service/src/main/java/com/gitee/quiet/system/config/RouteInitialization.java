@@ -14,32 +14,29 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.base.constant;
+package com.gitee.quiet.system.config;
 
-import org.apache.commons.lang3.StringUtils;
+import com.gitee.quiet.system.dictionary.Environment;
+import com.gitee.quiet.system.service.QuietRouteService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 /**
- * 通用 Code.
+ * 初始化路由信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class CommonCode {
+@Component
+public class RouteInitialization implements CommandLineRunner {
     
-    public static final String PREFIX = "common.";
+    private final QuietRouteService routeService;
     
-    public static final String UNKNOWN_CODE = "unknown.code";
-    
-    private CommonCode() {
+    public RouteInitialization(QuietRouteService routeService) {
+        this.routeService = routeService;
     }
     
-    public static String removePrefix(String code) {
-        return code.substring(PREFIX.length());
-    }
-    
-    public static String buildCode(String code) {
-        if (StringUtils.isBlank(code)) {
-            throw new IllegalArgumentException("code can not blank.");
-        }
-        return PREFIX + code;
+    @Override
+    public void run(String... args) {
+        routeService.publishRoute(Environment.Develop, null);
     }
 }
