@@ -93,6 +93,18 @@ public class QuietRouteController {
         return Result.updateSuccess(routeService.update(param.getUpdate()));
     }
     
+    /**
+     * 发布路由配置.
+     *
+     * @param param :environment 发布的环境
+     * @return Result
+     */
+    @PostMapping("/publishRoute")
+    public Result<Object> publishRoute(@RequestBody QuietRouteParam param) {
+        routeService.publishRoute(param.getEnvironment(), 100L);
+        return Result.success();
+    }
+    
     @PostMapping("/removePredicate")
     public Result<QuietRoute> removePredicate(@RequestBody QuietRouteParam param) {
         return Result.success(routeService.changePredicate(param.getId(), param.getRoutePredicate(), Operation.DELETE));

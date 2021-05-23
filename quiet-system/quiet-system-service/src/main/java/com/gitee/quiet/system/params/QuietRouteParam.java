@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.params;
 
 import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.system.entity.QuietRoute;
 
 /**
@@ -29,6 +30,8 @@ public class QuietRouteParam extends Param<QuietRoute, QuietRoute> {
     private String routePredicate;
     
     private String routeFilter;
+    
+    private Dictionary<?> environment;
     
     public String getRoutePredicate() {
         return routePredicate;
@@ -44,5 +47,13 @@ public class QuietRouteParam extends Param<QuietRoute, QuietRoute> {
     
     public void setRouteFilter(String routeFilter) {
         this.routeFilter = routeFilter;
+    }
+    
+    public Dictionary<?> getEnvironment() {
+        return environment;
+    }
+    
+    public void setEnvironment(Dictionary<?> environment) {
+        this.environment = environment;
     }
 }

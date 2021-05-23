@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.common.service.enums.Operation;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;
@@ -78,4 +79,11 @@ public interface QuietRouteService {
      */
     QuietRoute changeFilter(Long id, String filter, Operation operation);
     
+    /**
+     * 发布路由配置到Redis
+     *
+     * @param environment 发布的环境
+     * @param timeOut     存储在redis的过期时间，null 则不设置过期时间
+     */
+    void publishRoute(Dictionary<?> environment, Long timeOut);
 }

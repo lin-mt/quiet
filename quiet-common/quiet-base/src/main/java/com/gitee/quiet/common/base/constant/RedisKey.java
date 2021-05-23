@@ -16,30 +16,16 @@
 
 package com.gitee.quiet.common.base.constant;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
- * 通用 Code.
+ * redis key.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class CommonCode {
+public interface RedisKey {
     
-    public static final String PREFIX = "common.";
-    
-    public static final String UNKNOWN_CODE = "unknown.code";
-    
-    private CommonCode() {
-    }
-    
-    public static String removePrefix(String code) {
-        return code.substring(PREFIX.length());
-    }
-    
-    public static String buildCode(String code) {
-        if (StringUtils.isBlank(code)) {
-            throw new IllegalArgumentException("code can not blank.");
-        }
-        return PREFIX + code;
+    interface Gateway {
+        
+        String ROUTE_DEFINITION = "quiet:gateway:route_definition";
+        
     }
 }

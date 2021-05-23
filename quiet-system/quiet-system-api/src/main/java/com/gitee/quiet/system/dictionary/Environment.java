@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.base.constant;
+package com.gitee.quiet.system.dictionary;
 
-import org.apache.commons.lang3.StringUtils;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 
 /**
- * 通用 Code.
+ * 环境数据字典.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public final class CommonCode {
+public class Environment extends Dictionary<Environment> {
     
-    public static final String PREFIX = "common.";
+    private static final String TYPE = Environment.class.getSimpleName();
     
-    public static final String UNKNOWN_CODE = "unknown.code";
-    
-    private CommonCode() {
+    private Environment(String key) {
+        super(TYPE, key);
     }
     
-    public static String removePrefix(String code) {
-        return code.substring(PREFIX.length());
-    }
+    /**
+     * 开发环境
+     */
+    public static final Environment Develop = new Environment("Develop");
     
-    public static String buildCode(String code) {
-        if (StringUtils.isBlank(code)) {
-            throw new IllegalArgumentException("code can not blank.");
-        }
-        return PREFIX + code;
-    }
+    /**
+     * 测试环境
+     */
+    public static final Environment Test = new Environment("Test");
+    
+    /**
+     * 生产环境
+     */
+    public static final Environment Produce = new Environment("Produce");
 }
