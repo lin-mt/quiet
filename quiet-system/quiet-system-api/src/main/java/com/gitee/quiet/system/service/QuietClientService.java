@@ -64,8 +64,8 @@ public interface QuietClientService extends ClientDetailsService {
     /**
      * 移除客户端的授权范围
      *
-     * @param id        要移除授权范围的客户端的ID
-     * @param scope     要移除的授权范围
+     * @param id        客户端的ID
+     * @param scope     操作的授权范围
      * @param operation 操作类型：添加、移除
      */
     QuietClient changeClientScope(Long id, String scope, Operation operation);
@@ -73,8 +73,8 @@ public interface QuietClientService extends ClientDetailsService {
     /**
      * 移除客户端的授权类型
      *
-     * @param id                  要移除授权类型的客户端的ID
-     * @param authorizedGrantType 要移除的授权类型
+     * @param id                  客户端的ID
+     * @param authorizedGrantType 操作的授权类型
      * @param operation           操作类型：添加、移除
      */
     QuietClient changeClientAuthorizedGrantType(Long id, String authorizedGrantType, Operation operation);
