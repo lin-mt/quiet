@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,5 +140,10 @@ public class Dictionary<T extends Dictionary<T>> extends ParentEntity<T> impleme
     
     public void setLabel(String value) {
         this.label = value;
+    }
+    
+    @Override
+    public String toString() {
+        return Dictionary.convertToString(this);
     }
 }

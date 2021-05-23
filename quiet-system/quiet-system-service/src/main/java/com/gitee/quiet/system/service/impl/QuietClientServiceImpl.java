@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -47,6 +49,10 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
+    public static final String CACHE_INFO = "quiet:system:client";
+    
+    public static final String CACHE_INFO_CLIENT_DETAILS = CACHE_INFO + ":client_details";
+    
     private final JPAQueryFactory jpaQueryFactory;
     
     private final PasswordEncoder passwordEncoder;
@@ -61,6 +67,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
+    @Cacheable(value = CACHE_INFO_CLIENT_DETAILS, key = "#clientId")
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
         QuietClient client = clientRepository.findByClientId(clientId);
         if (client != null) {
@@ -86,11 +93,13 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
+    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, allEntries = true)
     public void deleteClient(@NotNull Long id) {
         clientRepository.deleteById(id);
     }
     
     @Override
+    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
     public QuietClient update(@NotNull QuietClient update) {
         QuietClient exist = clientRepository.findByClientId(update.getClientId());
         if (exist != null && !exist.getId().equals(update.getId())) {
@@ -101,7 +110,8 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    public void changeClientScope(@NotNull Long id, @NotEmpty String clientScope, @NotNull Operation operation) {
+    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
+    public QuietClient changeClientScope(@NotNull Long id, @NotEmpty String clientScope, @NotNull Operation operation) {
         QuietClient client = clientRepository.getOne(id);
         switch (operation) {
             case ADD:
@@ -113,11 +123,12 @@ public class QuietClientServiceImpl implements QuietClientService {
             default:
                 throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
         }
-        clientRepository.saveAndFlush(client);
+        return clientRepository.saveAndFlush(client);
     }
     
     @Override
-    public void changeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType,
+    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
+    public QuietClient changeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType,
             @NotNull Operation operation) {
         QuietClient client = clientRepository.getOne(id);
         switch (operation) {
@@ -130,7 +141,6 @@ public class QuietClientServiceImpl implements QuietClientService {
             default:
                 throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
         }
-        client.getAuthorizedGrantTypes().remove(authorizedGrantType);
-        clientRepository.saveAndFlush(client);
+        return clientRepository.saveAndFlush(client);
     }
 }

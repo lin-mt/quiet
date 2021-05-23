@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.service.jpa.converter;
 
+import com.gitee.quiet.common.base.constant.Delimiter;
+import com.google.common.base.Joiner;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,7 +26,6 @@ import javax.persistence.Converter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 /**
  * Set<Long> 与 String 的转换.
@@ -34,13 +35,14 @@ import java.util.stream.Collectors;
 @Converter(autoApply = true)
 public class SetLongStringConverter implements AttributeConverter<Set<Long>, String> {
     
+    public static final String DELIMITER = Delimiter.COMMA;
+    
     @Override
     public String convertToDatabaseColumn(Set<Long> attribute) {
         if (CollectionUtils.isEmpty(attribute)) {
             return null;
         }
-        return String.join(ConverterConstant.DELIMITER,
-                attribute.stream().map(Object::toString).collect(Collectors.toSet()));
+        return Joiner.on(DELIMITER).join(attribute);
     }
     
     @Override
@@ -49,7 +51,7 @@ public class SetLongStringConverter implements AttributeConverter<Set<Long>, Str
         if (StringUtils.isBlank(dbData)) {
             return attribute;
         }
-        StringTokenizer st = new StringTokenizer(dbData, ConverterConstant.DELIMITER);
+        StringTokenizer st = new StringTokenizer(dbData, DELIMITER);
         while (st.hasMoreTokens()) {
             attribute.add(Long.parseLong(st.nextToken()));
         }

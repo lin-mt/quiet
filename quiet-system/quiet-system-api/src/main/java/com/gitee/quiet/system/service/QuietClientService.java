@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,18 +64,18 @@ public interface QuietClientService extends ClientDetailsService {
     /**
      * 移除客户端的授权范围
      *
-     * @param id        要移除授权范围的客户端的ID
-     * @param scope     要移除的授权范围
+     * @param id        客户端的ID
+     * @param scope     操作的授权范围
      * @param operation 操作类型：添加、移除
      */
-    void changeClientScope(Long id, String scope, Operation operation);
+    QuietClient changeClientScope(Long id, String scope, Operation operation);
     
     /**
      * 移除客户端的授权类型
      *
-     * @param id                  要移除授权类型的客户端的ID
-     * @param authorizedGrantType 要移除的授权类型
+     * @param id                  客户端的ID
+     * @param authorizedGrantType 操作的授权类型
      * @param operation           操作类型：添加、移除
      */
-    void changeClientAuthorizedGrantType(Long id, String authorizedGrantType, Operation operation);
+    QuietClient changeClientAuthorizedGrantType(Long id, String authorizedGrantType, Operation operation);
 }
