@@ -24,6 +24,7 @@ import com.gitee.quiet.system.repository.QuietRouteRepository;
 import com.gitee.quiet.system.service.QuietRouteService;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -53,10 +54,7 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     
     @Override
     public QuietRoute save(QuietRoute save) {
-        QuietRoute exist = routeRepository.findByRouteIdAndEnvironment(save.getRouteId(), save.getEnvironment());
-        if (exist != null) {
-            throw new ServiceException("route.environment.routeId.exist", save.getEnvironment(), save.getRouteId());
-        }
+        checkInfo(save);
         return routeRepository.save(save);
     }
     
@@ -67,11 +65,29 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     
     @Override
     public QuietRoute update(QuietRoute update) {
-        QuietRoute exist = routeRepository.findByRouteIdAndEnvironment(update.getRouteId(), update.getEnvironment());
-        if (exist != null && !exist.getId().equals(update.getId())) {
-            throw new ServiceException("route.environment.routeId.exist", update.getEnvironment(), update.getRouteId());
-        }
+        checkInfo(update);
         return routeRepository.saveAndFlush(update);
+    }
+    
+    private void checkInfo(QuietRoute route) {
+        if (CollectionUtils.isNotEmpty(route.getPredicates())) {
+            route.getPredicates().forEach(predicate -> {
+                if (!predicate.contains("=")) {
+                    throw new ServiceException("route.predicate.error");
+                }
+            });
+        }
+        if (CollectionUtils.isNotEmpty(route.getFilters())) {
+            route.getFilters().forEach(filter -> {
+                if (!filter.contains("=")) {
+                    throw new ServiceException("route.filter.error");
+                }
+            });
+        }
+        QuietRoute exist = routeRepository.findByRouteIdAndEnvironment(route.getRouteId(), route.getEnvironment());
+        if (exist != null && !exist.getId().equals(route.getId())) {
+            throw new ServiceException("route.environment.routeId.exist", route.getEnvironment(), route.getRouteId());
+        }
     }
     
     @Override
