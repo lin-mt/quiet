@@ -82,14 +82,14 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     private void checkInfo(QuietRoute route) {
         if (CollectionUtils.isNotEmpty(route.getPredicates())) {
             route.getPredicates().forEach(predicate -> {
-                if (!predicate.contains("=")) {
+                if (predicate.indexOf("=") <= 0) {
                     throw new ServiceException("route.predicate.error");
                 }
             });
         }
         if (CollectionUtils.isNotEmpty(route.getFilters())) {
             route.getFilters().forEach(filter -> {
-                if (!filter.contains("=")) {
+                if (filter.indexOf("=") <= 0) {
                     throw new ServiceException("route.filter.error");
                 }
             });
