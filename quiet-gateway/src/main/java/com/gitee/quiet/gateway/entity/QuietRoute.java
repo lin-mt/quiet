@@ -35,6 +35,8 @@ public class QuietRoute {
     @NotBlank
     private String uri;
     
+    private int order;
+    
     private Set<String> predicates;
     
     private Set<String> filters;
@@ -53,6 +55,14 @@ public class QuietRoute {
     
     public void setUri(String uri) {
         this.uri = uri;
+    }
+    
+    public int getOrder() {
+        return order;
+    }
+    
+    public void setOrder(int order) {
+        this.order = order;
     }
     
     public Set<String> getPredicates() {

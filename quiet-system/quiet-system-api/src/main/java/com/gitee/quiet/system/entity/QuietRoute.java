@@ -56,6 +56,9 @@ public class QuietRoute extends BaseEntity {
     @Column(name = "uri", length = 200, nullable = false)
     private String uri;
     
+    @Column(name = "route_order", nullable = false)
+    private int order;
+    
     @Column(name = "predicates", length = 1000)
     private Set<String> predicates;
     
@@ -88,6 +91,14 @@ public class QuietRoute extends BaseEntity {
     
     public void setUri(String uri) {
         this.uri = uri;
+    }
+    
+    public int getOrder() {
+        return order;
+    }
+    
+    public void setOrder(int order) {
+        this.order = order;
     }
     
     public Set<String> getPredicates() {
