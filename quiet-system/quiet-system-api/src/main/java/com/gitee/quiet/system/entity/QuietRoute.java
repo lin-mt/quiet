@@ -42,26 +42,44 @@ import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 @Table(name = "quiet_route")
 public class QuietRoute extends BaseEntity {
     
+    /**
+     * 网关的路由ID
+     */
     @NotBlank
     @Length(max = 60)
     @Column(name = "route_id", length = 60, nullable = false)
     private String routeId;
     
+    /**
+     * 环境，用于批量修改发布
+     */
     @NotNull
     @Column(name = "environment", length = 30, nullable = false)
     private Dictionary<?> environment;
     
+    /**
+     * 路由目标
+     */
     @NotBlank
     @Length(max = 200)
     @Column(name = "uri", length = 200, nullable = false)
     private String uri;
     
+    /**
+     * 排序
+     */
     @Column(name = "route_order", nullable = false)
     private int order;
     
+    /**
+     * 匹配规则
+     */
     @Column(name = "predicates", length = 1000)
     private Set<String> predicates;
     
+    /**
+     * 过滤
+     */
     @Column(name = "filters", length = 1000)
     private Set<String> filters;
     
