@@ -71,6 +71,7 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
             for (QuietRoute quietRoute : quietRouteList) {
                 routeDefinition = new RouteDefinition();
                 routeDefinition.setId(quietRoute.getRouteId());
+                routeDefinition.setOrder(quietRoute.getOrder());
                 try {
                     routeDefinition.setUri(new URI(quietRoute.getUri()));
                 } catch (URISyntaxException e) {
