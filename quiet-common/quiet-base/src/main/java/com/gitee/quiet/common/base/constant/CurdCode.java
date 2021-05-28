@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,6 @@ public final class CurdCode {
     }
     
     private static String buildCode(String code) {
-        return CommonCode.PREFIX + PREFIX + code;
+        return CommonCode.buildCode(PREFIX + code);
     }
 }
