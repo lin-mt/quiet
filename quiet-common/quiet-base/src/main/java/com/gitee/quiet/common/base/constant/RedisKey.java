@@ -21,11 +21,14 @@ package com.gitee.quiet.common.base.constant;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface RedisKey {
+public final class RedisKey {
     
-    interface Gateway {
+    private RedisKey() {
+    }
+    
+    public final static class Gateway {
         
-        String ROUTE_DEFINITION = "quiet:gateway:route_definition";
+        public static final String ROUTE_DEFINITION = "quiet:gateway:route_definition";
         
     }
 }

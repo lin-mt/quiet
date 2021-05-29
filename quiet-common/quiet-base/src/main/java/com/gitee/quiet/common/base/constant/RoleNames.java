@@ -1,5 +1,5 @@
 /*
- * Copyright 2021. lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,21 @@ package com.gitee.quiet.common.base.constant;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @SuppressWarnings({"AlibabaConstantFieldShouldBeUpperCase", "unused"})
-public interface RoleNames {
+public final class RoleNames {
     
-    String ROLE_PREFIX = "ROLE_";
+    private RoleNames() {
+    }
+    
+    public static final String ROLE_PREFIX = "ROLE_";
     
     // 为了角色名称更加直观，没有采用大写+下划线的命名风格
     
-    String SystemAdmin = "ROLE_SystemAdmin";
-    String Admin = "ROLE_Admin";
-    String ProductOwner = "ROLE_ProductOwner";
-    String ScrumMaster = "ROLE_ScrumMaster";
+    public static final String SystemAdmin = "ROLE_SystemAdmin";
+    
+    public static final String Admin = "ROLE_Admin";
+    
+    public static final String ProductOwner = "ROLE_ProductOwner";
+    
+    public static final String ScrumMaster = "ROLE_ScrumMaster";
     
 }
