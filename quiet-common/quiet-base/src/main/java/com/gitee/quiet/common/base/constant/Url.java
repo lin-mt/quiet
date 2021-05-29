@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,14 @@ package com.gitee.quiet.common.base.constant;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Url {
+public final class Url {
     
-    String REGISTER = "/user/registered";
+    private Url() {
+    }
     
-    String LOGIN_BY_ACCOUNT = "/login/account";
+    public static final String REGISTER = "/user/registered";
     
-    String LOGOUT = "/login/outLogin";
+    public static final String LOGIN_BY_ACCOUNT = "/login/account";
+    
+    public static final String LOGOUT = "/login/outLogin";
 }
