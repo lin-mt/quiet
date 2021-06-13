@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright $.today.year lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@ subprojects {
             springCloudVersion = "2020.0.2"
             springCloudAlibabaVersion = "2021.1"
             springSecurityOauth2Version = "2.5.0.RELEASE"
+            redissonSpringDataStarterVersion = "3.15.6"
             springSecurityOauth2AutoconfigureVersion = "2.4.4"
         }
     }
