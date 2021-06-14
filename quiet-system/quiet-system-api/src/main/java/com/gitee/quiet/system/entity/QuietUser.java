@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
 import com.querydsl.core.BooleanBuilder;
 
 import javax.persistence.Entity;

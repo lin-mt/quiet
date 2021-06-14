@@ -1,5 +1,5 @@
 /*
- * Copyright $.today.year lin-mt@outlook.com
+ * Copyright 2021 lin-mt@outlook.com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
  */
 @Entity
 @Table(name = "quiet_client")
+@SuppressWarnings("deprecation")
 public class QuietClient extends BaseEntity implements ClientDetails {
     
     @NotBlank
