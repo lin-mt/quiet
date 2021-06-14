@@ -17,11 +17,11 @@
 package com.gitee.quiet.doc.enums;
 
 /**
- * 请求参数类型.
+ * 字段类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum HttpParamType {
+public enum FieldType {
     
     /**
      * 文件

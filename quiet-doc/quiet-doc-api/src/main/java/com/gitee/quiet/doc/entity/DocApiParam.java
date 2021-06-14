@@ -17,7 +17,7 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
-import com.gitee.quiet.doc.enums.HttpParamType;
+import com.gitee.quiet.doc.enums.FieldType;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -57,7 +57,7 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "param_type", nullable = false, length = 7)
-    private HttpParamType type;
+    private FieldType type;
     
     /**
      * 参数例子
@@ -72,7 +72,7 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "element_type", length = 7)
-    private HttpParamType elementType;
+    private FieldType elementType;
     
     /**
      * 文档ID
@@ -97,11 +97,11 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
         this.maxLength = maxLength;
     }
     
-    public HttpParamType getType() {
+    public FieldType getType() {
         return type;
     }
     
-    public void setType(HttpParamType type) {
+    public void setType(FieldType type) {
         this.type = type;
     }
     
@@ -113,11 +113,11 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
         this.example = example;
     }
     
-    public HttpParamType getElementType() {
+    public FieldType getElementType() {
         return elementType;
     }
     
-    public void setElementType(HttpParamType elementType) {
+    public void setElementType(FieldType elementType) {
         this.elementType = elementType;
     }
     
