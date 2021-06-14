@@ -1,0 +1,22 @@
+server:
+  port: 9020
+spring:
+  application:
+    name: quiet-doc
+  profiles:
+    active: dev
+  config:
+    import: classpath:application-resource-server.yaml
+security:
+  oauth2:
+    client:
+      client-secret: quiet
+dubbo:
+  cloud:
+    subscribed-services: quiet-system
+  scan:
+    base-packages: com.gitee.quiet.doc.service
+quiet:
+  id-generator:
+    worker-id: 3
+    data-center-id: 0
