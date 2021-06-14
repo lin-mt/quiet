@@ -34,16 +34,25 @@ import javax.validation.constraints.NotNull;
 @Table(name = "doc_api_header")
 public class DocApiHeader extends BaseEntity {
     
+    /**
+     * 请求头 key
+     */
     @NotBlank
     @Length(max = 30)
     @Column(name = "header_key", nullable = false, length = 30)
     private String key;
     
+    /**
+     * 请求头 value
+     */
     @NotNull
     @Length(max = 30)
     @Column(name = "header_value", nullable = false, length = 30)
     private String value;
     
+    /**
+     * 文档ID
+     */
     @NotNull
     @Column(name = "api_info_id", nullable = false)
     private Long apiInfoId;

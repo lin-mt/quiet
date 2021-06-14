@@ -39,31 +39,49 @@ import javax.validation.constraints.NotNull;
 @Table(name = "doc_api_info")
 public class DocApiInfo extends SerialEntity {
     
+    /**
+     * 接口名称
+     */
     @NotBlank
     @Length(max = 30)
     @Column(name = "api_name", nullable = false, length = 30)
     private String name;
     
+    /**
+     * 请求地址
+     */
     @NotBlank
     @Length(max = 300)
     @Column(name = "url", nullable = false, length = 300)
     private String url;
     
+    /**
+     * 请求方法
+     */
     @NotNull
     @Length(max = 7)
     @Enumerated(EnumType.STRING)
     @Column(name = "method", nullable = false, length = 7)
     private HttpMethod method;
     
+    /**
+     * ContentType
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", length = 27)
     private ContentType contentType;
     
+    /**
+     * body 类型
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "body_type", nullable = false, length = 6)
     private HttpBodyType bodyType = HttpBodyType.NONE;
     
+    /**
+     * 备注
+     */
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;

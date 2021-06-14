@@ -37,28 +37,46 @@ import javax.validation.constraints.NotNull;
 @Table(name = "doc_api_param")
 public class DocApiParam extends ParentEntity<DocApiParam> {
     
+    /**
+     * 参数名称
+     */
     @NotBlank
     @Length(max = 30)
     @Column(name = "param_key", nullable = false, length = 30)
     private String key;
     
-    @Column(name = "param_length")
-    private Long length;
+    /**
+     * 参数最大长度
+     */
+    @Column(name = "max_length")
+    private Long maxLength;
     
+    /**
+     * 参数类型
+     */
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "param_type", nullable = false, length = 7)
     private HttpParamType type;
     
+    /**
+     * 参数例子
+     */
     @NotNull
     @Length(max = 300)
     @Column(name = "example", nullable = false, length = 300)
     private String example;
     
+    /**
+     * 数组元素类型
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "element_type", length = 7)
     private HttpParamType elementType;
     
+    /**
+     * 文档ID
+     */
     @NotNull
     @Column(name = "api_info_id", nullable = false)
     private Long apiInfoId;
@@ -71,12 +89,12 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
         this.key = key;
     }
     
-    public Long getLength() {
-        return length;
+    public Long getMaxLength() {
+        return maxLength;
     }
     
-    public void setLength(Long length) {
-        this.length = length;
+    public void setMaxLength(Long maxLength) {
+        this.maxLength = maxLength;
     }
     
     public HttpParamType getType() {

@@ -43,6 +43,9 @@ public class DocProject extends SerialEntity {
     @Column(name = "project_name", nullable = false, length = 30)
     private String name;
     
+    /**
+     * 团队
+     */
     @Size(max = 20)
     @Column(name = "team_id", nullable = false, length = 380)
     private Set<Long> teamIds;
