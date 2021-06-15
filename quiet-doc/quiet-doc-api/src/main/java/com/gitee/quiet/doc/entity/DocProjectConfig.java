@@ -14,47 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.entity;
 
 /**
- * 字段类型.
+ * 项目配置信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum FieldType {
-    
-    /**
-     * 字符串
-     */
-    STRING,
-    
-    /**
-     * 对象
-     */
-    OBJECT,
-    
-    /**
-     * 数组
-     */
-    ARRAY,
-    
-    /**
-     * 数字
-     */
-    NUMBER,
-    
-    /**
-     * 整型
-     */
-    INTEGER,
-    
-    /**
-     * 布尔类型
-     */
-    BOOLEAN,
-    
-    /**
-     * 枚举
-     */
-    ENUM,
+public class DocProjectConfig {
+
 }

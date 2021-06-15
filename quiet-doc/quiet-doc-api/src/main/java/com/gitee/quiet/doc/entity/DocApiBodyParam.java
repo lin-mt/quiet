@@ -18,6 +18,7 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.gitee.quiet.doc.enums.FieldType;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -34,8 +35,8 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "doc_api_param")
-public class DocApiParam extends ParentEntity<DocApiParam> {
+@Table(name = "doc_api_body_param")
+public class DocApiBodyParam extends ParentEntity<DocApiBodyParam> {
     
     /**
      * 参数名称
@@ -60,6 +61,13 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
     private FieldType type;
     
     /**
+     * 字段是否必须
+     */
+    @ColumnDefault("0")
+    @Column(name = "required", columnDefinition = "TINYINT(1)")
+    private Boolean required;
+    
+    /**
      * 参数例子
      */
     @NotNull
@@ -68,18 +76,11 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
     private String example;
     
     /**
-     * 数组元素类型
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "element_type", length = 7)
-    private FieldType elementType;
-    
-    /**
      * 文档ID
      */
     @NotNull
-    @Column(name = "api_info_id", nullable = false)
-    private Long apiInfoId;
+    @Column(name = "api_id", nullable = false)
+    private Long apiId;
     
     public String getKey() {
         return key;
@@ -105,6 +106,14 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
         this.type = type;
     }
     
+    public Boolean getRequired() {
+        return required;
+    }
+    
+    public void setRequired(Boolean required) {
+        this.required = required;
+    }
+    
     public String getExample() {
         return example;
     }
@@ -113,19 +122,11 @@ public class DocApiParam extends ParentEntity<DocApiParam> {
         this.example = example;
     }
     
-    public FieldType getElementType() {
-        return elementType;
+    public Long getApiId() {
+        return apiId;
     }
     
-    public void setElementType(FieldType elementType) {
-        this.elementType = elementType;
-    }
-    
-    public Long getApiInfoId() {
-        return apiInfoId;
-    }
-    
-    public void setApiInfoId(Long apiInfoId) {
-        this.apiInfoId = apiInfoId;
+    public void setApiId(Long apiId) {
+        this.apiId = apiId;
     }
 }

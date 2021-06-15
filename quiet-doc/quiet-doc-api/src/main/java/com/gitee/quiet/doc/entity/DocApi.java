@@ -17,8 +17,6 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
-import com.gitee.quiet.doc.enums.ContentType;
-import com.gitee.quiet.doc.enums.HttpBodyType;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import org.hibernate.validator.constraints.Length;
 
@@ -36,8 +34,8 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "doc_api_info")
-public class DocApiInfo extends SerialEntity {
+@Table(name = "doc_api")
+public class DocApi extends SerialEntity {
     
     /**
      * 接口名称
@@ -65,19 +63,11 @@ public class DocApiInfo extends SerialEntity {
     private HttpMethod method;
     
     /**
-     * ContentType
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "content_type", length = 27)
-    private ContentType contentType;
-    
-    /**
-     * body 类型
+     * 所属项目ID
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "body_type", nullable = false, length = 6)
-    private HttpBodyType bodyType = HttpBodyType.NONE;
+    @Column(name = "project_id")
+    private Long projectId;
     
     /**
      * 备注
@@ -110,20 +100,12 @@ public class DocApiInfo extends SerialEntity {
         this.method = method;
     }
     
-    public ContentType getContentType() {
-        return contentType;
+    public Long getProjectId() {
+        return projectId;
     }
     
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
-    }
-    
-    public HttpBodyType getBodyType() {
-        return bodyType;
-    }
-    
-    public void setBodyType(HttpBodyType bodyType) {
-        this.bodyType = bodyType;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
     
     public String getRemark() {

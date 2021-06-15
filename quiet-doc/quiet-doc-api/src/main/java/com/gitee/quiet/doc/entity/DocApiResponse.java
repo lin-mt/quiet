@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.entity;
 
 /**
- * 请求体类型.
+ * 接口返回数据.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum HttpBodyType {
-    
-    NONE,
-    
-    ARRAY,
-    
-    OBJECT,
+public class DocApiResponse {
+
 }

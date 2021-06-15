@@ -54,8 +54,8 @@ public class DocApiHeader extends BaseEntity {
      * 文档ID
      */
     @NotNull
-    @Column(name = "api_info_id", nullable = false)
-    private Long apiInfoId;
+    @Column(name = "api_id", nullable = false)
+    private Long apiId;
     
     public String getKey() {
         return key;
@@ -73,11 +73,11 @@ public class DocApiHeader extends BaseEntity {
         this.value = value;
     }
     
-    public Long getApiInfoId() {
-        return apiInfoId;
+    public Long getApiId() {
+        return apiId;
     }
     
-    public void setApiInfoId(Long apiInfoId) {
-        this.apiInfoId = apiInfoId;
+    public void setApiId(Long apiId) {
+        this.apiId = apiId;
     }
 }

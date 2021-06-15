@@ -14,40 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.entity;
 
 /**
- * ContentType.
+ * query 参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum ContentType {
-    
-    APPLICATION_FORM_URLENCODED("application/x-www-form-urlencoded"),
-    
-    APPLICATION_JSON("application/json"),
-    
-    APPLICATION_XML("application/xml"),
-    
-    APPLICATION_JAVASCRIPT("application/javascript"),
-    
-    MULTIPART_FORM_DATA("multipart/form-data"),
-    
-    TEXT_HTML("text/html"),
-    
-    TEXT_PLAIN("text/plain"),
-    
-    TEXT_XML("text/xml"),
-    
-    WILDCARD("*/*");
-    
-    private final String value;
-    
-    ContentType(String value) {
-        this.value = value;
-    }
-    
-    public String getValue() {
-        return value;
-    }
+public class DocApiQueryParam {
+
 }
