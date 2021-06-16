@@ -16,8 +16,9 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
-import com.gitee.quiet.doc.enums.FieldType;
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.doc.enums.FormDataType;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -29,32 +30,51 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * 接口返回信息.
+ * FormData 参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "doc_api_response")
-public class DocApiResponse extends ParentEntity<DocApiResponse> {
+@Table(name = "doc_api_form_data")
+public class DocApiFormData extends BaseEntity {
     
     /**
-     * 字段名称
+     * 参数名称
      */
     @NotBlank
     @Length(max = 30)
-    @Column(name = "field_name", nullable = false, length = 30)
+    @Column(name = "param_name", nullable = false, length = 30)
     private String name;
     
     /**
-     * 字段类型
+     * 参数最大长度
+     */
+    @Column(name = "max_length")
+    private Long maxLength;
+    
+    /**
+     * 参数最小长度
+     */
+    @Column(name = "min_length")
+    private Long minLength;
+    
+    /**
+     * 参数类型
      */
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "field_type", nullable = false, length = 7)
-    private FieldType type;
+    @Column(name = "param_type", nullable = false, length = 4)
+    private FormDataType type;
     
     /**
-     * 例子
+     * 字段是否必须
+     */
+    @ColumnDefault("0")
+    @Column(name = "required", columnDefinition = "TINYINT(1)")
+    private Boolean required;
+    
+    /**
+     * 参数例子
      */
     @Length(max = 300)
     @Column(name = "example", length = 300)
@@ -75,12 +95,36 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
         this.name = name;
     }
     
-    public FieldType getType() {
+    public Long getMaxLength() {
+        return maxLength;
+    }
+    
+    public void setMaxLength(Long maxLength) {
+        this.maxLength = maxLength;
+    }
+    
+    public Long getMinLength() {
+        return minLength;
+    }
+    
+    public void setMinLength(Long minLength) {
+        this.minLength = minLength;
+    }
+    
+    public FormDataType getType() {
         return type;
     }
     
-    public void setType(FieldType type) {
+    public void setType(FormDataType type) {
         this.type = type;
+    }
+    
+    public Boolean getRequired() {
+        return required;
+    }
+    
+    public void setRequired(Boolean required) {
+        this.required = required;
     }
     
     public String getExample() {

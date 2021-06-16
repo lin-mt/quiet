@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.entity;
+package com.gitee.quiet.doc.enums;
 
 /**
- * query 参数.
+ * 查询参数类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DocApiQueryParam {
-
+public enum QueryType {
+    
+    STRING,
+    
+    INTEGER,
+    
+    NUMBER,
 }

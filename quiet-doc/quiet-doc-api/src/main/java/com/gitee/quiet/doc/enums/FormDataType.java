@@ -17,27 +17,13 @@
 package com.gitee.quiet.doc.enums;
 
 /**
- * http 请求方法类型.
+ * FormData 参数类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum HttpMethod {
+public enum FormDataType {
     
-    GET,
+    TEXT,
     
-    HEAD,
-    
-    POST,
-    
-    PUT,
-    
-    DELETE,
-    
-    CONNECT,
-    
-    OPTIONS,
-    
-    TRACE,
-    
-    PATCH
+    FILE,
 }

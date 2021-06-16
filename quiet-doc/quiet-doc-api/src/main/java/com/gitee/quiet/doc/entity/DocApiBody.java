@@ -35,22 +35,28 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Entity
-@Table(name = "doc_api_body_param")
-public class DocApiBodyParam extends ParentEntity<DocApiBodyParam> {
+@Table(name = "doc_api_body")
+public class DocApiBody extends ParentEntity<DocApiBody> {
     
     /**
      * 参数名称
      */
     @NotBlank
     @Length(max = 30)
-    @Column(name = "param_key", nullable = false, length = 30)
-    private String key;
+    @Column(name = "param_name", nullable = false, length = 30)
+    private String name;
     
     /**
      * 参数最大长度
      */
     @Column(name = "max_length")
     private Long maxLength;
+    
+    /**
+     * 参数最小长度
+     */
+    @Column(name = "min_length")
+    private Long minLength;
     
     /**
      * 参数类型
@@ -70,9 +76,8 @@ public class DocApiBodyParam extends ParentEntity<DocApiBodyParam> {
     /**
      * 参数例子
      */
-    @NotNull
     @Length(max = 300)
-    @Column(name = "example", nullable = false, length = 300)
+    @Column(name = "example", length = 300)
     private String example;
     
     /**
@@ -82,12 +87,12 @@ public class DocApiBodyParam extends ParentEntity<DocApiBodyParam> {
     @Column(name = "api_id", nullable = false)
     private Long apiId;
     
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
     
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public Long getMaxLength() {
@@ -96,6 +101,14 @@ public class DocApiBodyParam extends ParentEntity<DocApiBodyParam> {
     
     public void setMaxLength(Long maxLength) {
         this.maxLength = maxLength;
+    }
+    
+    public Long getMinLength() {
+        return minLength;
+    }
+    
+    public void setMinLength(Long minLength) {
+        this.minLength = minLength;
     }
     
     public FieldType getType() {

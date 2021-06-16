@@ -35,12 +35,12 @@ import javax.validation.constraints.NotNull;
 public class DocApiHeader extends BaseEntity {
     
     /**
-     * 请求头 key
+     * 请求头名称
      */
     @NotBlank
     @Length(max = 30)
-    @Column(name = "header_key", nullable = false, length = 30)
-    private String key;
+    @Column(name = "header_name", nullable = false, length = 30)
+    private String name;
     
     /**
      * 请求头 value
@@ -57,12 +57,12 @@ public class DocApiHeader extends BaseEntity {
     @Column(name = "api_id", nullable = false)
     private Long apiId;
     
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
     
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
     
     public String getValue() {

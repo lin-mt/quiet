@@ -63,6 +63,13 @@ public class DocApi extends SerialEntity {
     private HttpMethod method;
     
     /**
+     * 作者ID
+     */
+    @NotNull
+    @Column(name = "author_id", nullable = false)
+    private Long authorId;
+    
+    /**
      * 所属项目ID
      */
     @NotNull
@@ -98,6 +105,14 @@ public class DocApi extends SerialEntity {
     
     public void setMethod(HttpMethod method) {
         this.method = method;
+    }
+    
+    public Long getAuthorId() {
+        return authorId;
+    }
+    
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
     
     public Long getProjectId() {

@@ -23,6 +23,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -44,8 +46,16 @@ public class DocProject extends SerialEntity {
     private String name;
     
     /**
+     * 项目经理
+     */
+    @NotNull
+    @Column(name = "manager", nullable = false)
+    private Long manager;
+    
+    /**
      * 团队
      */
+    @NotEmpty
     @Size(max = 20)
     @Column(name = "team_id", nullable = false, length = 380)
     private Set<Long> teamIds;
@@ -63,6 +73,14 @@ public class DocProject extends SerialEntity {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Long getManager() {
+        return manager;
+    }
+    
+    public void setManager(Long manager) {
+        this.manager = manager;
     }
     
     public Set<Long> getTeamIds() {
