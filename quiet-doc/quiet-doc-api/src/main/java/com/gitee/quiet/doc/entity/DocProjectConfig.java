@@ -56,6 +56,13 @@ public class DocProjectConfig extends BaseEntity {
     @Column(name = "url_prefix", length = 30)
     private String urlPrefix;
     
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    @Column(name = "remark", length = 100)
+    private String remark;
+    
     public String getName() {
         return name;
     }
@@ -78,5 +85,13 @@ public class DocProjectConfig extends BaseEntity {
     
     public void setUrlPrefix(String urlPrefix) {
         this.urlPrefix = urlPrefix;
+    }
+    
+    public String getRemark() {
+        return remark;
+    }
+    
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

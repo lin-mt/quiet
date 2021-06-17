@@ -67,6 +67,13 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     @Column(name = "api_id", nullable = false)
     private Long apiId;
     
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    @Column(name = "remark", length = 100)
+    private String remark;
+    
     public String getName() {
         return name;
     }
@@ -97,5 +104,13 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     
     public void setApiId(Long apiId) {
         this.apiId = apiId;
+    }
+    
+    public String getRemark() {
+        return remark;
+    }
+    
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
