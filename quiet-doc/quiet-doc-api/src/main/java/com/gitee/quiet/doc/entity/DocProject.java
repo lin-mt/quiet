@@ -61,6 +61,13 @@ public class DocProject extends SerialEntity {
     private Set<Long> teamIds;
     
     /**
+     * 配置列表
+     */
+    @Size(max = 20)
+    @Column(name = "config_id", length = 380)
+    private Set<Long> configIds;
+    
+    /**
      * 备注
      */
     @Length(max = 100)
@@ -89,6 +96,14 @@ public class DocProject extends SerialEntity {
     
     public void setTeamIds(Set<Long> teamIds) {
         this.teamIds = teamIds;
+    }
+    
+    public Set<Long> getConfigIds() {
+        return configIds;
+    }
+    
+    public void setConfigIds(Set<Long> configIds) {
+        this.configIds = configIds;
     }
     
     public String getRemark() {

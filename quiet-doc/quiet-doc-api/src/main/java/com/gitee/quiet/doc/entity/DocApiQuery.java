@@ -16,13 +16,16 @@
 
 package com.gitee.quiet.doc.entity;
 
+import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
 import com.gitee.quiet.doc.enums.QueryType;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -31,7 +34,9 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DocApiQuery {
+@Entity
+@Table(name = "doc_api_query")
+public class DocApiQuery extends BaseEntity {
     
     /**
      * 参数名称
