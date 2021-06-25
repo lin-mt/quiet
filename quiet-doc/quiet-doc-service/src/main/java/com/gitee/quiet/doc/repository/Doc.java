@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc;
+package com.gitee.quiet.doc.repository;
 
-import com.gitee.quiet.doc.repository.Doc;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+/**
+ * Jpa 扫描 Repository.
+ *
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
+public interface Doc {
 
-@SpringBootApplication
-@EnableJpaRepositories(basePackageClasses = Doc.class)
-public class QuietDocServiceApplication {
-    
-    public static void main(String[] args) {
-        SpringApplication.run(QuietDocServiceApplication.class, args);
-    }
-    
 }
