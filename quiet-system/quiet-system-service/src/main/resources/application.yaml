@@ -14,5 +14,5 @@ dubbo:
     subscribed-services:
 quiet:
   id-generator:
-    worker-id: 1
+    worker-id: 0
     data-center-id: 0
