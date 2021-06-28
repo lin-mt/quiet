@@ -17,6 +17,7 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -51,6 +52,13 @@ public class DocApiHeader extends BaseEntity {
     private String value;
     
     /**
+     * 字段是否必须
+     */
+    @ColumnDefault("0")
+    @Column(name = "required", columnDefinition = "TINYINT(1)")
+    private Boolean required;
+    
+    /**
      * 文档ID
      */
     @NotNull
@@ -78,6 +86,14 @@ public class DocApiHeader extends BaseEntity {
     
     public void setValue(String value) {
         this.value = value;
+    }
+    
+    public Boolean getRequired() {
+        return required;
+    }
+    
+    public void setRequired(Boolean required) {
+        this.required = required;
     }
     
     public Long getApiId() {

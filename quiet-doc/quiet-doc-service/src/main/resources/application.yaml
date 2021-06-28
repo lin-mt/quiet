@@ -10,7 +10,7 @@ spring:
 security:
   oauth2:
     client:
-      client-secret: quiet
+      client-secret: quiet-doc
 dubbo:
   cloud:
     subscribed-services: quiet-system
@@ -18,5 +18,5 @@ dubbo:
     base-packages: com.gitee.quiet.doc.service
 quiet:
   id-generator:
-    worker-id: 3
+    worker-id: 2
     data-center-id: 0

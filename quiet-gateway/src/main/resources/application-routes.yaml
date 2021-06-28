@@ -22,3 +22,9 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
+        - id: doc
+          uri: http://localhost:9030
+          predicates:
+            - Path=/doc/**
+          filters:
+            - StripPrefix=1
