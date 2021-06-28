@@ -18,5 +18,5 @@ dubbo:
     base-packages: com.gitee.quiet.scrum.service
 quiet:
   id-generator:
-    worker-id: 2
+    worker-id: 1
     data-center-id: 0
