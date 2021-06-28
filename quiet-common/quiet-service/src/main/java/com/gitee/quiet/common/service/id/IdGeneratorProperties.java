@@ -32,7 +32,7 @@ public class IdGeneratorProperties {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(IdGeneratorProperties.class);
     
-    private long workerId = 1L;
+    private long workerId = 0L;
     
     private long dataCenterId = 0L;
     
@@ -59,8 +59,8 @@ public class IdGeneratorProperties {
     }
     
     public void setWorkerId(long workerId) {
-        if (workerId <= 0) {
-            LOGGER.warn("workerId 不能小于等于 0，当前值：1");
+        if (workerId < 0) {
+            LOGGER.warn("workerId 不能小于 0，当前值：0");
         } else {
             this.workerId = workerId;
         }
