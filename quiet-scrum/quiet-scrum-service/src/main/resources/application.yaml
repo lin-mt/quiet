@@ -10,7 +10,7 @@ spring:
 security:
   oauth2:
     client:
-      client-secret: quiet
+      client-secret: quiet-scrum
 dubbo:
   cloud:
     subscribed-services: quiet-system
