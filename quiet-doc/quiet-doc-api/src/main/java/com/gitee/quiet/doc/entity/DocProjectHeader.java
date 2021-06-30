@@ -21,19 +21,15 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * 请求头信息.
+ * 项目所有请求的请求头信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Entity
-@Table(name = "doc_api_header")
-public class DocApiHeader extends BaseEntity {
+public class DocProjectHeader extends BaseEntity {
     
     /**
      * 请求头名称
@@ -58,11 +54,11 @@ public class DocApiHeader extends BaseEntity {
     private Boolean required;
     
     /**
-     * 文档ID
+     * 项目ID
      */
     @NotNull
-    @Column(name = "api_id", nullable = false)
-    private Long apiId;
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
     
     /**
      * 备注
@@ -95,12 +91,12 @@ public class DocApiHeader extends BaseEntity {
         this.required = required;
     }
     
-    public Long getApiId() {
-        return apiId;
+    public Long getProjectId() {
+        return projectId;
     }
     
-    public void setApiId(Long apiId) {
-        this.apiId = apiId;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
     
     public String getRemark() {
