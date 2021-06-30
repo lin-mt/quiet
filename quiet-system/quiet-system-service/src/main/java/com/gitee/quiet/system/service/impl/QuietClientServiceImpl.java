@@ -87,7 +87,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     public QuietClient save(@NotNull QuietClient save) {
         QuietClient exist = clientRepository.findByClientId(save.getClientId());
         if (exist != null) {
-            throw new ServiceException("client.clientId,exist", save.getClientId());
+            throw new ServiceException("client.clientId.exist", save.getClientId());
         }
         save.setClientSecret(passwordEncoder.encode(save.getClientSecret()));
         return clientRepository.save(save);
@@ -104,7 +104,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     public QuietClient update(@NotNull QuietClient update) {
         QuietClient exist = clientRepository.findByClientId(update.getClientId());
         if (exist != null && !exist.getId().equals(update.getId())) {
-            throw new ServiceException("client.clientId,exist", update.getClientId());
+            throw new ServiceException("client.clientId.exist", update.getClientId());
         }
         update.setClientSecret(passwordEncoder.encode(update.getClientSecret()));
         return clientRepository.saveAndFlush(update);
