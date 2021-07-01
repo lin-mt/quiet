@@ -23,10 +23,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  * 项目信息.
@@ -46,26 +43,11 @@ public class DocProject extends SerialEntity {
     private String name;
     
     /**
-     * 项目经理
+     * 项目文档负责人
      */
     @NotNull
-    @Column(name = "manager", nullable = false)
-    private Long manager;
-    
-    /**
-     * 团队
-     */
-    @NotEmpty
-    @Size(max = 20)
-    @Column(name = "team_id", nullable = false, length = 380)
-    private Set<Long> teamIds;
-    
-    /**
-     * 配置列表
-     */
-    @Size(max = 20)
-    @Column(name = "config_id", length = 380)
-    private Set<Long> configIds;
+    @Column(name = "principal", nullable = false)
+    private Long principal;
     
     /**
      * 备注
@@ -82,28 +64,12 @@ public class DocProject extends SerialEntity {
         this.name = name;
     }
     
-    public Long getManager() {
-        return manager;
+    public Long getPrincipal() {
+        return principal;
     }
     
-    public void setManager(Long manager) {
-        this.manager = manager;
-    }
-    
-    public Set<Long> getTeamIds() {
-        return teamIds;
-    }
-    
-    public void setTeamIds(Set<Long> teamIds) {
-        this.teamIds = teamIds;
-    }
-    
-    public Set<Long> getConfigIds() {
-        return configIds;
-    }
-    
-    public void setConfigIds(Set<Long> configIds) {
-        this.configIds = configIds;
+    public void setPrincipal(Long principal) {
+        this.principal = principal;
     }
     
     public String getRemark() {

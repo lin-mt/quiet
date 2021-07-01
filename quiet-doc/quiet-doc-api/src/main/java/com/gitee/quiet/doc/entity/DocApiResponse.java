@@ -18,6 +18,7 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.gitee.quiet.doc.enums.FieldType;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -44,6 +45,13 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     @Length(max = 30)
     @Column(name = "field_name", nullable = false, length = 30)
     private String name;
+    
+    /**
+     * 字段是否可能为空
+     */
+    @ColumnDefault("0")
+    @Column(name = "not_null", columnDefinition = "TINYINT(1)")
+    private Boolean notNull;
     
     /**
      * 字段类型
@@ -80,6 +88,14 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public Boolean getNotNull() {
+        return notNull;
+    }
+    
+    public void setNotNull(Boolean notNull) {
+        this.notNull = notNull;
     }
     
     public FieldType getType() {

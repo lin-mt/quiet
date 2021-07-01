@@ -17,10 +17,11 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +30,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Entity
+@Table(name = "doc_project_header")
 public class DocProjectHeader extends BaseEntity {
     
     /**
@@ -45,13 +48,6 @@ public class DocProjectHeader extends BaseEntity {
     @Length(max = 30)
     @Column(name = "header_value", length = 30)
     private String value;
-    
-    /**
-     * 字段是否必须
-     */
-    @ColumnDefault("0")
-    @Column(name = "required", columnDefinition = "TINYINT(1)")
-    private Boolean required;
     
     /**
      * 项目ID
@@ -81,14 +77,6 @@ public class DocProjectHeader extends BaseEntity {
     
     public void setValue(String value) {
         this.value = value;
-    }
-    
-    public Boolean getRequired() {
-        return required;
-    }
-    
-    public void setRequired(Boolean required) {
-        this.required = required;
     }
     
     public Long getProjectId() {

@@ -23,6 +23,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * 项目配置信息.
@@ -42,19 +43,18 @@ public class DocProjectConfig extends BaseEntity {
     private String name;
     
     /**
-     * 域名
+     * 请求路径
      */
-    @NotEmpty
-    @Length(max = 50)
-    @Column(name = "domain_name", nullable = false, length = 50)
-    private String domainName;
+    @Length(max = 90)
+    @Column(name = "base_url", length = 90)
+    private String baseUrl;
     
     /**
-     * 前缀
+     * 项目ID
      */
-    @Length(max = 30)
-    @Column(name = "url_prefix", length = 30)
-    private String urlPrefix;
+    @NotNull
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
     
     /**
      * 备注
@@ -71,20 +71,20 @@ public class DocProjectConfig extends BaseEntity {
         this.name = name;
     }
     
-    public String getDomainName() {
-        return domainName;
+    public String getBaseUrl() {
+        return baseUrl;
     }
     
-    public void setDomainName(String domainName) {
-        this.domainName = domainName;
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
     
-    public String getUrlPrefix() {
-        return urlPrefix;
+    public Long getProjectId() {
+        return projectId;
     }
     
-    public void setUrlPrefix(String urlPrefix) {
-        this.urlPrefix = urlPrefix;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
     
     public String getRemark() {
