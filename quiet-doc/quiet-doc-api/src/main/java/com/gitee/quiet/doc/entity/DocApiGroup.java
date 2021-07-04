@@ -22,6 +22,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -36,15 +37,16 @@ public class DocApiGroup extends ParentEntity<DocApiGroup> {
     /**
      * 分组名称
      */
-    @NotNull
+    @NotBlank
     @Length(max = 30)
-    @Column(name = "group_name", length = 30)
+    @Column(name = "group_name", length = 30, nullable = false)
     private String name;
     
     /**
      * 所属项目ID
      */
-    @Column(name = "project_id")
+    @NotNull
+    @Column(name = "project_id", nullable = false)
     private Long projectId;
     
     public String getName() {
