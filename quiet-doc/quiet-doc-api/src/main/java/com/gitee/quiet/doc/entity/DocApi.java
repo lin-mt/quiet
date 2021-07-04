@@ -72,11 +72,11 @@ public class DocApi extends SerialEntity {
     private Long authorId;
     
     /**
-     * 所属项目ID
+     * 所属分组ID
      */
     @NotNull
-    @Column(name = "project_id")
-    private Long projectId;
+    @Column(name = "api_group_id")
+    private Long apiGroupId;
     
     /**
      * 访问者用户ID
@@ -124,12 +124,12 @@ public class DocApi extends SerialEntity {
         this.authorId = authorId;
     }
     
-    public Long getProjectId() {
-        return projectId;
+    public Long getApiGroupId() {
+        return apiGroupId;
     }
     
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setApiGroupId(Long apiGroupId) {
+        this.apiGroupId = apiGroupId;
     }
     
     public Set<Long> getAccessor() {
