@@ -27,6 +27,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * 文档信息.
@@ -77,6 +79,13 @@ public class DocApi extends SerialEntity {
     private Long projectId;
     
     /**
+     * 访问者用户ID
+     */
+    @Size(max = 30)
+    @Column(name = "accessor", length = 570)
+    private Set<Long> accessor;
+    
+    /**
      * 备注
      */
     @Length(max = 100)
@@ -121,6 +130,14 @@ public class DocApi extends SerialEntity {
     
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+    
+    public Set<Long> getAccessor() {
+        return accessor;
+    }
+    
+    public void setAccessor(Set<Long> accessor) {
+        this.accessor = accessor;
     }
     
     public String getRemark() {
