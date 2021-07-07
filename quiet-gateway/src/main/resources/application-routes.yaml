@@ -23,7 +23,7 @@ spring:
           filters:
             - StripPrefix=1
         - id: doc
-          uri: http://localhost:9030
+          uri: http://localhost:9020
           predicates:
             - Path=/doc/**
           filters:
