@@ -18,6 +18,7 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.doc.enums.HttpMethod;
+import com.gitee.quiet.system.entity.QuietUser;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -25,9 +26,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -82,8 +85,8 @@ public class DocApi extends SerialEntity {
      * 访问者用户ID
      */
     @Size(max = 30)
-    @Column(name = "accessor", length = 570)
-    private Set<Long> accessor;
+    @Column(name = "visitor_id", length = 570)
+    private Set<Long> visitorIds;
     
     /**
      * 备注
@@ -91,6 +94,12 @@ public class DocApi extends SerialEntity {
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
+    
+    /**
+     * 访问者信息
+     */
+    @Transient
+    private List<QuietUser> visitors;
     
     public String getName() {
         return name;
@@ -132,12 +141,12 @@ public class DocApi extends SerialEntity {
         this.apiGroupId = apiGroupId;
     }
     
-    public Set<Long> getAccessor() {
-        return accessor;
+    public Set<Long> getVisitorIds() {
+        return visitorIds;
     }
     
-    public void setAccessor(Set<Long> accessor) {
-        this.accessor = accessor;
+    public void setVisitorIds(Set<Long> visitorIds) {
+        this.visitorIds = visitorIds;
     }
     
     public String getRemark() {
@@ -146,5 +155,13 @@ public class DocApi extends SerialEntity {
     
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+    
+    public List<QuietUser> getVisitors() {
+        return visitors;
+    }
+    
+    public void setVisitors(List<QuietUser> visitors) {
+        this.visitors = visitors;
     }
 }
