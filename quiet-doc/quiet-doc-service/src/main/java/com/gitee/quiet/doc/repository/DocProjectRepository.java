@@ -18,7 +18,11 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProject;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Project Repository.
@@ -27,5 +31,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DocProjectRepository extends JpaRepository<DocProject, Long> {
-
+    
+    /**
+     * 根据用户ID查询用户负责的项目和可访问的项目
+     *
+     * @param userId 用户ID
+     * @return 可访问的所有项目
+     */
+    @Query(value = "select * from doc_project where principal = :userId or find_in_set(visitor_id, :userId)", nativeQuery = true)
+    List<DocProject> listAllByUserId(@Param("userId") Long userId);
 }
