@@ -15,6 +15,9 @@
  */
 
 dependencies {
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation(project(':quiet-system:quiet-system-api'))
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     runtimeOnly 'mysql:mysql-connector-java'
 }
