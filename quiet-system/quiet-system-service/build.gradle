@@ -20,4 +20,10 @@ dependencies {
 
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     runtimeOnly 'mysql:mysql-connector-java'
+
+    compileJava {
+        options.compilerArgs += [
+                '-Amapstruct.defaultComponentModel=spring',
+        ]
+    }
 }
