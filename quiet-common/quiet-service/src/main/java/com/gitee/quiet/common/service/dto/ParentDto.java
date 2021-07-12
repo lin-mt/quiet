@@ -14,41 +14,35 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.common.service.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.base.Parent;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
- * 用户Controller参数.
+ * 带有父级ID的DTO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietUserParam extends Param<QuietUser, QuietUser> {
+@Getter
+@Setter
+public class ParentDto<T extends ParentDto<T>> extends BaseDto implements Parent<T> {
     
     /**
-     * 部门ID
+     * 父级ID
      */
-    private Long departmentId;
+    private Long parentId;
     
-    /**
-     * 名称（用户名、全名）
-     */
-    private String name;
+    @Transient
+    private List<T> children;
     
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-    
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public Object getKey() {
+        return getId();
     }
 }

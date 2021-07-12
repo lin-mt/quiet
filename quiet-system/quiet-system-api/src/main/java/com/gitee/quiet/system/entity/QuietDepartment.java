@@ -19,6 +19,8 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -34,6 +36,8 @@ import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_department")
 public class QuietDepartment extends ParentEntity<QuietDepartment> {
@@ -52,22 +56,6 @@ public class QuietDepartment extends ParentEntity<QuietDepartment> {
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
-    
-    public String getDepartmentName() {
-        return departmentName;
-    }
-    
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
     
     @Nullable
     @Override

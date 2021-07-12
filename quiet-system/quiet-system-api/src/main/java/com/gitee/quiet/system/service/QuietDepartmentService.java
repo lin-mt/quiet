@@ -51,7 +51,7 @@ public interface QuietDepartmentService {
      *
      * @param deleteId 要删除的部门ID
      */
-    void delete(Long deleteId);
+    void deleteById(Long deleteId);
     
     /**
      * 获取所有部门的树形结构信息
