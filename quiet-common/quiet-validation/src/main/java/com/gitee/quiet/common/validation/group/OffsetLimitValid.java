@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.single;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 删除一条数据.
+ * offset参数不能为null.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DeleteSingle {
+public interface OffsetLimitValid {
 
 }

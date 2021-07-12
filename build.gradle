@@ -36,6 +36,7 @@ subprojects {
         ext {
             jacksonDatabindVersion = "2.12.2"
             queryDslVersion = "4.4.0"
+            lombokVersion = "1.18.20"
             mapstructVersion = "1.4.2.Final"
             springCloudVersion = "2020.0.2"
             springCloudAlibabaVersion = "2021.1"

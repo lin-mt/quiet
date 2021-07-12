@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.security;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,13 +33,10 @@ import java.util.Collection;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@AllArgsConstructor
 public class QuietAccessDecisionManager implements AccessDecisionManager {
     
     private final RoleHierarchy roleHierarchy;
-    
-    public QuietAccessDecisionManager(RoleHierarchy roleHierarchy) {
-        this.roleHierarchy = roleHierarchy;
-    }
     
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)

@@ -45,8 +45,9 @@ public class AuthenticationJsonEntryPointHandler extends AbstractResponseJsonDat
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException {
         logger.error("认证失败", authException);
-        Result<Object> result = Result.failure().setCode(AccountCode.NO_LOGIN)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_LOGIN));
-        responseJsonData(response, result);
+        Result<Object> failure = Result.failure();
+        failure.setCode(AccountCode.NO_LOGIN);
+        failure.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_LOGIN));
+        responseJsonData(response, failure);
     }
 }

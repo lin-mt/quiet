@@ -16,9 +16,10 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.enums.Operation;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.repository.QuietClientRepository;
 import com.gitee.quiet.system.service.QuietClientService;
@@ -33,6 +34,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -84,7 +86,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    public QuietClient save(@NotNull QuietClient save) {
+    public QuietClient save(@Validated(Create.class) QuietClient save) {
         QuietClient exist = clientRepository.findByClientId(save.getClientId());
         if (exist != null) {
             throw new ServiceException("client.clientId.exist", save.getClientId());
@@ -95,13 +97,14 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     @Override
     @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, allEntries = true)
-    public void deleteClient(@NotNull Long id) {
+    public void deleteClientById(@NotNull Long id) {
+        clientRepository.findById(id).orElseThrow(() -> new ServiceException("client.id.not.exist", id));
         clientRepository.deleteById(id);
     }
     
     @Override
     @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
-    public QuietClient update(@NotNull QuietClient update) {
+    public QuietClient update(@Validated(Update.class) QuietClient update) {
         QuietClient exist = clientRepository.findByClientId(update.getClientId());
         if (exist != null && !exist.getId().equals(update.getId())) {
             throw new ServiceException("client.clientId.exist", update.getClientId());
@@ -112,36 +115,19 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     @Override
     @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
-    public QuietClient changeClientScope(@NotNull Long id, @NotEmpty String clientScope, @NotNull Operation operation) {
-        QuietClient client = clientRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                client.addScope(clientScope);
-                break;
-            case DELETE:
-                client.removeScope(clientScope);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+    public QuietClient removeClientScope(@NotNull Long id, @NotEmpty String clientScope) {
+        QuietClient client = clientRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
+        client.removeScope(clientScope);
         return clientRepository.saveAndFlush(client);
     }
     
     @Override
     @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
-    public QuietClient changeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType,
-            @NotNull Operation operation) {
-        QuietClient client = clientRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                client.addAuthorizedGrantType(authorizedGrantType);
-                break;
-            case DELETE:
-                client.removeAuthorizedGrantType(authorizedGrantType);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+    public QuietClient removeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType) {
+        QuietClient client = clientRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
+        client.removeAuthorizedGrantType(authorizedGrantType);
         return clientRepository.saveAndFlush(client);
     }
 }

@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd;
-
-import javax.validation.groups.Default;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 新增.
+ * Id 不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Create extends Default {
+public interface IdValid {
 
 }

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 批量查询.
+ * 分页参数校验分组.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ReadBatch {
+public interface PageValid {
 
 }

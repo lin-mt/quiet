@@ -16,39 +16,22 @@
 
 package com.gitee.quiet.common.base.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 服务异常.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@AllArgsConstructor
 public class QuietException extends RuntimeException {
     
     private static final long serialVersionUID = -9053839678620632728L;
     
-    private String code;
+    private final String code;
     
-    private Object[] msgParam;
+    private final Object[] msgParam;
     
-    public QuietException(final String code, final Object... msgParam) {
-        this.code = code;
-        this.msgParam = msgParam;
-    }
-    
-    public String getCode() {
-        return this.code;
-    }
-    
-    public QuietException setCode(final String code) {
-        this.code = code;
-        return this;
-    }
-    
-    public Object[] getMsgParam() {
-        return this.msgParam;
-    }
-    
-    public QuietException setMsgParam(final Object[] msgParam) {
-        this.msgParam = msgParam;
-        return this;
-    }
 }

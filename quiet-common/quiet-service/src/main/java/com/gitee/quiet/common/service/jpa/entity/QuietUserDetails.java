@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.enums.Gender;
 import com.gitee.quiet.common.service.json.annotation.JsonHasRole;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
@@ -42,6 +44,8 @@ import java.util.Collection;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @MappedSuperclass
 public class QuietUserDetails extends BaseEntity implements UserDetails, CredentialsContainer {
     
@@ -74,6 +78,7 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     @NotBlank
     @Length(max = 60)
     @Column(name = "secret_code", nullable = false, length = 60)
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String secretCode;
     
@@ -139,80 +144,6 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
     private Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities;
     
     @Override
-    public String getUsername() {
-        return username;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    public String getFullName() {
-        return fullName;
-    }
-    
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    
-    public String getAvatar() {
-        return avatar;
-    }
-    
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-    
-    @JsonIgnore
-    public String getSecretCode() {
-        return secretCode;
-    }
-    
-    public void setSecretCode(String secretCode) {
-        this.secretCode = secretCode;
-    }
-    
-    public Gender getGender() {
-        return gender;
-    }
-    
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-    
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-    
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-    
-    public Boolean getAccountExpired() {
-        return accountExpired;
-    }
-    
-    public void setAccountExpired(Boolean accountExpired) {
-        this.accountExpired = accountExpired;
-    }
-    
-    public Boolean getAccountLocked() {
-        return accountLocked;
-    }
-    
-    public void setAccountLocked(Boolean accountLocked) {
-        this.accountLocked = accountLocked;
-    }
-    
-    @Override
     @Transient
     @JsonIgnore
     public String getPassword() {
@@ -240,39 +171,14 @@ public class QuietUserDetails extends BaseEntity implements UserDetails, Credent
         return !BooleanUtils.toBoolean(getCredentialsExpired());
     }
     
-    public Boolean getCredentialsExpired() {
-        return credentialsExpired;
-    }
-    
-    public void setCredentialsExpired(Boolean credentialsExpired) {
-        this.credentialsExpired = credentialsExpired;
-    }
-    
     @Override
     public boolean isEnabled() {
         return BooleanUtils.toBoolean(getEnabled());
     }
     
-    public Boolean getEnabled() {
-        return enabled;
-    }
-    
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-    
     @Override
     public void eraseCredentials() {
         this.secretCode = null;
-    }
-    
-    @Override
-    public Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> getAuthorities() {
-        return authorities;
-    }
-    
-    public void setAuthorities(Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities) {
-        this.authorities = authorities;
     }
     
 }

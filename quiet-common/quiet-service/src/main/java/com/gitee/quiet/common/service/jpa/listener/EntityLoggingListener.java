@@ -19,6 +19,8 @@ package com.gitee.quiet.common.service.jpa.listener;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,6 +141,8 @@ public class EntityLoggingListener {
         });
     }
     
+    @Getter
+    @Setter
     private static class LoggerCache {
         
         /**
@@ -151,21 +155,6 @@ public class EntityLoggingListener {
          */
         private String tableName;
         
-        public Logger getLogger() {
-            return logger;
-        }
-        
-        public void setLogger(Logger logger) {
-            this.logger = logger;
-        }
-        
-        public String getTableName() {
-            return tableName;
-        }
-        
-        public void setTableName(String tableName) {
-            this.tableName = tableName;
-        }
     }
     
 }

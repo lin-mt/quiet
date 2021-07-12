@@ -16,11 +16,14 @@
 
 package com.gitee.quiet.common.service.security;
 
+import lombok.Data;
+
 /**
  * URL 权限信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Data
 public class UrlPermission {
     
     /**
@@ -38,27 +41,4 @@ public class UrlPermission {
      */
     private String roleName;
     
-    public String getUrlPattern() {
-        return urlPattern;
-    }
-    
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
-    }
-    
-    public String getRequestMethod() {
-        return requestMethod;
-    }
-    
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod;
-    }
-    
-    public String getRoleName() {
-        return roleName;
-    }
-    
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 }

@@ -18,6 +18,8 @@ package com.gitee.quiet.common.validation.entity;
 
 
 import com.gitee.quiet.common.validation.annotation.DateRangeCheck;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +28,8 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @DateRangeCheck
 public class DateRange {
     
@@ -33,19 +37,4 @@ public class DateRange {
     
     private LocalDateTime end;
     
-    public LocalDateTime getStart() {
-        return start;
-    }
-    
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-    
-    public LocalDateTime getEnd() {
-        return end;
-    }
-    
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
 }

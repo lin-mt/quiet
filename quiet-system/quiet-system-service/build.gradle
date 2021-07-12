@@ -15,15 +15,19 @@
  */
 
 dependencies {
-    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
-    implementation(project(':quiet-system:quiet-system-api'))
-
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     runtimeOnly 'mysql:mysql-connector-java'
 
-    compileJava {
-        options.compilerArgs += [
-                '-Amapstruct.defaultComponentModel=spring',
-        ]
-    }
+    implementation(project(':quiet-system:quiet-system-api'))
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+}
+
+compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring',
+    ]
 }
