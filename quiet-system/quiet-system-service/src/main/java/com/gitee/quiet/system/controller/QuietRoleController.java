@@ -17,16 +17,21 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.system.convert.QuietRoleConvert;
+import com.gitee.quiet.system.dto.QuietRoleDto;
 import com.gitee.quiet.system.entity.QuietRole;
-import com.gitee.quiet.system.params.QuietRoleParam;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.QueryResults;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,21 +44,20 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/role")
 public class QuietRoleController {
     
     private final QuietRoleService roleService;
     
-    public QuietRoleController(QuietRoleService roleService) {
-        this.roleService = roleService;
-    }
+    private final QuietRoleConvert roleConvert;
     
     /**
      * 以树形结构查询角色之间的关联信息.
      *
      * @return 角色之间的关联关系
      */
-    @PostMapping("/tree")
+    @GetMapping("/tree")
     public Result<List<QuietRole>> tree() {
         return Result.success(roleService.tree());
     }
@@ -63,44 +67,44 @@ public class QuietRoleController {
      *
      * @return 查询所有信息
      */
-    @PostMapping("/page")
-    public Result<QueryResults<QuietRole>> page(@RequestBody QuietRoleParam postParam) {
-        return Result.success(roleService.page(postParam.getParams(), postParam.page()));
+    @GetMapping("/page")
+    public Result<QueryResults<QuietRole>> page(QuietRoleDto dto) {
+        return Result.success(roleService.page(roleConvert.dtoToEntity(dto), dto.page()));
     }
     
     /**
      * 新增角色.
      *
-     * @param postParam :save 新增的角色信息
+     * @param dto 新增的角色信息
      * @return 新增后的角色信息
      */
-    @PostMapping("/save")
-    public Result<QuietRole> save(@RequestBody @Validated(Create.class) QuietRoleParam postParam) {
-        return Result.createSuccess(roleService.save(postParam.getSave()));
+    @PostMapping
+    public Result<QuietRole> save(@RequestBody @Validated(Create.class) QuietRoleDto dto) {
+        return Result.createSuccess(roleService.save(roleConvert.dtoToEntity(dto)));
     }
     
     /**
      * 删除角色.
      *
-     * @param postParam :deleteId 删除的角色ID
+     * @param id 删除的角色ID
      * @return Result
      */
-    @PostMapping("/delete")
+    @DeleteMapping("/{id}")
     @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietRoleParam postParam) {
-        roleService.deleteRole(postParam.getDeleteId());
+    public Result<Object> delete(@PathVariable Long id) {
+        roleService.deleteRole(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 更新角色.
      *
-     * @param postParam :update 更新的角色信息
+     * @param dto 更新的角色信息
      * @return 新增后的角色信息
      */
-    @PostMapping("/update")
-    public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleParam postParam) {
-        return Result.updateSuccess(roleService.update(postParam.getUpdate()));
+    @PutMapping
+    public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleDto dto) {
+        return Result.updateSuccess(roleService.update(roleConvert.dtoToEntity(dto)));
     }
     
 }

@@ -14,41 +14,51 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.service.base.BaseDto;
 import com.gitee.quiet.system.entity.QuietUser;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
- * 用户Controller参数.
+ * 团队.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietUserParam extends Param<QuietUser, QuietUser> {
+@Getter
+@Setter
+public class QuietTeamDto extends BaseDto {
     
     /**
-     * 部门ID
+     * 团队名称
      */
-    private Long departmentId;
+    @NotBlank
+    @Length(max = 16)
+    private String teamName;
     
     /**
-     * 名称（用户名、全名）
+     * 标语
      */
-    private String name;
+    @Length(max = 30)
+    private String slogan;
     
-    public Long getDepartmentId() {
-        return departmentId;
-    }
+    /**
+     * 团队PO
+     */
+    private List<QuietUser> productOwners;
     
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
+    /**
+     * 团队SM
+     */
+    private List<QuietUser> scrumMasters;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
+    /**
+     * 团队成员
+     */
+    private List<QuietUser> members;
 }

@@ -14,22 +14,49 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.enums;
+package com.gitee.quiet.system.dto;
+
+import com.gitee.quiet.common.service.dto.ParentDto;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 /**
- * 构建工具.
+ * 角色.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum BuildTool {
+@Getter
+@Setter
+public class QuietRoleDto extends ParentDto<QuietRoleDto> {
     
     /**
-     * Maven
+     * 角色名称
      */
-    MAVEN,
+    @NotBlank
+    @Length(max = 30)
+    private String roleName;
     
     /**
-     * Gradle
+     * 角色中文名
      */
-    GRADLE
+    @NotBlank
+    @Length(max = 30)
+    private String roleCnName;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    private String remark;
+    
+    /**
+     * 父角色名称
+     */
+    @Transient
+    private String parentRoleName;
+    
 }

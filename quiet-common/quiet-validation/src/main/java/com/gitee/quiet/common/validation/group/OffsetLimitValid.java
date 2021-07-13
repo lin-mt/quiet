@@ -14,27 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
-
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDepartment;
-
-import java.util.Set;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 部门Controller参数.
+ * offset参数不能为null.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
-    
-    private Set<Long> userIds;
-    
-    public Set<Long> getUserIds() {
-        return userIds;
-    }
-    
-    public void setUserIds(Set<Long> userIds) {
-        this.userIds = userIds;
-    }
+public interface OffsetLimitValid {
+
 }

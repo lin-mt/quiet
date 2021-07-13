@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param;
+package com.gitee.quiet.common.validation.group;
 
 import javax.validation.groups.Default;
 
 /**
- * Param 的 params 属性不能为空.
+ * 更新.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ParamsValid extends Default {
+public interface Update extends Default {
 
 }

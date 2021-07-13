@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.single;
+package com.gitee.quiet.system.convert;
+
+import com.gitee.quiet.system.dto.QuietDepartmentDto;
+import com.gitee.quiet.system.entity.QuietDepartment;
+import org.mapstruct.Mapper;
 
 /**
- * 删除一条数据.
+ * 部门实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DeleteSingle {
-
+@Mapper
+public interface QuietDepartmentConvert {
+    
+    QuietDepartment dtoToEntity(QuietDepartmentDto dto);
+    
 }

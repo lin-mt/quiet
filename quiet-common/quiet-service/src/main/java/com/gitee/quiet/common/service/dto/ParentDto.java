@@ -14,28 +14,35 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.common.service.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDictionary;
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.base.Parent;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
- * 数据字典请求参数.
+ * 带有父级ID的DTO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDictionaryParam extends Param<QuietDictionary, QuietDictionary> {
+@Getter
+@Setter
+public class ParentDto<T extends ParentDto<T>> extends BaseDto implements Parent<T> {
     
     /**
-     * 数据字典类型
+     * 父级ID
      */
-    private String type;
+    private Long parentId;
     
-    public String getType() {
-        return type;
-    }
+    @Transient
+    private List<T> children;
     
-    public void setType(String type) {
-        this.type = type;
+    @Override
+    public Object getKey() {
+        return getId();
     }
 }

@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.common.validation.group;
 
 import javax.validation.groups.Default;
 
 /**
- * 批量更新.
+ * 新增.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface UpdateBatch extends Default {
-    
+public interface Create extends Default {
+
 }

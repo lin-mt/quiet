@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd;
+package com.gitee.quiet.system.convert;
 
-import javax.validation.groups.Default;
+import com.gitee.quiet.system.dto.QuietTeamDto;
+import com.gitee.quiet.system.entity.QuietTeam;
+import org.mapstruct.Mapper;
 
 /**
- * 新增.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Create extends Default {
-
+@Mapper
+public interface QuietTeamConvert {
+    
+    QuietTeam dtoToEntity(QuietTeamDto dto);
+    
 }

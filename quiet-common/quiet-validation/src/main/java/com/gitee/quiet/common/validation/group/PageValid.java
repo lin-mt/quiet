@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
-
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietRole;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 角色Controller参数.
+ * 分页参数校验分组.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietRoleParam extends Param<QuietRole, QuietRole> {
+public interface PageValid {
 
 }

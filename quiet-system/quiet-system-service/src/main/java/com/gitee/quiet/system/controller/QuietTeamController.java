@@ -17,17 +17,21 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.ParamsValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.system.convert.QuietTeamConvert;
+import com.gitee.quiet.system.dto.QuietTeamDto;
 import com.gitee.quiet.system.entity.QuietTeam;
-import com.gitee.quiet.system.params.QuietTeamParam;
 import com.gitee.quiet.system.service.QuietTeamService;
 import com.querydsl.core.QueryResults;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,70 +44,69 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/team")
 public class QuietTeamController {
     
     private final QuietTeamService teamService;
     
-    public QuietTeamController(QuietTeamService teamService) {
-        this.teamService = teamService;
-    }
+    private final QuietTeamConvert teamConvert;
     
     /**
      * 根据团队名称查询团队信息
      *
-     * @param postParam 查询参数
+     * @param dto :teamName 团队名称
      * @return 团队信息
      */
-    @PostMapping("/listTeamsByTeamName")
-    public Result<List<QuietTeam>> listTeamsByTeamName(
-            @RequestBody @Validated(ParamsValid.class) QuietTeamParam postParam) {
-        return Result.success(teamService.listTeamsByTeamName(postParam.getParams().getTeamName(), 9));
+    @GetMapping("/listTeamsByTeamName")
+    public Result<List<QuietTeam>> listTeamsByTeamName(QuietTeamDto dto) {
+        return Result.success(teamService.listTeamsByTeamName(dto.getTeamName(), 9));
     }
     
     /**
      * 分页查询团队信息.
      *
+     * @param dto 查询参数
      * @return 团队信息
      */
-    @PostMapping("/page")
-    public Result<QueryResults<QuietTeam>> page(@RequestBody QuietTeamParam param) {
-        return Result.success(teamService.page(param.getParams(), param.page()));
+    @GetMapping("/page")
+    public Result<QueryResults<QuietTeam>> page(QuietTeamDto dto) {
+        return Result.success(teamService.page(teamConvert.dtoToEntity(dto), dto.page()));
     }
     
     /**
      * 新增团队.
      *
-     * @param param :save 新增的团队信息
+     * @param dto 新增的团队信息
      * @return 新增后的团队信息
      */
-    @PostMapping("/save")
-    public Result<QuietTeam> save(@RequestBody @Validated(Create.class) QuietTeamParam param) {
-        return Result.createSuccess(teamService.saveOrUpdate(param.getSave()));
+    @PostMapping
+    public Result<QuietTeam> save(@RequestBody @Validated(Create.class) QuietTeamDto dto) {
+        return Result.createSuccess(teamService.saveOrUpdate(teamConvert.dtoToEntity(dto)));
     }
     
     /**
      * 删除团队.
      *
-     * @param param :deleteId 删除的团队ID
+     * @param id 删除的团队ID
      * @return Result
      */
-    @PostMapping("/delete")
+    @DeleteMapping("/{id}")
     @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietTeamParam param) {
-        teamService.deleteTeam(param.getDeleteId());
+    public Result<Object> delete(@PathVariable Long id) {
+        teamService.deleteTeam(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 更新团队.
      *
-     * @param param :update 更新的团队信息
+     * @param dto 更新的团队信息
      * @return 新增后的团队信息
      */
-    @PostMapping("/update")
-    public Result<QuietTeam> update(@RequestBody @Validated(Update.class) QuietTeamParam param) {
-        return Result.updateSuccess(teamService.saveOrUpdate(param.getUpdate()));
+    @PutMapping
+    public Result<QuietTeam> update(@RequestBody @Validated(Update.class) QuietTeamDto dto) {
+        return Result.updateSuccess(teamService.saveOrUpdate(teamConvert.dtoToEntity(dto)));
     }
     
 }

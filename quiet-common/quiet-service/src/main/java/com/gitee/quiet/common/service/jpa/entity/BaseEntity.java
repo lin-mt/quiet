@@ -19,9 +19,11 @@ package com.gitee.quiet.common.service.jpa.entity;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.gitee.quiet.common.service.jpa.listener.EntityLoggingListener;
 import com.gitee.quiet.common.service.json.filter.JsonFilterName;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -48,6 +50,8 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
@@ -78,46 +82,6 @@ public class BaseEntity implements Serializable {
     @LastModifiedDate
     @Column(name = "gmt_update", insertable = false)
     private LocalDateTime gmtUpdate;
-    
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public Long getCreator() {
-        return creator;
-    }
-    
-    public void setCreator(Long createBy) {
-        this.creator = createBy;
-    }
-    
-    public LocalDateTime getGmtCreate() {
-        return gmtCreate;
-    }
-    
-    public void setGmtCreate(LocalDateTime gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-    
-    public Long getUpdater() {
-        return updater;
-    }
-    
-    public void setUpdater(Long updateBy) {
-        this.updater = updateBy;
-    }
-    
-    public LocalDateTime getGmtUpdate() {
-        return gmtUpdate;
-    }
-    
-    public void setGmtUpdate(LocalDateTime gmtUpdate) {
-        this.gmtUpdate = gmtUpdate;
-    }
     
     @Nullable
     public BooleanBuilder booleanBuilder() {

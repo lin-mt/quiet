@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.service.jpa.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -29,6 +31,8 @@ import javax.validation.constraints.NotBlank;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @MappedSuperclass
 public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends ParentEntity<T>
         implements GrantedAuthority {
@@ -45,13 +49,5 @@ public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends P
     @Transient
     public String getAuthority() {
         return getRoleName();
-    }
-    
-    public String getRoleName() {
-        return roleName;
-    }
-    
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 }

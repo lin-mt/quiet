@@ -20,8 +20,7 @@ import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.base.utils.MessageSourceUtil;
 import com.gitee.quiet.common.validation.config.QuietValidationConfig;
 import com.gitee.quiet.common.validation.exception.ValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -41,10 +40,9 @@ import java.util.Objects;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Slf4j
 @RestControllerAdvice
 public class ValidationExceptionAdvice {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationExceptionAdvice.class);
     
     @Resource(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
     private MessageSource messageSource;
@@ -64,12 +62,14 @@ public class ValidationExceptionAdvice {
                 if (error instanceof FieldError) {
                     errorMsg.append(((FieldError) error).getField());
                 } else {
-                    LOGGER.error("错误类型异常未处理：{}", error.getClass());
+                    log.error("错误类型异常未处理：{}", error.getClass());
                 }
                 errorMsg.append(error.getDefaultMessage()).append(";");
             }
         }
-        return Result.exception().setMessage(errorMsg.toString());
+        Result<Object> exception = Result.exception();
+        exception.setMessage(errorMsg.toString());
+        return exception;
     }
     
     /**
@@ -80,16 +80,20 @@ public class ValidationExceptionAdvice {
      */
     @ExceptionHandler(value = ValidationException.class)
     public Result<Object> handleServiceException(final ValidationException e) {
-        ValidationExceptionAdvice.LOGGER.error("参数验证异常", e);
+        log.error("参数验证异常", e);
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes();
+        Result<Object> exception = Result.exception();
         if (servletRequestAttributes != null) {
             HttpServletRequest request = servletRequestAttributes.getRequest();
             if (Objects.nonNull(e.getCode())) {
-                return Result.exception().setCode(e.getCode())
+                exception.setCode(e.getCode());
+                exception
                         .setMessage(MessageSourceUtil.getMessage(request, messageSource, e.getCode(), e.getMsgParam()));
+                return exception;
             }
         }
-        return Result.exception().setMessage(e.getMessage());
+        exception.setMessage(e.getMessage());
+        return exception;
     }
 }

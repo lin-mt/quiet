@@ -79,7 +79,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public void delete(@NotNull Long deleteId) {
+    public void deleteById(@NotNull Long deleteId) {
         if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
             throw new ServiceException("department.has.children.can.not.deleted");
         }

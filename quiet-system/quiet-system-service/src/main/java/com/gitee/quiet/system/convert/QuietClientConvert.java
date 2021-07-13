@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.system.convert;
 
-import javax.validation.groups.Default;
+import com.gitee.quiet.system.dto.QuietClientDto;
+import com.gitee.quiet.system.entity.QuietClient;
+import org.mapstruct.Mapper;
 
 /**
- * 批量新增.
+ * 客户端实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface CreateBatch extends Default {
+@Mapper
+public interface QuietClientConvert {
+    
+    QuietClient dtoToEntity(QuietClientDto dto);
     
 }

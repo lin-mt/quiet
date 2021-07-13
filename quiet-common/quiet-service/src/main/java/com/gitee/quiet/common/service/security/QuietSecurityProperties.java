@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.common.service.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Set;
@@ -25,6 +27,8 @@ import java.util.Set;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "quiet.security")
 public class QuietSecurityProperties {
     
@@ -33,11 +37,4 @@ public class QuietSecurityProperties {
      */
     private Set<String> ignoreUrls;
     
-    public Set<String> getIgnoreUrls() {
-        return ignoreUrls;
-    }
-    
-    public void setIgnoreUrls(Set<String> ignoreUrls) {
-        this.ignoreUrls = ignoreUrls;
-    }
 }

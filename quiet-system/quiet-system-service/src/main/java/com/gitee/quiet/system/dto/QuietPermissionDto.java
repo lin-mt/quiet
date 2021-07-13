@@ -14,31 +14,56 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.security;
+package com.gitee.quiet.system.dto;
 
-import lombok.Data;
+import com.gitee.quiet.common.service.base.BaseDto;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * URL 权限信息.
+ * 权限.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Data
-public class UrlPermission {
+@Getter
+@Setter
+public class QuietPermissionDto extends BaseDto {
+    
+    /**
+     * 应用名称
+     */
+    @NotBlank
+    @Length(max = 100)
+    private String applicationName;
     
     /**
      * URL 匹配规则
      */
+    @NotBlank
+    @Length(max = 100)
     private String urlPattern;
     
     /**
      * 请求方法
      */
+    @NotBlank
+    @Length(max = 7)
     private String requestMethod;
     
     /**
-     * 角色名
+     * 角色ID
      */
-    private String roleName;
+    @NotNull
+    private Long roleId;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    private String remark;
     
 }

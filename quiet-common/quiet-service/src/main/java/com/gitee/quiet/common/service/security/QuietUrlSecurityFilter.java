@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.security;
 
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -39,17 +40,12 @@ import java.io.IOException;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@AllArgsConstructor
 public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implements Filter {
     
     private final QuietSecurityProperties quietSecurityProperties;
     
     private final QuietSecurityMetadataSource quietSecurityMetadataSource;
-    
-    public QuietUrlSecurityFilter(QuietSecurityProperties quietSecurityProperties,
-            QuietSecurityMetadataSource quietSecurityMetadataSource) {
-        this.quietSecurityProperties = quietSecurityProperties;
-        this.quietSecurityMetadataSource = quietSecurityMetadataSource;
-    }
     
     @Autowired
     public void setAccessDecisionManager(QuietAccessDecisionManager accessDecisionManager) {

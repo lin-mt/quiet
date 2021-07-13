@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.single;
+package com.gitee.quiet.common.validation.group;
 
 /**
- * 查询一条数据.
+ * Id 不能为空.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ReadSingle {
+public interface IdValid {
 
 }

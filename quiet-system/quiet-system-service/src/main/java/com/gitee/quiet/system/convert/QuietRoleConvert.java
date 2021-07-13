@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param;
+package com.gitee.quiet.system.convert;
+
+import com.gitee.quiet.system.dto.QuietRoleDto;
+import com.gitee.quiet.system.entity.QuietRole;
+import org.mapstruct.Mapper;
 
 /**
- * offset参数不能为null.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface OffsetLimitValid {
-
+@Mapper
+public interface QuietRoleConvert {
+    
+    QuietRole dtoToEntity(QuietRoleDto dto);
+    
 }

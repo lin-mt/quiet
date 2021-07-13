@@ -46,8 +46,9 @@ public class ResultAccessDeniedHandler extends AbstractResponseJsonData implemen
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception)
             throws IOException {
         logger.error("用户：{} 无权限访问：{}", CurrentUserUtil.getId(), request.getRequestURI(), exception);
-        Result<Object> result = Result.failure().setCode(AccountCode.NO_PERMISSION)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
-        responseJsonData(response, result);
+        Result<Object> failure = Result.failure();
+        failure.setCode(AccountCode.NO_PERMISSION);
+        failure.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
+        responseJsonData(response, failure);
     }
 }

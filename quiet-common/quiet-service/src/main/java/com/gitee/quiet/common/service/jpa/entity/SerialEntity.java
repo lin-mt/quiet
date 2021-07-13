@@ -17,6 +17,8 @@
 package com.gitee.quiet.common.service.jpa.entity;
 
 import com.gitee.quiet.common.service.base.Serial;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
@@ -28,6 +30,8 @@ import javax.validation.constraints.Min;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @MappedSuperclass
 public class SerialEntity extends BaseEntity implements Serial {
     
@@ -38,15 +42,5 @@ public class SerialEntity extends BaseEntity implements Serial {
     @ColumnDefault("0")
     @Column(name = "serial_number", nullable = false)
     private int serialNumber;
-    
-    @Override
-    public int getSerialNumber() {
-        return serialNumber;
-    }
-    
-    @Override
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
     
 }

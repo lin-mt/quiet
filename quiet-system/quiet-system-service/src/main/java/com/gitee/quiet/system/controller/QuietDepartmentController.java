@@ -17,19 +17,23 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.IdValid;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.system.convert.QuietDepartmentConvert;
+import com.gitee.quiet.system.dto.QuietDepartmentDto;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.params.QuietDepartmentParam;
-import com.gitee.quiet.system.params.QuietUserParam;
 import com.gitee.quiet.system.service.QuietDepartmentService;
 import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import com.querydsl.core.QueryResults;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +46,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/department")
 public class QuietDepartmentController {
     
@@ -49,52 +54,52 @@ public class QuietDepartmentController {
     
     private final QuietDepartmentUserService departmentUserService;
     
-    public QuietDepartmentController(QuietDepartmentService departmentService,
-            QuietDepartmentUserService departmentUserService) {
-        this.departmentService = departmentService;
-        this.departmentUserService = departmentUserService;
-    }
+    private final QuietDepartmentConvert departmentConvert;
     
     /**
-     * 部门添加成员信息.
+     * 部门移除成员信息.
      *
-     * @return 删除的部门用户信息
+     * @param dto :id 要移除成员信息的部门ID :userIds 移除的成员ID集合
+     * @return 删除结果
      */
     @PostMapping("/removeUsers")
-    public Result<Object> removeUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentParam param) {
-        departmentUserService.removeUsers(param.getId(), param.getUserIds());
+    public Result<Object> removeUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDto dto) {
+        departmentUserService.removeUsers(dto.getId(), dto.getUserIds());
         return Result.success();
     }
     
     /**
      * 部门添加成员信息.
      *
-     * @return 添加部门用户信息
+     * @param dto :id 要添加成员信息的部门ID :userIds 添加的成员ID集合
+     * @return 添加结果
      */
     @PostMapping("/addUsers")
-    public Result<Object> addUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentParam param) {
-        departmentUserService.addUsers(param.getId(), param.getUserIds());
+    public Result<Object> addUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDto dto) {
+        departmentUserService.addUsers(dto.getId(), dto.getUserIds());
         return Result.success();
     }
     
     /**
      * 分页查询部门的用户信息.
      *
-     * @return 查询的部门用户信息
+     * @param dto 查询条件
+     * @return 查询的部门的用户信息
      */
-    @PostMapping("/pageUser")
-    public Result<QueryResults<QuietUser>> pageUser(@RequestBody QuietUserParam param) {
-        return Result.success(departmentService.pageUser(param.getDepartmentId(), param.getParams(), param.page()));
+    @GetMapping("/pageUser")
+    public Result<QueryResults<QuietUser>> pageUser(QuietDepartmentDto dto) {
+        return Result.success(departmentService.pageUser(dto.getId(), dto.getParams(), dto.page()));
     }
     
     /**
      * 分页查询部门信息.
      *
+     * @param dto 查询参数
      * @return 查询的部门信息
      */
-    @PostMapping("/page")
-    public Result<QueryResults<QuietDepartment>> page(@RequestBody QuietDepartmentParam param) {
-        return Result.success(departmentService.page(param.getParams(), param.page()));
+    @GetMapping("/page")
+    public Result<QueryResults<QuietDepartment>> page(QuietDepartmentDto dto) {
+        return Result.success(departmentService.page(departmentConvert.dtoToEntity(dto), dto.page()));
     }
     
     /**
@@ -102,7 +107,7 @@ public class QuietDepartmentController {
      *
      * @return 查询的部门信息
      */
-    @PostMapping("/tree")
+    @GetMapping("/tree")
     public Result<List<QuietDepartment>> tree() {
         return Result.success(departmentService.tree());
     }
@@ -110,34 +115,34 @@ public class QuietDepartmentController {
     /**
      * 新增部门.
      *
-     * @param param :save 新增的部门信息
+     * @param dto 新增的部门信息
      * @return 新增的部门信息
      */
-    @PostMapping("/save")
-    public Result<QuietDepartment> save(@RequestBody @Validated(Create.class) QuietDepartmentParam param) {
-        return Result.createSuccess(departmentService.saveOrUpdate(param.getSave()));
+    @PostMapping
+    public Result<QuietDepartment> save(@RequestBody @Validated(Create.class) QuietDepartmentDto dto) {
+        return Result.createSuccess(departmentService.saveOrUpdate(departmentConvert.dtoToEntity(dto)));
     }
     
     /**
      * 更新部门信息.
      *
-     * @param param :update 更新的部门信息
-     * @return 更新的部门信息
+     * @param dto 更新的部门信息
+     * @return 更新后的部门信息
      */
-    @PostMapping("/update")
-    public Result<QuietDepartment> update(@RequestBody @Validated(Update.class) QuietDepartmentParam param) {
-        return Result.updateSuccess(departmentService.saveOrUpdate(param.getUpdate()));
+    @PutMapping
+    public Result<QuietDepartment> update(@RequestBody @Validated(Update.class) QuietDepartmentDto dto) {
+        return Result.updateSuccess(departmentService.saveOrUpdate(departmentConvert.dtoToEntity(dto)));
     }
     
     /**
      * 删除部门信息.
      *
-     * @param param :deleteId 要删除的部门的ID
+     * @param id 要删除的部门的ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietDepartmentParam param) {
-        departmentService.delete(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        departmentService.deleteById(id);
         return Result.deleteSuccess();
     }
     

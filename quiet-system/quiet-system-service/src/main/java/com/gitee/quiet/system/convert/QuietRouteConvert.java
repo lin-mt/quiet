@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.system.convert;
+
+import com.gitee.quiet.system.dto.QuietRouteDto;
+import com.gitee.quiet.system.entity.QuietRoute;
+import org.mapstruct.Mapper;
 
 /**
- * 批量删除.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DeleteBatch {
-
+@Mapper
+public interface QuietRouteConvert {
+    
+    QuietRoute dtoToEntity(QuietRouteDto dto);
+    
 }

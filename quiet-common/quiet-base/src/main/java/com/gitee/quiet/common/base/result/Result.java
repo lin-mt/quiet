@@ -17,14 +17,14 @@
 package com.gitee.quiet.common.base.result;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import java.util.Arrays;
+import lombok.Data;
 
 /**
  * 返回结果的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Data
 @SuppressWarnings("unused")
 public class Result<T> {
     
@@ -136,7 +136,10 @@ public class Result<T> {
      * @return 返回数据
      */
     public static <T> Result<T> success(final T data, final String code, final Object... msgParam) {
-        return Result.success(data).setCode(code).setMsgParam(msgParam);
+        Result<T> success = Result.success(data);
+        success.setCode(code);
+        success.setMsgParam(msgParam);
+        return success;
     }
     
     /**
@@ -182,7 +185,10 @@ public class Result<T> {
      * @return 返回数据
      */
     public static <T> Result<T> failure(final T data, final String code, final Object... msgParam) {
-        return Result.failure(data).setCode(code).setMsgParam(msgParam);
+        Result<T> failure = Result.failure(data);
+        failure.setCode(code);
+        failure.setMsgParam(msgParam);
+        return failure;
     }
     
     /**
@@ -355,53 +361,4 @@ public class Result<T> {
         return result;
     }
     
-    public ResultType getResult() {
-        return this.result;
-    }
-    
-    public String getCode() {
-        return this.code;
-    }
-    
-    public Result<T> setCode(final String code) {
-        this.code = code;
-        return this;
-    }
-    
-    public String getMessage() {
-        return this.message;
-    }
-    
-    public Result<T> setMessage(final String message) {
-        this.message = message;
-        return this;
-    }
-    
-    public T getData() {
-        return this.data;
-    }
-    
-    public Result<T> setData(final T data) {
-        this.data = data;
-        return this;
-    }
-    
-    public Object[] getMsgParam() {
-        return this.msgParam;
-    }
-    
-    public Result<T> setMsgParam(final Object... msgParam) {
-        this.msgParam = msgParam;
-        return this;
-    }
-    
-    public CurdType getCurdType() {
-        return this.curdType;
-    }
-    
-    @Override
-    public String toString() {
-        return "Result{" + "result=" + result + ", code='" + code + '\'' + ", message='" + message + '\'' + ", data="
-                + data + ", msgParam=" + Arrays.toString(msgParam) + ", curdType=" + curdType + '}';
-    }
 }

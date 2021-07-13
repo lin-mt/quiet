@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.common.service.enums.Operation;
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.querydsl.core.QueryResults;
@@ -66,18 +65,16 @@ public interface QuietRouteService {
      *
      * @param id        要移除授权范围的网关路由的ID
      * @param predicate 操作的predicate
-     * @param operation 操作类型：添加、移除
      */
-    QuietRoute changePredicate(Long id, String predicate, Operation operation);
+    QuietRoute removePredicate(Long id, String predicate);
     
     /**
      * 移除网关路由的授权类型
      *
-     * @param id        要操作路由信息的ID
-     * @param filter    操作的过滤配置
-     * @param operation 操作类型：添加、移除
+     * @param id     要操作路由信息的ID
+     * @param filter 操作的过滤配置
      */
-    QuietRoute changeFilter(Long id, String filter, Operation operation);
+    QuietRoute removeFilter(Long id, String filter);
     
     /**
      * 发布路由配置到Redis

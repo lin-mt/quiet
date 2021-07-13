@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.base.constant.RedisKey;
-import com.gitee.quiet.common.service.enums.Operation;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
@@ -101,34 +100,16 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     }
     
     @Override
-    public QuietRoute changePredicate(Long id, String predicate, Operation operation) {
+    public QuietRoute removePredicate(Long id, String predicate) {
         QuietRoute route = routeRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                route.addPredicate(predicate);
-                break;
-            case DELETE:
-                route.removePredicate(predicate);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+        route.removePredicate(predicate);
         return routeRepository.saveAndFlush(route);
     }
     
     @Override
-    public QuietRoute changeFilter(Long id, String filter, Operation operation) {
+    public QuietRoute removeFilter(Long id, String filter) {
         QuietRoute route = routeRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                route.addFilter(filter);
-                break;
-            case DELETE:
-                route.removeFilter(filter);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+        route.removeFilter(filter);
         return routeRepository.saveAndFlush(route);
     }
     

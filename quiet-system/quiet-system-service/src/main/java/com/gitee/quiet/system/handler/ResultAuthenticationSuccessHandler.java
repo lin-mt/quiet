@@ -46,8 +46,9 @@ public class ResultAuthenticationSuccessHandler extends AbstractResponseJsonData
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException {
         logger.info("用户登录成功：{}", authentication);
-        Result<Object> result = Result.success().setCode(AccountCode.LOGIN_SUCCESS)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGIN_SUCCESS));
-        responseJsonData(response, result);
+        Result<Object> success = Result.success();
+        success.setCode(AccountCode.LOGIN_SUCCESS);
+        success.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGIN_SUCCESS));
+        responseJsonData(response, success);
     }
 }

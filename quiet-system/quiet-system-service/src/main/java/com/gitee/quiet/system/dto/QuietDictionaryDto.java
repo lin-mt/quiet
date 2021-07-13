@@ -14,44 +14,47 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.entity;
+package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.gitee.quiet.common.service.dto.ParentDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
- * 团队成员信息.
+ * 数据字典.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "quiet_team_user")
-public class QuietTeamUser extends BaseEntity {
+public class QuietDictionaryDto extends ParentDto<QuietDictionaryDto> {
     
     /**
-     * 团队ID
+     * 数据字典类型
      */
-    @NotNull
-    @Column(name = "team_id", nullable = false)
-    private Long teamId;
+    @Length(max = 30)
+    private String type;
     
     /**
-     * 成员ID
+     * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
      */
-    @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Length(max = 30)
+    private String key;
+    
+    /**
+     * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
+     */
+    @NotBlank
+    @Length(max = 30)
+    private String label;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    private String remark;
     
 }

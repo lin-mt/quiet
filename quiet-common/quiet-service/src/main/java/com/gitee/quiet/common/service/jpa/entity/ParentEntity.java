@@ -17,6 +17,8 @@
 package com.gitee.quiet.common.service.jpa.entity;
 
 import com.gitee.quiet.common.service.base.Parent;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -28,6 +30,8 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @MappedSuperclass
 public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implements Parent<T> {
     
@@ -45,22 +49,4 @@ public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implemen
         return getId();
     }
     
-    @Override
-    public Long getParentId() {
-        return parentId;
-    }
-    
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-    
-    @Override
-    public List<T> getChildren() {
-        return children;
-    }
-    
-    @Override
-    public void setChildren(List<T> children) {
-        this.children = children;
-    }
 }
