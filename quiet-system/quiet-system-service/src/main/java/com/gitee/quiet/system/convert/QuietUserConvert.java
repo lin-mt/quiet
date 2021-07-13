@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.enums;
+package com.gitee.quiet.system.convert;
+
+import com.gitee.quiet.system.dto.QuietUserDto;
+import com.gitee.quiet.system.entity.QuietUser;
+import org.mapstruct.Mapper;
 
 /**
- * 构建工具.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum BuildTool {
+@Mapper
+public interface QuietUserConvert {
     
-    /**
-     * Maven
-     */
-    MAVEN,
+    QuietUser dtoToEntity(QuietUserDto dto);
     
-    /**
-     * Gradle
-     */
-    GRADLE
 }
