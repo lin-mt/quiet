@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.dto.ParentDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -31,7 +31,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class QuietRoleDto extends BaseDto {
+public class QuietRoleDto extends ParentDto<QuietRoleDto> {
     
     /**
      * 角色名称
