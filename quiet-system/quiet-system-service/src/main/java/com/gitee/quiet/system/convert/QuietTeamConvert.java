@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.system.convert;
 
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.system.dto.QuietTeamDto;
 import com.gitee.quiet.system.entity.QuietTeam;
+import org.mapstruct.Mapper;
 
 /**
- * 团队Controller参数.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietTeamParam extends Param<QuietTeam, QuietTeam> {
-
+@Mapper
+public interface QuietTeamConvert {
+    
+    QuietTeam dtoToEntity(QuietTeamDto dto);
+    
 }

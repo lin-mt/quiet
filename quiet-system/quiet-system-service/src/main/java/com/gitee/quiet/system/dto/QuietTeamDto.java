@@ -14,44 +14,51 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.entity;
+package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
- * 团队成员信息.
+ * 团队.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "quiet_team_user")
-public class QuietTeamUser extends BaseEntity {
+public class QuietTeamDto extends BaseDto {
     
     /**
-     * 团队ID
+     * 团队名称
      */
-    @NotNull
-    @Column(name = "team_id", nullable = false)
-    private Long teamId;
+    @NotBlank
+    @Length(max = 16)
+    private String teamName;
     
     /**
-     * 成员ID
+     * 标语
      */
-    @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Length(max = 30)
+    private String slogan;
     
+    /**
+     * 团队PO
+     */
+    private List<QuietUser> productOwners;
+    
+    /**
+     * 团队SM
+     */
+    private List<QuietUser> scrumMasters;
+    
+    /**
+     * 团队成员
+     */
+    private List<QuietUser> members;
 }
