@@ -18,6 +18,7 @@ package com.gitee.quiet.common.service.config;
 
 import com.gitee.quiet.common.base.constant.RoleNames;
 import com.gitee.quiet.common.service.advice.QuietAdviceBasePackage;
+import com.gitee.quiet.common.service.converter.StringToDictionaryConverter;
 import com.gitee.quiet.common.service.id.IdGeneratorProperties;
 import com.gitee.quiet.common.service.util.ApplicationUtil;
 import com.gitee.quiet.common.service.util.IdWorker;
@@ -55,6 +56,11 @@ public class ServiceConfig {
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
+    }
+    
+    @Bean
+    public StringToDictionaryConverter stringToDictionaryConverter() {
+        return new StringToDictionaryConverter();
     }
     
 }

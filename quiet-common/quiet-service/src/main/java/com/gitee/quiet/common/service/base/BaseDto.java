@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * 请求参数.
@@ -75,6 +76,14 @@ public class BaseDto {
     @Range(max = 30L, groups = OffsetLimitValid.class)
     @NotNull(groups = OffsetLimitValid.class)
     private Long limit;
+    
+    private Long creator;
+    
+    private Long updater;
+    
+    private LocalDateTime gmtCreate;
+    
+    private LocalDateTime gmtUpdate;
     
     public Pageable page() {
         return PageRequest.of(getCurrent() - 1, this.getPageSize());
