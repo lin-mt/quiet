@@ -19,6 +19,8 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.common.service.jpa.SelectBuilder;
 import com.gitee.quiet.common.service.jpa.entity.QuietGrantedAuthority;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -35,6 +37,8 @@ import static com.gitee.quiet.system.entity.QQuietRole.quietRole;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_role")
 public class QuietRole extends QuietGrantedAuthority<QuietRole> {
@@ -64,30 +68,6 @@ public class QuietRole extends QuietGrantedAuthority<QuietRole> {
     @Transient
     public String getAuthority() {
         return getRoleName();
-    }
-    
-    public String getRoleCnName() {
-        return roleCnName;
-    }
-    
-    public void setRoleCnName(String roleCnName) {
-        this.roleCnName = roleCnName;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remarks) {
-        this.remark = remarks;
-    }
-    
-    public String getParentRoleName() {
-        return parentRoleName;
-    }
-    
-    public void setParentRoleName(String parentRoleName) {
-        this.parentRoleName = parentRoleName;
     }
     
     @Nullable

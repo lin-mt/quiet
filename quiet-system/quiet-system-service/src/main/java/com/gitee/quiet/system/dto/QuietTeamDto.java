@@ -14,27 +14,51 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.security;
+package com.gitee.quiet.system.dto;
 
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
- * 安全配置信息.
+ * 团队.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "quiet.security")
-public class QuietSecurityProperties {
+public class QuietTeamDto extends BaseDto {
     
     /**
-     * 不需要校验权限的 url
+     * 团队名称
      */
-    private Set<String> ignoreUrls;
+    @NotBlank
+    @Length(max = 16)
+    private String teamName;
     
+    /**
+     * 标语
+     */
+    @Length(max = 30)
+    private String slogan;
+    
+    /**
+     * 团队PO
+     */
+    private List<QuietUser> productOwners;
+    
+    /**
+     * 团队SM
+     */
+    private List<QuietUser> scrumMasters;
+    
+    /**
+     * 团队成员
+     */
+    private List<QuietUser> members;
 }

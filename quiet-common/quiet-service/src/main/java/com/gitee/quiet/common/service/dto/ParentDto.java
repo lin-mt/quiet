@@ -14,13 +14,35 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param;
+package com.gitee.quiet.common.service.dto;
+
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.base.Parent;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
- * offset参数不能为null.
+ * 带有父级ID的DTO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface OffsetLimitValid {
-
+@Getter
+@Setter
+public class ParentDto<T extends ParentDto<T>> extends BaseDto implements Parent<T> {
+    
+    /**
+     * 父级ID
+     */
+    private Long parentId;
+    
+    @Transient
+    private List<T> children;
+    
+    @Override
+    public Object getKey() {
+        return getId();
+    }
 }

@@ -14,41 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.system.convert;
 
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.system.dto.QuietUserDto;
 import com.gitee.quiet.system.entity.QuietUser;
+import org.mapstruct.Mapper;
 
 /**
- * 用户Controller参数.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietUserParam extends Param<QuietUser, QuietUser> {
+@Mapper
+public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDto> {
     
-    /**
-     * 部门ID
-     */
-    private Long departmentId;
-    
-    /**
-     * 名称（用户名、全名）
-     */
-    private String name;
-    
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-    
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
 }

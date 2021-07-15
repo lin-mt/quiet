@@ -14,15 +14,26 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param;
+package com.gitee.quiet.common.service.converter;
 
-import javax.validation.groups.Default;
+import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import javax.annotation.Nullable;
 
 /**
- * Param 的 params 属性不能为空.
+ * String 转数据字典.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ParamsValid extends Default {
-
+public class StringToDictionaryConverter implements Converter<String, Dictionary<?>> {
+    
+    @Override
+    public Dictionary<?> convert(@Nullable String source) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        return Dictionary.convertFromString(source);
+    }
 }

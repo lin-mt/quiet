@@ -45,8 +45,9 @@ public class ResultLogoutSuccessHandler extends AbstractResponseJsonData impleme
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
         logger.info("用户退出登录成功：{}", authentication);
-        Result<Object> result = Result.success().setCode(AccountCode.LOGOUT_SUCCESS)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGOUT_SUCCESS));
-        responseJsonData(response, result);
+        Result<Object> success = Result.success();
+        success.setCode(AccountCode.LOGOUT_SUCCESS);
+        success.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGOUT_SUCCESS));
+        responseJsonData(response, success);
     }
 }

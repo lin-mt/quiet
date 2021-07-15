@@ -17,6 +17,8 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +30,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_role_permission")
 public class QuietRolePermission extends BaseEntity {
@@ -45,21 +49,5 @@ public class QuietRolePermission extends BaseEntity {
     @NotNull
     @Column(name = "permission_id", nullable = false)
     private Long permissionId;
-    
-    public Long getRoleId() {
-        return roleId;
-    }
-    
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-    
-    public Long getPermissionId() {
-        return permissionId;
-    }
-    
-    public void setPermissionId(Long permissionId) {
-        this.permissionId = permissionId;
-    }
     
 }

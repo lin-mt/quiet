@@ -14,27 +14,42 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.common.service.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.base.Parent;
+import com.gitee.quiet.common.service.base.Serial;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 /**
- * 部门Controller参数.
+ * 带有父子关系且有优先级信息的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDepartmentParam extends Param<QuietDepartment, QuietDepartment> {
+@Getter
+@Setter
+public class ParentAndSerialDto<T extends ParentAndSerialDto<T>> extends BaseDto implements Parent<T>, Serial {
     
-    private Set<Long> userIds;
+    /**
+     * 序号
+     */
+    private int serialNumber;
     
-    public Set<Long> getUserIds() {
-        return userIds;
-    }
+    /**
+     * 父级ID
+     */
+    private Long parentId;
     
-    public void setUserIds(Set<Long> userIds) {
-        this.userIds = userIds;
+    /**
+     * 子数据
+     */
+    private List<T> children;
+    
+    @Override
+    public Long getKey() {
+        return getId();
     }
 }

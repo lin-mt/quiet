@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.enums;
+package com.gitee.quiet.common.service.dto;
+
+import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.common.service.base.Serial;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.Min;
 
 /**
- * 构建工具.
+ * 具有排序字段的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum BuildTool {
+@Getter
+@Setter
+public class SerialDto extends BaseDto implements Serial {
     
     /**
-     * Maven
+     * 序号
      */
-    MAVEN,
+    @Min(0)
+    private int serialNumber;
     
-    /**
-     * Gradle
-     */
-    GRADLE
 }

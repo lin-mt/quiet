@@ -18,6 +18,7 @@ package com.gitee.quiet.common.service.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,16 +34,13 @@ import java.util.Map;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@AllArgsConstructor
 @SuppressWarnings("deprecation")
 public class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
     
     public static final String QUIET_USER_DETAILS = "quiet_user_details";
     
     private final ObjectMapper objectMapper;
-    
-    public UserAuthenticationConverter(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
     
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {

@@ -46,8 +46,9 @@ public class ResultAuthenticationFailureHandler extends AbstractResponseJsonData
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException {
         logger.error("用户登陆失败", exception);
-        Result<Object> result = Result.failure().setCode(AccountCode.LOGIN_FAILURE)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGIN_FAILURE));
-        responseJsonData(response, result);
+        Result<Object> failure = Result.failure();
+        failure.setCode(AccountCode.LOGIN_FAILURE);
+        failure.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGIN_FAILURE));
+        responseJsonData(response, failure);
     }
 }

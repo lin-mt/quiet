@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.params;
+package com.gitee.quiet.system.convert;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.system.entity.QuietDictionary;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.system.dto.QuietPermissionDto;
+import com.gitee.quiet.system.entity.QuietPermission;
+import org.mapstruct.Mapper;
 
 /**
- * 数据字典请求参数.
+ * 权限信息实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class QuietDictionaryParam extends Param<QuietDictionary, QuietDictionary> {
+@Mapper
+public interface QuietPermissionConvert extends QuietConvert<QuietPermission, QuietPermissionDto> {
     
-    /**
-     * 数据字典类型
-     */
-    private String type;
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
-    }
 }

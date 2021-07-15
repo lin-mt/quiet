@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.system.convert;
+
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.system.dto.QuietDictionaryDto;
+import com.gitee.quiet.system.entity.QuietDictionary;
+import org.mapstruct.Mapper;
 
 /**
- * 批量删除.
+ * 数据字典实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DeleteBatch {
+@Mapper
+public interface QuietDictionaryConvert extends QuietConvert<QuietDictionary, QuietDictionaryDto> {
 
 }

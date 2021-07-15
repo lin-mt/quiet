@@ -14,13 +14,28 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd.batch;
+package com.gitee.quiet.common.service.base;
 
 /**
- * 批量查询.
+ * 实体转换接口.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface ReadBatch {
-
+public interface QuietConvert<E, D> {
+    
+    /**
+     * DTO 转实体
+     *
+     * @param dto 转换的DTO
+     * @return 实体信息
+     */
+    E dtoToEntity(D dto);
+    
+    /**
+     * 实体转DTO
+     *
+     * @param entity 实体信息
+     * @return DTO信息
+     */
+    D entityToDto(E entity);
 }

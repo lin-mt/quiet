@@ -17,6 +17,10 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,8 +32,12 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Table
-@Entity(name = "quiet_team_user_role")
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "quiet_team_user_role")
 public class QuietTeamUserRole extends BaseEntity {
     
     /**
@@ -46,27 +54,4 @@ public class QuietTeamUserRole extends BaseEntity {
     @Column(name = "role_id", nullable = false)
     private Long roleId;
     
-    public QuietTeamUserRole() {
-    }
-    
-    public QuietTeamUserRole(@NotNull Long teamUserId, @NotNull Long roleId) {
-        this.teamUserId = teamUserId;
-        this.roleId = roleId;
-    }
-    
-    public Long getTeamUserId() {
-        return teamUserId;
-    }
-    
-    public void setTeamUserId(Long teamUserId) {
-        this.teamUserId = teamUserId;
-    }
-    
-    public Long getRoleId() {
-        return roleId;
-    }
-    
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
 }

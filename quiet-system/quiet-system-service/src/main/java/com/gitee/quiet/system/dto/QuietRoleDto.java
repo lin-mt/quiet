@@ -14,27 +14,49 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.service.security;
+package com.gitee.quiet.system.dto;
 
+import com.gitee.quiet.common.service.dto.ParentDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.Set;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 /**
- * 安全配置信息.
+ * 角色.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "quiet.security")
-public class QuietSecurityProperties {
+public class QuietRoleDto extends ParentDto<QuietRoleDto> {
     
     /**
-     * 不需要校验权限的 url
+     * 角色名称
      */
-    private Set<String> ignoreUrls;
+    @NotBlank
+    @Length(max = 30)
+    private String roleName;
+    
+    /**
+     * 角色中文名
+     */
+    @NotBlank
+    @Length(max = 30)
+    private String roleCnName;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    private String remark;
+    
+    /**
+     * 父角色名称
+     */
+    @Transient
+    private String parentRoleName;
     
 }

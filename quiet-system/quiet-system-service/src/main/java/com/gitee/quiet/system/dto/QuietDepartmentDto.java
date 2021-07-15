@@ -14,15 +14,42 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.common.validation.group.param.curd;
+package com.gitee.quiet.system.dto;
 
-import javax.validation.groups.Default;
+import com.gitee.quiet.common.service.dto.ParentDto;
+import com.gitee.quiet.system.entity.QuietUser;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Set;
 
 /**
- * 更新.
+ * 部门信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Update extends Default {
-
+@Getter
+@Setter
+public class QuietDepartmentDto extends ParentDto<QuietDepartmentDto> {
+    
+    /**
+     * 部门名称
+     */
+    private String departmentName;
+    
+    /**
+     * 备注
+     */
+    private String remark;
+    
+    /**
+     * 用户信息
+     */
+    private QuietUser params;
+    
+    /**
+     * 用户ID集合
+     */
+    private Set<Long> userIds;
+    
 }

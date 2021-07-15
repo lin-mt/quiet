@@ -21,9 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.base.constant.CommonCode;
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.config.MessageSourceConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -47,10 +46,9 @@ import java.util.Objects;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Slf4j
 @RestControllerAdvice
 public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>> {
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResultResponseBodyAdvice.class);
     
     private final MessageSource messageSource;
     
@@ -81,9 +79,9 @@ public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>
             fillMessage(result, serverHttpRequest);
         }
         try {
-            LOGGER.info("result data: {}", objectMapper.writeValueAsString(result));
+            log.info("result data: {}", objectMapper.writeValueAsString(result));
         } catch (JsonProcessingException e) {
-            LOGGER.error("result to json string error", e);
+            log.error("result to json string error", e);
         }
         return result;
     }
