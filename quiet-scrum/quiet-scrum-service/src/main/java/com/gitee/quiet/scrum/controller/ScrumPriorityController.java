@@ -17,11 +17,11 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.service.dto.ValidListDto;
 import com.gitee.quiet.common.validation.group.Create;
 import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumPriorityConvert;
 import com.gitee.quiet.scrum.dto.ScrumPriorityDto;
-import com.gitee.quiet.scrum.dto.ValidList;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import lombok.AllArgsConstructor;
@@ -94,7 +94,7 @@ public class ScrumPriorityController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumPriority>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidList<ScrumPriorityDto> dto) {
+            @RequestBody @Validated(Update.class) ValidListDto<ScrumPriorityDto> dto) {
         return Result.success(priorityService
                 .updateBatch(dto.getData().stream().map(priorityConvert::dtoToEntity).collect(Collectors.toList())));
     }

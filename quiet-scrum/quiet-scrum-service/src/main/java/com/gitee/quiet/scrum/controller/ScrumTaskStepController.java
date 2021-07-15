@@ -17,11 +17,11 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.service.dto.ValidListDto;
 import com.gitee.quiet.common.validation.group.Create;
 import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumTaskStepConvert;
 import com.gitee.quiet.scrum.dto.ScrumTaskStepDto;
-import com.gitee.quiet.scrum.dto.ValidList;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import lombok.AllArgsConstructor;
@@ -94,7 +94,7 @@ public class ScrumTaskStepController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumTaskStep>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidList<ScrumTaskStepDto> dto) {
+            @RequestBody @Validated(Update.class) ValidListDto<ScrumTaskStepDto> dto) {
         return Result.success(taskStepService
                 .updateBatch(dto.getData().stream().map(taskStepConvert::dtoToEntity).collect(Collectors.toList())));
     }
