@@ -18,6 +18,8 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.gitee.quiet.doc.enums.FieldType;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
@@ -34,6 +36,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_api_body")
 public class DocApiBody extends ParentEntity<DocApiBody> {
@@ -94,67 +98,4 @@ public class DocApiBody extends ParentEntity<DocApiBody> {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Long getMaxLength() {
-        return maxLength;
-    }
-    
-    public void setMaxLength(Long maxLength) {
-        this.maxLength = maxLength;
-    }
-    
-    public Long getMinLength() {
-        return minLength;
-    }
-    
-    public void setMinLength(Long minLength) {
-        this.minLength = minLength;
-    }
-    
-    public FieldType getType() {
-        return type;
-    }
-    
-    public void setType(FieldType type) {
-        this.type = type;
-    }
-    
-    public Boolean getRequired() {
-        return required;
-    }
-    
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-    
-    public String getExample() {
-        return example;
-    }
-    
-    public void setExample(String example) {
-        this.example = example;
-    }
-    
-    public Long getApiId() {
-        return apiId;
-    }
-    
-    public void setApiId(Long apiId) {
-        this.apiId = apiId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

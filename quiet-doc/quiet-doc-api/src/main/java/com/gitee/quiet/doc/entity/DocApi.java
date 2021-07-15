@@ -19,6 +19,8 @@ package com.gitee.quiet.doc.entity;
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.system.entity.QuietUser;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -38,6 +40,8 @@ import java.util.Set;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_api")
 public class DocApi extends SerialEntity {
@@ -101,67 +105,4 @@ public class DocApi extends SerialEntity {
     @Transient
     private List<QuietUser> visitors;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getUrl() {
-        return url;
-    }
-    
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    
-    public HttpMethod getMethod() {
-        return method;
-    }
-    
-    public void setMethod(HttpMethod method) {
-        this.method = method;
-    }
-    
-    public Long getAuthorId() {
-        return authorId;
-    }
-    
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-    
-    public Long getApiGroupId() {
-        return apiGroupId;
-    }
-    
-    public void setApiGroupId(Long apiGroupId) {
-        this.apiGroupId = apiGroupId;
-    }
-    
-    public Set<Long> getVisitorIds() {
-        return visitorIds;
-    }
-    
-    public void setVisitorIds(Set<Long> visitorIds) {
-        this.visitorIds = visitorIds;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    public List<QuietUser> getVisitors() {
-        return visitors;
-    }
-    
-    public void setVisitors(List<QuietUser> visitors) {
-        this.visitors = visitors;
-    }
 }

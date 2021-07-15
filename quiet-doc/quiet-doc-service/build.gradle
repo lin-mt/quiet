@@ -17,4 +17,15 @@
 dependencies {
     implementation(project(':quiet-doc:quiet-doc-api'))
     runtimeOnly 'mysql:mysql-connector-java'
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+}
+
+compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring',
+    ]
 }

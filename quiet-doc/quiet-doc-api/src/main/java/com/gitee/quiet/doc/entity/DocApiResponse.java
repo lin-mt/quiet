@@ -18,6 +18,8 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
 import com.gitee.quiet.doc.enums.FieldType;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
@@ -34,6 +36,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_api_response")
 public class DocApiResponse extends ParentEntity<DocApiResponse> {
@@ -82,51 +86,4 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Boolean getNotNull() {
-        return notNull;
-    }
-    
-    public void setNotNull(Boolean notNull) {
-        this.notNull = notNull;
-    }
-    
-    public FieldType getType() {
-        return type;
-    }
-    
-    public void setType(FieldType type) {
-        this.type = type;
-    }
-    
-    public String getExample() {
-        return example;
-    }
-    
-    public void setExample(String example) {
-        this.example = example;
-    }
-    
-    public Long getApiId() {
-        return apiId;
-    }
-    
-    public void setApiId(Long apiId) {
-        this.apiId = apiId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

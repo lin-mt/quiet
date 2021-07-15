@@ -17,6 +17,8 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -30,6 +32,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_project_config")
 public class DocProjectConfig extends BaseEntity {
@@ -63,35 +67,4 @@ public class DocProjectConfig extends BaseEntity {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-    
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-    
-    public Long getProjectId() {
-        return projectId;
-    }
-    
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

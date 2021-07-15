@@ -17,6 +17,8 @@
 package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.entity.DocProject;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -25,31 +27,18 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 public class MyDocProject {
     
     /**
      * 负责的项目
      */
-    private List<DocProject> responsibleProjects;
+    private List<DocProject> responsibleProjects = List.of();
     
     /**
      * 可访问的项目
      */
-    private List<DocProject> accessibleProjects;
+    private List<DocProject> accessibleProjects = List.of();
     
-    public List<DocProject> getResponsibleProjects() {
-        return responsibleProjects;
-    }
-    
-    public void setResponsibleProjects(List<DocProject> responsibleProjects) {
-        this.responsibleProjects = responsibleProjects;
-    }
-    
-    public List<DocProject> getAccessibleProjects() {
-        return accessibleProjects;
-    }
-    
-    public void setAccessibleProjects(List<DocProject> accessibleProjects) {
-        this.accessibleProjects = accessibleProjects;
-    }
 }

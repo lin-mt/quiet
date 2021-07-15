@@ -18,6 +18,8 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.system.entity.QuietUser;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -35,6 +37,8 @@ import java.util.Set;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_project")
 public class DocProject extends SerialEntity {
@@ -74,43 +78,4 @@ public class DocProject extends SerialEntity {
     @Transient
     private List<QuietUser> visitors;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Long getPrincipal() {
-        return principal;
-    }
-    
-    public void setPrincipal(Long principal) {
-        this.principal = principal;
-    }
-    
-    public Set<Long> getVisitorIds() {
-        return visitorIds;
-    }
-    
-    public void setVisitorIds(Set<Long> visitorIds) {
-        this.visitorIds = visitorIds;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    public List<QuietUser> getVisitors() {
-        return visitors;
-    }
-    
-    public void setVisitors(List<QuietUser> visitors) {
-        this.visitors = visitors;
-    }
 }

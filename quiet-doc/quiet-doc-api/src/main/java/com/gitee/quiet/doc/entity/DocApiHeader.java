@@ -17,6 +17,8 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
@@ -31,6 +33,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_api_header")
 public class DocApiHeader extends BaseEntity {
@@ -71,43 +75,4 @@ public class DocApiHeader extends BaseEntity {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getValue() {
-        return value;
-    }
-    
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
-    public Boolean getRequired() {
-        return required;
-    }
-    
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-    
-    public Long getApiId() {
-        return apiId;
-    }
-    
-    public void setApiId(Long apiId) {
-        this.apiId = apiId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

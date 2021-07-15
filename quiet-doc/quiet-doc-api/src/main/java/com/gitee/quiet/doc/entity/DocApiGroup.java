@@ -17,6 +17,8 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -30,6 +32,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "doc_api_group")
 public class DocApiGroup extends ParentEntity<DocApiGroup> {
@@ -49,19 +53,4 @@ public class DocApiGroup extends ParentEntity<DocApiGroup> {
     @Column(name = "project_id", nullable = false)
     private Long projectId;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Long getProjectId() {
-        return projectId;
-    }
-    
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
 }
