@@ -18,12 +18,16 @@ package com.gitee.quiet.scrum.filter;
 
 import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.scrum.dictionary.DemandType;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 需求过滤条件.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 public class ScrumDemandFilter {
     
     /**
@@ -41,27 +45,4 @@ public class ScrumDemandFilter {
      */
     private Dictionary<DemandType> demandType;
     
-    public Boolean getPlanned() {
-        return planned;
-    }
-    
-    public void setPlanned(Boolean planned) {
-        this.planned = planned;
-    }
-    
-    public Long getPriorityId() {
-        return priorityId;
-    }
-    
-    public void setPriorityId(Long priorityId) {
-        this.priorityId = priorityId;
-    }
-    
-    public Dictionary<DemandType> getDemandType() {
-        return demandType;
-    }
-    
-    public void setDemandType(Dictionary<DemandType> demandType) {
-        this.demandType = demandType;
-    }
 }

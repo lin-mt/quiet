@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.scrum.dto.ScrumVersionDto;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
+import org.mapstruct.Mapper;
 
 /**
- * 版本查询参数.
+ * 版本实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumVersionParam extends Param<ScrumVersion, ScrumVersion> {
-
+@Mapper
+public interface ScrumVersionConvert extends QuietConvert<ScrumVersion, ScrumVersionDto> {
+    
 }

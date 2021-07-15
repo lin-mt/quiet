@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.common.service.base.FrontSelect;
 import com.gitee.quiet.common.service.base.Serial;
@@ -24,9 +24,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -39,56 +36,47 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity implements FrontSelect {
+public class ScrumIterationDto extends SerialEntity implements FrontSelect {
     
     /**
      * 迭代名称
      */
     @NotBlank
     @Length(max = 30)
-    @Column(name = "iteration_name", nullable = false, length = 30)
     private String name;
     
     /**
      * 所属版本ID
      */
     @NotNull
-    @Column(name = "version_id", nullable = false)
     private Long versionId;
     
     /**
      * 迭代计划开始日期
      */
     @NotNull
-    @Column(name = "plan_start_date", nullable = false)
     private LocalDate planStartDate;
     
     /**
      * 迭代计划结束日期
      */
     @NotNull
-    @Column(name = "plan_end_date", nullable = false)
     private LocalDate planEndDate;
     
     /**
      * 迭代开始时间
      */
-    @Column(name = "start_time")
     private LocalDateTime startTime;
     
     /**
      * 迭代结束时间
      */
-    @Column(name = "end_time")
     private LocalDateTime endTime;
     
     /**
      * 备注信息
      */
     @Length(max = 1000)
-    @Column(name = "remark", nullable = false, length = 1000)
     private String remark;
     
     @Override
@@ -104,8 +92,8 @@ public class ScrumIteration extends SerialEntity implements FrontSelect {
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumIteration) {
-            ScrumIteration otherIteration = (ScrumIteration) other;
+        if (compare == 0 && other instanceof ScrumIterationDto) {
+            ScrumIterationDto otherIteration = (ScrumIterationDto) other;
             compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
             if (compare == 0) {
                 compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());

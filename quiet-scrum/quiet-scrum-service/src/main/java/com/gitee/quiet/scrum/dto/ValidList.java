@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumPriority;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
- * 优先级查询参数.
+ * .
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumPriorityParam extends Param<ScrumPriority, ScrumPriority> {
+@Getter
+@Setter
+public class ValidList<T> {
     
-    private Long templateId;
-    
-    public Long getTemplateId() {
-        return templateId;
-    }
-    
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
+    @Valid
+    private List<T> data;
 }

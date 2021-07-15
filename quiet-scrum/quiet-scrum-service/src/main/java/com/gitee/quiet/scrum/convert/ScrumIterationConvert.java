@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.scrum.dto.ScrumIterationDto;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
+import org.mapstruct.Mapper;
 
 /**
- * 迭代查询参数.
+ * 迭代实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumIterationParam extends Param<ScrumIteration, ScrumIteration> {
-
+@Mapper
+public interface ScrumIterationConvert extends QuietConvert<ScrumIteration, ScrumIterationDto> {
+    
 }

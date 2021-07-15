@@ -18,6 +18,8 @@ package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.base.Serial;
 import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -36,6 +38,8 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "scrum_version")
 public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
@@ -94,70 +98,6 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
      */
     @Transient
     private List<ScrumIteration> iterations;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Long getProjectId() {
-        return projectId;
-    }
-    
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-    
-    public LocalDate getPlanStartDate() {
-        return planStartDate;
-    }
-    
-    public void setPlanStartDate(LocalDate planStartDate) {
-        this.planStartDate = planStartDate;
-    }
-    
-    public LocalDate getPlanEndDate() {
-        return planEndDate;
-    }
-    
-    public void setPlanEndDate(LocalDate planEndDate) {
-        this.planEndDate = planEndDate;
-    }
-    
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-    
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-    
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-    
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    public List<ScrumIteration> getIterations() {
-        return iterations;
-    }
-    
-    public void setIterations(List<ScrumIteration> iterations) {
-        this.iterations = iterations;
-    }
     
     @Override
     public String getTitle() {

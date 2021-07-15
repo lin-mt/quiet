@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.common.service.base.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -36,42 +32,36 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_template")
-public class ScrumTemplate extends BaseEntity {
+public class ScrumTemplateDto extends BaseDto {
     
     /**
      * 模板名称
      */
     @NotBlank
     @Length(max = 10)
-    @Column(name = "template_name", nullable = false, length = 10)
     private String name;
     
     /**
      * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
-    @ColumnDefault("0")
-    @Column(name = "enabled", columnDefinition = "TINYINT(1)")
     private Boolean enabled;
     
     /**
      * 模板备注信息
      */
     @Length(max = 30)
-    @Column(name = "remark", length = 30)
     private String remark;
     
     /**
      * 模板中的任务步骤
      */
     @Transient
-    List<ScrumTaskStep> taskSteps;
+    List<ScrumTaskStepDto> taskSteps;
     
     /**
      * 模板中的优先级配置
      */
     @Transient
-    List<ScrumPriority> priorities;
+    List<ScrumPriorityDto> priorities;
     
 }

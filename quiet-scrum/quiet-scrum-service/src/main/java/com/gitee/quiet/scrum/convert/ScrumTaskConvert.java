@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.scrum.dto.ScrumTaskDto;
+import com.gitee.quiet.scrum.entity.ScrumTask;
+import org.mapstruct.Mapper;
 
 /**
- * 模板查询参数.
+ * 任务实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTemplateParam extends Param<ScrumTemplate, ScrumTemplate> {
+@Mapper
+public interface ScrumTaskConvert extends QuietConvert<ScrumTask, ScrumTaskDto> {
     
-    /**
-     * 模板名称
-     */
-    private String name;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
 }

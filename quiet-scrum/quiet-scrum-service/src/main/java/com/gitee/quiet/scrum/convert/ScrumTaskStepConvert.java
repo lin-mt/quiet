@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.vo;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.scrum.entity.ScrumProject;
-import com.gitee.quiet.system.entity.QuietTeam;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.scrum.dto.ScrumTaskStepDto;
+import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import org.mapstruct.Mapper;
 
 /**
- * 项目详细信息.
+ * 任务步骤实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class ScrumProjectDetail {
-    
-    private ScrumProject project;
-    
-    private List<QuietTeam> teams;
+@Mapper
+public interface ScrumTaskStepConvert extends QuietConvert<ScrumTaskStep, ScrumTaskStepDto> {
     
 }

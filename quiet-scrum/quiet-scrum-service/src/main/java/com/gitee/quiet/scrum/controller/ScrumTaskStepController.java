@@ -17,21 +17,26 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.batch.UpdateBatch;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.scrum.convert.ScrumTaskStepConvert;
+import com.gitee.quiet.scrum.dto.ScrumTaskStepDto;
+import com.gitee.quiet.scrum.dto.ValidList;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
-import com.gitee.quiet.scrum.params.ScrumTaskStepParam;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 任务步骤 Controller.
@@ -39,71 +44,69 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/taskStep")
 public class ScrumTaskStepController {
     
     private final ScrumTaskStepService taskStepService;
     
-    public ScrumTaskStepController(ScrumTaskStepService taskStepService) {
-        this.taskStepService = taskStepService;
-    }
+    private final ScrumTaskStepConvert taskStepConvert;
     
     /**
      * 新增任务步骤
      *
-     * @param param :save 新增的任务步骤信息
+     * @param dto 新增的任务步骤信息
      * @return 新增后的任务步骤信息
      */
-    @PostMapping("/save")
-    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepParam param) {
-        return Result.createSuccess(taskStepService.save(param.getSave()));
+    @PostMapping
+    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepDto dto) {
+        return Result.createSuccess(taskStepService.save(taskStepConvert.dtoToEntity(dto)));
     }
     
     /**
      * 更新任务步骤
      *
-     * @param params :update 更新的任务步骤信息
+     * @param dto 更新的任务步骤信息
      * @return 更新后的任务步骤信息
      */
-    @PostMapping("/update")
-    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepParam params) {
-        return Result.updateSuccess(taskStepService.update(params.getUpdate()));
+    @PutMapping
+    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepDto dto) {
+        return Result.updateSuccess(taskStepService.update(taskStepConvert.dtoToEntity(dto)));
     }
     
     /**
      * 删除任务步骤
      *
-     * @param param :deleteId 删除的任务步骤ID
+     * @param id 删除的任务步骤ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumTaskStepParam param) {
-        taskStepService.deleteById(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        taskStepService.deleteById(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 批量更新任务步骤
      *
-     * @param param :updateBatch 批量更新的步骤信息
+     * @param dto :data 批量更新的步骤信息
      * @return 更新结果
      */
-    @PostMapping("/updateBatch")
-    public Result<List<ScrumTaskStep>> updateBatch(@RequestBody @Validated(UpdateBatch.class) ScrumTaskStepParam param) {
-        return Result.success(taskStepService.updateBatch(param.getUpdateBatch()));
+    @PutMapping("/batch")
+    public Result<List<ScrumTaskStep>> updateBatch(
+            @RequestBody @Validated(Update.class) ValidList<ScrumTaskStepDto> dto) {
+        return Result.success(taskStepService
+                .updateBatch(dto.getData().stream().map(taskStepConvert::dtoToEntity).collect(Collectors.toList())));
     }
     
     /**
      * 根据模板ID查询该模板ID下的所有任务步骤配置信息
      *
-     * @param param 模板ID
+     * @param id 模板ID
      * @return 模板下的所有任务步骤配置信息
      */
-    @PostMapping("getAllByTemplateId")
-    public Result<List<ScrumTaskStep>> getAllByTemplateId(@RequestBody ScrumTaskStepParam param) {
-        if (param.getTemplateId() == null) {
-            throw new ServiceException("controller.taskStep.templateId.notNull");
-        }
-        return Result.success(taskStepService.findAllByTemplateId(param.getTemplateId()));
+    @GetMapping("/allByTemplateId/{id}")
+    public Result<List<ScrumTaskStep>> findAllByTemplateId(@PathVariable Long id) {
+        return Result.success(taskStepService.findAllByTemplateId(id));
     }
 }

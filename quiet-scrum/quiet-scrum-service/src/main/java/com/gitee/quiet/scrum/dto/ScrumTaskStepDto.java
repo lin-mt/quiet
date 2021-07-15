@@ -14,26 +14,49 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.vo;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.scrum.entity.ScrumProject;
-import com.gitee.quiet.system.entity.QuietTeam;
+import com.gitee.quiet.common.service.dto.SerialDto;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 项目详细信息.
+ * 任务步骤.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumProjectDetail {
+public class ScrumTaskStepDto extends SerialDto {
     
-    private ScrumProject project;
+    /**
+     * 步骤名称
+     */
+    @NotBlank
+    @Length(max = 10)
+    private String name;
     
-    private List<QuietTeam> teams;
+    /**
+     * 所属模板ID
+     */
+    @NotNull
+    private Long templateId;
     
+    /**
+     * 步骤备注信息
+     */
+    @Length(max = 30)
+    private String remark;
+    
+    /**
+     * 批量更新
+     */
+    @Valid
+    private List<ScrumTaskStepDto> updateBatch;
 }

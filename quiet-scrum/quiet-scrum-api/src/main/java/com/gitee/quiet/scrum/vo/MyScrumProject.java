@@ -17,6 +17,8 @@
 package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.entity.ScrumProject;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 public class MyScrumProject {
     
     /**
@@ -37,19 +41,4 @@ public class MyScrumProject {
      */
     private List<ScrumProject> projectInvolved = List.of();
     
-    public List<ScrumProject> getProjectManaged() {
-        return projectManaged;
-    }
-    
-    public void setProjectManaged(List<ScrumProject> projectManaged) {
-        this.projectManaged = projectManaged;
-    }
-    
-    public List<ScrumProject> getProjectInvolved() {
-        return projectInvolved;
-    }
-    
-    public void setProjectInvolved(List<ScrumProject> projectInvolved) {
-        this.projectInvolved = projectInvolved;
-    }
 }

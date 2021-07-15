@@ -17,21 +17,26 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.batch.UpdateBatch;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.scrum.convert.ScrumPriorityConvert;
+import com.gitee.quiet.scrum.dto.ScrumPriorityDto;
+import com.gitee.quiet.scrum.dto.ValidList;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
-import com.gitee.quiet.scrum.params.ScrumPriorityParam;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 优先级 Controller.
@@ -39,72 +44,69 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/priority")
 public class ScrumPriorityController {
     
     private final ScrumPriorityService priorityService;
     
-    public ScrumPriorityController(ScrumPriorityService priorityService) {
-        this.priorityService = priorityService;
-    }
+    private final ScrumPriorityConvert priorityConvert;
     
     /**
      * 新增优先级选项
      *
-     * @param param :save 新增的优先级信息
+     * @param dto 新增的优先级信息
      * @return 新增后的优先级信息
      */
-    @PostMapping("/save")
-    public Result<ScrumPriority> save(@RequestBody @Validated(Create.class) ScrumPriorityParam param) {
-        return Result.createSuccess(priorityService.save(param.getSave()));
+    @PostMapping
+    public Result<ScrumPriority> save(@RequestBody @Validated(Create.class) ScrumPriorityDto dto) {
+        return Result.createSuccess(priorityService.save(priorityConvert.dtoToEntity(dto)));
     }
     
     /**
      * 更新优先级选项信息
      *
-     * @param params :update 更新的优先级信息
+     * @param dto 更新的优先级信息
      * @return 更新后的优先级信息
      */
-    @PostMapping("/update")
-    public Result<ScrumPriority> update(@RequestBody @Validated(Update.class) ScrumPriorityParam params) {
-        return Result.updateSuccess(priorityService.update(params.getUpdate()));
+    @PutMapping
+    public Result<ScrumPriority> update(@RequestBody @Validated(Update.class) ScrumPriorityDto dto) {
+        return Result.updateSuccess(priorityService.update(priorityConvert.dtoToEntity(dto)));
     }
     
     /**
      * 删除优先级信息
      *
-     * @param param :deleteId 删除的优先级ID
+     * @param id 删除的优先级ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumPriorityParam param) {
-        priorityService.deleteById(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        priorityService.deleteById(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 批量更新优先级信息
      *
-     * @param param :updateBatch 批量更新的优先级信息
+     * @param dto :data 批量更新的优先级信息
      * @return 更新结果
      */
-    @PostMapping("/updateBatch")
+    @PutMapping("/batch")
     public Result<List<ScrumPriority>> updateBatch(
-            @RequestBody @Validated(UpdateBatch.class) ScrumPriorityParam param) {
-        return Result.success(priorityService.updateBatch(param.getUpdateBatch()));
+            @RequestBody @Validated(Update.class) ValidList<ScrumPriorityDto> dto) {
+        return Result.success(priorityService
+                .updateBatch(dto.getData().stream().map(priorityConvert::dtoToEntity).collect(Collectors.toList())));
     }
     
     /**
      * 根据模板ID查询该模板ID下的所有优先级配置信息
      *
-     * @param param 模板ID
+     * @param id 模板ID
      * @return 模板下的所有优先级配置信息
      */
-    @PostMapping("/findAllByTemplateId")
-    public Result<List<ScrumPriority>> findAllByTemplateId(@RequestBody ScrumPriorityParam param) {
-        if (param.getTemplateId() == null) {
-            throw new ServiceException("controller.priority.templateId.notNull");
-        }
-        return Result.success(priorityService.findAllByTemplateId(param.getTemplateId()));
+    @GetMapping("/allByTemplateId/{id}")
+    public Result<List<ScrumPriority>> allByTemplateId(@PathVariable Long id) {
+        return Result.success(priorityService.findAllByTemplateId(id));
     }
 }

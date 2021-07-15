@@ -14,30 +14,21 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
-
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTask;
-
-import java.util.Set;
+package com.gitee.quiet.scrum.enums;
 
 /**
- * 任务查询参数.
+ * 构建工具枚举.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTaskParam extends Param<ScrumTask, ScrumTask> {
+public enum BuildTool {
+    /**
+     * maven 构建工具
+     */
+    MAVEN,
     
     /**
-     * 查询的需求ID集合
+     * gradle 构建工具
      */
-    private Set<Long> demandIds;
-    
-    public Set<Long> getDemandIds() {
-        return demandIds;
-    }
-    
-    public void setDemandIds(Set<Long> demandIds) {
-        this.demandIds = demandIds;
-    }
+    GRADLE,
 }

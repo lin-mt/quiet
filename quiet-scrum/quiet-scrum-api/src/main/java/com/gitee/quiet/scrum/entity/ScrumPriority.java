@@ -17,6 +17,8 @@
 package com.gitee.quiet.scrum.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
@@ -31,6 +33,8 @@ import javax.validation.constraints.Pattern;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "scrum_priority")
 public class ScrumPriority extends SerialEntity {
@@ -65,35 +69,4 @@ public class ScrumPriority extends SerialEntity {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getColorHex() {
-        return colorHex;
-    }
-    
-    public void setColorHex(String colorHex) {
-        this.colorHex = colorHex;
-    }
-    
-    public Long getTemplateId() {
-        return templateId;
-    }
-    
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

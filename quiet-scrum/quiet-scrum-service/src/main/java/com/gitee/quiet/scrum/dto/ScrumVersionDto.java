@@ -14,101 +14,87 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.FrontSelect;
 import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.common.service.dto.ParentAndSerialDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 迭代信息.
+ * 项目的版本信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity implements FrontSelect {
+public class ScrumVersionDto extends ParentAndSerialDto<ScrumVersionDto> {
     
     /**
-     * 迭代名称
+     * 版本名称
      */
     @NotBlank
-    @Length(max = 30)
-    @Column(name = "iteration_name", nullable = false, length = 30)
+    @Length(max = 10)
     private String name;
     
     /**
-     * 所属版本ID
+     * 所属项目ID
      */
     @NotNull
-    @Column(name = "version_id", nullable = false)
-    private Long versionId;
+    private Long projectId;
     
     /**
-     * 迭代计划开始日期
+     * 计划开始日期
      */
     @NotNull
-    @Column(name = "plan_start_date", nullable = false)
     private LocalDate planStartDate;
     
     /**
-     * 迭代计划结束日期
+     * 计划结束日期
      */
     @NotNull
-    @Column(name = "plan_end_date", nullable = false)
     private LocalDate planEndDate;
     
     /**
-     * 迭代开始时间
+     * 版本开始时间
      */
-    @Column(name = "start_time")
     private LocalDateTime startTime;
     
     /**
-     * 迭代结束时间
+     * 版本结束时间
      */
-    @Column(name = "end_time")
     private LocalDateTime endTime;
     
     /**
-     * 备注信息
+     * 版本备注信息
      */
-    @Length(max = 1000)
-    @Column(name = "remark", nullable = false, length = 1000)
+    @NotBlank
+    @Length(max = 1500)
     private String remark;
     
-    @Override
-    public Object getKey() {
-        return getId();
-    }
-    
-    @Override
-    public String getTitle() {
-        return getName();
-    }
+    /**
+     * 迭代信息
+     */
+    @Transient
+    private List<ScrumIterationDto> iterations;
     
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumIteration) {
-            ScrumIteration otherIteration = (ScrumIteration) other;
-            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
+        if (compare == 0 && other instanceof ScrumVersionDto) {
+            ScrumVersionDto otherVersion = (ScrumVersionDto) other;
+            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
             if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
+                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
             }
         }
         return compare;

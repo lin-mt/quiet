@@ -17,18 +17,22 @@
 package com.gitee.quiet.scrum.controller;
 
 import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.OffsetLimitValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
-import com.gitee.quiet.common.validation.util.ValidationUtils;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.IdValid;
+import com.gitee.quiet.common.validation.group.OffsetLimitValid;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.scrum.convert.ScrumDemandConvert;
+import com.gitee.quiet.scrum.dto.ScrumDemandDto;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
-import com.gitee.quiet.scrum.params.ScrumDemandParam;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.querydsl.core.QueryResults;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,95 +45,93 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/demand")
 public class ScrumDemandController {
     
     private final ScrumDemandService demandService;
     
-    public ScrumDemandController(ScrumDemandService demandService) {
-        this.demandService = demandService;
-    }
+    private final ScrumDemandConvert demandConvert;
     
     /**
      * 删除需求
      *
-     * @param param :deleteId 删除的需求ID
+     * @param id 删除的需求ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumDemandParam param) {
-        demandService.deleteById(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        demandService.deleteById(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 滚动查询待规划的需求
      *
-     * @param param :id 项目ID
+     * @param dto :id 项目ID ：demandFilter 需求过滤条件
      * @return 待规划的需求
      */
-    @PostMapping("/scrollToBePlanned")
+    @GetMapping("/scrollToBePlanned")
     public Result<List<ScrumDemand>> scrollToBePlanned(
-            @RequestBody @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandParam param) {
-        return Result.success(demandService
-                .listToBePlanned(param.getId(), param.getDemandFilter(), param.getOffset(), param.getLimit()));
+            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDto dto) {
+        return Result.success(
+                demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(), dto.getOffset(), dto.getLimit()));
     }
     
     /**
      * 滚动查询迭代的需求
      *
-     * @param param :id 迭代ID
+     * @param dto :id 迭代ID
      * @return 处于该迭代的需求
      */
-    @PostMapping("/scrollByIterationId")
+    @GetMapping("/scrollByIterationId")
     public Result<List<ScrumDemand>> scrollByIterationId(
-            @RequestBody @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandParam param) {
-        return Result.success(demandService.scrollIteration(param.getId(), param.getOffset(), param.getLimit()));
+            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDto dto) {
+        return Result.success(demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit()));
     }
     
     /**
      * 创建需求
      *
-     * @param param :save 创建的需求信息
+     * @param dto 创建的需求信息
      * @return 创建后的需求信息
      */
-    @PostMapping("/save")
-    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandParam param) {
-        return Result.success(demandService.save(param.getSave()));
+    @PostMapping
+    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandDto dto) {
+        return Result.success(demandService.save(demandConvert.dtoToEntity(dto)));
     }
     
     /**
      * 更新需求
      *
-     * @param param :update 更新的需求信息
+     * @param dto 更新的需求信息
      * @return 更新后的需求信息
      */
-    @PostMapping("/update")
-    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandParam param) {
-        return Result.success(demandService.update(param.getUpdate()));
+    @PutMapping
+    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandDto dto) {
+        return Result.success(demandService.update(demandConvert.dtoToEntity(dto)));
     }
     
     /**
      * 查询一个迭代下的所有需求信息
      *
-     * @param param :iterationId 迭代ID
+     * @param id 迭代ID
      * @return 需求信息
      */
-    @PostMapping("/findAllByIterationId")
-    public Result<List<ScrumDemand>> findAllByIterationId(@RequestBody ScrumDemandParam param) {
-        ValidationUtils.notNull(param.getIterationId(), "controller.demand.iterationId.canNotNull");
-        return Result.success(demandService.findAllByIterationId(param.getIterationId()));
+    @GetMapping("/all/{id}")
+    public Result<List<ScrumDemand>> all(@PathVariable Long id) {
+        return Result.success(demandService.findAllByIterationId(id));
     }
     
     /**
      * 分页查询需求信息
      *
-     * @param param 查询参数
+     * @param dto 查询参数
      * @return 查询结果
      */
-    @PostMapping("/page")
-    public Result<QueryResults<ScrumDemand>> page(@RequestBody ScrumDemandParam param) {
-        return Result.success(demandService.page(param.getParams(), param.page()));
+    @GetMapping("/page")
+    public Result<QueryResults<ScrumDemand>> page(ScrumDemandDto dto) {
+        return Result.success(demandService.page(demandConvert.dtoToEntity(dto), dto.page()));
     }
     
 }
