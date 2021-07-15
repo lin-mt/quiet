@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.system.convert;
 
+import com.gitee.quiet.common.service.base.QuietConvert;
 import com.gitee.quiet.system.dto.QuietRoleDto;
 import com.gitee.quiet.system.entity.QuietRole;
 import org.mapstruct.Mapper;
@@ -26,8 +27,6 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface QuietRoleConvert {
-    
-    QuietRole dtoToEntity(QuietRoleDto dto);
+public interface QuietRoleConvert extends QuietConvert<QuietRole, QuietRoleDto> {
     
 }
