@@ -14,16 +14,36 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.params;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.doc.entity.DocApiFormData;
+import com.gitee.quiet.common.service.dto.ParentDto;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * FormData 参数.
+ * Api 分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DocApiFormDataParam extends Param<DocApiFormData, DocApiFormData> {
-
+@Getter
+@Setter
+public class DocApiGroupDto extends ParentDto<DocApiGroupDto> {
+    
+    /**
+     * 分组名称
+     */
+    @NotBlank
+    @Length(max = 30)
+    private String name;
+    
+    /**
+     * 所属项目ID
+     */
+    @NotNull
+    private Long projectId;
+    
 }

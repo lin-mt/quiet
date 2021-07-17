@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.params;
+package com.gitee.quiet.doc.converter;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.doc.entity.DocProjectConfig;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.doc.dto.DocApiBodyDto;
+import com.gitee.quiet.doc.entity.DocApiBody;
+import org.mapstruct.Mapper;
 
 /**
- * 项目配置信息.
+ * 接口Body信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DocProjectConfigParam extends Param<DocProjectConfig, DocProjectConfig> {
-
+@Mapper
+public interface DocApiBodyConvert extends QuietConvert<DocApiBody, DocApiBodyDto> {
+    
 }

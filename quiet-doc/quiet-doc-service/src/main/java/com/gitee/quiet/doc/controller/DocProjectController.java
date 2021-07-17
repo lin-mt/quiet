@@ -18,16 +18,20 @@ package com.gitee.quiet.doc.controller;
 
 import com.gitee.quiet.common.base.result.Result;
 import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.doc.converter.DocProjectConvert;
+import com.gitee.quiet.doc.dto.DocProjectDto;
 import com.gitee.quiet.doc.entity.DocProject;
-import com.gitee.quiet.doc.params.DocProjectParam;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,37 +42,65 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/project")
 public class DocProjectController {
     
     private final DocProjectService projectService;
     
-    public DocProjectController(DocProjectService projectService) {
-        this.projectService = projectService;
+    private final DocProjectConvert projectConvert;
+    
+    /**
+     * 根据项目ID查询项目信息
+     *
+     * @param id 项目ID
+     * @return 项目信息
+     */
+    @GetMapping("/{id}")
+    public Result<DocProject> projectInfo(@PathVariable Long id) {
+        return Result.success(projectService.getById(id));
     }
     
-    @PostMapping("/projectInfo")
-    public Result<DocProject> projectInfo(@RequestBody @Validated(IdValid.class) DocProjectParam param) {
-        return Result.success(projectService.getById(param.getId()));
+    /**
+     * 新建项目文档
+     *
+     * @param dto 新建的项目信息
+     * @return 新增的项目信息
+     */
+    @PostMapping
+    public Result<DocProject> save(@RequestBody @Validated(Create.class) DocProjectDto dto) {
+        return Result.success(projectService.save(projectConvert.dtoToEntity(dto)));
     }
     
-    @PostMapping("/save")
-    public Result<DocProject> save(@RequestBody @Validated(Create.class) DocProjectParam param) {
-        return Result.success(projectService.save(param.getSave()));
+    /**
+     * 更新项目信息
+     *
+     * @param dto 更新的项目信息
+     * @return 更新后的项目信息
+     */
+    @PutMapping
+    public Result<DocProject> update(@RequestBody @Validated(Update.class) DocProjectDto dto) {
+        return Result.success(projectService.update(projectConvert.dtoToEntity(dto)));
     }
     
-    @PostMapping("/update")
-    public Result<DocProject> update(@RequestBody @Validated(Update.class) DocProjectParam param) {
-        return Result.success(projectService.update(param.getUpdate()));
-    }
-    
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) DocProjectParam param) {
-        projectService.delete(param.getDeleteId());
+    /**
+     * 根据项目ID删除项目信息
+     *
+     * @param id 要删除的项目ID
+     * @return 删除结果
+     */
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        projectService.delete(id);
         return Result.deleteSuccess();
     }
     
-    @PostMapping("/myProject")
+    /**
+     * 获取登陆人可访问的项目信息
+     *
+     * @return 可访问的项目信息
+     */
+    @GetMapping("/myProject")
     public Result<MyDocProject> myDocProjectResult() {
         return Result.success(projectService.getProjectByUserId(CurrentUserUtil.getId()));
     }
