@@ -41,6 +41,15 @@ public interface DocApiRepository extends JpaRepository<DocApi, Long> {
     List<DocApi> findAllByProjectId(Long projectId);
     
     /**
+     * 根据项目ID和接口名称查询接口文档信息
+     *
+     * @param projectId 项目ID
+     * @param name      接口名称
+     * @return 接口文档信息
+     */
+    DocApi findByProjectIdAndName(Long projectId, String name);
+    
+    /**
      * 根据分组ID查询在该分组的所有接口文档
      *
      * @param groupId 分组ID

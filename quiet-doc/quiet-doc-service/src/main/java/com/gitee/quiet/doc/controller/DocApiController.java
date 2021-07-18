@@ -16,16 +16,68 @@
 
 package com.gitee.quiet.doc.controller;
 
+import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.common.validation.group.Create;
+import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.doc.converter.DocApiConvert;
+import com.gitee.quiet.doc.dto.DocApiDto;
+import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.service.DocApiService;
+import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Api Controller.
+ * 接口信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api")
 public class DocApiController {
-
+    
+    private final DocApiService apiService;
+    
+    private final DocApiConvert apiConvert;
+    
+    /**
+     * 新建接口
+     *
+     * @param dto 新建的接口信息
+     * @return 新增的接口信息
+     */
+    @PostMapping
+    public Result<DocApi> save(@RequestBody @Validated(Create.class) DocApiDto dto) {
+        return Result.success(apiService.save(apiConvert.dtoToEntity(dto)));
+    }
+    
+    /**
+     * 更新接口信息
+     *
+     * @param dto 更新的接口信息
+     * @return 更新后的接口信息
+     */
+    @PutMapping
+    public Result<DocApi> update(@RequestBody @Validated(Update.class) DocApiDto dto) {
+        return Result.success(apiService.update(apiConvert.dtoToEntity(dto)));
+    }
+    
+    /**
+     * 根据接口ID删除接口ID
+     *
+     * @param id 要删除的接口ID
+     * @return 删除结果
+     */
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        apiService.deleteById(id);
+        return Result.deleteSuccess();
+    }
 }

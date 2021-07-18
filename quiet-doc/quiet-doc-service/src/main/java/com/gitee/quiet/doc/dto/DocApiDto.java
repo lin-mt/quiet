@@ -17,14 +17,14 @@
 package com.gitee.quiet.doc.dto;
 
 import com.gitee.quiet.common.service.dto.SerialDto;
+import com.gitee.quiet.common.service.util.CurrentUserUtil;
+import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,6 +55,12 @@ public class DocApiDto extends SerialDto {
     private Long projectId;
     
     /**
+     * 接口状态
+     */
+    @NotNull
+    private ApiState apiState = ApiState.UNFINISHED;
+    
+    /**
      * 请求地址
      */
     @NotBlank
@@ -65,21 +71,18 @@ public class DocApiDto extends SerialDto {
      * 请求方法
      */
     @NotNull
-    @Length(max = 7)
-    @Enumerated(EnumType.STRING)
     private HttpMethod method;
     
     /**
      * 作者ID
      */
-    @NotNull
-    private Long authorId;
+    private Long authorId = CurrentUserUtil.getId();
     
     /**
      * 所属分组ID
      */
-    @NotNull
-    private Long apiGroupId;
+    @Size(max = 30)
+    private Set<Long> apiGroupIds;
     
     /**
      * 访问者用户ID
@@ -90,7 +93,7 @@ public class DocApiDto extends SerialDto {
     /**
      * 备注
      */
-    @Length(max = 100)
+    @Length(max = 300)
     private String remark;
     
     /**

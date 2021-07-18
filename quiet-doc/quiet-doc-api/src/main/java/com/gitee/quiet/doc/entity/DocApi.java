@@ -67,7 +67,7 @@ public class DocApi extends SerialEntity {
      */
     @NotNull
     @Column(name = "api_state", nullable = false, length = 10)
-    private ApiState apiState;
+    private ApiState apiState = ApiState.UNFINISHED;
     
     /**
      * 请求地址
@@ -81,7 +81,6 @@ public class DocApi extends SerialEntity {
      * 请求方法
      */
     @NotNull
-    @Length(max = 7)
     @Enumerated(EnumType.STRING)
     @Column(name = "method", nullable = false, length = 7)
     private HttpMethod method;
@@ -110,8 +109,8 @@ public class DocApi extends SerialEntity {
     /**
      * 备注
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 300)
+    @Column(name = "remark", length = 300)
     private String remark;
     
     /**

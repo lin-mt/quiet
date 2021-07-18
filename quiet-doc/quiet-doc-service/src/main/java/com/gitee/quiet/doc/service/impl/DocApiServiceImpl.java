@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.doc.service.impl;
 
+import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiService;
@@ -50,5 +51,30 @@ public class DocApiServiceImpl implements DocApiService {
             apis.forEach(api -> api.getApiGroupIds().remove(groupId));
             apiRepository.saveAll(apis);
         }
+    }
+    
+    @Override
+    public DocApi save(DocApi save) {
+        checkInfo(save);
+        return apiRepository.save(save);
+    }
+    
+    @Override
+    public DocApi update(DocApi update) {
+        checkInfo(update);
+        return apiRepository.saveAndFlush(update);
+    }
+    
+    private void checkInfo(DocApi api) {
+        DocApi exist = apiRepository.findByProjectIdAndName(api.getProjectId(), api.getName());
+        if (exist != null && !exist.getId().equals(api.getId())) {
+            throw new ServiceException("api.name.exist", api.getProjectId(), api.getName());
+        }
+    }
+    
+    @Override
+    public void deleteById(Long id) {
+        apiRepository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+        apiRepository.deleteById(id);
     }
 }

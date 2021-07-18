@@ -21,9 +21,12 @@ import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.repository.DocApiGroupRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiService;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 文档分组Service实现类.
@@ -73,5 +76,13 @@ public class DocApiGroupServiceImpl implements DocApiGroupService {
     @Override
     public List<DocApiGroup> listByProjectId(Long projectId) {
         return apiGroupRepository.findAllByProjectId(projectId);
+    }
+    
+    @Override
+    public List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit) {
+        if (Objects.isNull(projectId) || StringUtils.isBlank(name) || limit <= 0) {
+            return Lists.newArrayList();
+        }
+        return apiGroupRepository.findAllByProjectIdAndName(projectId, name, limit);
     }
 }

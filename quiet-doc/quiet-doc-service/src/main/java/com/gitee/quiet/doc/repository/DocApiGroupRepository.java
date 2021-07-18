@@ -18,6 +18,8 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,4 +48,17 @@ public interface DocApiGroupRepository extends JpaRepository<DocApiGroup, Long> 
      * @return 项目所有接口分组
      */
     List<DocApiGroup> findAllByProjectId(Long projectId);
+    
+    /**
+     * 根据项目Id和项目名称模糊查询指定数据的分组信息
+     *
+     * @param projectId 项目ID
+     * @param name      项目名称
+     * @param limit     条数
+     * @return 分组信息
+     */
+    @Query(nativeQuery = true, value = "select * from doc_api_group "
+            + "where project_id = :projectId and group_name like concat('%', :name, '%') limit :limit")
+    List<DocApiGroup> findAllByProjectIdAndName(@Param("projectId") Long projectId, @Param("name") String name,
+            @Param("limit") long limit);
 }
