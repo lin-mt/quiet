@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.common.service.base;
 
+import com.gitee.quiet.common.validation.group.Create;
 import com.gitee.quiet.common.validation.group.IdValid;
 import com.gitee.quiet.common.validation.group.OffsetLimitValid;
 import com.gitee.quiet.common.validation.group.PageValid;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 /**
@@ -41,6 +43,10 @@ public class BaseDto {
     
     private static final String DESCEND = "descend";
     
+    /**
+     * ID
+     */
+    @Null(groups = Create.class)
     @NotNull(groups = {IdValid.class, Update.class})
     private Long id;
     
