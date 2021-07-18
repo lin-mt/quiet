@@ -49,6 +49,12 @@ public class DocApiDto extends SerialDto {
     private String name;
     
     /**
+     * 项目ID
+     */
+    @NotNull
+    private Long projectId;
+    
+    /**
      * 请求地址
      */
     @NotBlank

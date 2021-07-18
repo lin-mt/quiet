@@ -14,47 +14,37 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.service;
+package com.gitee.quiet.doc.vo;
 
+import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
+import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Api分组Service.
+ * 项目接口分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiGroupService {
+@Getter
+public class ProjectApiInfo {
     
     /**
-     * 新建接口分组
-     *
-     * @param save 新建的接口分组
-     * @return 新建的接口分组
+     * 未分组的接口
      */
-    DocApiGroup save(DocApiGroup save);
+    private final List<DocApi> ungroup = new ArrayList<>();
     
     /**
-     * 更新接口分组
-     *
-     * @param update 更新的接口分组
-     * @return 更新后的接口分组
+     * 已分组的接口
      */
-    DocApiGroup update(DocApiGroup update);
+    private final Map<Long, List<DocApi>> grouped = new HashMap<>();
     
     /**
-     * 根据接口分组ID删除信息
-     *
-     * @param id 要删除的接口分组ID
+     * 项目接口分组
      */
-    void deleteById(Long id);
-    
-    /**
-     * 根据项目ID查询所有接口分组信息
-     *
-     * @param projectId 项目ID
-     * @return 所有接口分组信息
-     */
-    List<DocApiGroup> listByProjectId(Long projectId);
+    private final List<DocApiGroup> apiGroups = new ArrayList<>();
 }

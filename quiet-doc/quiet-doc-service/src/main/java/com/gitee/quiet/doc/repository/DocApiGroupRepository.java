@@ -20,6 +20,8 @@ import com.gitee.quiet.doc.entity.DocApiGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Api 分组Repository.
  *
@@ -27,5 +29,21 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DocApiGroupRepository extends JpaRepository<DocApiGroup, Long> {
-
+    
+    /**
+     * 根据项目ID和分组名称查询分组信息
+     *
+     * @param projectId 项目ID
+     * @param name      分组名称
+     * @return 分组信息
+     */
+    DocApiGroup findByProjectIdAndName(Long projectId, String name);
+    
+    /**
+     * 根据项目ID查询所有接口分组
+     *
+     * @param projectId 项目ID
+     * @return 项目所有接口分组
+     */
+    List<DocApiGroup> findAllByProjectId(Long projectId);
 }

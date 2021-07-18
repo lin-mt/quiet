@@ -29,6 +29,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -76,6 +77,12 @@ public class DocProject extends SerialEntity {
      * 访问者信息
      */
     @Transient
-    private List<QuietUser> visitors;
+    private final List<QuietUser> visitors = new ArrayList<>();
+    
+    /**
+     * 负责人名称
+     */
+    @Transient
+    private String principalName;
     
 }

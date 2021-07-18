@@ -18,14 +18,34 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApi;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
- * Api Repository.
+ * 接口文档Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
 public interface DocApiRepository extends JpaRepository<DocApi, Long> {
-
+    
+    /**
+     * 根据项目ID查询所有接口文档
+     *
+     * @param projectId 项目ID
+     * @return 接口文档信息
+     */
+    List<DocApi> findAllByProjectId(Long projectId);
+    
+    /**
+     * 根据分组ID查询在该分组的所有接口文档
+     *
+     * @param groupId 分组ID
+     * @return 接口文档信息
+     */
+    @Query(nativeQuery = true, value = "select id, api_group_id from doc_api where find_in_set(:groupId, api_group_id)")
+    List<DocApi> findAllByGroupId(@Param("groupId") Long groupId);
 }

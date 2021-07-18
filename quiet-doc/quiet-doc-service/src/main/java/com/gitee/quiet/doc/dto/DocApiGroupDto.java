@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.common.service.dto.ParentDto;
+import com.gitee.quiet.common.service.dto.SerialDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -31,7 +31,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class DocApiGroupDto extends ParentDto<DocApiGroupDto> {
+public class DocApiGroupDto extends SerialDto {
     
     /**
      * 分组名称

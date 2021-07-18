@@ -17,6 +17,7 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
@@ -55,6 +56,20 @@ public class DocApi extends SerialEntity {
     private String name;
     
     /**
+     * 项目ID
+     */
+    @NotNull
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
+    
+    /**
+     * 接口状态
+     */
+    @NotNull
+    @Column(name = "api_state", nullable = false, length = 10)
+    private ApiState apiState;
+    
+    /**
      * 请求地址
      */
     @NotBlank
@@ -81,9 +96,9 @@ public class DocApi extends SerialEntity {
     /**
      * 所属分组ID
      */
-    @NotNull
-    @Column(name = "api_group_id")
-    private Long apiGroupId;
+    @Size(max = 30)
+    @Column(name = "api_group_id", length = 570)
+    private Set<Long> apiGroupIds;
     
     /**
      * 访问者用户ID

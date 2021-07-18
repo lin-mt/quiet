@@ -14,31 +14,22 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.service;
-
-import com.gitee.quiet.doc.entity.DocApi;
-
-import java.util.List;
+package com.gitee.quiet.doc.enums;
 
 /**
- * Api Service.
+ * 接口状态.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiService {
+public enum ApiState {
     
     /**
-     * 根据项目ID查询接口信息
-     *
-     * @param projectId 项目ID
-     * @return 接口信息
+     * 未完成
      */
-    List<DocApi> listAllByProjectId(Long projectId);
+    UNFINISHED,
     
     /**
-     * 移除接口中的分组
-     *
-     * @param groupId 移除的分组的ID
+     * 已完成
      */
-    void removeGroup(Long groupId);
+    FINISHED,
 }

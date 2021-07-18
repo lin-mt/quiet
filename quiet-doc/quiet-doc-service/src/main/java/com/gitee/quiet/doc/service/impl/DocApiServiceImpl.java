@@ -16,8 +16,13 @@
 
 package com.gitee.quiet.doc.service.impl;
 
+import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Api Service 实现类.
@@ -26,5 +31,24 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DocApiServiceImpl implements DocApiService {
-
+    
+    private final DocApiRepository apiRepository;
+    
+    public DocApiServiceImpl(DocApiRepository apiRepository) {
+        this.apiRepository = apiRepository;
+    }
+    
+    @Override
+    public List<DocApi> listAllByProjectId(Long projectId) {
+        return apiRepository.findAllByProjectId(projectId);
+    }
+    
+    @Override
+    public void removeGroup(Long groupId) {
+        List<DocApi> apis = apiRepository.findAllByGroupId(groupId);
+        if (CollectionUtils.isNotEmpty(apis)) {
+            apis.forEach(api -> api.getApiGroupIds().remove(groupId));
+            apiRepository.saveAll(apis);
+        }
+    }
 }

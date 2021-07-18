@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.ParentEntity;
+import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -36,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @Table(name = "doc_api_group")
-public class DocApiGroup extends ParentEntity<DocApiGroup> {
+public class DocApiGroup extends SerialEntity {
     
     /**
      * 分组名称
@@ -53,4 +53,10 @@ public class DocApiGroup extends ParentEntity<DocApiGroup> {
     @Column(name = "project_id", nullable = false)
     private Long projectId;
     
+    /**
+     * 备注
+     */
+    @Length(max = 300)
+    @Column(name = "remark", length = 300)
+    private String remark;
 }

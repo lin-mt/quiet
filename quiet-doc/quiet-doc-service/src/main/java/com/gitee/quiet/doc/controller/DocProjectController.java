@@ -22,10 +22,16 @@ import com.gitee.quiet.common.validation.group.Create;
 import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.doc.converter.DocProjectConvert;
 import com.gitee.quiet.doc.dto.DocProjectDto;
+import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocProject;
+import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
+import com.gitee.quiet.doc.vo.ProjectApiInfo;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +41,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Project Controller.
@@ -48,7 +59,44 @@ public class DocProjectController {
     
     private final DocProjectService projectService;
     
+    private final DocApiGroupService apiGroupService;
+    
+    private final DocApiService apiService;
+    
     private final DocProjectConvert projectConvert;
+    
+    /**
+     * 根据项目ID查询所有接口分组信息，包含接口信息
+     *
+     * @param id 项目ID
+     * @return 项目所有接口分组信息
+     */
+    @GetMapping("/apis/{id}")
+    public Result<ProjectApiInfo> apis(@PathVariable Long id) {
+        List<DocApiGroup> apiGroups = apiGroupService.listByProjectId(id);
+        ProjectApiInfo projectApiInfo = new ProjectApiInfo();
+        projectApiInfo.getApiGroups().addAll(apiGroups);
+        if (CollectionUtils.isNotEmpty(apiGroups)) {
+            List<DocApi> apis = apiService.listAllByProjectId(id);
+            if (CollectionUtils.isNotEmpty(apis)) {
+                List<DocApi> ungroup = new ArrayList<>();
+                Map<Long, List<DocApi>> grouped = new HashMap<>();
+                for (DocApi api : apis) {
+                    if (CollectionUtils.isEmpty(api.getApiGroupIds())) {
+                        ungroup.add(api);
+                        continue;
+                    }
+                    for (Long groupId : api.getApiGroupIds()) {
+                        grouped.computeIfAbsent(groupId, k -> new ArrayList<>());
+                        grouped.get(groupId).add(api);
+                    }
+                }
+                projectApiInfo.getUngroup().addAll(ungroup);
+                projectApiInfo.getGrouped().putAll(grouped);
+            }
+        }
+        return Result.success(projectApiInfo);
+    }
     
     /**
      * 根据项目ID查询项目信息

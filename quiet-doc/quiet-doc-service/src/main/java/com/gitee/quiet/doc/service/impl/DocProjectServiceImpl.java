@@ -21,10 +21,18 @@ import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
+import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.service.QuietUserService;
+import com.google.common.collect.Sets;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Project Service 实现类.
@@ -36,6 +44,9 @@ public class DocProjectServiceImpl implements DocProjectService {
     
     public final DocProjectRepository projectRepository;
     
+    @DubboReference
+    private QuietUserService quietUserService;
+    
     public DocProjectServiceImpl(DocProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
@@ -46,11 +57,24 @@ public class DocProjectServiceImpl implements DocProjectService {
         MyDocProject myDocProject = new MyDocProject();
         List<DocProject> responsibleProjects = new ArrayList<>();
         List<DocProject> accessibleProjects = new ArrayList<>();
+        Set<Long> userIds = Sets.newHashSet();
         docProjects.forEach(docProject -> {
+            userIds.add(docProject.getPrincipal());
+            userIds.addAll(docProject.getVisitorIds());
             if (docProject.getPrincipal().equals(userId)) {
                 responsibleProjects.add(docProject);
             } else {
                 accessibleProjects.add(docProject);
+            }
+        });
+        Map<Long, QuietUser> userIdToInfo = quietUserService.findByUserIds(userIds).stream()
+                .collect(Collectors.toMap(QuietUser::getId, user -> user));
+        docProjects.forEach(docProject -> {
+            docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
+            if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
+                for (Long visitorId : docProject.getVisitorIds()) {
+                    docProject.getVisitors().add(userIdToInfo.get(visitorId));
+                }
             }
         });
         myDocProject.setResponsibleProjects(responsibleProjects);
@@ -78,7 +102,19 @@ public class DocProjectServiceImpl implements DocProjectService {
     
     @Override
     public DocProject getById(Long id) {
-        return projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+        DocProject docProject = projectRepository.findById(id)
+                .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+        Set<Long> userIds = Sets.newHashSet(docProject.getVisitorIds());
+        userIds.add(docProject.getPrincipal());
+        Map<Long, QuietUser> userIdToInfo = quietUserService.findByUserIds(userIds).stream()
+                .collect(Collectors.toMap(QuietUser::getId, user -> user));
+        docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
+        if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
+            for (Long visitorId : docProject.getVisitorIds()) {
+                docProject.getVisitors().add(userIdToInfo.get(visitorId));
+            }
+        }
+        return docProject;
     }
     
     private void checkInfo(DocProject docProject) {
@@ -87,9 +123,9 @@ public class DocProjectServiceImpl implements DocProjectService {
         myDocProject.getAccessibleProjects().forEach(temp -> checkProjectName(docProject, temp));
     }
     
-    private void checkProjectName(DocProject docProject, DocProject temp) {
-        if (docProject.getName().equals(temp.getName()) || docProject.getId() != null) {
-            throw new ServiceException("project.name.exist", temp.getName());
+    private void checkProjectName(DocProject docProject, DocProject existProject) {
+        if (!existProject.getId().equals(docProject.getId()) && docProject.getName().equals(existProject.getName())) {
+            throw new ServiceException("project.name.exist", existProject.getName());
         }
     }
     
