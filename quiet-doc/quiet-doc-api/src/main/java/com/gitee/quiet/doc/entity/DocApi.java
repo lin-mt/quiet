@@ -66,6 +66,7 @@ public class DocApi extends SerialEntity {
      * 接口状态
      */
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "api_state", nullable = false, length = 10)
     private ApiState apiState = ApiState.UNFINISHED;
     
