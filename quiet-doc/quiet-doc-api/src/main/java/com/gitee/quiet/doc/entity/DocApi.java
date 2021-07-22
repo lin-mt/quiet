@@ -20,6 +20,7 @@ import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.system.entity.QuietUser;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -96,9 +97,8 @@ public class DocApi extends SerialEntity {
     /**
      * 所属分组ID
      */
-    @Size(max = 30)
-    @Column(name = "api_group_id", length = 570)
-    private Set<Long> apiGroupIds;
+    @Column(name = "api_group_id")
+    private Long apiGroupId;
     
     /**
      * 访问者用户ID
@@ -118,6 +118,12 @@ public class DocApi extends SerialEntity {
      * 访问者信息
      */
     @Transient
-    private List<QuietUser> visitors;
+    private List<QuietUser> visitors = Lists.newArrayList();
+    
+    /**
+     * 所属分组信息
+     */
+    @Transient
+    private DocApiGroup apiGroup;
     
 }

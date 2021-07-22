@@ -81,8 +81,7 @@ public class DocApiDto extends SerialDto {
     /**
      * 所属分组ID
      */
-    @Size(max = 30)
-    private Set<Long> apiGroupIds;
+    private Long apiGroupId;
     
     /**
      * 访问者用户ID

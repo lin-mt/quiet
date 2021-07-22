@@ -46,9 +46,9 @@ public class DocApiServiceImpl implements DocApiService {
     
     @Override
     public void removeGroup(Long groupId) {
-        List<DocApi> apis = apiRepository.findAllByGroupId(groupId);
+        List<DocApi> apis = apiRepository.findAllByApiGroupId(groupId);
         if (CollectionUtils.isNotEmpty(apis)) {
-            apis.forEach(api -> api.getApiGroupIds().remove(groupId));
+            apis.forEach(api -> api.setApiGroupId(null));
             apiRepository.saveAll(apis);
         }
     }

@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Project Controller.
@@ -74,6 +75,8 @@ public class DocProjectController {
     @GetMapping("/apis/{id}")
     public Result<ProjectApiInfo> apis(@PathVariable Long id) {
         List<DocApiGroup> apiGroups = apiGroupService.listByProjectId(id);
+        Map<Long, DocApiGroup> apiGroupIdToInfo = apiGroups.stream()
+                .collect(Collectors.toMap(DocApiGroup::getId, a -> a));
         ProjectApiInfo projectApiInfo = new ProjectApiInfo();
         projectApiInfo.getApiGroups().addAll(apiGroups);
         if (CollectionUtils.isNotEmpty(apiGroups)) {
@@ -82,14 +85,13 @@ public class DocProjectController {
                 List<DocApi> ungroup = new ArrayList<>();
                 Map<Long, List<DocApi>> grouped = new HashMap<>();
                 for (DocApi api : apis) {
-                    if (CollectionUtils.isEmpty(api.getApiGroupIds())) {
+                    if (api.getApiGroupId() == null) {
                         ungroup.add(api);
                         continue;
                     }
-                    for (Long groupId : api.getApiGroupIds()) {
-                        grouped.computeIfAbsent(groupId, k -> new ArrayList<>());
-                        grouped.get(groupId).add(api);
-                    }
+                    grouped.computeIfAbsent(api.getApiGroupId(), k -> new ArrayList<>());
+                    grouped.get(api.getApiGroupId()).add(api);
+                    api.setApiGroup(apiGroupIdToInfo.get(api.getApiGroupId()));
                 }
                 projectApiInfo.getUngroup().addAll(ungroup);
                 projectApiInfo.getGrouped().putAll(grouped);
