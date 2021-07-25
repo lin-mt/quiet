@@ -68,8 +68,8 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     /**
      * 例子
      */
-    @Length(max = 300)
-    @Column(name = "example", length = 300)
+    @Length(max = 30)
+    @Column(name = "example", length = 30)
     private String example;
     
     /**
@@ -82,8 +82,8 @@ public class DocApiResponse extends ParentEntity<DocApiResponse> {
     /**
      * 备注
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 300)
+    @Column(name = "remark", length = 300)
     private String remark;
     
 }

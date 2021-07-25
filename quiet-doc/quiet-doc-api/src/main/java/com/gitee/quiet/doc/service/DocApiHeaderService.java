@@ -16,11 +16,22 @@
 
 package com.gitee.quiet.doc.service;
 
+import com.gitee.quiet.doc.entity.DocApiHeader;
+
+import java.util.List;
+
 /**
  * Header Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiHeaderService {
-
+    
+    /**
+     * 根据apiId查询请求头配置信息
+     *
+     * @param apiId 接口文档ID
+     * @return 请求头配置信息
+     */
+    List<DocApiHeader> listByApiId(Long apiId);
 }

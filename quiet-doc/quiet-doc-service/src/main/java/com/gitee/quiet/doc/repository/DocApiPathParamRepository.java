@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.service;
+package com.gitee.quiet.doc.repository;
 
-import com.gitee.quiet.doc.entity.DocApiResponse;
+import com.gitee.quiet.doc.entity.DocApiPathParam;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
- * 接口返回参数 Service.
+ * 文档路径参数Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiResponseService {
+@Repository
+public interface DocApiPathParamRepository extends JpaRepository<DocApiPathParam, Long> {
     
     /**
-     * 根据接口文档ID查询返回参数配置
+     * 根据文档ID查询路径参数信息
      *
-     * @param apiId 接口文档ID
-     * @return 接口返回参数信息
+     * @param apiId 文档ID
+     * @return 路径参数信息
      */
-    DocApiResponse findByApiId(Long apiId);
+    List<DocApiPathParam> findAllByApiId(Long apiId);
 }

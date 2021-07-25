@@ -20,12 +20,21 @@ import com.gitee.quiet.doc.entity.DocApiResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
- * Response Repository.
+ * 接口返回数据配置 Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
 public interface DocApiResponseRepository extends JpaRepository<DocApiResponse, Long> {
-
+    
+    /**
+     * 根据接口文档ID查询返回参数配置信息
+     *
+     * @param apiId 接口文档ID
+     * @return 返回参数配置信息
+     */
+    List<DocApiResponse> findAllByApiId(Long apiId);
 }

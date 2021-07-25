@@ -85,4 +85,9 @@ public class DocApiGroupServiceImpl implements DocApiGroupService {
         }
         return apiGroupRepository.findAllByProjectIdAndName(projectId, name, limit);
     }
+    
+    @Override
+    public DocApiGroup findById(Long id) {
+        return apiGroupRepository.findById(id).orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
+    }
 }

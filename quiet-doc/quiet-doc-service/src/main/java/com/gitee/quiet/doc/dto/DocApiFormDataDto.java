@@ -70,7 +70,7 @@ public class DocApiFormDataDto extends BaseDto {
     /**
      * 参数例子
      */
-    @Length(max = 300)
+    @Length(max = 30)
     private String example;
     
     /**
@@ -82,7 +82,7 @@ public class DocApiFormDataDto extends BaseDto {
     /**
      * 备注
      */
-    @Length(max = 100)
+    @Length(max = 300)
     private String remark;
     
 }

@@ -14,70 +14,56 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.dto;
+package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.common.service.base.BaseDto;
-import com.gitee.quiet.doc.enums.QueryType;
+import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * query 参数.
+ * 路径参数.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocApiQueryDto extends BaseDto {
+@Entity
+@Table(name = "doc_api_path_param")
+public class DocApiPathParam extends SerialEntity {
     
     /**
      * 参数名称
      */
     @NotBlank
     @Length(max = 30)
+    @Column(name = "param_name", nullable = false, length = 30)
     private String name;
     
     /**
-     * 参数最大长度
-     */
-    private Long maxLength;
-    
-    /**
-     * 参数最小长度
-     */
-    private Long minLength;
-    
-    /**
-     * 参数类型
-     */
-    @NotNull
-    private QueryType type;
-    
-    /**
-     * 字段是否必须
-     */
-    private Boolean required;
-    
-    /**
-     * 参数例子
+     * 示例值
      */
     @Length(max = 30)
+    @Column(name = "example", length = 30)
     private String example;
     
     /**
-     * 文档ID
+     * 接口ID
      */
     @NotNull
+    @Column(name = "api_id", nullable = false)
     private Long apiId;
     
     /**
      * 备注
      */
     @Length(max = 300)
+    @Column(name = "remark", length = 300)
     private String remark;
-    
 }

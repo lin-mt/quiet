@@ -16,33 +16,33 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.doc.entity.DocApiFormData;
-import com.gitee.quiet.doc.repository.DocApiFormDataRepository;
-import com.gitee.quiet.doc.service.DocApiFormDataService;
+import com.gitee.quiet.doc.entity.DocApiPathParam;
+import com.gitee.quiet.doc.repository.DocApiPathParamRepository;
+import com.gitee.quiet.doc.service.DocApiPathParamService;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * Form Data Service 实现类.
+ * 路径参数配置Service实现类.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
-public class DocApiFormDataServiceImpl implements DocApiFormDataService {
+public class DocApiPathParamServiceImpl implements DocApiPathParamService {
     
-    private final DocApiFormDataRepository apiFormDataRepository;
+    private final DocApiPathParamRepository apiPathParamRepository;
     
-    public DocApiFormDataServiceImpl(DocApiFormDataRepository apiFormDataRepository) {
-        this.apiFormDataRepository = apiFormDataRepository;
+    public DocApiPathParamServiceImpl(DocApiPathParamRepository apiPathParamRepository) {
+        this.apiPathParamRepository = apiPathParamRepository;
     }
     
     @Override
-    public List<DocApiFormData> listByApiId(Long apiId) {
+    public List<DocApiPathParam> listByApiId(Long apiId) {
         if (apiId == null) {
             return Lists.newArrayList();
         }
-        return apiFormDataRepository.findAllByApiId(apiId);
+        return apiPathParamRepository.findAllByApiId(apiId);
     }
 }

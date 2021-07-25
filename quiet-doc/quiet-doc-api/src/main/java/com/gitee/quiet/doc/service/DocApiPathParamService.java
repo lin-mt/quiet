@@ -16,20 +16,22 @@
 
 package com.gitee.quiet.doc.service;
 
-import com.gitee.quiet.doc.entity.DocApiResponse;
+import com.gitee.quiet.doc.entity.DocApiPathParam;
+
+import java.util.List;
 
 /**
- * 接口返回参数 Service.
+ * 路径参数配置Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiResponseService {
+public interface DocApiPathParamService {
     
     /**
-     * 根据接口文档ID查询返回参数配置
+     * 根据接口文档Id查询接口路径配置参数信息
      *
      * @param apiId 接口文档ID
-     * @return 接口返回参数信息
+     * @return 路径参数配置信息
      */
-    DocApiResponse findByApiId(Long apiId);
+    List<DocApiPathParam> listByApiId(Long apiId);
 }

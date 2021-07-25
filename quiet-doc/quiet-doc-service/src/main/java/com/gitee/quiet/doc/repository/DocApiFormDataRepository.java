@@ -20,6 +20,8 @@ import com.gitee.quiet.doc.entity.DocApiFormData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Form Data Repository.
  *
@@ -27,5 +29,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DocApiFormDataRepository extends JpaRepository<DocApiFormData, Long> {
-
+    
+    /**
+     * 根据 apiId 查询请求参数
+     *
+     * @param apiId 接口ID
+     * @return 查询参数
+     */
+    List<DocApiFormData> findAllByApiId(Long apiId);
 }

@@ -55,7 +55,7 @@ public class DocApiResponseDto extends ParentDto<DocApiResponseDto> {
     /**
      * 例子
      */
-    @Length(max = 300)
+    @Length(max = 30)
     private String example;
     
     /**
@@ -67,7 +67,7 @@ public class DocApiResponseDto extends ParentDto<DocApiResponseDto> {
     /**
      * 备注
      */
-    @Length(max = 100)
+    @Length(max = 300)
     private String remark;
     
 }

@@ -20,12 +20,21 @@ import com.gitee.quiet.doc.entity.DocApiHeader;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
- * Header Repository.
+ * 接口文档请求头Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
 public interface DocApiHeaderRepository extends JpaRepository<DocApiHeader, Long> {
-
+    
+    /**
+     * 根据apiId查询接口文档请求头配置
+     *
+     * @param apiId 接口文档ID
+     * @return 文档请求头配置信息
+     */
+    List<DocApiHeader> findAllByApiId(Long apiId);
 }

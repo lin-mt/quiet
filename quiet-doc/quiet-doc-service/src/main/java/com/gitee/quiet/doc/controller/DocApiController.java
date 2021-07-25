@@ -23,9 +23,11 @@ import com.gitee.quiet.doc.converter.DocApiConvert;
 import com.gitee.quiet.doc.dto.DocApiDto;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.service.DocApiService;
+import com.gitee.quiet.doc.vo.DocApiDetail;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,6 +48,17 @@ public class DocApiController {
     private final DocApiService apiService;
     
     private final DocApiConvert apiConvert;
+    
+    /**
+     * 查询接口详细信息
+     *
+     * @param id 接口ID
+     * @return 接口详细信息
+     */
+    @GetMapping("/detail/{id}")
+    public Result<DocApiDetail> getDetail(@PathVariable Long id) {
+        return Result.success(apiService.getDetail(id));
+    }
     
     /**
      * 新建接口
@@ -70,7 +83,7 @@ public class DocApiController {
     }
     
     /**
-     * 根据接口ID删除接口ID
+     * 根据接口ID删除接口信息
      *
      * @param id 要删除的接口ID
      * @return 删除结果

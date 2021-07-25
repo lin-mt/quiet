@@ -20,6 +20,8 @@ import com.gitee.quiet.doc.entity.DocApiQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Query Repository.
  *
@@ -27,5 +29,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DocApiQueryRepository extends JpaRepository<DocApiQuery, Long> {
-
+    
+    /**
+     * 根据请求文档ID查询Query参数配置信息
+     *
+     * @param apiId 接口文档ID
+     * @return 接口Query参数配置信息
+     */
+    List<DocApiQuery> findAllByApiId(Long apiId);
 }

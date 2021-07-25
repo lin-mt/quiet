@@ -19,8 +19,17 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
+import com.gitee.quiet.doc.service.DocApiBodyService;
+import com.gitee.quiet.doc.service.DocApiFormDataService;
+import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.doc.service.DocApiHeaderService;
+import com.gitee.quiet.doc.service.DocApiPathParamService;
+import com.gitee.quiet.doc.service.DocApiQueryService;
+import com.gitee.quiet.doc.service.DocApiResponseService;
 import com.gitee.quiet.doc.service.DocApiService;
+import com.gitee.quiet.doc.vo.DocApiDetail;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +44,33 @@ public class DocApiServiceImpl implements DocApiService {
     
     private final DocApiRepository apiRepository;
     
-    public DocApiServiceImpl(DocApiRepository apiRepository) {
+    private final DocApiGroupService apiGroupService;
+    
+    private final DocApiPathParamService apiPathParamService;
+    
+    private final DocApiBodyService apiBodyService;
+    
+    private final DocApiFormDataService apiFormDataService;
+    
+    private final DocApiHeaderService apiHeaderService;
+    
+    private final DocApiQueryService apiQueryService;
+    
+    private final DocApiResponseService apiResponseService;
+    
+    
+    public DocApiServiceImpl(DocApiRepository apiRepository, @Lazy DocApiGroupService apiGroupService,
+            DocApiPathParamService apiPathParamService, DocApiBodyService apiBodyService,
+            DocApiFormDataService apiFormDataService, DocApiHeaderService apiHeaderService,
+            DocApiQueryService apiQueryService, DocApiResponseService apiResponseService) {
         this.apiRepository = apiRepository;
+        this.apiGroupService = apiGroupService;
+        this.apiPathParamService = apiPathParamService;
+        this.apiBodyService = apiBodyService;
+        this.apiFormDataService = apiFormDataService;
+        this.apiHeaderService = apiHeaderService;
+        this.apiQueryService = apiQueryService;
+        this.apiResponseService = apiResponseService;
     }
     
     @Override
@@ -76,5 +110,24 @@ public class DocApiServiceImpl implements DocApiService {
     public void deleteById(Long id) {
         apiRepository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
         apiRepository.deleteById(id);
+    }
+    
+    @Override
+    public DocApiDetail getDetail(Long id) {
+        DocApi docApi = apiRepository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+        if (docApi.getApiGroupId() != null) {
+            docApi.setApiGroup(apiGroupService.findById(docApi.getApiGroupId()));
+        }
+        // @formatter:off
+        return DocApiDetail.builder()
+                .api(docApi)
+                .apiPathParam(apiPathParamService.listByApiId(id))
+                .apiBody(apiBodyService.findByApiId(id))
+                .apiFormData(apiFormDataService.listByApiId(id))
+                .apiHeader(apiHeaderService.listByApiId(id))
+                .apiQuery(apiQueryService.listByApiId(id))
+                .apiResponse(apiResponseService.findByApiId(id))
+                .build();
+        // @formatter:on
     }
 }

@@ -67,4 +67,12 @@ public interface DocApiGroupService {
      * @return 接口分组信息
      */
     List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit);
+    
+    /**
+     * 根据ID查询分组信息
+     *
+     * @param id 接口分组ID
+     * @return 接口分组信息
+     */
+    DocApiGroup findById(Long id);
 }

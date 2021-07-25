@@ -16,8 +16,13 @@
 
 package com.gitee.quiet.doc.service.impl;
 
+import com.gitee.quiet.doc.entity.DocApiHeader;
+import com.gitee.quiet.doc.repository.DocApiHeaderRepository;
 import com.gitee.quiet.doc.service.DocApiHeaderService;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Header Service 实现类.
@@ -26,5 +31,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DocApiHeaderServiceImpl implements DocApiHeaderService {
-
+    
+    private final DocApiHeaderRepository apiHeaderRepository;
+    
+    public DocApiHeaderServiceImpl(DocApiHeaderRepository apiHeaderRepository) {
+        this.apiHeaderRepository = apiHeaderRepository;
+    }
+    
+    @Override
+    public List<DocApiHeader> listByApiId(Long apiId) {
+        if (apiId == null) {
+            return Lists.newArrayList();
+        }
+        return apiHeaderRepository.findAllByApiId(apiId);
+    }
 }

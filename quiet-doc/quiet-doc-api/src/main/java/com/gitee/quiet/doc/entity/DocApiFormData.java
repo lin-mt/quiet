@@ -80,8 +80,8 @@ public class DocApiFormData extends BaseEntity {
     /**
      * 参数例子
      */
-    @Length(max = 300)
-    @Column(name = "example", length = 300)
+    @Length(max = 30)
+    @Column(name = "example", length = 30)
     private String example;
     
     /**
@@ -94,8 +94,8 @@ public class DocApiFormData extends BaseEntity {
     /**
      * 备注
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 300)
+    @Column(name = "remark", length = 300)
     private String remark;
     
 }

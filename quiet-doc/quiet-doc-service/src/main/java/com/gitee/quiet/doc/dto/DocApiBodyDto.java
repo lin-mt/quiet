@@ -68,7 +68,7 @@ public class DocApiBodyDto extends ParentDto<DocApiBodyDto> {
     /**
      * 参数例子
      */
-    @Length(max = 300)
+    @Length(max = 30)
     private String example;
     
     /**
@@ -80,7 +80,7 @@ public class DocApiBodyDto extends ParentDto<DocApiBodyDto> {
     /**
      * 备注
      */
-    @Length(max = 100)
+    @Length(max = 300)
     private String remark;
     
 }

@@ -16,11 +16,22 @@
 
 package com.gitee.quiet.doc.service;
 
+import com.gitee.quiet.doc.entity.DocApiFormData;
+
+import java.util.List;
+
 /**
  * Form Data Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiFormDataService {
-
+    
+    /**
+     * 根据接口文档ID查询请求参数
+     *
+     * @param apiId 接口文档ID
+     * @return 请求参数
+     */
+    List<DocApiFormData> listByApiId(Long apiId);
 }

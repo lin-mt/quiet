@@ -14,22 +14,47 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.service;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.doc.entity.DocApiResponse;
+import com.gitee.quiet.common.service.dto.SerialDto;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 接口返回参数 Service.
+ * 接口路径参数dto.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiResponseService {
+@Getter
+@Setter
+public class DocApiPathParamDto extends SerialDto {
     
     /**
-     * 根据接口文档ID查询返回参数配置
-     *
-     * @param apiId 接口文档ID
-     * @return 接口返回参数信息
+     * 参数名称
      */
-    DocApiResponse findByApiId(Long apiId);
+    @NotBlank
+    @Length(max = 30)
+    private String name;
+    
+    /**
+     * 示例值
+     */
+    @Length(max = 30)
+    private String example;
+    
+    /**
+     * 接口ID
+     */
+    @NotNull
+    private Long apiId;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 300)
+    private String remark;
 }

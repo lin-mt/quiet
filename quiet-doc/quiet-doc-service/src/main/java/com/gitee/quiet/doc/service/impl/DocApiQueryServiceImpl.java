@@ -16,8 +16,13 @@
 
 package com.gitee.quiet.doc.service.impl;
 
+import com.gitee.quiet.doc.entity.DocApiQuery;
+import com.gitee.quiet.doc.repository.DocApiQueryRepository;
 import com.gitee.quiet.doc.service.DocApiQueryService;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Query Service 实现类.
@@ -26,5 +31,18 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DocApiQueryServiceImpl implements DocApiQueryService {
-
+    
+    private final DocApiQueryRepository apiQueryRepository;
+    
+    public DocApiQueryServiceImpl(DocApiQueryRepository apiQueryRepository) {
+        this.apiQueryRepository = apiQueryRepository;
+    }
+    
+    @Override
+    public List<DocApiQuery> listByApiId(Long apiId) {
+        if (apiId == null) {
+            return Lists.newArrayList();
+        }
+        return apiQueryRepository.findAllByApiId(apiId);
+    }
 }

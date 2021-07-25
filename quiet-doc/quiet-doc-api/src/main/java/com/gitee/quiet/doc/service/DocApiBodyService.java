@@ -16,11 +16,20 @@
 
 package com.gitee.quiet.doc.service;
 
+import com.gitee.quiet.doc.entity.DocApiBody;
+
 /**
  * Api Body Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiBodyService {
-
+    
+    /**
+     * 根据接口文档ID查询接口请求体配置信息
+     *
+     * @param apiId 接口文档ID
+     * @return 接口请求体配置信息
+     */
+    DocApiBody findByApiId(Long apiId);
 }

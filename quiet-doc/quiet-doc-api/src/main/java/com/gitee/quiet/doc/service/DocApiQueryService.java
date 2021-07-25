@@ -16,11 +16,22 @@
 
 package com.gitee.quiet.doc.service;
 
+import com.gitee.quiet.doc.entity.DocApiQuery;
+
+import java.util.List;
+
 /**
  * Query Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiQueryService {
-
+    
+    /**
+     * 根据apiId查询Query参数配置
+     *
+     * @param apiId 接口文档ID
+     * @return Query参数配置信息
+     */
+    List<DocApiQuery> listByApiId(Long apiId);
 }

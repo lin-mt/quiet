@@ -48,6 +48,12 @@ public class DocApiHeaderDto extends BaseDto {
     private String value;
     
     /**
+     * 示例
+     */
+    @Length(max = 30)
+    private String example;
+    
+    /**
      * 字段是否必须
      */
     @ColumnDefault("0")
@@ -62,7 +68,7 @@ public class DocApiHeaderDto extends BaseDto {
     /**
      * 备注
      */
-    @Length(max = 100)
+    @Length(max = 300)
     private String remark;
     
 }

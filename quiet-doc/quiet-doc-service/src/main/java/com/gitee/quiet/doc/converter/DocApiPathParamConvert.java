@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.service;
+package com.gitee.quiet.doc.converter;
 
-import com.gitee.quiet.doc.entity.DocApiResponse;
+import com.gitee.quiet.common.service.base.QuietConvert;
+import com.gitee.quiet.doc.dto.DocApiPathParamDto;
+import com.gitee.quiet.doc.entity.DocApiPathParam;
+import org.mapstruct.Mapper;
 
 /**
- * 接口返回参数 Service.
+ * 接口路径参数转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocApiResponseService {
+@Mapper
+public interface DocApiPathParamConvert extends QuietConvert<DocApiPathParam, DocApiPathParamDto> {
     
-    /**
-     * 根据接口文档ID查询返回参数配置
-     *
-     * @param apiId 接口文档ID
-     * @return 接口返回参数信息
-     */
-    DocApiResponse findByApiId(Long apiId);
 }
