@@ -20,14 +20,12 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
 import com.gitee.quiet.common.service.jpa.entity.QDictionary;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanPath;
-import com.querydsl.core.types.dsl.EnumPath;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.*;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
 /**
@@ -121,7 +119,7 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         }
         return this;
     }
-    
+
     public SelectBooleanBuilder notNullEq(Dictionary<?> dictionary, QDictionary qDictionary) {
         if (dictionary != null && StringUtils.isNoneBlank(dictionary.getType()) && StringUtils
                 .isNoneBlank(dictionary.getKey())) {
@@ -129,5 +127,19 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
         }
         return this;
     }
-    
+
+    public SelectBooleanBuilder notNullBefore(LocalDateTime param, DateTimePath<LocalDateTime> path) {
+        if (param != null) {
+            path.before(param);
+        }
+        return this;
+    }
+
+    public SelectBooleanBuilder notNullAfter(LocalDateTime param, DateTimePath<LocalDateTime> path) {
+        if (param != null) {
+            path.after(param);
+        }
+        return this;
+    }
+
 }
