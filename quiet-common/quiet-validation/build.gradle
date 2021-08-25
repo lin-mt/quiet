@@ -15,11 +15,13 @@
  */
 
 dependencies {
-    api(project(path: ":quiet-common:quiet-base", configuration: "default"))
-    api("org.springframework.boot:spring-boot-starter-validation")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    api project(path: ":quiet-common:quiet-base", configuration: "default")
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    api springBootStarter.validation
+
+    compileOnly deps.lombok
+
+    annotationProcessor deps.lombok
 }
 
 bootJar {

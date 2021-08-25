@@ -13,6 +13,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+buildscript {
+    ext {
+        versions = [
+                'jacksonDatabind'                  : '2.12.2',
+                'queryDsl'                         : '4.4.0',
+                'lombok'                           : '1.18.20',
+                'mapstruct'                        : '1.4.2.Final',
+                'springCloud'                      : '2020.0.2',
+                'springCloudAlibaba'               : '2021.1',
+                'springSecurityOauth2'             : '2.5.0.RELEASE',
+                'redissonSpringDataStarter'        : '3.15.6',
+                'springSecurityOauth2Autoconfigure': '2.4.4',
+                'googleGuava'                      : '30.1-jre',
+                'apacheCommonsLang3'               : '3.11',
+                'apacheCommonsCollections4'        : '4.4',
+                'javaxPersistenceHibernateJpa21api': '1.0.2.Final',
+                'javaxAnnotationApi'               : '1.3.2'
+        ]
+
+        deps = [
+                'mysql'                            : 'mysql:mysql-connector-java',
+                'lombok'                           : "org.projectlombok:lombok:${versions.lombok}",
+                'mapstruct'                        : "org.mapstruct:mapstruct:${versions.mapstruct}",
+                'mapstructProcessor'               : "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
+                'jacksonDatabind'                  : "com.fasterxml.jackson.core:jackson-databind:${versions.jacksonDatabind}",
+                'queryDslCore'                     : "com.querydsl:querydsl-core:${versions.queryDsl}",
+                'queryDslJpa'                      : "com.querydsl:querydsl-jpa:${versions.queryDsl}",
+                'queryDslSql'                      : "com.querydsl:querydsl-sql:${versions.queryDsl}",
+                'queryDslApt'                      : "com.querydsl:querydsl-apt:${versions.queryDsl}:jpa",
+                'springSecurityOauth2'             : "org.springframework.security.oauth:spring-security-oauth2:${versions.springSecurityOauth2}",
+                'springSecurityOauth2Autoconfigure': "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${versions.springSecurityOauth2Autoconfigure}",
+                'googleGuava'                      : "com.google.guava:guava:${versions.googleGuava}",
+                'apacheCommonsLang3'               : "org.apache.commons:commons-lang3:${versions.apacheCommonsLang3}",
+                'apacheCommonsCollections4'        : "org.apache.commons:commons-collections4:${versions.apacheCommonsCollections4}",
+                'javaxPersistenceHibernateJpa21api': "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.javaxPersistenceHibernateJpa21api}",
+                'javaxAnnotationApi'               : "javax.annotation:javax.annotation-api:${versions.javaxAnnotationApi}",
+                'redissonSpringBootStarter'        : "org.redisson:redisson-spring-boot-starter:${versions.redissonSpringDataStarter}",
+        ]
+
+        springBootDeps = [
+                'configurationProcessor': 'org.springframework.boot:spring-boot-configuration-processor',
+        ]
+
+        springBootStarter = [
+                'test'      : 'org.springframework.boot:spring-boot-starter-test',
+                'web'       : 'org.springframework.boot:spring-boot-starter-web',
+                'undertow'  : 'org.springframework.boot:spring-boot-starter-undertow',
+                'actuator'  : 'org.springframework.boot:spring-boot-starter-actuator',
+                'dataJpa'   : 'org.springframework.boot:spring-boot-starter-data-jpa',
+                'dataRedis' : 'org.springframework.boot:spring-boot-starter-data-redis',
+                'validation': 'org.springframework.boot:spring-boot-starter-validation',
+        ]
+
+        springCloud = [
+                'loadbalancer': 'org.springframework.cloud:spring-cloud-starter-loadbalancer',
+                'gateway'     : 'org.springframework.cloud:spring-cloud-starter-gateway',
+        ]
+
+        springCloudAlibaba = [
+                'dubbo'         : 'com.alibaba.cloud:spring-cloud-starter-dubbo',
+                'nacosConfig'   : 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
+                'nacosDiscovery': 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+        ]
+    }
+}
 
 plugins {
     id "org.springframework.boot" version "2.4.4"
@@ -32,19 +97,6 @@ repositories {
 }
 
 subprojects {
-    buildscript {
-        ext {
-            jacksonDatabindVersion = "2.12.2"
-            queryDslVersion = "4.4.0"
-            lombokVersion = "1.18.20"
-            mapstructVersion = "1.4.2.Final"
-            springCloudVersion = "2020.0.2"
-            springCloudAlibabaVersion = "2021.1"
-            springSecurityOauth2Version = "2.5.0.RELEASE"
-            redissonSpringDataStarterVersion = "3.15.6"
-            springSecurityOauth2AutoconfigureVersion = "2.4.4"
-        }
-    }
 
     apply plugin: "java-library"
     apply plugin: "org.springframework.boot"
@@ -63,10 +115,10 @@ subprojects {
     }
 
     dependencies {
-        api("com.google.guava:guava:30.1-jre")
-        api("org.apache.commons:commons-lang3:3.11")
-        api("org.apache.commons:commons-collections4:4.4")
-        testImplementation "org.springframework.boot:spring-boot-starter-test"
+        api deps.googleGuava
+        api deps.apacheCommonsLang3
+        api deps.apacheCommonsCollections4
+        testImplementation springBootStarter.test
     }
 
     test {
@@ -75,8 +127,8 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloud}"
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${versions.springCloudAlibaba}"
         }
     }
 }
