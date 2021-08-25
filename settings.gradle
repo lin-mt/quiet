@@ -16,16 +16,11 @@
 
 rootProject.name = 'quiet'
 
-include 'quiet-gateway'
+include ':quiet-gateway'
 
-include 'quiet-common:quiet-base'
-findProject(':quiet-common:quiet-base')?.name = 'quiet-base'
-include 'quiet-common:quiet-service'
-findProject(':quiet-common:quiet-service')?.name = 'quiet-service'
-include 'quiet-common:quiet-validation'
-findProject(':quiet-common:quiet-validation')?.name = 'quiet-validation'
+include ':quiet-common:quiet-base'
+include ':quiet-common:quiet-service'
+include ':quiet-common:quiet-validation'
 
-include 'quiet-system:quiet-system-api'
-findProject(':quiet-system:quiet-system-api')?.name = 'quiet-system-api'
-include 'quiet-system:quiet-system-service'
-findProject(':quiet-system:quiet-system-service')?.name = 'quiet-system-service'
+include ':quiet-system:quiet-system-api'
+include ':quiet-system:quiet-system-service'
