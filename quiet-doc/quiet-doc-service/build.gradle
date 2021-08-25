@@ -15,13 +15,15 @@
  */
 
 dependencies {
-    implementation(project(':quiet-doc:quiet-doc-api'))
-    runtimeOnly 'mysql:mysql-connector-java'
-    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    runtimeOnly deps.mysql
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    implementation project(':quiet-doc:quiet-doc-api')
+    implementation deps.mapstruct
+
+    compileOnly deps.lombok
+
+    annotationProcessor deps.lombok
+    annotationProcessor deps.mapstructProcessor
 }
 
 compileJava {
