@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 dependencies {
-    api(project(path: ":quiet-common:quiet-service", configuration: "default"))
+    api project(path: ":quiet-common:quiet-service", configuration: "default")
 
-    api("com.querydsl:querydsl-core:${queryDslVersion}")
-    api("com.querydsl:querydsl-jpa:${queryDslVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    api deps.queryDslCore
+    api deps.queryDslJpa
+    compileOnly deps.lombok
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
-    annotationProcessor "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
-    annotationProcessor "javax.annotation:javax.annotation-api:1.3.2"
+    annotationProcessor deps.lombok
+    annotationProcessor deps.queryDslApt
+    annotationProcessor deps.javaxAnnotationApi
+    annotationProcessor deps.javaxPersistenceHibernateJpa21api
 }
 
 bootJar {

@@ -15,11 +15,12 @@
  */
 
 dependencies {
-    api("com.fasterxml.jackson.core:jackson-databind:${jacksonDatabindVersion}")
-    api("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    api deps.jacksonDatabind
+    api springBootStarter.web
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly deps.lombok
+
+    annotationProcessor deps.lombok
 }
 
 bootJar {
