@@ -15,14 +15,14 @@
  */
 
 dependencies {
-    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly deps.mysql
 
-    implementation(project(':quiet-scrum:quiet-scrum-api'))
-    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
-    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    implementation project(':quiet-scrum:quiet-scrum-api')
+    implementation deps.mapstruct
+    compileOnly deps.lombok
 
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor deps.lombok
+    annotationProcessor deps.mapstructProcessor
 }
 
 compileJava {
