@@ -76,8 +76,8 @@ public class DocApi extends SerialEntity {
      */
     @NotBlank
     @Length(max = 300)
-    @Column(name = "url", nullable = false, length = 300)
-    private String url;
+    @Column(name = "api_path", nullable = false, length = 300)
+    private String path;
     
     /**
      * 请求方法

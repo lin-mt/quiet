@@ -17,12 +17,6 @@
 package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiBody;
-import com.gitee.quiet.doc.entity.DocApiFormData;
-import com.gitee.quiet.doc.entity.DocApiHeader;
-import com.gitee.quiet.doc.entity.DocApiPathParam;
-import com.gitee.quiet.doc.entity.DocApiQuery;
-import com.gitee.quiet.doc.entity.DocApiResponse;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,33 +44,4 @@ public class DocApiDetail {
      */
     private List<QuietUser> visitors;
     
-    /**
-     * 路径参数
-     */
-    private List<DocApiPathParam> apiPathParam;
-    
-    /**
-     * 请求体
-     */
-    private DocApiBody apiBody;
-    
-    /**
-     * 请求参数
-     */
-    private List<DocApiFormData> apiFormData;
-    
-    /**
-     * 请求头
-     */
-    private List<DocApiHeader> apiHeader;
-    
-    /**
-     * 查询参数
-     */
-    private List<DocApiQuery> apiQuery;
-    
-    /**
-     * 返回数据
-     */
-    private DocApiResponse apiResponse;
 }

@@ -65,7 +65,7 @@ public class DocApiDto extends SerialDto {
      */
     @NotBlank
     @Length(max = 300)
-    private String url;
+    private String path;
     
     /**
      * 请求方法
