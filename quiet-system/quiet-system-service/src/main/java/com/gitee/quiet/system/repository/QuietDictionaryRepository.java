@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietDictionary;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietDictionaryRepository extends JpaRepository<QuietDictionary, Long> {
+public interface QuietDictionaryRepository extends QuietRepository<QuietDictionary> {
     
     /**
      * 根据数据字典类型查询数据字典信息

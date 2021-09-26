@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.gitee.quiet.jpa.config.JpaAutoConfig,\
+  com.gitee.quiet.jpa.config.EnumAutoGenerateConverterConfig

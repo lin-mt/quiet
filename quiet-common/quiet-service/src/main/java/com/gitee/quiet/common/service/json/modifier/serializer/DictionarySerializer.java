@@ -18,6 +18,7 @@ package com.gitee.quiet.common.service.json.modifier.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
@@ -46,10 +47,17 @@ public class DictionarySerializer extends BeanSerializerBase {
         this.defaultSerializer = defaultSerializer;
     }
     
-    public DictionarySerializer(BeanSerializerBase defaultSerializer, Set<String> toIgnore) {
-        super(defaultSerializer, toIgnore);
+    public DictionarySerializer(BeanSerializerBase defaultSerializer, Set<String> toIgnore, Set<String> toInclude) {
+        super(defaultSerializer, toIgnore, toInclude);
         this.defaultSerializer = defaultSerializer;
     }
+    
+    public DictionarySerializer(BeanSerializerBase defaultSerializer, BeanPropertyWriter[] properties,
+            BeanPropertyWriter[] filteredProperties) {
+        super(defaultSerializer, properties, filteredProperties);
+        this.defaultSerializer = defaultSerializer;
+    }
+    
     
     @Override
     public BeanSerializerBase withObjectIdWriter(ObjectIdWriter objectIdWriter) {
@@ -57,8 +65,8 @@ public class DictionarySerializer extends BeanSerializerBase {
     }
     
     @Override
-    protected BeanSerializerBase withIgnorals(Set<String> toIgnore) {
-        return new DictionarySerializer(defaultSerializer, toIgnore);
+    protected BeanSerializerBase withByNameInclusion(Set<String> toIgnore, Set<String> toInclude) {
+        return new DictionarySerializer(this, toIgnore, toInclude);
     }
     
     @Override
@@ -72,6 +80,12 @@ public class DictionarySerializer extends BeanSerializerBase {
     @Override
     public BeanSerializerBase withFilterId(Object filterId) {
         return new DictionarySerializer(defaultSerializer, _objectIdWriter, filterId);
+    }
+    
+    @Override
+    protected BeanSerializerBase withProperties(BeanPropertyWriter[] properties,
+            BeanPropertyWriter[] filteredProperties) {
+        return new DictionarySerializer(this, properties, filteredProperties);
     }
     
     @Override

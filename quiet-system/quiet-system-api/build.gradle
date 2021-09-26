@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 dependencies {
-    api project(path: ":quiet-common:quiet-service", configuration: "default")
 
-    api deps.queryDslCore
-    api deps.queryDslJpa
+    api project(path: ":quiet-spring-boot-starters:quiet-service-spring-boot-starter", configuration: "default")
+
     compileOnly deps.lombok
 
     annotationProcessor deps.lombok

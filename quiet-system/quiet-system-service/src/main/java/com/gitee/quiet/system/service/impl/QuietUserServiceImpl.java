@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
@@ -185,9 +185,9 @@ public class QuietUserServiceImpl implements QuietUserService {
     
     @Override
     public List<QuietUser> findByUserIds(@NotNull @NotEmpty Set<Long> userIds) {
-        return jpaQueryFactory.select(Projections
-                .bean(QuietUser.class, quietUser.id, quietUser.fullName, quietUser.username, quietUser.avatar))
-                .from(quietUser).where(quietUser.id.in(userIds)).fetch();
+        return jpaQueryFactory.select(
+                Projections.bean(QuietUser.class, quietUser.id, quietUser.fullName, quietUser.username,
+                        quietUser.avatar)).from(quietUser).where(quietUser.id.in(userIds)).fetch();
     }
     
     @Override

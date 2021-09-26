@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.quiet.common.service.config.UserAuthenticationConverter;
+import com.gitee.quiet.service.security.converter.UserAuthenticationConverter;
 import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.system.service.QuietUserService;
 import org.springframework.context.annotation.Configuration;

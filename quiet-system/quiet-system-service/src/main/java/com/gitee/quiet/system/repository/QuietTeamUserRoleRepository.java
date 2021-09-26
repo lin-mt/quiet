@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietTeamUserRole;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietTeamUserRoleRepository extends JpaRepository<QuietTeamUserRole, Long> {
+public interface QuietTeamUserRoleRepository extends QuietRepository<QuietTeamUserRole> {
     
     /**
      * 根据团队-用户ID批量查询团队成员的角色信息

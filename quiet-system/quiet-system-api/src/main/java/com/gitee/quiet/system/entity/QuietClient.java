@@ -18,8 +18,8 @@ package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;
@@ -227,15 +227,12 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
-        return SelectBuilder.booleanBuilder()
-                .notNullEq(getId(), quietClient.id)
-                .notNullEq(getAutoApprove(), quietClient.autoApprove)
-                .notNullEq(getScoped(), quietClient.scoped)
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietClient.id)
+                .notNullEq(getAutoApprove(), quietClient.autoApprove).notNullEq(getScoped(), quietClient.scoped)
                 .notNullEq(getSecretRequired(), quietClient.secretRequired)
                 .notBlankContains(getClientId(), quietClient.clientId)
                 .notBlankContains(getClientName(), quietClient.clientName)
-                .notBlankContains(getRemark(), quietClient.remark)
-                .getPredicate();
+                .notBlankContains(getRemark(), quietClient.remark).getPredicate();
         // @formatter:on
     }
 }

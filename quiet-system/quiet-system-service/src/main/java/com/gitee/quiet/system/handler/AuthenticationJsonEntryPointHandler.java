@@ -16,10 +16,10 @@
 
 package com.gitee.quiet.system.handler;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import com.gitee.quiet.common.service.config.MessageSourceConfig;
-import com.gitee.quiet.system.constant.AccountCode;
+import com.gitee.quiet.common.constant.service.MessageSourceCode;
+import com.gitee.quiet.service.config.MessageSourceConfig;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.MessageSourceUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -46,8 +46,8 @@ public class AuthenticationJsonEntryPointHandler extends AbstractResponseJsonDat
             AuthenticationException authException) throws IOException {
         logger.error("认证失败", authException);
         Result<Object> failure = Result.failure();
-        failure.setCode(AccountCode.NO_LOGIN);
-        failure.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_LOGIN));
+        failure.setCode(MessageSourceCode.Account.NO_LOGIN);
+        failure.setMessage(MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.NO_LOGIN));
         responseJsonData(response, failure);
     }
 }

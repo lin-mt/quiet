@@ -16,10 +16,10 @@
 
 package com.gitee.quiet.system.handler;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import com.gitee.quiet.common.service.config.MessageSourceConfig;
-import com.gitee.quiet.system.constant.AccountCode;
+import com.gitee.quiet.common.constant.service.MessageSourceCode;
+import com.gitee.quiet.service.config.MessageSourceConfig;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.MessageSourceUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -46,8 +46,9 @@ public class ResultLogoutSuccessHandler extends AbstractResponseJsonData impleme
             throws IOException {
         logger.info("用户退出登录成功：{}", authentication);
         Result<Object> success = Result.success();
-        success.setCode(AccountCode.LOGOUT_SUCCESS);
-        success.setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.LOGOUT_SUCCESS));
+        success.setCode(MessageSourceCode.Account.LOGOUT_SUCCESS);
+        success.setMessage(
+                MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.LOGOUT_SUCCESS));
         responseJsonData(response, success);
     }
 }

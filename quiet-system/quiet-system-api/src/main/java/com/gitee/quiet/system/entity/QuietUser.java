@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.security.entity.QuietUserDetails;
 import com.querydsl.core.BooleanBuilder;
 
 import javax.persistence.Entity;

@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.repository;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietRoute;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietRouteRepository extends JpaRepository<QuietRoute, Long> {
+public interface QuietRouteRepository extends QuietRepository<QuietRoute> {
     
     /**
      * 根据网关路由ID和环境查询网关路由配置信息
