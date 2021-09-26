@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietUserRole;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +31,7 @@ import java.util.Optional;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietUserRoleRepository extends JpaRepository<QuietUserRole, Long> {
+public interface QuietUserRoleRepository extends QuietRepository<QuietUserRole> {
     
     /**
      * 根据用户ID查询用户ID跟角色的对应关系.

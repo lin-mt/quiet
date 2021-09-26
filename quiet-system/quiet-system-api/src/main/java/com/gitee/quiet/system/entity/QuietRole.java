@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.QuietGrantedAuthority;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.security.entity.QuietGrantedAuthority;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;

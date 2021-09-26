@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietPermission;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietPermissionRepository extends JpaRepository<QuietPermission, Long> {
+public interface QuietPermissionRepository extends QuietRepository<QuietPermission> {
     
     /**
      * 根据应用名称查询权限配置信息

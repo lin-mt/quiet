@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.base.constant.RoleNames;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.constant.service.RoleNames;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
@@ -92,8 +92,8 @@ public class QuietTeamServiceImpl implements QuietTeamService {
             Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
                     .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
             Set<Long> allUserIds = allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
-            List<QuietTeamUserRole> userTeamRoles = teamUserRoleService
-                    .findByTeamUserIds(allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+            List<QuietTeamUserRole> userTeamRoles = teamUserRoleService.findByTeamUserIds(
+                    allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
             Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles = userTeamRoles.stream()
                     .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
             Map<Long, QuietUser> userIdToUserInfo = userService.findByUserIds(allUserIds).stream()
@@ -204,8 +204,8 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         List<QuietTeam> teams = teamRepository.findAllById(ids);
         List<QuietTeamUser> teamUsers = teamUserService.findAllUsersByTeamIds(ids);
         Map<Long, Set<Long>> teamIdToUserIds = teamUsers.stream()
-                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(Collectors
-                        .toMap(Map.Entry::getKey,
+                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(
+                        Collectors.toMap(Map.Entry::getKey,
                                 e -> e.getValue().stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet())));
         Set<Long> userIds = teamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
         Map<Long, QuietUser> userIdToInfo = userService.findByUserIds(userIds).stream()

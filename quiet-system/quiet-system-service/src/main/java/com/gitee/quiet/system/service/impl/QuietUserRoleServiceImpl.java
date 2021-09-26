@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.repository.QuietUserRoleRepository;
 import com.gitee.quiet.system.service.QuietRoleService;
@@ -64,8 +64,8 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
         if (!roleService.existsById(userRole.getRoleId())) {
             throw new ServiceException("userRole.role.id.no.exist", userRole.getRoleId());
         }
-        Optional<QuietUserRole> exist = userRoleRepository
-                .findByUserIdAndRoleId(userRole.getUserId(), userRole.getRoleId());
+        Optional<QuietUserRole> exist = userRoleRepository.findByUserIdAndRoleId(userRole.getUserId(),
+                userRole.getRoleId());
         exist.ifPresent(ur -> userRole.setId(ur.getId()));
         return userRoleRepository.save(userRole);
     }

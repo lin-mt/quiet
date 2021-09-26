@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.security.UrlPermission;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.security.UrlPermission;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietPermissionRepository;

@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietRoleConvert;
-import com.gitee.quiet.system.dto.QuietRoleDto;
+import com.gitee.quiet.system.dto.QuietRoleDTO;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.service.QuietRoleService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -68,7 +68,7 @@ public class QuietRoleController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietRole>> page(QuietRoleDto dto) {
+    public Result<QueryResults<QuietRole>> page(QuietRoleDTO dto) {
         return Result.success(roleService.page(roleConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -79,7 +79,7 @@ public class QuietRoleController {
      * @return 新增后的角色信息
      */
     @PostMapping
-    public Result<QuietRole> save(@RequestBody @Validated(Create.class) QuietRoleDto dto) {
+    public Result<QuietRole> save(@RequestBody @Validated(Create.class) QuietRoleDTO dto) {
         return Result.createSuccess(roleService.save(roleConvert.dtoToEntity(dto)));
     }
     
@@ -103,7 +103,7 @@ public class QuietRoleController {
      * @return 新增后的角色信息
      */
     @PutMapping
-    public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleDto dto) {
+    public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleDTO dto) {
         return Result.updateSuccess(roleService.update(roleConvert.dtoToEntity(dto)));
     }
     

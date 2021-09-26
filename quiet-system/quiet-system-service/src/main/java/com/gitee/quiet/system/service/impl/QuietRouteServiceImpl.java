@@ -16,10 +16,10 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.base.constant.RedisKey;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.common.constant.cache.Gateway;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.gitee.quiet.system.repository.QuietRouteRepository;
 import com.gitee.quiet.system.service.QuietRouteService;
@@ -117,11 +117,11 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     public void publishRoute(Dictionary<?> environment, Long timeOut) {
         List<QuietRoute> routes = routeRepository.findByEnvironment(environment);
         if (CollectionUtils.isNotEmpty(routes)) {
-            redisTemplate.delete(RedisKey.Gateway.ROUTE_DEFINITION);
+            redisTemplate.delete(Gateway.ROUTE_DEFINITION);
             if (timeOut == null) {
-                redisTemplate.opsForValue().set(RedisKey.Gateway.ROUTE_DEFINITION, routes);
+                redisTemplate.opsForValue().set(Gateway.ROUTE_DEFINITION, routes);
             } else {
-                redisTemplate.opsForValue().set(RedisKey.Gateway.ROUTE_DEFINITION, routes, timeOut, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(Gateway.ROUTE_DEFINITION, routes, timeOut, TimeUnit.SECONDS);
             }
         } else {
             throw new ServiceException("route.environment.notRouteConfigInfo", environment);

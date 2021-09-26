@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietPermissionConvert;
-import com.gitee.quiet.system.dto.QuietPermissionDto;
+import com.gitee.quiet.system.dto.QuietPermissionDTO;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.service.QuietPermissionService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -56,7 +56,7 @@ public class QuietPermissionController {
      * @return 查询的权限配置信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietPermission>> page(QuietPermissionDto dto) {
+    public Result<QueryResults<QuietPermission>> page(QuietPermissionDTO dto) {
         return Result.success(permissionService.page(permissionConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -67,7 +67,7 @@ public class QuietPermissionController {
      * @return 新增的权限信息
      */
     @PostMapping
-    public Result<QuietPermission> save(@RequestBody @Validated(Create.class) QuietPermissionDto dto) {
+    public Result<QuietPermission> save(@RequestBody @Validated(Create.class) QuietPermissionDTO dto) {
         return Result.createSuccess(permissionService.saveOrUpdate(permissionConvert.dtoToEntity(dto)));
     }
     
@@ -78,7 +78,7 @@ public class QuietPermissionController {
      * @return 更新的权限信息
      */
     @PutMapping
-    public Result<QuietPermission> update(@RequestBody @Validated(Update.class) QuietPermissionDto dto) {
+    public Result<QuietPermission> update(@RequestBody @Validated(Update.class) QuietPermissionDTO dto) {
         return Result.updateSuccess(permissionService.saveOrUpdate(permissionConvert.dtoToEntity(dto)));
     }
     

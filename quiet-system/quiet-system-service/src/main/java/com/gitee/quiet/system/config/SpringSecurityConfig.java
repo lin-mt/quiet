@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.config;
 
-import com.gitee.quiet.common.base.constant.Url;
+import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.system.filter.LoginByAccountFilter;
 import com.gitee.quiet.system.handler.AuthenticationJsonEntryPointHandler;
 import com.gitee.quiet.system.handler.ResultAccessDeniedHandler;
