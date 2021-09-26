@@ -17,7 +17,7 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProject;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocProjectRepository extends JpaRepository<DocProject, Long> {
+public interface DocProjectRepository extends QuietRepository<DocProject> {
     
     /**
      * 根据用户ID查询用户负责的项目和可访问的项目

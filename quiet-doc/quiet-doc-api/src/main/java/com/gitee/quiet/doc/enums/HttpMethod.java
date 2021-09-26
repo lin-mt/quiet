@@ -16,24 +16,32 @@
 
 package com.gitee.quiet.doc.enums;
 
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * http 请求方法类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum HttpMethod {
+@Getter
+@AllArgsConstructor
+public enum HttpMethod implements StringEnum {
     
-    GET,
+    GET("get"),
     
-    HEAD,
+    HEAD("head"),
     
-    POST,
+    POST("post"),
     
-    PUT,
+    PUT("put"),
     
-    DELETE,
+    DELETE("delete"),
     
-    OPTIONS,
+    OPTIONS("options"),
     
-    PATCH
+    PATCH("patch");
+    
+    public final String value;
 }

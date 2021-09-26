@@ -17,7 +17,7 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiGroup;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocApiGroupRepository extends JpaRepository<DocApiGroup, Long> {
+public interface DocApiGroupRepository extends QuietRepository<DocApiGroup> {
     
     /**
      * 根据项目ID和分组名称查询分组信息

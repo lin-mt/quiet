@@ -16,34 +16,46 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
+import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * Api 分组信息.
+ * 项目配置信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocApiGroupDto extends SerialDto {
+public class DocProjectConfigDTO extends BaseDTO {
     
     /**
-     * 分组名称
+     * 配置名称
      */
-    @NotBlank
+    @NotEmpty
     @Length(max = 30)
     private String name;
     
     /**
-     * 所属项目ID
+     * 请求路径
+     */
+    @Length(max = 90)
+    private String baseUrl;
+    
+    /**
+     * 项目ID
      */
     @NotNull
     private Long projectId;
+    
+    /**
+     * 备注
+     */
+    @Length(max = 100)
+    private String remark;
     
 }

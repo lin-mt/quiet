@@ -16,16 +16,24 @@
 
 package com.gitee.quiet.doc.enums;
 
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 查询参数类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum QueryType {
+@Getter
+@AllArgsConstructor
+public enum QueryType implements StringEnum {
     
-    STRING,
+    STRING("string"),
     
-    INTEGER,
+    INTEGER("integer"),
     
-    NUMBER,
+    NUMBER("number");
+    
+    private final String value;
 }

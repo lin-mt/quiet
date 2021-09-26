@@ -16,11 +16,11 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.repository.DocApiGroupRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiService;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

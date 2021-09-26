@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.doc.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.doc.converter.DocApiGroupConvert;
-import com.gitee.quiet.doc.dto.DocApiGroupDto;
+import com.gitee.quiet.doc.dto.DocApiGroupDTO;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,7 +57,7 @@ public class DocApiGroupController {
      * @return 新增的接口分组信息
      */
     @PostMapping
-    public Result<DocApiGroup> save(@RequestBody @Validated(Create.class) DocApiGroupDto dto) {
+    public Result<DocApiGroup> save(@RequestBody @Validated(Create.class) DocApiGroupDTO dto) {
         return Result.success(apiGroupService.save(apiGroupConvert.dtoToEntity(dto)));
     }
     
@@ -68,7 +68,7 @@ public class DocApiGroupController {
      * @return 更新后的接口分组信息
      */
     @PutMapping
-    public Result<DocApiGroup> update(@RequestBody @Validated(Update.class) DocApiGroupDto dto) {
+    public Result<DocApiGroup> update(@RequestBody @Validated(Update.class) DocApiGroupDTO dto) {
         return Result.success(apiGroupService.update(apiGroupConvert.dtoToEntity(dto)));
     }
     
@@ -91,7 +91,7 @@ public class DocApiGroupController {
      * @return 接口分组信息
      */
     @GetMapping("/listByProjectIdAndName")
-    public Result<List<DocApiGroup>> listByProjectIdAndName(DocApiGroupDto dto) {
+    public Result<List<DocApiGroup>> listByProjectIdAndName(DocApiGroupDTO dto) {
         return Result.success(apiGroupService.listByProjectIdAndName(dto.getProjectId(), dto.getName(), 6L));
     }
 }

@@ -16,11 +16,11 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.google.common.collect.Sets;

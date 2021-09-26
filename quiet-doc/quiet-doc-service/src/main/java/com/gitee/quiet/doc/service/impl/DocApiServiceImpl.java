@@ -16,12 +16,12 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.vo.DocApiDetail;
+import com.gitee.quiet.service.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SerialEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

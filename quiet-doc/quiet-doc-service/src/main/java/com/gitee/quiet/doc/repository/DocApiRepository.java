@@ -17,7 +17,7 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApi;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocApiRepository extends JpaRepository<DocApi, Long> {
+public interface DocApiRepository extends QuietRepository<DocApi> {
     
     /**
      * 根据项目ID查询所有接口文档

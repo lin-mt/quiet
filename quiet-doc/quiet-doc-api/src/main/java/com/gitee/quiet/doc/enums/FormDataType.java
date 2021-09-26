@@ -16,14 +16,22 @@
 
 package com.gitee.quiet.doc.enums;
 
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * FormData 参数类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum FormDataType {
+@Getter
+@AllArgsConstructor
+public enum FormDataType implements StringEnum {
     
-    TEXT,
+    TEXT("text"),
     
-    FILE,
+    FILE("file");
+    
+    private final String value;
 }

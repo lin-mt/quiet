@@ -16,20 +16,28 @@
 
 package com.gitee.quiet.doc.enums;
 
+import com.gitee.quiet.jpa.enums.base.IntegerEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 接口状态.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum ApiState {
+@Getter
+@AllArgsConstructor
+public enum ApiState implements IntegerEnum {
     
     /**
      * 未完成
      */
-    UNFINISHED,
+    UNFINISHED(0),
     
     /**
      * 已完成
      */
-    FINISHED,
+    FINISHED(1);
+    
+    private final Integer value;
 }

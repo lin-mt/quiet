@@ -16,57 +16,34 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
 
 /**
- * 项目信息.
+ * Api 分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocProjectDto extends SerialDto {
+public class DocApiGroupDTO extends SerialDTO {
     
     /**
-     * 项目名称
+     * 分组名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
     
     /**
-     * 项目文档负责人
+     * 所属项目ID
      */
     @NotNull
-    private Long principal;
-    
-    /**
-     * 访问者用户ID
-     */
-    @Size(max = 30)
-    private Set<Long> visitorIds;
-    
-    /**
-     * 备注
-     */
-    @Length(max = 100)
-    private String remark;
-    
-    /**
-     * 访问者信息
-     */
-    @Transient
-    private List<QuietUser> visitors;
+    private Long projectId;
     
 }

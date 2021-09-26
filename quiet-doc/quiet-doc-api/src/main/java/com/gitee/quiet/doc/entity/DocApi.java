@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
+import com.gitee.quiet.jpa.entity.SerialEntity;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -27,8 +27,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -67,7 +65,6 @@ public class DocApi extends SerialEntity {
      * 接口状态
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(name = "api_state", nullable = false, length = 10)
     private ApiState apiState = ApiState.UNFINISHED;
     
@@ -83,7 +80,6 @@ public class DocApi extends SerialEntity {
      * 请求方法
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(name = "method", nullable = false, length = 7)
     private HttpMethod method;
     

@@ -16,45 +16,53 @@
 
 package com.gitee.quiet.doc.enums;
 
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 字段类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum FieldType {
+@Getter
+@AllArgsConstructor
+public enum FieldType implements StringEnum {
     
     /**
      * 字符串
      */
-    STRING,
+    STRING("string"),
     
     /**
      * 对象
      */
-    OBJECT,
+    OBJECT("object"),
     
     /**
      * 数组
      */
-    ARRAY,
+    ARRAY("array"),
     
     /**
      * 数字
      */
-    NUMBER,
+    NUMBER("number"),
     
     /**
      * 整型
      */
-    INTEGER,
+    INTEGER("integer"),
     
     /**
      * 布尔类型
      */
-    BOOLEAN,
+    BOOLEAN("boolean"),
     
     /**
      * 枚举
      */
-    ENUM,
+    ENUM("enum");
+    
+    private final String value;
 }

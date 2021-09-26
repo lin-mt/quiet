@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.doc.converter;
 
-import com.gitee.quiet.common.service.base.QuietConvert;
-import com.gitee.quiet.doc.dto.DocProjectDto;
+import com.gitee.quiet.doc.dto.DocProjectDTO;
 import com.gitee.quiet.doc.entity.DocProject;
+import com.gitee.quiet.service.dto.QuietConvert;
 import org.mapstruct.Mapper;
 
 /**
@@ -27,6 +27,6 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDto> {
+public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDTO> {
     
 }

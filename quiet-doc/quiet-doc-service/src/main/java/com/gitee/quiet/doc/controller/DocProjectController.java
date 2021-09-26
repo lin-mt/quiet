@@ -16,12 +16,8 @@
 
 package com.gitee.quiet.doc.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.doc.converter.DocProjectConvert;
-import com.gitee.quiet.doc.dto.DocProjectDto;
+import com.gitee.quiet.doc.dto.DocProjectDTO;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocProject;
@@ -30,6 +26,10 @@ import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
 import com.gitee.quiet.doc.vo.ProjectApiInfo;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
@@ -118,7 +118,7 @@ public class DocProjectController {
      * @return 新增的项目信息
      */
     @PostMapping
-    public Result<DocProject> save(@RequestBody @Validated(Create.class) DocProjectDto dto) {
+    public Result<DocProject> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
         return Result.success(projectService.save(projectConvert.dtoToEntity(dto)));
     }
     
@@ -129,7 +129,7 @@ public class DocProjectController {
      * @return 更新后的项目信息
      */
     @PutMapping
-    public Result<DocProject> update(@RequestBody @Validated(Update.class) DocProjectDto dto) {
+    public Result<DocProject> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
         return Result.success(projectService.update(projectConvert.dtoToEntity(dto)));
     }
     

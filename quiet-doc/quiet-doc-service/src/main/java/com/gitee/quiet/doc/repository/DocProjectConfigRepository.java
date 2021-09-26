@@ -17,7 +17,7 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProjectConfig;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,6 +26,6 @@ import org.springframework.stereotype.Repository;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocProjectConfigRepository extends JpaRepository<DocProjectConfig, Long> {
+public interface DocProjectConfigRepository extends QuietRepository<DocProjectConfig> {
 
 }

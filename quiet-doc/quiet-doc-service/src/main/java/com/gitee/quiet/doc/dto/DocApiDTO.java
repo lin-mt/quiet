@@ -14,75 +14,91 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.entity;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.doc.enums.ApiState;
+import com.gitee.quiet.doc.enums.HttpMethod;
+import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 /**
- * 项目信息.
+ * 文档信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "doc_project")
-public class DocProject extends SerialEntity {
+public class DocApiDTO extends SerialDTO {
     
     /**
-     * 访问者信息
-     */
-    @Transient
-    private final List<QuietUser> visitors = new ArrayList<>();
-    
-    /**
-     * 项目名称
+     * 接口名称
      */
     @NotBlank
     @Length(max = 30)
-    @Column(name = "project_name", nullable = false, length = 30)
     private String name;
     
     /**
-     * 项目文档负责人
+     * 项目ID
      */
     @NotNull
-    @Column(name = "principal", nullable = false)
-    private Long principal;
+    private Long projectId;
+    
+    /**
+     * 接口状态
+     */
+    @NotNull
+    private ApiState apiState = ApiState.UNFINISHED;
+    
+    /**
+     * 请求地址
+     */
+    @NotBlank
+    @Length(max = 300)
+    private String path;
+    
+    /**
+     * 请求方法
+     */
+    @NotNull
+    private HttpMethod method;
+    
+    /**
+     * 作者ID
+     */
+    private Long authorId = CurrentUserUtil.getId();
+    
+    /**
+     * 所属分组ID
+     */
+    private Long apiGroupId;
     
     /**
      * 访问者用户ID
      */
     @Size(max = 30)
-    @Column(name = "visitor_id", length = 570)
     private Set<Long> visitorIds;
     
     /**
      * 备注
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 300)
     private String remark;
     
     /**
-     * 负责人名称
+     * 访问者信息
      */
     @Transient
-    private String principalName;
+    private List<QuietUser> visitors;
     
 }

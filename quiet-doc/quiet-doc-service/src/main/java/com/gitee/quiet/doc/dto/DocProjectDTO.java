@@ -16,10 +16,7 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.doc.enums.ApiState;
-import com.gitee.quiet.doc.enums.HttpMethod;
+import com.gitee.quiet.service.dto.SerialDTO;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,55 +30,26 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 文档信息.
+ * 项目信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocApiDto extends SerialDto {
+public class DocProjectDTO extends SerialDTO {
     
     /**
-     * 接口名称
+     * 项目名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
     
     /**
-     * 项目ID
+     * 项目文档负责人
      */
     @NotNull
-    private Long projectId;
-    
-    /**
-     * 接口状态
-     */
-    @NotNull
-    private ApiState apiState = ApiState.UNFINISHED;
-    
-    /**
-     * 请求地址
-     */
-    @NotBlank
-    @Length(max = 300)
-    private String path;
-    
-    /**
-     * 请求方法
-     */
-    @NotNull
-    private HttpMethod method;
-    
-    /**
-     * 作者ID
-     */
-    private Long authorId = CurrentUserUtil.getId();
-    
-    /**
-     * 所属分组ID
-     */
-    private Long apiGroupId;
+    private Long principal;
     
     /**
      * 访问者用户ID
@@ -92,7 +60,7 @@ public class DocApiDto extends SerialDto {
     /**
      * 备注
      */
-    @Length(max = 300)
+    @Length(max = 100)
     private String remark;
     
     /**
