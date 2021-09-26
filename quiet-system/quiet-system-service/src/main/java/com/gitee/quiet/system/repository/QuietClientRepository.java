@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.system.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietClient;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface QuietClientRepository extends JpaRepository<QuietClient, Long> {
+public interface QuietClientRepository extends QuietRepository<QuietClient> {
     
     /**
      * 根据客户端 ID 查询客户端信息

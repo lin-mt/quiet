@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietClientConvert;
-import com.gitee.quiet.system.dto.QuietClientDto;
+import com.gitee.quiet.system.dto.QuietClientDTO;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.service.QuietClientService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +58,7 @@ public class QuietClientController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietClient>> page(QuietClientDto dto) {
+    public Result<QueryResults<QuietClient>> page(QuietClientDTO dto) {
         return Result.success(clientService.page(clientConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -69,7 +69,7 @@ public class QuietClientController {
      * @return 新增后的客户端信息
      */
     @PostMapping
-    public Result<QuietClient> save(@RequestBody @Validated(Create.class) QuietClientDto dto) {
+    public Result<QuietClient> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
         return Result.createSuccess(clientService.save(clientConvert.dtoToEntity(dto)));
     }
     
@@ -92,7 +92,7 @@ public class QuietClientController {
      * @return 新增后的客户端信息
      */
     @PutMapping
-    public Result<QuietClient> update(@RequestBody @Validated(Update.class) QuietClientDto dto) {
+    public Result<QuietClient> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
         return Result.updateSuccess(clientService.update(clientConvert.dtoToEntity(dto)));
     }
     
@@ -103,7 +103,7 @@ public class QuietClientController {
      * @return 更新后的客户端信息
      */
     @PostMapping("/removeClientScope")
-    public Result<QuietClient> removeClientScope(@RequestBody QuietClientDto dto) {
+    public Result<QuietClient> removeClientScope(@RequestBody QuietClientDTO dto) {
         return Result.success(clientService.removeClientScope(dto.getId(), dto.getClientScope()));
     }
     
@@ -114,7 +114,7 @@ public class QuietClientController {
      * @return 更新后的客户端信息
      */
     @PostMapping("/removeClientAuthorizedGrantType")
-    public Result<QuietClient> removeClientAuthorizedGrantType(@RequestBody QuietClientDto dto) {
+    public Result<QuietClient> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
         return Result.success(
                 clientService.removeClientAuthorizedGrantType(dto.getId(), dto.getClientAuthorizedGrantType()));
     }

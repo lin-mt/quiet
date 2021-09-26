@@ -13,6 +13,7 @@ dubbo:
   cloud:
     subscribed-services:
 quiet:
-  id-generator:
-    worker-id: 0
-    data-center-id: 0
+  jpa:
+    id-generator:
+      worker-id: 0
+      data-center-id: 0

@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.util.EntityUtils;
+import com.gitee.quiet.jpa.utils.EntityUtils;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.repository.QuietDictionaryRepository;
 import com.gitee.quiet.system.service.QuietDictionaryService;
@@ -108,8 +108,8 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
         if (StringUtils.isBlank(type)) {
             return List.of();
         }
-        List<QuietDictionary> dictionaries = dictionaryRepository
-                .findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(type);
+        List<QuietDictionary> dictionaries = dictionaryRepository.findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(
+                type);
         return EntityUtils.buildTreeData(dictionaries);
     }
     

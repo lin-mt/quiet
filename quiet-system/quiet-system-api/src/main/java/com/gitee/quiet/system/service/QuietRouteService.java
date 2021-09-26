@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Pageable;

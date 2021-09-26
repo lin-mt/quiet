@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.quiet.common.base.constant.Url;
+import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.handler.ResultAuthenticationFailureHandler;
 import com.gitee.quiet.system.handler.ResultAuthenticationSuccessHandler;

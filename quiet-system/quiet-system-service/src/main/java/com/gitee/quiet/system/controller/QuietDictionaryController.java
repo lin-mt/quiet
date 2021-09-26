@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietDictionaryConvert;
-import com.gitee.quiet.system.dto.QuietDictionaryDto;
+import com.gitee.quiet.system.dto.QuietDictionaryDTO;
 import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.service.QuietDictionaryService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -59,7 +59,7 @@ public class QuietDictionaryController {
      * @return 数据字典
      */
     @GetMapping("/listByTypeForSelect")
-    public Result<List<QuietDictionary>> listByTypeForSelect(QuietDictionaryDto dto) {
+    public Result<List<QuietDictionary>> listByTypeForSelect(QuietDictionaryDTO dto) {
         return Result.success(dictionaryService.listByTypeForSelect(dto.getType()));
     }
     
@@ -70,7 +70,7 @@ public class QuietDictionaryController {
      * @return 数据字典信息
      */
     @GetMapping("/treeByType")
-    public Result<List<QuietDictionary>> treeByType(QuietDictionaryDto dto) {
+    public Result<List<QuietDictionary>> treeByType(QuietDictionaryDTO dto) {
         return Result.success(dictionaryService.treeByType(dto.getType()));
     }
     
@@ -80,7 +80,7 @@ public class QuietDictionaryController {
      * @return 查询的所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietDictionary>> page(QuietDictionaryDto dto) {
+    public Result<QueryResults<QuietDictionary>> page(QuietDictionaryDTO dto) {
         return Result.success(dictionaryService.page(dictionaryConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -91,7 +91,7 @@ public class QuietDictionaryController {
      * @return 新增后的数据字典信息
      */
     @PostMapping
-    public Result<QuietDictionary> save(@RequestBody @Validated(Create.class) QuietDictionaryDto dto) {
+    public Result<QuietDictionary> save(@RequestBody @Validated(Create.class) QuietDictionaryDTO dto) {
         return Result.createSuccess(dictionaryService.save(dictionaryConvert.dtoToEntity(dto)));
     }
     
@@ -115,7 +115,7 @@ public class QuietDictionaryController {
      * @return 新增后的数据字典信息
      */
     @PutMapping
-    public Result<QuietDictionary> update(@RequestBody @Validated(Update.class) QuietDictionaryDto dto) {
+    public Result<QuietDictionary> update(@RequestBody @Validated(Update.class) QuietDictionaryDTO dto) {
         return Result.updateSuccess(dictionaryService.update(dictionaryConvert.dtoToEntity(dto)));
     }
 }

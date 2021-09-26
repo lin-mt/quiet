@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.repository.QuietClientRepository;
 import com.gitee.quiet.system.service.QuietClientService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.slf4j.Logger;
@@ -50,11 +50,11 @@ import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
 @SuppressWarnings("deprecation")
 public class QuietClientServiceImpl implements QuietClientService {
     
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    
     public static final String CACHE_INFO = "quiet:system:client";
     
     public static final String CACHE_INFO_CLIENT_DETAILS = CACHE_INFO + ":client_details";
+    
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     
     private final JPAQueryFactory jpaQueryFactory;
     

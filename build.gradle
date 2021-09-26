@@ -17,6 +17,7 @@ buildscript {
     ext {
         versions = [
                 'jacksonDatabind'                  : '2.12.5',
+                'jacksonDatatypeJsr310'            : '2.12.5',
                 'queryDsl'                         : '5.0.0',
                 'lombok'                           : '1.18.20',
                 'mapstruct'                        : '1.4.2.Final',
@@ -29,7 +30,8 @@ buildscript {
                 'apacheCommonsLang3'               : '3.12.0',
                 'apacheCommonsCollections4'        : '4.4',
                 'javaxPersistenceHibernateJpa21api': '1.0.2.Final',
-                'javaxAnnotationApi'               : '1.3.2'
+                'javaxAnnotationApi'               : '1.3.2',
+                'byteBuddy'                        : '1.11.16',
         ]
 
         deps = [
@@ -38,6 +40,7 @@ buildscript {
                 'mapstruct'                        : "org.mapstruct:mapstruct:${versions.mapstruct}",
                 'mapstructProcessor'               : "org.mapstruct:mapstruct-processor:${versions.mapstruct}",
                 'jacksonDatabind'                  : "com.fasterxml.jackson.core:jackson-databind:${versions.jacksonDatabind}",
+                'jacksonDatatypeJsr310'            : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${versions.jacksonDatatypeJsr310}",
                 'queryDslCore'                     : "com.querydsl:querydsl-core:${versions.queryDsl}",
                 'queryDslJpa'                      : "com.querydsl:querydsl-jpa:${versions.queryDsl}",
                 'queryDslSql'                      : "com.querydsl:querydsl-sql:${versions.queryDsl}",
@@ -50,9 +53,11 @@ buildscript {
                 'javaxPersistenceHibernateJpa21api': "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${versions.javaxPersistenceHibernateJpa21api}",
                 'javaxAnnotationApi'               : "javax.annotation:javax.annotation-api:${versions.javaxAnnotationApi}",
                 'redissonSpringBootStarter'        : "org.redisson:redisson-spring-boot-starter:${versions.redissonSpringDataStarter}",
+                'byteBuddy'                        : "net.bytebuddy:byte-buddy:${versions.byteBuddy}",
         ]
 
         springBootDeps = [
+                'autoconfigure'         : 'org.springframework.boot:spring-boot-autoconfigure',
                 'configurationProcessor': 'org.springframework.boot:spring-boot-configuration-processor',
         ]
 
@@ -80,7 +85,7 @@ buildscript {
 }
 
 plugins {
-    id "org.springframework.boot" version "2.5.4"
+    id "org.springframework.boot" version "2.5.5"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }

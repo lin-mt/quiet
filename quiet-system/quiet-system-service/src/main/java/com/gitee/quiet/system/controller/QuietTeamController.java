@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
+import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietTeamConvert;
-import com.gitee.quiet.system.dto.QuietTeamDto;
+import com.gitee.quiet.system.dto.QuietTeamDTO;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.service.QuietTeamService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -59,7 +59,7 @@ public class QuietTeamController {
      * @return 团队信息
      */
     @GetMapping("/listTeamsByTeamName")
-    public Result<List<QuietTeam>> listTeamsByTeamName(QuietTeamDto dto) {
+    public Result<List<QuietTeam>> listTeamsByTeamName(QuietTeamDTO dto) {
         return Result.success(teamService.listTeamsByTeamName(dto.getTeamName(), 9));
     }
     
@@ -70,7 +70,7 @@ public class QuietTeamController {
      * @return 团队信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietTeam>> page(QuietTeamDto dto) {
+    public Result<QueryResults<QuietTeam>> page(QuietTeamDTO dto) {
         return Result.success(teamService.page(teamConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -81,7 +81,7 @@ public class QuietTeamController {
      * @return 新增后的团队信息
      */
     @PostMapping
-    public Result<QuietTeam> save(@RequestBody @Validated(Create.class) QuietTeamDto dto) {
+    public Result<QuietTeam> save(@RequestBody @Validated(Create.class) QuietTeamDTO dto) {
         return Result.createSuccess(teamService.saveOrUpdate(teamConvert.dtoToEntity(dto)));
     }
     
@@ -105,7 +105,7 @@ public class QuietTeamController {
      * @return 新增后的团队信息
      */
     @PutMapping
-    public Result<QuietTeam> update(@RequestBody @Validated(Update.class) QuietTeamDto dto) {
+    public Result<QuietTeam> update(@RequestBody @Validated(Update.class) QuietTeamDTO dto) {
         return Result.updateSuccess(teamService.saveOrUpdate(teamConvert.dtoToEntity(dto)));
     }
     

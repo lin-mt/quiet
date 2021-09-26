@@ -22,5 +22,14 @@ include ':quiet-common:quiet-base'
 include ':quiet-common:quiet-service'
 include ':quiet-common:quiet-validation'
 
+include ':quiet-commons:quiet-common-constant'
+include ':quiet-commons:quiet-common-core'
+include ':quiet-commons:quiet-common-util'
+
 include ':quiet-system:quiet-system-api'
 include ':quiet-system:quiet-system-service'
+
+include ':quiet-spring-boot-starters:quiet-jpa-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-service-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-validation-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-web-spring-boot-starter'

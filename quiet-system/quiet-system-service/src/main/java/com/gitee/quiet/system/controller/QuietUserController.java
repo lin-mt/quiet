@@ -16,18 +16,18 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.jpa.entity.QuietUserDetails;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
-import com.gitee.quiet.common.validation.util.ValidationUtils;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.security.entity.QuietUserDetails;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.convert.QuietUserConvert;
-import com.gitee.quiet.system.dto.QuietUserDto;
+import com.gitee.quiet.system.dto.QuietUserDTO;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
+import com.gitee.quiet.validation.util.ValidationUtils;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -78,7 +78,7 @@ public class QuietUserController {
      * @return 注册后的用户信息
      */
     @PostMapping
-    public Result<QuietUser> create(@RequestBody @Validated(Create.class) QuietUserDto dto) {
+    public Result<QuietUser> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
         // TODO 可以根据配置确定是否注册就直接启用该用户
         return Result.success(userService.save(userConvert.dtoToEntity(dto)));
     }
@@ -90,7 +90,7 @@ public class QuietUserController {
      * @return 查询的用户信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietUser>> page(QuietUserDto dto) {
+    public Result<QueryResults<QuietUser>> page(QuietUserDTO dto) {
         return Result.success(userService.page(userConvert.dtoToEntity(dto), dto.page()));
     }
     
@@ -115,7 +115,7 @@ public class QuietUserController {
      */
     @PutMapping
     @PreAuthorize(value = "#dto.id == authentication.principal.id || hasRole('Admin')")
-    public Result<QuietUser> update(@RequestBody @Validated(Update.class) QuietUserDto dto) {
+    public Result<QuietUser> update(@RequestBody @Validated(Update.class) QuietUserDTO dto) {
         return Result.updateSuccess(userService.update(userConvert.dtoToEntity(dto)));
     }
     
@@ -136,7 +136,7 @@ public class QuietUserController {
      * @return 移除结果
      */
     @PostMapping("/removeRole")
-    public Result<Object> removeRole(@RequestBody QuietUserDto dto) {
+    public Result<Object> removeRole(@RequestBody QuietUserDTO dto) {
         ValidationUtils.notNull(dto.getId(), "userRole.useId.not.null");
         ValidationUtils.notNull(dto.getRoleId(), "userRole.roleId.not.null");
         userRoleService.deleteUserRole(dto.getId(), dto.getRoleId());
@@ -150,7 +150,7 @@ public class QuietUserController {
      * @return 移除结果
      */
     @PostMapping("/addRoles")
-    public Result<List<QuietUserRole>> addRoles(@RequestBody QuietUserDto dto) {
+    public Result<List<QuietUserRole>> addRoles(@RequestBody QuietUserDTO dto) {
         return Result.createSuccess(userRoleService.addRoles(dto.getUserRoles()));
     }
     

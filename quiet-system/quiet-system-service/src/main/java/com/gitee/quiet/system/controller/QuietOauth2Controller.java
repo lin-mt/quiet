@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.service.result.Result;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
