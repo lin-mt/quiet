@@ -16,15 +16,15 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.IdValid;
-import com.gitee.quiet.common.validation.group.OffsetLimitValid;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumDemandConvert;
-import com.gitee.quiet.scrum.dto.ScrumDemandDto;
+import com.gitee.quiet.scrum.dto.ScrumDemandDTO;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.IdValid;
+import com.gitee.quiet.validation.groups.OffsetLimitValid;
+import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -73,7 +73,7 @@ public class ScrumDemandController {
      */
     @GetMapping("/scrollToBePlanned")
     public Result<List<ScrumDemand>> scrollToBePlanned(
-            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDto dto) {
+            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         return Result.success(
                 demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(), dto.getOffset(), dto.getLimit()));
     }
@@ -86,7 +86,7 @@ public class ScrumDemandController {
      */
     @GetMapping("/scrollByIterationId")
     public Result<List<ScrumDemand>> scrollByIterationId(
-            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDto dto) {
+            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         return Result.success(demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit()));
     }
     
@@ -97,7 +97,7 @@ public class ScrumDemandController {
      * @return 创建后的需求信息
      */
     @PostMapping
-    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandDto dto) {
+    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandDTO dto) {
         return Result.success(demandService.save(demandConvert.dtoToEntity(dto)));
     }
     
@@ -108,7 +108,7 @@ public class ScrumDemandController {
      * @return 更新后的需求信息
      */
     @PutMapping
-    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandDto dto) {
+    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandDTO dto) {
         return Result.success(demandService.update(demandConvert.dtoToEntity(dto)));
     }
     
@@ -130,7 +130,7 @@ public class ScrumDemandController {
      * @return 查询结果
      */
     @GetMapping("/page")
-    public Result<QueryResults<ScrumDemand>> page(ScrumDemandDto dto) {
+    public Result<QueryResults<ScrumDemand>> page(ScrumDemandDTO dto) {
         return Result.success(demandService.page(demandConvert.dtoToEntity(dto), dto.page()));
     }
     

@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.filter;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.scrum.dictionary.DemandType;
 import lombok.Getter;
 import lombok.Setter;

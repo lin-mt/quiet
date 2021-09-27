@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.scrum.dictionary.DemandType;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;

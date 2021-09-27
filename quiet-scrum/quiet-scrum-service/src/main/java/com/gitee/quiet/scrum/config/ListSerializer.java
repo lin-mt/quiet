@@ -19,12 +19,11 @@ package com.gitee.quiet.scrum.config;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.gitee.quiet.common.service.base.Serial;
+import com.gitee.quiet.common.core.entity.Serial;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 import java.util.ArrayList;

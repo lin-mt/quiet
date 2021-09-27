@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
 import com.gitee.quiet.scrum.enums.BuildTool;
+import com.gitee.quiet.service.dto.SerialDTO;
 import com.gitee.quiet.system.entity.QuietTeam;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +40,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class ScrumProjectDto extends SerialDto {
+public class ScrumProjectDTO extends SerialDTO {
     
     /**
      * 项目名称

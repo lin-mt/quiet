@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -98,11 +98,6 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
      */
     @Transient
     private List<ScrumIteration> iterations;
-    
-    @Override
-    public String getTitle() {
-        return getName();
-    }
     
     @Override
     public int compareTo(@Nullable Serial other) {

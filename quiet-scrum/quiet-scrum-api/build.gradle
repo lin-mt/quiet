@@ -15,7 +15,7 @@
  */
 
 dependencies {
-    api project(path: ':quiet-common:quiet-service', configuration: 'default')
+    api project(path: ":quiet-spring-boot-starters:quiet-service-spring-boot-starter", configuration: "default")
     api project(path: ':quiet-system:quiet-system-api', configuration: 'default')
     compileOnly deps.lombok
 

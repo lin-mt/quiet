@@ -16,16 +16,16 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumProjectConvert;
-import com.gitee.quiet.scrum.dto.ScrumProjectDto;
+import com.gitee.quiet.scrum.dto.ScrumProjectDTO;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,7 +90,7 @@ public class ScrumProjectController {
      * @return 新增后的项目信息
      */
     @PostMapping
-    public Result<ScrumProject> save(@RequestBody @Validated(Create.class) ScrumProjectDto dto) {
+    public Result<ScrumProject> save(@RequestBody @Validated(Create.class) ScrumProjectDTO dto) {
         return Result.createSuccess(projectService.save(projectConvert.dtoToEntity(dto)));
     }
     
@@ -101,7 +101,7 @@ public class ScrumProjectController {
      * @return 更新后的项目信息
      */
     @PutMapping
-    public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectDto dto) {
+    public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectDTO dto) {
         return Result.updateSuccess(projectService.update(projectConvert.dtoToEntity(dto)));
     }
     

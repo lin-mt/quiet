@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -24,47 +24,39 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
- * 优先级.
+ * 任务步骤.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumPriorityDto extends SerialDto {
+public class ScrumTaskStepDTO extends SerialDTO {
     
     /**
-     * 优先级名称
+     * 步骤名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
     
     /**
-     * 图标的十六进制颜色
-     */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    private String colorHex = "#1890FF";
-    
-    /**
-     * 模板ID
+     * 所属模板ID
      */
     @NotNull
     private Long templateId;
     
     /**
-     * 备注信息
+     * 步骤备注信息
      */
-    @Length(max = 100)
+    @Length(max = 30)
     private String remark;
     
     /**
      * 批量更新
      */
     @Valid
-    private List<ScrumPriorityDto> updateBatch;
+    private List<ScrumTaskStepDTO> updateBatch;
 }

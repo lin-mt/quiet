@@ -16,14 +16,14 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumTemplateConvert;
-import com.gitee.quiet.scrum.dto.ScrumTemplateDto;
+import com.gitee.quiet.scrum.dto.ScrumTemplateDTO;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.vo.AllTemplate;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -79,7 +79,7 @@ public class ScrumTemplateController {
      * @return 新增后的模板信息
      */
     @PostMapping
-    public Result<ScrumTemplate> save(@RequestBody @Validated(Create.class) ScrumTemplateDto dto) {
+    public Result<ScrumTemplate> save(@RequestBody @Validated(Create.class) ScrumTemplateDTO dto) {
         return Result.createSuccess(templateService.save(templateConvert.dtoToEntity(dto)));
     }
     
@@ -90,7 +90,7 @@ public class ScrumTemplateController {
      * @return 更新后的模板信息
      */
     @PutMapping
-    public Result<ScrumTemplate> update(@RequestBody @Validated(Update.class) ScrumTemplateDto dto) {
+    public Result<ScrumTemplate> update(@RequestBody @Validated(Update.class) ScrumTemplateDTO dto) {
         return Result.updateSuccess(templateService.update(templateConvert.dtoToEntity(dto)));
     }
     
@@ -113,7 +113,7 @@ public class ScrumTemplateController {
      * @return 查询结果
      */
     @GetMapping("/listEnabledByName")
-    public Result<List<ScrumTemplate>> listEnabledByName(ScrumTemplateDto dto) {
+    public Result<List<ScrumTemplate>> listEnabledByName(ScrumTemplateDTO dto) {
         return Result.success(templateService.listEnabledByName(dto.getName(), 9L));
     }
 }

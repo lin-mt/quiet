@@ -16,14 +16,14 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.dto.ValidListDto;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumTaskStepConvert;
-import com.gitee.quiet.scrum.dto.ScrumTaskStepDto;
+import com.gitee.quiet.scrum.dto.ScrumTaskStepDTO;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.service.dto.ValidListDTO;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,7 +59,7 @@ public class ScrumTaskStepController {
      * @return 新增后的任务步骤信息
      */
     @PostMapping
-    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepDto dto) {
+    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepDTO dto) {
         return Result.createSuccess(taskStepService.save(taskStepConvert.dtoToEntity(dto)));
     }
     
@@ -70,7 +70,7 @@ public class ScrumTaskStepController {
      * @return 更新后的任务步骤信息
      */
     @PutMapping
-    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepDto dto) {
+    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepDTO dto) {
         return Result.updateSuccess(taskStepService.update(taskStepConvert.dtoToEntity(dto)));
     }
     
@@ -94,9 +94,9 @@ public class ScrumTaskStepController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumTaskStep>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidListDto<ScrumTaskStepDto> dto) {
-        return Result.success(taskStepService
-                .updateBatch(dto.getData().stream().map(taskStepConvert::dtoToEntity).collect(Collectors.toList())));
+            @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
+        return Result.success(taskStepService.updateBatch(
+                dto.getData().stream().map(taskStepConvert::dtoToEntity).collect(Collectors.toList())));
     }
     
     /**

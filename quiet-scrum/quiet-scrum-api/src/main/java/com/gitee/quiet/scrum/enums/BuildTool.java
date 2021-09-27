@@ -16,19 +16,27 @@
 
 package com.gitee.quiet.scrum.enums;
 
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 构建工具枚举.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public enum BuildTool {
+@Getter
+@AllArgsConstructor
+public enum BuildTool implements StringEnum {
     /**
      * maven 构建工具
      */
-    MAVEN,
+    MAVEN("gradle"),
     
     /**
      * gradle 构建工具
      */
-    GRADLE,
+    GRADLE("gradle");
+    
+    private final String value;
 }

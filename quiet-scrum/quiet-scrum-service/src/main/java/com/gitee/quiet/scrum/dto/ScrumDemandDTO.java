@@ -16,89 +16,80 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import com.gitee.quiet.scrum.dictionary.TaskType;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.scrum.dictionary.DemandType;
+import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
+import com.gitee.quiet.service.dto.ParentAndSerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
- * 任务信息.
+ * 需求信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumTaskDto extends SerialDto {
+public class ScrumDemandDTO extends ParentAndSerialDTO<ScrumDemandDTO> {
     
     /**
-     * 任务标题
+     * 需求标题
      */
     @NotBlank
-    @Length(max = 10)
+    @Length(max = 30)
     private String title;
     
     /**
-     * 任务类型
+     * 需求类型
      */
     @NotNull
-    private Dictionary<TaskType> type;
+    private Dictionary<DemandType> type;
     
     /**
-     * 所属需求ID
+     * 项目ID
      */
     @NotNull
-    private Long demandId;
+    private Long projectId;
     
     /**
-     * 任务的当前步骤ID
+     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
+     */
+    private Long optimizeDemandId;
+    
+    /**
+     * 所属迭代ID
+     */
+    private Long iterationId;
+    
+    /**
+     * 优先级ID
      */
     @NotNull
-    private Long taskStepId;
+    private Long priorityId;
     
     /**
-     * 执行者
-     */
-    @NotNull
-    private Long executorId;
-    
-    /**
-     * 参与者（最多20人参与）
-     */
-    @Size(max = 20)
-    private Set<Long> participant;
-    
-    /**
-     * 前置任务
-     */
-    @Size(max = 20)
-    private Set<Long> preTaskIds;
-    
-    /**
-     * 任务开始时间
+     * 需求开始时间
      */
     private LocalDateTime startTime;
     
     /**
-     * 任务结束时间
+     * 需求结束时间
      */
     private LocalDateTime endTime;
     
     /**
-     * 任务备注信息
+     * 备注信息
      */
     @Length(max = 3000)
     private String remark;
     
     /**
-     * 查询的需求ID集合
+     * 需求过滤条件
      */
-    private Set<Long> demandIds;
+    private ScrumDemandFilter demandFilter;
 }

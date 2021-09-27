@@ -16,9 +16,7 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
@@ -28,6 +26,8 @@ import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.vo.AllTemplate;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;

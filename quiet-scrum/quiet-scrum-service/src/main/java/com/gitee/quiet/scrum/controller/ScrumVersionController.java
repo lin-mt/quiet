@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumVersionConvert;
-import com.gitee.quiet.scrum.dto.ScrumVersionDto;
+import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 项目版本信息.
@@ -57,8 +58,9 @@ public class ScrumVersionController {
      * @return 项目的所有版本信息，包含各个版本的迭代信息
      */
     @GetMapping("/all/{id}")
-    public Result<List<ScrumVersion>> all(@PathVariable Long id) {
-        return Result.success(versionService.findDetailsByProjectId(id));
+    public Result<List<ScrumVersionDTO>> all(@PathVariable Long id) {
+        return Result.success(versionService.findDetailsByProjectId(id).stream().map(versionConvert::entityToDto)
+                .collect(Collectors.toList()));
     }
     
     /**
@@ -68,7 +70,7 @@ public class ScrumVersionController {
      * @return 新建后的版本信息
      */
     @PostMapping
-    public Result<ScrumVersion> save(@RequestBody @Validated(Create.class) ScrumVersionDto dto) {
+    public Result<ScrumVersion> save(@RequestBody @Validated(Create.class) ScrumVersionDTO dto) {
         return Result.createSuccess(versionService.save(versionConvert.dtoToEntity(dto)));
     }
     
@@ -79,7 +81,7 @@ public class ScrumVersionController {
      * @return 更新后的版本信息
      */
     @PutMapping
-    public Result<ScrumVersion> update(@RequestBody @Validated(Update.class) ScrumVersionDto dto) {
+    public Result<ScrumVersion> update(@RequestBody @Validated(Update.class) ScrumVersionDTO dto) {
         return Result.updateSuccess(versionService.update(versionConvert.dtoToEntity(dto)));
     }
     

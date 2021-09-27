@@ -16,87 +16,89 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.dto.ParentAndSerialDto;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.scrum.dictionary.TaskType;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 /**
- * 项目的版本信息.
+ * 任务信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumVersionDto extends ParentAndSerialDto<ScrumVersionDto> {
+public class ScrumTaskDTO extends SerialDTO {
     
     /**
-     * 版本名称
+     * 任务标题
      */
     @NotBlank
     @Length(max = 10)
-    private String name;
+    private String title;
     
     /**
-     * 所属项目ID
+     * 任务类型
      */
     @NotNull
-    private Long projectId;
+    private Dictionary<TaskType> type;
     
     /**
-     * 计划开始日期
+     * 所属需求ID
      */
     @NotNull
-    private LocalDate planStartDate;
+    private Long demandId;
     
     /**
-     * 计划结束日期
+     * 任务的当前步骤ID
      */
     @NotNull
-    private LocalDate planEndDate;
+    private Long taskStepId;
     
     /**
-     * 版本开始时间
+     * 执行者
+     */
+    @NotNull
+    private Long executorId;
+    
+    /**
+     * 参与者（最多20人参与）
+     */
+    @Size(max = 20)
+    private Set<Long> participant;
+    
+    /**
+     * 前置任务
+     */
+    @Size(max = 20)
+    private Set<Long> preTaskIds;
+    
+    /**
+     * 任务开始时间
      */
     private LocalDateTime startTime;
     
     /**
-     * 版本结束时间
+     * 任务结束时间
      */
     private LocalDateTime endTime;
     
     /**
-     * 版本备注信息
+     * 任务备注信息
      */
-    @NotBlank
-    @Length(max = 1500)
+    @Length(max = 3000)
     private String remark;
     
     /**
-     * 迭代信息
+     * 查询的需求ID集合
      */
-    @Transient
-    private List<ScrumIterationDto> iterations;
-    
-    @Override
-    public int compareTo(@Nullable Serial other) {
-        int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumVersionDto) {
-            ScrumVersionDto otherVersion = (ScrumVersionDto) other;
-            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
-            if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
-            }
-        }
-        return compare;
-    }
+    private Set<Long> demandIds;
 }

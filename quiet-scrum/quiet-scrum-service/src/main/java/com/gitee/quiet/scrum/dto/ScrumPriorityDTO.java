@@ -16,52 +16,55 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.BaseDto;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
- * 项目模板.
+ * 优先级.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumTemplateDto extends BaseDto {
+public class ScrumPriorityDTO extends SerialDTO {
     
     /**
-     * 模板名称
+     * 优先级名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
     
     /**
-     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
+     * 图标的十六进制颜色
      */
-    private Boolean enabled;
+    @Length(max = 7)
+    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+    private String colorHex = "#1890FF";
     
     /**
-     * 模板备注信息
+     * 模板ID
      */
-    @Length(max = 30)
+    @NotNull
+    private Long templateId;
+    
+    /**
+     * 备注信息
+     */
+    @Length(max = 100)
     private String remark;
     
     /**
-     * 模板中的任务步骤
+     * 批量更新
      */
-    @Transient
-    List<ScrumTaskStepDto> taskSteps;
-    
-    /**
-     * 模板中的优先级配置
-     */
-    @Transient
-    List<ScrumPriorityDto> priorities;
-    
+    @Valid
+    private List<ScrumPriorityDTO> updateBatch;
 }

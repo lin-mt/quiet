@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.SerialEntity;
 import com.gitee.quiet.scrum.dictionary.TaskType;
 import lombok.Getter;
 import lombok.Setter;

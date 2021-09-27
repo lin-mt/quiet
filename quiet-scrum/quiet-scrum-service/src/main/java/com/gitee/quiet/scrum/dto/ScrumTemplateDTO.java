@@ -16,47 +16,52 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.dto.SerialDto;
+import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.Valid;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 任务步骤.
+ * 项目模板.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumTaskStepDto extends SerialDto {
+public class ScrumTemplateDTO extends BaseDTO {
     
     /**
-     * 步骤名称
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStepDTO> taskSteps;
+    
+    /**
+     * 模板中的优先级配置
+     */
+    @Transient
+    List<ScrumPriorityDTO> priorities;
+    
+    /**
+     * 模板名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
     
     /**
-     * 所属模板ID
+     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
-    @NotNull
-    private Long templateId;
+    private Boolean enabled;
     
     /**
-     * 步骤备注信息
+     * 模板备注信息
      */
     @Length(max = 30)
     private String remark;
     
-    /**
-     * 批量更新
-     */
-    @Valid
-    private List<ScrumTaskStepDto> updateBatch;
 }

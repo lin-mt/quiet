@@ -16,73 +16,77 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.FrontSelect;
-import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.service.dto.FrontSelectDTO;
+import com.gitee.quiet.service.dto.ParentAndSerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 迭代信息.
+ * 项目的版本信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumIterationDto extends SerialEntity implements FrontSelect {
+public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> implements FrontSelectDTO {
     
     /**
-     * 迭代名称
+     * 版本名称
      */
     @NotBlank
-    @Length(max = 30)
+    @Length(max = 10)
     private String name;
     
     /**
-     * 所属版本ID
+     * 所属项目ID
      */
     @NotNull
-    private Long versionId;
+    private Long projectId;
     
     /**
-     * 迭代计划开始日期
+     * 计划开始日期
      */
     @NotNull
     private LocalDate planStartDate;
     
     /**
-     * 迭代计划结束日期
+     * 计划结束日期
      */
     @NotNull
     private LocalDate planEndDate;
     
     /**
-     * 迭代开始时间
+     * 版本开始时间
      */
     private LocalDateTime startTime;
     
     /**
-     * 迭代结束时间
+     * 版本结束时间
      */
     private LocalDateTime endTime;
     
     /**
-     * 备注信息
+     * 版本备注信息
      */
-    @Length(max = 1000)
+    @NotBlank
+    @Length(max = 1500)
     private String remark;
     
-    @Override
-    public Object getKey() {
-        return getId();
-    }
+    /**
+     * 迭代信息
+     */
+    @Transient
+    private List<ScrumIterationDTO> iterations;
     
     @Override
     public String getTitle() {
@@ -92,11 +96,11 @@ public class ScrumIterationDto extends SerialEntity implements FrontSelect {
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumIterationDto) {
-            ScrumIterationDto otherIteration = (ScrumIterationDto) other;
-            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
+        if (compare == 0 && other instanceof ScrumVersionDTO) {
+            ScrumVersionDTO otherVersion = (ScrumVersionDTO) other;
+            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
             if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
+                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
             }
         }
         return compare;

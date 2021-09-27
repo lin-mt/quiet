@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumVersionRepository extends JpaRepository<ScrumVersion, Long> {
+public interface ScrumVersionRepository extends QuietRepository<ScrumVersion> {
     
     /**
      * 根据项目id删除该项目下的所有版本信息

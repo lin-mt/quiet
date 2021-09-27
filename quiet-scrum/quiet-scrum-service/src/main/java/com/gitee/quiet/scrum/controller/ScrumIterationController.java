@@ -16,14 +16,14 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.IdValid;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumIterationConvert;
-import com.gitee.quiet.scrum.dto.ScrumIterationDto;
+import com.gitee.quiet.scrum.dto.ScrumIterationDTO;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.IdValid;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +55,7 @@ public class ScrumIterationController {
      * @return 新建后的迭代信息
      */
     @PostMapping
-    public Result<ScrumIteration> save(@RequestBody @Validated(Create.class) ScrumIterationDto dto) {
+    public Result<ScrumIteration> save(@RequestBody @Validated(Create.class) ScrumIterationDTO dto) {
         return Result.createSuccess(iterationService.save(iterationConvert.dtoToEntity(dto)));
     }
     
@@ -66,7 +66,7 @@ public class ScrumIterationController {
      * @return 更新后的迭代信息
      */
     @PutMapping
-    public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationDto dto) {
+    public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationDTO dto) {
         return Result.updateSuccess(iterationService.update(iterationConvert.dtoToEntity(dto)));
     }
     
@@ -77,7 +77,7 @@ public class ScrumIterationController {
      * @return 开始迭代的迭代信息
      */
     @PostMapping("/start")
-    public Result<ScrumIteration> start(@RequestBody @Validated(IdValid.class) ScrumIterationDto dto) {
+    public Result<ScrumIteration> start(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
         return Result.updateSuccess(iterationService.start(dto.getId()));
     }
     
@@ -88,7 +88,7 @@ public class ScrumIterationController {
      * @return 结束迭代的迭代信息
      */
     @PostMapping("/end")
-    public Result<ScrumIteration> end(@RequestBody @Validated(IdValid.class) ScrumIterationDto dto) {
+    public Result<ScrumIteration> end(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
         return Result.updateSuccess(iterationService.end(dto.getId()));
     }
     

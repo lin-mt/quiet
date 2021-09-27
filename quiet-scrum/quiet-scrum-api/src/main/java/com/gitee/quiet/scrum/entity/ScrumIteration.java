@@ -16,9 +16,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.base.FrontSelect;
-import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.jpa.entity.SerialEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -41,7 +40,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity implements FrontSelect {
+public class ScrumIteration extends SerialEntity {
     
     /**
      * 迭代名称
@@ -90,16 +89,6 @@ public class ScrumIteration extends SerialEntity implements FrontSelect {
     @Length(max = 1000)
     @Column(name = "remark", nullable = false, length = 1000)
     private String remark;
-    
-    @Override
-    public Object getKey() {
-        return getId();
-    }
-    
-    @Override
-    public String getTitle() {
-        return getName();
-    }
     
     @Override
     public int compareTo(@Nullable Serial other) {

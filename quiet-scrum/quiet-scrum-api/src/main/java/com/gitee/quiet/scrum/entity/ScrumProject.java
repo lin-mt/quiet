@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SerialEntity;
 import com.gitee.quiet.scrum.enums.BuildTool;
 import com.gitee.quiet.system.entity.QuietTeam;
 import lombok.Getter;
@@ -25,8 +25,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -93,7 +91,6 @@ public class ScrumProject extends SerialEntity {
     /**
      * 构建工具
      */
-    @Enumerated(EnumType.STRING)
     @Column(name = "build_tool", length = 6)
     private BuildTool buildTool;
     

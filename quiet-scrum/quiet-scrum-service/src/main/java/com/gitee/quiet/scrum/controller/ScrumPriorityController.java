@@ -16,14 +16,14 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.dto.ValidListDto;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumPriorityConvert;
-import com.gitee.quiet.scrum.dto.ScrumPriorityDto;
+import com.gitee.quiet.scrum.dto.ScrumPriorityDTO;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
+import com.gitee.quiet.service.dto.ValidListDTO;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,7 +59,7 @@ public class ScrumPriorityController {
      * @return 新增后的优先级信息
      */
     @PostMapping
-    public Result<ScrumPriority> save(@RequestBody @Validated(Create.class) ScrumPriorityDto dto) {
+    public Result<ScrumPriority> save(@RequestBody @Validated(Create.class) ScrumPriorityDTO dto) {
         return Result.createSuccess(priorityService.save(priorityConvert.dtoToEntity(dto)));
     }
     
@@ -70,7 +70,7 @@ public class ScrumPriorityController {
      * @return 更新后的优先级信息
      */
     @PutMapping
-    public Result<ScrumPriority> update(@RequestBody @Validated(Update.class) ScrumPriorityDto dto) {
+    public Result<ScrumPriority> update(@RequestBody @Validated(Update.class) ScrumPriorityDTO dto) {
         return Result.updateSuccess(priorityService.update(priorityConvert.dtoToEntity(dto)));
     }
     
@@ -94,9 +94,9 @@ public class ScrumPriorityController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumPriority>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidListDto<ScrumPriorityDto> dto) {
-        return Result.success(priorityService
-                .updateBatch(dto.getData().stream().map(priorityConvert::dtoToEntity).collect(Collectors.toList())));
+            @RequestBody @Validated(Update.class) ValidListDTO<ScrumPriorityDTO> dto) {
+        return Result.success(priorityService.updateBatch(
+                dto.getData().stream().map(priorityConvert::dtoToEntity).collect(Collectors.toList())));
     }
     
     /**

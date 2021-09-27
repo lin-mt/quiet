@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.QuietConvert;
-import com.gitee.quiet.scrum.dto.ScrumDemandDto;
+import com.gitee.quiet.scrum.dto.ScrumDemandDTO;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.service.dto.QuietConvert;
 import org.mapstruct.Mapper;
 
 /**
@@ -27,6 +27,6 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface ScrumDemandConvert extends QuietConvert<ScrumDemand, ScrumDemandDto> {
+public interface ScrumDemandConvert extends QuietConvert<ScrumDemand, ScrumDemandDTO> {
 
 }

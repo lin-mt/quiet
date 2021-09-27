@@ -16,80 +16,89 @@
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.dto.ParentAndSerialDto;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
-import com.gitee.quiet.scrum.dictionary.DemandType;
-import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
+import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.service.dto.FrontSelectDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * 需求信息.
+ * 迭代信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumDemandDto extends ParentAndSerialDto<ScrumDemandDto> {
+public class ScrumIterationDTO extends SerialEntity implements FrontSelectDTO {
     
     /**
-     * 需求标题
+     * 迭代名称
      */
     @NotBlank
     @Length(max = 30)
-    private String title;
+    private String name;
     
     /**
-     * 需求类型
+     * 所属版本ID
      */
     @NotNull
-    private Dictionary<DemandType> type;
+    private Long versionId;
     
     /**
-     * 项目ID
+     * 迭代计划开始日期
      */
     @NotNull
-    private Long projectId;
+    private LocalDate planStartDate;
     
     /**
-     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
-     */
-    private Long optimizeDemandId;
-    
-    /**
-     * 所属迭代ID
-     */
-    private Long iterationId;
-    
-    /**
-     * 优先级ID
+     * 迭代计划结束日期
      */
     @NotNull
-    private Long priorityId;
+    private LocalDate planEndDate;
     
     /**
-     * 需求开始时间
+     * 迭代开始时间
      */
     private LocalDateTime startTime;
     
     /**
-     * 需求结束时间
+     * 迭代结束时间
      */
     private LocalDateTime endTime;
     
     /**
      * 备注信息
      */
-    @Length(max = 3000)
+    @Length(max = 1000)
     private String remark;
     
-    /**
-     * 需求过滤条件
-     */
-    private ScrumDemandFilter demandFilter;
+    @Override
+    public Object getKey() {
+        return getId();
+    }
+    
+    @Override
+    public String getTitle() {
+        return getName();
+    }
+    
+    @Override
+    public int compareTo(@Nullable Serial other) {
+        int compare = super.compareTo(other);
+        if (compare == 0 && other instanceof ScrumIterationDTO) {
+            ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;
+            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
+            if (compare == 0) {
+                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
+            }
+        }
+        return compare;
+    }
 }

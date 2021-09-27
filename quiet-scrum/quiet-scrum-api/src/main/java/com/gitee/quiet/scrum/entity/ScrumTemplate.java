@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -41,6 +41,18 @@ import java.util.List;
 public class ScrumTemplate extends BaseEntity {
     
     /**
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStep> taskSteps;
+    
+    /**
+     * 模板中的优先级配置
+     */
+    @Transient
+    List<ScrumPriority> priorities;
+    
+    /**
      * 模板名称
      */
     @NotBlank
@@ -61,17 +73,5 @@ public class ScrumTemplate extends BaseEntity {
     @Length(max = 30)
     @Column(name = "remark", length = 30)
     private String remark;
-    
-    /**
-     * 模板中的任务步骤
-     */
-    @Transient
-    List<ScrumTaskStep> taskSteps;
-    
-    /**
-     * 模板中的优先级配置
-     */
-    @Transient
-    List<ScrumPriority> priorities;
     
 }

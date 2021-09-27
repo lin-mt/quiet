@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumTemplateRepository extends JpaRepository<ScrumTemplate, Long> {
+public interface ScrumTemplateRepository extends QuietRepository<ScrumTemplate> {
     
     /**
      * 查询启用的或者创建者为 creator 的模板信息

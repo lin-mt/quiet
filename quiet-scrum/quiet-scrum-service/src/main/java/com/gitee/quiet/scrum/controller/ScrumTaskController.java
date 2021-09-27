@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.Create;
-import com.gitee.quiet.common.validation.group.Update;
 import com.gitee.quiet.scrum.convert.ScrumTaskConvert;
-import com.gitee.quiet.scrum.dto.ScrumTaskDto;
+import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,7 +58,7 @@ public class ScrumTaskController {
      * @return 根据需求ID以及任务步骤ID分组后的任务集合
      */
     @GetMapping("/allTaskByDemandIds")
-    public Result<Map<Long, Map<Long, List<ScrumTask>>>> allTaskByDemandIds(ScrumTaskDto dto) {
+    public Result<Map<Long, Map<Long, List<ScrumTask>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
         return Result.success(taskService.findAllTaskByDemandIds(dto.getDemandIds()));
     }
     
@@ -69,7 +69,7 @@ public class ScrumTaskController {
      * @return 创建后的任务信息
      */
     @PostMapping
-    public Result<ScrumTask> save(@RequestBody @Validated(Create.class) ScrumTaskDto dto) {
+    public Result<ScrumTask> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
         return Result.success(taskService.save(taskConvert.dtoToEntity(dto)));
     }
     
@@ -80,7 +80,7 @@ public class ScrumTaskController {
      * @return 更新后的任务信息
      */
     @PutMapping
-    public Result<ScrumTask> update(@RequestBody @Validated(Update.class) ScrumTaskDto dto) {
+    public Result<ScrumTask> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
         return Result.success(taskService.update(taskConvert.dtoToEntity(dto)));
     }
     
