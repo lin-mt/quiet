@@ -16,35 +16,40 @@
 
 package com.gitee.quiet.service.dto;
 
+import com.gitee.quiet.common.core.entity.Parent;
+import com.gitee.quiet.common.core.entity.Serial;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
 /**
- * 提供给前端树形结构key和title属性.
+ * 带有父子关系且有优先级信息的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface FrontSelectDTO {
+@Getter
+@Setter
+public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO
+        implements Parent<T>, Serial, FrontSelectDTO {
     
     /**
-     * 前端树形组件使用的 key
-     *
-     * @return key
+     * 序号
      */
-    Object getKey();
+    private int serialNumber;
     
     /**
-     * 前端树形组件使用的 value
-     *
-     * @return value
+     * 父级ID
      */
-    default Object getValue() {
-        return getKey();
-    }
+    private Long parentId;
     
     /**
-     * 前端树形组件使用的 title
-     *
-     * @return title
+     * 子数据
      */
-    default String getTitle() {
-        return "TODO";
+    private List<T> children;
+    
+    @Override
+    public Long getKey() {
+        return getId();
     }
 }

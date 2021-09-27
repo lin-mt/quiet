@@ -16,35 +16,22 @@
 
 package com.gitee.quiet.service.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.Valid;
+import java.util.List;
+
 /**
- * 提供给前端树形结构key和title属性.
+ * 可验证的批量数据.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface FrontSelectDTO {
+@Getter
+@Setter
+public class ValidListDTO<T> {
     
-    /**
-     * 前端树形组件使用的 key
-     *
-     * @return key
-     */
-    Object getKey();
+    @Valid
+    private List<T> data;
     
-    /**
-     * 前端树形组件使用的 value
-     *
-     * @return value
-     */
-    default Object getValue() {
-        return getKey();
-    }
-    
-    /**
-     * 前端树形组件使用的 title
-     *
-     * @return title
-     */
-    default String getTitle() {
-        return "TODO";
-    }
 }
