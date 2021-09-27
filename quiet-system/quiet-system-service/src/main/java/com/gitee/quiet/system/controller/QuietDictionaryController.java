@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 数据字典Controller.
@@ -59,8 +60,10 @@ public class QuietDictionaryController {
      * @return 数据字典
      */
     @GetMapping("/listByTypeForSelect")
-    public Result<List<QuietDictionary>> listByTypeForSelect(QuietDictionaryDTO dto) {
-        return Result.success(dictionaryService.listByTypeForSelect(dto.getType()));
+    public Result<List<QuietDictionaryDTO>> listByTypeForSelect(QuietDictionaryDTO dto) {
+        return Result.success(
+                dictionaryService.listByTypeForSelect(dto.getType()).stream().map(dictionaryConvert::entityToDto)
+                        .collect(Collectors.toList()));
     }
     
     /**
