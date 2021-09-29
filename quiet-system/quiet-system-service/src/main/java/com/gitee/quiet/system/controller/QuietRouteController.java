@@ -21,10 +21,11 @@ import com.gitee.quiet.system.convert.QuietRouteConvert;
 import com.gitee.quiet.system.dto.QuietRouteDTO;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.gitee.quiet.system.service.QuietRouteService;
+import com.gitee.quiet.system.vo.QuietRouteVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,8 +59,9 @@ public class QuietRouteController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietRoute>> page(QuietRouteDTO dto) {
-        return Result.success(routeService.page(routeConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietRouteVO>> page(QuietRouteDTO dto) {
+        Page<QuietRoute> routePage = routeService.page(routeConvert.dto2entity(dto), dto.page());
+        return Result.success(routeConvert.page2page(routePage));
     }
     
     /**
@@ -69,8 +71,9 @@ public class QuietRouteController {
      * @return 新增的网关路由信息
      */
     @PostMapping
-    public Result<QuietRoute> save(@RequestBody @Validated(Create.class) QuietRouteDTO dto) {
-        return Result.createSuccess(routeService.save(routeConvert.dtoToEntity(dto)));
+    public Result<QuietRouteVO> save(@RequestBody @Validated(Create.class) QuietRouteDTO dto) {
+        QuietRoute save = routeService.save(routeConvert.dto2entity(dto));
+        return Result.createSuccess(routeConvert.entity2vo(save));
     }
     
     /**
@@ -92,8 +95,9 @@ public class QuietRouteController {
      * @return 新增后的网关路由信息
      */
     @PutMapping
-    public Result<QuietRoute> update(@RequestBody @Validated(Update.class) QuietRouteDTO dto) {
-        return Result.updateSuccess(routeService.update(routeConvert.dtoToEntity(dto)));
+    public Result<QuietRouteVO> update(@RequestBody @Validated(Update.class) QuietRouteDTO dto) {
+        QuietRoute update = routeService.update(routeConvert.dto2entity(dto));
+        return Result.updateSuccess(routeConvert.entity2vo(update));
     }
     
     /**
@@ -115,8 +119,9 @@ public class QuietRouteController {
      * @return 移除结果
      */
     @PostMapping("/removePredicate")
-    public Result<QuietRoute> removePredicate(@RequestBody QuietRouteDTO dto) {
-        return Result.success(routeService.removePredicate(dto.getId(), dto.getRoutePredicate()));
+    public Result<QuietRouteVO> removePredicate(@RequestBody QuietRouteDTO dto) {
+        QuietRoute route = routeService.removePredicate(dto.getId(), dto.getRoutePredicate());
+        return Result.success(routeConvert.entity2vo(route));
     }
     
     /**
@@ -126,7 +131,8 @@ public class QuietRouteController {
      * @return 移除结果
      */
     @PostMapping("/removeFilter")
-    public Result<QuietRoute> removeFilter(@RequestBody QuietRouteDTO dto) {
-        return Result.success(routeService.removeFilter(dto.getId(), dto.getRouteFilter()));
+    public Result<QuietRouteVO> removeFilter(@RequestBody QuietRouteDTO dto) {
+        QuietRoute route = routeService.removeFilter(dto.getId(), dto.getRouteFilter());
+        return Result.success(routeConvert.entity2vo(route));
     }
 }

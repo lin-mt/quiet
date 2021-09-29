@@ -31,12 +31,12 @@ import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -84,10 +84,11 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     
     @Override
-    public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
-        QueryResults<QuietTeam> result = SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietTeam, page);
-        if (CollectionUtils.isNotEmpty(result.getResults())) {
-            Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
+    public Page<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        Page<QuietTeam> result = teamRepository.findAll(predicate, page);
+        if (CollectionUtils.isNotEmpty(result.getContent())) {
+            Set<Long> teamIds = result.getContent().stream().map(QuietTeam::getId).collect(Collectors.toSet());
             List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
             Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
                     .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
@@ -100,7 +101,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
                     .collect(Collectors.toMap(QuietUser::getId, u -> u));
             QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
             QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
-            for (QuietTeam quietTeam : result.getResults()) {
+            for (QuietTeam quietTeam : result.getContent()) {
                 List<QuietTeamUser> quietTeamUsers = teamIdToTeamUsers.get(quietTeam.getId());
                 if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
                     List<QuietUser> members = new ArrayList<>();

@@ -14,20 +14,47 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.service.vo;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietUserDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.vo.QuietUserVO;
-import org.mapstruct.Mapper;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.gitee.quiet.service.json.filter.JsonFilterName;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
- * 权限信息实体信息转换.
+ * VO 基本信息
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDTO, QuietUserVO> {
+@Getter
+@Setter
+@JsonFilter(JsonFilterName.HAS_ROLE)
+public class BaseVO {
     
+    /**
+     * ID
+     */
+    private Long id;
+    
+    /**
+     * 创建者ID
+     */
+    private Long creator;
+    
+    /**
+     * 更新者ID
+     */
+    private Long updater;
+    
+    /**
+     * 创建时间
+     */
+    private LocalDateTime gmtCreate;
+    
+    /**
+     * 更新时间
+     */
+    private LocalDateTime gmtUpdate;
 }

@@ -24,12 +24,12 @@ import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietPermissionRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
 
 /**
  * 权限 Service 实现类.
@@ -54,15 +52,12 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     
     public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":application_name";
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietPermissionRepository permissionRepository;
     
     private final QuietRoleService roleService;
     
-    public QuietPermissionServiceImpl(JPAQueryFactory jpaQueryFactory, QuietPermissionRepository permissionRepository,
+    public QuietPermissionServiceImpl(QuietPermissionRepository permissionRepository,
             @Lazy QuietRoleService roleService) {
-        this.jpaQueryFactory = jpaQueryFactory;
         this.permissionRepository = permissionRepository;
         this.roleService = roleService;
     }
@@ -79,14 +74,15 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     @Override
     @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#result.applicationName")
     public QuietPermission delete(@NotNull Long deleteId) {
-        QuietPermission deleted = permissionRepository.getOne(deleteId);
+        QuietPermission deleted = permissionRepository.getById(deleteId);
         permissionRepository.deleteById(deleteId);
         return deleted;
     }
     
     @Override
-    public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietPermission, page);
+    public Page<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return permissionRepository.findAll(predicate, page);
     }
     
     @Override
