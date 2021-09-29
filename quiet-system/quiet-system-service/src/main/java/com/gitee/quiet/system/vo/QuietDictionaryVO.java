@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.system.vo;
 
-import com.gitee.quiet.service.dto.ParentAndSerialDTO;
+import com.gitee.quiet.service.vo.ParentAndSerialVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -24,13 +24,13 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 数据字典.
+ * 数据字典 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
 @Setter
-public class QuietDictionaryDTO extends ParentAndSerialDTO<QuietDictionaryDTO> {
+public class QuietDictionaryVO extends ParentAndSerialVO<QuietDictionaryVO> {
     
     /**
      * 数据字典类型
@@ -56,5 +56,4 @@ public class QuietDictionaryDTO extends ParentAndSerialDTO<QuietDictionaryDTO> {
      */
     @Length(max = 100)
     private String remark;
-    
 }

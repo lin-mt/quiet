@@ -16,35 +16,23 @@
 
 package com.gitee.quiet.service.vo;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 /**
- * <a href="https://ant.design/components/tree-select-cn/">前端树型选择器</a>
+ * 拥有父子关系且可排序的 VO.
  *
- * @param <V> 值类型
- * @param <T> 子级类型
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface TreeSelectVo<V, T extends TreeSelectVo<V, T>> {
+@Getter
+@Setter
+public class ParentAndSerialVO<T> extends BaseVO {
     
-    /**
-     * 标题
-     *
-     * @return 树型选择器选项的标题
-     */
-    String getTitle();
+    private int serialNumber;
     
-    /**
-     * 值
-     *
-     * @return 用户选中的值
-     */
-    V getValue();
+    private Long parentId;
     
-    /**
-     * 子级选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
+    private List<T> children;
 }

@@ -14,27 +14,34 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.vo;
+package com.gitee.quiet.system.vo;
+
+import com.gitee.quiet.service.vo.ParentVO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * <a href="https://ant.design/components/select-cn/">前端下拉选择器</a>
+ * 部门信息 Vo.
  *
- * @param <V> 值类型
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface SelectVo<V> {
+@Getter
+@Setter
+public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> {
     
     /**
-     * 选中的值
-     *
-     * @return 用户选中的值
+     * 部门名称
      */
-    V getValue();
+    @NotBlank
+    @Length(max = 10)
+    private String departmentName;
     
     /**
-     * 展示的值
-     *
-     * @return 组件展示给用户的值
+     * 备注
      */
-    String getLabel();
+    @Length(max = 100)
+    private String remark;
 }

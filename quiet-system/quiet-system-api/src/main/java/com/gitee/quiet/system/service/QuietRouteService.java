@@ -18,7 +18,7 @@ package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.system.entity.QuietRoute;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -35,7 +35,7 @@ public interface QuietRouteService {
      * @param page   分页参数
      * @return 网关路由信息
      */
-    QueryResults<QuietRoute> page(QuietRoute params, Pageable page);
+    Page<QuietRoute> page(QuietRoute params, Pageable page);
     
     /**
      * 新增网关路由配置信息

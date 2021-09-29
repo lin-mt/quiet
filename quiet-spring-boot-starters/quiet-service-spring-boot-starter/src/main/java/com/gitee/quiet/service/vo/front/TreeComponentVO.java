@@ -14,20 +14,37 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.service.vo.front;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietUserDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.vo.QuietUserVO;
-import org.mapstruct.Mapper;
+import java.util.List;
 
 /**
- * 权限信息实体信息转换.
+ * <a href="https://ant.design/components/tree-cn/">前端树型控件</a>
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @param <K> key类型
+ * @param <T> 子级类型
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Mapper
-public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDTO, QuietUserVO> {
+public interface TreeComponentVO<K, T> {
     
+    /**
+     * 选项标题
+     *
+     * @return 显示的选项标题
+     */
+    String getTitle();
+    
+    /**
+     * 组件 key
+     *
+     * @return 组件key
+     */
+    K getKey();
+    
+    /**
+     * 子级选项
+     *
+     * @return 子级选项
+     */
+    List<T> getChildren();
 }

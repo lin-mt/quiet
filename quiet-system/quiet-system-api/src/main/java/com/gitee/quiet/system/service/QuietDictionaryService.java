@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietDictionary;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public interface QuietDictionaryService {
      * @param page   分页参数
      * @return 查询的所有信息
      */
-    QueryResults<QuietDictionary> page(QuietDictionary params, Pageable page);
+    Page<QuietDictionary> page(QuietDictionary params, Pageable page);
     
     /**
      * 新增数据字典.

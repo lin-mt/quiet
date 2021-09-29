@@ -16,22 +16,18 @@
 
 package com.gitee.quiet.service.vo;
 
-import java.util.List;
+import com.gitee.quiet.common.core.entity.Serial;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * <a href="https://ant.design/components/cascader-cn/">前端级联选择</a>
+ * 可排序的VO.
  *
- * @param <T> 子级类型
- * @param <V> 值类型
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface CascaderVo<V, T> extends SelectVo<V> {
+@Getter
+@Setter
+public class SerialVO extends BaseVO implements Serial {
     
-    /**
-     * 子级选选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
-    
+    private int serialNumber;
 }

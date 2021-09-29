@@ -14,37 +14,23 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.service.vo;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 /**
- * 提供给前端树形结构key和title属性.
+ * 带有父子关系的 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface FrontSelectDTO {
+@Getter
+@Setter
+public class ParentVO<T extends ParentVO<T>> extends BaseVO {
     
-    /**
-     * 前端树形组件使用的 key
-     *
-     * @return key
-     */
-    Object getKey();
+    private Long parentId;
     
-    /**
-     * 前端树形组件使用的 value
-     *
-     * @return value
-     */
-    default Object getValue() {
-        return getKey();
-    }
-    
-    /**
-     * 前端树形组件使用的 title
-     *
-     * @return title
-     */
-    default String getTitle() {
-        return "TODO";
-    }
+    private List<T> children;
 }

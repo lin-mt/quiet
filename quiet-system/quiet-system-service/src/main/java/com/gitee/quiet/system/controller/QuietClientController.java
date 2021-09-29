@@ -21,10 +21,11 @@ import com.gitee.quiet.system.convert.QuietClientConvert;
 import com.gitee.quiet.system.dto.QuietClientDTO;
 import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.service.QuietClientService;
+import com.gitee.quiet.system.vo.QuietClientVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,8 +59,9 @@ public class QuietClientController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietClient>> page(QuietClientDTO dto) {
-        return Result.success(clientService.page(clientConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietClientVO>> page(QuietClientDTO dto) {
+        Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
+        return Result.success(clientConvert.page2page(clients));
     }
     
     /**
@@ -69,8 +71,9 @@ public class QuietClientController {
      * @return 新增后的客户端信息
      */
     @PostMapping
-    public Result<QuietClient> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
-        return Result.createSuccess(clientService.save(clientConvert.dtoToEntity(dto)));
+    public Result<QuietClientVO> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
+        QuietClient save = clientService.save(clientConvert.dto2entity(dto));
+        return Result.createSuccess(clientConvert.entity2vo(save));
     }
     
     /**
@@ -92,8 +95,9 @@ public class QuietClientController {
      * @return 新增后的客户端信息
      */
     @PutMapping
-    public Result<QuietClient> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
-        return Result.updateSuccess(clientService.update(clientConvert.dtoToEntity(dto)));
+    public Result<QuietClientVO> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
+        QuietClient update = clientService.update(clientConvert.dto2entity(dto));
+        return Result.updateSuccess(clientConvert.entity2vo(update));
     }
     
     /**
@@ -103,8 +107,9 @@ public class QuietClientController {
      * @return 更新后的客户端信息
      */
     @PostMapping("/removeClientScope")
-    public Result<QuietClient> removeClientScope(@RequestBody QuietClientDTO dto) {
-        return Result.success(clientService.removeClientScope(dto.getId(), dto.getClientScope()));
+    public Result<QuietClientVO> removeClientScope(@RequestBody QuietClientDTO dto) {
+        QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
+        return Result.success(clientConvert.entity2vo(client));
     }
     
     /**
@@ -114,9 +119,10 @@ public class QuietClientController {
      * @return 更新后的客户端信息
      */
     @PostMapping("/removeClientAuthorizedGrantType")
-    public Result<QuietClient> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
-        return Result.success(
-                clientService.removeClientAuthorizedGrantType(dto.getId(), dto.getClientAuthorizedGrantType()));
+    public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
+        QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
+                dto.getClientAuthorizedGrantType());
+        return Result.success(clientConvert.entity2vo(client));
     }
     
 }

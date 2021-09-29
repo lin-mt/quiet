@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.system.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.constant.service.RoleNames;
-import com.gitee.quiet.service.dto.BaseDTO;
 import com.gitee.quiet.service.enums.Gender;
 import com.gitee.quiet.service.json.annotation.JsonHasRole;
+import com.gitee.quiet.service.vo.BaseVO;
+import com.gitee.quiet.system.entity.QuietUserRole;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -30,15 +31,16 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
- * 用户信息.
+ * 用户信息VO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class QuietUserDTO extends BaseDTO {
+public class QuietUserVO extends BaseVO {
     
     /**
      * 用户名
@@ -115,6 +117,11 @@ public class QuietUserDTO extends BaseDTO {
      * 角色ID
      */
     private Long roleId;
+    
+    /**
+     * 用户与角色信息
+     */
+    private List<QuietUserRole> userRoles;
     
     @JsonIgnore
     public String getSecretCode() {

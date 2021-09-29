@@ -20,16 +20,20 @@ import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.convert.QuietUserConvert;
+import com.gitee.quiet.system.convert.QuietUserRoleConverter;
 import com.gitee.quiet.system.dto.QuietUserDTO;
+import com.gitee.quiet.system.dto.QuietUserRoleDTO;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.system.vo.QuietUserRoleVO;
+import com.gitee.quiet.system.vo.QuietUserVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import com.gitee.quiet.validation.util.ValidationUtils;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +64,8 @@ public class QuietUserController {
     
     private final QuietUserConvert userConvert;
     
+    private final QuietUserRoleConverter userRoleConverter;
+    
     /**
      * 根据用户名/全名查询用户信息
      *
@@ -67,8 +73,9 @@ public class QuietUserController {
      * @return 用户信息
      */
     @GetMapping("/listUsersByName")
-    public Result<List<QuietUser>> listUsersByName(@RequestParam String keyword) {
-        return Result.success(userService.listUsersByName(keyword, 9));
+    public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
+        List<QuietUser> users = userService.listUsersByName(keyword, 9);
+        return Result.success(userConvert.entities2vos(users));
     }
     
     /**
@@ -78,9 +85,10 @@ public class QuietUserController {
      * @return 注册后的用户信息
      */
     @PostMapping
-    public Result<QuietUser> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
+    public Result<QuietUserVO> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
         // TODO 可以根据配置确定是否注册就直接启用该用户
-        return Result.success(userService.save(userConvert.dtoToEntity(dto)));
+        QuietUser user = userService.save(userConvert.dto2entity(dto));
+        return Result.success(userConvert.entity2vo(user));
     }
     
     /**
@@ -90,8 +98,9 @@ public class QuietUserController {
      * @return 查询的用户信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietUser>> page(QuietUserDTO dto) {
-        return Result.success(userService.page(userConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietUserVO>> page(QuietUserDTO dto) {
+        Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
+        return Result.success(userConvert.page2page(userPage));
     }
     
     /**
@@ -115,8 +124,9 @@ public class QuietUserController {
      */
     @PutMapping
     @PreAuthorize(value = "#dto.id == authentication.principal.id || hasRole('Admin')")
-    public Result<QuietUser> update(@RequestBody @Validated(Update.class) QuietUserDTO dto) {
-        return Result.updateSuccess(userService.update(userConvert.dtoToEntity(dto)));
+    public Result<QuietUserVO> update(@RequestBody @Validated(Update.class) QuietUserDTO dto) {
+        QuietUser update = userService.update(userConvert.dto2entity(dto));
+        return Result.updateSuccess(userConvert.entity2vo(update));
     }
     
     /**
@@ -150,8 +160,9 @@ public class QuietUserController {
      * @return 移除结果
      */
     @PostMapping("/addRoles")
-    public Result<List<QuietUserRole>> addRoles(@RequestBody QuietUserDTO dto) {
-        return Result.createSuccess(userRoleService.addRoles(dto.getUserRoles()));
+    public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
+        List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
+        return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
     }
     
 }

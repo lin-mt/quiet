@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietTeam;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public interface QuietTeamService {
      * @param page   分页条件
      * @return 查询结果
      */
-    QueryResults<QuietTeam> page(QuietTeam params, Pageable page);
+    Page<QuietTeam> page(QuietTeam params, Pageable page);
     
     /**
      * 新增或更新团队信息

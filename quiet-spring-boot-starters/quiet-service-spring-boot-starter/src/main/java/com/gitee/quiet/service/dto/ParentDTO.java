@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ParentDTO<T extends ParentDTO<T>> extends BaseDTO implements Parent<T>, FrontSelectDTO {
+public class ParentDTO<T extends ParentDTO<T>> extends BaseDTO implements Parent<T> {
     
     /**
      * 父级ID
@@ -40,8 +40,4 @@ public class ParentDTO<T extends ParentDTO<T>> extends BaseDTO implements Parent
     @Transient
     private List<T> children;
     
-    @Override
-    public Object getKey() {
-        return getId();
-    }
 }

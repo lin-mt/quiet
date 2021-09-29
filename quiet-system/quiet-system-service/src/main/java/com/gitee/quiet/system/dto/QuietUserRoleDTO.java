@@ -14,36 +14,39 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.common.core.entity.Parent;
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.service.dto.BaseDTO;
+import com.gitee.quiet.system.entity.QuietUserRole;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 带有父子关系且有优先级信息的实体.
+ * 用户角色信息DTO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
 @Setter
-public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO implements Parent<T>, Serial {
+public class QuietUserRoleDTO extends BaseDTO {
     
     /**
-     * 序号
+     * 用户ID
      */
-    private int serialNumber;
+    @NotNull
+    private Long userId;
     
     /**
-     * 父级ID
+     * 角色ID
      */
-    private Long parentId;
+    @NotNull
+    private Long roleId;
     
     /**
-     * 子数据
+     * 用户与角色信息
      */
-    private List<T> children;
+    private List<QuietUserRole> userRoles;
 }

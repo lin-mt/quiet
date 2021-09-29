@@ -14,37 +14,32 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.vo;
+package com.gitee.quiet.system.vo;
 
-import java.util.List;
+import com.gitee.quiet.service.vo.BaseVO;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
 
 /**
- * <a href="https://ant.design/components/tree-cn/">前端树型控件</a>
+ * 用户角色信息VO.
  *
- * @param <K> key类型
- * @param <T> 子级类型
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface TreeComponent<K, T> {
+@Getter
+@Setter
+public class QuietUserRoleVO extends BaseVO {
     
     /**
-     * 选项标题
-     *
-     * @return 显示的选项标题
+     * 用户ID
      */
-    String getTitle();
+    @NotNull
+    private Long userId;
     
     /**
-     * 组件 key
-     *
-     * @return 组件key
+     * 角色ID
      */
-    K getKey();
-    
-    /**
-     * 子级选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
+    @NotNull
+    private Long roleId;
 }

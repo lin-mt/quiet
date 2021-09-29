@@ -14,44 +14,37 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.vo;
+package com.gitee.quiet.service.vo.front;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * vo 基本字段
+ * <a href="https://ant.design/components/tree-select-cn/">前端树型选择器</a>
  *
+ * @param <V> 值类型
+ * @param <T> 子级类型
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class BaseVo {
+public interface TreeSelectVO<V, T extends TreeSelectVO<V, T>> {
     
     /**
-     * ID
+     * 标题
+     *
+     * @return 树型选择器选项的标题
      */
-    private Long id;
+    String getTitle();
     
     /**
-     * 创建者ID
+     * 值
+     *
+     * @return 用户选中的值
      */
-    private Long creator;
+    V getValue();
     
     /**
-     * 更新者ID
+     * 子级选项
+     *
+     * @return 子级选项
      */
-    private Long updater;
-    
-    /**
-     * 创建时间
-     */
-    private LocalDateTime gmtCreate;
-    
-    /**
-     * 更新时间
-     */
-    private LocalDateTime gmtUpdate;
+    List<T> getChildren();
 }

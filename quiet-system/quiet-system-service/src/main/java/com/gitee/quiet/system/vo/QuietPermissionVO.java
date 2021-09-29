@@ -14,47 +14,55 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.system.vo;
 
-import com.gitee.quiet.service.dto.ParentAndSerialDTO;
+import com.gitee.quiet.service.vo.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 数据字典.
+ * 部门VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
 @Setter
-public class QuietDictionaryDTO extends ParentAndSerialDTO<QuietDictionaryDTO> {
+public class QuietPermissionVO extends BaseVO {
     
     /**
-     * 数据字典类型
-     */
-    @Length(max = 30)
-    private String type;
-    
-    /**
-     * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
-     */
-    @Length(max = 30)
-    private String key;
-    
-    /**
-     * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
+     * 应用名称
      */
     @NotBlank
-    @Length(max = 30)
-    private String label;
+    @Length(max = 100)
+    private String applicationName;
+    
+    /**
+     * URL 匹配规则
+     */
+    @NotBlank
+    @Length(max = 100)
+    private String urlPattern;
+    
+    /**
+     * 请求方法
+     */
+    @NotBlank
+    @Length(max = 7)
+    private String requestMethod;
+    
+    /**
+     * 角色ID
+     */
+    @NotNull
+    private Long roleId;
     
     /**
      * 备注
      */
     @Length(max = 100)
     private String remark;
-    
 }
