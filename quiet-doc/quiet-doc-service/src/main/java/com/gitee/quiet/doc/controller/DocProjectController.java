@@ -24,6 +24,7 @@ import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
+import com.gitee.quiet.doc.vo.DocProjectVO;
 import com.gitee.quiet.doc.vo.MyDocProject;
 import com.gitee.quiet.doc.vo.ProjectApiInfo;
 import com.gitee.quiet.service.result.Result;
@@ -107,8 +108,9 @@ public class DocProjectController {
      * @return 项目信息
      */
     @GetMapping("/{id}")
-    public Result<DocProject> projectInfo(@PathVariable Long id) {
-        return Result.success(projectService.getById(id));
+    public Result<DocProjectVO> projectInfo(@PathVariable Long id) {
+        DocProject docProject = projectService.getById(id);
+        return Result.success(projectConvert.entity2vo(docProject));
     }
     
     /**
@@ -118,8 +120,9 @@ public class DocProjectController {
      * @return 新增的项目信息
      */
     @PostMapping
-    public Result<DocProject> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
-        return Result.success(projectService.save(projectConvert.dtoToEntity(dto)));
+    public Result<DocProjectVO> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
+        DocProject save = projectService.save(projectConvert.dto2entity(dto));
+        return Result.success(projectConvert.entity2vo(save));
     }
     
     /**
@@ -129,8 +132,9 @@ public class DocProjectController {
      * @return 更新后的项目信息
      */
     @PutMapping
-    public Result<DocProject> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
-        return Result.success(projectService.update(projectConvert.dtoToEntity(dto)));
+    public Result<DocProjectVO> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
+        DocProject update = projectService.update(projectConvert.dto2entity(dto));
+        return Result.success(projectConvert.entity2vo(update));
     }
     
     /**

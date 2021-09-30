@@ -20,6 +20,7 @@ import com.gitee.quiet.doc.converter.DocApiGroupConvert;
 import com.gitee.quiet.doc.dto.DocApiGroupDTO;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.doc.vo.DocApiGroupVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -57,8 +58,9 @@ public class DocApiGroupController {
      * @return 新增的接口分组信息
      */
     @PostMapping
-    public Result<DocApiGroup> save(@RequestBody @Validated(Create.class) DocApiGroupDTO dto) {
-        return Result.success(apiGroupService.save(apiGroupConvert.dtoToEntity(dto)));
+    public Result<DocApiGroupVO> save(@RequestBody @Validated(Create.class) DocApiGroupDTO dto) {
+        DocApiGroup save = apiGroupService.save(apiGroupConvert.dto2entity(dto));
+        return Result.success(apiGroupConvert.entity2vo(save));
     }
     
     /**
@@ -68,8 +70,9 @@ public class DocApiGroupController {
      * @return 更新后的接口分组信息
      */
     @PutMapping
-    public Result<DocApiGroup> update(@RequestBody @Validated(Update.class) DocApiGroupDTO dto) {
-        return Result.success(apiGroupService.update(apiGroupConvert.dtoToEntity(dto)));
+    public Result<DocApiGroupVO> update(@RequestBody @Validated(Update.class) DocApiGroupDTO dto) {
+        DocApiGroup update = apiGroupService.update(apiGroupConvert.dto2entity(dto));
+        return Result.success(apiGroupConvert.entity2vo(update));
     }
     
     /**
@@ -91,7 +94,8 @@ public class DocApiGroupController {
      * @return 接口分组信息
      */
     @GetMapping("/listByProjectIdAndName")
-    public Result<List<DocApiGroup>> listByProjectIdAndName(DocApiGroupDTO dto) {
-        return Result.success(apiGroupService.listByProjectIdAndName(dto.getProjectId(), dto.getName(), 6L));
+    public Result<List<DocApiGroupVO>> listByProjectIdAndName(DocApiGroupDTO dto) {
+        List<DocApiGroup> docApiGroups = apiGroupService.listByProjectIdAndName(dto.getProjectId(), dto.getName(), 6L);
+        return Result.success(apiGroupConvert.entities2vos(docApiGroups));
     }
 }

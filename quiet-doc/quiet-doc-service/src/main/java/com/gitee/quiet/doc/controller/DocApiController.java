@@ -21,6 +21,7 @@ import com.gitee.quiet.doc.dto.DocApiDTO;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.vo.DocApiDetail;
+import com.gitee.quiet.doc.vo.DocApiVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -67,8 +68,9 @@ public class DocApiController {
      * @return 新增的接口信息
      */
     @PostMapping
-    public Result<DocApi> save(@RequestBody @Validated(Create.class) DocApiDTO dto) {
-        return Result.success(apiService.save(apiConvert.dtoToEntity(dto)));
+    public Result<DocApiVO> save(@RequestBody @Validated(Create.class) DocApiDTO dto) {
+        DocApi save = apiService.save(apiConvert.dto2entity(dto));
+        return Result.success(apiConvert.entity2vo(save));
     }
     
     /**
@@ -78,8 +80,9 @@ public class DocApiController {
      * @return 更新后的接口信息
      */
     @PutMapping
-    public Result<DocApi> update(@RequestBody @Validated(Update.class) DocApiDTO dto) {
-        return Result.success(apiService.update(apiConvert.dtoToEntity(dto)));
+    public Result<DocApiVO> update(@RequestBody @Validated(Update.class) DocApiDTO dto) {
+        DocApi update = apiService.update(apiConvert.dto2entity(dto));
+        return Result.success(apiConvert.entity2vo(update));
     }
     
     /**

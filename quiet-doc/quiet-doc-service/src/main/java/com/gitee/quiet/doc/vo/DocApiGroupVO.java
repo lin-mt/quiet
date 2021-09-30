@@ -14,20 +14,36 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.converter;
+package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.dto.DocProjectDTO;
-import com.gitee.quiet.doc.entity.DocProject;
-import com.gitee.quiet.doc.vo.DocProjectVO;
-import com.gitee.quiet.service.dto.QuietConvert;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.service.vo.SerialVO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 项目实体信息转换.
+ * Api 分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDTO, DocProjectVO> {
+@Getter
+@Setter
+public class DocApiGroupVO extends SerialVO {
+    
+    /**
+     * 分组名称
+     */
+    @NotBlank
+    @Length(max = 30)
+    private String name;
+    
+    /**
+     * 所属项目ID
+     */
+    @NotNull
+    private Long projectId;
     
 }
