@@ -16,8 +16,6 @@
 
 package com.gitee.quiet.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.gitee.quiet.service.json.filter.JsonFilterName;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.OffsetLimitValid;
@@ -39,7 +37,6 @@ import java.time.LocalDateTime;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Data
-@JsonFilter(JsonFilterName.HAS_ROLE)
 public class BaseDTO {
     
     private static final String ASCEND = "ascend";

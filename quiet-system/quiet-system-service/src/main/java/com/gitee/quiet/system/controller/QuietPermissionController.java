@@ -21,10 +21,11 @@ import com.gitee.quiet.system.convert.QuietPermissionConvert;
 import com.gitee.quiet.system.dto.QuietPermissionDTO;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.service.QuietPermissionService;
+import com.gitee.quiet.system.vo.QuietPermissionVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,8 +57,9 @@ public class QuietPermissionController {
      * @return 查询的权限配置信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietPermission>> page(QuietPermissionDTO dto) {
-        return Result.success(permissionService.page(permissionConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietPermissionVO>> page(QuietPermissionDTO dto) {
+        Page<QuietPermission> permissionPage = permissionService.page(permissionConvert.dto2entity(dto), dto.page());
+        return Result.success(permissionConvert.page2page(permissionPage));
     }
     
     /**
@@ -67,8 +69,9 @@ public class QuietPermissionController {
      * @return 新增的权限信息
      */
     @PostMapping
-    public Result<QuietPermission> save(@RequestBody @Validated(Create.class) QuietPermissionDTO dto) {
-        return Result.createSuccess(permissionService.saveOrUpdate(permissionConvert.dtoToEntity(dto)));
+    public Result<QuietPermissionVO> save(@RequestBody @Validated(Create.class) QuietPermissionDTO dto) {
+        QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
+        return Result.createSuccess(permissionConvert.entity2vo(permission));
     }
     
     /**
@@ -78,8 +81,9 @@ public class QuietPermissionController {
      * @return 更新的权限信息
      */
     @PutMapping
-    public Result<QuietPermission> update(@RequestBody @Validated(Update.class) QuietPermissionDTO dto) {
-        return Result.updateSuccess(permissionService.saveOrUpdate(permissionConvert.dtoToEntity(dto)));
+    public Result<QuietPermissionVO> update(@RequestBody @Validated(Update.class) QuietPermissionDTO dto) {
+        QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
+        return Result.updateSuccess(permissionConvert.entity2vo(permission));
     }
     
     /**

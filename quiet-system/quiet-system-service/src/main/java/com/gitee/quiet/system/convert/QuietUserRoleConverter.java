@@ -17,17 +17,17 @@
 package com.gitee.quiet.system.convert;
 
 import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietUserDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.vo.QuietUserVO;
+import com.gitee.quiet.system.dto.QuietUserRoleDTO;
+import com.gitee.quiet.system.entity.QuietUserRole;
+import com.gitee.quiet.system.vo.QuietUserRoleVO;
 import org.mapstruct.Mapper;
 
 /**
- * 权限信息实体信息转换.
+ * 用户角色信息转换器.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Mapper
-public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDTO, QuietUserVO> {
-    
+public interface QuietUserRoleConverter extends QuietConvert<QuietUserRole, QuietUserRoleDTO, QuietUserRoleVO> {
+
 }

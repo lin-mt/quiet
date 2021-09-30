@@ -21,10 +21,11 @@ import com.gitee.quiet.system.convert.QuietRoleConvert;
 import com.gitee.quiet.system.dto.QuietRoleDTO;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.service.QuietRoleService;
+import com.gitee.quiet.system.vo.QuietRoleVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,8 +59,9 @@ public class QuietRoleController {
      * @return 角色之间的关联关系
      */
     @GetMapping("/tree")
-    public Result<List<QuietRole>> tree() {
-        return Result.success(roleService.tree());
+    public Result<List<QuietRoleVO>> tree() {
+        List<QuietRole> treeRoles = roleService.tree();
+        return Result.success(roleConvert.entities2vos(treeRoles));
     }
     
     /**
@@ -68,8 +70,9 @@ public class QuietRoleController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietRole>> page(QuietRoleDTO dto) {
-        return Result.success(roleService.page(roleConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietRoleVO>> page(QuietRoleDTO dto) {
+        Page<QuietRole> rolePage = roleService.page(roleConvert.dto2entity(dto), dto.page());
+        return Result.success(roleConvert.page2page(rolePage));
     }
     
     /**
@@ -79,8 +82,9 @@ public class QuietRoleController {
      * @return 新增后的角色信息
      */
     @PostMapping
-    public Result<QuietRole> save(@RequestBody @Validated(Create.class) QuietRoleDTO dto) {
-        return Result.createSuccess(roleService.save(roleConvert.dtoToEntity(dto)));
+    public Result<QuietRoleVO> save(@RequestBody @Validated(Create.class) QuietRoleDTO dto) {
+        QuietRole save = roleService.save(roleConvert.dto2entity(dto));
+        return Result.createSuccess(roleConvert.entity2vo(save));
     }
     
     /**
@@ -103,8 +107,9 @@ public class QuietRoleController {
      * @return 新增后的角色信息
      */
     @PutMapping
-    public Result<QuietRole> update(@RequestBody @Validated(Update.class) QuietRoleDTO dto) {
-        return Result.updateSuccess(roleService.update(roleConvert.dtoToEntity(dto)));
+    public Result<QuietRoleVO> update(@RequestBody @Validated(Update.class) QuietRoleDTO dto) {
+        QuietRole update = roleService.update(roleConvert.dto2entity(dto));
+        return Result.updateSuccess(roleConvert.entity2vo(update));
     }
     
 }

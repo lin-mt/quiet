@@ -22,20 +22,18 @@ import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.repository.QuietDictionaryRepository;
 import com.gitee.quiet.system.service.QuietDictionaryService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
-
-import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 
 
 /**
@@ -48,12 +46,9 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     
     public static final String CACHE_NAME = "quiet:system:dictionary";
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietDictionaryRepository dictionaryRepository;
     
-    public QuietDictionaryServiceImpl(JPAQueryFactory jpaQueryFactory, QuietDictionaryRepository dictionaryRepository) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietDictionaryServiceImpl(QuietDictionaryRepository dictionaryRepository) {
         this.dictionaryRepository = dictionaryRepository;
     }
     
@@ -69,8 +64,9 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    public QueryResults<QuietDictionary> page(QuietDictionary params, @NotNull Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietDictionary, page);
+    public Page<QuietDictionary> page(QuietDictionary params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return dictionaryRepository.findAll(predicate, page);
     }
     
     @Override

@@ -18,7 +18,7 @@ package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -65,7 +65,7 @@ public interface QuietUserService extends UserDetailsService {
      * @param page   分页参数
      * @return 查询结果
      */
-    QueryResults<QuietUser> page(QuietUser params, Pageable page);
+    Page<QuietUser> page(QuietUser params, Pageable page);
     
     /**
      * 判断该用户 ID 是否存在

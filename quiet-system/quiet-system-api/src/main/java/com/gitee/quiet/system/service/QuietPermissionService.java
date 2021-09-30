@@ -18,7 +18,7 @@ package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.service.security.UrlPermissionService;
 import com.gitee.quiet.system.entity.QuietPermission;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public interface QuietPermissionService extends UrlPermissionService {
      * @param page   分页参数
      * @return 查询结果
      */
-    QueryResults<QuietPermission> page(QuietPermission params, Pageable page);
+    Page<QuietPermission> page(QuietPermission params, Pageable page);
     
     /**
      * 根据角色 ID 查询该角色下的权限配置信息

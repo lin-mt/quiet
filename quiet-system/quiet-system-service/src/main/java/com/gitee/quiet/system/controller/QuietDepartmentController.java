@@ -18,16 +18,20 @@ package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietDepartmentConvert;
+import com.gitee.quiet.system.convert.QuietUserConvert;
 import com.gitee.quiet.system.dto.QuietDepartmentDTO;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietDepartmentService;
 import com.gitee.quiet.system.service.QuietDepartmentUserService;
+import com.gitee.quiet.system.vo.QuietDepartmentVO;
+import com.gitee.quiet.system.vo.QuietUserVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +59,8 @@ public class QuietDepartmentController {
     private final QuietDepartmentUserService departmentUserService;
     
     private final QuietDepartmentConvert departmentConvert;
+    
+    private final QuietUserConvert userConvert;
     
     /**
      * 部门移除成员信息.
@@ -87,8 +93,9 @@ public class QuietDepartmentController {
      * @return 查询的部门的用户信息
      */
     @GetMapping("/pageUser")
-    public Result<QueryResults<QuietUser>> pageUser(QuietDepartmentDTO dto) {
-        return Result.success(departmentService.pageUser(dto.getId(), dto.getParams(), dto.page()));
+    public Result<QueryResults<QuietUserVO>> pageUser(QuietDepartmentDTO dto) {
+        QueryResults<QuietUser> userQueryResults = departmentService.pageUser(dto.getId(), dto.getParams(), dto.page());
+        return Result.success(userConvert.results2results(userQueryResults));
     }
     
     /**
@@ -98,8 +105,9 @@ public class QuietDepartmentController {
      * @return 查询的部门信息
      */
     @GetMapping("/page")
-    public Result<QueryResults<QuietDepartment>> page(QuietDepartmentDTO dto) {
-        return Result.success(departmentService.page(departmentConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<QuietDepartmentVO>> page(QuietDepartmentDTO dto) {
+        Page<QuietDepartment> departmentPage = departmentService.page(departmentConvert.dto2entity(dto), dto.page());
+        return Result.success(departmentConvert.page2page(departmentPage));
     }
     
     /**
@@ -108,8 +116,9 @@ public class QuietDepartmentController {
      * @return 查询的部门信息
      */
     @GetMapping("/tree")
-    public Result<List<QuietDepartment>> tree() {
-        return Result.success(departmentService.tree());
+    public Result<List<QuietDepartmentVO>> tree() {
+        List<QuietDepartment> tree = departmentService.tree();
+        return Result.success(departmentConvert.entities2vos(tree));
     }
     
     /**
@@ -119,8 +128,9 @@ public class QuietDepartmentController {
      * @return 新增的部门信息
      */
     @PostMapping
-    public Result<QuietDepartment> save(@RequestBody @Validated(Create.class) QuietDepartmentDTO dto) {
-        return Result.createSuccess(departmentService.saveOrUpdate(departmentConvert.dtoToEntity(dto)));
+    public Result<QuietDepartmentVO> save(@RequestBody @Validated(Create.class) QuietDepartmentDTO dto) {
+        QuietDepartment department = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
+        return Result.createSuccess(departmentConvert.entity2vo(department));
     }
     
     /**
@@ -130,8 +140,9 @@ public class QuietDepartmentController {
      * @return 更新后的部门信息
      */
     @PutMapping
-    public Result<QuietDepartment> update(@RequestBody @Validated(Update.class) QuietDepartmentDTO dto) {
-        return Result.updateSuccess(departmentService.saveOrUpdate(departmentConvert.dtoToEntity(dto)));
+    public Result<QuietDepartmentVO> update(@RequestBody @Validated(Update.class) QuietDepartmentDTO dto) {
+        QuietDepartment update = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
+        return Result.updateSuccess(departmentConvert.entity2vo(update));
     }
     
     /**

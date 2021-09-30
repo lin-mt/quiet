@@ -23,17 +23,15 @@ import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.gitee.quiet.system.repository.QuietRouteRepository;
 import com.gitee.quiet.system.service.QuietRouteService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 
 /**
  * 路由信息service实现类.
@@ -43,22 +41,19 @@ import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 @Service
 public class QuietRouteServiceImpl implements QuietRouteService {
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietRouteRepository routeRepository;
     
     private final RedisTemplate<String, Object> redisTemplate;
     
-    public QuietRouteServiceImpl(JPAQueryFactory jpaQueryFactory, QuietRouteRepository routeRepository,
-            RedisTemplate<String, Object> redisTemplate) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietRouteServiceImpl(QuietRouteRepository routeRepository, RedisTemplate<String, Object> redisTemplate) {
         this.routeRepository = routeRepository;
         this.redisTemplate = redisTemplate;
     }
     
     @Override
-    public QueryResults<QuietRoute> page(QuietRoute params, Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietRoute, page);
+    public Page<QuietRoute> page(QuietRoute params, Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return routeRepository.findAll(predicate, page);
     }
     
     @Override
@@ -101,14 +96,14 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     
     @Override
     public QuietRoute removePredicate(Long id, String predicate) {
-        QuietRoute route = routeRepository.getOne(id);
+        QuietRoute route = routeRepository.getById(id);
         route.removePredicate(predicate);
         return routeRepository.saveAndFlush(route);
     }
     
     @Override
     public QuietRoute removeFilter(Long id, String filter) {
-        QuietRoute route = routeRepository.getOne(id);
+        QuietRoute route = routeRepository.getById(id);
         route.removeFilter(filter);
         return routeRepository.saveAndFlush(route);
     }

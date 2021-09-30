@@ -23,12 +23,12 @@ import com.gitee.quiet.system.repository.QuietClientRepository;
 import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -38,8 +38,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
 
 /**
  * 客户端实现类.
@@ -56,15 +54,11 @@ public class QuietClientServiceImpl implements QuietClientService {
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final PasswordEncoder passwordEncoder;
     
     private final QuietClientRepository clientRepository;
     
-    public QuietClientServiceImpl(JPAQueryFactory jpaQueryFactory, PasswordEncoder passwordEncoder,
-            QuietClientRepository clientRepository) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietClientServiceImpl(PasswordEncoder passwordEncoder, QuietClientRepository clientRepository) {
         this.passwordEncoder = passwordEncoder;
         this.clientRepository = clientRepository;
     }
@@ -81,8 +75,9 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    public QueryResults<QuietClient> page(QuietClient params, Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietClient, page);
+    public Page<QuietClient> page(QuietClient params, Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return clientRepository.findAll(predicate, page);
     }
     
     @Override

@@ -14,20 +14,27 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.convert;
-
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietUserDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.vo.QuietUserVO;
-import org.mapstruct.Mapper;
+package com.gitee.quiet.service.vo.front;
 
 /**
- * 权限信息实体信息转换.
+ * <a href="https://ant.design/components/select-cn/">前端下拉选择器</a>
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @param <V> 值类型
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Mapper
-public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDTO, QuietUserVO> {
+public interface SelectVO<V> {
     
+    /**
+     * 选中的值
+     *
+     * @return 用户选中的值
+     */
+    V getValue();
+    
+    /**
+     * 展示的值
+     *
+     * @return 组件展示给用户的值
+     */
+    String getLabel();
 }

@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietClient;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 
@@ -36,7 +36,7 @@ public interface QuietClientService extends ClientDetailsService {
      * @param page   分页参数
      * @return 客户端信息
      */
-    QueryResults<QuietClient> page(QuietClient params, Pageable page);
+    Page<QuietClient> page(QuietClient params, Pageable page);
     
     /**
      * 新增客户端信息

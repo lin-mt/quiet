@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.service.vo;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietUserDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.vo.QuietUserVO;
-import org.mapstruct.Mapper;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 /**
- * 权限信息实体信息转换.
+ * 拥有父子关系且可排序的 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Mapper
-public interface QuietUserConvert extends QuietConvert<QuietUser, QuietUserDTO, QuietUserVO> {
+@Getter
+@Setter
+public class ParentAndSerialVO<T> extends BaseVO {
     
+    private int serialNumber;
+    
+    private Long parentId;
+    
+    private List<T> children;
 }

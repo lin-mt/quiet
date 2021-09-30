@@ -16,12 +16,24 @@
 
 package com.gitee.quiet.service.dto;
 
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.service.vo.BaseVO;
+import com.querydsl.core.QueryResults;
+import org.apache.commons.collections4.CollectionUtils;
+import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * 实体转换接口.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuietConvert<E, D> {
+public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends BaseVO> {
     
     /**
      * DTO 转实体
@@ -29,13 +41,60 @@ public interface QuietConvert<E, D> {
      * @param dto 转换的DTO
      * @return 实体信息
      */
-    E dtoToEntity(D dto);
+    E dto2entity(D dto);
     
     /**
-     * 实体转DTO
+     * 实体转VO
      *
      * @param entity 实体信息
-     * @return DTO信息
+     * @return Vo信息
      */
-    D entityToDto(E entity);
+    V entity2vo(E entity);
+    
+    /**
+     * 实体分页信息转VO分页信息
+     *
+     * @param ePage 实体分页信息
+     * @return VO 分页信息
+     */
+    default Page<V> page2page(Page<E> ePage) {
+        return ePage.map(this::entity2vo);
+    }
+    
+    /**
+     * queryDsl 实体分页查询结果转vo分页查询结果
+     *
+     * @param results 实体分页信息
+     * @return vo分页信息
+     */
+    default QueryResults<V> results2results(QueryResults<E> results) {
+        return new QueryResults<>(this.entities2vos(results.getResults()), results.getLimit(), results.getOffset(),
+                results.getTotal());
+    }
+    
+    /**
+     * List 实体信息转 vo List
+     *
+     * @param entities 实体信息
+     * @return vo信息
+     */
+    default List<V> entities2vos(List<E> entities) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return Lists.newArrayList();
+        }
+        return entities.stream().map(this::entity2vo).collect(Collectors.toList());
+    }
+    
+    /**
+     * Set 实体信息转 VO Set
+     *
+     * @param entities 实体信息
+     * @return vo 信息
+     */
+    default Set<V> entities2vos(Set<E> entities) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return Sets.newHashSet();
+        }
+        return entities.stream().map(this::entity2vo).collect(Collectors.toSet());
+    }
 }

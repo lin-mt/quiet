@@ -14,37 +14,34 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.system.vo;
+
+import com.gitee.quiet.service.vo.ParentVO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * 提供给前端树形结构key和title属性.
+ * 部门信息 Vo.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public interface FrontSelectDTO {
+@Getter
+@Setter
+public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> {
     
     /**
-     * 前端树形组件使用的 key
-     *
-     * @return key
+     * 部门名称
      */
-    Object getKey();
+    @NotBlank
+    @Length(max = 10)
+    private String departmentName;
     
     /**
-     * 前端树形组件使用的 value
-     *
-     * @return value
+     * 备注
      */
-    default Object getValue() {
-        return getKey();
-    }
-    
-    /**
-     * 前端树形组件使用的 title
-     *
-     * @return title
-     */
-    default String getTitle() {
-        return "TODO";
-    }
+    @Length(max = 100)
+    private String remark;
 }

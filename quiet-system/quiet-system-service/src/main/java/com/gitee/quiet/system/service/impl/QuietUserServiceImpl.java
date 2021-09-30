@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRole;
@@ -28,13 +27,14 @@ import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
-import com.querydsl.core.QueryResults;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -139,13 +139,13 @@ public class QuietUserServiceImpl implements QuietUserService {
     }
     
     @Override
-    public QueryResults<QuietUser> page(QuietUser params, @NotNull Pageable page) {
-        SelectBooleanBuilder select = SelectBuilder.booleanBuilder(params);
-        QueryResults<QuietUser> results = select.from(jpaQueryFactory, quietUser, page);
-        if (CollectionUtils.isNotEmpty(results.getResults())) {
-            Set<Long> userIds = results.getResults().stream().map(QuietUser::getId).collect(Collectors.toSet());
+    public Page<QuietUser> page(QuietUser params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        Page<QuietUser> results = userRepository.findAll(predicate, page);
+        if (CollectionUtils.isNotEmpty(results.getContent())) {
+            Set<Long> userIds = results.getContent().stream().map(QuietUser::getId).collect(Collectors.toSet());
             Map<Long, List<QuietRole>> userIdToRoleInfo = this.mapUserIdToRoleInfo(userIds);
-            for (QuietUser user : results.getResults()) {
+            for (QuietUser user : results.getContent()) {
                 user.setAuthorities(userIdToRoleInfo.get(user.getId()));
             }
         }
