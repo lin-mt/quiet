@@ -24,6 +24,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 团队VO.
@@ -46,6 +47,11 @@ public class QuietTeamVO extends BaseVO {
      */
     @Length(max = 30)
     private String slogan;
+    
+    /**
+     * 团队角色与成员信息信息
+     */
+    private Map<Long, List<QuietUser>> roleIdToUsers;
     
     /**
      * 团队PO
