@@ -50,8 +50,8 @@ public class DocProjectConfig extends BaseEntity {
      * 请求路径
      */
     @Length(max = 90)
-    @Column(name = "base_url", length = 90)
-    private String baseUrl;
+    @Column(name = "base_path", length = 90)
+    private String basePath;
     
     /**
      * 项目ID
