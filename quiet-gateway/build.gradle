@@ -15,7 +15,7 @@
  */
 
 dependencies {
-    implementation project(path: ":quiet-common:quiet-base", configuration: "default")
+    implementation project(path: ":quiet-commons:quiet-common-constant", configuration: "default")
 
     implementation springCloud.gateway
     implementation springCloud.loadbalancer
@@ -25,8 +25,4 @@ dependencies {
     implementation springCloudAlibaba.nacosDiscovery
 
     testImplementation springBootStarter.test
-}
-
-configurations {
-    implementation.exclude module: "spring-boot-starter-web"
 }

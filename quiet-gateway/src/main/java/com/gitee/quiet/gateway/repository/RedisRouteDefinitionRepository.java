@@ -18,7 +18,7 @@ package com.gitee.quiet.gateway.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.quiet.common.base.constant.RedisKey;
+import com.gitee.quiet.common.constant.cache.Gateway;
 import com.gitee.quiet.gateway.entity.QuietRoute;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
@@ -56,13 +56,13 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
     
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
-        Object routes = redisTemplate.opsForValue().get(RedisKey.Gateway.ROUTE_DEFINITION);
+        Object routes = redisTemplate.opsForValue().get(Gateway.ROUTE_DEFINITION);
         if (routes != null) {
             List<QuietRoute> quietRoutes = objectMapper.convertValue(routes, new TypeReference<>() {
             });
             synchronized (RedisRouteDefinitionRepository.class) {
                 quietRouteList = quietRoutes;
-                redisTemplate.delete(RedisKey.Gateway.ROUTE_DEFINITION);
+                redisTemplate.delete(Gateway.ROUTE_DEFINITION);
             }
         }
         List<RouteDefinition> routeDefinitions = new ArrayList<>();
