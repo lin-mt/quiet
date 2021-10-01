@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.convert.ScrumPriorityConvert;
 import com.gitee.quiet.scrum.dto.ScrumPriorityDTO;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
+import com.gitee.quiet.scrum.vo.ScrumPriorityVO;
 import com.gitee.quiet.service.dto.ValidListDTO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
@@ -59,8 +60,9 @@ public class ScrumPriorityController {
      * @return 新增后的优先级信息
      */
     @PostMapping
-    public Result<ScrumPriority> save(@RequestBody @Validated(Create.class) ScrumPriorityDTO dto) {
-        return Result.createSuccess(priorityService.save(priorityConvert.dtoToEntity(dto)));
+    public Result<ScrumPriorityVO> save(@RequestBody @Validated(Create.class) ScrumPriorityDTO dto) {
+        ScrumPriority save = priorityService.save(priorityConvert.dto2entity(dto));
+        return Result.createSuccess(priorityConvert.entity2vo(save));
     }
     
     /**
@@ -70,8 +72,9 @@ public class ScrumPriorityController {
      * @return 更新后的优先级信息
      */
     @PutMapping
-    public Result<ScrumPriority> update(@RequestBody @Validated(Update.class) ScrumPriorityDTO dto) {
-        return Result.updateSuccess(priorityService.update(priorityConvert.dtoToEntity(dto)));
+    public Result<ScrumPriorityVO> update(@RequestBody @Validated(Update.class) ScrumPriorityDTO dto) {
+        ScrumPriority update = priorityService.update(priorityConvert.dto2entity(dto));
+        return Result.updateSuccess(priorityConvert.entity2vo(update));
     }
     
     /**
@@ -93,10 +96,11 @@ public class ScrumPriorityController {
      * @return 更新结果
      */
     @PutMapping("/batch")
-    public Result<List<ScrumPriority>> updateBatch(
+    public Result<List<ScrumPriorityVO>> updateBatch(
             @RequestBody @Validated(Update.class) ValidListDTO<ScrumPriorityDTO> dto) {
-        return Result.success(priorityService.updateBatch(
-                dto.getData().stream().map(priorityConvert::dtoToEntity).collect(Collectors.toList())));
+        List<ScrumPriority> batch = priorityService.updateBatch(
+                dto.getData().stream().map(priorityConvert::dto2entity).collect(Collectors.toList()));
+        return Result.success(priorityConvert.entities2vos(batch));
     }
     
     /**
@@ -106,7 +110,8 @@ public class ScrumPriorityController {
      * @return 模板下的所有优先级配置信息
      */
     @GetMapping("/allByTemplateId/{id}")
-    public Result<List<ScrumPriority>> allByTemplateId(@PathVariable Long id) {
-        return Result.success(priorityService.findAllByTemplateId(id));
+    public Result<List<ScrumPriorityVO>> allByTemplateId(@PathVariable Long id) {
+        List<ScrumPriority> priorities = priorityService.findAllByTemplateId(id);
+        return Result.success(priorityConvert.entities2vos(priorities));
     }
 }

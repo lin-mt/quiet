@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.convert.ScrumIterationConvert;
 import com.gitee.quiet.scrum.dto.ScrumIterationDTO;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
+import com.gitee.quiet.scrum.vo.ScrumIterationVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
@@ -55,8 +56,9 @@ public class ScrumIterationController {
      * @return 新建后的迭代信息
      */
     @PostMapping
-    public Result<ScrumIteration> save(@RequestBody @Validated(Create.class) ScrumIterationDTO dto) {
-        return Result.createSuccess(iterationService.save(iterationConvert.dtoToEntity(dto)));
+    public Result<ScrumIterationVO> save(@RequestBody @Validated(Create.class) ScrumIterationDTO dto) {
+        ScrumIteration save = iterationService.save(iterationConvert.dto2entity(dto));
+        return Result.createSuccess(iterationConvert.entity2vo(save));
     }
     
     /**
@@ -66,8 +68,9 @@ public class ScrumIterationController {
      * @return 更新后的迭代信息
      */
     @PutMapping
-    public Result<ScrumIteration> update(@RequestBody @Validated(Update.class) ScrumIterationDTO dto) {
-        return Result.updateSuccess(iterationService.update(iterationConvert.dtoToEntity(dto)));
+    public Result<ScrumIterationVO> update(@RequestBody @Validated(Update.class) ScrumIterationDTO dto) {
+        ScrumIteration update = iterationService.update(iterationConvert.dto2entity(dto));
+        return Result.updateSuccess(iterationConvert.entity2vo(update));
     }
     
     /**
@@ -77,8 +80,9 @@ public class ScrumIterationController {
      * @return 开始迭代的迭代信息
      */
     @PostMapping("/start")
-    public Result<ScrumIteration> start(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
-        return Result.updateSuccess(iterationService.start(dto.getId()));
+    public Result<ScrumIterationVO> start(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
+        ScrumIteration iteration = iterationService.start(dto.getId());
+        return Result.updateSuccess(iterationConvert.entity2vo(iteration));
     }
     
     /**
@@ -88,8 +92,9 @@ public class ScrumIterationController {
      * @return 结束迭代的迭代信息
      */
     @PostMapping("/end")
-    public Result<ScrumIteration> end(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
-        return Result.updateSuccess(iterationService.end(dto.getId()));
+    public Result<ScrumIterationVO> end(@RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
+        ScrumIteration iteration = iterationService.end(dto.getId());
+        return Result.updateSuccess(iterationConvert.entity2vo(iteration));
     }
     
     /**

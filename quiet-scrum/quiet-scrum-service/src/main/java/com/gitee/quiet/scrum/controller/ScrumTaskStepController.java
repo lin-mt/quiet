@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.convert.ScrumTaskStepConvert;
 import com.gitee.quiet.scrum.dto.ScrumTaskStepDTO;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.scrum.vo.ScrumTaskStepVO;
 import com.gitee.quiet.service.dto.ValidListDTO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
@@ -59,8 +60,9 @@ public class ScrumTaskStepController {
      * @return 新增后的任务步骤信息
      */
     @PostMapping
-    public Result<ScrumTaskStep> save(@RequestBody @Validated(Create.class) ScrumTaskStepDTO dto) {
-        return Result.createSuccess(taskStepService.save(taskStepConvert.dtoToEntity(dto)));
+    public Result<ScrumTaskStepVO> save(@RequestBody @Validated(Create.class) ScrumTaskStepDTO dto) {
+        ScrumTaskStep save = taskStepService.save(taskStepConvert.dto2entity(dto));
+        return Result.createSuccess(taskStepConvert.entity2vo(save));
     }
     
     /**
@@ -70,8 +72,9 @@ public class ScrumTaskStepController {
      * @return 更新后的任务步骤信息
      */
     @PutMapping
-    public Result<ScrumTaskStep> update(@RequestBody @Validated(Update.class) ScrumTaskStepDTO dto) {
-        return Result.updateSuccess(taskStepService.update(taskStepConvert.dtoToEntity(dto)));
+    public Result<ScrumTaskStepVO> update(@RequestBody @Validated(Update.class) ScrumTaskStepDTO dto) {
+        ScrumTaskStep update = taskStepService.update(taskStepConvert.dto2entity(dto));
+        return Result.updateSuccess(taskStepConvert.entity2vo(update));
     }
     
     /**
@@ -93,10 +96,11 @@ public class ScrumTaskStepController {
      * @return 更新结果
      */
     @PutMapping("/batch")
-    public Result<List<ScrumTaskStep>> updateBatch(
+    public Result<List<ScrumTaskStepVO>> updateBatch(
             @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
-        return Result.success(taskStepService.updateBatch(
-                dto.getData().stream().map(taskStepConvert::dtoToEntity).collect(Collectors.toList())));
+        List<ScrumTaskStep> batch = taskStepService.updateBatch(
+                dto.getData().stream().map(taskStepConvert::dto2entity).collect(Collectors.toList()));
+        return Result.success(taskStepConvert.entities2vos(batch));
     }
     
     /**
@@ -106,7 +110,8 @@ public class ScrumTaskStepController {
      * @return 模板下的所有任务步骤配置信息
      */
     @GetMapping("/allByTemplateId/{id}")
-    public Result<List<ScrumTaskStep>> findAllByTemplateId(@PathVariable Long id) {
-        return Result.success(taskStepService.findAllByTemplateId(id));
+    public Result<List<ScrumTaskStepVO>> findAllByTemplateId(@PathVariable Long id) {
+        List<ScrumTaskStep> taskSteps = taskStepService.findAllByTemplateId(id);
+        return Result.success(taskStepConvert.entities2vos(taskSteps));
     }
 }

@@ -21,6 +21,7 @@ import com.gitee.quiet.scrum.dto.ScrumTemplateDTO;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.vo.AllTemplate;
+import com.gitee.quiet.scrum.vo.ScrumTemplateVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -68,8 +69,9 @@ public class ScrumTemplateController {
      * @return 模板信息
      */
     @GetMapping("/{id}")
-    public Result<ScrumTemplate> templateInfo(@PathVariable Long id) {
-        return Result.success(templateService.templateInfo(id));
+    public Result<ScrumTemplateVO> templateInfo(@PathVariable Long id) {
+        ScrumTemplate scrumTemplate = templateService.templateInfo(id);
+        return Result.success(templateConvert.entity2vo(scrumTemplate));
     }
     
     /**
@@ -79,8 +81,9 @@ public class ScrumTemplateController {
      * @return 新增后的模板信息
      */
     @PostMapping
-    public Result<ScrumTemplate> save(@RequestBody @Validated(Create.class) ScrumTemplateDTO dto) {
-        return Result.createSuccess(templateService.save(templateConvert.dtoToEntity(dto)));
+    public Result<ScrumTemplateVO> save(@RequestBody @Validated(Create.class) ScrumTemplateDTO dto) {
+        ScrumTemplate save = templateService.save(templateConvert.dto2entity(dto));
+        return Result.createSuccess(templateConvert.entity2vo(save));
     }
     
     /**
@@ -90,8 +93,9 @@ public class ScrumTemplateController {
      * @return 更新后的模板信息
      */
     @PutMapping
-    public Result<ScrumTemplate> update(@RequestBody @Validated(Update.class) ScrumTemplateDTO dto) {
-        return Result.updateSuccess(templateService.update(templateConvert.dtoToEntity(dto)));
+    public Result<ScrumTemplateVO> update(@RequestBody @Validated(Update.class) ScrumTemplateDTO dto) {
+        ScrumTemplate update = templateService.update(templateConvert.dto2entity(dto));
+        return Result.updateSuccess(templateConvert.entity2vo(update));
     }
     
     /**
@@ -113,7 +117,8 @@ public class ScrumTemplateController {
      * @return 查询结果
      */
     @GetMapping("/listEnabledByName")
-    public Result<List<ScrumTemplate>> listEnabledByName(ScrumTemplateDTO dto) {
-        return Result.success(templateService.listEnabledByName(dto.getName(), 9L));
+    public Result<List<ScrumTemplateVO>> listEnabledByName(ScrumTemplateDTO dto) {
+        List<ScrumTemplate> scrumTemplates = templateService.listEnabledByName(dto.getName(), 9L);
+        return Result.success(templateConvert.entities2vos(scrumTemplates));
     }
 }

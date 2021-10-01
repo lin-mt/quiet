@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.convert.ScrumVersionConvert;
 import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.scrum.vo.ScrumVersionVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -35,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 项目版本信息.
@@ -58,9 +58,9 @@ public class ScrumVersionController {
      * @return 项目的所有版本信息，包含各个版本的迭代信息
      */
     @GetMapping("/all/{id}")
-    public Result<List<ScrumVersionDTO>> all(@PathVariable Long id) {
-        return Result.success(versionService.findDetailsByProjectId(id).stream().map(versionConvert::entityToDto)
-                .collect(Collectors.toList()));
+    public Result<List<ScrumVersionVO>> all(@PathVariable Long id) {
+        List<ScrumVersion> scrumVersions = versionService.findDetailsByProjectId(id);
+        return Result.success(versionConvert.entities2vos(scrumVersions));
     }
     
     /**
@@ -70,8 +70,9 @@ public class ScrumVersionController {
      * @return 新建后的版本信息
      */
     @PostMapping
-    public Result<ScrumVersion> save(@RequestBody @Validated(Create.class) ScrumVersionDTO dto) {
-        return Result.createSuccess(versionService.save(versionConvert.dtoToEntity(dto)));
+    public Result<ScrumVersionVO> save(@RequestBody @Validated(Create.class) ScrumVersionDTO dto) {
+        ScrumVersion save = versionService.save(versionConvert.dto2entity(dto));
+        return Result.createSuccess(versionConvert.entity2vo(save));
     }
     
     /**
@@ -81,8 +82,9 @@ public class ScrumVersionController {
      * @return 更新后的版本信息
      */
     @PutMapping
-    public Result<ScrumVersion> update(@RequestBody @Validated(Update.class) ScrumVersionDTO dto) {
-        return Result.updateSuccess(versionService.update(versionConvert.dtoToEntity(dto)));
+    public Result<ScrumVersionVO> update(@RequestBody @Validated(Update.class) ScrumVersionDTO dto) {
+        ScrumVersion update = versionService.update(versionConvert.dto2entity(dto));
+        return Result.updateSuccess(versionConvert.entity2vo(update));
     }
     
     /**

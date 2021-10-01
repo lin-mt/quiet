@@ -20,13 +20,14 @@ import com.gitee.quiet.scrum.convert.ScrumDemandConvert;
 import com.gitee.quiet.scrum.dto.ScrumDemandDTO;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
+import com.gitee.quiet.scrum.vo.ScrumDemandVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.OffsetLimitValid;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,10 +73,11 @@ public class ScrumDemandController {
      * @return 待规划的需求
      */
     @GetMapping("/scrollToBePlanned")
-    public Result<List<ScrumDemand>> scrollToBePlanned(
+    public Result<List<ScrumDemandVO>> scrollToBePlanned(
             @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
-        return Result.success(
-                demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(), dto.getOffset(), dto.getLimit()));
+        List<ScrumDemand> scrumDemands = demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(),
+                dto.getOffset(), dto.getLimit());
+        return Result.success(demandConvert.entities2vos(scrumDemands));
     }
     
     /**
@@ -85,9 +87,10 @@ public class ScrumDemandController {
      * @return 处于该迭代的需求
      */
     @GetMapping("/scrollByIterationId")
-    public Result<List<ScrumDemand>> scrollByIterationId(
+    public Result<List<ScrumDemandVO>> scrollByIterationId(
             @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
-        return Result.success(demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit()));
+        List<ScrumDemand> scrumDemands = demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit());
+        return Result.success(demandConvert.entities2vos(scrumDemands));
     }
     
     /**
@@ -97,8 +100,9 @@ public class ScrumDemandController {
      * @return 创建后的需求信息
      */
     @PostMapping
-    public Result<ScrumDemand> save(@RequestBody @Validated(Create.class) ScrumDemandDTO dto) {
-        return Result.success(demandService.save(demandConvert.dtoToEntity(dto)));
+    public Result<ScrumDemandVO> save(@RequestBody @Validated(Create.class) ScrumDemandDTO dto) {
+        ScrumDemand save = demandService.save(demandConvert.dto2entity(dto));
+        return Result.success(demandConvert.entity2vo(save));
     }
     
     /**
@@ -108,8 +112,9 @@ public class ScrumDemandController {
      * @return 更新后的需求信息
      */
     @PutMapping
-    public Result<ScrumDemand> update(@RequestBody @Validated(Update.class) ScrumDemandDTO dto) {
-        return Result.success(demandService.update(demandConvert.dtoToEntity(dto)));
+    public Result<ScrumDemandVO> update(@RequestBody @Validated(Update.class) ScrumDemandDTO dto) {
+        ScrumDemand update = demandService.update(demandConvert.dto2entity(dto));
+        return Result.success(demandConvert.entity2vo(update));
     }
     
     /**
@@ -119,8 +124,9 @@ public class ScrumDemandController {
      * @return 需求信息
      */
     @GetMapping("/all/{id}")
-    public Result<List<ScrumDemand>> all(@PathVariable Long id) {
-        return Result.success(demandService.findAllByIterationId(id));
+    public Result<List<ScrumDemandVO>> all(@PathVariable Long id) {
+        List<ScrumDemand> scrumDemands = demandService.findAllByIterationId(id);
+        return Result.success(demandConvert.entities2vos(scrumDemands));
     }
     
     /**
@@ -130,8 +136,9 @@ public class ScrumDemandController {
      * @return 查询结果
      */
     @GetMapping("/page")
-    public Result<QueryResults<ScrumDemand>> page(ScrumDemandDTO dto) {
-        return Result.success(demandService.page(demandConvert.dtoToEntity(dto), dto.page()));
+    public Result<Page<ScrumDemandVO>> page(ScrumDemandDTO dto) {
+        Page<ScrumDemand> page = demandService.page(demandConvert.dto2entity(dto), dto.page());
+        return Result.success(demandConvert.page2page(page));
     }
     
 }

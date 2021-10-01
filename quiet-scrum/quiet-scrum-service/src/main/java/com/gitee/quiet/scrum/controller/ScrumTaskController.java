@@ -20,6 +20,7 @@ import com.gitee.quiet.scrum.convert.ScrumTaskConvert;
 import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
+import com.gitee.quiet.scrum.vo.ScrumTaskVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 任务Controller.
@@ -58,8 +60,13 @@ public class ScrumTaskController {
      * @return 根据需求ID以及任务步骤ID分组后的任务集合
      */
     @GetMapping("/allTaskByDemandIds")
-    public Result<Map<Long, Map<Long, List<ScrumTask>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
-        return Result.success(taskService.findAllTaskByDemandIds(dto.getDemandIds()));
+    public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
+        Map<Long, Map<Long, List<ScrumTask>>> tasks = taskService.findAllTaskByDemandIds(dto.getDemandIds());
+        Map<Long, Map<Long, List<ScrumTaskVO>>> result = tasks.entrySet().stream().collect(
+                Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().entrySet().stream().collect(
+                        Collectors.toMap(Map.Entry::getKey,
+                                tasksEntry -> taskConvert.entities2vos(tasksEntry.getValue())))));
+        return Result.success(result);
     }
     
     /**
@@ -69,8 +76,9 @@ public class ScrumTaskController {
      * @return 创建后的任务信息
      */
     @PostMapping
-    public Result<ScrumTask> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
-        return Result.success(taskService.save(taskConvert.dtoToEntity(dto)));
+    public Result<ScrumTaskVO> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
+        ScrumTask save = taskService.save(taskConvert.dto2entity(dto));
+        return Result.success(taskConvert.entity2vo(save));
     }
     
     /**
@@ -80,8 +88,9 @@ public class ScrumTaskController {
      * @return 更新后的任务信息
      */
     @PutMapping
-    public Result<ScrumTask> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
-        return Result.success(taskService.update(taskConvert.dtoToEntity(dto)));
+    public Result<ScrumTaskVO> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
+        ScrumTask update = taskService.update(taskConvert.dto2entity(dto));
+        return Result.success(taskConvert.entity2vo(update));
     }
     
     /**

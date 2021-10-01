@@ -27,11 +27,12 @@ import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -73,8 +74,9 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     }
     
     @Override
-    public QueryResults<ScrumDemand> page(ScrumDemand params, Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, scrumDemand, page);
+    public Page<ScrumDemand> page(ScrumDemand params, Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return demandRepository.findAll(predicate, page);
     }
     
     @Override

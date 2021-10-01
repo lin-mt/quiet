@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.service.dto.ParentAndSerialDTO;
+import com.gitee.quiet.service.vo.ParentAndSerialVO;
+import com.gitee.quiet.service.vo.front.TreeSelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -37,7 +35,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> {
+public class ScrumVersionVO extends ParentAndSerialVO<ScrumVersionVO> implements TreeSelectVO<Long, ScrumVersionVO> {
     
     /**
      * 版本名称
@@ -84,19 +82,15 @@ public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> {
     /**
      * 迭代信息
      */
-    @Transient
-    private List<ScrumIterationDTO> iterations;
+    private List<ScrumIterationVO> iterations;
     
     @Override
-    public int compareTo(@Nullable Serial other) {
-        int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumVersionDTO) {
-            ScrumVersionDTO otherVersion = (ScrumVersionDTO) other;
-            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
-            if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
-            }
-        }
-        return compare;
+    public String getTitle() {
+        return getName();
+    }
+    
+    @Override
+    public Long getValue() {
+        return getId();
     }
 }

@@ -14,20 +14,42 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.convert;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
-import com.gitee.quiet.scrum.entity.ScrumTask;
-import com.gitee.quiet.scrum.vo.ScrumTaskVO;
-import com.gitee.quiet.service.dto.QuietConvert;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.service.vo.SerialVO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 任务实体信息转换.
+ * 任务步骤.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface ScrumTaskConvert extends QuietConvert<ScrumTask, ScrumTaskDTO, ScrumTaskVO> {
+@Getter
+@Setter
+public class ScrumTaskStepVO extends SerialVO {
+    
+    /**
+     * 步骤名称
+     */
+    @NotBlank
+    @Length(max = 10)
+    private String name;
+    
+    /**
+     * 所属模板ID
+     */
+    @NotNull
+    private Long templateId;
+    
+    /**
+     * 步骤备注信息
+     */
+    @Length(max = 30)
+    private String remark;
     
 }

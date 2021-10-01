@@ -18,7 +18,7 @@ package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.NotNull;
@@ -46,7 +46,7 @@ public interface ScrumDemandService {
      * @param page   分页参数
      * @return 需求信息
      */
-    QueryResults<ScrumDemand> page(ScrumDemand params, Pageable page);
+    Page<ScrumDemand> page(ScrumDemand params, Pageable page);
     
     /**
      * 创建需求

@@ -14,80 +14,77 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.scrum.dictionary.DemandType;
+import com.gitee.quiet.service.vo.ParentAndSerialVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * 迭代信息.
+ * 需求信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumIterationDTO extends SerialDTO {
+public class ScrumDemandVO extends ParentAndSerialVO<ScrumDemandVO> {
     
     /**
-     * 迭代名称
+     * 需求标题
      */
     @NotBlank
     @Length(max = 30)
-    private String name;
+    private String title;
     
     /**
-     * 所属版本ID
+     * 需求类型
      */
     @NotNull
-    private Long versionId;
+    private Dictionary<DemandType> type;
     
     /**
-     * 迭代计划开始日期
+     * 项目ID
      */
     @NotNull
-    private LocalDate planStartDate;
+    private Long projectId;
     
     /**
-     * 迭代计划结束日期
+     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
+     */
+    private Long optimizeDemandId;
+    
+    /**
+     * 所属迭代ID
+     */
+    private Long iterationId;
+    
+    /**
+     * 优先级ID
      */
     @NotNull
-    private LocalDate planEndDate;
+    private Long priorityId;
     
     /**
-     * 迭代开始时间
+     * 需求开始时间
      */
     private LocalDateTime startTime;
     
     /**
-     * 迭代结束时间
+     * 需求结束时间
      */
     private LocalDateTime endTime;
     
     /**
      * 备注信息
      */
-    @Length(max = 1000)
+    @Length(max = 3000)
     private String remark;
     
-    @Override
-    public int compareTo(@Nullable Serial other) {
-        int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumIterationDTO) {
-            ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;
-            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
-            if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
-            }
-        }
-        return compare;
-    }
 }

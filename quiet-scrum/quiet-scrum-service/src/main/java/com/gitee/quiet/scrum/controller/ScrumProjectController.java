@@ -22,6 +22,7 @@ import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
+import com.gitee.quiet.scrum.vo.ScrumProjectVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.validation.groups.Create;
@@ -58,8 +59,9 @@ public class ScrumProjectController {
      * @return 项目信息
      */
     @GetMapping("/{id}")
-    public Result<ScrumProject> projectInfo(@PathVariable Long id) {
-        return Result.success(projectService.projectInfo(id));
+    public Result<ScrumProjectVO> projectInfo(@PathVariable Long id) {
+        ScrumProject project = projectService.projectInfo(id);
+        return Result.success(projectConvert.entity2vo(project));
     }
     
     /**
@@ -90,8 +92,9 @@ public class ScrumProjectController {
      * @return 新增后的项目信息
      */
     @PostMapping
-    public Result<ScrumProject> save(@RequestBody @Validated(Create.class) ScrumProjectDTO dto) {
-        return Result.createSuccess(projectService.save(projectConvert.dtoToEntity(dto)));
+    public Result<ScrumProjectVO> save(@RequestBody @Validated(Create.class) ScrumProjectDTO dto) {
+        ScrumProject save = projectService.save(projectConvert.dto2entity(dto));
+        return Result.createSuccess(projectConvert.entity2vo(save));
     }
     
     /**
@@ -101,8 +104,9 @@ public class ScrumProjectController {
      * @return 更新后的项目信息
      */
     @PutMapping
-    public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectDTO dto) {
-        return Result.updateSuccess(projectService.update(projectConvert.dtoToEntity(dto)));
+    public Result<ScrumProjectVO> update(@RequestBody @Validated(Update.class) ScrumProjectDTO dto) {
+        ScrumProject update = projectService.update(projectConvert.dto2entity(dto));
+        return Result.updateSuccess(projectConvert.entity2vo(update));
     }
     
     /**
