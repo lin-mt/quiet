@@ -17,6 +17,7 @@ dubbo:
   scan:
     base-packages: com.gitee.quiet.doc.service
 quiet:
-  id-generator:
-    worker-id: 2
-    data-center-id: 0
+  jpa:
+    id-generator:
+      worker-id: 2
+      data-center-id: 0
