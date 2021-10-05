@@ -37,4 +37,8 @@ public interface SelectVO<V> {
      * @return 组件展示给用户的值
      */
     String getLabel();
+    
+    default V getKey() {
+        return getValue();
+    }
 }
