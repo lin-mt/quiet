@@ -80,7 +80,7 @@ public class ScrumProjectController {
      *
      * @return 项目信息
      */
-    @GetMapping("/allMyProjects")
+    @GetMapping("/all-my-projects")
     public Result<MyScrumProject> allMyProjects() {
         return Result.success(projectService.allProjectByUserId(CurrentUserUtil.getId()));
     }

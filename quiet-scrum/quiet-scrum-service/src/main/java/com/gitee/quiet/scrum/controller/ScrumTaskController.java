@@ -59,7 +59,7 @@ public class ScrumTaskController {
      * @param dto :demandIds 查询的需求ID集合
      * @return 根据需求ID以及任务步骤ID分组后的任务集合
      */
-    @GetMapping("/allTaskByDemandIds")
+    @GetMapping("/all-task-by-demand-ids")
     public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
         Map<Long, Map<Long, List<ScrumTask>>> tasks = taskService.findAllTaskByDemandIds(dto.getDemandIds());
         Map<Long, Map<Long, List<ScrumTaskVO>>> result = tasks.entrySet().stream().collect(

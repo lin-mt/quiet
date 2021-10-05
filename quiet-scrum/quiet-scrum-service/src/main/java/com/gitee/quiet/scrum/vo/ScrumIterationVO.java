@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.vo.front.SelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -33,7 +34,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class ScrumIterationVO extends SerialVO {
+public class ScrumIterationVO extends SerialVO implements SelectVO<Long> {
     
     /**
      * 迭代名称
@@ -76,4 +77,13 @@ public class ScrumIterationVO extends SerialVO {
     @Length(max = 1000)
     private String remark;
     
+    @Override
+    public Long getValue() {
+        return getId();
+    }
+    
+    @Override
+    public String getLabel() {
+        return getName();
+    }
 }

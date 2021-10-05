@@ -72,7 +72,7 @@ public class ScrumDemandController {
      * @param dto :id 项目ID ：demandFilter 需求过滤条件
      * @return 待规划的需求
      */
-    @GetMapping("/scrollToBePlanned")
+    @GetMapping("/scroll-to-be-planned")
     public Result<List<ScrumDemandVO>> scrollToBePlanned(
             @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         List<ScrumDemand> scrumDemands = demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(),
@@ -86,7 +86,7 @@ public class ScrumDemandController {
      * @param dto :id 迭代ID
      * @return 处于该迭代的需求
      */
-    @GetMapping("/scrollByIterationId")
+    @GetMapping("/scroll-by-iteration-id")
     public Result<List<ScrumDemandVO>> scrollByIterationId(
             @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         List<ScrumDemand> scrumDemands = demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit());

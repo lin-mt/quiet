@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class ScrumTemplateController {
      *
      * @return 根据是否创建人创建的模板进行分组
      */
-    @GetMapping("/allTemplates")
+    @GetMapping("/all-templates")
     public Result<AllTemplate> allTemplates() {
         return Result.success(templateService.allTemplates());
     }
@@ -113,12 +114,12 @@ public class ScrumTemplateController {
     /**
      * 根据模板名称查询启用的模板信息
      *
-     * @param dto :name 模板名称
+     * @param name 模板名称
      * @return 查询结果
      */
-    @GetMapping("/listEnabledByName")
-    public Result<List<ScrumTemplateVO>> listEnabledByName(ScrumTemplateDTO dto) {
-        List<ScrumTemplate> scrumTemplates = templateService.listEnabledByName(dto.getName(), 9L);
+    @GetMapping("/list-enabled-by-name")
+    public Result<List<ScrumTemplateVO>> listEnabledByName(@RequestParam(required = false) String name) {
+        List<ScrumTemplate> scrumTemplates = templateService.listEnabledByName(name, 9L);
         return Result.success(templateConvert.entities2vos(scrumTemplates));
     }
 }

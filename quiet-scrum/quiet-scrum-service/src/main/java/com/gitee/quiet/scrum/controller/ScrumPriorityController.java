@@ -109,7 +109,7 @@ public class ScrumPriorityController {
      * @param id 模板ID
      * @return 模板下的所有优先级配置信息
      */
-    @GetMapping("/allByTemplateId/{id}")
+    @GetMapping("/all-by-template-id/{id}")
     public Result<List<ScrumPriorityVO>> allByTemplateId(@PathVariable Long id) {
         List<ScrumPriority> priorities = priorityService.findAllByTemplateId(id);
         return Result.success(priorityConvert.entities2vos(priorities));

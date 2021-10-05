@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/taskStep")
+@RequestMapping("/task-step")
 public class ScrumTaskStepController {
     
     private final ScrumTaskStepService taskStepService;
@@ -109,7 +109,7 @@ public class ScrumTaskStepController {
      * @param id 模板ID
      * @return 模板下的所有任务步骤配置信息
      */
-    @GetMapping("/allByTemplateId/{id}")
+    @GetMapping("/all-by-template-id/{id}")
     public Result<List<ScrumTaskStepVO>> findAllByTemplateId(@PathVariable Long id) {
         List<ScrumTaskStep> taskSteps = taskStepService.findAllByTemplateId(id);
         return Result.success(taskStepConvert.entities2vos(taskSteps));
