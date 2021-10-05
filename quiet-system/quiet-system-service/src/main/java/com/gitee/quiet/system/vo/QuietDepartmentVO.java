@@ -17,6 +17,7 @@
 package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.ParentVO;
+import com.gitee.quiet.service.vo.front.TreeSelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -30,7 +31,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> {
+public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> implements TreeSelectVO<Long, QuietDepartmentVO> {
     
     /**
      * 部门名称
@@ -44,4 +45,14 @@ public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> {
      */
     @Length(max = 100)
     private String remark;
+    
+    @Override
+    public String getTitle() {
+        return getDepartmentName();
+    }
+    
+    @Override
+    public Long getValue() {
+        return getId();
+    }
 }

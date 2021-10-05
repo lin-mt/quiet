@@ -4,6 +4,7 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false
     locale: zh_CN
     time-zone: GMT+8
+    property-naming-strategy: SNAKE_CASE
 security:
   oauth2:
     client:
@@ -21,5 +22,6 @@ dubbo:
   provider:
     filter: token-value-provider
 quiet:
-  id-generator:
-    max-server-number: 10
+  jpa:
+    id-generator:
+      max-server-number: 10

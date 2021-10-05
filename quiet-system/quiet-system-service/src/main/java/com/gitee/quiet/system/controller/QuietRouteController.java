@@ -106,7 +106,7 @@ public class QuietRouteController {
      * @param dto :environment 发布的环境
      * @return 发布结果
      */
-    @PostMapping("/publishRoute")
+    @PostMapping("/publish-route")
     public Result<Object> publishRoute(@RequestBody QuietRouteDTO dto) {
         routeService.publishRoute(dto.getEnvironment(), 100L);
         return Result.success();
@@ -118,7 +118,7 @@ public class QuietRouteController {
      * @param dto :id 路由信息ID :routePredicate 要移除的路由断言
      * @return 移除结果
      */
-    @PostMapping("/removePredicate")
+    @PostMapping("/remove-predicate")
     public Result<QuietRouteVO> removePredicate(@RequestBody QuietRouteDTO dto) {
         QuietRoute route = routeService.removePredicate(dto.getId(), dto.getRoutePredicate());
         return Result.success(routeConvert.entity2vo(route));
@@ -130,7 +130,7 @@ public class QuietRouteController {
      * @param dto :id 路由信息ID :routePredicate 要移除的过滤器
      * @return 移除结果
      */
-    @PostMapping("/removeFilter")
+    @PostMapping("/remove-filter")
     public Result<QuietRouteVO> removeFilter(@RequestBody QuietRouteDTO dto) {
         QuietRoute route = routeService.removeFilter(dto.getId(), dto.getRouteFilter());
         return Result.success(routeConvert.entity2vo(route));

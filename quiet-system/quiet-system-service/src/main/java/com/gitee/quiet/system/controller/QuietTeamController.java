@@ -59,7 +59,7 @@ public class QuietTeamController {
      * @param dto :teamName 团队名称
      * @return 团队信息
      */
-    @GetMapping("/listTeamsByTeamName")
+    @GetMapping("/list-teams-by-team-name")
     public Result<List<QuietTeamVO>> listTeamsByTeamName(QuietTeamDTO dto) {
         List<QuietTeam> teams = teamService.listTeamsByTeamName(dto.getTeamName(), 9);
         return Result.success(teamConvert.entities2vos(teams));

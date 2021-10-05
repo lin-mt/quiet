@@ -68,7 +68,7 @@ public class QuietDepartmentController {
      * @param dto :id 要移除成员信息的部门ID :userIds 移除的成员ID集合
      * @return 删除结果
      */
-    @PostMapping("/removeUsers")
+    @PostMapping("/remove-users")
     public Result<Object> removeUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDTO dto) {
         departmentUserService.removeUsers(dto.getId(), dto.getUserIds());
         return Result.success();
@@ -80,7 +80,7 @@ public class QuietDepartmentController {
      * @param dto :id 要添加成员信息的部门ID :userIds 添加的成员ID集合
      * @return 添加结果
      */
-    @PostMapping("/addUsers")
+    @PostMapping("/add-users")
     public Result<Object> addUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDTO dto) {
         departmentUserService.addUsers(dto.getId(), dto.getUserIds());
         return Result.success();
@@ -92,7 +92,7 @@ public class QuietDepartmentController {
      * @param dto 查询条件
      * @return 查询的部门的用户信息
      */
-    @GetMapping("/pageUser")
+    @GetMapping("/page-user")
     public Result<QueryResults<QuietUserVO>> pageUser(QuietDepartmentDTO dto) {
         QueryResults<QuietUser> userQueryResults = departmentService.pageUser(dto.getId(), dto.getParams(), dto.page());
         return Result.success(userConvert.results2results(userQueryResults));

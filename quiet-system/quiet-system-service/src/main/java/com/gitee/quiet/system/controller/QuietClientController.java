@@ -23,6 +23,7 @@ import com.gitee.quiet.system.entity.QuietClient;
 import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.system.vo.QuietClientVO;
 import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -59,7 +60,7 @@ public class QuietClientController {
      * @return 查询所有信息
      */
     @GetMapping("/page")
-    public Result<Page<QuietClientVO>> page(QuietClientDTO dto) {
+    public Result<Page<QuietClientVO>> page(@Validated(PageValid.class) QuietClientDTO dto) {
         Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
         return Result.success(clientConvert.page2page(clients));
     }
@@ -106,7 +107,7 @@ public class QuietClientController {
      * @param dto :id 客户端信息ID :clientScope 移除的授权范围
      * @return 更新后的客户端信息
      */
-    @PostMapping("/removeClientScope")
+    @PostMapping("/remove-client-scope")
     public Result<QuietClientVO> removeClientScope(@RequestBody QuietClientDTO dto) {
         QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
         return Result.success(clientConvert.entity2vo(client));
@@ -118,7 +119,7 @@ public class QuietClientController {
      * @param dto :id 客户端信息ID :clientAuthorizedGrantType 移除的认证类型
      * @return 更新后的客户端信息
      */
-    @PostMapping("/removeClientAuthorizedGrantType")
+    @PostMapping("/remove-client-authorized-grant-type")
     public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
         QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
                 dto.getClientAuthorizedGrantType());
