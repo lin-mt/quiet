@@ -23,6 +23,7 @@ import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.service.QuietDictionaryService;
 import com.gitee.quiet.system.vo.QuietDictionaryVO;
 import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -56,24 +58,24 @@ public class QuietDictionaryController {
     /**
      * 根据数据字典类型查询该类型的数据字典，不包含一级数据字典，type 为空时返回空的集合
      *
-     * @param dto :type 数据字典类型
+     * @param type 数据字典类型
      * @return 数据字典
      */
-    @GetMapping("/listByTypeForSelect")
-    public Result<List<QuietDictionaryVO>> listByTypeForSelect(QuietDictionaryDTO dto) {
-        List<QuietDictionary> quietDictionaries = dictionaryService.listByTypeForSelect(dto.getType());
+    @GetMapping("/list-by-type-for-select")
+    public Result<List<QuietDictionaryVO>> listByTypeForSelect(@RequestParam(required = false) String type) {
+        List<QuietDictionary> quietDictionaries = dictionaryService.listByTypeForSelect(type);
         return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
     }
     
     /**
      * 根据数据字典类型返回该类型所有字典信息，包含一级数据字典，type 为空的时候可以查询所有字典信息
      *
-     * @param dto :type 数据字典类型
+     * @param type 数据字典类型
      * @return 数据字典信息
      */
-    @GetMapping("/treeByType")
-    public Result<List<QuietDictionaryVO>> treeByType(QuietDictionaryDTO dto) {
-        List<QuietDictionary> quietDictionaries = dictionaryService.treeByType(dto.getType());
+    @GetMapping("/tree-by-type")
+    public Result<List<QuietDictionaryVO>> treeByType(@RequestParam(required = false) String type) {
+        List<QuietDictionary> quietDictionaries = dictionaryService.treeByType(type);
         return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
     }
     
@@ -83,7 +85,7 @@ public class QuietDictionaryController {
      * @return 查询的所有信息
      */
     @GetMapping("/page")
-    public Result<Page<QuietDictionaryVO>> page(QuietDictionaryDTO dto) {
+    public Result<Page<QuietDictionaryVO>> page(@Validated(PageValid.class) QuietDictionaryDTO dto) {
         Page<QuietDictionary> dictionaryPage = dictionaryService.page(dictionaryConvert.dto2entity(dto), dto.page());
         return Result.success(dictionaryConvert.page2page(dictionaryPage));
     }

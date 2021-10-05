@@ -47,4 +47,8 @@ public interface TreeSelectVO<V, T extends TreeSelectVO<V, T>> {
      * @return 子级选项
      */
     List<T> getChildren();
+    
+    default V getKey() {
+        return getValue();
+    }
 }

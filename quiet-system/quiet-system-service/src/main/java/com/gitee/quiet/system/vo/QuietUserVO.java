@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.system.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.constant.service.RoleNames;
 import com.gitee.quiet.service.enums.Gender;
@@ -123,8 +122,4 @@ public class QuietUserVO extends BaseVO {
      */
     private List<QuietUserRole> userRoles;
     
-    @JsonIgnore
-    public String getSecretCode() {
-        return secretCode;
-    }
 }
