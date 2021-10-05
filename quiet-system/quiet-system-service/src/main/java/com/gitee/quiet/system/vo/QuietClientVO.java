@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.system.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.service.vo.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +47,7 @@ public class QuietClientVO extends BaseVO {
     
     @NotBlank
     @Length(max = 60)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clientSecret;
     
     private Set<String> resourceIds;

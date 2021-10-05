@@ -72,7 +72,7 @@ public class QuietUserController {
      * @param keyword 用户名/全名
      * @return 用户信息
      */
-    @GetMapping("/listUsersByName")
+    @GetMapping("/list-users-by-name")
     public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
         List<QuietUser> users = userService.listUsersByName(keyword, 9);
         return Result.success(userConvert.entities2vos(users));
@@ -134,7 +134,7 @@ public class QuietUserController {
      *
      * @return 当前登陆人信息
      */
-    @GetMapping("/currentUserInfo")
+    @GetMapping("/current-user-info")
     public Result<QuietUserDetails> currentUserInfo() {
         return Result.success(CurrentUserUtil.get());
     }
@@ -145,7 +145,7 @@ public class QuietUserController {
      * @param dto :id 移除角色的用户的ID :roleId 移除的角色ID
      * @return 移除结果
      */
-    @PostMapping("/removeRole")
+    @PostMapping("/remove-role")
     public Result<Object> removeRole(@RequestBody QuietUserDTO dto) {
         ValidationUtils.notNull(dto.getId(), "userRole.useId.not.null");
         ValidationUtils.notNull(dto.getRoleId(), "userRole.roleId.not.null");
@@ -159,7 +159,7 @@ public class QuietUserController {
      * @param dto :id 添加角色的用户的ID :roleId 添加的角色ID
      * @return 移除结果
      */
-    @PostMapping("/addRoles")
+    @PostMapping("/add-roles")
     public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
         List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
         return Result.createSuccess(userRoleConverter.entities2vos(userRoles));

@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
@@ -72,7 +71,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @NotBlank
     @Length(max = 60)
     @Column(name = "client_secret", length = 60, nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clientSecret;
     
     @Column(name = "resource_ids", length = 60)
