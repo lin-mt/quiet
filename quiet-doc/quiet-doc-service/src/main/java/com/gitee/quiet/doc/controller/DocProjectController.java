@@ -154,8 +154,8 @@ public class DocProjectController {
      *
      * @return 可访问的项目信息
      */
-    @GetMapping("/myProject")
-    public Result<MyDocProject> myDocProjectResult() {
+    @GetMapping("/my-project")
+    public Result<MyDocProject> myDocProject() {
         return Result.success(projectService.getProjectByUserId(CurrentUserUtil.getId()));
     }
 }

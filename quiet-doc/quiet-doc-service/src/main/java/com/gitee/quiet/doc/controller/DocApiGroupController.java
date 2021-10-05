@@ -44,7 +44,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/apiGroup")
+@RequestMapping("/api-group")
 public class DocApiGroupController {
     
     private final DocApiGroupService apiGroupService;
@@ -93,7 +93,7 @@ public class DocApiGroupController {
      * @param dto :projectId 项目ID :name 分组名称
      * @return 接口分组信息
      */
-    @GetMapping("/listByProjectIdAndName")
+    @GetMapping("/list-by-project-id-and-name")
     public Result<List<DocApiGroupVO>> listByProjectIdAndName(DocApiGroupDTO dto) {
         List<DocApiGroup> docApiGroups = apiGroupService.listByProjectIdAndName(dto.getProjectId(), dto.getName(), 6L);
         return Result.success(apiGroupConvert.entities2vos(docApiGroups));

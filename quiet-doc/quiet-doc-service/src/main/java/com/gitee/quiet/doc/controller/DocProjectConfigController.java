@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
-@RequestMapping("/projectConfig")
+@RequestMapping("/project-config")
 public class DocProjectConfigController {
 
 }
