@@ -14,40 +14,34 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.model;
 
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
- * 接口文档详细信息.
+ * 路径参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
 @Setter
-@Builder
-public class DocApiDetail {
+@EqualsAndHashCode
+public class PathParam {
     
     /**
-     * 接口信息
+     * 参数名称
      */
-    private DocApi api;
+    private String name;
     
     /**
-     * api信息
+     * 参数例子
      */
-    private DocApiInfo apiInfo;
+    private String example;
     
     /**
-     * 访问者信息
+     * 备注
      */
-    private List<QuietUser> visitors;
-    
+    private String remark;
 }

@@ -14,24 +14,44 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.model;
 
-import com.gitee.quiet.jpa.enums.base.StringEnum;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
- * FormData 参数类型.
+ * 请求头.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
-@AllArgsConstructor
-public enum FormDataType implements StringEnum {
+@Setter
+@EqualsAndHashCode
+public class Header {
     
-    TEXT("text"),
+    /**
+     * 参数名称
+     */
+    private String name;
     
-    FILE("file");
+    /**
+     * 参数值
+     */
+    private String value;
     
-    private final String value;
+    /**
+     * 是否必须
+     */
+    private boolean required;
+    
+    /**
+     * 参数示例
+     */
+    private String example;
+    
+    /**
+     * 备注
+     */
+    private String remark;
 }

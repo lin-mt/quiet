@@ -14,40 +14,33 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.repository;
 
-import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import com.gitee.quiet.jpa.repository.QuietRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- * 接口文档详细信息.
+ * api信息repository.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Getter
-@Setter
-@Builder
-public class DocApiDetail {
+@Repository
+public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
     
     /**
-     * 接口信息
+     * 根据 apiId 判断是否存在api信息
+     *
+     * @param apiId apiId
+     * @return true：存在 false：不存在
      */
-    private DocApi api;
+    boolean existsByApiId(Long apiId);
     
     /**
-     * api信息
+     * 根据apiId查询api信息
+     *
+     * @param apiId apiId
+     * @return api信息
      */
-    private DocApiInfo apiInfo;
-    
-    /**
-     * 访问者信息
-     */
-    private List<QuietUser> visitors;
-    
+    DocApiInfo getByApiId(Long apiId);
 }

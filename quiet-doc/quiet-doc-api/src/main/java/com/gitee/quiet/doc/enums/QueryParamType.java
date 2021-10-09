@@ -27,7 +27,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum QueryType implements StringEnum {
+public enum QueryParamType implements StringEnum {
     
     STRING("string"),
     

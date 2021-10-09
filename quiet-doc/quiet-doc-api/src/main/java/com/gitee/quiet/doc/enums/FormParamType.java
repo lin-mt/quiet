@@ -14,40 +14,24 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.enums;
 
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Builder;
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
 
 /**
- * 接口文档详细信息.
+ * FormData 参数类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
-@Setter
-@Builder
-public class DocApiDetail {
+@AllArgsConstructor
+public enum FormParamType implements StringEnum {
     
-    /**
-     * 接口信息
-     */
-    private DocApi api;
+    TEXT("text"),
     
-    /**
-     * api信息
-     */
-    private DocApiInfo apiInfo;
+    FILE("file");
     
-    /**
-     * 访问者信息
-     */
-    private List<QuietUser> visitors;
-    
+    private final String value;
 }

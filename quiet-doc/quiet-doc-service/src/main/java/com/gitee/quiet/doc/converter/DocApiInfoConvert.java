@@ -14,40 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.converter;
 
-import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.dto.DocApiInfoDTO;
 import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import com.gitee.quiet.doc.vo.DocApiInfoVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 接口文档详细信息.
+ * api信息转换工具.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Getter
-@Setter
-@Builder
-public class DocApiDetail {
-    
-    /**
-     * 接口信息
-     */
-    private DocApi api;
-    
-    /**
-     * api信息
-     */
-    private DocApiInfo apiInfo;
-    
-    /**
-     * 访问者信息
-     */
-    private List<QuietUser> visitors;
-    
+@Mapper
+public interface DocApiInfoConvert extends QuietConvert<DocApiInfo, DocApiInfoDTO, DocApiInfoVO> {
+
 }

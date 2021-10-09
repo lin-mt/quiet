@@ -19,6 +19,7 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.vo.DocApiDetail;
 import com.gitee.quiet.service.exception.ServiceException;
@@ -36,43 +37,47 @@ import java.util.List;
 @Service
 public class DocApiServiceImpl implements DocApiService {
     
-    private final DocApiRepository apiRepository;
+    private final DocApiRepository repository;
     
     private final DocApiGroupService apiGroupService;
     
-    public DocApiServiceImpl(DocApiRepository apiRepository, @Lazy DocApiGroupService apiGroupService) {
-        this.apiRepository = apiRepository;
+    private final DocApiInfoService apiInfoService;
+    
+    public DocApiServiceImpl(DocApiRepository repository, @Lazy DocApiGroupService apiGroupService,
+            DocApiInfoService apiInfoService) {
+        this.repository = repository;
         this.apiGroupService = apiGroupService;
+        this.apiInfoService = apiInfoService;
     }
     
     @Override
     public List<DocApi> listAllByProjectId(Long projectId) {
-        return apiRepository.findAllByProjectId(projectId);
+        return repository.findAllByProjectId(projectId);
     }
     
     @Override
     public void removeGroup(Long groupId) {
-        List<DocApi> apis = apiRepository.findAllByApiGroupId(groupId);
+        List<DocApi> apis = repository.findAllByApiGroupId(groupId);
         if (CollectionUtils.isNotEmpty(apis)) {
             apis.forEach(api -> api.setApiGroupId(null));
-            apiRepository.saveAll(apis);
+            repository.saveAll(apis);
         }
     }
     
     @Override
     public DocApi save(DocApi save) {
         checkInfo(save);
-        return apiRepository.save(save);
+        return repository.save(save);
     }
     
     @Override
     public DocApi update(DocApi update) {
         checkInfo(update);
-        return apiRepository.saveAndFlush(update);
+        return repository.saveAndFlush(update);
     }
     
     private void checkInfo(DocApi api) {
-        DocApi exist = apiRepository.findByProjectIdAndName(api.getProjectId(), api.getName());
+        DocApi exist = repository.findByProjectIdAndName(api.getProjectId(), api.getName());
         if (exist != null && !exist.getId().equals(api.getId())) {
             throw new ServiceException("api.name.exist", api.getProjectId(), api.getName());
         }
@@ -80,18 +85,25 @@ public class DocApiServiceImpl implements DocApiService {
     
     @Override
     public void deleteById(Long id) {
-        apiRepository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-        apiRepository.deleteById(id);
+        repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+        repository.deleteById(id);
     }
     
     @Override
     public DocApiDetail getDetail(Long id) {
-        DocApi docApi = apiRepository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+        DocApi docApi = repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
         if (docApi.getApiGroupId() != null) {
             docApi.setApiGroup(apiGroupService.findById(docApi.getApiGroupId()));
         }
         // @formatter:off
-        return DocApiDetail.builder().api(docApi).build();
+        return DocApiDetail.builder().api(docApi).apiInfo(apiInfoService.getByApiId(id)).build();
         // @formatter:on
+    }
+    
+    @Override
+    public void checkId(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ServiceException("api.id.notExist");
+        }
     }
 }

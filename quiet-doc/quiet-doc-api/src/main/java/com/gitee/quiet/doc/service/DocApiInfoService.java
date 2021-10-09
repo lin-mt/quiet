@@ -14,55 +14,38 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.service;
 
-import com.gitee.quiet.jpa.enums.base.StringEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import com.gitee.quiet.doc.entity.DocApiInfo;
 
 /**
- * 字段类型.
+ * api 信息 Service.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-@Getter
-@AllArgsConstructor
-public enum FieldType implements StringEnum {
+public interface DocApiInfoService {
     
     /**
-     * 字符串
+     * 新增api信息
+     *
+     * @param save 新增的api信息
+     * @return 新增的api数据库信息
      */
-    STRING("string"),
+    DocApiInfo save(DocApiInfo save);
     
     /**
-     * 对象
+     * 更新api信息
+     *
+     * @param update 要更新的api信息
+     * @return 更新后的api信息
      */
-    OBJECT("object"),
+    DocApiInfo update(DocApiInfo update);
     
     /**
-     * 数组
+     * 根据apiId查询api信息
+     *
+     * @param apiId apiId
+     * @return api信息
      */
-    ARRAY("array"),
-    
-    /**
-     * 数字
-     */
-    NUMBER("number"),
-    
-    /**
-     * 整型
-     */
-    INTEGER("integer"),
-    
-    /**
-     * 布尔类型
-     */
-    BOOLEAN("boolean"),
-    
-    /**
-     * 枚举
-     */
-    ENUM("enum");
-    
-    private final String value;
+    DocApiInfo getByApiId(Long apiId);
 }

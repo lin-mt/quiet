@@ -73,4 +73,11 @@ public interface DocApiService {
      * @return 接口详细信息
      */
     DocApiDetail getDetail(Long id);
+    
+    /**
+     * 校验id是否存在
+     *
+     * @param id 要校验的ID
+     */
+    void checkId(Long id);
 }

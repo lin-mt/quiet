@@ -14,40 +14,55 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.model;
 
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Builder;
+import com.gitee.quiet.doc.enums.QueryParamType;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
- * 接口文档详细信息.
+ * Query参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
 @Getter
 @Setter
-@Builder
-public class DocApiDetail {
+@EqualsAndHashCode
+public class QueryParam {
     
     /**
-     * 接口信息
+     * 参数名称
      */
-    private DocApi api;
+    private String name;
     
     /**
-     * api信息
+     * 是否必须
      */
-    private DocApiInfo apiInfo;
+    private boolean required;
     
     /**
-     * 访问者信息
+     * 参数类型
      */
-    private List<QuietUser> visitors;
+    private QueryParamType type;
     
+    /**
+     * 最小长度（值）
+     */
+    private Long min;
+    
+    /**
+     * 最大长度（值）
+     */
+    private Long max;
+    
+    /**
+     * 参数示例
+     */
+    private String example;
+    
+    /**
+     * 备注
+     */
+    private String remark;
 }
