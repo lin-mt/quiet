@@ -24,7 +24,7 @@ import com.gitee.quiet.service.advice.AdvicePackage;
 import com.gitee.quiet.service.aware.QuietAuditorAware;
 import com.gitee.quiet.service.converter.StringToDictionaryConverter;
 import com.gitee.quiet.service.enums.ServiceEnumsPackage;
-import com.gitee.quiet.service.filter.GetMethodSnakeCaseFilter;
+import com.gitee.quiet.service.filter.GetMethodQueryParamSnakeCaseFilter;
 import com.gitee.quiet.service.json.filter.HasRoleAnnotationFilter;
 import com.gitee.quiet.service.json.filter.JsonFilterName;
 import com.gitee.quiet.service.json.module.ServiceSimpleModule;
@@ -34,6 +34,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,8 +42,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
-
-import javax.servlet.Filter;
 
 /**
  * 所有服务的共同配置信息.
@@ -95,8 +94,11 @@ public class ServiceConfig {
     
     @Bean
     @ConditionalOnProperty(prefix = "spring.jackson", name = "property-naming-strategy", havingValue = "SNAKE_CASE")
-    public Filter getMethodSnakeCaseFilter() {
-        return new GetMethodSnakeCaseFilter();
+    public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> getMethodQueryParamSnakeCaseFilter() {
+        FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new GetMethodQueryParamSnakeCaseFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 }
 

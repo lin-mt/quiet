@@ -16,14 +16,15 @@
 
 package com.gitee.quiet.service.filter;
 
-import com.gitee.quiet.service.filter.wrapper.ParameterNameToSnakeCaseWrapper;
+import com.gitee.quiet.service.filter.wrapper.ParameterNameWithSnakeCaseWrapper;
+import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -31,18 +32,16 @@ import java.io.IOException;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
  */
-public class GetMethodSnakeCaseFilter implements Filter {
+public class GetMethodQueryParamSnakeCaseFilter extends OncePerRequestFilter {
     
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
-        if (servletRequest instanceof HttpServletRequest) {
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
-            if ("GET".contains(request.getMethod())) {
-                filterChain.doFilter(new ParameterNameToSnakeCaseWrapper(request), servletResponse);
-                return;
-            }
+    protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
+        if (HttpMethod.GET.name().equals(request.getMethod())) {
+            filterChain.doFilter(new ParameterNameWithSnakeCaseWrapper(request), response);
+            return;
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(request, response);
     }
+    
 }
