@@ -46,11 +46,6 @@ public class Header {
     private boolean required;
     
     /**
-     * 参数示例
-     */
-    private String example;
-    
-    /**
      * 备注
      */
     private String remark;
