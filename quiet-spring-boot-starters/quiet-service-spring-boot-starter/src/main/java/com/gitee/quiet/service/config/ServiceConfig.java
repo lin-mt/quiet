@@ -96,6 +96,7 @@ public class ServiceConfig {
     @ConditionalOnProperty(prefix = "spring.jackson", name = "property-naming-strategy", havingValue = "SNAKE_CASE")
     public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> getMethodQueryParamSnakeCaseFilter() {
         FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         registrationBean.setFilter(new GetMethodQueryParamSnakeCaseFilter());
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
