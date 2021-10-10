@@ -27,6 +27,7 @@ dependencies {
     api deps.queryDslCore
     api deps.queryDslJpa
     api deps.queryDslSql
+    api deps.hibernateTypes52
 
     api springBootStarter.dataJpa
 

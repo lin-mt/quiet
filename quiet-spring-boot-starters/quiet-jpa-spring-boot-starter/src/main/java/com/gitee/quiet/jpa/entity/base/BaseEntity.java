@@ -20,11 +20,14 @@ import com.gitee.quiet.jpa.listener.EntityLoggingListener;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.BooleanBuilder;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -53,6 +56,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @MappedSuperclass
+@TypeDefs({@TypeDef(name = "json", typeClass = JsonType.class)})
 @EntityListeners({AuditingEntityListener.class, EntityLoggingListener.class})
 public class BaseEntity implements Serializable {
     
