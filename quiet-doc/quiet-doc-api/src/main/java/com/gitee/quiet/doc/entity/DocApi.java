@@ -19,8 +19,6 @@ package com.gitee.quiet.doc.entity;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.jpa.entity.SerialEntity;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -32,7 +30,6 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -109,12 +106,6 @@ public class DocApi extends SerialEntity {
     @Length(max = 300)
     @Column(name = "remark", length = 300)
     private String remark;
-    
-    /**
-     * 访问者信息
-     */
-    @Transient
-    private List<QuietUser> visitors = Lists.newArrayList();
     
     /**
      * 所属分组信息

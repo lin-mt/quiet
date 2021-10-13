@@ -17,7 +17,6 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.vo.DocApiDetail;
 
 import java.util.List;
 
@@ -72,7 +71,7 @@ public interface DocApiService {
      * @param id 接口ID
      * @return 接口详细信息
      */
-    DocApiDetail getDetail(Long id);
+    DocApi getById(Long id);
     
     /**
      * 校验id是否存在

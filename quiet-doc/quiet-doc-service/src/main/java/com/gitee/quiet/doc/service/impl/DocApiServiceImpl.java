@@ -18,13 +18,9 @@ package com.gitee.quiet.doc.service.impl;
 
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
-import com.gitee.quiet.doc.service.DocApiGroupService;
-import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
-import com.gitee.quiet.doc.vo.DocApiDetail;
 import com.gitee.quiet.service.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,15 +35,8 @@ public class DocApiServiceImpl implements DocApiService {
     
     private final DocApiRepository repository;
     
-    private final DocApiGroupService apiGroupService;
-    
-    private final DocApiInfoService apiInfoService;
-    
-    public DocApiServiceImpl(DocApiRepository repository, @Lazy DocApiGroupService apiGroupService,
-            DocApiInfoService apiInfoService) {
+    public DocApiServiceImpl(DocApiRepository repository) {
         this.repository = repository;
-        this.apiGroupService = apiGroupService;
-        this.apiInfoService = apiInfoService;
     }
     
     @Override
@@ -90,14 +79,8 @@ public class DocApiServiceImpl implements DocApiService {
     }
     
     @Override
-    public DocApiDetail getDetail(Long id) {
-        DocApi docApi = repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-        if (docApi.getApiGroupId() != null) {
-            docApi.setApiGroup(apiGroupService.findById(docApi.getApiGroupId()));
-        }
-        // @formatter:off
-        return DocApiDetail.builder().api(docApi).apiInfo(apiInfoService.getByApiId(id)).build();
-        // @formatter:on
+    public DocApi getById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
     }
     
     @Override

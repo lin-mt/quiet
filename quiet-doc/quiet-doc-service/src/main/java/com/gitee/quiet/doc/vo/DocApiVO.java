@@ -16,13 +16,10 @@
 
 package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.service.vo.SerialVO;
-import com.gitee.quiet.system.entity.QuietUser;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -30,7 +27,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -97,13 +93,13 @@ public class DocApiVO extends SerialVO {
     private String remark;
     
     /**
-     * 访问者信息
+     * 创建人用户名
      */
-    private List<QuietUser> visitors = Lists.newArrayList();
+    private String creatorFullName;
     
     /**
      * 所属分组信息
      */
-    private DocApiGroup apiGroup;
+    private DocApiGroupVO apiGroup;
     
 }

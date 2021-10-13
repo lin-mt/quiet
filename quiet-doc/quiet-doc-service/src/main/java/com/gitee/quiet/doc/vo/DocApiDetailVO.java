@@ -16,14 +16,9 @@
 
 package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiInfo;
-import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 接口文档详细信息.
@@ -33,21 +28,16 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class DocApiDetail {
+public class DocApiDetailVO {
     
     /**
      * 接口信息
      */
-    private DocApi api;
+    private DocApiVO api;
     
     /**
      * api信息
      */
-    private DocApiInfo apiInfo;
-    
-    /**
-     * 访问者信息
-     */
-    private List<QuietUser> visitors;
+    private DocApiInfoVO apiInfo;
     
 }

@@ -17,12 +17,20 @@
 package com.gitee.quiet.doc.controller;
 
 import com.gitee.quiet.doc.converter.DocApiConvert;
+import com.gitee.quiet.doc.converter.DocApiGroupConvert;
+import com.gitee.quiet.doc.converter.DocApiInfoConvert;
 import com.gitee.quiet.doc.dto.DocApiDTO;
+import com.gitee.quiet.doc.dubbo.UserDubboService;
 import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.entity.DocApiGroup;
+import com.gitee.quiet.doc.entity.DocApiInfo;
+import com.gitee.quiet.doc.service.DocApiGroupService;
+import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
-import com.gitee.quiet.doc.vo.DocApiDetail;
+import com.gitee.quiet.doc.vo.DocApiDetailVO;
 import com.gitee.quiet.doc.vo.DocApiVO;
 import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
@@ -48,7 +56,17 @@ public class DocApiController {
     
     private final DocApiService apiService;
     
+    private final DocApiGroupService apiGroupService;
+    
+    private final DocApiInfoService apiInfoService;
+    
     private final DocApiConvert apiConvert;
+    
+    private final DocApiInfoConvert apiInfoConvert;
+    
+    private final DocApiGroupConvert apiGroupConvert;
+    
+    private final UserDubboService userDubboService;
     
     /**
      * 查询接口详细信息
@@ -57,8 +75,25 @@ public class DocApiController {
      * @return 接口详细信息
      */
     @GetMapping("/detail/{id}")
-    public Result<DocApiDetail> getDetail(@PathVariable Long id) {
-        return Result.success(apiService.getDetail(id));
+    public Result<DocApiDetailVO> getDetail(@PathVariable Long id) {
+        DocApiVO docApi = apiConvert.entity2vo(apiService.getById(id));
+        if (docApi.getApiGroupId() != null) {
+            DocApiGroup apiGroup = apiGroupService.findById(docApi.getApiGroupId());
+            if (apiGroup != null) {
+                docApi.setApiGroup(apiGroupConvert.entity2vo(apiGroup));
+            }
+        }
+        QuietUser creator = userDubboService.getById(docApi.getCreator());
+        if (creator != null) {
+            docApi.setCreatorFullName(creator.getFullName());
+        }
+        DocApiDetailVO.DocApiDetailVOBuilder builder = DocApiDetailVO.builder();
+        builder.api(docApi);
+        DocApiInfo apiInfo = apiInfoService.getByApiId(id);
+        if (apiInfo != null) {
+            builder.apiInfo(apiInfoConvert.entity2vo(apiInfo));
+        }
+        return Result.success(builder.build());
     }
     
     /**
