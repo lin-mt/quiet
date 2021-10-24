@@ -37,6 +37,9 @@ public class RouteInitialization implements CommandLineRunner {
     
     @Override
     public void run(String... args) {
-        routeService.publishRoute(Environment.Develop, null);
+        try {
+            routeService.publishRoute(Environment.Develop, null);
+        } catch (Exception ignore) {
+        }
     }
 }

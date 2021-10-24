@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.common.constant.service.RoleNames;
 import com.gitee.quiet.service.enums.Gender;
 import com.gitee.quiet.service.json.annotation.JsonHasRole;
+import com.gitee.quiet.service.security.entity.QuietGrantedAuthority;
 import com.gitee.quiet.service.vo.BaseVO;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import lombok.Getter;
@@ -27,9 +28,11 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -111,6 +114,12 @@ public class QuietUserVO extends BaseVO {
      */
     @JsonHasRole(RoleNames.Admin)
     private Boolean enabled;
+    
+    /**
+     * 角色信息
+     */
+    @Transient
+    private Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities;
     
     /**
      * 角色ID
