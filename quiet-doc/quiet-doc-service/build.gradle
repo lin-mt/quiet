@@ -19,6 +19,7 @@ dependencies {
 
     implementation project(':quiet-doc:quiet-doc-api')
     implementation deps.mapstruct
+    implementation deps.okhttp
 
     compileOnly deps.lombok
 
