@@ -122,7 +122,7 @@ public class DocProjectController {
     @PostMapping
     public Result<DocProjectVO> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
         DocProject save = projectService.save(projectConvert.dto2entity(dto));
-        return Result.success(projectConvert.entity2vo(save));
+        return Result.createSuccess(projectConvert.entity2vo(save));
     }
     
     /**

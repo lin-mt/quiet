@@ -59,6 +59,13 @@ public class DocProject extends SerialEntity {
     private String name;
     
     /**
+     * 接口基本路径
+     */
+    @Length(max = 30)
+    @Column(name = "base_path", length = 30)
+    private String basePath;
+    
+    /**
      * 项目文档负责人
      */
     @NotNull

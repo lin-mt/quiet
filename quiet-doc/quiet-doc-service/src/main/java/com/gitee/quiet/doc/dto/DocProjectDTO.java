@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,12 @@ public class DocProjectDTO extends SerialDTO {
     @NotBlank
     @Length(max = 30)
     private String name;
+    
+    /**
+     * 接口基本路径
+     */
+    @Length(max = 30)
+    private String basePath;
     
     /**
      * 项目文档负责人

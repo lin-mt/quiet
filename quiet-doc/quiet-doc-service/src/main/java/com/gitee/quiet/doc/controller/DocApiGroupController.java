@@ -60,7 +60,7 @@ public class DocApiGroupController {
     @PostMapping
     public Result<DocApiGroupVO> save(@RequestBody @Validated(Create.class) DocApiGroupDTO dto) {
         DocApiGroup save = apiGroupService.save(apiGroupConvert.dto2entity(dto));
-        return Result.success(apiGroupConvert.entity2vo(save));
+        return Result.createSuccess(apiGroupConvert.entity2vo(save));
     }
     
     /**
@@ -72,7 +72,7 @@ public class DocApiGroupController {
     @PutMapping
     public Result<DocApiGroupVO> update(@RequestBody @Validated(Update.class) DocApiGroupDTO dto) {
         DocApiGroup update = apiGroupService.update(apiGroupConvert.dto2entity(dto));
-        return Result.success(apiGroupConvert.entity2vo(update));
+        return Result.updateSuccess(apiGroupConvert.entity2vo(update));
     }
     
     /**

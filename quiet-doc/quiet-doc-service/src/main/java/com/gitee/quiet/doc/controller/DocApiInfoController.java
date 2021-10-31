@@ -55,7 +55,7 @@ public class DocApiInfoController {
     @PostMapping
     public Result<DocApiInfoVO> save(@RequestBody @Validated(Create.class) DocApiInfoDTO dto) {
         DocApiInfo save = service.save(convert.dto2entity(dto));
-        return Result.success(convert.entity2vo(save));
+        return Result.createSuccess(convert.entity2vo(save));
     }
     
     /**
@@ -67,7 +67,7 @@ public class DocApiInfoController {
     @PutMapping
     public Result<DocApiInfoVO> update(@RequestBody @Validated(Update.class) DocApiInfoDTO dto) {
         DocApiInfo update = service.update(convert.dto2entity(dto));
-        return Result.success(convert.entity2vo(update));
+        return Result.updateSuccess(convert.entity2vo(update));
     }
     
 }
