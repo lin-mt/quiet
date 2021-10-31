@@ -12,50 +12,64 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.gitee.quiet.doc.dto;
+package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.service.dto.BaseDTO;
+import com.gitee.quiet.doc.model.Cookie;
+import com.gitee.quiet.doc.model.Header;
+import com.gitee.quiet.doc.model.HttpProtocol;
+import com.gitee.quiet.service.vo.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * 项目配置信息.
+ * 项目环境VO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocProjectConfigDTO extends BaseDTO {
-    
+public class DocProjectEnvironmentVO extends BaseVO {
+
     /**
-     * 配置名称
+     * 环境名称
      */
     @NotEmpty
     @Length(max = 30)
     private String name;
-    
-    /**
-     * 请求路径
-     */
-    @Length(max = 90)
-    private String baseUrl;
-    
+
     /**
      * 项目ID
      */
     @NotNull
     private Long projectId;
-    
+
     /**
-     * 备注
+     * http协议
      */
-    @Length(max = 100)
-    private String remark;
-    
+    @NotNull
+    private HttpProtocol protocol;
+
+    /**
+     * 请求路径
+     */
+    @Length(max = 90)
+    private String basePath;
+
+    /**
+     * 请求头
+     */
+    private List<Header> headers;
+
+    /**
+     * 请求cookie
+     */
+    private List<Cookie> cookies;
 }

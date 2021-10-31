@@ -12,59 +12,64 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.gitee.quiet.doc.entity;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.doc.model.Cookie;
+import com.gitee.quiet.doc.model.Header;
+import com.gitee.quiet.doc.model.HttpProtocol;
+import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * 项目配置信息.
+ * 项目环境DTO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "doc_project_config")
-public class DocProjectConfig extends BaseEntity {
-    
+public class DocProjectEnvironmentDTO extends BaseDTO {
+
     /**
-     * 配置名称
+     * 环境名称
      */
     @NotEmpty
     @Length(max = 30)
-    @Column(name = "config_name", nullable = false, length = 30)
     private String name;
-    
-    /**
-     * 请求路径
-     */
-    @Length(max = 90)
-    @Column(name = "base_path", length = 90)
-    private String basePath;
-    
+
     /**
      * 项目ID
      */
     @NotNull
-    @Column(name = "project_id", nullable = false)
     private Long projectId;
-    
+
     /**
-     * 备注
+     * http协议
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
-    private String remark;
-    
+    @NotNull
+    private HttpProtocol protocol;
+
+    /**
+     * 请求路径
+     */
+    @Length(max = 90)
+    private String basePath;
+
+    /**
+     * 请求头
+     */
+    private List<Header> headers;
+
+    /**
+     * 请求cookie
+     */
+    private List<Cookie> cookies;
 }
