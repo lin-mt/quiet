@@ -134,7 +134,7 @@ public class DocProjectController {
     @PutMapping
     public Result<DocProjectVO> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
         DocProject update = projectService.update(projectConvert.dto2entity(dto));
-        return Result.success(projectConvert.entity2vo(update));
+        return Result.updateSuccess(projectConvert.entity2vo(update));
     }
     
     /**
