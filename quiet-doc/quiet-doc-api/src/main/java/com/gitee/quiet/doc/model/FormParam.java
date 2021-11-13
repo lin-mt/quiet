@@ -57,6 +57,11 @@ public class FormParam {
     private Long maxLength;
     
     /**
+     * ContentType
+     */
+    private String contentType;
+    
+    /**
      * 参数示例
      */
     private String example;
