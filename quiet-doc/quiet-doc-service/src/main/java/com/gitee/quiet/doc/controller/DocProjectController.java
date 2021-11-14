@@ -80,23 +80,21 @@ public class DocProjectController {
                 .collect(Collectors.toMap(DocApiGroup::getId, a -> a));
         ProjectApiInfo projectApiInfo = new ProjectApiInfo();
         projectApiInfo.getApiGroups().addAll(apiGroups);
-        if (CollectionUtils.isNotEmpty(apiGroups)) {
-            List<DocApi> apis = apiService.listAllByProjectId(id);
-            if (CollectionUtils.isNotEmpty(apis)) {
-                List<DocApi> ungroup = new ArrayList<>();
-                Map<Long, List<DocApi>> grouped = new HashMap<>();
-                for (DocApi api : apis) {
-                    if (api.getApiGroupId() == null) {
-                        ungroup.add(api);
-                        continue;
-                    }
-                    grouped.computeIfAbsent(api.getApiGroupId(), k -> new ArrayList<>());
-                    grouped.get(api.getApiGroupId()).add(api);
-                    api.setApiGroup(apiGroupIdToInfo.get(api.getApiGroupId()));
+        List<DocApi> apis = apiService.listAllByProjectId(id);
+        if (CollectionUtils.isNotEmpty(apis)) {
+            List<DocApi> ungroup = new ArrayList<>();
+            Map<Long, List<DocApi>> grouped = new HashMap<>();
+            for (DocApi api : apis) {
+                if (api.getApiGroupId() == null) {
+                    ungroup.add(api);
+                    continue;
                 }
-                projectApiInfo.getUngroup().addAll(ungroup);
-                projectApiInfo.getGrouped().putAll(grouped);
+                grouped.computeIfAbsent(api.getApiGroupId(), k -> new ArrayList<>());
+                grouped.get(api.getApiGroupId()).add(api);
+                api.setApiGroup(apiGroupIdToInfo.get(api.getApiGroupId()));
             }
+            projectApiInfo.getUngroup().addAll(ungroup);
+            projectApiInfo.getGrouped().putAll(grouped);
         }
         return Result.success(projectApiInfo);
     }

@@ -34,20 +34,20 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class DocProjectEnvironmentServiceImpl implements DocProjectEnvironmentService {
-
+    
     private final DocProjectEnvironmentRepository repository;
-
+    
     @Override
     public List<DocProjectEnvironment> listByProjectId(Long projectId) {
         return repository.findAllByProjectId(projectId);
     }
-
+    
     @Override
     public DocProjectEnvironment save(DocProjectEnvironment save) {
         checkInfo(save);
         return repository.save(save);
     }
-
+    
     @Override
     public DocProjectEnvironment update(DocProjectEnvironment update) {
         checkInfo(update);
@@ -60,10 +60,16 @@ public class DocProjectEnvironmentServiceImpl implements DocProjectEnvironmentSe
         repository.deleteById(id);
     }
     
+    @Override
+    public DocProjectEnvironment getById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
+    }
+    
     private void checkInfo(DocProjectEnvironment entity) {
         DocProjectEnvironment exist = repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
         if (exist != null && !exist.getId().equals(entity.getId())) {
-            throw new ServiceException("projectEnvironment.name.exist", entity.getProjectId().toString(), entity.getName());
+            throw new ServiceException("projectEnvironment.name.exist", entity.getProjectId().toString(),
+                    entity.getName());
         }
     }
 }

@@ -58,4 +58,12 @@ public interface DocProjectEnvironmentService {
      * @param id 要删除的数据的id
      */
     void deleteById(Long id);
+    
+    /**
+     * 根据环境ID查询项目环境配置信息
+     *
+     * @param id 环境ID
+     * @return 环境配置信息
+     */
+    DocProjectEnvironment getById(Long id);
 }

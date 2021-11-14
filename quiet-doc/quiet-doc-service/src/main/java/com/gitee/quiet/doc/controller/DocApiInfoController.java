@@ -55,7 +55,7 @@ public class DocApiInfoController {
     @PostMapping
     public Result<DocApiInfoVO> save(@RequestBody @Validated(Create.class) DocApiInfoDTO dto) {
         DocApiInfo save = service.save(convert.dto2entity(dto));
-        return Result.createSuccess(convert.entity2vo(save));
+        return Result.success(convert.entity2vo(save));
     }
     
     /**
