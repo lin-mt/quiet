@@ -49,7 +49,7 @@ public class RequestController {
     private final DocProjectEnvironmentService projectEnvironmentService;
     
     @RequestMapping("/{environmentId}/**")
-    public void formData(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse,
+    public void request(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse,
             @PathVariable Long environmentId) throws IOException {
         RequestBody requestBody;
         String contentType = servletRequest.getContentType();
