@@ -16,16 +16,19 @@
 
 package com.gitee.quiet.doc.service.impl;
 
+import com.gitee.quiet.doc.dubbo.UserDubboService;
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.service.QuietUserService;
 import com.google.common.collect.Sets;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,16 +43,14 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class DocProjectServiceImpl implements DocProjectService {
+    
+    public static final String CACHE_NAME = "quiet:doc:project:info";
     
     public final DocProjectRepository projectRepository;
     
-    @DubboReference
-    private QuietUserService quietUserService;
-    
-    public DocProjectServiceImpl(DocProjectRepository projectRepository) {
-        this.projectRepository = projectRepository;
-    }
+    private final UserDubboService userDubboService;
     
     @Override
     public MyDocProject getProjectByUserId(Long userId) {
@@ -67,7 +68,7 @@ public class DocProjectServiceImpl implements DocProjectService {
                 accessibleProjects.add(docProject);
             }
         });
-        Map<Long, QuietUser> userIdToInfo = quietUserService.findByUserIds(userIds).stream()
+        Map<Long, QuietUser> userIdToInfo = userDubboService.findByUserIds(userIds).stream()
                 .collect(Collectors.toMap(QuietUser::getId, user -> user));
         docProjects.forEach(docProject -> {
             docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
@@ -89,24 +90,30 @@ public class DocProjectServiceImpl implements DocProjectService {
     }
     
     @Override
+    @PreAuthorize("#HasDocProjectPermission.edit(#update.id)")
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#update.id")
     public DocProject update(DocProject update) {
         checkInfo(update);
         return projectRepository.saveAndFlush(update);
     }
     
     @Override
+    @PreAuthorize("#HasDocProjectPermission.delete(#id)")
+    @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
     public void delete(Long id) {
         projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
         projectRepository.deleteById(id);
     }
     
     @Override
+    @PreAuthorize("#HasDocProjectPermission.visit(#id)")
+    @Cacheable(cacheNames = CACHE_NAME, key = "#id", condition = "#id != null ", sync = true)
     public DocProject getById(Long id) {
         DocProject docProject = projectRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
         Set<Long> userIds = Sets.newHashSet(docProject.getVisitorIds());
         userIds.add(docProject.getPrincipal());
-        Map<Long, QuietUser> userIdToInfo = quietUserService.findByUserIds(userIds).stream()
+        Map<Long, QuietUser> userIdToInfo = userDubboService.findByUserIds(userIds).stream()
                 .collect(Collectors.toMap(QuietUser::getId, user -> user));
         docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
         if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
