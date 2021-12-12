@@ -48,9 +48,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuietPermissionServiceImpl implements QuietPermissionService {
     
-    public static final String CACHE_INFO = "quiet:system:permission";
-    
-    public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":application_name";
+    public static final String CACHE_INFO = "quiet:system:permission:info";
     
     private final QuietPermissionRepository permissionRepository;
     
@@ -63,7 +61,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#permission.applicationName")
+    @CacheEvict(value = CACHE_INFO, key = "#permission.applicationName")
     public QuietPermission saveOrUpdate(@NotNull QuietPermission permission) {
         if (!roleService.existsById(permission.getRoleId())) {
             throw new ServiceException("role.id.not.exist", permission.getRoleId());
@@ -72,7 +70,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#result.applicationName")
+    @CacheEvict(value = CACHE_INFO, key = "#result.applicationName")
     public QuietPermission delete(@NotNull Long deleteId) {
         QuietPermission deleted = permissionRepository.getById(deleteId);
         permissionRepository.deleteById(deleteId);
@@ -91,7 +89,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    @Cacheable(value = CACHE_INFO_APPLICATION_NAME, key = "#applicationName")
+    @Cacheable(value = CACHE_INFO, key = "#applicationName")
     public List<UrlPermission> listUrlPermission(@NotNull String applicationName) {
         List<QuietPermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
         List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());
