@@ -1,2 +1,0 @@
-token-value-consumer=com.gitee.quiet.common.service.dubbo.filter.consumer.AccessTokenValueFilter
-token-value-provider=com.gitee.quiet.common.service.dubbo.filter.provider.AccessTokenValueFilter

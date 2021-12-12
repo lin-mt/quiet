@@ -1,7 +1,0 @@
-spring:
-  config:
-    import:
-      - classpath:application-common.yaml
-      - classpath:application-mysql.yaml
-      - classpath:application-redis.yaml
-      - classpath:application-registry.yaml
