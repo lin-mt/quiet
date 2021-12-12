@@ -44,7 +44,7 @@ import java.util.Optional;
 @Service
 public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     
-    public static final String CACHE_NAME = "quiet:system:dictionary";
+    public static final String CACHE_NAME = "quiet:system:dictionary:info";
     
     private final QuietDictionaryRepository dictionaryRepository;
     
@@ -70,7 +70,6 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
     }
     
     @Override
-    @CacheEvict(cacheNames = CACHE_NAME, key = "#save.type")
     public QuietDictionary save(@NotNull QuietDictionary save) {
         checkDictionaryInfo(save);
         return dictionaryRepository.save(save);
