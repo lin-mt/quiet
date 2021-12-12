@@ -17,11 +17,15 @@
 package com.gitee.quiet.service.utils;
 
 import com.gitee.quiet.common.constant.service.MessageSourceCode;
+import com.gitee.quiet.common.constant.service.RoleNames;
+import com.gitee.quiet.service.security.entity.QuietGrantedAuthority;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 /**
  * Spring Security 工具类.
@@ -75,5 +79,40 @@ public class CurrentUserUtil {
     @NotNull
     public static String getFullName() {
         return get().getFullName();
+    }
+    
+    /**
+     * 判断是否拥有某个角色的权限
+     *
+     * @param roleName 角色名称
+     */
+    public static boolean hasRole(String roleName) {
+        Collection<? extends QuietGrantedAuthority<? extends QuietGrantedAuthority<?>>> authorities = get().getAuthorities();
+        if (CollectionUtils.isNotEmpty(authorities)) {
+            for (QuietGrantedAuthority<? extends QuietGrantedAuthority<?>> authority : authorities) {
+                if (roleName.equals(authority.getRoleName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * 是否管理员
+     *
+     * @return true：是管理员、false：不是管理员
+     */
+    public static boolean isAdmin() {
+        return hasRole(RoleNames.Admin) || isSystemAdmin();
+    }
+    
+    /**
+     * 是否系统管理员
+     *
+     * @return true：是系统管理员、false：不是系统管理员
+     */
+    public static boolean isSystemAdmin() {
+        return hasRole(RoleNames.SystemAdmin);
     }
 }

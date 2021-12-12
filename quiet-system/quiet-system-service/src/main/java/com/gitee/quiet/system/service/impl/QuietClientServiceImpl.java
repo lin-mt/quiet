@@ -48,9 +48,7 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("deprecation")
 public class QuietClientServiceImpl implements QuietClientService {
     
-    public static final String CACHE_INFO = "quiet:system:client";
-    
-    public static final String CACHE_INFO_CLIENT_DETAILS = CACHE_INFO + ":client_details";
+    public static final String CACHE_INFO = "quiet:system:client:info";
     
     private final Logger logger = LoggerFactory.getLogger(getClass());
     
@@ -64,7 +62,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    @Cacheable(value = CACHE_INFO_CLIENT_DETAILS, key = "#clientId")
+    @Cacheable(value = CACHE_INFO, key = "#clientId")
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
         QuietClient client = clientRepository.findByClientId(clientId);
         if (client != null) {
@@ -91,14 +89,14 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, allEntries = true)
+    @CacheEvict(value = CACHE_INFO, allEntries = true)
     public void deleteClientById(@NotNull Long id) {
         clientRepository.findById(id).orElseThrow(() -> new ServiceException("client.id.not.exist", id));
         clientRepository.deleteById(id);
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
+    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
     public QuietClient update(@Validated(Update.class) QuietClient update) {
         QuietClient exist = clientRepository.findByClientId(update.getClientId());
         if (exist != null && !exist.getId().equals(update.getId())) {
@@ -109,7 +107,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
+    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
     public QuietClient removeClientScope(@NotNull Long id, @NotEmpty String clientScope) {
         QuietClient client = clientRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
@@ -118,7 +116,7 @@ public class QuietClientServiceImpl implements QuietClientService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_CLIENT_DETAILS, key = "#result.clientId")
+    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
     public QuietClient removeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType) {
         QuietClient client = clientRepository.findById(id)
                 .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
