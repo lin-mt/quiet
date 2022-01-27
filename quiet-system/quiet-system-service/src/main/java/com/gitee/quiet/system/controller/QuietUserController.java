@@ -30,6 +30,7 @@ import com.gitee.quiet.system.service.QuietUserService;
 import com.gitee.quiet.system.vo.QuietUserRoleVO;
 import com.gitee.quiet.system.vo.QuietUserVO;
 import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.gitee.quiet.validation.util.ValidationUtils;
 import lombok.AllArgsConstructor;
@@ -98,7 +99,7 @@ public class QuietUserController {
      * @return 查询的用户信息
      */
     @GetMapping("/page")
-    public Result<Page<QuietUserVO>> page(QuietUserDTO dto) {
+    public Result<Page<QuietUserVO>> page(@Validated(PageValid.class) QuietUserDTO dto) {
         Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
         return Result.success(userConvert.page2page(userPage));
     }
