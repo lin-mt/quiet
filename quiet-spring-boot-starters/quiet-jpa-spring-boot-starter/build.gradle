@@ -22,7 +22,6 @@ dependencies {
     api project(path: ":quiet-spring-boot-starters:quiet-validation-spring-boot-starter", configuration: "default")
     api deps.jacksonDatabind
     api deps.jacksonDatatypeJsr310
-    api deps.byteBuddy
 
     api deps.queryDslCore
     api deps.queryDslJpa
