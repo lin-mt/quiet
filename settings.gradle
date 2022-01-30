@@ -32,3 +32,6 @@ include ':quiet-spring-boot-starters:quiet-web-spring-boot-starter'
 
 include ':quiet-scrum:quiet-scrum-api'
 include ':quiet-scrum:quiet-scrum-service'
+
+include ':quiet-doc:quiet-doc-api'
+include ':quiet-doc:quiet-doc-service'

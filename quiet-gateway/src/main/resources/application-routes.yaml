@@ -14,6 +14,12 @@ spring:
             - Path=/scrum/**
           filters:
             - StripPrefix=1
+        - id: doc
+          uri: lb://quiet-doc
+          predicates:
+            - Path=/doc/**
+          filters:
+            - StripPrefix=1
 ---
 spring:
   config:
@@ -32,5 +38,11 @@ spring:
           uri: http://localhost:9010
           predicates:
             - Path=/scrum/**
+          filters:
+            - StripPrefix=1
+        - id: doc
+          uri: http://localhost:9020
+          predicates:
+            - Path=/doc/**
           filters:
             - StripPrefix=1
