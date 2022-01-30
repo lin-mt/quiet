@@ -16,9 +16,11 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -37,6 +39,8 @@ import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_team")
 public class QuietTeam extends BaseEntity {
@@ -79,54 +83,6 @@ public class QuietTeam extends BaseEntity {
      */
     @Transient
     private List<QuietUser> members;
-    
-    public String getTeamName() {
-        return teamName;
-    }
-    
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-    
-    public String getSlogan() {
-        return slogan;
-    }
-    
-    public void setSlogan(String slogan) {
-        this.slogan = slogan;
-    }
-    
-    public Map<Long, List<QuietUser>> getRoleIdToUsers() {
-        return roleIdToUsers;
-    }
-    
-    public void setRoleIdToUsers(Map<Long, List<QuietUser>> roleIdToUsers) {
-        this.roleIdToUsers = roleIdToUsers;
-    }
-    
-    public List<QuietUser> getProductOwners() {
-        return productOwners;
-    }
-    
-    public void setProductOwners(List<QuietUser> productOwners) {
-        this.productOwners = productOwners;
-    }
-    
-    public List<QuietUser> getScrumMasters() {
-        return scrumMasters;
-    }
-    
-    public void setScrumMasters(List<QuietUser> scrumMasters) {
-        this.scrumMasters = scrumMasters;
-    }
-    
-    public List<QuietUser> getMembers() {
-        return members;
-    }
-    
-    public void setMembers(List<QuietUser> members) {
-        this.members = members;
-    }
     
     @Nullable
     @Override

@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.base.constant.RoleNames;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.common.constant.service.RoleNames;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
@@ -31,12 +31,12 @@ import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -84,23 +84,24 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     
     @Override
-    public QueryResults<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
-        QueryResults<QuietTeam> result = SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietTeam, page);
-        if (CollectionUtils.isNotEmpty(result.getResults())) {
-            Set<Long> teamIds = result.getResults().stream().map(QuietTeam::getId).collect(Collectors.toSet());
+    public Page<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        Page<QuietTeam> result = teamRepository.findAll(predicate, page);
+        if (CollectionUtils.isNotEmpty(result.getContent())) {
+            Set<Long> teamIds = result.getContent().stream().map(QuietTeam::getId).collect(Collectors.toSet());
             List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
             Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
                     .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
             Set<Long> allUserIds = allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
-            List<QuietTeamUserRole> userTeamRoles = teamUserRoleService
-                    .findByTeamUserIds(allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+            List<QuietTeamUserRole> userTeamRoles = teamUserRoleService.findByTeamUserIds(
+                    allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
             Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles = userTeamRoles.stream()
                     .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
             Map<Long, QuietUser> userIdToUserInfo = userService.findByUserIds(allUserIds).stream()
                     .collect(Collectors.toMap(QuietUser::getId, u -> u));
             QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
             QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
-            for (QuietTeam quietTeam : result.getResults()) {
+            for (QuietTeam quietTeam : result.getContent()) {
                 List<QuietTeamUser> quietTeamUsers = teamIdToTeamUsers.get(quietTeam.getId());
                 if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
                     List<QuietUser> members = new ArrayList<>();
@@ -204,8 +205,8 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         List<QuietTeam> teams = teamRepository.findAllById(ids);
         List<QuietTeamUser> teamUsers = teamUserService.findAllUsersByTeamIds(ids);
         Map<Long, Set<Long>> teamIdToUserIds = teamUsers.stream()
-                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(Collectors
-                        .toMap(Map.Entry::getKey,
+                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(
+                        Collectors.toMap(Map.Entry::getKey,
                                 e -> e.getValue().stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet())));
         Set<Long> userIds = teamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
         Map<Long, QuietUser> userIdToInfo = userService.findByUserIds(userIds).stream()

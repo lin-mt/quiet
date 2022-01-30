@@ -16,9 +16,11 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -35,6 +37,8 @@ import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_permission")
 public class QuietPermission extends BaseEntity {
@@ -76,46 +80,6 @@ public class QuietPermission extends BaseEntity {
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
-    
-    public String getApplicationName() {
-        return applicationName;
-    }
-    
-    public void setApplicationName(String applicationName) {
-        this.applicationName = applicationName;
-    }
-    
-    public String getUrlPattern() {
-        return urlPattern;
-    }
-    
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
-    }
-    
-    public String getRequestMethod() {
-        return requestMethod;
-    }
-    
-    public void setRequestMethod(String requestMethod) {
-        this.requestMethod = requestMethod;
-    }
-    
-    public Long getRoleId() {
-        return roleId;
-    }
-    
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String description) {
-        this.remark = description;
-    }
     
     @Nullable
     @Override

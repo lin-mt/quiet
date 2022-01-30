@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietRole;
-import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.core.GrantedAuthority;
@@ -72,7 +72,7 @@ public interface QuietRoleService extends RoleHierarchy {
      * @param page   分页参数
      * @return 查询结果
      */
-    QueryResults<QuietRole> page(QuietRole params, Pageable page);
+    Page<QuietRole> page(QuietRole params, Pageable page);
     
     /**
      * 根据角色 ID 删除角色

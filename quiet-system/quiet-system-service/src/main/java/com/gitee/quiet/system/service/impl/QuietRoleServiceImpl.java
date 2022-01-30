@@ -16,17 +16,17 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,8 +45,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.gitee.quiet.system.entity.QQuietRole.quietRole;
-
 /**
  * 角色 Service 实现类.
  *
@@ -55,18 +53,14 @@ import static com.gitee.quiet.system.entity.QQuietRole.quietRole;
 @Service
 public class QuietRoleServiceImpl implements QuietRoleService {
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietRoleRepository roleRepository;
     
     private final QuietPermissionService permissionService;
     
     private String rolePrefix = "ROLE_";
     
-    public QuietRoleServiceImpl(JPAQueryFactory jpaQueryFactory,
-            Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults, QuietRoleRepository roleRepository,
-            QuietPermissionService permissionService) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietRoleServiceImpl(Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults,
+            QuietRoleRepository roleRepository, QuietPermissionService permissionService) {
         grantedAuthorityDefaults.ifPresent(prefix -> rolePrefix = prefix.getRolePrefix());
         this.roleRepository = roleRepository;
         this.permissionService = permissionService;
@@ -96,20 +90,21 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     }
     
     @Override
-    public QueryResults<QuietRole> page(QuietRole params, @NotNull Pageable page) {
-        QueryResults<QuietRole> results = SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietRole, page);
-        if (!results.getResults().isEmpty()) {
-            Set<Long> parentIds = results.getResults().stream().map(QuietRole::getParentId)
+    public Page<QuietRole> page(QuietRole params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        Page<QuietRole> roles = roleRepository.findAll(predicate, page);
+        if (!roles.isEmpty()) {
+            Set<Long> parentIds = roles.getContent().stream().map(QuietRole::getParentId)
                     .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());
             Map<Long, QuietRole> idToRoleInfo = roleRepository.findAllById(parentIds).stream()
                     .collect(Collectors.toMap(QuietRole::getId, role -> role));
-            for (QuietRole role : results.getResults()) {
+            for (QuietRole role : roles.getContent()) {
                 if (role.getParentId() != null) {
                     role.setParentRoleName(idToRoleInfo.get(role.getParentId()).getRoleName());
                 }
             }
         }
-        return results;
+        return roles;
     }
     
     @Override

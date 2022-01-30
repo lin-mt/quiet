@@ -16,25 +16,22 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.base.constant.RedisKey;
-import com.gitee.quiet.common.service.enums.Operation;
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.common.constant.cache.Gateway;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRoute;
 import com.gitee.quiet.system.repository.QuietRouteRepository;
 import com.gitee.quiet.system.service.QuietRouteService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 
 /**
  * 路由信息service实现类.
@@ -44,22 +41,19 @@ import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 @Service
 public class QuietRouteServiceImpl implements QuietRouteService {
     
-    private final JPAQueryFactory jpaQueryFactory;
-    
     private final QuietRouteRepository routeRepository;
     
     private final RedisTemplate<String, Object> redisTemplate;
     
-    public QuietRouteServiceImpl(JPAQueryFactory jpaQueryFactory, QuietRouteRepository routeRepository,
-            RedisTemplate<String, Object> redisTemplate) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public QuietRouteServiceImpl(QuietRouteRepository routeRepository, RedisTemplate<String, Object> redisTemplate) {
         this.routeRepository = routeRepository;
         this.redisTemplate = redisTemplate;
     }
     
     @Override
-    public QueryResults<QuietRoute> page(QuietRoute params, Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietRoute, page);
+    public Page<QuietRoute> page(QuietRoute params, Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return routeRepository.findAll(predicate, page);
     }
     
     @Override
@@ -101,34 +95,16 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     }
     
     @Override
-    public QuietRoute changePredicate(Long id, String predicate, Operation operation) {
-        QuietRoute route = routeRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                route.addPredicate(predicate);
-                break;
-            case DELETE:
-                route.removePredicate(predicate);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+    public QuietRoute removePredicate(Long id, String predicate) {
+        QuietRoute route = routeRepository.getById(id);
+        route.removePredicate(predicate);
         return routeRepository.saveAndFlush(route);
     }
     
     @Override
-    public QuietRoute changeFilter(Long id, String filter, Operation operation) {
-        QuietRoute route = routeRepository.getOne(id);
-        switch (operation) {
-            case ADD:
-                route.addFilter(filter);
-                break;
-            case DELETE:
-                route.removeFilter(filter);
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("不支持的操作类型：%s", operation));
-        }
+    public QuietRoute removeFilter(Long id, String filter) {
+        QuietRoute route = routeRepository.getById(id);
+        route.removeFilter(filter);
         return routeRepository.saveAndFlush(route);
     }
     
@@ -136,11 +112,11 @@ public class QuietRouteServiceImpl implements QuietRouteService {
     public void publishRoute(Dictionary<?> environment, Long timeOut) {
         List<QuietRoute> routes = routeRepository.findByEnvironment(environment);
         if (CollectionUtils.isNotEmpty(routes)) {
-            redisTemplate.delete(RedisKey.Gateway.ROUTE_DEFINITION);
+            redisTemplate.delete(Gateway.ROUTE_DEFINITION);
             if (timeOut == null) {
-                redisTemplate.opsForValue().set(RedisKey.Gateway.ROUTE_DEFINITION, routes);
+                redisTemplate.opsForValue().set(Gateway.ROUTE_DEFINITION, routes);
             } else {
-                redisTemplate.opsForValue().set(RedisKey.Gateway.ROUTE_DEFINITION, routes, timeOut, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(Gateway.ROUTE_DEFINITION, routes, timeOut, TimeUnit.SECONDS);
             }
         } else {
             throw new ServiceException("route.environment.notRouteConfigInfo", environment);

@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.system.dictionary;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
 
 /**
  * 环境数据字典.
@@ -24,12 +24,6 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class Environment extends Dictionary<Environment> {
-    
-    private static final String TYPE = Environment.class.getSimpleName();
-    
-    private Environment(String key) {
-        super(TYPE, key);
-    }
     
     /**
      * 开发环境
@@ -45,4 +39,8 @@ public class Environment extends Dictionary<Environment> {
      * 生产环境
      */
     public static final Environment Produce = new Environment("Produce");
+    
+    private Environment(String key) {
+        super(Environment.class.getSimpleName(), key);
+    }
 }

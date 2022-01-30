@@ -17,13 +17,14 @@
 package com.gitee.quiet.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,7 +50,10 @@ import static com.gitee.quiet.system.entity.QQuietClient.quietClient;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
+@ToString
 @Table(name = "quiet_client")
 @SuppressWarnings("deprecation")
 public class QuietClient extends BaseEntity implements ClientDetails {
@@ -67,7 +71,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @NotBlank
     @Length(max = 60)
     @Column(name = "client_secret", length = 60, nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clientSecret;
     
     @Column(name = "resource_ids", length = 60)
@@ -111,41 +114,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Column(name = "remark", length = 100)
     private String remark;
     
-    @Override
-    public String getClientId() {
-        return clientId;
-    }
-    
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-    
-    @Override
-    public String getClientSecret() {
-        return clientSecret;
-    }
-    
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
-    
-    public String getClientName() {
-        return clientName;
-    }
-    
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-    
-    @Override
-    public Set<String> getResourceIds() {
-        return resourceIds;
-    }
-    
-    public void setResourceIds(Set<String> resourceIds) {
-        this.resourceIds = resourceIds;
-    }
-    
     /**
      * Whether a secret is required to authenticate this client.
      *
@@ -155,14 +123,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Transient
     public boolean isSecretRequired() {
         return BooleanUtils.toBoolean(getSecretRequired());
-    }
-    
-    public Boolean getSecretRequired() {
-        return secretRequired;
-    }
-    
-    public void setSecretRequired(Boolean secretRequired) {
-        this.secretRequired = secretRequired;
     }
     
     /**
@@ -177,41 +137,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         return BooleanUtils.toBoolean(getScoped());
     }
     
-    public Boolean getScoped() {
-        return scoped;
-    }
-    
-    public void setScoped(Boolean scoped) {
-        this.scoped = scoped;
-    }
-    
-    @Override
-    public Set<String> getScope() {
-        return scope;
-    }
-    
-    public void setScope(Set<String> scope) {
-        this.scope = scope;
-    }
-    
-    @Override
-    public Set<String> getAuthorizedGrantTypes() {
-        return authorizedGrantTypes;
-    }
-    
-    public void setAuthorizedGrantTypes(Set<String> authorizedGrantTypes) {
-        this.authorizedGrantTypes = authorizedGrantTypes;
-    }
-    
-    @Override
-    public Set<String> getRegisteredRedirectUri() {
-        return registeredRedirectUri;
-    }
-    
-    public void setRegisteredRedirectUri(Set<String> registeredRedirectUri) {
-        this.registeredRedirectUri = registeredRedirectUri;
-    }
-    
     /**
      * Returns the authorities that are granted to the OAuth client. Cannot return <code>null</code>. Note that these
      * are NOT the authorities that are granted to the user with an authorized access token. Instead, these authorities
@@ -223,24 +148,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Transient
     public Collection<GrantedAuthority> getAuthorities() {
         return CollectionUtils.emptyCollection();
-    }
-    
-    @Override
-    public Integer getAccessTokenValiditySeconds() {
-        return accessTokenValiditySeconds;
-    }
-    
-    public void setAccessTokenValiditySeconds(Integer accessTokenValiditySeconds) {
-        this.accessTokenValiditySeconds = accessTokenValiditySeconds;
-    }
-    
-    @Override
-    public Integer getRefreshTokenValiditySeconds() {
-        return refreshTokenValiditySeconds;
-    }
-    
-    public void setRefreshTokenValiditySeconds(Integer refreshTokenValiditySeconds) {
-        this.refreshTokenValiditySeconds = refreshTokenValiditySeconds;
     }
     
     /**
@@ -266,33 +173,6 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @JsonIgnore
     public Map<String, Object> getAdditionalInformation() {
         return null;
-    }
-    
-    public Boolean getAutoApprove() {
-        return autoApprove;
-    }
-    
-    public void setAutoApprove(Boolean autoApprove) {
-        this.autoApprove = autoApprove;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("clientId", clientId).append("resourceIds", resourceIds)
-                .append("secretRequired", secretRequired).append("clientSecret", clientSecret).append("scoped", scoped)
-                .append("scope", scope).append("authorizedGrantTypes", authorizedGrantTypes)
-                .append("registeredRedirectUri", registeredRedirectUri)
-                .append("accessTokenValiditySeconds", accessTokenValiditySeconds)
-                .append("refreshTokenValiditySeconds", refreshTokenValiditySeconds).append("autoApprove", autoApprove)
-                .toString();
     }
     
     /**
@@ -345,15 +225,13 @@ public class QuietClient extends BaseEntity implements ClientDetails {
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
-        return SelectBuilder.booleanBuilder()
-                .notNullEq(getId(), quietClient.id)
-                .notNullEq(getAutoApprove(), quietClient.autoApprove)
-                .notNullEq(getScoped(), quietClient.scoped)
+        return SelectBuilder.booleanBuilder().notNullEq(getId(), quietClient.id)
+                .notNullEq(getAutoApprove(), quietClient.autoApprove).notNullEq(getScoped(), quietClient.scoped)
                 .notNullEq(getSecretRequired(), quietClient.secretRequired)
                 .notBlankContains(getClientId(), quietClient.clientId)
                 .notBlankContains(getClientName(), quietClient.clientName)
-                .notBlankContains(getRemark(), quietClient.remark)
-                .getPredicate();
+                .notBlankContains(getRemark(), quietClient.remark).getPredicate();
         // @formatter:on
     }
 }
+

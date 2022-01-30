@@ -16,9 +16,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.util.EntityUtils;
+import com.gitee.quiet.jpa.utils.EntityUtils;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietDepartmentRepository;
@@ -28,13 +28,13 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartmentUser;
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
@@ -60,8 +60,9 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public QueryResults<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietDepartment, page);
+    public Page<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return departmentRepository.findAll(predicate, page);
     }
     
     @Override
@@ -79,7 +80,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
     }
     
     @Override
-    public void delete(@NotNull Long deleteId) {
+    public void deleteById(@NotNull Long deleteId) {
         if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
             throw new ServiceException("department.has.children.can.not.deleted");
         }

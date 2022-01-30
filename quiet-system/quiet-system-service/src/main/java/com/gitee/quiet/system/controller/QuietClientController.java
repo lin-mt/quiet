@@ -16,18 +16,24 @@
 
 package com.gitee.quiet.system.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.enums.Operation;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.system.convert.QuietClientConvert;
+import com.gitee.quiet.system.dto.QuietClientDTO;
 import com.gitee.quiet.system.entity.QuietClient;
-import com.gitee.quiet.system.params.QuietClientParam;
 import com.gitee.quiet.system.service.QuietClientService;
-import com.querydsl.core.QueryResults;
+import com.gitee.quiet.system.vo.QuietClientVO;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.PageValid;
+import com.gitee.quiet.validation.groups.Update;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,71 +44,86 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/client")
 @PreAuthorize(value = "hasRole('SystemAdmin')")
 public class QuietClientController {
     
     private final QuietClientService clientService;
     
-    public QuietClientController(QuietClientService clientService) {
-        this.clientService = clientService;
-    }
+    private final QuietClientConvert clientConvert;
     
     /**
      * 分页查询客户端.
      *
+     * @param dto 查询参数
      * @return 查询所有信息
      */
-    @PostMapping("/page")
-    public Result<QueryResults<QuietClient>> page(@RequestBody QuietClientParam postParam) {
-        return Result.success(clientService.page(postParam.getParams(), postParam.page()));
+    @GetMapping("/page")
+    public Result<Page<QuietClientVO>> page(@Validated(PageValid.class) QuietClientDTO dto) {
+        Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
+        return Result.success(clientConvert.page2page(clients));
     }
     
     /**
      * 新增客户端.
      *
-     * @param postParam :save 新增的客户端信息
+     * @param dto 新增的客户端信息
      * @return 新增后的客户端信息
      */
-    @PostMapping("/save")
-    public Result<QuietClient> save(@RequestBody @Validated(Create.class) QuietClientParam postParam) {
-        return Result.createSuccess(clientService.save(postParam.getSave()));
+    @PostMapping
+    public Result<QuietClientVO> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
+        QuietClient save = clientService.save(clientConvert.dto2entity(dto));
+        return Result.createSuccess(clientConvert.entity2vo(save));
     }
     
     /**
      * 删除客户端.
      *
-     * @param postParam :deleteId 删除的客户端ID
+     * @param id 删除的客户端ID
      * @return Result
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) QuietClientParam postParam) {
-        clientService.deleteClient(postParam.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        clientService.deleteClientById(id);
         return Result.deleteSuccess();
     }
     
     /**
      * 更新客户端.
      *
-     * @param postParam :update 更新的客户端信息
+     * @param dto 更新的客户端信息
      * @return 新增后的客户端信息
      */
-    @PostMapping("/update")
-    public Result<QuietClient> update(@RequestBody @Validated(Update.class) QuietClientParam postParam) {
-        return Result.updateSuccess(clientService.update(postParam.getUpdate()));
+    @PutMapping
+    public Result<QuietClientVO> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
+        QuietClient update = clientService.update(clientConvert.dto2entity(dto));
+        return Result.updateSuccess(clientConvert.entity2vo(update));
     }
     
-    @PostMapping("/removeClientScope")
-    public Result<QuietClient> removeClientScope(@RequestBody QuietClientParam postParam) {
-        return Result.success(
-                clientService.changeClientScope(postParam.getId(), postParam.getClientScope(), Operation.DELETE));
+    /**
+     * 移除客户端的授权范围
+     *
+     * @param dto :id 客户端信息ID :clientScope 移除的授权范围
+     * @return 更新后的客户端信息
+     */
+    @PostMapping("/remove-client-scope")
+    public Result<QuietClientVO> removeClientScope(@RequestBody QuietClientDTO dto) {
+        QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
+        return Result.success(clientConvert.entity2vo(client));
     }
     
-    @PostMapping("/removeClientAuthorizedGrantType")
-    public Result<QuietClient> removeClientAuthorizedGrantType(@RequestBody QuietClientParam postParam) {
-        return Result.success(clientService
-                .changeClientAuthorizedGrantType(postParam.getId(), postParam.getClientAuthorizedGrantType(),
-                        Operation.DELETE));
+    /**
+     * 移除客户端的认证类型
+     *
+     * @param dto :id 客户端信息ID :clientAuthorizedGrantType 移除的认证类型
+     * @return 更新后的客户端信息
+     */
+    @PostMapping("/remove-client-authorized-grant-type")
+    public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
+        QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
+                dto.getClientAuthorizedGrantType());
+        return Result.success(clientConvert.entity2vo(client));
     }
     
 }

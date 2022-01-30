@@ -16,20 +16,20 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.security.UrlPermission;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.security.UrlPermission;
 import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietPermissionRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +40,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
-
 /**
  * 权限 Service 实现类.
  *
@@ -50,25 +48,20 @@ import static com.gitee.quiet.system.entity.QQuietPermission.quietPermission;
 @Service
 public class QuietPermissionServiceImpl implements QuietPermissionService {
     
-    public static final String CACHE_INFO = "quiet:system:permission";
-    
-    public static final String CACHE_INFO_APPLICATION_NAME = CACHE_INFO + ":application_name";
-    
-    private final JPAQueryFactory jpaQueryFactory;
+    public static final String CACHE_INFO = "quiet:system:permission:info";
     
     private final QuietPermissionRepository permissionRepository;
     
     private final QuietRoleService roleService;
     
-    public QuietPermissionServiceImpl(JPAQueryFactory jpaQueryFactory, QuietPermissionRepository permissionRepository,
+    public QuietPermissionServiceImpl(QuietPermissionRepository permissionRepository,
             @Lazy QuietRoleService roleService) {
-        this.jpaQueryFactory = jpaQueryFactory;
         this.permissionRepository = permissionRepository;
         this.roleService = roleService;
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#permission.applicationName")
+    @CacheEvict(value = CACHE_INFO, key = "#permission.applicationName")
     public QuietPermission saveOrUpdate(@NotNull QuietPermission permission) {
         if (!roleService.existsById(permission.getRoleId())) {
             throw new ServiceException("role.id.not.exist", permission.getRoleId());
@@ -77,16 +70,17 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    @CacheEvict(value = CACHE_INFO_APPLICATION_NAME, key = "#result.applicationName")
+    @CacheEvict(value = CACHE_INFO, key = "#result.applicationName")
     public QuietPermission delete(@NotNull Long deleteId) {
-        QuietPermission deleted = permissionRepository.getOne(deleteId);
+        QuietPermission deleted = permissionRepository.getById(deleteId);
         permissionRepository.deleteById(deleteId);
         return deleted;
     }
     
     @Override
-    public QueryResults<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, quietPermission, page);
+    public Page<QuietPermission> page(QuietPermission params, @NotNull Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return permissionRepository.findAll(predicate, page);
     }
     
     @Override
@@ -95,7 +89,7 @@ public class QuietPermissionServiceImpl implements QuietPermissionService {
     }
     
     @Override
-    @Cacheable(value = CACHE_INFO_APPLICATION_NAME, key = "#applicationName")
+    @Cacheable(value = CACHE_INFO, key = "#applicationName")
     public List<UrlPermission> listUrlPermission(@NotNull String applicationName) {
         List<QuietPermission> permissions = permissionRepository.findAllByApplicationName(applicationName);
         List<UrlPermission> urlPermissions = new ArrayList<>(permissions.size());

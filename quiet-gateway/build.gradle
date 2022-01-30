@@ -15,17 +15,14 @@
  */
 
 dependencies {
-    implementation(project(path: ":quiet-common:quiet-base", configuration: "default"))
+    implementation project(path: ":quiet-commons:quiet-common-constant", configuration: "default")
 
-    implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.cloud:spring-cloud-starter-gateway"
-    implementation "org.springframework.boot:spring-boot-starter-data-redis"
-    implementation "org.springframework.cloud:spring-cloud-starter-loadbalancer"
-    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
-    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
-    testImplementation "org.springframework.boot:spring-boot-starter-test"
-}
+    implementation springCloud.gateway
+    implementation springCloud.loadbalancer
+    implementation springBootStarter.actuator
+    implementation springBootStarter.dataRedis
+    implementation springCloudAlibaba.nacosConfig
+    implementation springCloudAlibaba.nacosDiscovery
 
-configurations {
-    implementation.exclude module: "spring-boot-starter-web"
+    testImplementation springBootStarter.test
 }

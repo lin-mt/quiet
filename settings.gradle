@@ -16,21 +16,16 @@
 
 rootProject.name = 'quiet'
 
-include 'quiet-gateway'
+include ':quiet-gateway'
 
-include 'quiet-common:quiet-base'
-findProject(':quiet-common:quiet-base')?.name = 'quiet-base'
-include 'quiet-common:quiet-service'
-findProject(':quiet-common:quiet-service')?.name = 'quiet-service'
-include 'quiet-common:quiet-validation'
-findProject(':quiet-common:quiet-validation')?.name = 'quiet-validation'
+include ':quiet-commons:quiet-common-constant'
+include ':quiet-commons:quiet-common-core'
+include ':quiet-commons:quiet-common-util'
 
-include 'quiet-system:quiet-system-api'
-findProject(':quiet-system:quiet-system-api')?.name = 'quiet-system-api'
-include 'quiet-system:quiet-system-service'
-findProject(':quiet-system:quiet-system-service')?.name = 'quiet-system-service'
+include ':quiet-system:quiet-system-api'
+include ':quiet-system:quiet-system-service'
 
-include 'quiet-scrum:quiet-scrum-api'
-findProject(':quiet-scrum:quiet-scrum-api')?.name = 'quiet-scrum-api'
-include 'quiet-scrum:quiet-scrum-service'
-findProject(':quiet-scrum:quiet-scrum-service')?.name = 'quiet-scrum-service'
+include ':quiet-spring-boot-starters:quiet-jpa-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-service-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-validation-spring-boot-starter'
+include ':quiet-spring-boot-starters:quiet-web-spring-boot-starter'

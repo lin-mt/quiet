@@ -16,10 +16,12 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -38,6 +40,8 @@ import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_route")
 public class QuietRoute extends BaseEntity {
@@ -87,62 +91,6 @@ public class QuietRoute extends BaseEntity {
     @Column(name = "remark", length = 300)
     private String remark;
     
-    public Dictionary<?> getEnvironment() {
-        return environment;
-    }
-    
-    public void setEnvironment(Dictionary<?> environment) {
-        this.environment = environment;
-    }
-    
-    public String getRouteId() {
-        return routeId;
-    }
-    
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
-    }
-    
-    public String getUri() {
-        return uri;
-    }
-    
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-    
-    public int getOrder() {
-        return order;
-    }
-    
-    public void setOrder(int order) {
-        this.order = order;
-    }
-    
-    public Set<String> getPredicates() {
-        return predicates;
-    }
-    
-    public void setPredicates(Set<String> predicates) {
-        this.predicates = predicates;
-    }
-    
-    public Set<String> getFilters() {
-        return filters;
-    }
-    
-    public void setFilters(Set<String> filters) {
-        this.filters = filters;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
@@ -165,7 +113,7 @@ public class QuietRoute extends BaseEntity {
     
     public void removePredicate(String predicate) {
         if (getPredicates() != null) {
-            getPredicates().removeAll(predicates);
+            getPredicates().remove(predicate);
         }
     }
     

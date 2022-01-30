@@ -16,11 +16,11 @@
 
 package com.gitee.quiet.system.handler;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.base.utils.MessageSourceUtil;
-import com.gitee.quiet.common.service.config.MessageSourceConfig;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.system.constant.AccountCode;
+import com.gitee.quiet.common.constant.service.MessageSourceCode;
+import com.gitee.quiet.service.config.MessageSourceConfig;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
+import com.gitee.quiet.service.utils.MessageSourceUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -46,8 +46,10 @@ public class ResultAccessDeniedHandler extends AbstractResponseJsonData implemen
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException exception)
             throws IOException {
         logger.error("用户：{} 无权限访问：{}", CurrentUserUtil.getId(), request.getRequestURI(), exception);
-        Result<Object> result = Result.failure().setCode(AccountCode.NO_PERMISSION)
-                .setMessage(MessageSourceUtil.getMessage(request, messageSource, AccountCode.NO_PERMISSION));
-        responseJsonData(response, result);
+        Result<Object> failure = Result.failure();
+        failure.setCode(MessageSourceCode.Account.NO_PERMISSION);
+        failure.setMessage(
+                MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.NO_PERMISSION));
+        responseJsonData(response, failure);
     }
 }

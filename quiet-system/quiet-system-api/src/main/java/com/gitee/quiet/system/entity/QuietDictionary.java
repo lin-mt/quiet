@@ -16,9 +16,11 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -34,22 +36,19 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "quiet_dictionary", uniqueConstraints = {
         @UniqueConstraint(name = "unique_type_key", columnNames = {"dictionary_type", "dictionary_key"})})
 public class QuietDictionary extends Dictionary<QuietDictionary> {
     
+    /**
+     * 备注
+     */
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
     
     @Nullable
     @Override

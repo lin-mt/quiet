@@ -17,7 +17,7 @@
 package com.gitee.quiet.system.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitee.quiet.common.base.result.Result;
+import com.gitee.quiet.service.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -19,6 +19,7 @@ package com.gitee.quiet.system.service;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.querydsl.core.QueryResults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface QuietDepartmentService {
      * @param page   分页参数
      * @return 查询结果
      */
-    QueryResults<QuietDepartment> page(QuietDepartment params, Pageable page);
+    Page<QuietDepartment> page(QuietDepartment params, Pageable page);
     
     /**
      * 保存或者更新部门数据
@@ -51,7 +52,7 @@ public interface QuietDepartmentService {
      *
      * @param deleteId 要删除的部门ID
      */
-    void delete(Long deleteId);
+    void deleteById(Long deleteId);
     
     /**
      * 获取所有部门的树形结构信息
