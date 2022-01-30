@@ -90,7 +90,7 @@ public class DocProjectServiceImpl implements DocProjectService {
     }
     
     @Override
-    @PreAuthorize("#HasDocProjectPermission.edit(#update.id)")
+    @PreAuthorize("@HasDocProjectPermission.edit(#update.id)")
     @CacheEvict(cacheNames = CACHE_NAME, key = "#update.id")
     public DocProject update(DocProject update) {
         checkInfo(update);
@@ -98,7 +98,7 @@ public class DocProjectServiceImpl implements DocProjectService {
     }
     
     @Override
-    @PreAuthorize("#HasDocProjectPermission.delete(#id)")
+    @PreAuthorize("@HasDocProjectPermission.delete(#id)")
     @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
     public void delete(Long id) {
         projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
@@ -106,7 +106,7 @@ public class DocProjectServiceImpl implements DocProjectService {
     }
     
     @Override
-    @PreAuthorize("#HasDocProjectPermission.visit(#id)")
+    @PreAuthorize("@HasDocProjectPermission.visit(#id)")
     @Cacheable(cacheNames = CACHE_NAME, key = "#id", condition = "#id != null ", sync = true)
     public DocProject getById(Long id) {
         DocProject docProject = projectRepository.findById(id)
