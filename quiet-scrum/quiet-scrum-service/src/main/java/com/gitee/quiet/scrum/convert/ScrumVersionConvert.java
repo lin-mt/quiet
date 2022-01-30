@@ -14,30 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTask;
-
-import java.util.Set;
+import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
+import com.gitee.quiet.scrum.entity.ScrumVersion;
+import com.gitee.quiet.scrum.vo.ScrumVersionVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 任务查询参数.
+ * 版本实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTaskParam extends Param<ScrumTask, ScrumTask> {
+@Mapper
+public interface ScrumVersionConvert extends QuietConvert<ScrumVersion, ScrumVersionDTO, ScrumVersionVO> {
     
-    /**
-     * 查询的需求ID集合
-     */
-    private Set<Long> demandIds;
-    
-    public Set<Long> getDemandIds() {
-        return demandIds;
-    }
-    
-    public void setDemandIds(Set<Long> demandIds) {
-        this.demandIds = demandIds;
-    }
 }

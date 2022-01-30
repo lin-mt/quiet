@@ -16,9 +16,10 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.base.FrontSelect;
-import com.gitee.quiet.common.service.base.Serial;
-import com.gitee.quiet.common.service.jpa.entity.SerialEntity;
+import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.jpa.entity.SerialEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -35,9 +36,11 @@ import java.time.LocalDateTime;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity implements FrontSelect {
+public class ScrumIteration extends SerialEntity {
     
     /**
      * 迭代名称
@@ -86,72 +89,6 @@ public class ScrumIteration extends SerialEntity implements FrontSelect {
     @Length(max = 1000)
     @Column(name = "remark", nullable = false, length = 1000)
     private String remark;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Long getVersionId() {
-        return versionId;
-    }
-    
-    public void setVersionId(Long versionId) {
-        this.versionId = versionId;
-    }
-    
-    public LocalDate getPlanStartDate() {
-        return planStartDate;
-    }
-    
-    public void setPlanStartDate(LocalDate planStartDate) {
-        this.planStartDate = planStartDate;
-    }
-    
-    public LocalDate getPlanEndDate() {
-        return planEndDate;
-    }
-    
-    public void setPlanEndDate(LocalDate planEndDate) {
-        this.planEndDate = planEndDate;
-    }
-    
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-    
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-    
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-    
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    @Override
-    public Object getKey() {
-        return getId();
-    }
-    
-    @Override
-    public String getTitle() {
-        return getName();
-    }
     
     @Override
     public int compareTo(@Nullable Serial other) {

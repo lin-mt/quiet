@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum;
+package com.gitee.quiet.scrum.convert;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.gitee.quiet.scrum.dto.ScrumProjectDTO;
+import com.gitee.quiet.scrum.entity.ScrumProject;
+import com.gitee.quiet.scrum.vo.ScrumProjectVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
-@SpringBootTest
-class QuietScrumApiTests {
-    
-    @Test
-    void contextLoads() {
-    }
+/**
+ * 项目实体信息转换.
+ *
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
+@Mapper
+public interface ScrumProjectConvert extends QuietConvert<ScrumProject, ScrumProjectDTO, ScrumProjectVO> {
     
 }

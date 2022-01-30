@@ -29,3 +29,6 @@ include ':quiet-spring-boot-starters:quiet-jpa-spring-boot-starter'
 include ':quiet-spring-boot-starters:quiet-service-spring-boot-starter'
 include ':quiet-spring-boot-starters:quiet-validation-spring-boot-starter'
 include ':quiet-spring-boot-starters:quiet-web-spring-boot-starter'
+
+include ':quiet-scrum:quiet-scrum-api'
+include ':quiet-scrum:quiet-scrum-service'

@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumTaskStepRepository extends JpaRepository<ScrumTaskStep, Long> {
+public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> {
     
     /**
      * 根据模板ID和步骤名称查询步骤信息

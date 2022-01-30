@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumProject;
+import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
+import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.vo.ScrumTaskVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 项目查询参数.
+ * 任务实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumProjectParam extends Param<ScrumProject, ScrumProject> {
-
+@Mapper
+public interface ScrumTaskConvert extends QuietConvert<ScrumTask, ScrumTaskDTO, ScrumTaskVO> {
+    
 }

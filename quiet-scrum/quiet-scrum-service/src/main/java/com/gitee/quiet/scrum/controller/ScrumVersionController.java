@@ -16,16 +16,21 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.scrum.convert.ScrumVersionConvert;
+import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
-import com.gitee.quiet.scrum.params.ScrumVersionParam;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.scrum.vo.ScrumVersionVO;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,58 +43,59 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/version")
 public class ScrumVersionController {
     
     private final ScrumVersionService versionService;
     
-    public ScrumVersionController(ScrumVersionService versionService) {
-        this.versionService = versionService;
-    }
+    private final ScrumVersionConvert versionConvert;
     
     /**
      * 查询项目的所有版本信息，包含迭代信息
      *
-     * @param param :id 项目ID
+     * @param id 项目ID
      * @return 项目的所有版本信息，包含各个版本的迭代信息
      */
-    @PostMapping("/findDetailsByProjectId")
-    public Result<List<ScrumVersion>> findDetailsByProjectId(
-            @RequestBody @Validated(IdValid.class) ScrumVersionParam param) {
-        return Result.success(versionService.findDetailsByProjectId(param.getId()));
+    @GetMapping("/all/{id}")
+    public Result<List<ScrumVersionVO>> all(@PathVariable Long id) {
+        List<ScrumVersion> scrumVersions = versionService.findDetailsByProjectId(id);
+        return Result.success(versionConvert.entities2vos(scrumVersions));
     }
     
     /**
      * 新建版本
      *
-     * @param param :save 新建的版本信息
+     * @param dto 新建的版本信息
      * @return 新建后的版本信息
      */
-    @PostMapping("/save")
-    public Result<ScrumVersion> save(@RequestBody @Validated(Create.class) ScrumVersionParam param) {
-        return Result.createSuccess(versionService.save(param.getSave()));
+    @PostMapping
+    public Result<ScrumVersionVO> save(@RequestBody @Validated(Create.class) ScrumVersionDTO dto) {
+        ScrumVersion save = versionService.save(versionConvert.dto2entity(dto));
+        return Result.createSuccess(versionConvert.entity2vo(save));
     }
     
     /**
      * 更新版本信息
      *
-     * @param param :update 更新的版本信息
+     * @param dto 更新的版本信息
      * @return 更新后的版本信息
      */
-    @PostMapping("/update")
-    public Result<ScrumVersion> update(@RequestBody @Validated(Update.class) ScrumVersionParam param) {
-        return Result.updateSuccess(versionService.update(param.getUpdate()));
+    @PutMapping
+    public Result<ScrumVersionVO> update(@RequestBody @Validated(Update.class) ScrumVersionDTO dto) {
+        ScrumVersion update = versionService.update(versionConvert.dto2entity(dto));
+        return Result.updateSuccess(versionConvert.entity2vo(update));
     }
     
     /**
      * 删除版本
      *
-     * @param param :deleteId 删除的版本ID
+     * @param id 删除的版本ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumVersionParam param) {
-        versionService.deleteById(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        versionService.deleteById(id);
         return Result.deleteSuccess();
     }
 }

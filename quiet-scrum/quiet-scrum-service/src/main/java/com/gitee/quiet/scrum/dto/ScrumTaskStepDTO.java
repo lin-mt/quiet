@@ -14,59 +14,49 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
- * 优先级.
+ * 任务步骤.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_priority")
-public class ScrumPriority extends SerialEntity {
+public class ScrumTaskStepDTO extends SerialDTO {
     
     /**
-     * 优先级名称
+     * 步骤名称
      */
     @NotBlank
     @Length(max = 10)
-    @Column(name = "priority_name", nullable = false, length = 10)
     private String name;
     
     /**
-     * 图标的十六进制颜色
-     */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @Column(name = "color_hex", length = 7, nullable = false)
-    private String colorHex = "#1890FF";
-    
-    /**
-     * 模板ID
+     * 所属模板ID
      */
     @NotNull
-    @Column(name = "template_id", nullable = false)
     private Long templateId;
     
     /**
-     * 备注信息
+     * 步骤备注信息
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 30)
     private String remark;
     
+    /**
+     * 批量更新
+     */
+    @Valid
+    private List<ScrumTaskStepDTO> updateBatch;
 }

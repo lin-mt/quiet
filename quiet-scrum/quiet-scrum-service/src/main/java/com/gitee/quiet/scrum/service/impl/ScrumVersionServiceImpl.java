@@ -16,13 +16,13 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.EntityUtils;
+import com.gitee.quiet.jpa.utils.EntityUtils;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.service.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

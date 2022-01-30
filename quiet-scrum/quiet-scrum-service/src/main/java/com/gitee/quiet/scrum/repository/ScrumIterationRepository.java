@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumIterationRepository extends JpaRepository<ScrumIteration, Long> {
+public interface ScrumIterationRepository extends QuietRepository<ScrumIteration> {
     
     /**
      * 根据版本ID集合批量删除迭代信息

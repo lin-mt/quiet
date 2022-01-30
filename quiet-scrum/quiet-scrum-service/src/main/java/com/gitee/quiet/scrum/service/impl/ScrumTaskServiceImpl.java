@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
@@ -27,6 +26,7 @@ import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
+import com.gitee.quiet.service.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;

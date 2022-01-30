@@ -14,59 +14,77 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.scrum.dictionary.DemandType;
+import com.gitee.quiet.service.vo.ParentAndSerialVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 /**
- * 优先级.
+ * 需求信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_priority")
-public class ScrumPriority extends SerialEntity {
+public class ScrumDemandVO extends ParentAndSerialVO<ScrumDemandVO> {
     
     /**
-     * 优先级名称
+     * 需求标题
      */
     @NotBlank
-    @Length(max = 10)
-    @Column(name = "priority_name", nullable = false, length = 10)
-    private String name;
+    @Length(max = 30)
+    private String title;
     
     /**
-     * 图标的十六进制颜色
-     */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @Column(name = "color_hex", length = 7, nullable = false)
-    private String colorHex = "#1890FF";
-    
-    /**
-     * 模板ID
+     * 需求类型
      */
     @NotNull
-    @Column(name = "template_id", nullable = false)
-    private Long templateId;
+    private Dictionary<DemandType> type;
+    
+    /**
+     * 项目ID
+     */
+    @NotNull
+    private Long projectId;
+    
+    /**
+     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
+     */
+    private Long optimizeDemandId;
+    
+    /**
+     * 所属迭代ID
+     */
+    private Long iterationId;
+    
+    /**
+     * 优先级ID
+     */
+    @NotNull
+    private Long priorityId;
+    
+    /**
+     * 需求开始时间
+     */
+    private LocalDateTime startTime;
+    
+    /**
+     * 需求结束时间
+     */
+    private LocalDateTime endTime;
     
     /**
      * 备注信息
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 3000)
     private String remark;
     
 }

@@ -14,25 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.convert;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumPriority;
+import com.gitee.quiet.scrum.dto.ScrumIterationDTO;
+import com.gitee.quiet.scrum.entity.ScrumIteration;
+import com.gitee.quiet.scrum.vo.ScrumIterationVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 优先级查询参数.
+ * 迭代实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumPriorityParam extends Param<ScrumPriority, ScrumPriority> {
+@Mapper
+public interface ScrumIterationConvert extends QuietConvert<ScrumIteration, ScrumIterationDTO, ScrumIterationVO> {
     
-    private Long templateId;
-    
-    public Long getTemplateId() {
-        return templateId;
-    }
-    
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
 }

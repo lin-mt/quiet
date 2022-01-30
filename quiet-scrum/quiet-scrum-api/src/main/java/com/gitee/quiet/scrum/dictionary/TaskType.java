@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.dictionary;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
 
 /**
  * 任务类型.
@@ -24,12 +24,6 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class TaskType extends Dictionary<TaskType> {
-    
-    private static final String TYPE = TaskType.class.getSimpleName();
-    
-    private TaskType(String key) {
-        super(TYPE, key);
-    }
     
     /**
      * 后端接口
@@ -40,4 +34,8 @@ public class TaskType extends Dictionary<TaskType> {
      * 前端界面
      */
     public static final TaskType FrontendInterface = new TaskType("FrontendInterface");
+    
+    private TaskType(String key) {
+        super(TaskType.class.getSimpleName(), key);
+    }
 }

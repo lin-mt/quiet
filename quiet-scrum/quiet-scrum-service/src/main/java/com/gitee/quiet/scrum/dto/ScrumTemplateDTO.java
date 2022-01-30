@@ -14,59 +14,54 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
- * 优先级.
+ * 项目模板.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_priority")
-public class ScrumPriority extends SerialEntity {
+public class ScrumTemplateDTO extends BaseDTO {
     
     /**
-     * 优先级名称
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStepDTO> taskSteps;
+    
+    /**
+     * 模板中的优先级配置
+     */
+    @Transient
+    List<ScrumPriorityDTO> priorities;
+    
+    /**
+     * 模板名称
      */
     @NotBlank
     @Length(max = 10)
-    @Column(name = "priority_name", nullable = false, length = 10)
     private String name;
     
     /**
-     * 图标的十六进制颜色
+     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @Column(name = "color_hex", length = 7, nullable = false)
-    private String colorHex = "#1890FF";
+    private Boolean enabled;
     
     /**
-     * 模板ID
+     * 模板备注信息
      */
-    @NotNull
-    @Column(name = "template_id", nullable = false)
-    private Long templateId;
-    
-    /**
-     * 备注信息
-     */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 30)
     private String remark;
     
 }

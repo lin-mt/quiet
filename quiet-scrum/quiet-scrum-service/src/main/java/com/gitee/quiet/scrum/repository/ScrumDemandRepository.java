@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumDemandRepository extends JpaRepository<ScrumDemand, Long> {
+public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
     
     /**
      * 根据迭代ID查询该迭代的所有需求

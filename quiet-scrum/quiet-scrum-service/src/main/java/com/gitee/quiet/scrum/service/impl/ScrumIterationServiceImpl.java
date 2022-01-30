@@ -16,7 +16,6 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
@@ -24,6 +23,7 @@ import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
+import com.gitee.quiet.service.exception.ServiceException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -88,6 +88,7 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         if (demandService.countByIterationId(id) > 0) {
             throw new ServiceException("iteration.hasDemand.canNotDelete", id);
         }
+        checkIdExist(id);
         iterationRepository.deleteById(id);
     }
     
@@ -117,13 +118,13 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
                 .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
         List<ScrumDemand> unfinished = demandService.findAllUnfinished(iteration.getId());
         if (CollectionUtils.isNotEmpty(unfinished)) {
-            ScrumIteration nextIteration = iterationRepository
-                    .findByVersionIdAndPlanStartDateAfter(iteration.getVersionId(), iteration.getPlanStartDate());
+            ScrumIteration nextIteration = iterationRepository.findByVersionIdAndPlanStartDateAfter(
+                    iteration.getVersionId(), iteration.getPlanStartDate());
             if (nextIteration == null) {
                 ScrumVersion nextVersion = versionService.nextVersion(iteration.getVersionId());
                 while (nextVersion != null && nextIteration == null) {
-                    nextIteration = iterationRepository
-                            .findFirstByVersionIdOrderByPlanStartDateAsc(nextVersion.getId());
+                    nextIteration = iterationRepository.findFirstByVersionIdOrderByPlanStartDateAsc(
+                            nextVersion.getId());
                     if (nextIteration == null) {
                         nextVersion = versionService.nextVersion(nextVersion.getId());
                     }
@@ -142,9 +143,10 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     }
     
     private void checkInfo(@NotNull ScrumIteration iteration) {
+        checkIdExist(iteration.getId());
         versionService.checkIdExist(iteration.getVersionId());
-        ScrumIteration exist = iterationRepository
-                .findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
+        ScrumIteration exist = iterationRepository.findByVersionIdAndName(iteration.getVersionId(),
+                iteration.getName());
         if (exist != null && !exist.getId().equals(iteration.getId())) {
             throw new ServiceException("iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
         }

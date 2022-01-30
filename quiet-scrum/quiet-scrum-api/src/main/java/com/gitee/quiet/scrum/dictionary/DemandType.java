@@ -16,7 +16,7 @@
 
 package com.gitee.quiet.scrum.dictionary;
 
-import com.gitee.quiet.common.service.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dictionary;
 
 /**
  * 需求类型.
@@ -24,12 +24,6 @@ import com.gitee.quiet.common.service.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class DemandType extends Dictionary<DemandType> {
-    
-    private static final String TYPE = DemandType.class.getSimpleName();
-    
-    private DemandType(String key) {
-        super(TYPE, key);
-    }
     
     /**
      * 功能需求
@@ -40,5 +34,9 @@ public class DemandType extends Dictionary<DemandType> {
      * 优化需求
      */
     public static final DemandType Optimize = new DemandType("Optimize");
+    
+    private DemandType(String key) {
+        super(DemandType.class.getSimpleName(), key);
+    }
     
 }

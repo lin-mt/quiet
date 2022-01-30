@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.service.vo.ParentAndSerialVO;
+import com.gitee.quiet.service.vo.front.TreeSelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -40,49 +35,41 @@ import java.util.List;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_version")
-public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
+public class ScrumVersionVO extends ParentAndSerialVO<ScrumVersionVO> implements TreeSelectVO<Long, ScrumVersionVO> {
     
     /**
      * 版本名称
      */
     @NotBlank
     @Length(max = 10)
-    @Column(name = "version_name", nullable = false, length = 10)
     private String name;
     
     /**
      * 所属项目ID
      */
     @NotNull
-    @Column(name = "project_id", nullable = false)
     private Long projectId;
     
     /**
      * 计划开始日期
      */
     @NotNull
-    @Column(name = "plan_start_date", nullable = false)
     private LocalDate planStartDate;
     
     /**
      * 计划结束日期
      */
     @NotNull
-    @Column(name = "plan_end_date", nullable = false)
     private LocalDate planEndDate;
     
     /**
      * 版本开始时间
      */
-    @Column(name = "start_time")
     private LocalDateTime startTime;
     
     /**
      * 版本结束时间
      */
-    @Column(name = "end_time")
     private LocalDateTime endTime;
     
     /**
@@ -90,25 +77,20 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
      */
     @NotBlank
     @Length(max = 1500)
-    @Column(name = "remark", nullable = false, length = 1500)
     private String remark;
     
     /**
      * 迭代信息
      */
-    @Transient
-    private List<ScrumIteration> iterations;
+    private List<ScrumIterationVO> iterations;
     
     @Override
-    public int compareTo(@Nullable Serial other) {
-        int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumVersion) {
-            ScrumVersion otherVersion = (ScrumVersion) other;
-            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
-            if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
-            }
-        }
-        return compare;
+    public String getTitle() {
+        return getName();
+    }
+    
+    @Override
+    public Long getValue() {
+        return getId();
     }
 }

@@ -16,22 +16,23 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.jpa.SelectBooleanBuilder;
-import com.gitee.quiet.common.service.jpa.SelectBuilder;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
+import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
-import com.querydsl.core.QueryResults;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -73,8 +74,9 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     }
     
     @Override
-    public QueryResults<ScrumDemand> page(ScrumDemand params, Pageable page) {
-        return SelectBuilder.booleanBuilder(params).from(jpaQueryFactory, scrumDemand, page);
+    public Page<ScrumDemand> page(ScrumDemand params, Pageable page) {
+        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+        return demandRepository.findAll(predicate, page);
     }
     
     @Override
@@ -140,7 +142,7 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     
     @Override
     public void deleteById(Long id) {
-        ScrumDemand delete = demandRepository.getOne(id);
+        ScrumDemand delete = demandRepository.getById(id);
         if (delete.getIterationId() != null) {
             throw new ServiceException("demand.iterationId.notNull.canNotDelete");
         }

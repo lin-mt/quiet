@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
- * 模板查询参数.
+ * .
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTemplateParam extends Param<ScrumTemplate, ScrumTemplate> {
+@Getter
+@Setter
+public class ValidList<T> {
     
-    /**
-     * 模板名称
-     */
-    private String name;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Valid
+    private List<T> data;
 }

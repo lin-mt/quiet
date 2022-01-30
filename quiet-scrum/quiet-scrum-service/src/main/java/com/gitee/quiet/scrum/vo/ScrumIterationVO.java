@@ -14,59 +14,76 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.vo.front.SelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
- * 优先级.
+ * 迭代信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_priority")
-public class ScrumPriority extends SerialEntity {
+public class ScrumIterationVO extends SerialVO implements SelectVO<Long> {
     
     /**
-     * 优先级名称
+     * 迭代名称
      */
     @NotBlank
-    @Length(max = 10)
-    @Column(name = "priority_name", nullable = false, length = 10)
+    @Length(max = 30)
     private String name;
     
     /**
-     * 图标的十六进制颜色
-     */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @Column(name = "color_hex", length = 7, nullable = false)
-    private String colorHex = "#1890FF";
-    
-    /**
-     * 模板ID
+     * 所属版本ID
      */
     @NotNull
-    @Column(name = "template_id", nullable = false)
-    private Long templateId;
+    private Long versionId;
+    
+    /**
+     * 迭代计划开始日期
+     */
+    @NotNull
+    private LocalDate planStartDate;
+    
+    /**
+     * 迭代计划结束日期
+     */
+    @NotNull
+    private LocalDate planEndDate;
+    
+    /**
+     * 迭代开始时间
+     */
+    private LocalDateTime startTime;
+    
+    /**
+     * 迭代结束时间
+     */
+    private LocalDateTime endTime;
     
     /**
      * 备注信息
      */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
+    @Length(max = 1000)
     private String remark;
     
+    @Override
+    public Long getValue() {
+        return getId();
+    }
+    
+    @Override
+    public String getLabel() {
+        return getName();
+    }
 }

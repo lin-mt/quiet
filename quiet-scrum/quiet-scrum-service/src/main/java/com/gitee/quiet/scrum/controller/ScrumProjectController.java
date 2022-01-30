@@ -16,19 +16,24 @@
 
 package com.gitee.quiet.scrum.controller;
 
-import com.gitee.quiet.common.base.result.Result;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
-import com.gitee.quiet.common.validation.group.param.IdValid;
-import com.gitee.quiet.common.validation.group.param.curd.Create;
-import com.gitee.quiet.common.validation.group.param.curd.Update;
-import com.gitee.quiet.common.validation.group.param.curd.single.DeleteSingle;
+import com.gitee.quiet.scrum.convert.ScrumProjectConvert;
+import com.gitee.quiet.scrum.dto.ScrumProjectDTO;
 import com.gitee.quiet.scrum.entity.ScrumProject;
-import com.gitee.quiet.scrum.params.ScrumProjectParam;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
+import com.gitee.quiet.scrum.vo.ScrumProjectVO;
+import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,35 +44,35 @@ import org.springframework.web.bind.annotation.RestController;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping("/project")
 public class ScrumProjectController {
     
     private final ScrumProjectService projectService;
     
-    public ScrumProjectController(ScrumProjectService projectService) {
-        this.projectService = projectService;
-    }
+    private final ScrumProjectConvert projectConvert;
     
     /**
      * 获取项目信息
      *
-     * @param param :id 项目ID
+     * @param id 项目ID
      * @return 项目信息
      */
-    @PostMapping("/projectInfo")
-    public Result<ScrumProject> projectInfo(@RequestBody @Validated(IdValid.class) ScrumProjectParam param) {
-        return Result.success(projectService.projectInfo(param.getId()));
+    @GetMapping("/{id}")
+    public Result<ScrumProjectVO> projectInfo(@PathVariable Long id) {
+        ScrumProject project = projectService.projectInfo(id);
+        return Result.success(projectConvert.entity2vo(project));
     }
     
     /**
      * 获取项目的详细信息
      *
-     * @param param 查询参数
+     * @param id 项目ID
      * @return 项目详细信息
      */
-    @PostMapping("/detail")
-    public Result<ScrumProjectDetail> detail(@RequestBody @Validated(IdValid.class) ScrumProjectParam param) {
-        return Result.success(projectService.getDetail(param.getId()));
+    @GetMapping("/detail/{id}")
+    public Result<ScrumProjectDetail> detail(@PathVariable Long id) {
+        return Result.success(projectService.getDetail(id));
     }
     
     /**
@@ -75,7 +80,7 @@ public class ScrumProjectController {
      *
      * @return 项目信息
      */
-    @PostMapping("/allMyProjects")
+    @GetMapping("/all-my-projects")
     public Result<MyScrumProject> allMyProjects() {
         return Result.success(projectService.allProjectByUserId(CurrentUserUtil.getId()));
     }
@@ -83,34 +88,36 @@ public class ScrumProjectController {
     /**
      * 新增项目
      *
-     * @param param :save 新增的项目信息
+     * @param dto 新增的项目信息
      * @return 新增后的项目信息
      */
-    @PostMapping("/save")
-    public Result<ScrumProject> save(@RequestBody @Validated(Create.class) ScrumProjectParam param) {
-        return Result.createSuccess(projectService.save(param.getSave()));
+    @PostMapping
+    public Result<ScrumProjectVO> save(@RequestBody @Validated(Create.class) ScrumProjectDTO dto) {
+        ScrumProject save = projectService.save(projectConvert.dto2entity(dto));
+        return Result.createSuccess(projectConvert.entity2vo(save));
     }
     
     /**
      * 更新项目
      *
-     * @param param :update 更新的项目信息
+     * @param dto 更新的项目信息
      * @return 更新后的项目信息
      */
-    @PostMapping("/update")
-    public Result<ScrumProject> update(@RequestBody @Validated(Update.class) ScrumProjectParam param) {
-        return Result.updateSuccess(projectService.update(param.getUpdate()));
+    @PutMapping
+    public Result<ScrumProjectVO> update(@RequestBody @Validated(Update.class) ScrumProjectDTO dto) {
+        ScrumProject update = projectService.update(projectConvert.dto2entity(dto));
+        return Result.updateSuccess(projectConvert.entity2vo(update));
     }
     
     /**
      * 删除项目
      *
-     * @param param :deleteId 删除的项目ID
+     * @param id 删除的项目ID
      * @return 删除结果
      */
-    @PostMapping("/delete")
-    public Result<Object> delete(@RequestBody @Validated(DeleteSingle.class) ScrumProjectParam param) {
-        projectService.deleteById(param.getDeleteId());
+    @DeleteMapping("/{id}")
+    public Result<Object> delete(@PathVariable Long id) {
+        projectService.deleteById(id);
         return Result.deleteSuccess();
     }
     

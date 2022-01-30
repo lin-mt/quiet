@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.config;
+package com.gitee.quiet.scrum.convert;
 
-import org.springframework.context.annotation.Configuration;
+import com.gitee.quiet.scrum.dto.ScrumDemandDTO;
+import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.vo.ScrumDemandVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 项目配置类.
+ * 需求实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Configuration
-public class ScrumConfig {
+@Mapper
+public interface ScrumDemandConvert extends QuietConvert<ScrumDemand, ScrumDemandDTO, ScrumDemandVO> {
 
 }

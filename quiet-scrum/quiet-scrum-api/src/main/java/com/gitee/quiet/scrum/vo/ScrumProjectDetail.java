@@ -18,6 +18,8 @@ package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.system.entity.QuietTeam;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -26,25 +28,18 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 public class ScrumProjectDetail {
     
+    /**
+     * 项目信息
+     */
     private ScrumProject project;
     
+    /**
+     * 团队信息
+     */
     private List<QuietTeam> teams;
     
-    public ScrumProject getProject() {
-        return project;
-    }
-    
-    public void setProject(ScrumProject project) {
-        this.project = project;
-    }
-    
-    public List<QuietTeam> getTeams() {
-        return teams;
-    }
-    
-    public void setTeams(List<QuietTeam> teams) {
-        this.teams = teams;
-    }
 }

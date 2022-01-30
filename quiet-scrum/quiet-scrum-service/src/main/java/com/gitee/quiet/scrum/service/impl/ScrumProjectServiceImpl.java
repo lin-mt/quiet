@@ -16,8 +16,6 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
-import com.gitee.quiet.common.service.exception.ServiceException;
-import com.gitee.quiet.common.service.util.CurrentUserUtil;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumProjectTeam;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
@@ -29,6 +27,8 @@ import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;

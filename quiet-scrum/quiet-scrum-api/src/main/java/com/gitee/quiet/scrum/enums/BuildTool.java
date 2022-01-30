@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.params;
+package com.gitee.quiet.scrum.enums;
 
-import com.gitee.quiet.common.service.base.Param;
-import com.gitee.quiet.scrum.entity.ScrumTaskStep;
+import com.gitee.quiet.jpa.enums.base.StringEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
- * 任务步骤查询参数.
+ * 构建工具枚举.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class ScrumTaskStepParam extends Param<ScrumTaskStep, ScrumTaskStep> {
+@Getter
+@AllArgsConstructor
+public enum BuildTool implements StringEnum {
+    /**
+     * maven 构建工具
+     */
+    MAVEN("gradle"),
     
-    private Long templateId;
+    /**
+     * gradle 构建工具
+     */
+    GRADLE("gradle");
     
-    public Long getTemplateId() {
-        return templateId;
-    }
-    
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
+    private final String value;
 }

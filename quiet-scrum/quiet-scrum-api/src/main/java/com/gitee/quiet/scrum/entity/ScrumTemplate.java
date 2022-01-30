@@ -16,7 +16,9 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
@@ -32,9 +34,23 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "scrum_template")
 public class ScrumTemplate extends BaseEntity {
+    
+    /**
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStep> taskSteps;
+    
+    /**
+     * 模板中的优先级配置
+     */
+    @Transient
+    List<ScrumPriority> priorities;
     
     /**
      * 模板名称
@@ -58,55 +74,4 @@ public class ScrumTemplate extends BaseEntity {
     @Column(name = "remark", length = 30)
     private String remark;
     
-    /**
-     * 模板中的任务步骤
-     */
-    @Transient
-    List<ScrumTaskStep> taskSteps;
-    
-    /**
-     * 模板中的优先级配置
-     */
-    @Transient
-    List<ScrumPriority> priorities;
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public Boolean getEnabled() {
-        return enabled;
-    }
-    
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-    
-    public String getRemark() {
-        return remark;
-    }
-    
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    
-    public List<ScrumTaskStep> getTaskSteps() {
-        return taskSteps;
-    }
-    
-    public void setTaskSteps(List<ScrumTaskStep> taskSteps) {
-        this.taskSteps = taskSteps;
-    }
-    
-    public List<ScrumPriority> getPriorities() {
-        return priorities;
-    }
-    
-    public void setPriorities(List<ScrumPriority> priorities) {
-        this.priorities = priorities;
-    }
 }

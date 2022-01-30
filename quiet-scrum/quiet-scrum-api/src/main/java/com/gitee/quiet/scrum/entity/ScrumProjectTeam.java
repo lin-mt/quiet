@@ -16,7 +16,9 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.service.jpa.entity.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +30,8 @@ import javax.validation.constraints.NotNull;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "scrum_project_team")
 public class ScrumProjectTeam extends BaseEntity {
@@ -46,19 +50,4 @@ public class ScrumProjectTeam extends BaseEntity {
     @Column(name = "team_id", nullable = false)
     private Long teamId;
     
-    public Long getProjectId() {
-        return projectId;
-    }
-    
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
-    
-    public Long getTeamId() {
-        return teamId;
-    }
-    
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
-    }
 }

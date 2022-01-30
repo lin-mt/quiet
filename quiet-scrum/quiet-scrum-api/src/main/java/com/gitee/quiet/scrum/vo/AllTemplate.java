@@ -17,6 +17,7 @@
 package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Getter
 public class AllTemplate {
     
     /**
@@ -37,13 +39,5 @@ public class AllTemplate {
      * 非登陆人创建的可选的模板
      */
     private final List<ScrumTemplate> templateSelectable = new ArrayList<>();
-    
-    public List<ScrumTemplate> getTemplateCreated() {
-        return templateCreated;
-    }
-    
-    public List<ScrumTemplate> getTemplateSelectable() {
-        return templateSelectable;
-    }
     
 }

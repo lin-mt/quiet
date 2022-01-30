@@ -14,99 +14,78 @@
  * limitations under the License.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.service.dto.SerialDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * 项目的版本信息.
+ * 迭代信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "scrum_version")
-public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
+public class ScrumIterationDTO extends SerialDTO {
     
     /**
-     * 版本名称
+     * 迭代名称
      */
     @NotBlank
-    @Length(max = 10)
-    @Column(name = "version_name", nullable = false, length = 10)
+    @Length(max = 30)
     private String name;
     
     /**
-     * 所属项目ID
+     * 所属版本ID
      */
     @NotNull
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+    private Long versionId;
     
     /**
-     * 计划开始日期
+     * 迭代计划开始日期
      */
     @NotNull
-    @Column(name = "plan_start_date", nullable = false)
     private LocalDate planStartDate;
     
     /**
-     * 计划结束日期
+     * 迭代计划结束日期
      */
     @NotNull
-    @Column(name = "plan_end_date", nullable = false)
     private LocalDate planEndDate;
     
     /**
-     * 版本开始时间
+     * 迭代开始时间
      */
-    @Column(name = "start_time")
     private LocalDateTime startTime;
     
     /**
-     * 版本结束时间
+     * 迭代结束时间
      */
-    @Column(name = "end_time")
     private LocalDateTime endTime;
     
     /**
-     * 版本备注信息
+     * 备注信息
      */
-    @NotBlank
-    @Length(max = 1500)
-    @Column(name = "remark", nullable = false, length = 1500)
+    @Length(max = 1000)
     private String remark;
-    
-    /**
-     * 迭代信息
-     */
-    @Transient
-    private List<ScrumIteration> iterations;
     
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumVersion) {
-            ScrumVersion otherVersion = (ScrumVersion) other;
-            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
+        if (compare == 0 && other instanceof ScrumIterationDTO) {
+            ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;
+            compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
             if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
+                compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
             }
         }
         return compare;

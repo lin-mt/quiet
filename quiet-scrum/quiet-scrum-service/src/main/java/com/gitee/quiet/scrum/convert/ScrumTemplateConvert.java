@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-dependencies {
-    runtimeOnly deps.mysql
+package com.gitee.quiet.scrum.convert;
 
-    implementation project(':quiet-scrum:quiet-scrum-api')
-    implementation deps.mapstruct
+import com.gitee.quiet.scrum.dto.ScrumTemplateDTO;
+import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import com.gitee.quiet.scrum.vo.ScrumTemplateVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
-    compileOnly deps.lombok
-
-    annotationProcessor deps.lombok
-    annotationProcessor deps.mapstructProcessor
-}
-
-compileJava {
-    options.compilerArgs += [
-            '-Amapstruct.defaultComponentModel=spring',
-    ]
+/**
+ * 模板实体信息转换.
+ *
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
+@Mapper
+public interface ScrumTemplateConvert extends QuietConvert<ScrumTemplate, ScrumTemplateDTO, ScrumTemplateVO> {
+    
 }

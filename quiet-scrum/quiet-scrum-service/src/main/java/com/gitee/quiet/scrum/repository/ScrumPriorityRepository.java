@@ -16,8 +16,8 @@
 
 package com.gitee.quiet.scrum.repository;
 
+import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface ScrumPriorityRepository extends JpaRepository<ScrumPriority, Long> {
+public interface ScrumPriorityRepository extends QuietRepository<ScrumPriority> {
     
     /**
      * 根据模板ID和优先级名称查询优先级信息
