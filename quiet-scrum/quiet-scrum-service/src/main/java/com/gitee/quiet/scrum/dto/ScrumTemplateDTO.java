@@ -1,0 +1,67 @@
+/*
+ * Copyright 2021 lin-mt@outlook.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.gitee.quiet.scrum.dto;
+
+import com.gitee.quiet.service.dto.BaseDTO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+
+/**
+ * 项目模板.
+ *
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
+@Getter
+@Setter
+public class ScrumTemplateDTO extends BaseDTO {
+    
+    /**
+     * 模板中的任务步骤
+     */
+    @Transient
+    List<ScrumTaskStepDTO> taskSteps;
+    
+    /**
+     * 模板中的优先级配置
+     */
+    @Transient
+    List<ScrumPriorityDTO> priorities;
+    
+    /**
+     * 模板名称
+     */
+    @NotBlank
+    @Length(max = 10)
+    private String name;
+    
+    /**
+     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
+     */
+    private Boolean enabled;
+    
+    /**
+     * 模板备注信息
+     */
+    @Length(max = 30)
+    private String remark;
+    
+}
