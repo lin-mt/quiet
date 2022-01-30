@@ -18,10 +18,6 @@ rootProject.name = 'quiet'
 
 include ':quiet-gateway'
 
-include ':quiet-common:quiet-base'
-include ':quiet-common:quiet-service'
-include ':quiet-common:quiet-validation'
-
 include ':quiet-commons:quiet-common-constant'
 include ':quiet-commons:quiet-common-core'
 include ':quiet-commons:quiet-common-util'
