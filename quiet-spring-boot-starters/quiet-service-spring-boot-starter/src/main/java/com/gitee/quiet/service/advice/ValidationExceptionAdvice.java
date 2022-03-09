@@ -68,10 +68,11 @@ public class ValidationExceptionAdvice {
                 if (error instanceof FieldError) {
                     String fieldName = ((FieldError) error).getField();
                     errorMsg.append(CAMEL_TO_UNDERSCORE_CONVERTER.convert(fieldName));
+                    errorMsg.append(" ");
                 } else {
                     log.error("错误类型异常未处理：{}", error.getClass());
                 }
-                errorMsg.append(error.getDefaultMessage()).append(";");
+                errorMsg.append(error.getDefaultMessage()).append(";\r\n");
             }
         }
         Result<Object> exception = Result.exception();
