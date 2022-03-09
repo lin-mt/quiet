@@ -10,8 +10,8 @@ server:
 dubbo:
   scan:
     base-packages: com.gitee.quiet.system.service
-  cloud:
-    subscribed-services:
+  registry:
+    address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
 quiet:
   jpa:
     id-generator:

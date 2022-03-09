@@ -21,8 +21,8 @@ dependencies {
     implementation springCloud.loadbalancer
     implementation springBootStarter.actuator
     implementation springBootStarter.dataRedis
-    implementation springCloudAlibaba.nacosConfig
-    implementation springCloudAlibaba.nacosDiscovery
+    implementation deps.dubboConfigcenterNacos
+    implementation deps.dubboRegistryNacos
 
     testImplementation springBootStarter.test
 }
