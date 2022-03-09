@@ -14,6 +14,8 @@ security:
 dubbo:
   cloud:
     subscribed-services: quiet-system
+  registry:
+    address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
   scan:
     base-packages: com.gitee.quiet.doc.service
 quiet:
