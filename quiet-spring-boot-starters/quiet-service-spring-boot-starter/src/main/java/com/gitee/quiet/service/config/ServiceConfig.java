@@ -35,7 +35,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +47,6 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@EnableDiscoveryClient
 @Configuration(proxyBeanMethods = false)
 @ComponentScan(basePackageClasses = AdvicePackage.class)
 @AutoConfigureBefore(JacksonConfig.class)

@@ -28,9 +28,9 @@ dependencies {
     api deps.springSecurityOauth2
     api deps.springSecurityOauth2Autoconfigure
 
-    api springCloudAlibaba.dubbo
-    api springCloudAlibaba.nacosConfig
-    api springCloudAlibaba.nacosDiscovery
+    api deps.dubboSpringBootStarter
+    api deps.dubboConfigcenterNacos
+    api deps.dubboRegistryNacos
 
     compileOnly deps.lombok
 
