@@ -1,14 +1,11 @@
-spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
 ---
 spring:
   config:
     activate:
       on-profile: dev
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
