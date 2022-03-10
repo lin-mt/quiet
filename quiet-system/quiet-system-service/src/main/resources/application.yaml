@@ -4,14 +4,12 @@ spring:
   profiles:
     active: dev
   config:
-    import: classpath:application-all.yaml
+    import: optional:classpath:application-all.yaml
 server:
   port: 9000
 dubbo:
   scan:
     base-packages: com.gitee.quiet.system.service
-  registry:
-    address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
 quiet:
   jpa:
     id-generator:
