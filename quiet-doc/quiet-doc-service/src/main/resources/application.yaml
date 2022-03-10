@@ -6,14 +6,12 @@ spring:
   profiles:
     active: dev
   config:
-    import: classpath:application-resource-server.yaml
+    import: optional:classpath:application-resource-server.yaml
 security:
   oauth2:
     client:
       client-secret: quiet-doc
 dubbo:
-  cloud:
-    subscribed-services: quiet-system
   registry:
     address: nacos://127.0.0.1:8848/?username=nacos&password=nacos
   scan:
