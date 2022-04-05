@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -143,7 +144,9 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     }
     
     private void checkInfo(@NotNull ScrumIteration iteration) {
-        checkIdExist(iteration.getId());
+        if (Objects.nonNull(iteration.getId())) {
+            checkIdExist(iteration.getId());
+        }
         versionService.checkIdExist(iteration.getVersionId());
         ScrumIteration exist = iterationRepository.findByVersionIdAndName(iteration.getVersionId(),
                 iteration.getName());
