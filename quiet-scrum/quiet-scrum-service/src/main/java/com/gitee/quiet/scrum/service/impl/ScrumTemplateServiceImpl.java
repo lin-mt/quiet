@@ -32,7 +32,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -122,16 +121,12 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
     
     @Override
     public List<ScrumTemplate> listEnabledByName(String name, long limit) {
-        if (StringUtils.isBlank(name)) {
-            return List.of();
-        }
-        JPAQuery<ScrumTemplate> templateJPAQuery = SelectBooleanBuilder.booleanBuilder()
-                .notBlankContains(name, scrumTemplate.name).and(scrumTemplate.enabled.eq(true))
-                .from(jpaQueryFactory, scrumTemplate);
+        JPAQuery<ScrumTemplate> query = SelectBooleanBuilder.booleanBuilder().notBlankContains(name, scrumTemplate.name)
+                .and(scrumTemplate.enabled.eq(true)).from(jpaQueryFactory, scrumTemplate);
         if (limit > 0) {
-            templateJPAQuery.limit(limit);
+            query.limit(limit);
         }
-        return templateJPAQuery.fetch();
+        return query.fetch();
     }
     
     @Override
@@ -157,6 +152,11 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         return template;
     }
     
+    /**
+     * 校验保存的信息.
+     *
+     * @param template 保存的模板信息
+     */
     public void checkInfo(@NotNull ScrumTemplate template) {
         ScrumTemplate exist = templateRepository.findByName(template.getName());
         if (exist != null && !exist.getName().equals(template.getName())) {

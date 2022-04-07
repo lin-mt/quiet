@@ -54,7 +54,7 @@ public class ScrumTemplateController {
     private final ScrumTemplateConvert templateConvert;
     
     /**
-     * 查询所有的模板信息
+     * 查询所有的模板信息.
      *
      * @return 根据是否创建人创建的模板进行分组
      */
@@ -64,7 +64,7 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 获取模板信息
+     * 获取模板信息.
      *
      * @param id 模板ID
      * @return 模板信息
@@ -76,7 +76,7 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 新增模板
+     * 新增模板.
      *
      * @param dto 新增的模板信息
      * @return 新增后的模板信息
@@ -88,7 +88,7 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 更新模板
+     * 更新模板.
      *
      * @param dto 更新的模板信息
      * @return 更新后的模板信息
@@ -100,7 +100,7 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 删除模板
+     * 删除模板.
      *
      * @param id 删除的模板ID
      * @return 删除结果
@@ -112,7 +112,7 @@ public class ScrumTemplateController {
     }
     
     /**
-     * 根据模板名称查询启用的模板信息
+     * 根据模板名称查询启用的模板信息.
      *
      * @param name 模板名称
      * @return 查询结果
