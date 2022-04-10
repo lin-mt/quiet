@@ -20,6 +20,7 @@ import com.gitee.quiet.doc.model.FormParam;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.PathParam;
 import com.gitee.quiet.doc.model.QueryParam;
+import com.gitee.quiet.doc.model.Schema;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +31,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 /**
  * api 信息，包含请求参数、请求头等信息.
@@ -62,7 +62,7 @@ public class DocApiInfo extends BaseEntity {
      */
     @Type(type = "json")
     @Column(name = "req_json_body", columnDefinition = "json")
-    private Map<String, Object> reqJsonBody;
+    private Schema reqJsonBody;
     
     /**
      * form 参数
@@ -102,7 +102,7 @@ public class DocApiInfo extends BaseEntity {
      */
     @Type(type = "json")
     @Column(name = "resp_json_body", columnDefinition = "json")
-    private Map<String, Object> respJsonBody;
+    private Schema respJsonBody;
     
     /**
      * 响应信息

@@ -20,13 +20,13 @@ import com.gitee.quiet.doc.model.FormParam;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.PathParam;
 import com.gitee.quiet.doc.model.QueryParam;
+import com.gitee.quiet.doc.model.Schema;
 import com.gitee.quiet.service.vo.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 /**
  * api信息VO.
@@ -51,7 +51,7 @@ public class DocApiInfoVO extends BaseVO {
     /**
      * 请求体的 jsonSchema
      */
-    private Map<String, Object> reqJsonBody;
+    private Schema reqJsonBody;
     
     /**
      * form 参数
@@ -81,7 +81,7 @@ public class DocApiInfoVO extends BaseVO {
     /*
      * 响应数据的 jsonSchema
      */
-    private Map<String, Object> respJsonBody;
+    private Schema respJsonBody;
     
     /**
      * 响应信息
