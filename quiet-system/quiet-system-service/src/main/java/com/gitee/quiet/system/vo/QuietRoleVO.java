@@ -18,53 +18,52 @@ package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.ParentVO;
 import com.gitee.quiet.service.vo.front.TreeSelectVO;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
-
 /**
  * 角色信息VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class QuietRoleVO extends ParentVO<QuietRoleVO> implements TreeSelectVO<Long, QuietRoleVO> {
-    
+
     /**
      * 角色名称
      */
     @NotBlank
     @Length(max = 30)
     private String roleName;
-    
+
     /**
      * 角色中文名
      */
     @NotBlank
     @Length(max = 30)
     private String roleCnName;
-    
+
     /**
      * 备注
      */
     @Length(max = 100)
     private String remark;
-    
+
     /**
      * 父角色名称
      */
     @Transient
     private String parentRoleName;
-    
+
     @Override
     public String getTitle() {
         return getRoleCnName();
     }
-    
+
     @Override
     public Long getValue() {
         return getId();

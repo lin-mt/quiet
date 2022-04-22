@@ -27,39 +27,39 @@ import lombok.Data;
 @Data
 @SuppressWarnings("unused")
 public class Result<T> {
-    
+
     /**
      * 请求结果.
      */
     private final ResultType result;
-    
+
     /**
      * code.
      */
     private String code;
-    
+
     /**
      * 返回的信息.
      */
     private String message;
-    
+
     /**
      * 返回的数据.
      */
     private T data;
-    
+
     /**
      * 信息的参数.
      */
     @JsonIgnore
     private Object[] msgParam;
-    
+
     /**
      * CURD 的结果.
      */
     @JsonIgnore
     private CurdType curdType;
-    
+
     private Result(final ResultType resultType, final String code, final Object[] msgParam) {
         if (resultType == null) {
             throw new IllegalArgumentException("ResultType cannot be null.");
@@ -68,7 +68,7 @@ public class Result<T> {
         this.code = code;
         this.msgParam = msgParam;
     }
-    
+
     private Result(final ResultType resultType, final T data) {
         if (resultType == null) {
             throw new IllegalArgumentException("ResultType cannot be null.");
@@ -76,14 +76,14 @@ public class Result<T> {
         this.result = resultType;
         this.data = data;
     }
-    
+
     private Result(final ResultType resultType) {
         if (resultType == null) {
             throw new IllegalArgumentException("ResultType cannot be null.");
         }
         this.result = resultType;
     }
-    
+
     /**
      * 出现异常.
      *
@@ -93,7 +93,7 @@ public class Result<T> {
     public static <T> Result<T> exception() {
         return new Result<>(ResultType.EXCEPTION);
     }
-    
+
     /**
      * 异常，携带数据.
      *
@@ -104,7 +104,7 @@ public class Result<T> {
     public static <T> Result<T> exception(final T data) {
         return new Result<>(ResultType.EXCEPTION, data);
     }
-    
+
     /**
      * 执行成功.
      *
@@ -114,7 +114,7 @@ public class Result<T> {
     public static <T> Result<T> success() {
         return new Result<>(ResultType.SUCCESS);
     }
-    
+
     /**
      * 执行成功，带数据.
      *
@@ -125,7 +125,7 @@ public class Result<T> {
     public static <T> Result<T> success(final T data) {
         return new Result<>(ResultType.SUCCESS, data);
     }
-    
+
     /**
      * 执行成功，携带信息和数据.
      *
@@ -141,7 +141,7 @@ public class Result<T> {
         success.setMsgParam(msgParam);
         return success;
     }
-    
+
     /**
      * 执行成功，带消息.
      *
@@ -153,7 +153,7 @@ public class Result<T> {
     public static <T> Result<T> successMsg(final String code, final Object... msgParam) {
         return new Result<>(ResultType.SUCCESS, code, msgParam);
     }
-    
+
     /**
      * 出现失败.
      *
@@ -163,7 +163,7 @@ public class Result<T> {
     public static <T> Result<T> failure() {
         return new Result<>(ResultType.FAILURE);
     }
-    
+
     /**
      * 失败，携带数据.
      *
@@ -174,7 +174,7 @@ public class Result<T> {
     public static <T> Result<T> failure(final T data) {
         return new Result<>(ResultType.FAILURE, data);
     }
-    
+
     /**
      * 失败，携带信息和数据.
      *
@@ -190,7 +190,7 @@ public class Result<T> {
         failure.setMsgParam(msgParam);
         return failure;
     }
-    
+
     /**
      * 出错，携带失败信息.
      *
@@ -202,7 +202,7 @@ public class Result<T> {
     public static <T> Result<T> failureMsg(final String code, final Object... msgParam) {
         return new Result<>(ResultType.FAILURE, code, msgParam);
     }
-    
+
     /**
      * 警告.
      *
@@ -212,7 +212,7 @@ public class Result<T> {
     public static <T> Result<T> warning() {
         return new Result<>(ResultType.WARNING, null, null);
     }
-    
+
     /**
      * 无法执行，携带警告信息.
      *
@@ -224,7 +224,7 @@ public class Result<T> {
     public static <T> Result<T> warningMsg(final String code, final Object... msgParam) {
         return new Result<>(ResultType.WARNING, code, msgParam);
     }
-    
+
     /**
      * 异常结果.
      *
@@ -236,7 +236,7 @@ public class Result<T> {
     public static <T> Result<T> exceptionMsg(final String code, final Object... msgParam) {
         return new Result<>(ResultType.EXCEPTION, code, msgParam);
     }
-    
+
     /**
      * 创建成功.
      *
@@ -248,7 +248,7 @@ public class Result<T> {
         result.curdType = CurdType.CREATE_SUCCESS;
         return result;
     }
-    
+
     /**
      * 创建成果.
      *
@@ -262,7 +262,7 @@ public class Result<T> {
         result.curdType = CurdType.CREATE_SUCCESS;
         return result;
     }
-    
+
     /**
      * 创建失败.
      *
@@ -274,7 +274,7 @@ public class Result<T> {
         result.curdType = CurdType.CREATE_FAILURE;
         return result;
     }
-    
+
     /**
      * 更新成功.
      *
@@ -286,7 +286,7 @@ public class Result<T> {
         result.curdType = CurdType.UPDATE_SUCCESS;
         return result;
     }
-    
+
     /**
      * 更新成功.
      *
@@ -300,7 +300,7 @@ public class Result<T> {
         result.curdType = CurdType.UPDATE_SUCCESS;
         return result;
     }
-    
+
     /**
      * 更新失败.
      *
@@ -312,7 +312,7 @@ public class Result<T> {
         result.curdType = CurdType.UPDATE_FAILURE;
         return result;
     }
-    
+
     /**
      * 查询成功.
      *
@@ -324,7 +324,7 @@ public class Result<T> {
         result.curdType = CurdType.READ_SUCCESS;
         return result;
     }
-    
+
     /**
      * 查询失败.
      *
@@ -336,7 +336,7 @@ public class Result<T> {
         result.curdType = CurdType.READ_FAILURE;
         return result;
     }
-    
+
     /**
      * 删除成功.
      *
@@ -348,7 +348,7 @@ public class Result<T> {
         result.curdType = CurdType.DELETE_SUCCESS;
         return result;
     }
-    
+
     /**
      * 删除失败.
      *
@@ -360,5 +360,5 @@ public class Result<T> {
         result.curdType = CurdType.DELETE_FAILURE;
         return result;
     }
-    
+
 }

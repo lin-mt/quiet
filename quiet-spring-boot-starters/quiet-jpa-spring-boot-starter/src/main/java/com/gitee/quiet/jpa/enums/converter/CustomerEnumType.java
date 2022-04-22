@@ -27,7 +27,7 @@ import lombok.Getter;
 
 @Getter
 public enum CustomerEnumType {
-    
+
     BYTE(ByteEnum.class, Byte.class),
     DOUBLE(DoubleEnum.class, Double.class),
     FLOAT(FloatEnum.class, Float.class),
@@ -36,11 +36,11 @@ public enum CustomerEnumType {
     SHORT(ShortEnum.class, Short.class),
     STRING(StringEnum.class, String.class),
     ;
-    
+
     private final Class<?> superClass;
-    
+
     private final Class<?> valueClass;
-    
+
     CustomerEnumType(Class<?> superClass, Class<?> valueClass) {
         this.superClass = superClass;
         this.valueClass = valueClass;

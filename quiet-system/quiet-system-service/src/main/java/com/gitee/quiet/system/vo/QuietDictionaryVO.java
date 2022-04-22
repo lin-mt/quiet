@@ -17,40 +17,39 @@
 package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.ParentAndSerialVO;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * 数据字典 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class QuietDictionaryVO extends ParentAndSerialVO<QuietDictionaryVO> {
-    
+
     /**
      * 数据字典类型
      */
     @Length(max = 30)
     private String type;
-    
+
     /**
      * 数据字典的key，同数据字典类型下的key不能重复，这个要在业务代码中进行限制
      */
     @Length(max = 30)
     private String key;
-    
+
     /**
      * 数据字典显示的值，前端找不到国际化值的时候使用的默认值
      */
     @NotBlank
     @Length(max = 30)
     private String label;
-    
+
     /**
      * 备注
      */

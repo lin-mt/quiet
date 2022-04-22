@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietTeamUserRole;
-
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietTeamUserRoleService {
-    
+
     /**
      * 根据团队ID批量查询团队的角色信息
      *
@@ -35,14 +34,14 @@ public interface QuietTeamUserRoleService {
      * @return 团队成员的角色信息
      */
     List<QuietTeamUserRole> findByTeamUserIds(Set<Long> teamIds);
-    
+
     /**
      * 根据团队-用户ID批量删除用户的团队角色信息
      *
      * @param teamUserIds 团队-用户ID集合
      */
     void deleteByTeamUserIds(Set<Long> teamUserIds);
-    
+
     /**
      * 为团队用户批量添加角色，不检查用户在团队中是否有该角色
      *

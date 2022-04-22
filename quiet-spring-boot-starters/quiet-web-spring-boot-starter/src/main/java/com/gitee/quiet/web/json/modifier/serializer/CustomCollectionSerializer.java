@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import com.fasterxml.jackson.databind.ser.std.AsArraySerializerBase;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.gitee.quiet.common.core.entity.Serial;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -37,47 +36,47 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class CustomCollectionSerializer extends AsArraySerializerBase<List<Object>> {
-    
+
     private final IndexedListSerializer defaultSerializer;
-    
+
     public CustomCollectionSerializer(IndexedListSerializer defaultSerializer, TypeFactory tf) {
         super(List.class, tf.constructSimpleType(Object.class, new JavaType[] {}), false, null, null);
         this.defaultSerializer = defaultSerializer;
     }
-    
+
     private CustomCollectionSerializer(CustomCollectionSerializer src, BeanProperty prop, TypeSerializer vts,
-            JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
+        JsonSerializer<?> valueSerializer, Boolean unwrapSingle) {
         super(src, prop, vts, valueSerializer, unwrapSingle);
         this.defaultSerializer = src.defaultSerializer;
     }
-    
+
     public IndexedListSerializer getDefaultSerializer() {
         return defaultSerializer;
     }
-    
+
     @Override
     public AsArraySerializerBase<List<Object>> withResolved(BeanProperty property, TypeSerializer vts,
-            JsonSerializer<?> elementSerializer, Boolean unwrapSingle) {
+        JsonSerializer<?> elementSerializer, Boolean unwrapSingle) {
         return new CustomCollectionSerializer(this, property, vts, elementSerializer, unwrapSingle);
     }
-    
+
     @Override
     public void serialize(List<Object> value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         Serial.Utils.sortSerial(value);
         defaultSerializer.serialize(value, gen, provider);
     }
-    
+
     @Override
     protected void serializeContents(List<Object> value, JsonGenerator gen, SerializerProvider provider)
-            throws IOException {
+        throws IOException {
         defaultSerializer.serializeContents(value, gen, provider);
     }
-    
+
     @Override
     public boolean hasSingleElement(List<Object> value) {
         return defaultSerializer.hasSingleElement(value);
     }
-    
+
     @Override
     @SuppressWarnings("AlibabaAvoidStartWithDollarAndUnderLineNaming")
     protected ContainerSerializer<?> _withValueTypeSerializer(TypeSerializer vts) {

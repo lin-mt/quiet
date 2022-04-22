@@ -22,7 +22,7 @@ package com.gitee.quiet.common.util;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ClassUtils {
-    
+
     /**
      * 获取 main 方法所在的类
      *

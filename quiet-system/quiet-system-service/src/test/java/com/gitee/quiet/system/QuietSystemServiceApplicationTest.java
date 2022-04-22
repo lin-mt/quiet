@@ -10,28 +10,27 @@ import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-import java.util.Set;
-
 @SpringBootTest
 class QuietSystemServiceApplicationTest {
-    
+
     @Autowired
     private QuietClientService clientService;
-    
+
     @Autowired
     private QuietUserService userService;
-    
+
     @Autowired
     private QuietRoleService roleService;
-    
+
     @Autowired
     private QuietUserRoleService userRoleService;
-    
+
     @Test
     void createClient() {
         QuietClient client = new QuietClient();
@@ -47,7 +46,7 @@ class QuietSystemServiceApplicationTest {
         client.setRefreshTokenValiditySeconds(720000);
         clientService.save(client);
     }
-    
+
     @Test
     void createUser() {
         QuietUser user = new QuietUser();
@@ -63,7 +62,7 @@ class QuietSystemServiceApplicationTest {
         user.setPhoneNumber("17805930630");
         userService.save(user);
     }
-    
+
     @Test
     void createRole() {
         QuietRole role = new QuietRole();
@@ -72,7 +71,7 @@ class QuietSystemServiceApplicationTest {
         role.setParentId(234280405352449L);
         roleService.save(role);
     }
-    
+
     @Test
     void userAddRole() {
         QuietUserRole userRole = new QuietUserRole();

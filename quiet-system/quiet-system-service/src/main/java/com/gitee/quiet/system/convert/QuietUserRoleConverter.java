@@ -25,7 +25,7 @@ import org.mapstruct.Mapper;
 /**
  * 用户角色信息转换器.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
 public interface QuietUserRoleConverter extends QuietConvert<QuietUserRole, QuietUserRoleDTO, QuietUserRoleVO> {

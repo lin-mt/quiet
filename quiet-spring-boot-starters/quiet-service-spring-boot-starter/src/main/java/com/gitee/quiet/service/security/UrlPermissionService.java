@@ -24,7 +24,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface UrlPermissionService {
-    
+
     /**
      * 根据应用名称获取全部 Url 权限配置信息
      *

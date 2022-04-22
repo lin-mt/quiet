@@ -17,49 +17,48 @@
 package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.BaseVO;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 /**
  * 部门VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class QuietPermissionVO extends BaseVO {
-    
+
     /**
      * 应用名称
      */
     @NotBlank
     @Length(max = 100)
     private String applicationName;
-    
+
     /**
      * URL 匹配规则
      */
     @NotBlank
     @Length(max = 100)
     private String urlPattern;
-    
+
     /**
      * 请求方法
      */
     @NotBlank
     @Length(max = 7)
     private String requestMethod;
-    
+
     /**
      * 角色ID
      */
     @NotNull
     private Long roleId;
-    
+
     /**
      * 备注
      */

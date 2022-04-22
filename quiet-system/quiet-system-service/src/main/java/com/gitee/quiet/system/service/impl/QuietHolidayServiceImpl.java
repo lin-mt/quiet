@@ -3,14 +3,13 @@ package com.gitee.quiet.system.service.impl;
 import com.gitee.quiet.system.entity.QuietHoliday;
 import com.gitee.quiet.system.repository.QuietHolidayRepository;
 import com.gitee.quiet.system.service.QuietHolidayService;
-import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Service;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * 假期service实现类.
@@ -20,9 +19,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class QuietHolidayServiceImpl implements QuietHolidayService {
-    
+
     private final QuietHolidayRepository repository;
-    
+
     @Override
     public List<QuietHoliday> listAllByYear(Integer year) {
         List<QuietHoliday> holidays = repository.findAllByYear(year);
@@ -32,7 +31,7 @@ public class QuietHolidayServiceImpl implements QuietHolidayService {
             while (date.getYear() == year) {
                 QuietHoliday holiday = new QuietHoliday();
                 holiday.setIsHoliday(
-                        DayOfWeek.SATURDAY.equals(date.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(date.getDayOfWeek()));
+                    DayOfWeek.SATURDAY.equals(date.getDayOfWeek()) || DayOfWeek.SUNDAY.equals(date.getDayOfWeek()));
                 holiday.setDateInfo(LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth()));
                 addHoliday.add(holiday);
                 date = date.plusDays(1L);
@@ -41,7 +40,7 @@ public class QuietHolidayServiceImpl implements QuietHolidayService {
         }
         return holidays;
     }
-    
+
     @Override
     public QuietHoliday update(QuietHoliday entity) {
         return repository.saveAndFlush(entity);

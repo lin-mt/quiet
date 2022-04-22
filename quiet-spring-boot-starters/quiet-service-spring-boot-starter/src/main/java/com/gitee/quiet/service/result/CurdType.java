@@ -24,7 +24,7 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public enum CurdType {
-    
+
     /**
      * 新增成功.
      */
@@ -58,13 +58,13 @@ public enum CurdType {
      */
     DELETE_FAILURE(MessageSourceCode.Curd.DELETE_FAILURE),
     ;
-    
+
     private final String code;
-    
+
     CurdType(String code) {
         this.code = code;
     }
-    
+
     public String getCode() {
         return code;
     }

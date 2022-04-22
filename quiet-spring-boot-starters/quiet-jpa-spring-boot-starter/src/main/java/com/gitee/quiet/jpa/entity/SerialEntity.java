@@ -18,12 +18,11 @@ package com.gitee.quiet.jpa.entity;
 
 import com.gitee.quiet.common.core.entity.Serial;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Min;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 具有排序字段的实体.
@@ -34,12 +33,12 @@ import javax.validation.constraints.Min;
 @Setter
 @MappedSuperclass
 public class SerialEntity extends BaseEntity implements Serial {
-    
+
     /**
      * 序号
      */
     @Min(0)
     @Column(name = "serial_number", nullable = false)
     private int serialNumber = 0;
-    
+
 }

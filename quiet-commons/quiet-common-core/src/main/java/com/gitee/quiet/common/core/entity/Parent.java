@@ -25,28 +25,28 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface Parent<T> {
-    
+
     /**
      * 获取父的ID
      *
      * @return 父ID
      */
     Long getParentId();
-    
+
     /**
      * 获取子级信息
      *
      * @return 子级信息集合
      */
     List<T> getChildren();
-    
+
     /**
      * 设置子级集合
      *
      * @param children 子级集合
      */
     void setChildren(List<T> children);
-    
+
     /**
      * 添加子级信息
      *

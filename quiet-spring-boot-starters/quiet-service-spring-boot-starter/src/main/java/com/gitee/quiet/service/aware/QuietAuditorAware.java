@@ -17,13 +17,12 @@
 package com.gitee.quiet.service.aware;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Optional;
 
 /**
  * JpaAuditorAware.
@@ -31,7 +30,7 @@ import java.util.Optional;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietAuditorAware implements AuditorAware<Long> {
-    
+
     /**
      * @return 操作者的 ID
      */
@@ -41,8 +40,8 @@ public class QuietAuditorAware implements AuditorAware<Long> {
         // 获取创建者和更新者信息
         // @formatter:off
         Optional<Object> principle = Optional.ofNullable(SecurityContextHolder.getContext())
-                .map(SecurityContext::getAuthentication).filter(Authentication::isAuthenticated)
-                .map(Authentication::getPrincipal);
+            .map(SecurityContext::getAuthentication).filter(Authentication::isAuthenticated)
+            .map(Authentication::getPrincipal);
         // @formatter:on
         Long id = null;
         if (principle.isPresent()) {
@@ -53,5 +52,5 @@ public class QuietAuditorAware implements AuditorAware<Long> {
         }
         return Optional.ofNullable(id);
     }
-    
+
 }

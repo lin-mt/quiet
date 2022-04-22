@@ -23,11 +23,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import lombok.SneakyThrows;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.SneakyThrows;
 
 /**
  * Json 工具.
@@ -35,9 +34,9 @@ import java.time.format.DateTimeFormatter;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class JsonUtils {
-    
+
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    
+
     static {
         SimpleModule module = new SimpleModule("JsonUtils");
         // 日期序列化与反序列化
@@ -50,15 +49,15 @@ public class JsonUtils {
         module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
         OBJECT_MAPPER.registerModule(module);
     }
-    
+
     private JsonUtils() {
     }
-    
+
     @SneakyThrows
     public static String toJsonString(Object value) {
         return OBJECT_MAPPER.writeValueAsString(value);
     }
-    
+
     @SneakyThrows
     public static <T> T readValue(String value, TypeReference<T> reference) {
         return OBJECT_MAPPER.readValue(value, reference);

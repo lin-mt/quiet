@@ -18,11 +18,10 @@ package com.gitee.quiet.service.advice;
 
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.service.result.Result;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Objects;
 
 /**
  * 异常统一处理.
@@ -32,7 +31,7 @@ import java.util.Objects;
 @Slf4j
 @RestControllerAdvice
 public class ApplicationExceptionAdvice {
-    
+
     /**
      * 处理业务异常.
      *

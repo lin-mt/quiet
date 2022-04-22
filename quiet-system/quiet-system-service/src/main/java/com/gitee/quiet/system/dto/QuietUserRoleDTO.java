@@ -18,33 +18,32 @@ package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.BaseDTO;
 import com.gitee.quiet.system.entity.QuietUserRole;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 用户角色信息DTO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class QuietUserRoleDTO extends BaseDTO {
-    
+
     /**
      * 用户ID
      */
     @NotNull
     private Long userId;
-    
+
     /**
      * 角色ID
      */
     @NotNull
     private Long roleId;
-    
+
     /**
      * 用户与角色信息
      */

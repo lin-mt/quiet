@@ -18,12 +18,11 @@ package com.gitee.quiet.system.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.service.result.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 返回 json 数据.
@@ -31,9 +30,9 @@ import java.io.PrintWriter;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public abstract class AbstractResponseJsonData {
-    
+
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     /**
      * 返回 json 格式数据.
      *

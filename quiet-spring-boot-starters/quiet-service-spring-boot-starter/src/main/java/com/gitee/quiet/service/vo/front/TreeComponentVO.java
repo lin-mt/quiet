@@ -23,24 +23,24 @@ import java.util.List;
  *
  * @param <K> key类型
  * @param <T> 子级类型
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface TreeComponentVO<K, T> {
-    
+
     /**
      * 选项标题
      *
      * @return 显示的选项标题
      */
     String getTitle();
-    
+
     /**
      * 组件 key
      *
      * @return 组件key
      */
     K getKey();
-    
+
     /**
      * 子级选项
      *

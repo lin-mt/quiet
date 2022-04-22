@@ -40,26 +40,26 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableResourceServer
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    
+
     private final QuietUserService userService;
-    
+
     private final QuietClientService clientService;
-    
+
     private final AuthenticationManager authenticationManager;
-    
+
     private final TokenStore redisTokenStore;
-    
+
     private final ObjectMapper objectMapper;
-    
+
     public AuthorizationServerConfig(QuietUserService userService, QuietClientService clientService,
-            AuthenticationManager authenticationManager, TokenStore redisTokenStore, ObjectMapper objectMapper) {
+        AuthenticationManager authenticationManager, TokenStore redisTokenStore, ObjectMapper objectMapper) {
         this.userService = userService;
         this.clientService = clientService;
         this.authenticationManager = authenticationManager;
         this.redisTokenStore = redisTokenStore;
         this.objectMapper = objectMapper;
     }
-    
+
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) {
         DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
@@ -68,22 +68,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         accessTokenConverter.setUserTokenConverter(authenticationConverter);
         // @formatter:off
         endpoints.authenticationManager(authenticationManager)
-                .userDetailsService(userService)
-                .accessTokenConverter(accessTokenConverter)
-                .tokenStore(redisTokenStore);
+            .userDetailsService(userService)
+            .accessTokenConverter(accessTokenConverter)
+            .tokenStore(redisTokenStore);
         // @formatter:on
     }
-    
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.withClientDetails(clientService);
     }
-    
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.allowFormAuthenticationForClients();
         security.checkTokenAccess("isAuthenticated()");
         security.tokenKeyAccess("isAuthenticated()");
     }
-    
+
 }

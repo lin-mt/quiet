@@ -16,23 +16,22 @@
 
 package com.gitee.quiet.service.vo;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 拥有父子关系且可排序的 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class ParentAndSerialVO<T> extends BaseVO {
-    
+
     private int serialNumber;
-    
+
     private Long parentId;
-    
+
     private List<T> children;
 }

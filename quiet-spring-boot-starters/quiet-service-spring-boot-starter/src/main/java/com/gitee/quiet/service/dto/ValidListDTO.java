@@ -16,11 +16,10 @@
 
 package com.gitee.quiet.service.dto;
 
+import java.util.List;
+import javax.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * 可验证的批量数据.
@@ -30,8 +29,8 @@ import java.util.List;
 @Getter
 @Setter
 public class ValidListDTO<T> {
-    
+
     @Valid
     private List<T> data;
-    
+
 }

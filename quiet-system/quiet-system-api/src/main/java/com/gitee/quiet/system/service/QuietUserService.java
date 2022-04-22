@@ -18,14 +18,13 @@ package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * 用户 Service.
@@ -33,7 +32,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietUserService extends UserDetailsService {
-    
+
     /**
      * 新增用户.
      *
@@ -41,7 +40,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return true：保存成功 false：保存失败
      */
     QuietUser save(QuietUser quietUser);
-    
+
     /**
      * 删除用户.
      *
@@ -49,7 +48,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return true：删除成功
      */
     boolean delete(Long deleteId);
-    
+
     /**
      * 更新用户信息.
      *
@@ -57,7 +56,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return 更新后的用户信息
      */
     QuietUser update(QuietUser user);
-    
+
     /**
      * 根据实体数据查询.
      *
@@ -66,7 +65,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return 查询结果
      */
     Page<QuietUser> page(QuietUser params, Pageable page);
-    
+
     /**
      * 判断该用户 ID 是否存在
      *
@@ -74,7 +73,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return true：存在，false：不存在
      */
     boolean existsById(Long userId);
-    
+
     /**
      * 批量查询用户拥有的角色
      *
@@ -82,7 +81,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户ID与角色信息的对应集合
      */
     Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds);
-    
+
     /**
      * 根据用户ID批量查询信息
      *
@@ -90,7 +89,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户信息
      */
     List<QuietUser> findByUserIds(Set<Long> userIds);
-    
+
     /**
      * 根据用户名/全名查询用户信息
      *
@@ -99,7 +98,7 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户信息
      */
     List<QuietUser> listUsersByName(String name, int limit);
-    
+
     /**
      * 根据用户ID获取用户信息
      *

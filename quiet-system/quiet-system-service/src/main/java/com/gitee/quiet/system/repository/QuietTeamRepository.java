@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuietTeamRepository extends QuietRepository<QuietTeam> {
-    
+
     /**
      * 根据团队名称查询团队信息
      *

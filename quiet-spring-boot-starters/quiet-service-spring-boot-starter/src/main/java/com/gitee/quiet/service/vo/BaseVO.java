@@ -18,10 +18,9 @@ package com.gitee.quiet.service.vo;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.gitee.quiet.service.json.filter.JsonFilterName;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * VO 基本信息
@@ -32,27 +31,27 @@ import java.time.LocalDateTime;
 @Setter
 @JsonFilter(JsonFilterName.HAS_ROLE)
 public class BaseVO {
-    
+
     /**
      * ID
      */
     private Long id;
-    
+
     /**
      * 创建者ID
      */
     private Long creator;
-    
+
     /**
      * 更新者ID
      */
     private Long updater;
-    
+
     /**
      * 创建时间
      */
     private LocalDateTime gmtCreate;
-    
+
     /**
      * 更新时间
      */

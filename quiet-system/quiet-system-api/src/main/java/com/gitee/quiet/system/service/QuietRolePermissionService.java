@@ -24,7 +24,7 @@ import com.gitee.quiet.system.entity.QuietRolePermission;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietRolePermissionService {
-    
+
     /**
      * 新增角色-权限信息.
      *
@@ -32,7 +32,7 @@ public interface QuietRolePermissionService {
      * @return 新增的角色-权限信息
      */
     QuietRolePermission saveOrUpdate(QuietRolePermission rolePermission);
-    
+
     /**
      * 删除角色-权限信息.
      *

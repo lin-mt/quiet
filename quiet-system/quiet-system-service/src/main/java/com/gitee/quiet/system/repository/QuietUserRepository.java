@@ -18,10 +18,9 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietUser;
-import org.springframework.stereotype.Repository;
-
 import java.util.Collection;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 查询用户信息.
@@ -30,7 +29,7 @@ import java.util.List;
  */
 @Repository
 public interface QuietUserRepository extends QuietRepository<QuietUser> {
-    
+
     /**
      * 根据用户名获取用户信息.
      *
@@ -38,7 +37,7 @@ public interface QuietUserRepository extends QuietRepository<QuietUser> {
      * @return 用户信息
      */
     QuietUser getByUsername(String username);
-    
+
     /**
      * 批量根据用户ID查询用户信息
      *

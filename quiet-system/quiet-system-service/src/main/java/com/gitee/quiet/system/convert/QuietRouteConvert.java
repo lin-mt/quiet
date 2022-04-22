@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface QuietRouteConvert extends QuietConvert<QuietRoute, QuietRouteDTO, QuietRouteVO> {
-    
+
 }

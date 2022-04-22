@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.core.order.Ordered;
 
 public interface BeforeObjectMapperInjection extends Ordered {
-    
+
     void config(ObjectMapper objectMapper);
-    
+
 }

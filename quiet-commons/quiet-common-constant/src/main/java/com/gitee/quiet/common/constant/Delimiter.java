@@ -22,9 +22,9 @@ package com.gitee.quiet.common.constant;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class Delimiter {
-    
+
     public static final String COMMA = ",";
-    
+
     private Delimiter() {
     }
 }

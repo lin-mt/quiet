@@ -22,13 +22,13 @@ package com.gitee.quiet.common.constant.service;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class Url {
-    
+
     public static final String REGISTER = "/user/registered";
-    
+
     public static final String LOGIN_BY_ACCOUNT = "/login/account";
-    
+
     public static final String LOGOUT = "/login/out-login";
-    
+
     private Url() {
     }
 }

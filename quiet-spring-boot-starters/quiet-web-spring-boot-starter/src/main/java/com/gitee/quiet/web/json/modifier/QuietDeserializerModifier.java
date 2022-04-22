@@ -30,14 +30,14 @@ import com.gitee.quiet.web.json.modifier.deserializer.CustomCollectionDeserializ
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietDeserializerModifier extends BeanDeserializerModifier {
-    
+
     @Override
     public JsonDeserializer<?> modifyCollectionDeserializer(DeserializationConfig config, CollectionType type,
-            BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
+        BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
         if (deserializer instanceof CollectionDeserializer) {
             return new CustomCollectionDeserializer((CollectionDeserializer) deserializer);
         }
         return super.modifyCollectionDeserializer(config, type, beanDesc, deserializer);
     }
-    
+
 }

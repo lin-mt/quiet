@@ -17,10 +17,9 @@
 package com.gitee.quiet.service.dto;
 
 import com.gitee.quiet.common.core.entity.Serial;
+import javax.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.Min;
 
 /**
  * 具有排序字段的实体.
@@ -30,11 +29,11 @@ import javax.validation.constraints.Min;
 @Getter
 @Setter
 public class SerialDTO extends BaseDTO implements Serial {
-    
+
     /**
      * 序号
      */
     @Min(0)
     private int serialNumber;
-    
+
 }

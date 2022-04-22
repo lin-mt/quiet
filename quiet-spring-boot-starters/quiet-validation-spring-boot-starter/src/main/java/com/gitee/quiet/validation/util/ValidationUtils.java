@@ -17,7 +17,6 @@
 package com.gitee.quiet.validation.util;
 
 import com.gitee.quiet.validation.exception.ValidationException;
-
 import java.util.Objects;
 
 /**
@@ -26,10 +25,10 @@ import java.util.Objects;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class ValidationUtils {
-    
+
     private ValidationUtils() {
     }
-    
+
     public static void notNull(Object o, String code, Object... msgParam) {
         if (Objects.isNull(o)) {
             throw new ValidationException(code, msgParam);

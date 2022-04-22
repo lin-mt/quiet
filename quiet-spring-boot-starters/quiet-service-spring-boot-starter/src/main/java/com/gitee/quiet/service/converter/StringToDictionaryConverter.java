@@ -17,10 +17,9 @@
 package com.gitee.quiet.service.converter;
 
 import com.gitee.quiet.jpa.entity.Dictionary;
+import javax.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;
-
-import javax.annotation.Nullable;
 
 /**
  * String 转数据字典.
@@ -28,7 +27,7 @@ import javax.annotation.Nullable;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class StringToDictionaryConverter implements Converter<String, Dictionary<?>> {
-    
+
     @Override
     public Dictionary<?> convert(@Nullable String source) {
         if (StringUtils.isBlank(source)) {

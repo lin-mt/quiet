@@ -18,9 +18,8 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietDictionary;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 数据字典Repository.
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @Repository
 public interface QuietDictionaryRepository extends QuietRepository<QuietDictionary> {
-    
+
     /**
      * 根据数据字典类型查询数据字典信息
      *
@@ -37,7 +36,7 @@ public interface QuietDictionaryRepository extends QuietRepository<QuietDictiona
      * @return 该类型的所有数据字典信息
      */
     List<QuietDictionary> findAllByType(String type);
-    
+
     /**
      * 根据数据字典类型查询数据字典信息，不包含一级数据字典
      *
@@ -45,7 +44,7 @@ public interface QuietDictionaryRepository extends QuietRepository<QuietDictiona
      * @return 该类型下的所有数据字典信息
      */
     List<QuietDictionary> findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(String type);
-    
+
     /**
      * 根据父数据字典ID查询子数据字典信息
      *
@@ -53,7 +52,7 @@ public interface QuietDictionaryRepository extends QuietRepository<QuietDictiona
      * @return 所有子数据字典
      */
     List<QuietDictionary> findAllByParentId(Long parentId);
-    
+
     /**
      * 根据数据字典类型和key查询数据字典
      *

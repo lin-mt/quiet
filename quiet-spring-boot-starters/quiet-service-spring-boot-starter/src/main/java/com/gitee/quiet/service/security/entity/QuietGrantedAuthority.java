@@ -17,15 +17,14 @@
 package com.gitee.quiet.service.security.entity;
 
 import com.gitee.quiet.jpa.entity.ParentEntity;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * QuietGrantedAuthority.
@@ -36,8 +35,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @MappedSuperclass
 public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends ParentEntity<T>
-        implements GrantedAuthority {
-    
+    implements GrantedAuthority {
+
     /**
      * 角色名称
      */
@@ -45,7 +44,7 @@ public class QuietGrantedAuthority<T extends QuietGrantedAuthority<T>> extends P
     @Length(max = 30)
     @Column(name = "role_name", nullable = false, length = 30)
     private String roleName;
-    
+
     @Override
     @Transient
     public String getAuthority() {

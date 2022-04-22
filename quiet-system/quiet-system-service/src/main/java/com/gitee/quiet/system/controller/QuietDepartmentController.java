@@ -30,6 +30,7 @@ import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.QueryResults;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -42,8 +43,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 部门Controller.
  *
@@ -53,15 +52,15 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/department")
 public class QuietDepartmentController {
-    
+
     private final QuietDepartmentService departmentService;
-    
+
     private final QuietDepartmentUserService departmentUserService;
-    
+
     private final QuietDepartmentConvert departmentConvert;
-    
+
     private final QuietUserConvert userConvert;
-    
+
     /**
      * 部门移除成员信息.
      *
@@ -73,7 +72,7 @@ public class QuietDepartmentController {
         departmentUserService.removeUsers(dto.getId(), dto.getUserIds());
         return Result.success();
     }
-    
+
     /**
      * 部门添加成员信息.
      *
@@ -85,7 +84,7 @@ public class QuietDepartmentController {
         departmentUserService.addUsers(dto.getId(), dto.getUserIds());
         return Result.success();
     }
-    
+
     /**
      * 分页查询部门的用户信息.
      *
@@ -97,7 +96,7 @@ public class QuietDepartmentController {
         QueryResults<QuietUser> userQueryResults = departmentService.pageUser(dto.getId(), dto.getParams(), dto.page());
         return Result.success(userConvert.results2results(userQueryResults));
     }
-    
+
     /**
      * 分页查询部门信息.
      *
@@ -109,7 +108,7 @@ public class QuietDepartmentController {
         Page<QuietDepartment> departmentPage = departmentService.page(departmentConvert.dto2entity(dto), dto.page());
         return Result.success(departmentConvert.page2page(departmentPage));
     }
-    
+
     /**
      * 获取所有部门的树形结构信息.
      *
@@ -120,7 +119,7 @@ public class QuietDepartmentController {
         List<QuietDepartment> tree = departmentService.tree();
         return Result.success(departmentConvert.entities2vos(tree));
     }
-    
+
     /**
      * 新增部门.
      *
@@ -132,7 +131,7 @@ public class QuietDepartmentController {
         QuietDepartment department = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
         return Result.createSuccess(departmentConvert.entity2vo(department));
     }
-    
+
     /**
      * 更新部门信息.
      *
@@ -144,7 +143,7 @@ public class QuietDepartmentController {
         QuietDepartment update = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
         return Result.updateSuccess(departmentConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除部门信息.
      *
@@ -156,5 +155,5 @@ public class QuietDepartmentController {
         departmentService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
 }

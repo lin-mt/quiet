@@ -19,7 +19,6 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
 import com.querydsl.core.BooleanBuilder;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -33,21 +32,21 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 @Entity
 @Table(name = "quiet_user")
 public class QuietUser extends QuietUserDetails {
-    
+
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
         return SelectBuilder.booleanBuilder()
-                .notNullEq(getId(), quietUser.id)
-                .notBlankContains(getUsername(), quietUser.username)
-                .notBlankContains(getFullName(), quietUser.fullName)
-                .notNullEq(getGender(), quietUser.gender)
-                .notBlankContains(getPhoneNumber(), quietUser.phoneNumber)
-                .notBlankContains(getEmailAddress(), quietUser.emailAddress)
-                .notNullEq(getAccountExpired(), quietUser.accountExpired)
-                .notNullEq(getAccountLocked(), quietUser.accountLocked)
-                .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired)
-                .getPredicate();
+            .notNullEq(getId(), quietUser.id)
+            .notBlankContains(getUsername(), quietUser.username)
+            .notBlankContains(getFullName(), quietUser.fullName)
+            .notNullEq(getGender(), quietUser.gender)
+            .notBlankContains(getPhoneNumber(), quietUser.phoneNumber)
+            .notBlankContains(getEmailAddress(), quietUser.emailAddress)
+            .notNullEq(getAccountExpired(), quietUser.accountExpired)
+            .notNullEq(getAccountLocked(), quietUser.accountLocked)
+            .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired)
+            .getPredicate();
         // @formatter:on
     }
 }

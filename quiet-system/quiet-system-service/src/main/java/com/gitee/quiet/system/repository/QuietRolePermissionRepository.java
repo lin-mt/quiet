@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuietRolePermissionRepository extends QuietRepository<QuietRolePermission> {
-    
+
     /**
      * 根据角色ID 和权限ID 查询权限信息.
      *

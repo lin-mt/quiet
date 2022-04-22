@@ -17,7 +17,6 @@
 package com.gitee.quiet.jpa.converter;
 
 import com.gitee.quiet.jpa.entity.Dictionary;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -28,12 +27,12 @@ import javax.persistence.Converter;
  */
 @Converter(autoApply = true)
 public class DictionaryStringConverter implements AttributeConverter<Dictionary<?>, String> {
-    
+
     @Override
     public String convertToDatabaseColumn(Dictionary<?> attribute) {
         return Dictionary.convertToString(attribute);
     }
-    
+
     @Override
     public Dictionary<?> convertToEntityAttribute(String dbData) {
         return Dictionary.convertFromString(dbData);

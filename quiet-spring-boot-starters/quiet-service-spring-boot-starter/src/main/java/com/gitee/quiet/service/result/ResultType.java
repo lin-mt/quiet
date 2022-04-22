@@ -22,7 +22,7 @@ package com.gitee.quiet.service.result;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public enum ResultType {
-    
+
     /**
      * 成功.
      */

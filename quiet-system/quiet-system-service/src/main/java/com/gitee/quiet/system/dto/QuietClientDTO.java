@@ -17,10 +17,9 @@
 package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.BaseDTO;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
 
 /**
  * 客户端信息转换.
@@ -30,35 +29,35 @@ import java.util.Set;
 @Getter
 @Setter
 public class QuietClientDTO extends BaseDTO {
-    
+
     private String clientId;
-    
+
     private String clientName;
-    
+
     private String clientSecret;
-    
+
     private Set<String> resourceIds;
-    
+
     private Boolean secretRequired;
-    
+
     private Boolean scoped;
-    
+
     private Set<String> scope;
-    
+
     private Set<String> authorizedGrantTypes;
-    
+
     private Set<String> registeredRedirectUri;
-    
+
     private Integer accessTokenValiditySeconds;
-    
+
     private Integer refreshTokenValiditySeconds;
-    
+
     private Boolean autoApprove;
-    
+
     private String remark;
-    
+
     private String clientScope;
-    
+
     private String clientAuthorizedGrantType;
 }
 

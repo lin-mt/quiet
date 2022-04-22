@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.service.security;
 
+import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDecisionManager;
@@ -26,8 +27,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
-
 /**
  * 动态权限决策管理器，用于判断用户是否有访问权限.
  *
@@ -35,18 +34,18 @@ import java.util.Collection;
  */
 @AllArgsConstructor
 public class QuietAccessDecisionManager implements AccessDecisionManager {
-    
+
     private final RoleHierarchy roleHierarchy;
-    
+
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
-            throws AccessDeniedException, InsufficientAuthenticationException {
+        throws AccessDeniedException, InsufficientAuthenticationException {
         // 当接口未被配置资源时直接放行
         if (CollectionUtils.isEmpty(configAttributes)) {
             return;
         }
         for (GrantedAuthority authority : roleHierarchy.getReachableGrantedAuthorities(
-                authentication.getAuthorities())) {
+            authentication.getAuthorities())) {
             for (ConfigAttribute configAttribute : configAttributes) {
                 if (authority.getAuthority().trim().equalsIgnoreCase(configAttribute.getAttribute())) {
                     return;
@@ -55,12 +54,12 @@ public class QuietAccessDecisionManager implements AccessDecisionManager {
         }
         throw new AccessDeniedException("抱歉，您没有访问权限");
     }
-    
+
     @Override
     public boolean supports(ConfigAttribute attribute) {
         return true;
     }
-    
+
     @Override
     public boolean supports(Class<?> clazz) {
         return true;
