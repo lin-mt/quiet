@@ -25,7 +25,7 @@ import org.mapstruct.Mapper;
 /**
  * api信息转换工具.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
 public interface DocApiInfoConvert extends QuietConvert<DocApiInfo, DocApiInfoDTO, DocApiInfoVO> {
