@@ -47,11 +47,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/route")
 @PreAuthorize(value = "hasRole('SystemAdmin')")
 public class QuietRouteController {
-    
+
     private final QuietRouteService routeService;
-    
+
     private final QuietRouteConvert routeConvert;
-    
+
     /**
      * 分页查询网关路由.
      *
@@ -63,7 +63,7 @@ public class QuietRouteController {
         Page<QuietRoute> routePage = routeService.page(routeConvert.dto2entity(dto), dto.page());
         return Result.success(routeConvert.page2page(routePage));
     }
-    
+
     /**
      * 新增网关路由.
      *
@@ -75,7 +75,7 @@ public class QuietRouteController {
         QuietRoute save = routeService.save(routeConvert.dto2entity(dto));
         return Result.createSuccess(routeConvert.entity2vo(save));
     }
-    
+
     /**
      * 删除网关路由.
      *
@@ -87,7 +87,7 @@ public class QuietRouteController {
         routeService.delete(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新网关路由.
      *
@@ -99,7 +99,7 @@ public class QuietRouteController {
         QuietRoute update = routeService.update(routeConvert.dto2entity(dto));
         return Result.updateSuccess(routeConvert.entity2vo(update));
     }
-    
+
     /**
      * 发布路由配置.
      *
@@ -111,7 +111,7 @@ public class QuietRouteController {
         routeService.publishRoute(dto.getEnvironment(), 100L);
         return Result.success();
     }
-    
+
     /**
      * 移除路由断言
      *
@@ -123,7 +123,7 @@ public class QuietRouteController {
         QuietRoute route = routeService.removePredicate(dto.getId(), dto.getRoutePredicate());
         return Result.success(routeConvert.entity2vo(route));
     }
-    
+
     /**
      * 移除路由过滤器
      *

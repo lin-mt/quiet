@@ -27,7 +27,7 @@ import org.springframework.data.domain.Pageable;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietRouteService {
-    
+
     /**
      * 分页查询网关路由信息
      *
@@ -36,7 +36,7 @@ public interface QuietRouteService {
      * @return 网关路由信息
      */
     Page<QuietRoute> page(QuietRoute params, Pageable page);
-    
+
     /**
      * 新增网关路由配置信息
      *
@@ -44,14 +44,14 @@ public interface QuietRouteService {
      * @return 新增后的网关路由信息
      */
     QuietRoute save(QuietRoute save);
-    
+
     /**
      * 删除网关路由信息
      *
      * @param id 要删除的网关路由的ID
      */
     void delete(Long id);
-    
+
     /**
      * 更新网关路由信息
      *
@@ -59,7 +59,7 @@ public interface QuietRouteService {
      * @return 更新后的网关路由信息
      */
     QuietRoute update(QuietRoute update);
-    
+
     /**
      * 移除网关路由的授权范围
      *
@@ -67,7 +67,7 @@ public interface QuietRouteService {
      * @param predicate 操作的predicate
      */
     QuietRoute removePredicate(Long id, String predicate);
-    
+
     /**
      * 移除网关路由的授权类型
      *
@@ -75,7 +75,7 @@ public interface QuietRouteService {
      * @param filter 操作的过滤配置
      */
     QuietRoute removeFilter(Long id, String filter);
-    
+
     /**
      * 发布路由配置到Redis
      *

@@ -23,9 +23,8 @@ import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Pageable;
-
 import javax.validation.constraints.NotNull;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 查询条件构造器.
@@ -33,12 +32,12 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public abstract class SelectBuilder<T extends Predicate> {
-    
+
     @NotNull
     public static SelectBooleanBuilder booleanBuilder() {
         return new SelectBooleanBuilder();
     }
-    
+
     @NotNull
     public static SelectBooleanBuilder booleanBuilder(BaseEntity entity) {
         BooleanBuilder builder = null;
@@ -47,7 +46,7 @@ public abstract class SelectBuilder<T extends Predicate> {
         }
         return new SelectBooleanBuilder(builder);
     }
-    
+
     /**
      * 获取查询条件
      *
@@ -55,9 +54,9 @@ public abstract class SelectBuilder<T extends Predicate> {
      */
     @NotNull
     public abstract T getPredicate();
-    
+
     public <E> QueryResults<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from,
-            Pageable page) {
+        Pageable page) {
         Predicate predicate = getPredicate();
         if (predicate == null) {
             throw new IllegalStateException("SelectBuilder 子类实现的方法不能返回 null");
@@ -68,7 +67,7 @@ public abstract class SelectBuilder<T extends Predicate> {
         }
         return selectFrom.fetchResults();
     }
-    
+
     public <E> JPAQuery<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from) {
         Predicate predicate = getPredicate();
         if (predicate == null) {

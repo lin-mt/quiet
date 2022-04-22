@@ -16,6 +16,10 @@
 
 package com.gitee.quiet.service.security;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,35 +29,30 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.util.AntPathMatcher;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * 动态权限数据源，用于获取动态权限规则.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-    
+
     private final UrlPermissionService urlPermissionService;
-    
+
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
-    
+
     @Value("${spring.application.name}")
     private String applicationName;
-    
+
     private String rolePrefix = "ROLE_";
-    
+
     public QuietSecurityMetadataSource(UrlPermissionService urlPermissionService,
-            GrantedAuthorityDefaults grantedAuthorityDefaults) {
+        GrantedAuthorityDefaults grantedAuthorityDefaults) {
         this.urlPermissionService = urlPermissionService;
         if (grantedAuthorityDefaults != null) {
             rolePrefix = grantedAuthorityDefaults.getRolePrefix();
         }
     }
-    
+
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         List<UrlPermission> urlPermissions = urlPermissionService.listUrlPermission(applicationName);
@@ -66,7 +65,7 @@ public class QuietSecurityMetadataSource implements FilterInvocationSecurityMeta
         for (UrlPermission urlPermission : urlPermissions) {
             if (pathMatcher.match(urlPermission.getUrlPattern(), url)) {
                 if (StringUtils.isNotBlank(urlPermission.getRequestMethod()) && !urlPermission.getRequestMethod().trim()
-                        .equalsIgnoreCase(method)) {
+                    .equalsIgnoreCase(method)) {
                     continue;
                 }
                 configAttributes.add((ConfigAttribute) () -> rolePrefix + urlPermission.getRoleName());
@@ -74,12 +73,12 @@ public class QuietSecurityMetadataSource implements FilterInvocationSecurityMeta
         }
         return configAttributes;
     }
-    
+
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         return null;
     }
-    
+
     @Override
     public boolean supports(Class<?> clazz) {
         return true;

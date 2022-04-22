@@ -18,39 +18,38 @@ package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.ParentVO;
 import com.gitee.quiet.service.vo.front.TreeSelectVO;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * 部门信息 Vo.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO> implements TreeSelectVO<Long, QuietDepartmentVO> {
-    
+
     /**
      * 部门名称
      */
     @NotBlank
     @Length(max = 10)
     private String departmentName;
-    
+
     /**
      * 备注
      */
     @Length(max = 100)
     private String remark;
-    
+
     @Override
     public String getTitle() {
         return getDepartmentName();
     }
-    
+
     @Override
     public Long getValue() {
         return getId();

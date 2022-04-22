@@ -18,14 +18,13 @@ package com.gitee.quiet.jpa.converter;
 
 import com.gitee.quiet.common.constant.Delimiter;
 import com.google.common.base.Joiner;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Set<Long> 与 String 的转换.
@@ -34,9 +33,9 @@ import java.util.StringTokenizer;
  */
 @Converter(autoApply = true)
 public class SetLongStringConverter implements AttributeConverter<Set<Long>, String> {
-    
+
     private static final String DELIMITER = Delimiter.COMMA;
-    
+
     @Override
     public String convertToDatabaseColumn(Set<Long> attribute) {
         if (CollectionUtils.isEmpty(attribute)) {
@@ -44,7 +43,7 @@ public class SetLongStringConverter implements AttributeConverter<Set<Long>, Str
         }
         return Joiner.on(DELIMITER).join(attribute);
     }
-    
+
     @Override
     public Set<Long> convertToEntityAttribute(String dbData) {
         Set<Long> attribute = new HashSet<>();

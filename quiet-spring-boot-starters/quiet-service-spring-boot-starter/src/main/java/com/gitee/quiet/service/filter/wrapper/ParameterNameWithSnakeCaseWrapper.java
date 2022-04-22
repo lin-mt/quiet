@@ -18,25 +18,24 @@ package com.gitee.quiet.service.filter.wrapper;
 
 import com.gitee.quiet.common.util.StringConverterUtil;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.ArrayUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 添加参数驼峰格式，同时不改变原有的下划线的参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper {
-    
+
     private final Enumeration<String> parameterNames;
-    
+
     private final Map<String, String[]> parameterMap;
-    
+
     /**
      * Constructs a request object wrapping the given request.
      *
@@ -61,17 +60,17 @@ public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper
         parameterNames = parameterNamesDatum.elements();
         parameterMap = Maps.newHashMap(parameterMapDatum);
     }
-    
+
     @Override
     public Enumeration<String> getParameterNames() {
         return this.parameterNames;
     }
-    
+
     @Override
     public String[] getParameterValues(String name) {
         return this.parameterMap.get(name);
     }
-    
+
     @Override
     public String getParameter(String name) {
         String[] values = parameterMap.get(name);
@@ -80,7 +79,7 @@ public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper
         }
         return null;
     }
-    
+
     @Override
     public Map<String, String[]> getParameterMap() {
         return parameterMap;

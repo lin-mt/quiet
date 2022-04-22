@@ -18,12 +18,11 @@ package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.BaseDTO;
 import com.gitee.quiet.system.entity.QuietUser;
+import java.util.List;
+import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * 团队.
@@ -33,30 +32,30 @@ import java.util.List;
 @Getter
 @Setter
 public class QuietTeamDTO extends BaseDTO {
-    
+
     /**
      * 团队名称
      */
     @NotBlank
     @Length(max = 16)
     private String teamName;
-    
+
     /**
      * 标语
      */
     @Length(max = 30)
     private String slogan;
-    
+
     /**
      * 团队PO
      */
     private List<QuietUser> productOwners;
-    
+
     /**
      * 团队SM
      */
     private List<QuietUser> scrumMasters;
-    
+
     /**
      * 团队成员
      */

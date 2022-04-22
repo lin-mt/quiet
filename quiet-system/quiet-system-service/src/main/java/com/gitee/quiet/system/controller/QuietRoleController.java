@@ -24,6 +24,7 @@ import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.vo.QuietRoleVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,8 +38,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 角色 Controller.
  *
@@ -48,11 +47,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/role")
 public class QuietRoleController {
-    
+
     private final QuietRoleService roleService;
-    
+
     private final QuietRoleConvert roleConvert;
-    
+
     /**
      * 以树形结构查询角色之间的关联信息.
      *
@@ -63,7 +62,7 @@ public class QuietRoleController {
         List<QuietRole> treeRoles = roleService.tree();
         return Result.success(roleConvert.entities2vos(treeRoles));
     }
-    
+
     /**
      * 分页查询角色.
      *
@@ -74,7 +73,7 @@ public class QuietRoleController {
         Page<QuietRole> rolePage = roleService.page(roleConvert.dto2entity(dto), dto.page());
         return Result.success(roleConvert.page2page(rolePage));
     }
-    
+
     /**
      * 新增角色.
      *
@@ -86,7 +85,7 @@ public class QuietRoleController {
         QuietRole save = roleService.save(roleConvert.dto2entity(dto));
         return Result.createSuccess(roleConvert.entity2vo(save));
     }
-    
+
     /**
      * 删除角色.
      *
@@ -99,7 +98,7 @@ public class QuietRoleController {
         roleService.deleteRole(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新角色.
      *
@@ -111,5 +110,5 @@ public class QuietRoleController {
         QuietRole update = roleService.update(roleConvert.dto2entity(dto));
         return Result.updateSuccess(roleConvert.entity2vo(update));
     }
-    
+
 }

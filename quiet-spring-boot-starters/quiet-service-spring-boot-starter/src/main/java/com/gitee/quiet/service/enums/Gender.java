@@ -23,17 +23,17 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Gender implements IntegerEnum {
-    
+
     /**
      * 女
      */
     FEMALE(0),
-    
+
     /**
      * 男
      */
     MALE(1),
     ;
-    
+
     private final Integer value;
 }

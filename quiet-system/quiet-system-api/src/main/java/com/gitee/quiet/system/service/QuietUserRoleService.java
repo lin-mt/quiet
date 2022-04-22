@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietUserRole;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietUserRoleService {
-    
+
     /**
      * 用户新增或更新角色信息.
      *
@@ -35,14 +34,14 @@ public interface QuietUserRoleService {
      * @return 用户-角色关联信息
      */
     QuietUserRole saveOrUpdate(QuietUserRole quietUserRole);
-    
+
     /**
      * 批量删除用户的角色信息.
      *
      * @param ids 要删除的id集合
      */
     void deleteByIds(List<Long> ids);
-    
+
     /**
      * 根据用户ID查询用户角色信息
      *
@@ -50,14 +49,14 @@ public interface QuietUserRoleService {
      * @return 用户角色信息
      */
     List<QuietUserRole> findByUserId(Long userId);
-    
+
     /**
      * 删除用户的角色信息
      *
      * @param userId 要删除角色信息的用户ID
      */
     void deleteByUserId(Long userId);
-    
+
     /**
      * 根据用户ID查询拥有的所有角色信息
      *
@@ -65,7 +64,7 @@ public interface QuietUserRoleService {
      * @return 角色信息
      */
     List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
-    
+
     /**
      * 删除某个用户的某个角色
      *
@@ -73,7 +72,7 @@ public interface QuietUserRoleService {
      * @param roleId 角色ID
      */
     void deleteUserRole(Long userId, Long roleId);
-    
+
     /**
      * 批量新增用户角色信息
      *

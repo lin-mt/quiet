@@ -30,9 +30,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 public class MessageSourceConfig {
-    
+
     public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
-    
+
     @Bean(QUIET_COMMON_MESSAGE_SOURCE)
     public MessageSource commonMessageSource(MessageSourceProperties properties) {
         MessageSourceProperties messageSourceProperties = new MessageSourceProperties();
@@ -40,5 +40,5 @@ public class MessageSourceConfig {
         messageSourceProperties.setBasename("quiet-common");
         return MessageSourceUtil.buildMessageSource(messageSourceProperties);
     }
-    
+
 }

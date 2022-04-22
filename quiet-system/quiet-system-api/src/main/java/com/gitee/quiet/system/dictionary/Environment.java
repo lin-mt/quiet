@@ -24,22 +24,22 @@ import com.gitee.quiet.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class Environment extends Dictionary<Environment> {
-    
+
     /**
      * 开发环境
      */
     public static final Environment Develop = new Environment("Develop");
-    
+
     /**
      * 测试环境
      */
     public static final Environment Test = new Environment("Test");
-    
+
     /**
      * 生产环境
      */
     public static final Environment Produce = new Environment("Produce");
-    
+
     private Environment(String key) {
         super(Environment.class.getSimpleName(), key);
     }

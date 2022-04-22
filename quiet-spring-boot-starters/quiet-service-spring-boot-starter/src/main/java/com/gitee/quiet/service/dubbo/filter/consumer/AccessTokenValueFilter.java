@@ -35,13 +35,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 @Activate(group = CommonConstants.CONSUMER)
 public class AccessTokenValueFilter implements Filter {
-    
+
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {
             String tokenValue = (String) ((ServletRequestAttributes) requestAttributes).getRequest()
-                    .getAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
+                .getAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
             invocation.setAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE, tokenValue);
         }
         return invoker.invoke(invocation);

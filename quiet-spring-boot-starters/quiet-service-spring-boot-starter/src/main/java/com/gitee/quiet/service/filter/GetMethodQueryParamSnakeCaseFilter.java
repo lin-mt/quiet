@@ -17,31 +17,30 @@
 package com.gitee.quiet.service.filter;
 
 import com.gitee.quiet.service.filter.wrapper.ParameterNameWithSnakeCaseWrapper;
-import org.springframework.http.HttpMethod;
-import org.springframework.lang.NonNull;
-import org.springframework.web.filter.OncePerRequestFilter;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.http.HttpMethod;
+import org.springframework.lang.NonNull;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Get 请求方法添加参数的驼峰格式，同时不修改原有参数信息.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class GetMethodQueryParamSnakeCaseFilter extends OncePerRequestFilter {
-    
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
+        @NonNull FilterChain filterChain) throws ServletException, IOException {
         if (HttpMethod.GET.name().equals(request.getMethod())) {
             filterChain.doFilter(new ParameterNameWithSnakeCaseWrapper(request), response);
             return;
         }
         filterChain.doFilter(request, response);
     }
-    
+
 }

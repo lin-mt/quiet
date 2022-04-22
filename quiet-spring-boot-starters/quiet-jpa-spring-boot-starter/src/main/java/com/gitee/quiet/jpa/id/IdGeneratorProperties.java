@@ -17,11 +17,10 @@
 package com.gitee.quiet.jpa.id;
 
 import com.gitee.quiet.jpa.utils.IdWorker;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import javax.annotation.PostConstruct;
 
 /**
  * ID 生成器配置.
@@ -30,15 +29,15 @@ import javax.annotation.PostConstruct;
  */
 @ConfigurationProperties(prefix = "quiet.jpa.id-generator")
 public class IdGeneratorProperties {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(IdGeneratorProperties.class);
-    
+
     private long workerId = 0L;
-    
+
     private long dataCenterId = 0L;
-    
+
     private int maxServerNumber = 10;
-    
+
     @PostConstruct
     public void checkIsLegal() {
         if (dataCenterId > maxServerNumber) {
@@ -51,15 +50,15 @@ public class IdGeneratorProperties {
         }
         IdGenerator.setIdWorker(new IdWorker(getMachineId()));
     }
-    
+
     private long getMachineId() {
         return workerId * maxServerNumber + dataCenterId;
     }
-    
+
     public long getWorkerId() {
         return workerId;
     }
-    
+
     public void setWorkerId(long workerId) {
         if (workerId < 0) {
             LOGGER.warn("workerId 不能小于 0，当前值：0");
@@ -67,11 +66,11 @@ public class IdGeneratorProperties {
             this.workerId = workerId;
         }
     }
-    
+
     public long getDataCenterId() {
         return dataCenterId;
     }
-    
+
     public void setDataCenterId(long dataCenterId) {
         if (dataCenterId < 0) {
             LOGGER.warn("dataCenterId 不能小于 0，当前值：0");
@@ -79,11 +78,11 @@ public class IdGeneratorProperties {
             this.dataCenterId = dataCenterId;
         }
     }
-    
+
     public int getMaxServerNumber() {
         return maxServerNumber;
     }
-    
+
     public void setMaxServerNumber(int maxServerNumber) {
         if (maxServerNumber < 1) {
             LOGGER.warn("maxServerNumber 不能小于 1，当前值：10");

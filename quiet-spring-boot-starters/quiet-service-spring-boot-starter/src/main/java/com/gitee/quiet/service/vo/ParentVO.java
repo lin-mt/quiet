@@ -16,21 +16,20 @@
 
 package com.gitee.quiet.service.vo;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 带有父子关系的 VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class ParentVO<T extends ParentVO<T>> extends BaseVO {
-    
+
     private Long parentId;
-    
+
     private List<T> children;
 }

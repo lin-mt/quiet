@@ -21,6 +21,7 @@ import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.UrlPermissionService;
 import com.gitee.quiet.service.security.filter.QuietUrlSecurityFilter;
 import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
+import java.util.Optional;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,8 +33,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
-import java.util.Optional;
-
 /**
  * Web 安全配置.
  *
@@ -44,37 +43,38 @@ import java.util.Optional;
 @ConditionalOnBean(UrlPermissionService.class)
 @EnableConfigurationProperties(QuietSecurityProperties.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     private final UrlPermissionService urlPermissionService;
-    
+
     private final GrantedAuthorityDefaults grantedAuthorityDefaults;
-    
+
     public WebSecurityConfig(Optional<UrlPermissionService> urlPermissionService,
-            Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
+        Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
         this.urlPermissionService = urlPermissionService.orElseThrow();
         this.grantedAuthorityDefaults = grantedAuthorityDefaults.orElse(null);
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) {
         http.addFilterBefore(quietUrlSecurityFilter(), FilterSecurityInterceptor.class);
     }
-    
+
     @Bean
     public QuietSecurityProperties quietSecurityProperties() {
         return new QuietSecurityProperties();
     }
-    
+
     @Bean
+    @ConditionalOnBean(RoleHierarchy.class)
     public QuietAccessDecisionManager quietAccessDecisionManager(RoleHierarchy roleHierarchy) {
         return new QuietAccessDecisionManager(roleHierarchy);
     }
-    
+
     @Bean
     public QuietUrlSecurityFilter quietUrlSecurityFilter() {
         return new QuietUrlSecurityFilter(quietSecurityProperties(), quietSecurityMetadataSource());
     }
-    
+
     @Bean
     public QuietSecurityMetadataSource quietSecurityMetadataSource() {
         return new QuietSecurityMetadataSource(urlPermissionService, grantedAuthorityDefaults);

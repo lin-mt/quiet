@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface QuietRoleConvert extends QuietConvert<QuietRole, QuietRoleDTO, QuietRoleVO> {
-    
+
 }

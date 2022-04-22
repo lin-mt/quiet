@@ -19,9 +19,9 @@ package com.gitee.quiet.jpa.properties;
 import java.util.List;
 
 public interface EnumScanPath {
-    
+
     String getPath();
-    
+
     default List<String> getPaths() {
         return List.of();
     }

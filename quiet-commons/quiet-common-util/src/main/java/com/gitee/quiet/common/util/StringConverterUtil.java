@@ -23,19 +23,19 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * String 风格转换工具.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class StringConverterUtil {
-    
+
     private static final Converter<String, String> UNDERSCORE_TO_CAMEL_CONVERTER = CaseFormat.LOWER_UNDERSCORE.converterTo(
-            CaseFormat.LOWER_CAMEL);
-    
+        CaseFormat.LOWER_CAMEL);
+
     private static final Converter<String, String> CAMEL_TO_UNDERSCORE_CONVERTER = CaseFormat.LOWER_CAMEL.converterTo(
-            CaseFormat.LOWER_UNDERSCORE);
-    
+        CaseFormat.LOWER_UNDERSCORE);
+
     private StringConverterUtil() {
     }
-    
+
     /**
      * 转为驼峰风格的字符串
      *
@@ -48,7 +48,7 @@ public final class StringConverterUtil {
         }
         return target;
     }
-    
+
     /**
      * 转为下划线风格的字符串
      *

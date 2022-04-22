@@ -22,13 +22,12 @@ import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.service.json.annotation.JsonHasRole;
+import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import java.util.Collection;
 
 /**
  * json 序列化属性根据当前角色过滤.
@@ -36,10 +35,10 @@ import java.util.Collection;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class HasRoleAnnotationFilter extends SimpleBeanPropertyFilter {
-    
+
     @Override
     public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer)
-            throws Exception {
+        throws Exception {
         boolean hasRolePermission = false;
         ServletRequestAttributes request = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (request != null && Url.REGISTER.equals(request.getRequest().getRequestURI())) {
@@ -48,7 +47,7 @@ public class HasRoleAnnotationFilter extends SimpleBeanPropertyFilter {
         JsonHasRole jsonHasRole = writer.getAnnotation(JsonHasRole.class);
         if (jsonHasRole != null && StringUtils.isNoneBlank(jsonHasRole.value())) {
             Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication()
-                    .getAuthorities();
+                .getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 if (jsonHasRole.value().equals(authority.getAuthority())) {
                     hasRolePermission = true;
@@ -62,5 +61,5 @@ public class HasRoleAnnotationFilter extends SimpleBeanPropertyFilter {
             super.serializeAsField(pojo, jgen, provider, writer);
         }
     }
-    
+
 }

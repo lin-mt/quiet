@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
 import com.gitee.quiet.common.core.entity.Serial;
-
 import java.io.IOException;
 import java.util.Collection;
 
@@ -32,11 +31,11 @@ import java.util.Collection;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class CustomCollectionDeserializer extends CollectionDeserializer {
-    
+
     public CustomCollectionDeserializer(CollectionDeserializer deserializer) {
         super(deserializer);
     }
-    
+
     @Override
     public Collection<Object> deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         Collection<Object> result = super.deserialize(parser, context);
@@ -49,10 +48,10 @@ public class CustomCollectionDeserializer extends CollectionDeserializer {
         }
         return result;
     }
-    
+
     @Override
     public CollectionDeserializer createContextual(DeserializationContext context, BeanProperty property)
-            throws JsonMappingException {
+        throws JsonMappingException {
         return new CustomCollectionDeserializer(super.createContextual(context, property));
     }
 }

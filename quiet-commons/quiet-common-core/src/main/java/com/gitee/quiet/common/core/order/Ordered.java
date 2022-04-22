@@ -22,11 +22,11 @@ import javax.annotation.Nullable;
  * 可排序
  */
 public interface Ordered extends Comparable<Ordered> {
-    
+
     default int getOrder() {
         return 0;
     }
-    
+
     default int compareTo(@Nullable Ordered other) {
         if (other == null) {
             return 1;

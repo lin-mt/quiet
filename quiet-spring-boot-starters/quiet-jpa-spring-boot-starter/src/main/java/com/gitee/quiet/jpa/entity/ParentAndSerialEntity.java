@@ -19,14 +19,13 @@ package com.gitee.quiet.jpa.entity;
 import com.gitee.quiet.common.core.entity.Parent;
 import com.gitee.quiet.common.core.entity.Serial;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 带有父子关系且有优先级信息的实体.
@@ -37,24 +36,24 @@ import java.util.List;
 @Setter
 @MappedSuperclass
 public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends BaseEntity implements Parent<T>, Serial {
-    
+
     /**
      * 序号
      */
     @Min(0)
     @Column(name = "serial_number", nullable = false)
     private int serialNumber = 0;
-    
+
     /**
      * 父级ID
      */
     @Column(name = "parent_id")
     private Long parentId;
-    
+
     /**
      * 子级信息
      */
     @Transient
     private List<T> children;
-    
+
 }

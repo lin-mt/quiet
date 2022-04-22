@@ -26,16 +26,16 @@ import com.gitee.quiet.web.json.modifier.QuietSerializerModifier;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietSimpleModule extends SimpleModule {
-    
+
     public QuietSimpleModule(String name) {
         super(name);
     }
-    
+
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
         context.addBeanDeserializerModifier(new QuietDeserializerModifier());
         context.addBeanSerializerModifier(new QuietSerializerModifier());
     }
-    
+
 }

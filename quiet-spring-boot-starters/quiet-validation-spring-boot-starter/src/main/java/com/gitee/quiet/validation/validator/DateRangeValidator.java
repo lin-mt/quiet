@@ -18,10 +18,9 @@ package com.gitee.quiet.validation.validator;
 
 import com.gitee.quiet.validation.annotation.DateRangeCheck;
 import com.gitee.quiet.validation.entity.DateRange;
-
+import java.util.Objects;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Objects;
 
 /**
  * 数据范围校验.
@@ -29,7 +28,7 @@ import java.util.Objects;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class DateRangeValidator implements ConstraintValidator<DateRangeCheck, DateRange> {
-    
+
     @Override
     public boolean isValid(DateRange value, ConstraintValidatorContext context) {
         if (Objects.nonNull(value)) {

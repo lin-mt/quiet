@@ -22,12 +22,12 @@ package com.gitee.quiet.common.constant.cache;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class Gateway {
-    
+
     /**
      * 路由信息的 key
      */
     public static final String ROUTE_DEFINITION = "quiet:gateway:route_definition";
-    
+
     private Gateway() {
     }
 }

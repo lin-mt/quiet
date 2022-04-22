@@ -17,11 +17,10 @@
 package com.gitee.quiet.service.dto;
 
 import com.gitee.quiet.common.core.entity.Parent;
+import java.util.List;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Transient;
-import java.util.List;
 
 /**
  * 带有父级ID的DTO.
@@ -31,13 +30,13 @@ import java.util.List;
 @Getter
 @Setter
 public class ParentDTO<T extends ParentDTO<T>> extends BaseDTO implements Parent<T> {
-    
+
     /**
      * 父级ID
      */
     private Long parentId;
-    
+
     @Transient
     private List<T> children;
-    
+
 }

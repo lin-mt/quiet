@@ -17,18 +17,17 @@
 package com.gitee.quiet.jpa.properties;
 
 import com.gitee.quiet.jpa.enums.converter.CustomerEnumType;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.List;
 
 @Getter
 @Setter
 @ConfigurationProperties("quiet.jpa")
 public class JpaCustomEnumProperties {
-    
+
     private List<String> customerEnumPackages;
-    
+
     private List<CustomerEnumType> customerEnumTypes;
 }

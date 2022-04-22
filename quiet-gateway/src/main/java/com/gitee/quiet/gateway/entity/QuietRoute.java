@@ -16,10 +16,9 @@
 
 package com.gitee.quiet.gateway.entity;
 
-import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * 路由信息.
@@ -28,57 +27,57 @@ import java.util.Set;
  */
 @Validated
 public class QuietRoute {
-    
+
     @NotBlank
     private String routeId;
-    
+
     @NotBlank
     private String uri;
-    
+
     private int order;
-    
+
     private Set<String> predicates;
-    
+
     private Set<String> filters;
-    
+
     public String getRouteId() {
         return routeId;
     }
-    
+
     public void setRouteId(String routeId) {
         this.routeId = routeId;
     }
-    
+
     public String getUri() {
         return uri;
     }
-    
+
     public void setUri(String uri) {
         this.uri = uri;
     }
-    
+
     public int getOrder() {
         return order;
     }
-    
+
     public void setOrder(int order) {
         this.order = order;
     }
-    
+
     public Set<String> getPredicates() {
         return predicates;
     }
-    
+
     public void setPredicates(Set<String> predicates) {
         this.predicates = predicates;
     }
-    
+
     public Set<String> getFilters() {
         return filters;
     }
-    
+
     public void setFilters(Set<String> filters) {
         this.filters = filters;
     }
-    
+
 }

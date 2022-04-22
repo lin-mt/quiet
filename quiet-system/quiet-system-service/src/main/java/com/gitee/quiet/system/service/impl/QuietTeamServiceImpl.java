@@ -33,6 +33,13 @@ import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -40,16 +47,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
-
 
 /**
  * 团队 Service 实现类.
@@ -59,22 +57,22 @@ import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
 @Service
 @DubboService
 public class QuietTeamServiceImpl implements QuietTeamService {
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final QuietTeamRepository teamRepository;
-    
+
     private final QuietTeamUserService teamUserService;
-    
+
     private final QuietTeamUserRoleService teamUserRoleService;
-    
+
     private final QuietRoleService roleService;
-    
+
     private final QuietUserService userService;
-    
+
     public QuietTeamServiceImpl(JPAQueryFactory jpaQueryFactory, QuietTeamRepository teamRepository,
-            QuietTeamUserService teamUserService, QuietTeamUserRoleService teamUserRoleService,
-            QuietRoleService roleService, QuietUserService userService) {
+        QuietTeamUserService teamUserService, QuietTeamUserRoleService teamUserRoleService,
+        QuietRoleService roleService, QuietUserService userService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.teamRepository = teamRepository;
         this.teamUserService = teamUserService;
@@ -82,7 +80,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         this.roleService = roleService;
         this.userService = userService;
     }
-    
+
     @Override
     public Page<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
@@ -91,14 +89,14 @@ public class QuietTeamServiceImpl implements QuietTeamService {
             Set<Long> teamIds = result.getContent().stream().map(QuietTeam::getId).collect(Collectors.toSet());
             List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
             Map<Long, List<QuietTeamUser>> teamIdToTeamUsers = allTeamUsers.stream()
-                    .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
+                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
             Set<Long> allUserIds = allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
             List<QuietTeamUserRole> userTeamRoles = teamUserRoleService.findByTeamUserIds(
-                    allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+                allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
             Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles = userTeamRoles.stream()
-                    .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
+                .collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
             Map<Long, QuietUser> userIdToUserInfo = userService.findByUserIds(allUserIds).stream()
-                    .collect(Collectors.toMap(QuietUser::getId, u -> u));
+                .collect(Collectors.toMap(QuietUser::getId, u -> u));
             QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
             QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
             for (QuietTeam quietTeam : result.getContent()) {
@@ -126,12 +124,12 @@ public class QuietTeamServiceImpl implements QuietTeamService {
                     quietTeam.setProductOwners(teamProductOwners);
                     quietTeam.setScrumMasters(teamScrumMasters);
                 }
-                
+
             }
         }
         return result;
     }
-    
+
     @Override
     public QuietTeam saveOrUpdate(@NotNull QuietTeam team) {
         QuietTeam exist = teamRepository.getByTeamName(team.getTeamName());
@@ -152,18 +150,18 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         // 添加 PO 角色
         if (CollectionUtils.isNotEmpty(team.getProductOwners())) {
             teamUserRoleService.addRoleForTeam(quietTeam.getId(),
-                    team.getProductOwners().stream().map(QuietUser::getId).collect(Collectors.toSet()),
-                    RoleNames.ProductOwner);
+                team.getProductOwners().stream().map(QuietUser::getId).collect(Collectors.toSet()),
+                RoleNames.ProductOwner);
         }
         // 添加 SM 角色
         if (CollectionUtils.isNotEmpty(team.getScrumMasters())) {
             teamUserRoleService.addRoleForTeam(quietTeam.getId(),
-                    team.getScrumMasters().stream().map(QuietUser::getId).collect(Collectors.toSet()),
-                    RoleNames.ScrumMaster);
+                team.getScrumMasters().stream().map(QuietUser::getId).collect(Collectors.toSet()),
+                RoleNames.ScrumMaster);
         }
         return quietTeam;
     }
-    
+
     private void addMemberId(@NotNull Set<Long> memberIds, List<QuietUser> members) {
         if (CollectionUtils.isNotEmpty(members)) {
             for (QuietUser member : members) {
@@ -171,7 +169,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
             }
         }
     }
-    
+
     @Override
     public void deleteTeam(@NotNull Long deleteId) {
         // TODO 删除团队中的成员信息
@@ -180,7 +178,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         // 删除团队信息
         teamRepository.deleteById(deleteId);
     }
-    
+
     @Override
     public List<QuietTeam> listTeamsByTeamName(String teamName, int limit) {
         BooleanBuilder builder = new BooleanBuilder();
@@ -194,23 +192,23 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         }
         return query.fetchResults().getResults();
     }
-    
+
     @Override
     public List<QuietTeam> findAllByIds(Set<Long> ids) {
         return teamRepository.findAllById(ids);
     }
-    
+
     @Override
     public List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids) {
         List<QuietTeam> teams = teamRepository.findAllById(ids);
         List<QuietTeamUser> teamUsers = teamUserService.findAllUsersByTeamIds(ids);
         Map<Long, Set<Long>> teamIdToUserIds = teamUsers.stream()
-                .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(
-                        Collectors.toMap(Map.Entry::getKey,
-                                e -> e.getValue().stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet())));
+            .collect(Collectors.groupingBy(QuietTeamUser::getTeamId)).entrySet().stream().collect(
+                Collectors.toMap(Map.Entry::getKey,
+                    e -> e.getValue().stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet())));
         Set<Long> userIds = teamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
         Map<Long, QuietUser> userIdToInfo = userService.findByUserIds(userIds).stream()
-                .collect(Collectors.toMap(QuietUser::getId, u -> u));
+            .collect(Collectors.toMap(QuietUser::getId, u -> u));
         for (QuietTeam team : teams) {
             List<QuietUser> members = new ArrayList<>();
             for (Long userId : teamIdToUserIds.get(team.getId())) {

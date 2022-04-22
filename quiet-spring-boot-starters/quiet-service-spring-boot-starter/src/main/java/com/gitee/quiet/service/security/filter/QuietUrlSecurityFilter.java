@@ -19,6 +19,13 @@ package com.gitee.quiet.service.security.filter;
 import com.gitee.quiet.service.security.QuietAccessDecisionManager;
 import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +37,6 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
 /**
  * Url 过滤.
  *
@@ -45,19 +44,19 @@ import java.io.IOException;
  */
 @AllArgsConstructor
 public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implements Filter {
-    
+
     private final QuietSecurityProperties quietSecurityProperties;
-    
+
     private final QuietSecurityMetadataSource quietSecurityMetadataSource;
-    
+
     @Autowired
     public void setAccessDecisionManager(QuietAccessDecisionManager accessDecisionManager) {
         super.setAccessDecisionManager(accessDecisionManager);
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
         if (HttpMethod.OPTIONS.matches(servletRequest.getMethod())) {
@@ -82,12 +81,12 @@ public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implemen
             super.afterInvocation(token, null);
         }
     }
-    
+
     @Override
     public Class<?> getSecureObjectClass() {
         return FilterInvocation.class;
     }
-    
+
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
         return quietSecurityMetadataSource;

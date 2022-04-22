@@ -24,16 +24,6 @@ import com.gitee.quiet.system.repository.QuietRoleRepository;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.BooleanBuilder;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,6 +34,15 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 /**
  * 角色 Service 实现类.
@@ -52,52 +51,52 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuietRoleServiceImpl implements QuietRoleService {
-    
+
     private final QuietRoleRepository roleRepository;
-    
+
     private final QuietPermissionService permissionService;
-    
+
     private String rolePrefix = "ROLE_";
-    
+
     public QuietRoleServiceImpl(Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults,
-            QuietRoleRepository roleRepository, QuietPermissionService permissionService) {
+        QuietRoleRepository roleRepository, QuietPermissionService permissionService) {
         grantedAuthorityDefaults.ifPresent(prefix -> rolePrefix = prefix.getRolePrefix());
         this.roleRepository = roleRepository;
         this.permissionService = permissionService;
     }
-    
+
     @Override
     public QuietRole save(@NotNull QuietRole quietRole) {
         checkRoleInfo(quietRole);
         return roleRepository.save(quietRole);
     }
-    
+
     @Override
     public QuietRole update(@NotNull QuietRole quietRole) {
         checkRoleInfo(quietRole);
         return roleRepository.saveAndFlush(quietRole);
     }
-    
+
     @Override
     public boolean delete(@NotNull Long deleteId) {
         roleRepository.deleteById(deleteId);
         return true;
     }
-    
+
     @Override
     public List<QuietRole> findAllByIds(@NotNull @NotEmpty Collection<Long> ids) {
         return roleRepository.findAllById(ids);
     }
-    
+
     @Override
     public Page<QuietRole> page(QuietRole params, @NotNull Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
         Page<QuietRole> roles = roleRepository.findAll(predicate, page);
         if (!roles.isEmpty()) {
             Set<Long> parentIds = roles.getContent().stream().map(QuietRole::getParentId)
-                    .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());
+                .filter(parentId -> !Objects.isNull(parentId)).collect(Collectors.toSet());
             Map<Long, QuietRole> idToRoleInfo = roleRepository.findAllById(parentIds).stream()
-                    .collect(Collectors.toMap(QuietRole::getId, role -> role));
+                .collect(Collectors.toMap(QuietRole::getId, role -> role));
             for (QuietRole role : roles.getContent()) {
                 if (role.getParentId() != null) {
                     role.setParentRoleName(idToRoleInfo.get(role.getParentId()).getRoleName());
@@ -106,7 +105,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         }
         return roles;
     }
-    
+
     @Override
     public void deleteRole(@NotNull Long deleteId) {
         Optional<QuietRole> exist = roleRepository.findById(deleteId);
@@ -123,12 +122,12 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         }
         roleRepository.deleteById(deleteId);
     }
-    
+
     @Override
     public boolean existsById(@NotNull Long roleId) {
         return roleRepository.existsById(roleId);
     }
-    
+
     @Override
     public List<QuietRole> tree() {
         List<QuietRole> allRole = roleRepository.findAll();
@@ -146,12 +145,12 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         }
         return result;
     }
-    
+
     @Override
     public List<QuietRole> findAllById(@NotNull @NotEmpty Set<Long> roleIds) {
         return roleRepository.findAllById(roleIds);
     }
-    
+
     @NotNull
     @Override
     public QuietRole findByRoleName(@NotNull String roleName) {
@@ -161,7 +160,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
         }
         return quietRole;
     }
-    
+
     @Override
     public List<QuietRole> getReachableGrantedAuthorities(Collection<? extends GrantedAuthority> authorities) {
         // TODO 添加缓存
@@ -179,11 +178,11 @@ public class QuietRoleServiceImpl implements QuietRoleService {
             }).collect(Collectors.toSet()));
             Set<Long> parentIds = roles.stream().map(QuietRole::getId).collect(Collectors.toSet());
             roleNames = roleRepository.findByParentIdIn(parentIds).stream().map(QuietRole::getRoleName)
-                    .collect(Collectors.toSet());
+                .collect(Collectors.toSet());
         }
         return reachableRoles;
     }
-    
+
     private void checkRoleInfo(@NotNull QuietRole role) {
         QuietRole quietRole = roleRepository.findByRoleName(role.getRoleName());
         if (quietRole != null && !quietRole.getId().equals(role.getId())) {

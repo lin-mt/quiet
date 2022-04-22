@@ -20,18 +20,17 @@ import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 
@@ -45,7 +44,7 @@ import static com.gitee.quiet.system.entity.QQuietRoute.quietRoute;
 @Entity
 @Table(name = "quiet_route")
 public class QuietRoute extends BaseEntity {
-    
+
     /**
      * 网关的路由ID
      */
@@ -53,14 +52,14 @@ public class QuietRoute extends BaseEntity {
     @Length(max = 60)
     @Column(name = "route_id", length = 60, nullable = false)
     private String routeId;
-    
+
     /**
      * 环境，用于批量修改发布
      */
     @NotNull
     @Column(name = "environment", length = 30, nullable = false)
     private Dictionary<?> environment;
-    
+
     /**
      * 路由目标
      */
@@ -68,62 +67,62 @@ public class QuietRoute extends BaseEntity {
     @Length(max = 200)
     @Column(name = "uri", length = 200, nullable = false)
     private String uri;
-    
+
     /**
      * 排序
      */
     @Column(name = "route_order", nullable = false)
     private int order;
-    
+
     /**
      * 匹配规则
      */
     @Column(name = "predicates", length = 1000)
     private Set<String> predicates;
-    
+
     /**
      * 过滤
      */
     @Column(name = "filters", length = 1000)
     private Set<String> filters;
-    
+
     @Length(max = 300)
     @Column(name = "remark", length = 300)
     private String remark;
-    
+
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
         return SelectBuilder.booleanBuilder()
-                .notBlankContains(getRouteId(), quietRoute.routeId)
-                .notNullEq(getEnvironment(), quietRoute.environment)
-                .notBlankContains(getUri(), quietRoute.uri)
-                .notBlankContains(getRemark(), quietRoute.remark)
-                .getPredicate();
+            .notBlankContains(getRouteId(), quietRoute.routeId)
+            .notNullEq(getEnvironment(), quietRoute.environment)
+            .notBlankContains(getUri(), quietRoute.uri)
+            .notBlankContains(getRemark(), quietRoute.remark)
+            .getPredicate();
         // @formatter:on
     }
-    
+
     public void addPredicate(String predicate) {
         if (getPredicates() == null) {
             setPredicates(new HashSet<>());
         }
         getPredicates().add(predicate);
     }
-    
+
     public void removePredicate(String predicate) {
         if (getPredicates() != null) {
             getPredicates().remove(predicate);
         }
     }
-    
+
     public void addFilter(String filter) {
         if (getFilters() == null) {
             setFilters(new HashSet<>());
         }
         getFilters().add(filter);
     }
-    
+
     public void removeFilter(String filter) {
         if (getFilters() != null) {
             getFilters().remove(filter);

@@ -31,6 +31,16 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -40,17 +50,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
@@ -62,24 +61,24 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 @Service
 @DubboService
 public class QuietUserServiceImpl implements QuietUserService {
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final PasswordEncoder passwordEncoder;
-    
+
     private final QuietUserRepository userRepository;
-    
+
     private final QuietUserRoleService userRoleService;
-    
+
     private final QuietRoleService roleService;
-    
+
     private final QuietDepartmentUserService departmentUserService;
-    
+
     private final QuietTeamUserService teamUserService;
-    
+
     public QuietUserServiceImpl(JPAQueryFactory jpaQueryFactory, PasswordEncoder passwordEncoder,
-            QuietUserRepository userRepository, QuietUserRoleService userRoleService, QuietRoleService roleService,
-            QuietDepartmentUserService departmentUserService, QuietTeamUserService teamUserService) {
+        QuietUserRepository userRepository, QuietUserRoleService userRoleService, QuietRoleService roleService,
+        QuietDepartmentUserService departmentUserService, QuietTeamUserService teamUserService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -88,7 +87,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         this.departmentUserService = departmentUserService;
         this.teamUserService = teamUserService;
     }
-    
+
     @Override
     public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
         QuietUser user = userRepository.getByUsername(username);
@@ -104,7 +103,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         }
         return user;
     }
-    
+
     @Override
     public QuietUser save(@NotNull QuietUser quietUser) {
         if (userRepository.getByUsername(quietUser.getUsername()) != null) {
@@ -113,7 +112,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         quietUser.setSecretCode(passwordEncoder.encode(quietUser.getSecretCode()));
         return userRepository.saveAndFlush(quietUser);
     }
-    
+
     @Override
     public boolean delete(@NotNull Long deleteId) {
         // 删除用户-角色信息
@@ -127,7 +126,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         userRepository.deleteById(deleteId);
         return true;
     }
-    
+
     @Override
     public QuietUser update(@NotNull QuietUser user) {
         QuietUser exist = userRepository.getByUsername(user.getUsername());
@@ -137,7 +136,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         user.setSecretCode(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
-    
+
     @Override
     public Page<QuietUser> page(QuietUser params, @NotNull Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
@@ -151,22 +150,22 @@ public class QuietUserServiceImpl implements QuietUserService {
         }
         return results;
     }
-    
+
     @Override
     public boolean existsById(@NotNull Long userId) {
         return userRepository.existsById(userId);
     }
-    
+
     @Override
     public Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds) {
         if (CollectionUtils.isNotEmpty(userIds)) {
             List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
             if (CollectionUtils.isNotEmpty(allUserRoles)) {
                 Map<Long, List<QuietUserRole>> userIdToUserRoles = allUserRoles.stream()
-                        .collect(Collectors.groupingBy(QuietUserRole::getUserId));
+                    .collect(Collectors.groupingBy(QuietUserRole::getUserId));
                 Set<Long> roleIds = allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
                 Map<Long, QuietRole> roleIdToRoleInfo = roleService.findAllByIds(roleIds).stream()
-                        .collect(Collectors.toMap(QuietRole::getId, val -> val));
+                    .collect(Collectors.toMap(QuietRole::getId, val -> val));
                 Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
                 for (Long userId : userIds) {
                     List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
@@ -182,27 +181,27 @@ public class QuietUserServiceImpl implements QuietUserService {
         }
         return Collections.emptyMap();
     }
-    
+
     @Override
     public List<QuietUser> findByUserIds(@NotNull @NotEmpty Set<Long> userIds) {
         return jpaQueryFactory.select(
-                Projections.bean(QuietUser.class, quietUser.id, quietUser.fullName, quietUser.username,
-                        quietUser.avatar)).from(quietUser).where(quietUser.id.in(userIds)).fetch();
+            Projections.bean(QuietUser.class, quietUser.id, quietUser.fullName, quietUser.username,
+                quietUser.avatar)).from(quietUser).where(quietUser.id.in(userIds)).fetch();
     }
-    
+
     @Override
     public List<QuietUser> listUsersByName(String name, int limit) {
         if (StringUtils.isBlank(name)) {
             return new ArrayList<>();
         }
         JPAQuery<QuietUser> query = jpaQueryFactory.selectFrom(quietUser)
-                .where(quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
+            .where(quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
         if (limit > 0) {
             query.limit(limit);
         }
         return query.fetchResults().getResults();
     }
-    
+
     @Override
     public QuietUser findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new ServiceException("user.id.not.exist", id));

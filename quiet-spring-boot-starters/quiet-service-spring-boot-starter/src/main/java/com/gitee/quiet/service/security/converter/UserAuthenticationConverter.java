@@ -18,16 +18,15 @@ package com.gitee.quiet.service.security.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * ResourceAuthentication 和 ResourceServer之间的用户信息转换.
@@ -37,11 +36,11 @@ import java.util.Map;
 @AllArgsConstructor
 @SuppressWarnings("deprecation")
 public class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
-    
+
     public static final String QUIET_USER_DETAILS = "quiet_user_details";
-    
+
     private final ObjectMapper objectMapper;
-    
+
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> response = new LinkedHashMap<>();
@@ -52,7 +51,7 @@ public class UserAuthenticationConverter extends DefaultUserAuthenticationConver
         response.put(QUIET_USER_DETAILS, authentication.getPrincipal());
         return response;
     }
-    
+
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
         if (map.containsKey(QUIET_USER_DETAILS)) {

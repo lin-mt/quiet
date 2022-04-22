@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.gitee.quiet.web.json.modifier.serializer.CustomCollectionSerializer;
-
 import java.util.List;
 
 /**
@@ -32,14 +31,14 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class QuietSerializerModifier extends BeanSerializerModifier {
-    
+
     @Override
     public JsonSerializer<?> modifyCollectionSerializer(SerializationConfig config, CollectionType valueType,
-            BeanDescription beanDesc, JsonSerializer<?> serializer) {
+        BeanDescription beanDesc, JsonSerializer<?> serializer) {
         if (serializer instanceof IndexedListSerializer && List.class.isAssignableFrom(beanDesc.getBeanClass())) {
             return new CustomCollectionSerializer((IndexedListSerializer) serializer, config.getTypeFactory());
         }
         return super.modifyCollectionSerializer(config, valueType, beanDesc, serializer);
     }
-    
+
 }
