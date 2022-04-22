@@ -21,13 +21,12 @@ import com.gitee.quiet.doc.model.Cookie;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.HttpProtocol;
 import com.gitee.quiet.service.vo.BaseVO;
+import java.util.List;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 项目环境VO.

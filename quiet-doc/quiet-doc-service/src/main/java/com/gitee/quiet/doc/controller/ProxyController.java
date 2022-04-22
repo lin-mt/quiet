@@ -17,6 +17,8 @@
 
 package com.gitee.quiet.doc.controller;
 
+import java.io.IOException;
+import java.util.Objects;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -24,9 +26,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * 请求代理.
@@ -36,9 +35,9 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/proxy")
 public class ProxyController {
-    
+
     private final OkHttpClient client = new OkHttpClient();
-    
+
     @GetMapping("/swagger")
     public String swagger(@RequestParam("path") String path) throws IOException {
         try (Response response = client.newCall(new Request.Builder().url(path).get().build()).execute()) {

@@ -18,11 +18,10 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.jpa.repository.QuietRepository;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Project Repository.
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface DocProjectRepository extends QuietRepository<DocProject> {
-    
+
     /**
      * 根据用户ID查询用户负责的项目和可访问的项目
      *

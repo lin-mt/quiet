@@ -18,9 +18,8 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.jpa.repository.QuietRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 接口文档Repository.
@@ -29,7 +28,7 @@ import java.util.List;
  */
 @Repository
 public interface DocApiRepository extends QuietRepository<DocApi> {
-    
+
     /**
      * 根据项目ID查询所有接口文档
      *
@@ -37,7 +36,7 @@ public interface DocApiRepository extends QuietRepository<DocApi> {
      * @return 接口文档信息
      */
     List<DocApi> findAllByProjectId(Long projectId);
-    
+
     /**
      * 根据项目ID和接口名称查询接口文档信息
      *
@@ -46,7 +45,7 @@ public interface DocApiRepository extends QuietRepository<DocApi> {
      * @return 接口文档信息
      */
     DocApi findByProjectIdAndName(Long projectId, String name);
-    
+
     /**
      * 根据分组ID查询在该分组的所有接口文档
      *

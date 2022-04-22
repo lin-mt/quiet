@@ -35,17 +35,17 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * api信息Controller.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api-info")
 public class DocApiInfoController {
-    
+
     private final DocApiInfoConvert convert;
-    
+
     private final DocApiInfoService service;
-    
+
     /**
      * 新建apiInfo
      *
@@ -57,7 +57,7 @@ public class DocApiInfoController {
         DocApiInfo save = service.save(convert.dto2entity(dto));
         return Result.success(convert.entity2vo(save));
     }
-    
+
     /**
      * 更新apiInfo信息
      *
@@ -69,5 +69,5 @@ public class DocApiInfoController {
         DocApiInfo update = service.update(convert.dto2entity(dto));
         return Result.updateSuccess(convert.entity2vo(update));
     }
-    
+
 }

@@ -23,6 +23,7 @@ import com.gitee.quiet.doc.entity.DocProjectEnvironment;
 import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
 import com.gitee.quiet.doc.vo.DocProjectEnvironmentVO;
 import com.gitee.quiet.service.result.Result;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * 项目环境接口.
@@ -72,9 +71,10 @@ public class DocProjectEnvironmentController {
         DocProjectEnvironment update = service.update(converter.dto2entity(dto));
         return Result.updateSuccess(converter.entity2vo(update));
     }
-    
+
     /**
      * 根据ID删除环境配置
+     *
      * @param id 环境配置ID
      * @return 删除结果
      */

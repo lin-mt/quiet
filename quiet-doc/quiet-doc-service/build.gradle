@@ -29,6 +29,6 @@ dependencies {
 
 compileJava {
     options.compilerArgs += [
-            '-Amapstruct.defaultComponentModel=spring',
+        '-Amapstruct.defaultComponentModel=spring',
     ]
 }

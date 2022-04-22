@@ -18,11 +18,10 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.jpa.repository.QuietRepository;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Api 分组Repository.
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface DocApiGroupRepository extends QuietRepository<DocApiGroup> {
-    
+
     /**
      * 根据项目ID和分组名称查询分组信息
      *
@@ -40,7 +39,7 @@ public interface DocApiGroupRepository extends QuietRepository<DocApiGroup> {
      * @return 分组信息
      */
     DocApiGroup findByProjectIdAndName(Long projectId, String name);
-    
+
     /**
      * 根据项目ID查询所有接口分组
      *
@@ -48,7 +47,7 @@ public interface DocApiGroupRepository extends QuietRepository<DocApiGroup> {
      * @return 项目所有接口分组
      */
     List<DocApiGroup> findAllByProjectId(Long projectId);
-    
+
     /**
      * 根据项目Id和项目名称模糊查询指定数据的分组信息
      *
@@ -58,7 +57,7 @@ public interface DocApiGroupRepository extends QuietRepository<DocApiGroup> {
      * @return 分组信息
      */
     @Query(nativeQuery = true, value = "select * from doc_api_group "
-            + "where project_id = :projectId and group_name like concat('%', :name, '%') limit :limit")
+        + "where project_id = :projectId and group_name like concat('%', :name, '%') limit :limit")
     List<DocApiGroup> findAllByProjectIdAndName(@Param("projectId") Long projectId, @Param("name") String name,
-            @Param("limit") long limit);
+        @Param("limit") long limit);
 }

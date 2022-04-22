@@ -28,16 +28,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApiState implements IntegerEnum {
-    
+
     /**
      * 未完成
      */
     UNFINISHED(0),
-    
+
     /**
      * 已完成
      */
     FINISHED(1);
-    
+
     private final Integer value;
 }

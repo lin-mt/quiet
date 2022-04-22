@@ -4,6 +4,18 @@ import com.gitee.quiet.common.util.JsonUtils;
 import com.gitee.quiet.doc.entity.DocProjectEnvironment;
 import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
 import com.google.common.io.ByteStreams;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
@@ -19,38 +31,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 @Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/request")
 public class RequestController {
-    
+
     private static final String DEFAULT_HOSTNAME = "http://127.0.0.1:9363";
-    
+
     private static final String REMOVED_FORMAT = "/request/%s";
-    
+
     private static final Long NONE_SELECTED_ENVIRONMENT_ID = 0L;
-    
+
     private final OkHttpClient client = new OkHttpClient();
-    
+
     private final DocProjectEnvironmentService projectEnvironmentService;
-    
+
     @RequestMapping("/{environmentId}/**")
     public void request(final HttpServletRequest servletRequest, final HttpServletResponse servletResponse,
-            @PathVariable Long environmentId) throws IOException {
+        @PathVariable Long environmentId) throws IOException {
         RequestBody requestBody;
         String contentType = servletRequest.getContentType();
         MediaType mediaType = null;
@@ -75,7 +74,7 @@ public class RequestController {
                             partRequestBody = RequestBody.create(requestBodyBytes);
                         }
                         MultipartBody.Part partBody = MultipartBody.Part.createFormData(part.getName(),
-                                part.getSubmittedFileName(), partRequestBody);
+                            part.getSubmittedFileName(), partRequestBody);
                         multipartBodyBuilder.addPart(partBody);
                     }
                 }
@@ -96,7 +95,7 @@ public class RequestController {
                 hostname = DEFAULT_HOSTNAME;
             }
             String path = servletRequest.getRequestURI()
-                    .substring(String.format(REMOVED_FORMAT, environmentId).length());
+                .substring(String.format(REMOVED_FORMAT, environmentId).length());
             if (StringUtils.isNotBlank(servletRequest.getQueryString())) {
                 path = path + "?" + servletRequest.getQueryString();
             }
@@ -125,7 +124,7 @@ public class RequestController {
             servletResponse.getOutputStream().write(JsonUtils.toJsonString(exception).getBytes(StandardCharsets.UTF_8));
         }
     }
-    
+
     private Request.Builder getBuilderByMethod(String url, String method, RequestBody requestBody) {
         Request.Builder builder = new Request.Builder().url(url);
         if ("GET".equalsIgnoreCase(method)) {
@@ -143,5 +142,5 @@ public class RequestController {
         }
         return builder;
     }
-    
+
 }

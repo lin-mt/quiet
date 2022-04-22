@@ -17,7 +17,6 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApiGroup;
-
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiGroupService {
-    
+
     /**
      * 新建接口分组
      *
@@ -34,7 +33,7 @@ public interface DocApiGroupService {
      * @return 新建的接口分组
      */
     DocApiGroup save(DocApiGroup save);
-    
+
     /**
      * 更新接口分组
      *
@@ -42,14 +41,14 @@ public interface DocApiGroupService {
      * @return 更新后的接口分组
      */
     DocApiGroup update(DocApiGroup update);
-    
+
     /**
      * 根据接口分组ID删除信息
      *
      * @param id 要删除的接口分组ID
      */
     void deleteById(Long id);
-    
+
     /**
      * 根据项目ID查询所有接口分组信息
      *
@@ -57,7 +56,7 @@ public interface DocApiGroupService {
      * @return 所有接口分组信息
      */
     List<DocApiGroup> listByProjectId(Long projectId);
-    
+
     /**
      * 根据项目ID和接口名称查询接口分组信息
      *
@@ -67,7 +66,7 @@ public interface DocApiGroupService {
      * @return 接口分组信息
      */
     List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit);
-    
+
     /**
      * 根据ID查询分组信息
      *

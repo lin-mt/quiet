@@ -33,16 +33,16 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component("HasDocProjectPermission")
 public class HasDocProjectPermission {
-    
+
     private final DocProjectRepository projectRepository;
-    
+
     private final String CACHE_NAME = "quiet:doc:project:permission";
-    
+
     @Cacheable(cacheNames = CACHE_NAME, key = "#id", condition = "#id != null ", sync = true)
     public DocProject getById(Long id) {
         return projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
     }
-    
+
     public boolean visit(Long projectId) {
         if (CurrentUserUtil.isAdmin()) {
             return true;
@@ -54,14 +54,14 @@ public class HasDocProjectPermission {
         }
         return currentUserId.equals(docProject.getPrincipal());
     }
-    
+
     public boolean edit(Long projectId) {
         if (CurrentUserUtil.isAdmin()) {
             return true;
         }
         return getById(projectId).getPrincipal().equals(CurrentUserUtil.getId());
     }
-    
+
     public boolean delete(Long projectId) {
         if (CurrentUserUtil.isAdmin()) {
             return true;

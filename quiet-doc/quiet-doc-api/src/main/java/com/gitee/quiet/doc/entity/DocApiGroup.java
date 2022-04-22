@@ -17,15 +17,14 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.jpa.entity.SerialEntity;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * Api 分组信息.
@@ -37,7 +36,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "doc_api_group")
 public class DocApiGroup extends SerialEntity {
-    
+
     /**
      * 分组名称
      */
@@ -45,14 +44,14 @@ public class DocApiGroup extends SerialEntity {
     @Length(max = 30)
     @Column(name = "group_name", length = 30, nullable = false)
     private String name;
-    
+
     /**
      * 所属项目ID
      */
     @NotNull
     @Column(name = "project_id", nullable = false)
     private Long projectId;
-    
+
     /**
      * 备注
      */

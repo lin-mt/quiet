@@ -24,48 +24,48 @@ import lombok.Setter;
 /**
  * Form请求参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 @EqualsAndHashCode
 public class FormParam {
-    
+
     /**
      * 参数名称
      */
     private String name;
-    
+
     /**
      * 是否必须
      */
     private boolean required;
-    
+
     /**
      * 参数类型
      */
     private FormParamType type;
-    
+
     /**
      * 最小长度
      */
     private Long minLength;
-    
+
     /**
      * 最大长度
      */
     private Long maxLength;
-    
+
     /**
      * ContentType
      */
     private String contentType;
-    
+
     /**
      * 参数示例
      */
     private String example;
-    
+
     /**
      * 备注
      */

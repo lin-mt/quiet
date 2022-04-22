@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface DocApiConvert extends QuietConvert<DocApi, DocApiDTO, DocApiVO> {
-    
+
 }

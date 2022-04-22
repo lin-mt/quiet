@@ -25,9 +25,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = Doc.class)
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class QuietDocServiceApplication {
-    
+
     public static void main(String[] args) {
         SpringApplication.run(QuietDocServiceApplication.class, args);
     }
-    
+
 }

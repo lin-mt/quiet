@@ -21,10 +21,10 @@ import com.gitee.quiet.doc.entity.DocApiInfo;
 /**
  * api 信息 Service.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocApiInfoService {
-    
+
     /**
      * 新增api信息
      *
@@ -32,7 +32,7 @@ public interface DocApiInfoService {
      * @return 新增的api数据库信息
      */
     DocApiInfo save(DocApiInfo save);
-    
+
     /**
      * 更新api信息
      *
@@ -40,7 +40,7 @@ public interface DocApiInfoService {
      * @return 更新后的api信息
      */
     DocApiInfo update(DocApiInfo update);
-    
+
     /**
      * 根据apiId查询api信息
      *

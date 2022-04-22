@@ -21,16 +21,15 @@ import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.service.dto.SerialDTO;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 文档信息.
@@ -40,65 +39,65 @@ import java.util.Set;
 @Getter
 @Setter
 public class DocApiDTO extends SerialDTO {
-    
+
     /**
      * 接口名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
-    
+
     /**
      * 项目ID
      */
     @NotNull
     private Long projectId;
-    
+
     /**
      * 接口状态
      */
     @NotNull
     private ApiState apiState = ApiState.UNFINISHED;
-    
+
     /**
      * 请求地址
      */
     @NotBlank
     @Length(max = 300)
     private String path;
-    
+
     /**
      * 请求方法
      */
     @NotNull
     private HttpMethod method;
-    
+
     /**
      * 作者ID
      */
     private Long authorId = CurrentUserUtil.getId();
-    
+
     /**
      * 所属分组ID
      */
     private Long apiGroupId;
-    
+
     /**
      * 访问者用户ID
      */
     @Size(max = 30)
     private Set<Long> visitorIds;
-    
+
     /**
      * 备注
      */
     @Length(max = 300)
     private String remark;
-    
+
     /**
      * 访问者信息
      */
     @Transient
     private List<QuietUser> visitors;
-    
+
 }

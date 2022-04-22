@@ -23,11 +23,11 @@ import org.springframework.stereotype.Repository;
 /**
  * api信息repository.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
 public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
-    
+
     /**
      * 根据 apiId 判断是否存在api信息
      *
@@ -35,7 +35,7 @@ public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
      * @return true：存在 false：不存在
      */
     boolean existsByApiId(Long apiId);
-    
+
     /**
      * 根据apiId查询api信息
      *

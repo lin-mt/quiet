@@ -27,20 +27,20 @@ import org.springframework.stereotype.Service;
 /**
  * api信息服务实现类.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
 public class DocApiInfoServiceImpl implements DocApiInfoService {
-    
+
     private final DocApiInfoRepository repository;
-    
+
     private final DocApiService apiService;
-    
+
     public DocApiInfoServiceImpl(DocApiInfoRepository repository, @Lazy DocApiService apiService) {
         this.repository = repository;
         this.apiService = apiService;
     }
-    
+
     @Override
     public DocApiInfo save(DocApiInfo save) {
         apiService.checkId(save.getApiId());
@@ -49,7 +49,7 @@ public class DocApiInfoServiceImpl implements DocApiInfoService {
         }
         return repository.save(save);
     }
-    
+
     @Override
     public DocApiInfo update(DocApiInfo update) {
         if (!repository.existsById(update.getId())) {
@@ -57,7 +57,7 @@ public class DocApiInfoServiceImpl implements DocApiInfoService {
         }
         return repository.saveAndFlush(update);
     }
-    
+
     @Override
     public DocApiInfo getByApiId(Long apiId) {
         return repository.getByApiId(apiId);

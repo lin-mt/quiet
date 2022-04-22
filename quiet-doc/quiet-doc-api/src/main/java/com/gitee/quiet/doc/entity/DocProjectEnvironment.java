@@ -4,17 +4,16 @@ import com.gitee.quiet.doc.model.Cookie;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.HttpProtocol;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 项目环境配置

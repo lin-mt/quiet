@@ -53,21 +53,21 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/api")
 public class DocApiController {
-    
+
     private final DocApiService apiService;
-    
+
     private final DocApiGroupService apiGroupService;
-    
+
     private final DocApiInfoService apiInfoService;
-    
+
     private final DocApiConvert apiConvert;
-    
+
     private final DocApiInfoConvert apiInfoConvert;
-    
+
     private final DocApiGroupConvert apiGroupConvert;
-    
+
     private final UserDubboService userDubboService;
-    
+
     /**
      * 查询接口详细信息
      *
@@ -95,7 +95,7 @@ public class DocApiController {
         }
         return Result.success(builder.build());
     }
-    
+
     /**
      * 新建接口
      *
@@ -107,7 +107,7 @@ public class DocApiController {
         DocApi save = apiService.save(apiConvert.dto2entity(dto));
         return Result.createSuccess(apiConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新接口信息
      *
@@ -119,7 +119,7 @@ public class DocApiController {
         DocApi update = apiService.update(apiConvert.dto2entity(dto));
         return Result.updateSuccess(apiConvert.entity2vo(update));
     }
-    
+
     /**
      * 根据接口ID删除接口信息
      *

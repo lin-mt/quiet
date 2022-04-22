@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDTO, DocProjectVO> {
-    
+
 }

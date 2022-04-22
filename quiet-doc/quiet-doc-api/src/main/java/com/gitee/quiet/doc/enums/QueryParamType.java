@@ -28,12 +28,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum QueryParamType implements StringEnum {
-    
+
     STRING("string"),
-    
+
     INTEGER("integer"),
-    
+
     NUMBER("number");
-    
+
     private final String value;
 }

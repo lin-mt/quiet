@@ -19,9 +19,8 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProjectEnvironment;
 import com.gitee.quiet.jpa.repository.QuietRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 项目环境数据仓库.

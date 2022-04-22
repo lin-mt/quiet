@@ -18,27 +18,26 @@ package com.gitee.quiet.doc.dubbo;
 
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietUserService;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Set;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.stereotype.Component;
 
 /**
  * RPC 调用系统用户.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Component
 public class UserDubboService {
-    
+
     @DubboReference
     private QuietUserService userService;
-    
+
     public QuietUser getById(Long id) {
         return userService.findById(id);
     }
-    
+
     public List<QuietUser> findByUserIds(Set<Long> userIds) {
         return userService.findByUserIds(userIds);
     }

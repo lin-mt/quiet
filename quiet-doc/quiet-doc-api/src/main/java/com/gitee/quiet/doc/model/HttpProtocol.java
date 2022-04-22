@@ -12,17 +12,17 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum HttpProtocol implements StringEnum {
-    
+
     /**
      * http 协议
      */
     @SuppressWarnings("HttpUrlsUsage") HTTP("http://"),
-    
+
     /**
      * https 协议
      */
     HTTPS("https://");
-    
+
     private final String value;
-    
+
 }

@@ -23,28 +23,28 @@ import lombok.Setter;
 /**
  * 请求头.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 @EqualsAndHashCode
 public class Header {
-    
+
     /**
      * 参数名称
      */
     private String name;
-    
+
     /**
      * 参数值
      */
     private String value;
-    
+
     /**
      * 是否必须
      */
     private boolean required;
-    
+
     /**
      * 备注
      */

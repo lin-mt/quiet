@@ -28,10 +28,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FormParamType implements StringEnum {
-    
+
     TEXT("text"),
-    
+
     FILE("file");
-    
+
     private final String value;
 }

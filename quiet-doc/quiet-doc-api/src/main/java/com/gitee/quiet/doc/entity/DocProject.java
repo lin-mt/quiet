@@ -18,10 +18,9 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.jpa.entity.SerialEntity;
 import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -29,9 +28,9 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 项目信息.
@@ -43,13 +42,13 @@ import java.util.Set;
 @Entity
 @Table(name = "doc_project")
 public class DocProject extends SerialEntity {
-    
+
     /**
      * 访问者信息
      */
     @Transient
     private final List<QuietUser> visitors = new ArrayList<>();
-    
+
     /**
      * 项目名称
      */
@@ -57,39 +56,39 @@ public class DocProject extends SerialEntity {
     @Length(max = 30)
     @Column(name = "project_name", nullable = false, length = 30)
     private String name;
-    
+
     /**
      * 接口基本路径
      */
     @Length(max = 30)
     @Column(name = "base_path", length = 30)
     private String basePath;
-    
+
     /**
      * 项目文档负责人
      */
     @NotNull
     @Column(name = "principal", nullable = false)
     private Long principal;
-    
+
     /**
      * 访问者用户ID
      */
     @Size(max = 30)
     @Column(name = "visitor_id", length = 570)
     private Set<Long> visitorIds;
-    
+
     /**
      * 备注
      */
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
-    
+
     /**
      * 负责人名称
      */
     @Transient
     private String principalName;
-    
+
 }

@@ -28,20 +28,20 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum HttpMethod implements StringEnum {
-    
+
     GET("get"),
-    
+
     HEAD("head"),
-    
+
     POST("post"),
-    
+
     PUT("put"),
-    
+
     DELETE("delete"),
-    
+
     OPTIONS("options"),
-    
+
     PATCH("patch");
-    
+
     public final String value;
 }

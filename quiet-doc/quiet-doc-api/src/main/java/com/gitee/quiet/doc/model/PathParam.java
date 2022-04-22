@@ -23,23 +23,23 @@ import lombok.Setter;
 /**
  * 路径参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 @EqualsAndHashCode
 public class PathParam {
-    
+
     /**
      * 参数名称
      */
     private String name;
-    
+
     /**
      * 参数例子
      */
     private String example;
-    
+
     /**
      * 备注
      */

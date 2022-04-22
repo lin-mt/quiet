@@ -24,6 +24,7 @@ import com.gitee.quiet.doc.vo.DocApiGroupVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,8 +36,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 接口分组信息Api.
  *
@@ -46,11 +45,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api-group")
 public class DocApiGroupController {
-    
+
     private final DocApiGroupService apiGroupService;
-    
+
     private final DocApiGroupConvert apiGroupConvert;
-    
+
     /**
      * 新建接口分组
      *
@@ -62,7 +61,7 @@ public class DocApiGroupController {
         DocApiGroup save = apiGroupService.save(apiGroupConvert.dto2entity(dto));
         return Result.createSuccess(apiGroupConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新接口分组信息
      *
@@ -74,7 +73,7 @@ public class DocApiGroupController {
         DocApiGroup update = apiGroupService.update(apiGroupConvert.dto2entity(dto));
         return Result.updateSuccess(apiGroupConvert.entity2vo(update));
     }
-    
+
     /**
      * 根据接口分组ID删除接口分组ID
      *
@@ -86,7 +85,7 @@ public class DocApiGroupController {
         apiGroupService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 根据项目ID和接口名称模糊查询6条接口分组信息
      *

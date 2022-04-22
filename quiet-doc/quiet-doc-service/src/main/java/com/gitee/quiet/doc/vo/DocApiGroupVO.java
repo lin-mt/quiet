@@ -18,12 +18,11 @@ package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.service.vo.SerialVO;
 import com.gitee.quiet.service.vo.front.SelectVO;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * Api 分组信息.
@@ -33,25 +32,25 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class DocApiGroupVO extends SerialVO implements SelectVO<Long> {
-    
+
     /**
      * 分组名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
-    
+
     /**
      * 所属项目ID
      */
     @NotNull
     private Long projectId;
-    
+
     @Override
     public Long getValue() {
         return getId();
     }
-    
+
     @Override
     public String getLabel() {
         return getName();

@@ -30,6 +30,6 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface DocProjectEnvironmentConverter
-        extends QuietConvert<DocProjectEnvironment, DocProjectEnvironmentDTO, DocProjectEnvironmentVO> {
+    extends QuietConvert<DocProjectEnvironment, DocProjectEnvironmentDTO, DocProjectEnvironmentVO> {
 
 }
