@@ -199,7 +199,7 @@ public class QuietUserServiceImpl implements QuietUserService {
         if (limit > 0) {
             query.limit(limit);
         }
-        return query.fetchResults().getResults();
+        return query.fetch();
     }
 
     @Override

@@ -190,7 +190,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
         if (limit > 0) {
             query.limit(limit);
         }
-        return query.fetchResults().getResults();
+        return query.fetch();
     }
 
     @Override
