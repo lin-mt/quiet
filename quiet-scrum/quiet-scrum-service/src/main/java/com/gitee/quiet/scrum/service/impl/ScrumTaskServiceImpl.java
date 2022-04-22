@@ -45,60 +45,60 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumTaskServiceImpl implements ScrumTaskService {
-    
+
     private final ScrumTaskRepository taskRepository;
-    
+
     private final ScrumDemandService demandService;
-    
+
     private final ScrumTaskStepService taskStepService;
-    
+
     private final ScrumProjectService projectService;
-    
+
     private final ScrumTemplateService templateService;
-    
+
     public ScrumTaskServiceImpl(ScrumTaskRepository taskRepository, @Lazy ScrumDemandService demandService,
-            @Lazy ScrumTaskStepService taskStepService, @Lazy ScrumProjectService projectService,
-            @Lazy ScrumTemplateService templateService) {
+        @Lazy ScrumTaskStepService taskStepService, @Lazy ScrumProjectService projectService,
+        @Lazy ScrumTemplateService templateService) {
         this.taskRepository = taskRepository;
         this.demandService = demandService;
         this.taskStepService = taskStepService;
         this.projectService = projectService;
         this.templateService = templateService;
     }
-    
+
     @Override
     public Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds) {
         if (CollectionUtils.isEmpty(demandIds)) {
             return Map.of();
         }
         return taskRepository.findAllByDemandIdIn(demandIds).stream().collect(
-                Collectors.groupingBy(ScrumTask::getDemandId, Collectors.groupingBy(ScrumTask::getTaskStepId)));
+            Collectors.groupingBy(ScrumTask::getDemandId, Collectors.groupingBy(ScrumTask::getTaskStepId)));
     }
-    
+
     @Override
     public void deleteAllByDemandIds(Set<Long> demandIds) {
         if (CollectionUtils.isNotEmpty(demandIds)) {
             taskRepository.deleteAllByDemandIdIn(demandIds);
         }
     }
-    
+
     @Override
     public List<ScrumTask> findAllByTaskStepId(Long taskStepId) {
         return taskRepository.findAllByTaskStepId(taskStepId);
     }
-    
+
     @Override
     public ScrumTask save(ScrumTask save) {
         checkTaskInfo(save);
         return taskRepository.save(save);
     }
-    
+
     @Override
     public ScrumTask update(ScrumTask update) {
         checkTaskInfo(update);
         return taskRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (id == null) {
@@ -107,7 +107,7 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
         }
         taskRepository.deleteById(id);
     }
-    
+
     @Override
     public Set<Long> findUnfinishedDemandIds(Long projectId, Set<Long> demandIds) {
         ScrumProject project = projectService.findById(projectId);
@@ -127,7 +127,7 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
         demandIds.addAll(unfinishedDemandIds);
         return demandIds;
     }
-    
+
     private void checkTaskInfo(ScrumTask scrumTask) {
         // TODO 校验执行者和参与者信息
         demandService.checkIdExist(scrumTask.getDemandId());
@@ -138,7 +138,7 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
         }
         if (CollectionUtils.isNotEmpty(scrumTask.getPreTaskIds())) {
             Set<Long> existIds = taskRepository.findAllById(scrumTask.getPreTaskIds()).stream().map(ScrumTask::getId)
-                    .collect(Collectors.toSet());
+                .collect(Collectors.toSet());
             if (CollectionUtils.isEmpty(existIds) || !existIds.containsAll(scrumTask.getPreTaskIds())) {
                 scrumTask.getPreTaskIds().removeAll(existIds);
                 throw new ServiceException("task.ids.notExist", Arrays.toString(scrumTask.getPreTaskIds().toArray()));

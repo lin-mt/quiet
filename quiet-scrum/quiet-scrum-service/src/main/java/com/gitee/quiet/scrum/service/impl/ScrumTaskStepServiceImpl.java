@@ -40,37 +40,37 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
-    
+
     private final ScrumTaskStepRepository taskStepRepository;
-    
+
     private final ScrumTaskService taskService;
-    
+
     private final ScrumTemplateService templateService;
-    
+
     public ScrumTaskStepServiceImpl(ScrumTaskStepRepository taskStepRepository, ScrumTaskService taskService,
-            @Lazy ScrumTemplateService templateService) {
+        @Lazy ScrumTemplateService templateService) {
         this.taskStepRepository = taskStepRepository;
         this.taskService = taskService;
         this.templateService = templateService;
     }
-    
+
     @Override
     public ScrumTaskStep save(ScrumTaskStep save) {
         checkInfo(save);
         return taskStepRepository.save(save);
     }
-    
+
     @Override
     public ScrumTaskStep update(ScrumTaskStep update) {
         checkInfo(update);
         return taskStepRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public List<ScrumTaskStep> findAllByTemplateId(Long templateId) {
         return taskStepRepository.findAllByTemplateId(templateId);
     }
-    
+
     @Override
     public Map<Long, List<ScrumTaskStep>> findAllByTemplateIds(Set<Long> templateIds) {
         List<ScrumTaskStep> taskSteps = taskStepRepository.findAllByTemplateIdIn(templateIds);
@@ -80,7 +80,7 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         }
         return templateIdToTaskSteps;
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (CollectionUtils.isNotEmpty(taskService.findAllByTaskStepId(id))) {
@@ -94,7 +94,7 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
             templateService.update(template);
         }
     }
-    
+
     @Override
     public List<ScrumTaskStep> updateBatch(List<ScrumTaskStep> taskSteps) {
         if (CollectionUtils.isNotEmpty(taskSteps)) {
@@ -105,7 +105,7 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         }
         return List.of();
     }
-    
+
     @Override
     public void deleteByTemplateId(Long templateId) {
         List<ScrumTaskStep> taskSteps = taskStepRepository.findAllByTemplateId(templateId);
@@ -115,19 +115,19 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
             }
         }
     }
-    
+
     @Override
     public long countByTemplateId(Long templateId) {
         return taskStepRepository.countByTemplateId(templateId);
     }
-    
+
     @Override
     public void checkIdExist(Long id) {
         if (!taskStepRepository.existsById(id)) {
             throw new ServiceException("taskStep.id.notExist", id);
         }
     }
-    
+
     private void checkInfo(ScrumTaskStep taskStep) {
         if (!templateService.existsById(taskStep.getTemplateId())) {
             throw new ServiceException("template.id.not.exist");

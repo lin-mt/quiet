@@ -24,19 +24,19 @@ import com.gitee.quiet.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class DemandType extends Dictionary<DemandType> {
-    
+
     /**
      * 功能需求
      */
     public static final DemandType Function = new DemandType("Function");
-    
+
     /**
      * 优化需求
      */
     public static final DemandType Optimize = new DemandType("Optimize");
-    
+
     private DemandType(String key) {
         super(DemandType.class.getSimpleName(), key);
     }
-    
+
 }

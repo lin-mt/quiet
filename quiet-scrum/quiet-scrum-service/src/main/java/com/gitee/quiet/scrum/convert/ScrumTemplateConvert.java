@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface ScrumTemplateConvert extends QuietConvert<ScrumTemplate, ScrumTemplateDTO, ScrumTemplateVO> {
-    
+
 }

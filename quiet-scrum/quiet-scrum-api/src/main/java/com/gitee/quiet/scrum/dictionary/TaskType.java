@@ -24,17 +24,17 @@ import com.gitee.quiet.jpa.entity.Dictionary;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class TaskType extends Dictionary<TaskType> {
-    
+
     /**
      * 后端接口
      */
     public static final TaskType BackendApi = new TaskType("BackendApi");
-    
+
     /**
      * 前端界面
      */
     public static final TaskType FrontendInterface = new TaskType("FrontendInterface");
-    
+
     private TaskType(String key) {
         super(TaskType.class.getSimpleName(), key);
     }

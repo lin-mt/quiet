@@ -48,11 +48,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/template")
 public class ScrumTemplateController {
-    
+
     private final ScrumTemplateService templateService;
-    
+
     private final ScrumTemplateConvert templateConvert;
-    
+
     /**
      * 查询所有的模板信息.
      *
@@ -62,7 +62,7 @@ public class ScrumTemplateController {
     public Result<AllTemplate> allTemplates() {
         return Result.success(templateService.allTemplates());
     }
-    
+
     /**
      * 获取模板信息.
      *
@@ -74,7 +74,7 @@ public class ScrumTemplateController {
         ScrumTemplate scrumTemplate = templateService.templateInfo(id);
         return Result.success(templateConvert.entity2vo(scrumTemplate));
     }
-    
+
     /**
      * 新增模板.
      *
@@ -86,7 +86,7 @@ public class ScrumTemplateController {
         ScrumTemplate save = templateService.save(templateConvert.dto2entity(dto));
         return Result.createSuccess(templateConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新模板.
      *
@@ -98,7 +98,7 @@ public class ScrumTemplateController {
         ScrumTemplate update = templateService.update(templateConvert.dto2entity(dto));
         return Result.updateSuccess(templateConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除模板.
      *
@@ -110,7 +110,7 @@ public class ScrumTemplateController {
         templateService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 根据模板名称查询启用的模板信息.
      *

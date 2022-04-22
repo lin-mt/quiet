@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Repository
 public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
-    
+
     /**
      * 根据项目名称和负责经理查询项目信息
      *
@@ -38,7 +38,7 @@ public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
      * @return 项目信息
      */
     ScrumProject findByNameAndManager(String name, Long manager);
-    
+
     /**
      * 根据项目经理ID查询负责的项目信息
      *
@@ -46,7 +46,7 @@ public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
      * @return 项目信息
      */
     List<ScrumProject> findAllByManager(Long manager);
-    
+
     /**
      * 统计多少项目用了指定的模板
      *

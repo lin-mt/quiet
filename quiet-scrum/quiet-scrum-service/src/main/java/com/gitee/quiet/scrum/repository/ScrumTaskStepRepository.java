@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @Repository
 public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> {
-    
+
     /**
      * 根据模板ID和步骤名称查询步骤信息
      *
@@ -39,7 +39,7 @@ public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> 
      * @return 任务步骤信息
      */
     ScrumTaskStep findByTemplateIdAndName(Long templateId, String name);
-    
+
     /**
      * 根据模板ID查询所有任务步骤
      *
@@ -47,7 +47,7 @@ public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> 
      * @return 任务步骤信息
      */
     List<ScrumTaskStep> findAllByTemplateId(Long templateId);
-    
+
     /**
      * 根据模板ID集合查询所有任务步骤
      *
@@ -55,7 +55,7 @@ public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> 
      * @return 所有任务步骤信息
      */
     List<ScrumTaskStep> findAllByTemplateIdIn(Set<Long> templateIds);
-    
+
     /**
      * 根据模板ID统计该模板下任务有多少步骤
      *

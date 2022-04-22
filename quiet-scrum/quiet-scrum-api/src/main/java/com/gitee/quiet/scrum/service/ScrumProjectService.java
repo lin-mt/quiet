@@ -30,7 +30,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumProjectService {
-    
+
     /**
      * 获取用户的所有项目信息
      *
@@ -38,7 +38,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     MyScrumProject allProjectByUserId(@NotNull Long userId);
-    
+
     /**
      * 新增项目
      *
@@ -46,7 +46,7 @@ public interface ScrumProjectService {
      * @return 新增后的项目信息
      */
     ScrumProject save(@NotNull ScrumProject save);
-    
+
     /**
      * 根据项目ID查询项目信息
      *
@@ -54,7 +54,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     List<ScrumProject> findAllByIds(Set<Long> ids);
-    
+
     /**
      * 更新项目信息
      *
@@ -62,14 +62,14 @@ public interface ScrumProjectService {
      * @return 更新后的项目信息
      */
     ScrumProject update(@NotNull ScrumProject update);
-    
+
     /**
      * 根据项目ID删除项目信息
      *
      * @param id 要删除的项目的ID
      */
     void deleteById(@NotNull Long id);
-    
+
     /**
      * 统计多少项目用了指定的模板
      *
@@ -77,7 +77,7 @@ public interface ScrumProjectService {
      * @return 使用了该模板的项目数量
      */
     long countByTemplateId(@NotNull Long templateId);
-    
+
     /**
      * 获取项目的详细信息，包含团队信息以及版本、迭代信息
      *
@@ -85,7 +85,7 @@ public interface ScrumProjectService {
      * @return 项目详细信息
      */
     ScrumProjectDetail getDetail(@NotNull Long id);
-    
+
     /**
      * 根据项目ID获取项目信息
      *
@@ -93,7 +93,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     ScrumProject findById(@NotNull Long id);
-    
+
     /**
      * 根据项目ID获取项目信息
      *

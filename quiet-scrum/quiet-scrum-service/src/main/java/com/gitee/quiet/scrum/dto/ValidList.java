@@ -30,7 +30,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ValidList<T> {
-    
+
     @Valid
     private List<T> data;
 }

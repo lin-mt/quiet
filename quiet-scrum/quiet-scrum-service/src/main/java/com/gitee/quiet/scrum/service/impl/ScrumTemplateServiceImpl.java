@@ -50,27 +50,27 @@ import static com.gitee.quiet.scrum.entity.QScrumTemplate.scrumTemplate;
  */
 @Service
 public class ScrumTemplateServiceImpl implements ScrumTemplateService {
-    
+
     private final ScrumTemplateRepository templateRepository;
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final ScrumTaskStepService taskStepService;
-    
+
     private final ScrumProjectService projectService;
-    
+
     private final ScrumPriorityService priorityService;
-    
+
     public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, JPAQueryFactory jpaQueryFactory,
-            ScrumTaskStepService taskStepService, ScrumProjectService projectService,
-            ScrumPriorityService priorityService) {
+        ScrumTaskStepService taskStepService, ScrumProjectService projectService,
+        ScrumPriorityService priorityService) {
         this.templateRepository = templateRepository;
         this.jpaQueryFactory = jpaQueryFactory;
         this.taskStepService = taskStepService;
         this.projectService = projectService;
         this.priorityService = priorityService;
     }
-    
+
     @Override
     public AllTemplate allTemplates() {
         Long currentUserId = CurrentUserUtil.getId();
@@ -94,19 +94,19 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         }
         return allTemplate;
     }
-    
+
     @Override
     public ScrumTemplate save(ScrumTemplate save) {
         checkInfo(save);
         return templateRepository.save(save);
     }
-    
+
     @Override
     public ScrumTemplate update(ScrumTemplate update) {
         checkInfo(update);
         return templateRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (projectService.countByTemplateId(id) > 0) {
@@ -118,32 +118,32 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         priorityService.deleteByTemplateId(id);
         templateRepository.deleteById(id);
     }
-    
+
     @Override
     public List<ScrumTemplate> listEnabledByName(String name, long limit) {
         JPAQuery<ScrumTemplate> query = SelectBooleanBuilder.booleanBuilder().notBlankContains(name, scrumTemplate.name)
-                .and(scrumTemplate.enabled.eq(true)).from(jpaQueryFactory, scrumTemplate);
+            .and(scrumTemplate.enabled.eq(true)).from(jpaQueryFactory, scrumTemplate);
         if (limit > 0) {
             query.limit(limit);
         }
         return query.fetch();
     }
-    
+
     @Override
     public List<ScrumTemplate> findAllByIds(Set<Long> ids) {
         return templateRepository.findAllById(ids);
     }
-    
+
     @Override
     public ScrumTemplate findById(Long id) {
         return templateRepository.findById(id).orElseThrow(() -> new ServiceException("template.id.not.exist", id));
     }
-    
+
     @Override
     public boolean existsById(Long id) {
         return templateRepository.existsById(id);
     }
-    
+
     @Override
     public ScrumTemplate templateInfo(Long id) {
         ScrumTemplate template = findById(id);
@@ -151,7 +151,7 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         template.setPriorities(priorityService.findAllByTemplateId(id));
         return template;
     }
-    
+
     /**
      * 校验保存的信息.
      *

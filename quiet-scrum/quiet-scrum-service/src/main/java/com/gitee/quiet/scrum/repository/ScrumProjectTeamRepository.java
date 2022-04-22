@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @Repository
 public interface ScrumProjectTeamRepository extends QuietRepository<ScrumProjectTeam> {
-    
+
     /**
      * 根据团队ID查询团队负责的所有项目信息
      *
@@ -38,7 +38,7 @@ public interface ScrumProjectTeamRepository extends QuietRepository<ScrumProject
      * @return 团队负责的项目信息
      */
     List<ScrumProjectTeam> findAllByTeamIdIn(Set<Long> teamIds);
-    
+
     /**
      * 根据项目ID查询所有项目团队信息
      *
@@ -46,7 +46,7 @@ public interface ScrumProjectTeamRepository extends QuietRepository<ScrumProject
      * @return 项目团队信息
      */
     List<ScrumProjectTeam> findAllByProjectIdIn(Set<Long> projectIds);
-    
+
     /**
      * 根据项目ID删除项目的团队信息
      *

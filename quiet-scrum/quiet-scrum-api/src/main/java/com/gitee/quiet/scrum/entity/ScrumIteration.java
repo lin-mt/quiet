@@ -41,7 +41,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "scrum_iteration")
 public class ScrumIteration extends SerialEntity {
-    
+
     /**
      * 迭代名称
      */
@@ -49,47 +49,47 @@ public class ScrumIteration extends SerialEntity {
     @Length(max = 30)
     @Column(name = "iteration_name", nullable = false, length = 30)
     private String name;
-    
+
     /**
      * 所属版本ID
      */
     @NotNull
     @Column(name = "version_id", nullable = false)
     private Long versionId;
-    
+
     /**
      * 迭代计划开始日期
      */
     @NotNull
     @Column(name = "plan_start_date", nullable = false)
     private LocalDate planStartDate;
-    
+
     /**
      * 迭代计划结束日期
      */
     @NotNull
     @Column(name = "plan_end_date", nullable = false)
     private LocalDate planEndDate;
-    
+
     /**
      * 迭代开始时间
      */
     @Column(name = "start_time")
     private LocalDateTime startTime;
-    
+
     /**
      * 迭代结束时间
      */
     @Column(name = "end_time")
     private LocalDateTime endTime;
-    
+
     /**
      * 备注信息
      */
     @Length(max = 1000)
     @Column(name = "remark", nullable = false, length = 1000)
     private String remark;
-    
+
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);

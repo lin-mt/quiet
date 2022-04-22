@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "scrum_task_step")
 public class ScrumTaskStep extends SerialEntity {
-    
+
     /**
      * 步骤名称
      */
@@ -45,19 +45,19 @@ public class ScrumTaskStep extends SerialEntity {
     @Length(max = 10)
     @Column(name = "step_name", nullable = false, length = 10)
     private String name;
-    
+
     /**
      * 所属模板ID
      */
     @NotNull
     @Column(name = "template_id", nullable = false)
     private Long templateId;
-    
+
     /**
      * 步骤备注信息
      */
     @Length(max = 30)
     @Column(name = "remark", length = 30)
     private String remark;
-    
+
 }

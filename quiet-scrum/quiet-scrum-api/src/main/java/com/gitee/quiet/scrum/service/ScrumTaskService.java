@@ -28,7 +28,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumTaskService {
-    
+
     /**
      * 根据需求ID集合查询指定需求下的所有任务，并根据任务步骤进行分组
      *
@@ -36,14 +36,14 @@ public interface ScrumTaskService {
      * @return 根据需求ID和任务步骤分组后的任务集合
      */
     Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds);
-    
+
     /**
      * 根据需求ID集合批量删除任务信息
      *
      * @param demandIds 要删除的任务所属的需求ID集合
      */
     void deleteAllByDemandIds(Set<Long> demandIds);
-    
+
     /**
      * 根据任务步骤查询任务信息
      *
@@ -51,7 +51,7 @@ public interface ScrumTaskService {
      * @return 处于该任务步骤下的所有任务
      */
     List<ScrumTask> findAllByTaskStepId(Long taskStepId);
-    
+
     /**
      * 新建任务
      *
@@ -59,7 +59,7 @@ public interface ScrumTaskService {
      * @return 新建后的任务信息
      */
     ScrumTask save(ScrumTask save);
-    
+
     /**
      * 更新任务
      *
@@ -67,14 +67,14 @@ public interface ScrumTaskService {
      * @return 更新后的任务信息
      */
     ScrumTask update(ScrumTask update);
-    
+
     /**
      * 根据任务ID删除任务信息
      *
      * @param id 任务ID
      */
     void deleteById(Long id);
-    
+
     /**
      * 过滤指定项目中指定的需求中未完成的需求
      *

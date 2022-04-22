@@ -49,11 +49,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/demand")
 public class ScrumDemandController {
-    
+
     private final ScrumDemandService demandService;
-    
+
     private final ScrumDemandConvert demandConvert;
-    
+
     /**
      * 删除需求
      *
@@ -65,7 +65,7 @@ public class ScrumDemandController {
         demandService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 滚动查询待规划的需求
      *
@@ -74,12 +74,12 @@ public class ScrumDemandController {
      */
     @GetMapping("/scroll-to-be-planned")
     public Result<List<ScrumDemandVO>> scrollToBePlanned(
-            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
+        @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         List<ScrumDemand> scrumDemands = demandService.listToBePlanned(dto.getId(), dto.getDemandFilter(),
-                dto.getOffset(), dto.getLimit());
+            dto.getOffset(), dto.getLimit());
         return Result.success(demandConvert.entities2vos(scrumDemands));
     }
-    
+
     /**
      * 滚动查询迭代的需求
      *
@@ -88,11 +88,11 @@ public class ScrumDemandController {
      */
     @GetMapping("/scroll-by-iteration-id")
     public Result<List<ScrumDemandVO>> scrollByIterationId(
-            @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
+        @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
         List<ScrumDemand> scrumDemands = demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit());
         return Result.success(demandConvert.entities2vos(scrumDemands));
     }
-    
+
     /**
      * 创建需求
      *
@@ -104,7 +104,7 @@ public class ScrumDemandController {
         ScrumDemand save = demandService.save(demandConvert.dto2entity(dto));
         return Result.success(demandConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新需求
      *
@@ -116,7 +116,7 @@ public class ScrumDemandController {
         ScrumDemand update = demandService.update(demandConvert.dto2entity(dto));
         return Result.success(demandConvert.entity2vo(update));
     }
-    
+
     /**
      * 查询一个迭代下的所有需求信息
      *
@@ -128,7 +128,7 @@ public class ScrumDemandController {
         List<ScrumDemand> scrumDemands = demandService.findAllByIterationId(id);
         return Result.success(demandConvert.entities2vos(scrumDemands));
     }
-    
+
     /**
      * 分页查询需求信息
      *
@@ -140,5 +140,5 @@ public class ScrumDemandController {
         Page<ScrumDemand> page = demandService.page(demandConvert.dto2entity(dto), dto.page());
         return Result.success(demandConvert.page2page(page));
     }
-    
+
 }

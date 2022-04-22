@@ -48,11 +48,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/task-step")
 public class ScrumTaskStepController {
-    
+
     private final ScrumTaskStepService taskStepService;
-    
+
     private final ScrumTaskStepConvert taskStepConvert;
-    
+
     /**
      * 新增任务步骤
      *
@@ -64,7 +64,7 @@ public class ScrumTaskStepController {
         ScrumTaskStep save = taskStepService.save(taskStepConvert.dto2entity(dto));
         return Result.createSuccess(taskStepConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新任务步骤
      *
@@ -76,7 +76,7 @@ public class ScrumTaskStepController {
         ScrumTaskStep update = taskStepService.update(taskStepConvert.dto2entity(dto));
         return Result.updateSuccess(taskStepConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除任务步骤
      *
@@ -88,7 +88,7 @@ public class ScrumTaskStepController {
         taskStepService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 批量更新任务步骤
      *
@@ -97,12 +97,12 @@ public class ScrumTaskStepController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumTaskStepVO>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
+        @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
         List<ScrumTaskStep> batch = taskStepService.updateBatch(
-                dto.getData().stream().map(taskStepConvert::dto2entity).collect(Collectors.toList()));
+            dto.getData().stream().map(taskStepConvert::dto2entity).collect(Collectors.toList()));
         return Result.success(taskStepConvert.entities2vos(batch));
     }
-    
+
     /**
      * 根据模板ID查询该模板ID下的所有任务步骤配置信息
      *

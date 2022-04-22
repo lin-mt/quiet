@@ -44,11 +44,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/iteration")
 public class ScrumIterationController {
-    
+
     private final ScrumIterationService iterationService;
-    
+
     private final ScrumIterationConvert iterationConvert;
-    
+
     /**
      * 新建迭代
      *
@@ -60,7 +60,7 @@ public class ScrumIterationController {
         ScrumIteration save = iterationService.save(iterationConvert.dto2entity(dto));
         return Result.createSuccess(iterationConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新迭代信息
      *
@@ -72,7 +72,7 @@ public class ScrumIterationController {
         ScrumIteration update = iterationService.update(iterationConvert.dto2entity(dto));
         return Result.updateSuccess(iterationConvert.entity2vo(update));
     }
-    
+
     /**
      * 开始迭代
      *
@@ -84,7 +84,7 @@ public class ScrumIterationController {
         ScrumIteration iteration = iterationService.start(dto.getId());
         return Result.updateSuccess(iterationConvert.entity2vo(iteration));
     }
-    
+
     /**
      * 结束迭代
      *
@@ -96,7 +96,7 @@ public class ScrumIterationController {
         ScrumIteration iteration = iterationService.end(dto.getId());
         return Result.updateSuccess(iterationConvert.entity2vo(iteration));
     }
-    
+
     /**
      * 删除迭代
      *

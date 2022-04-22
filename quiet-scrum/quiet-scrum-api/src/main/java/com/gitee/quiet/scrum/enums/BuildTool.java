@@ -32,11 +32,11 @@ public enum BuildTool implements StringEnum {
      * maven 构建工具
      */
     MAVEN("gradle"),
-    
+
     /**
      * gradle 构建工具
      */
     GRADLE("gradle");
-    
+
     private final String value;
 }

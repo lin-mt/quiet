@@ -40,16 +40,16 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumVersionServiceImpl implements ScrumVersionService {
-    
+
     private final ScrumVersionRepository versionRepository;
-    
+
     private final ScrumIterationService iterationService;
-    
+
     public ScrumVersionServiceImpl(ScrumVersionRepository versionRepository, ScrumIterationService iterationService) {
         this.versionRepository = versionRepository;
         this.iterationService = iterationService;
     }
-    
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteAllByProjectId(@NotNull Long projectId) {
@@ -61,7 +61,7 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             versionRepository.deleteByProjectId(projectId);
         }
     }
-    
+
     @Override
     public List<ScrumVersion> findDetailsByProjectId(Long projectId) {
         List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
@@ -69,33 +69,33 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
             List<ScrumIteration> iterations = iterationService.findAllByVersionIds(versionIds);
             Map<Long, List<ScrumIteration>> versionIdToIterations = iterations.stream()
-                    .collect(Collectors.groupingBy(ScrumIteration::getVersionId));
+                .collect(Collectors.groupingBy(ScrumIteration::getVersionId));
             for (ScrumVersion version : versions) {
                 version.setIterations(versionIdToIterations.getOrDefault(version.getId(), List.of()));
             }
         }
         return EntityUtils.buildTreeData(versions);
     }
-    
+
     @Override
     public ScrumVersion save(ScrumVersion save) {
         checkInfo(save);
         return versionRepository.save(save);
     }
-    
+
     @Override
     public ScrumVersion update(ScrumVersion update) {
         checkInfo(update);
         return versionRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void checkIdExist(Long id) {
         if (!versionRepository.existsById(id)) {
             throw new ServiceException("version.id.not.exist");
         }
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (versionRepository.countByParentId(id) > 0) {
@@ -106,14 +106,14 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
         }
         versionRepository.deleteById(id);
     }
-    
+
     @Override
     public ScrumVersion nextVersion(Long id) {
         ScrumVersion currentVersion = versionRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("version.id.not.exist"));
+            .orElseThrow(() -> new ServiceException("version.id.not.exist"));
         return versionRepository.findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(currentVersion.getPlanStartDate());
     }
-    
+
     private void checkInfo(@NotNull ScrumVersion version) {
         ScrumVersion exist = versionRepository.findByProjectIdAndName(version.getProjectId(), version.getName());
         if (exist != null && !exist.getName().equals(version.getName())) {

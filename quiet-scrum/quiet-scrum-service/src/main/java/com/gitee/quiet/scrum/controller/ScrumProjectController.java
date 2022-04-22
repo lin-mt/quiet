@@ -47,11 +47,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/project")
 public class ScrumProjectController {
-    
+
     private final ScrumProjectService projectService;
-    
+
     private final ScrumProjectConvert projectConvert;
-    
+
     /**
      * 获取项目信息
      *
@@ -63,7 +63,7 @@ public class ScrumProjectController {
         ScrumProject project = projectService.projectInfo(id);
         return Result.success(projectConvert.entity2vo(project));
     }
-    
+
     /**
      * 获取项目的详细信息
      *
@@ -74,7 +74,7 @@ public class ScrumProjectController {
     public Result<ScrumProjectDetail> detail(@PathVariable Long id) {
         return Result.success(projectService.getDetail(id));
     }
-    
+
     /**
      * 查询当前登陆人的所有项目
      *
@@ -84,7 +84,7 @@ public class ScrumProjectController {
     public Result<MyScrumProject> allMyProjects() {
         return Result.success(projectService.allProjectByUserId(CurrentUserUtil.getId()));
     }
-    
+
     /**
      * 新增项目
      *
@@ -96,7 +96,7 @@ public class ScrumProjectController {
         ScrumProject save = projectService.save(projectConvert.dto2entity(dto));
         return Result.createSuccess(projectConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新项目
      *
@@ -108,7 +108,7 @@ public class ScrumProjectController {
         ScrumProject update = projectService.update(projectConvert.dto2entity(dto));
         return Result.updateSuccess(projectConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除项目
      *
@@ -120,5 +120,5 @@ public class ScrumProjectController {
         projectService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
 }

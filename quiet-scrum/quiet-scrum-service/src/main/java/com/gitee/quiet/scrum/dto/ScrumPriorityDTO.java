@@ -35,33 +35,33 @@ import java.util.List;
 @Getter
 @Setter
 public class ScrumPriorityDTO extends SerialDTO {
-    
+
     /**
      * 优先级名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
-    
+
     /**
      * 图标的十六进制颜色
      */
     @Length(max = 7)
     @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
     private String colorHex = "#1890FF";
-    
+
     /**
      * 模板ID
      */
     @NotNull
     private Long templateId;
-    
+
     /**
      * 备注信息
      */
     @Length(max = 100)
     private String remark;
-    
+
     /**
      * 批量更新
      */

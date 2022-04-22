@@ -39,19 +39,19 @@ import java.util.List;
 @Entity
 @Table(name = "scrum_template")
 public class ScrumTemplate extends BaseEntity {
-    
+
     /**
      * 模板中的任务步骤
      */
     @Transient
     List<ScrumTaskStep> taskSteps;
-    
+
     /**
      * 模板中的优先级配置
      */
     @Transient
     List<ScrumPriority> priorities;
-    
+
     /**
      * 模板名称
      */
@@ -59,19 +59,19 @@ public class ScrumTemplate extends BaseEntity {
     @Length(max = 10)
     @Column(name = "template_name", nullable = false, length = 10)
     private String name;
-    
+
     /**
      * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
     @ColumnDefault("0")
     @Column(name = "enabled", columnDefinition = "TINYINT(1)")
     private Boolean enabled;
-    
+
     /**
      * 模板备注信息
      */
     @Length(max = 30)
     @Column(name = "remark", length = 30)
     private String remark;
-    
+
 }

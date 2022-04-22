@@ -34,26 +34,26 @@ import java.util.List;
 @Getter
 @Setter
 public class ScrumTaskStepDTO extends SerialDTO {
-    
+
     /**
      * 步骤名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
-    
+
     /**
      * 所属模板ID
      */
     @NotNull
     private Long templateId;
-    
+
     /**
      * 步骤备注信息
      */
     @Length(max = 30)
     private String remark;
-    
+
     /**
      * 批量更新
      */

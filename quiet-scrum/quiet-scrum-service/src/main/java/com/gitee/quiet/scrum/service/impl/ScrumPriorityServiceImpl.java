@@ -39,33 +39,32 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumPriorityServiceImpl implements ScrumPriorityService {
-    
+
     private final ScrumPriorityRepository priorityRepository;
-    
+
     private final ScrumTemplateService templateService;
-    
+
     private final ScrumDemandService demandService;
-    
+
     public ScrumPriorityServiceImpl(ScrumPriorityRepository priorityRepository,
-            @Lazy ScrumTemplateService templateService, ScrumDemandService demandService) {
+        @Lazy ScrumTemplateService templateService, ScrumDemandService demandService) {
         this.priorityRepository = priorityRepository;
         this.templateService = templateService;
         this.demandService = demandService;
     }
-    
+
     @Override
     public ScrumPriority save(ScrumPriority save) {
         checkInfo(save);
         return priorityRepository.save(save);
     }
-    
-    
+
     @Override
     public ScrumPriority update(ScrumPriority update) {
         checkInfo(update);
         return priorityRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (demandService.countByPriorityId(id) > 0) {
@@ -79,7 +78,7 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
             templateService.update(template);
         }
     }
-    
+
     @Override
     public void deleteByTemplateId(Long templateId) {
         List<ScrumPriority> priorities = priorityRepository.findAllByTemplateId(templateId);
@@ -89,13 +88,13 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
             }
         }
     }
-    
+
     @Override
     public Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds) {
         return priorityRepository.findAllByTemplateIdIn(templateIds).stream()
-                .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
+            .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
     }
-    
+
     @Override
     public List<ScrumPriority> updateBatch(List<ScrumPriority> priorities) {
         if (CollectionUtils.isNotEmpty(priorities)) {
@@ -106,12 +105,12 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
         }
         return List.of();
     }
-    
+
     @Override
     public List<ScrumPriority> findAllByTemplateId(Long templateId) {
         return priorityRepository.findAllByTemplateId(templateId);
     }
-    
+
     @Override
     public List<ScrumPriority> findAllByIds(Set<Long> ids) {
         if (CollectionUtils.isNotEmpty(ids)) {
@@ -119,12 +118,12 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
         }
         return List.of();
     }
-    
+
     @Override
     public long countByTemplateId(Long templateId) {
         return priorityRepository.countByTemplateId(templateId);
     }
-    
+
     private void checkInfo(ScrumPriority priority) {
         if (!templateService.existsById(priority.getTemplateId())) {
             throw new ServiceException("template.id.not.exist");

@@ -30,7 +30,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumTaskStepService {
-    
+
     /**
      * 新增任务步骤信息
      *
@@ -38,7 +38,7 @@ public interface ScrumTaskStepService {
      * @return 新增任务步骤后的信息
      */
     ScrumTaskStep save(@NotNull ScrumTaskStep save);
-    
+
     /**
      * 更新任务步骤信息
      *
@@ -46,7 +46,7 @@ public interface ScrumTaskStepService {
      * @return 更新后的任务步骤信息
      */
     ScrumTaskStep update(@NotNull ScrumTaskStep update);
-    
+
     /**
      * 根据模板ID查询任务步骤信息
      *
@@ -54,7 +54,7 @@ public interface ScrumTaskStepService {
      * @return 模板下的任务步骤
      */
     List<ScrumTaskStep> findAllByTemplateId(@NotNull Long templateId);
-    
+
     /**
      * 根据模板ID集合查询所有任务步骤信息
      *
@@ -62,28 +62,28 @@ public interface ScrumTaskStepService {
      * @return 模板下的所有任务步骤
      */
     Map<Long, List<ScrumTaskStep>> findAllByTemplateIds(@NotNull @NotEmpty Set<Long> templateIds);
-    
+
     /**
      * 删除任务步骤信息
      *
      * @param id 任务步骤ID
      */
     void deleteById(@NotNull Long id);
-    
+
     /**
      * 批量更新任务步骤信息
      *
      * @param taskSteps 任务步骤信息
      */
     List<ScrumTaskStep> updateBatch(List<ScrumTaskStep> taskSteps);
-    
+
     /**
      * 根据模板ID删除任务步骤配置信息
      *
      * @param templateId 模板ID
      */
     void deleteByTemplateId(Long templateId);
-    
+
     /**
      * 根据模板ID统计任务步骤数量
      *
@@ -91,7 +91,7 @@ public interface ScrumTaskStepService {
      * @return 任务步骤数
      */
     long countByTemplateId(Long templateId);
-    
+
     /**
      * 校验是否存在该任务步骤ID
      *

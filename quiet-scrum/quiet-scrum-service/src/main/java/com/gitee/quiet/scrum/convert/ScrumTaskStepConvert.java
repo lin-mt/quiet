@@ -29,5 +29,5 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface ScrumTaskStepConvert extends QuietConvert<ScrumTaskStep, ScrumTaskStepDTO, ScrumTaskStepVO> {
-    
+
 }

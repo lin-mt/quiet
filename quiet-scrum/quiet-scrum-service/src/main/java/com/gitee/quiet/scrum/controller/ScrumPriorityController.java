@@ -48,11 +48,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/priority")
 public class ScrumPriorityController {
-    
+
     private final ScrumPriorityService priorityService;
-    
+
     private final ScrumPriorityConvert priorityConvert;
-    
+
     /**
      * 新增优先级选项
      *
@@ -64,7 +64,7 @@ public class ScrumPriorityController {
         ScrumPriority save = priorityService.save(priorityConvert.dto2entity(dto));
         return Result.createSuccess(priorityConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新优先级选项信息
      *
@@ -76,7 +76,7 @@ public class ScrumPriorityController {
         ScrumPriority update = priorityService.update(priorityConvert.dto2entity(dto));
         return Result.updateSuccess(priorityConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除优先级信息
      *
@@ -88,7 +88,7 @@ public class ScrumPriorityController {
         priorityService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 批量更新优先级信息
      *
@@ -97,12 +97,12 @@ public class ScrumPriorityController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumPriorityVO>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidListDTO<ScrumPriorityDTO> dto) {
+        @RequestBody @Validated(Update.class) ValidListDTO<ScrumPriorityDTO> dto) {
         List<ScrumPriority> batch = priorityService.updateBatch(
-                dto.getData().stream().map(priorityConvert::dto2entity).collect(Collectors.toList()));
+            dto.getData().stream().map(priorityConvert::dto2entity).collect(Collectors.toList()));
         return Result.success(priorityConvert.entities2vos(batch));
     }
-    
+
     /**
      * 根据模板ID查询该模板ID下的所有优先级配置信息
      *

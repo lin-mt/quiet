@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Repository
 public interface ScrumTemplateRepository extends QuietRepository<ScrumTemplate> {
-    
+
     /**
      * 查询启用的或者创建者为 creator 的模板信息
      *
@@ -38,7 +38,7 @@ public interface ScrumTemplateRepository extends QuietRepository<ScrumTemplate> 
      * @return 是否启用为enable或者创建者为creator创建模板信息
      */
     List<ScrumTemplate> findAllByEnabledOrCreator(boolean enabled, Long creator);
-    
+
     /**
      * 根据模板名称查找模板信息
      *

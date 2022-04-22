@@ -46,11 +46,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/version")
 public class ScrumVersionController {
-    
+
     private final ScrumVersionService versionService;
-    
+
     private final ScrumVersionConvert versionConvert;
-    
+
     /**
      * 查询项目的所有版本信息，包含迭代信息
      *
@@ -62,7 +62,7 @@ public class ScrumVersionController {
         List<ScrumVersion> scrumVersions = versionService.findDetailsByProjectId(id);
         return Result.success(versionConvert.entities2vos(scrumVersions));
     }
-    
+
     /**
      * 新建版本
      *
@@ -74,7 +74,7 @@ public class ScrumVersionController {
         ScrumVersion save = versionService.save(versionConvert.dto2entity(dto));
         return Result.createSuccess(versionConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新版本信息
      *
@@ -86,7 +86,7 @@ public class ScrumVersionController {
         ScrumVersion update = versionService.update(versionConvert.dto2entity(dto));
         return Result.updateSuccess(versionConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除版本
      *

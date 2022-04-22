@@ -30,15 +30,15 @@ import java.util.List;
 @Getter
 @Setter
 public class MyScrumProject {
-    
+
     /**
      * 作为项目经理负责的项目
      */
     private List<ScrumProject> projectManaged = List.of();
-    
+
     /**
      * 参与的项目（非项目经理）
      */
     private List<ScrumProject> projectInvolved = List.of();
-    
+
 }

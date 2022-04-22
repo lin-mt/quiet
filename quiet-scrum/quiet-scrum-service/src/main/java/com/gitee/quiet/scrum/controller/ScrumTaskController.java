@@ -48,11 +48,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/task")
 public class ScrumTaskController {
-    
+
     private final ScrumTaskService taskService;
-    
+
     private final ScrumTaskConvert taskConvert;
-    
+
     /**
      * 查询需求的所有任务信息
      *
@@ -63,12 +63,12 @@ public class ScrumTaskController {
     public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
         Map<Long, Map<Long, List<ScrumTask>>> tasks = taskService.findAllTaskByDemandIds(dto.getDemandIds());
         Map<Long, Map<Long, List<ScrumTaskVO>>> result = tasks.entrySet().stream().collect(
-                Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().entrySet().stream().collect(
-                        Collectors.toMap(Map.Entry::getKey,
-                                tasksEntry -> taskConvert.entities2vos(tasksEntry.getValue())))));
+            Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().entrySet().stream().collect(
+                Collectors.toMap(Map.Entry::getKey,
+                    tasksEntry -> taskConvert.entities2vos(tasksEntry.getValue())))));
         return Result.success(result);
     }
-    
+
     /**
      * 创建任务
      *
@@ -80,7 +80,7 @@ public class ScrumTaskController {
         ScrumTask save = taskService.save(taskConvert.dto2entity(dto));
         return Result.success(taskConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新任务
      *
@@ -92,7 +92,7 @@ public class ScrumTaskController {
         ScrumTask update = taskService.update(taskConvert.dto2entity(dto));
         return Result.success(taskConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除任务
      *

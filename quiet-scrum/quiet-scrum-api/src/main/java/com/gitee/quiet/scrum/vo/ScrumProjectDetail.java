@@ -31,15 +31,15 @@ import java.util.List;
 @Getter
 @Setter
 public class ScrumProjectDetail {
-    
+
     /**
      * 项目信息
      */
     private ScrumProject project;
-    
+
     /**
      * 团队信息
      */
     private List<QuietTeam> teams;
-    
+
 }

@@ -30,7 +30,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumDemandService {
-    
+
     /**
      * 根据迭代ID查询该迭代的所有需求
      *
@@ -38,7 +38,7 @@ public interface ScrumDemandService {
      * @return 迭代中的所有需求
      */
     List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
-    
+
     /**
      * 分页查询需求信息
      *
@@ -47,7 +47,7 @@ public interface ScrumDemandService {
      * @return 需求信息
      */
     Page<ScrumDemand> page(ScrumDemand params, Pageable page);
-    
+
     /**
      * 创建需求
      *
@@ -55,7 +55,7 @@ public interface ScrumDemandService {
      * @return 创建后的需求信息
      */
     ScrumDemand save(@NotNull ScrumDemand save);
-    
+
     /**
      * 更新需求
      *
@@ -63,14 +63,14 @@ public interface ScrumDemandService {
      * @return 更新后的需求信息
      */
     ScrumDemand update(@NotNull ScrumDemand update);
-    
+
     /**
      * 根据项目信息删除项目下的需求信息
      *
      * @param projectId 要删除需求的项目ID
      */
     void deleteAllByProjectId(@NotNull Long projectId);
-    
+
     /**
      * 根据优先级ID统计处于该优先级的需求数量
      *
@@ -78,7 +78,7 @@ public interface ScrumDemandService {
      * @return 处于该优先级的需求数量
      */
     long countByPriorityId(@NotNull Long priorityId);
-    
+
     /**
      * 查询待规划的需求
      *
@@ -89,7 +89,7 @@ public interface ScrumDemandService {
      * @return 项目待规划的需求
      */
     List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
-    
+
     /**
      * 根据迭代ID统计处于该迭代的需求数量
      *
@@ -97,7 +97,7 @@ public interface ScrumDemandService {
      * @return 处于该迭代的需求数量
      */
     long countByIterationId(@NotNull Long iterationId);
-    
+
     /**
      * 查询迭代的需求
      *
@@ -107,21 +107,21 @@ public interface ScrumDemandService {
      * @return 迭代的需求
      */
     List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
-    
+
     /**
      * 根据ID删除需求
      *
      * @param id 需求ID
      */
     void deleteById(Long id);
-    
+
     /**
      * 校验是否需求ID是否存在
      *
      * @param id 需求ID
      */
     void checkIdExist(Long id);
-    
+
     /**
      * 查询指定迭代未完成的所有需求
      *
@@ -129,7 +129,7 @@ public interface ScrumDemandService {
      * @return 未完成的需求信息
      */
     List<ScrumDemand> findAllUnfinished(Long iterationId);
-    
+
     /**
      * 批量保存需求信息
      *

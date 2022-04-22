@@ -30,9 +30,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = Scrum.class)
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class QuietScrumServiceApplication {
-    
+
     public static void main(String[] args) {
         SpringApplication.run(QuietScrumServiceApplication.class, args);
     }
-    
+
 }

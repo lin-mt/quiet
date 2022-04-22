@@ -29,15 +29,15 @@ import java.util.List;
  */
 @Getter
 public class AllTemplate {
-    
+
     /**
      * 登陆人创建的模板
      */
     private final List<ScrumTemplate> templateCreated = new ArrayList<>();
-    
+
     /**
      * 非登陆人创建的可选的模板
      */
     private final List<ScrumTemplate> templateSelectable = new ArrayList<>();
-    
+
 }

@@ -36,48 +36,48 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ScrumIterationDTO extends SerialDTO {
-    
+
     /**
      * 迭代名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
-    
+
     /**
      * 所属版本ID
      */
     @NotNull
     private Long versionId;
-    
+
     /**
      * 迭代计划开始日期
      */
     @NotNull
     private LocalDate planStartDate;
-    
+
     /**
      * 迭代计划结束日期
      */
     @NotNull
     private LocalDate planEndDate;
-    
+
     /**
      * 迭代开始时间
      */
     private LocalDateTime startTime;
-    
+
     /**
      * 迭代结束时间
      */
     private LocalDateTime endTime;
-    
+
     /**
      * 备注信息
      */
     @Length(max = 1000)
     private String remark;
-    
+
     @Override
     public int compareTo(@Nullable Serial other) {
         int compare = super.compareTo(other);
