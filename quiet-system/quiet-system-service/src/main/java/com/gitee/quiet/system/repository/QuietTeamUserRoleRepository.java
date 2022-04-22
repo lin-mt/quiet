@@ -18,11 +18,10 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietTeamUserRole;
-import org.springframework.stereotype.Repository;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 用户团队角色Repository.
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @Repository
 public interface QuietTeamUserRoleRepository extends QuietRepository<QuietTeamUserRole> {
-    
+
     /**
      * 根据团队-用户ID批量查询团队成员的角色信息
      *
@@ -39,7 +38,7 @@ public interface QuietTeamUserRoleRepository extends QuietRepository<QuietTeamUs
      * @return 团队成员的角色信息
      */
     List<QuietTeamUserRole> findByTeamUserIdIsIn(Collection<? extends Serializable> teamUserIds);
-    
+
     /**
      * 根据团队-用户ID批量删除用户的团队角色信息
      *

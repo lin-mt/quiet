@@ -48,11 +48,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/client")
 @PreAuthorize(value = "hasRole('SystemAdmin')")
 public class QuietClientController {
-    
+
     private final QuietClientService clientService;
-    
+
     private final QuietClientConvert clientConvert;
-    
+
     /**
      * 分页查询客户端.
      *
@@ -64,7 +64,7 @@ public class QuietClientController {
         Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
         return Result.success(clientConvert.page2page(clients));
     }
-    
+
     /**
      * 新增客户端.
      *
@@ -76,7 +76,7 @@ public class QuietClientController {
         QuietClient save = clientService.save(clientConvert.dto2entity(dto));
         return Result.createSuccess(clientConvert.entity2vo(save));
     }
-    
+
     /**
      * 删除客户端.
      *
@@ -88,7 +88,7 @@ public class QuietClientController {
         clientService.deleteClientById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新客户端.
      *
@@ -100,7 +100,7 @@ public class QuietClientController {
         QuietClient update = clientService.update(clientConvert.dto2entity(dto));
         return Result.updateSuccess(clientConvert.entity2vo(update));
     }
-    
+
     /**
      * 移除客户端的授权范围
      *
@@ -112,7 +112,7 @@ public class QuietClientController {
         QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
         return Result.success(clientConvert.entity2vo(client));
     }
-    
+
     /**
      * 移除客户端的认证类型
      *
@@ -122,8 +122,8 @@ public class QuietClientController {
     @PostMapping("/remove-client-authorized-grant-type")
     public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
         QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
-                dto.getClientAuthorizedGrantType());
+            dto.getClientAuthorizedGrantType());
         return Result.success(clientConvert.entity2vo(client));
     }
-    
+
 }

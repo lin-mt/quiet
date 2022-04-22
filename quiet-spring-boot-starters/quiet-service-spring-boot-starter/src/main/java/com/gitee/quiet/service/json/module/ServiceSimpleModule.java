@@ -26,16 +26,16 @@ import com.gitee.quiet.service.json.modifier.ServiceSerializerModifier;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ServiceSimpleModule extends SimpleModule {
-    
+
     public ServiceSimpleModule(String name) {
         super(name);
     }
-    
+
     @Override
     public void setupModule(SetupContext context) {
         super.setupModule(context);
         context.addBeanDeserializerModifier(new ServiceDeserializerModifier());
         context.addBeanSerializerModifier(new ServiceSerializerModifier());
     }
-    
+
 }

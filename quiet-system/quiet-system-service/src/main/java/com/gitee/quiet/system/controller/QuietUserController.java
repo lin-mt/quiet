@@ -33,6 +33,7 @@ import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.gitee.quiet.validation.util.ValidationUtils;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,8 +48,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 用户 Controller.
  *
@@ -58,15 +57,15 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/user")
 public class QuietUserController {
-    
+
     private final QuietUserService userService;
-    
+
     private final QuietUserRoleService userRoleService;
-    
+
     private final QuietUserConvert userConvert;
-    
+
     private final QuietUserRoleConverter userRoleConverter;
-    
+
     /**
      * 根据用户名/全名查询用户信息
      *
@@ -78,7 +77,7 @@ public class QuietUserController {
         List<QuietUser> users = userService.listUsersByName(keyword, 9);
         return Result.success(userConvert.entities2vos(users));
     }
-    
+
     /**
      * 用户注册.
      *
@@ -91,7 +90,7 @@ public class QuietUserController {
         QuietUser user = userService.save(userConvert.dto2entity(dto));
         return Result.success(userConvert.entity2vo(user));
     }
-    
+
     /**
      * 分页查询用户.
      *
@@ -103,7 +102,7 @@ public class QuietUserController {
         Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
         return Result.success(userConvert.page2page(userPage));
     }
-    
+
     /**
      * 删除用户.
      *
@@ -116,7 +115,7 @@ public class QuietUserController {
         userService.delete(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新用户.
      *
@@ -129,7 +128,7 @@ public class QuietUserController {
         QuietUser update = userService.update(userConvert.dto2entity(dto));
         return Result.updateSuccess(userConvert.entity2vo(update));
     }
-    
+
     /**
      * 获取当前登陆人信息.
      *
@@ -139,7 +138,7 @@ public class QuietUserController {
     public Result<QuietUserDetails> currentUserInfo() {
         return Result.success(CurrentUserUtil.get());
     }
-    
+
     /**
      * 移除用户的角色
      *
@@ -153,7 +152,7 @@ public class QuietUserController {
         userRoleService.deleteUserRole(dto.getId(), dto.getRoleId());
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 添加用户的角色
      *
@@ -165,5 +164,5 @@ public class QuietUserController {
         List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
         return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
     }
-    
+
 }

@@ -17,11 +17,10 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietTeam;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 团队 Service.
@@ -29,7 +28,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietTeamService {
-    
+
     /**
      * 分页查询团队信息
      *
@@ -38,7 +37,7 @@ public interface QuietTeamService {
      * @return 查询结果
      */
     Page<QuietTeam> page(QuietTeam params, Pageable page);
-    
+
     /**
      * 新增或更新团队信息
      *
@@ -46,14 +45,14 @@ public interface QuietTeamService {
      * @return 新增或更新后的团队信息
      */
     QuietTeam saveOrUpdate(QuietTeam team);
-    
+
     /**
      * 删除团队信息
      *
      * @param deleteId 要删除的团队 ID
      */
     void deleteTeam(Long deleteId);
-    
+
     /**
      * 根据团队名称传销团队信息
      *
@@ -62,7 +61,7 @@ public interface QuietTeamService {
      * @return 团队信息
      */
     List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
-    
+
     /**
      * 根据团队ID批量查询团队信息
      *
@@ -70,7 +69,7 @@ public interface QuietTeamService {
      * @return 团队信息
      */
     List<QuietTeam> findAllByIds(Set<Long> ids);
-    
+
     /**
      * 根据团队ID批量查询团队信息，包含团队的成员信息
      *

@@ -17,13 +17,12 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 角色-权限.
@@ -35,19 +34,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "quiet_role_permission")
 public class QuietRolePermission extends BaseEntity {
-    
+
     /**
      * 角色 ID
      */
     @NotNull
     @Column(name = "role_id", nullable = false)
     private Long roleId;
-    
+
     /**
      * 权限 ID
      */
     @NotNull
     @Column(name = "permission_id", nullable = false)
     private Long permissionId;
-    
+
 }

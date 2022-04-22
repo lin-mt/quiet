@@ -19,15 +19,14 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.jpa.entity.ParentEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 
@@ -41,7 +40,7 @@ import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 @Entity
 @Table(name = "quiet_department")
 public class QuietDepartment extends ParentEntity<QuietDepartment> {
-    
+
     /**
      * 部门名称
      */
@@ -49,24 +48,24 @@ public class QuietDepartment extends ParentEntity<QuietDepartment> {
     @Length(max = 10)
     @Column(name = "department_name", length = 10, nullable = false)
     private String departmentName;
-    
+
     /**
      * 备注
      */
     @Length(max = 100)
     @Column(name = "remark", length = 100)
     private String remark;
-    
+
     @Nullable
     @Override
     public BooleanBuilder booleanBuilder() {
         // @formatter:off
         return SelectBuilder.booleanBuilder()
-                .notNullEq(getId(), quietDepartment.id)
-                .notNullEq(getParentId(), quietDepartment.parentId)
-                .notBlankContains(getDepartmentName(), quietDepartment.departmentName)
-                .notBlankContains(getRemark(), quietDepartment.remark)
-                .getPredicate();
+            .notNullEq(getId(), quietDepartment.id)
+            .notNullEq(getParentId(), quietDepartment.parentId)
+            .notBlankContains(getDepartmentName(), quietDepartment.departmentName)
+            .notBlankContains(getRemark(), quietDepartment.remark)
+            .getPredicate();
         // @formatter:on
     }
 }

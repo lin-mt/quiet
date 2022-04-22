@@ -17,14 +17,13 @@
 package com.gitee.quiet.jpa.id;
 
 import com.gitee.quiet.jpa.utils.IdWorker;
+import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
-
-import java.io.Serializable;
 
 /**
  * Id 生成器.
@@ -33,15 +32,14 @@ import java.io.Serializable;
  */
 @SuppressWarnings("unused")
 public class IdGenerator implements IdentifierGenerator {
-    
-    private static IdWorker idWorker;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(IdGenerator.class);
-    
+    private static IdWorker idWorker;
+
     public static void setIdWorker(@NonNull IdWorker idWorker) {
         IdGenerator.idWorker = idWorker;
     }
-    
+
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         if (idWorker == null) {
@@ -51,5 +49,5 @@ public class IdGenerator implements IdentifierGenerator {
         logger.info("GeneratorId {}", id);
         return id;
     }
-    
+
 }

@@ -35,7 +35,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
  */
 @Activate(group = CommonConstants.PROVIDER)
 public class AccessTokenValueFilter implements Filter {
-    
+
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         String tokenValue = invocation.getAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);

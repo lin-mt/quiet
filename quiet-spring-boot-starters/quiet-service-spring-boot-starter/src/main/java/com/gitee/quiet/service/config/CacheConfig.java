@@ -34,12 +34,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 @Configuration(proxyBeanMethods = false)
 public class CacheConfig {
-    
+
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.create(redisConnectionFactory);
     }
-    
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();

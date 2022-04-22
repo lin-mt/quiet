@@ -17,9 +17,9 @@
 package com.gitee.quiet.service.json.filter;
 
 public final class JsonFilterName {
-    
+
     public static final String HAS_ROLE = "hasRole";
-    
+
     private JsonFilterName() {
     }
 }

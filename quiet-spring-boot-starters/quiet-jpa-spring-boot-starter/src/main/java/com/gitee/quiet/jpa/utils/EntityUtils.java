@@ -18,13 +18,12 @@ package com.gitee.quiet.jpa.utils;
 
 import com.gitee.quiet.common.core.entity.Parent;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * 实体类工具.
@@ -32,10 +31,10 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public final class EntityUtils {
-    
+
     private EntityUtils() {
     }
-    
+
     /**
      * 构建树形结构的数据
      *

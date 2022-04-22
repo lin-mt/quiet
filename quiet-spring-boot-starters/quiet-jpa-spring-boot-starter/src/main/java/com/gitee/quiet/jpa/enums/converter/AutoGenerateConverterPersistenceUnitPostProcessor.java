@@ -16,6 +16,10 @@
 
 package com.gitee.quiet.jpa.enums.converter;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -25,35 +29,30 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 import org.springframework.util.ClassUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 public class AutoGenerateConverterPersistenceUnitPostProcessor implements PersistenceUnitPostProcessor {
-    
+
     private final List<String> packagesToScan;
-    
+
     private final List<CustomerEnumType> customerEnumTypes;
-    
+
     public AutoGenerateConverterPersistenceUnitPostProcessor(List<String> packagesToScan,
-            List<CustomerEnumType> customerEnumTypes) {
+        List<CustomerEnumType> customerEnumTypes) {
         this.packagesToScan = packagesToScan;
         this.customerEnumTypes = customerEnumTypes;
     }
-    
+
     @Override
     public void postProcessPersistenceUnitInfo(@NonNull MutablePersistenceUnitInfo pui) {
         if (CollectionUtils.isNotEmpty(customerEnumTypes) && CollectionUtils.isNotEmpty(packagesToScan)) {
             customerEnumTypes.forEach(customerEnumType -> {
                 AttributeConverterAutoGenerator generator = new AttributeConverterAutoGenerator(
-                        ClassUtils.getDefaultClassLoader(), customerEnumType.getValueClass());
+                    ClassUtils.getDefaultClassLoader(), customerEnumType.getValueClass());
                 findValueEnumClasses(customerEnumType.getSuperClass()).stream().map(generator::generate)
-                        .map(Class::getName).forEach(pui::addManagedClassName);
+                    .map(Class::getName).forEach(pui::addManagedClassName);
             });
         }
     }
-    
+
     private Set<Class<?>> findValueEnumClasses(Class<?> superClass) {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AssignableTypeFilter(superClass));
@@ -62,7 +61,7 @@ public class AutoGenerateConverterPersistenceUnitPostProcessor implements Persis
             beanDefinitions.addAll(scanner.findCandidateComponents(packageToScan));
         }
         return beanDefinitions.stream().filter(bd -> bd.getBeanClassName() != null)
-                .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
-                .collect(Collectors.toUnmodifiableSet());
+            .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
+            .collect(Collectors.toUnmodifiableSet());
     }
 }

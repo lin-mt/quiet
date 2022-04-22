@@ -20,6 +20,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.constant.cache.Gateway;
 import com.gitee.quiet.gateway.entity.QuietRoute;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -30,11 +34,6 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 从redis获取路由信息.
  *
@@ -42,18 +41,18 @@ import java.util.List;
  */
 @Repository
 public class RedisRouteDefinitionRepository implements RouteDefinitionRepository {
-    
+
     private final RedisTemplate<String, Object> redisTemplate;
-    
+
     private final ObjectMapper objectMapper;
-    
+
     private volatile List<QuietRoute> quietRouteList;
-    
+
     public RedisRouteDefinitionRepository(RedisTemplate<String, Object> redisTemplate, ObjectMapper objectMapper) {
         this.redisTemplate = redisTemplate;
         this.objectMapper = objectMapper;
     }
-    
+
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
         Object routes = redisTemplate.opsForValue().get(Gateway.ROUTE_DEFINITION);
@@ -96,12 +95,12 @@ public class RedisRouteDefinitionRepository implements RouteDefinitionRepository
         }
         return Flux.fromIterable(routeDefinitions);
     }
-    
+
     @Override
     public Mono<Void> save(Mono<RouteDefinition> route) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public Mono<Void> delete(Mono<String> routeId) {
         throw new UnsupportedOperationException();

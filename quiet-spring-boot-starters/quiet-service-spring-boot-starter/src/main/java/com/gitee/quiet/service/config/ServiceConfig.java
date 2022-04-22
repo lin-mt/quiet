@@ -52,17 +52,17 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @AutoConfigureBefore(JacksonConfig.class)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 public class ServiceConfig {
-    
+
     @Bean
     public SpringUtil springUtil() {
         return new SpringUtil();
     }
-    
+
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
     }
-    
+
     @Bean
     public BeforeObjectMapperInjection serviceSimpleModule() {
         return objectMapper -> {
@@ -73,23 +73,23 @@ public class ServiceConfig {
             objectMapper.setFilterProvider(filterProvider);
         };
     }
-    
+
     @Bean
     @ConditionalOnMissingBean(AuditorAware.class)
     public QuietAuditorAware auditorAware() {
         return new QuietAuditorAware();
     }
-    
+
     @Bean
     public StringToDictionaryConverter stringToDictionaryConverter() {
         return new StringToDictionaryConverter();
     }
-    
+
     @Bean
     public EnumScanPath serviceEnumPath() {
         return ServiceEnumsPackage.class::getPackageName;
     }
-    
+
     @Bean
     @ConditionalOnProperty(prefix = "spring.jackson", name = "property-naming-strategy", havingValue = "SNAKE_CASE")
     public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> getMethodQueryParamSnakeCaseFilter() {

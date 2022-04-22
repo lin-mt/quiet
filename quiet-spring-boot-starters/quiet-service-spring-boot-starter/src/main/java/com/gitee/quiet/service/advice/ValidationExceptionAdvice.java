@@ -22,6 +22,10 @@ import com.gitee.quiet.validation.config.QuietValidationConfig;
 import com.gitee.quiet.validation.exception.ValidationException;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Converter;
+import java.util.List;
+import java.util.Objects;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.BindException;
@@ -32,11 +36,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Objects;
-
 /**
  * 参数验证异常.
  *
@@ -45,13 +44,13 @@ import java.util.Objects;
 @Slf4j
 @RestControllerAdvice
 public class ValidationExceptionAdvice {
-    
+
     private static final Converter<String, String> CAMEL_TO_UNDERSCORE_CONVERTER = CaseFormat.LOWER_CAMEL.converterTo(
-            CaseFormat.LOWER_UNDERSCORE);
-    
+        CaseFormat.LOWER_UNDERSCORE);
+
     @Resource(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
     private MessageSource messageSource;
-    
+
     /**
      * 处理参数校验异常.
      *
@@ -79,7 +78,7 @@ public class ValidationExceptionAdvice {
         exception.setMessage(errorMsg.toString());
         return exception;
     }
-    
+
     /**
      * 处理自定义的参数异常.
      *
@@ -96,7 +95,7 @@ public class ValidationExceptionAdvice {
             if (Objects.nonNull(e.getCode())) {
                 exception.setCode(e.getCode());
                 exception.setMessage(
-                        MessageSourceUtil.getMessage(request, messageSource, e.getCode(), e.getMsgParam()));
+                    MessageSourceUtil.getMessage(request, messageSource, e.getCode(), e.getMsgParam()));
                 return exception;
             }
         }

@@ -22,6 +22,9 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -30,10 +33,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 /**
  * 配置类.
  *
@@ -41,7 +40,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Configuration
 public class GatewayConfig {
-    
+
     @Bean
     public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
         final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
@@ -57,10 +56,10 @@ public class GatewayConfig {
         objectMapper.registerModule(module);
         return objectMapper;
     }
-    
+
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory,
-            ObjectMapper objectMapper) {
+        ObjectMapper objectMapper) {
         ObjectMapper redisObjectMapper = objectMapper.copy();
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
@@ -70,5 +69,5 @@ public class GatewayConfig {
         template.setValueSerializer(redisSerializer);
         return template;
     }
-    
+
 }

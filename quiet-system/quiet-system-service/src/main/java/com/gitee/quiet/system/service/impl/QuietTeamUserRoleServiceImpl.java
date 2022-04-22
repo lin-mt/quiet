@@ -23,17 +23,16 @@ import com.gitee.quiet.system.repository.QuietTeamUserRoleRepository;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * 用户团队角色Service实现类.
@@ -42,30 +41,30 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
-    
+
     private final QuietTeamUserRoleRepository teamUserRoleRepository;
-    
+
     private final QuietTeamUserService teamUserService;
-    
+
     private final QuietRoleService roleService;
-    
+
     public QuietTeamUserRoleServiceImpl(QuietTeamUserRoleRepository teamUserRoleRepository,
-            QuietTeamUserService teamUserService, QuietRoleService roleService) {
+        QuietTeamUserService teamUserService, QuietRoleService roleService) {
         this.teamUserRoleRepository = teamUserRoleRepository;
         this.teamUserService = teamUserService;
         this.roleService = roleService;
     }
-    
+
     @Override
     public List<QuietTeamUserRole> findByTeamUserIds(Set<Long> teamUserIds) {
         return teamUserRoleRepository.findByTeamUserIdIsIn(teamUserIds);
     }
-    
+
     @Override
     public void deleteByTeamUserIds(@NotNull @NotEmpty Set<Long> teamUserIds) {
         teamUserRoleRepository.removeAllByTeamUserIdIsIn(teamUserIds);
     }
-    
+
     @Override
     public void addRoleForTeam(@NotNull Long teamId, @NotEmpty Set<Long> userIds, @NotNull String roleName) {
         List<QuietTeamUser> teamUsers = teamUserService.findByTeamIdAndUserIds(teamId, userIds);
@@ -74,8 +73,8 @@ public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
             return;
         }
         Map<String, QuietTeamUserRole> teamUserIdToRole = this
-                .findByTeamUserIds(teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet())).stream()
-                .collect(Collectors.toMap(this::buildTeamUserIdToRole, v -> v));
+            .findByTeamUserIds(teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet())).stream()
+            .collect(Collectors.toMap(this::buildTeamUserIdToRole, v -> v));
         QuietRole role = roleService.findByRoleName(roleName);
         List<QuietTeamUserRole> newRoles = new ArrayList<>(teamUsers.size());
         for (QuietTeamUser teamUser : teamUsers) {
@@ -91,11 +90,11 @@ public class QuietTeamUserRoleServiceImpl implements QuietTeamUserRoleService {
             teamUserRoleRepository.saveAll(newRoles);
         }
     }
-    
+
     private String buildTeamUserIdToRole(@NotNull QuietTeamUserRole teamUserRole) {
         return teamUserRole.getTeamUserId().toString() + "-" + teamUserRole.getRoleId().toString();
     }
-    
+
     private String buildTeamUserIdToRole(@NotNull QuietTeamUser teamUser, @NotNull QuietRole role) {
         return teamUser.getId().toString() + "-" + role.getId().toString();
     }

@@ -19,10 +19,9 @@ package com.gitee.quiet.system.service;
 import com.gitee.quiet.system.entity.QuietDepartment;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.querydsl.core.QueryResults;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 /**
  * 部门Service.
@@ -30,7 +29,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietDepartmentService {
-    
+
     /**
      * 分页查询部门数据
      *
@@ -39,28 +38,28 @@ public interface QuietDepartmentService {
      * @return 查询结果
      */
     Page<QuietDepartment> page(QuietDepartment params, Pageable page);
-    
+
     /**
      * 保存或者更新部门数据
      *
      * @param department 保存或者更新的部门ID
      */
     QuietDepartment saveOrUpdate(QuietDepartment department);
-    
+
     /**
      * 删除部门数据
      *
      * @param deleteId 要删除的部门ID
      */
     void deleteById(Long deleteId);
-    
+
     /**
      * 获取所有部门的树形结构信息
      *
      * @return 所有部门信息
      */
     List<QuietDepartment> tree();
-    
+
     /**
      * 分页查询部门下的用户信息
      *

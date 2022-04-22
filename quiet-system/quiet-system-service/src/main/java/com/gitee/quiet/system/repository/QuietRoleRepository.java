@@ -18,11 +18,10 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietRole;
-import org.springframework.stereotype.Repository;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.springframework.stereotype.Repository;
 
 /**
  * 查询角色信息.
@@ -31,7 +30,7 @@ import java.util.Set;
  */
 @Repository
 public interface QuietRoleRepository extends QuietRepository<QuietRole> {
-    
+
     /**
      * 根据角色名称获取角色信息.
      *
@@ -39,7 +38,7 @@ public interface QuietRoleRepository extends QuietRepository<QuietRole> {
      * @return 角色信息
      */
     QuietRole findByRoleName(String roleName);
-    
+
     /**
      * 根据角色名称批量查找角色信息
      *
@@ -47,7 +46,7 @@ public interface QuietRoleRepository extends QuietRepository<QuietRole> {
      * @return 角色信息
      */
     List<QuietRole> findByRoleNameIn(Set<String> roleNames);
-    
+
     /**
      * 根据 ID 查询子角色集合数据
      *

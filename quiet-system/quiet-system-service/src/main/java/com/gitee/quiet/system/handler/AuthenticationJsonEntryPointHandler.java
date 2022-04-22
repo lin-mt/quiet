@@ -20,15 +20,14 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.service.config.MessageSourceConfig;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.MessageSourceUtil;
+import java.io.IOException;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 未登录时返回 json 对象.
@@ -37,13 +36,13 @@ import java.io.IOException;
  */
 @Component
 public class AuthenticationJsonEntryPointHandler extends AbstractResponseJsonData implements AuthenticationEntryPoint {
-    
+
     @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
     private MessageSource messageSource;
-    
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException {
+        AuthenticationException authException) throws IOException {
         logger.error("认证失败", authException);
         Result<Object> failure = Result.failure();
         failure.setCode(MessageSourceCode.Account.NO_LOGIN);

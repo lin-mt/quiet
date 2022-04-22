@@ -23,15 +23,15 @@ import java.util.List;
  *
  * @param <T> 子级类型
  * @param <V> 值类型
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface CascaderVO<V, T> extends SelectVO<V> {
-    
+
     /**
      * 子级选选项
      *
      * @return 子级选项
      */
     List<T> getChildren();
-    
+
 }

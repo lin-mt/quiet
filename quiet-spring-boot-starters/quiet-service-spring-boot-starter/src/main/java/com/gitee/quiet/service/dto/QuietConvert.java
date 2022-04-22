@@ -19,14 +19,13 @@ package com.gitee.quiet.service.dto;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.service.vo.BaseVO;
 import com.querydsl.core.QueryResults;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 实体转换接口.
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends BaseVO> {
-    
+
     /**
      * DTO 转实体
      *
@@ -42,7 +41,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      * @return 实体信息
      */
     E dto2entity(D dto);
-    
+
     /**
      * 实体转VO
      *
@@ -50,7 +49,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      * @return Vo信息
      */
     V entity2vo(E entity);
-    
+
     /**
      * 实体分页信息转VO分页信息
      *
@@ -60,7 +59,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
     default Page<V> page2page(Page<E> ePage) {
         return ePage.map(this::entity2vo);
     }
-    
+
     /**
      * queryDsl 实体分页查询结果转vo分页查询结果
      *
@@ -69,9 +68,9 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      */
     default QueryResults<V> results2results(QueryResults<E> results) {
         return new QueryResults<>(this.entities2vos(results.getResults()), results.getLimit(), results.getOffset(),
-                results.getTotal());
+            results.getTotal());
     }
-    
+
     /**
      * List 实体信息转 vo List
      *
@@ -84,7 +83,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
         }
         return entities.stream().map(this::entity2vo).collect(Collectors.toList());
     }
-    
+
     /**
      * Set 实体信息转 VO Set
      *

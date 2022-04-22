@@ -17,7 +17,6 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietDepartmentUser;
-
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +26,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietDepartmentUserService {
-    
+
     /**
      * 根据部门ID获取该部门下的所有用户
      *
@@ -35,14 +34,14 @@ public interface QuietDepartmentUserService {
      * @return 该部门下的所有用户
      */
     List<QuietDepartmentUser> listAllByDepartmentId(Long departmentId);
-    
+
     /**
      * 根据用户ID删除该用户的部门信息
      *
      * @param userId 用户信息
      */
     void deleteByUserId(Long userId);
-    
+
     /**
      * 为部门批量添加用户
      *
@@ -50,7 +49,7 @@ public interface QuietDepartmentUserService {
      * @param userIds      部门新增的用户ID集合
      */
     void addUsers(Long departmentId, Set<Long> userIds);
-    
+
     /**
      * 批量删除部门中的某些用户
      *

@@ -30,10 +30,10 @@ import com.gitee.quiet.service.json.modifier.deserializer.DictionaryDeserializer
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ServiceDeserializerModifier extends BeanDeserializerModifier {
-    
+
     @Override
     public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc,
-            JsonDeserializer<?> deserializer) {
+        JsonDeserializer<?> deserializer) {
         if (Dictionary.class.isAssignableFrom(beanDesc.getBeanClass()) && deserializer instanceof BeanDeserializer) {
             return new DictionaryDeserializer((BeanDeserializer) deserializer);
         }

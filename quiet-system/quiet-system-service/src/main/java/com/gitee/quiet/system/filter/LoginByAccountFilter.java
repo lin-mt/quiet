@@ -21,6 +21,10 @@ import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.handler.ResultAuthenticationFailureHandler;
 import com.gitee.quiet.system.handler.ResultAuthenticationSuccessHandler;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
@@ -33,11 +37,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-
 /**
  * 处理使用 Json 格式数据的登陆方式.
  *
@@ -45,13 +44,13 @@ import java.io.InputStream;
  */
 @Component
 public class LoginByAccountFilter extends UsernamePasswordAuthenticationFilter {
-    
+
     private final ObjectMapper objectMapper;
-    
+
     @Autowired
     public LoginByAccountFilter(ResultAuthenticationSuccessHandler authenticationSuccessHandler,
-            ResultAuthenticationFailureHandler authenticationFailureHandler,
-            @Lazy AuthenticationManager authenticationManager, ObjectMapper objectMapper) {
+        ResultAuthenticationFailureHandler authenticationFailureHandler,
+        @Lazy AuthenticationManager authenticationManager, ObjectMapper objectMapper) {
         // 自定义该方式处理登录信息的登录地址，默认是 /login POST
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(Url.LOGIN_BY_ACCOUNT, "POST"));
         setAuthenticationSuccessHandler(authenticationSuccessHandler);
@@ -59,10 +58,10 @@ public class LoginByAccountFilter extends UsernamePasswordAuthenticationFilter {
         setAuthenticationManager(authenticationManager);
         this.objectMapper = objectMapper;
     }
-    
+
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
-            throws AuthenticationException {
+        throws AuthenticationException {
         if (null != request.getContentType() && request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE)) {
             UsernamePasswordAuthenticationToken authToken = null;
             QuietUser user;
@@ -82,5 +81,5 @@ public class LoginByAccountFilter extends UsernamePasswordAuthenticationFilter {
             return super.attemptAuthentication(request, response);
         }
     }
-    
+
 }

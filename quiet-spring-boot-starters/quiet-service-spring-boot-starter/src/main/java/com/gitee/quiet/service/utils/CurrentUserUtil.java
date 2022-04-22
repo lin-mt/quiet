@@ -20,12 +20,11 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.common.constant.service.RoleNames;
 import com.gitee.quiet.service.security.entity.QuietGrantedAuthority;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
+import java.util.Collection;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
 
 /**
  * Spring Security 工具类.
@@ -33,10 +32,10 @@ import java.util.Collection;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class CurrentUserUtil {
-    
+
     private CurrentUserUtil() {
     }
-    
+
     /**
      * 获取当前登录人信息.
      *
@@ -50,7 +49,7 @@ public class CurrentUserUtil {
         }
         return (QuietUserDetails) authentication.getPrincipal();
     }
-    
+
     /**
      * 获取当前登录人ID.
      *
@@ -60,7 +59,7 @@ public class CurrentUserUtil {
     public static Long getId() {
         return get().getId();
     }
-    
+
     /**
      * 获取当前登录人用户名.
      *
@@ -70,7 +69,7 @@ public class CurrentUserUtil {
     public static String getUsername() {
         return get().getUsername();
     }
-    
+
     /**
      * 获取当前登录人全名.
      *
@@ -80,7 +79,7 @@ public class CurrentUserUtil {
     public static String getFullName() {
         return get().getFullName();
     }
-    
+
     /**
      * 判断是否拥有某个角色的权限
      *
@@ -97,7 +96,7 @@ public class CurrentUserUtil {
         }
         return false;
     }
-    
+
     /**
      * 是否管理员
      *
@@ -106,7 +105,7 @@ public class CurrentUserUtil {
     public static boolean isAdmin() {
         return hasRole(RoleNames.Admin) || isSystemAdmin();
     }
-    
+
     /**
      * 是否系统管理员
      *

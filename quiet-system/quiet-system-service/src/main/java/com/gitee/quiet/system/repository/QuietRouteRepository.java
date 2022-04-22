@@ -19,9 +19,8 @@ package com.gitee.quiet.system.repository;
 import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietRoute;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  * 路由信息Repository.
@@ -30,7 +29,7 @@ import java.util.List;
  */
 @Repository
 public interface QuietRouteRepository extends QuietRepository<QuietRoute> {
-    
+
     /**
      * 根据网关路由ID和环境查询网关路由配置信息
      *
@@ -39,7 +38,7 @@ public interface QuietRouteRepository extends QuietRepository<QuietRoute> {
      * @return 网关路由信息
      */
     QuietRoute findByRouteIdAndEnvironment(String routeId, Dictionary<?> environment);
-    
+
     /**
      * 查询指定环境下的路由配置
      *

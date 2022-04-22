@@ -18,13 +18,12 @@ package com.gitee.quiet.jpa.converter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.gitee.quiet.common.util.JsonUtils;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 实体Set属性转换数据库String.
@@ -33,10 +32,10 @@ import java.util.Set;
  */
 @Converter(autoApply = true)
 public class SetStringConverter implements AttributeConverter<Set<String>, String> {
-    
+
     private static final TypeReference<Set<String>> reference = new TypeReference<>() {
     };
-    
+
     @Override
     public String convertToDatabaseColumn(Set<String> attribute) {
         if (CollectionUtils.isEmpty(attribute)) {
@@ -44,7 +43,7 @@ public class SetStringConverter implements AttributeConverter<Set<String>, Strin
         }
         return JsonUtils.toJsonString(attribute);
     }
-    
+
     @Override
     public Set<String> convertToEntityAttribute(String dbData) {
         Set<String> attribute = new HashSet<>();

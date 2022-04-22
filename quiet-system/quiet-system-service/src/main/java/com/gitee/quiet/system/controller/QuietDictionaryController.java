@@ -25,6 +25,7 @@ import com.gitee.quiet.system.vo.QuietDictionaryVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,8 +40,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 数据字典Controller.
  *
@@ -50,11 +49,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/dictionary")
 public class QuietDictionaryController {
-    
+
     private final QuietDictionaryService dictionaryService;
-    
+
     private final QuietDictionaryConvert dictionaryConvert;
-    
+
     /**
      * 根据数据字典类型查询该类型的数据字典，不包含一级数据字典，type 为空时返回空的集合
      *
@@ -66,7 +65,7 @@ public class QuietDictionaryController {
         List<QuietDictionary> quietDictionaries = dictionaryService.listByTypeForSelect(type);
         return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
     }
-    
+
     /**
      * 根据数据字典类型返回该类型所有字典信息，包含一级数据字典，type 为空的时候可以查询所有字典信息
      *
@@ -78,7 +77,7 @@ public class QuietDictionaryController {
         List<QuietDictionary> quietDictionaries = dictionaryService.treeByType(type);
         return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
     }
-    
+
     /**
      * 分页查询数据字典.
      *
@@ -89,7 +88,7 @@ public class QuietDictionaryController {
         Page<QuietDictionary> dictionaryPage = dictionaryService.page(dictionaryConvert.dto2entity(dto), dto.page());
         return Result.success(dictionaryConvert.page2page(dictionaryPage));
     }
-    
+
     /**
      * 新增数据字典.
      *
@@ -101,7 +100,7 @@ public class QuietDictionaryController {
         QuietDictionary save = dictionaryService.save(dictionaryConvert.dto2entity(dto));
         return Result.createSuccess(dictionaryConvert.entity2vo(save));
     }
-    
+
     /**
      * 删除数据字典.
      *
@@ -114,7 +113,7 @@ public class QuietDictionaryController {
         dictionaryService.delete(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新数据字典.
      *

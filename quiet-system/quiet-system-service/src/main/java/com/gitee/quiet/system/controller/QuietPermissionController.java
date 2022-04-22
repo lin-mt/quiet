@@ -45,11 +45,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/permission")
 public class QuietPermissionController {
-    
+
     private final QuietPermissionService permissionService;
-    
+
     private final QuietPermissionConvert permissionConvert;
-    
+
     /**
      * 分页查询权限信息.
      *
@@ -61,7 +61,7 @@ public class QuietPermissionController {
         Page<QuietPermission> permissionPage = permissionService.page(permissionConvert.dto2entity(dto), dto.page());
         return Result.success(permissionConvert.page2page(permissionPage));
     }
-    
+
     /**
      * 新增权限配置.
      *
@@ -73,7 +73,7 @@ public class QuietPermissionController {
         QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
         return Result.createSuccess(permissionConvert.entity2vo(permission));
     }
-    
+
     /**
      * 更新权限配置.
      *
@@ -85,7 +85,7 @@ public class QuietPermissionController {
         QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
         return Result.updateSuccess(permissionConvert.entity2vo(permission));
     }
-    
+
     /**
      * 删除权限配置.
      *
@@ -97,5 +97,5 @@ public class QuietPermissionController {
         permissionService.delete(id);
         return Result.deleteSuccess();
     }
-    
+
 }

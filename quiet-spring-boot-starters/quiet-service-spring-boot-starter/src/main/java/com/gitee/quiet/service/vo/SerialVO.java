@@ -23,11 +23,11 @@ import lombok.Setter;
 /**
  * 可排序的VO.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 public class SerialVO extends BaseVO implements Serial {
-    
+
     private int serialNumber;
 }

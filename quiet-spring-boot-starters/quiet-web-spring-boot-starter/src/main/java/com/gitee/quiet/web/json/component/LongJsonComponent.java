@@ -22,10 +22,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.jackson.JsonComponent;
-
-import java.io.IOException;
 
 /**
  * Long 的序列化方式.
@@ -34,38 +33,38 @@ import java.io.IOException;
  */
 @JsonComponent
 public class LongJsonComponent {
-    
+
     /**
      * java.lang.Long 反序列化
      *
      * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
      */
     public static class LongDeserializer extends JsonDeserializer<Long> {
-        
+
         @Override
         public Long deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-                throws IOException {
+            throws IOException {
             if (StringUtils.isNoneBlank(jsonParser.getText())) {
                 return Long.parseLong(jsonParser.getText());
             }
             return null;
         }
     }
-    
+
     /**
      * java.lang.Long 序列化
      *
      * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
      */
     public static class LongSerializer extends JsonSerializer<Long> {
-        
+
         @Override
         public void serialize(Long longValue, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-                throws IOException {
+            throws IOException {
             if (longValue != null) {
                 jsonGenerator.writeString(longValue.toString());
             }
         }
     }
-    
+
 }

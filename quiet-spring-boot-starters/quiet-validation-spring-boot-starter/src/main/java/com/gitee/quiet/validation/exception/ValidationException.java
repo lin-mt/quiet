@@ -24,7 +24,7 @@ import com.gitee.quiet.common.core.exception.QuietException;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ValidationException extends QuietException {
-    
+
     public ValidationException(String code, Object... msgParam) {
         super(code, msgParam);
     }

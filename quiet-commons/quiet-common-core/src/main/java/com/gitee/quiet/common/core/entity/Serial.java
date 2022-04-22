@@ -16,14 +16,13 @@
 
 package com.gitee.quiet.common.core.entity;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 
 /**
  * 可排序.
@@ -31,21 +30,21 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface Serial extends Comparable<Serial> {
-    
+
     /**
      * 获取排序的序号
      *
      * @return 序号
      */
     int getSerialNumber();
-    
+
     /**
      * 设置排序的序号
      *
      * @param serialNumber 序号
      */
     void setSerialNumber(int serialNumber);
-    
+
     /**
      * 跟其他对象进行比较
      *
@@ -59,9 +58,9 @@ public interface Serial extends Comparable<Serial> {
         }
         return Integer.compare(getSerialNumber(), other.getSerialNumber());
     }
-    
+
     class Utils {
-        
+
         public static <T> void sortSerial(List<T> value) {
             if (CollectionUtils.isNotEmpty(value)) {
                 Map<Integer, T> indexToValue = new HashMap<>(value.size());
@@ -82,5 +81,5 @@ public interface Serial extends Comparable<Serial> {
             }
         }
     }
-    
+
 }

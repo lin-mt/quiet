@@ -24,6 +24,7 @@ import com.gitee.quiet.system.service.QuietTeamService;
 import com.gitee.quiet.system.vo.QuietTeamVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,8 +38,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * 团队 Controller.
  *
@@ -48,11 +47,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/team")
 public class QuietTeamController {
-    
+
     private final QuietTeamService teamService;
-    
+
     private final QuietTeamConvert teamConvert;
-    
+
     /**
      * 根据团队名称查询团队信息
      *
@@ -64,7 +63,7 @@ public class QuietTeamController {
         List<QuietTeam> teams = teamService.listTeamsByTeamName(dto.getTeamName(), 9);
         return Result.success(teamConvert.entities2vos(teams));
     }
-    
+
     /**
      * 分页查询团队信息.
      *
@@ -76,7 +75,7 @@ public class QuietTeamController {
         Page<QuietTeam> teamPage = teamService.page(teamConvert.dto2entity(dto), dto.page());
         return Result.success(teamConvert.page2page(teamPage));
     }
-    
+
     /**
      * 新增团队.
      *
@@ -88,7 +87,7 @@ public class QuietTeamController {
         QuietTeam team = teamService.saveOrUpdate(teamConvert.dto2entity(dto));
         return Result.createSuccess(teamConvert.entity2vo(team));
     }
-    
+
     /**
      * 删除团队.
      *
@@ -101,7 +100,7 @@ public class QuietTeamController {
         teamService.deleteTeam(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新团队.
      *
@@ -113,5 +112,5 @@ public class QuietTeamController {
         QuietTeam team = teamService.saveOrUpdate(teamConvert.dto2entity(dto));
         return Result.updateSuccess(teamConvert.entity2vo(team));
     }
-    
+
 }
