@@ -20,6 +20,7 @@ import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietUser;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -45,4 +46,11 @@ public interface QuietUserRepository extends QuietRepository<QuietUser> {
      * @return 用户信息
      */
     List<QuietUser> findByIdIsIn(Collection<Long> userIds);
+
+    /**
+     * 根据用户名批量查询
+     * @param usernames 用户名集合
+     * @return 用户信息
+     */
+    List<QuietUser> findByUsernameIsIn(Set<String> usernames);
 }
