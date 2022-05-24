@@ -62,148 +62,174 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 @DubboService
 public class QuietUserServiceImpl implements QuietUserService {
 
-    private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory jpaQueryFactory;
 
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-    private final QuietUserRepository userRepository;
+  private final QuietUserRepository userRepository;
 
-    private final QuietUserRoleService userRoleService;
+  private final QuietUserRoleService userRoleService;
 
-    private final QuietRoleService roleService;
+  private final QuietRoleService roleService;
 
-    private final QuietDepartmentUserService departmentUserService;
+  private final QuietDepartmentUserService departmentUserService;
 
-    private final QuietTeamUserService teamUserService;
+  private final QuietTeamUserService teamUserService;
 
-    public QuietUserServiceImpl(JPAQueryFactory jpaQueryFactory, PasswordEncoder passwordEncoder,
-        QuietUserRepository userRepository, QuietUserRoleService userRoleService, QuietRoleService roleService,
-        QuietDepartmentUserService departmentUserService, QuietTeamUserService teamUserService) {
-        this.jpaQueryFactory = jpaQueryFactory;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.userRoleService = userRoleService;
-        this.roleService = roleService;
-        this.departmentUserService = departmentUserService;
-        this.teamUserService = teamUserService;
+  public QuietUserServiceImpl(
+      JPAQueryFactory jpaQueryFactory,
+      PasswordEncoder passwordEncoder,
+      QuietUserRepository userRepository,
+      QuietUserRoleService userRoleService,
+      QuietRoleService roleService,
+      QuietDepartmentUserService departmentUserService,
+      QuietTeamUserService teamUserService) {
+    this.jpaQueryFactory = jpaQueryFactory;
+    this.passwordEncoder = passwordEncoder;
+    this.userRepository = userRepository;
+    this.userRoleService = userRoleService;
+    this.roleService = roleService;
+    this.departmentUserService = departmentUserService;
+    this.teamUserService = teamUserService;
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
+    QuietUser user = userRepository.getByUsername(username);
+    if (user == null) {
+      throw new UsernameNotFoundException("用户不存在");
     }
-
-    @Override
-    public UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
-        QuietUser user = userRepository.getByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
-        List<QuietUserRole> quietUserRoles = userRoleService.findByUserId(user.getId());
-        if (CollectionUtils.isNotEmpty(quietUserRoles)) {
-            Set<Long> roleIds = quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-            List<QuietRole> roles = roleService.findAllById(roleIds);
-            roles.addAll(roleService.getReachableGrantedAuthorities(roles));
-            user.setAuthorities(roles);
-        }
-        return user;
+    List<QuietUserRole> quietUserRoles = userRoleService.findByUserId(user.getId());
+    if (CollectionUtils.isNotEmpty(quietUserRoles)) {
+      Set<Long> roleIds =
+          quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
+      List<QuietRole> roles = roleService.findAllById(roleIds);
+      roles.addAll(roleService.getReachableGrantedAuthorities(roles));
+      user.setAuthorities(roles);
     }
+    return user;
+  }
 
-    @Override
-    public QuietUser save(@NotNull QuietUser quietUser) {
-        if (userRepository.getByUsername(quietUser.getUsername()) != null) {
-            throw new ServiceException("user.username.exist", quietUser.getUsername());
-        }
-        quietUser.setSecretCode(passwordEncoder.encode(quietUser.getSecretCode()));
-        return userRepository.saveAndFlush(quietUser);
+  @Override
+  public QuietUser save(@NotNull QuietUser quietUser) {
+    if (userRepository.getByUsername(quietUser.getUsername()) != null) {
+      throw new ServiceException("user.username.exist", quietUser.getUsername());
     }
+    quietUser.setSecretCode(passwordEncoder.encode(quietUser.getSecretCode()));
+    return userRepository.saveAndFlush(quietUser);
+  }
 
-    @Override
-    public boolean delete(@NotNull Long deleteId) {
-        // 删除用户-角色信息
-        userRoleService.deleteByUserId(deleteId);
-        // 删除部门-用户信息
-        departmentUserService.deleteByUserId(deleteId);
-        // 删除团队-用户信息
-        teamUserService.deleteByUserId(deleteId);
-        // TODO 删除跟用户相关的其他信息
-        // 删除用户信息
-        userRepository.deleteById(deleteId);
-        return true;
+  @Override
+  public boolean delete(@NotNull Long deleteId) {
+    // 删除用户-角色信息
+    userRoleService.deleteByUserId(deleteId);
+    // 删除部门-用户信息
+    departmentUserService.deleteByUserId(deleteId);
+    // 删除团队-用户信息
+    teamUserService.deleteByUserId(deleteId);
+    // TODO 删除跟用户相关的其他信息
+    // 删除用户信息
+    userRepository.deleteById(deleteId);
+    return true;
+  }
+
+  @Override
+  public QuietUser update(@NotNull QuietUser user) {
+    QuietUser exist = userRepository.getByUsername(user.getUsername());
+    if (exist != null && !exist.getId().equals(user.getId())) {
+      throw new ServiceException("user.username.exist", user.getUsername());
     }
+    user.setSecretCode(passwordEncoder.encode(user.getPassword()));
+    return userRepository.saveAndFlush(user);
+  }
 
-    @Override
-    public QuietUser update(@NotNull QuietUser user) {
-        QuietUser exist = userRepository.getByUsername(user.getUsername());
-        if (exist != null && !exist.getId().equals(user.getId())) {
-            throw new ServiceException("user.username.exist", user.getUsername());
-        }
-        user.setSecretCode(passwordEncoder.encode(user.getPassword()));
-        return userRepository.saveAndFlush(user);
+  @Override
+  public Page<QuietUser> page(QuietUser params, @NotNull Pageable page) {
+    BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+    Page<QuietUser> results = userRepository.findAll(predicate, page);
+    if (CollectionUtils.isNotEmpty(results.getContent())) {
+      Set<Long> userIds =
+          results.getContent().stream().map(QuietUser::getId).collect(Collectors.toSet());
+      Map<Long, List<QuietRole>> userIdToRoleInfo = this.mapUserIdToRoleInfo(userIds);
+      for (QuietUser user : results.getContent()) {
+        user.setAuthorities(userIdToRoleInfo.get(user.getId()));
+      }
     }
+    return results;
+  }
 
-    @Override
-    public Page<QuietUser> page(QuietUser params, @NotNull Pageable page) {
-        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
-        Page<QuietUser> results = userRepository.findAll(predicate, page);
-        if (CollectionUtils.isNotEmpty(results.getContent())) {
-            Set<Long> userIds = results.getContent().stream().map(QuietUser::getId).collect(Collectors.toSet());
-            Map<Long, List<QuietRole>> userIdToRoleInfo = this.mapUserIdToRoleInfo(userIds);
-            for (QuietUser user : results.getContent()) {
-                user.setAuthorities(userIdToRoleInfo.get(user.getId()));
+  @Override
+  public boolean existsById(@NotNull Long userId) {
+    return userRepository.existsById(userId);
+  }
+
+  @Override
+  public Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds) {
+    if (CollectionUtils.isNotEmpty(userIds)) {
+      List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
+      if (CollectionUtils.isNotEmpty(allUserRoles)) {
+        Map<Long, List<QuietUserRole>> userIdToUserRoles =
+            allUserRoles.stream().collect(Collectors.groupingBy(QuietUserRole::getUserId));
+        Set<Long> roleIds =
+            allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
+        Map<Long, QuietRole> roleIdToRoleInfo =
+            roleService.findAllByIds(roleIds).stream()
+                .collect(Collectors.toMap(QuietRole::getId, val -> val));
+        Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
+        for (Long userId : userIds) {
+          List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
+          result.put(userId, new ArrayList<>());
+          if (CollectionUtils.isNotEmpty(userRoles)) {
+            for (QuietUserRole userRole : userRoles) {
+              result.get(userId).add(roleIdToRoleInfo.get(userRole.getRoleId()));
             }
+          }
         }
-        return results;
+        return result;
+      }
     }
+    return Collections.emptyMap();
+  }
 
-    @Override
-    public boolean existsById(@NotNull Long userId) {
-        return userRepository.existsById(userId);
+  @Override
+  public List<QuietUser> findByUserIds(@NotNull @NotEmpty Set<Long> userIds) {
+    return jpaQueryFactory
+        .select(
+            Projections.bean(
+                QuietUser.class,
+                quietUser.id,
+                quietUser.fullName,
+                quietUser.username,
+                quietUser.avatar))
+        .from(quietUser)
+        .where(quietUser.id.in(userIds))
+        .fetch();
+  }
+
+  @Override
+  public List<QuietUser> listUsersByName(String name, int limit) {
+    if (StringUtils.isBlank(name)) {
+      return new ArrayList<>();
     }
-
-    @Override
-    public Map<Long, List<QuietRole>> mapUserIdToRoleInfo(Collection<Long> userIds) {
-        if (CollectionUtils.isNotEmpty(userIds)) {
-            List<QuietUserRole> allUserRoles = userRoleService.findRolesByUserIds(userIds);
-            if (CollectionUtils.isNotEmpty(allUserRoles)) {
-                Map<Long, List<QuietUserRole>> userIdToUserRoles = allUserRoles.stream()
-                    .collect(Collectors.groupingBy(QuietUserRole::getUserId));
-                Set<Long> roleIds = allUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-                Map<Long, QuietRole> roleIdToRoleInfo = roleService.findAllByIds(roleIds).stream()
-                    .collect(Collectors.toMap(QuietRole::getId, val -> val));
-                Map<Long, List<QuietRole>> result = new HashMap<>(userIds.size());
-                for (Long userId : userIds) {
-                    List<QuietUserRole> userRoles = userIdToUserRoles.get(userId);
-                    result.put(userId, new ArrayList<>());
-                    if (CollectionUtils.isNotEmpty(userRoles)) {
-                        for (QuietUserRole userRole : userRoles) {
-                            result.get(userId).add(roleIdToRoleInfo.get(userRole.getRoleId()));
-                        }
-                    }
-                }
-                return result;
-            }
-        }
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public List<QuietUser> findByUserIds(@NotNull @NotEmpty Set<Long> userIds) {
-        return jpaQueryFactory.select(
-            Projections.bean(QuietUser.class, quietUser.id, quietUser.fullName, quietUser.username,
-                quietUser.avatar)).from(quietUser).where(quietUser.id.in(userIds)).fetch();
-    }
-
-    @Override
-    public List<QuietUser> listUsersByName(String name, int limit) {
-        if (StringUtils.isBlank(name)) {
-            return new ArrayList<>();
-        }
-        JPAQuery<QuietUser> query = jpaQueryFactory.selectFrom(quietUser)
+    JPAQuery<QuietUser> query =
+        jpaQueryFactory
+            .selectFrom(quietUser)
             .where(quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
-        if (limit > 0) {
-            query.limit(limit);
-        }
-        return query.fetch();
+    if (limit > 0) {
+      query.limit(limit);
     }
+    return query.fetch();
+  }
 
-    @Override
-    public QuietUser findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new ServiceException("user.id.not.exist", id));
-    }
+  @Override
+  public QuietUser findById(Long id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("user.id.not.exist", id));
+  }
+
+  @Override
+  public List<QuietUser> findByUsernames(Set<String> usernames) {
+    return userRepository.findByUsernameIsIn(usernames);
+  }
 }

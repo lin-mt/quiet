@@ -106,4 +106,6 @@ public interface QuietUserService extends UserDetailsService {
      * @return 用户信息
      */
     QuietUser findById(Long id);
+
+    List<QuietUser> findByUsernames(Set<String> names);
 }

@@ -16,6 +16,7 @@
 
 package com.gitee.quiet.service.dubbo.filter.provider;
 
+import com.gitee.quiet.service.dubbo.filter.DubboThreadLocal;
 import com.gitee.quiet.service.security.context.QuietSecurityContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -40,6 +41,7 @@ public class AccessTokenValueFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         String tokenValue = invocation.getAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
         if (StringUtils.isNotBlank(tokenValue)) {
+            DubboThreadLocal.USER_TOKEN.set(tokenValue);
             SecurityContextHolder.setContext(new QuietSecurityContext(tokenValue));
         }
         try {
