@@ -17,6 +17,7 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApi;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -78,4 +79,11 @@ public interface DocApiService {
      * @param id 要校验的ID
      */
     void checkId(Long id);
+
+    /**
+     * 批量保存
+     *
+     * @param docApis 文档信息
+     */
+    void saveAll(Collection<DocApi> docApis);
 }

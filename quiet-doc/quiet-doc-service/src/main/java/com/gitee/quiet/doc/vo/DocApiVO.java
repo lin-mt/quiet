@@ -18,7 +18,6 @@ package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.service.vo.SerialVO;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
@@ -72,7 +71,12 @@ public class DocApiVO extends SerialVO {
     /**
      * 作者ID
      */
-    private Long authorId = CurrentUserUtil.getId();
+    private Long authorId;
+
+    /**
+     * 作者全名
+     */
+    private String authorFullName;
 
     /**
      * 所属分组ID
@@ -97,8 +101,17 @@ public class DocApiVO extends SerialVO {
     private String creatorFullName;
 
     /**
+     * 更新人用户名
+     */
+    private String updaterFullName;
+
+    /**
      * 所属分组信息
      */
     private DocApiGroupVO apiGroup;
 
+    /**
+     * api 详细信息
+     */
+    private DocApiInfoVO docApiInfo;
 }

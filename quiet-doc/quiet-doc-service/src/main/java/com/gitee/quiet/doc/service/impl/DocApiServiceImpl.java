@@ -20,6 +20,7 @@ import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.service.exception.ServiceException;
+import java.util.Collection;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,7 @@ public class DocApiServiceImpl implements DocApiService {
 
     @Override
     public void deleteById(Long id) {
+
         repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
         repository.deleteById(id);
     }
@@ -87,5 +89,13 @@ public class DocApiServiceImpl implements DocApiService {
         if (!repository.existsById(id)) {
             throw new ServiceException("api.id.notExist");
         }
+    }
+
+    @Override
+    public void saveAll(Collection<DocApi> docApis) {
+        if (CollectionUtils.isEmpty(docApis)) {
+            return;
+        }
+        repository.saveAll(docApis);
     }
 }

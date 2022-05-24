@@ -18,8 +18,10 @@ package com.gitee.quiet.doc.dubbo;
 
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietUserService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
 
@@ -40,5 +42,12 @@ public class UserDubboService {
 
     public List<QuietUser> findByUserIds(Set<Long> userIds) {
         return userService.findByUserIds(userIds);
+    }
+
+    public List<QuietUser> findByUsernames(Set<String> usernames) {
+        if (CollectionUtils.isEmpty(usernames)) {
+            return new ArrayList<>();
+        }
+        return userService.findByUsernames(usernames);
     }
 }

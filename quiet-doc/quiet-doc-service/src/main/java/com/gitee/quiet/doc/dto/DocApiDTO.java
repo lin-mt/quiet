@@ -19,11 +19,7 @@ package com.gitee.quiet.doc.dto;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.service.dto.SerialDTO;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
-import com.gitee.quiet.system.entity.QuietUser;
-import java.util.List;
 import java.util.Set;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -75,7 +71,12 @@ public class DocApiDTO extends SerialDTO {
     /**
      * 作者ID
      */
-    private Long authorId = CurrentUserUtil.getId();
+    private Long authorId;
+
+    /**
+     * 作者
+     */
+    private String author;
 
     /**
      * 所属分组ID
@@ -95,9 +96,8 @@ public class DocApiDTO extends SerialDTO {
     private String remark;
 
     /**
-     * 访问者信息
+     * api 信息
      */
-    @Transient
-    private List<QuietUser> visitors;
+    private DocApiInfoDTO apiInfo;
 
 }

@@ -18,6 +18,8 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.jpa.repository.QuietRepository;
+import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -43,4 +45,12 @@ public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
      * @return api信息
      */
     DocApiInfo getByApiId(Long apiId);
+
+    /**
+     * 根据 api ID 批量查询api信息
+     *
+     * @param apiIds api id 集合
+     * @return api 信息
+     */
+    List<DocApiInfo> findAllByApiIdIn(Set<Long> apiIds);
 }

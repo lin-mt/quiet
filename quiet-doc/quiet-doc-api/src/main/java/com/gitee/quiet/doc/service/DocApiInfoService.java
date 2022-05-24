@@ -17,6 +17,9 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApiInfo;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * api 信息 Service.
@@ -48,4 +51,19 @@ public interface DocApiInfoService {
      * @return api信息
      */
     DocApiInfo getByApiId(Long apiId);
+
+    /**
+     * 根据 api ID 批量查询api信息
+     *
+     * @param apiIds api id 集合
+     * @return api 信息
+     */
+    List<DocApiInfo> listByApiIds(Set<Long> apiIds);
+
+    /**
+     * 批量保存
+     *
+     * @param apiInfos api 详细信息
+     */
+    void saveAll(Collection<DocApiInfo> apiInfos);
 }
