@@ -16,6 +16,8 @@
 
 package com.gitee.quiet.service.dubbo.filter.consumer;
 
+import com.gitee.quiet.service.dubbo.filter.DubboThreadLocal;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.Filter;
@@ -39,9 +41,14 @@ public class AccessTokenValueFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        String tokenValue;
         if (requestAttributes != null) {
-            String tokenValue = (String) ((ServletRequestAttributes) requestAttributes).getRequest()
+            tokenValue = (String) ((ServletRequestAttributes) requestAttributes).getRequest()
                 .getAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
+        } else {
+            tokenValue = DubboThreadLocal.USER_TOKEN.get();
+        }
+        if (StringUtils.isNotBlank(tokenValue)) {
             invocation.setAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE, tokenValue);
         }
         return invoker.invoke(invocation);
