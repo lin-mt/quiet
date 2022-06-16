@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service.impl;
@@ -40,16 +41,16 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumVersionServiceImpl implements ScrumVersionService {
-    
+
     private final ScrumVersionRepository versionRepository;
-    
+
     private final ScrumIterationService iterationService;
-    
+
     public ScrumVersionServiceImpl(ScrumVersionRepository versionRepository, ScrumIterationService iterationService) {
         this.versionRepository = versionRepository;
         this.iterationService = iterationService;
     }
-    
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteAllByProjectId(@NotNull Long projectId) {
@@ -61,7 +62,7 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             versionRepository.deleteByProjectId(projectId);
         }
     }
-    
+
     @Override
     public List<ScrumVersion> findDetailsByProjectId(Long projectId) {
         List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
@@ -69,33 +70,33 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
             Set<Long> versionIds = versions.stream().map(ScrumVersion::getId).collect(Collectors.toSet());
             List<ScrumIteration> iterations = iterationService.findAllByVersionIds(versionIds);
             Map<Long, List<ScrumIteration>> versionIdToIterations = iterations.stream()
-                    .collect(Collectors.groupingBy(ScrumIteration::getVersionId));
+                .collect(Collectors.groupingBy(ScrumIteration::getVersionId));
             for (ScrumVersion version : versions) {
                 version.setIterations(versionIdToIterations.getOrDefault(version.getId(), List.of()));
             }
         }
         return EntityUtils.buildTreeData(versions);
     }
-    
+
     @Override
     public ScrumVersion save(ScrumVersion save) {
         checkInfo(save);
         return versionRepository.save(save);
     }
-    
+
     @Override
     public ScrumVersion update(ScrumVersion update) {
         checkInfo(update);
         return versionRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void checkIdExist(Long id) {
         if (!versionRepository.existsById(id)) {
             throw new ServiceException("version.id.not.exist");
         }
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (versionRepository.countByParentId(id) > 0) {
@@ -106,14 +107,14 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
         }
         versionRepository.deleteById(id);
     }
-    
+
     @Override
     public ScrumVersion nextVersion(Long id) {
         ScrumVersion currentVersion = versionRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("version.id.not.exist"));
+            .orElseThrow(() -> new ServiceException("version.id.not.exist"));
         return versionRepository.findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(currentVersion.getPlanStartDate());
     }
-    
+
     private void checkInfo(@NotNull ScrumVersion version) {
         ScrumVersion exist = versionRepository.findByProjectIdAndName(version.getProjectId(), version.getName());
         if (exist != null && !exist.getName().equals(version.getName())) {

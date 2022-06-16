@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service;
@@ -30,7 +31,7 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumProjectService {
-    
+
     /**
      * 获取用户的所有项目信息
      *
@@ -38,7 +39,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     MyScrumProject allProjectByUserId(@NotNull Long userId);
-    
+
     /**
      * 新增项目
      *
@@ -46,7 +47,7 @@ public interface ScrumProjectService {
      * @return 新增后的项目信息
      */
     ScrumProject save(@NotNull ScrumProject save);
-    
+
     /**
      * 根据项目ID查询项目信息
      *
@@ -54,7 +55,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     List<ScrumProject> findAllByIds(Set<Long> ids);
-    
+
     /**
      * 更新项目信息
      *
@@ -62,14 +63,14 @@ public interface ScrumProjectService {
      * @return 更新后的项目信息
      */
     ScrumProject update(@NotNull ScrumProject update);
-    
+
     /**
      * 根据项目ID删除项目信息
      *
      * @param id 要删除的项目的ID
      */
     void deleteById(@NotNull Long id);
-    
+
     /**
      * 统计多少项目用了指定的模板
      *
@@ -77,7 +78,7 @@ public interface ScrumProjectService {
      * @return 使用了该模板的项目数量
      */
     long countByTemplateId(@NotNull Long templateId);
-    
+
     /**
      * 获取项目的详细信息，包含团队信息以及版本、迭代信息
      *
@@ -85,7 +86,7 @@ public interface ScrumProjectService {
      * @return 项目详细信息
      */
     ScrumProjectDetail getDetail(@NotNull Long id);
-    
+
     /**
      * 根据项目ID获取项目信息
      *
@@ -93,7 +94,7 @@ public interface ScrumProjectService {
      * @return 项目信息
      */
     ScrumProject findById(@NotNull Long id);
-    
+
     /**
      * 根据项目ID获取项目信息
      *

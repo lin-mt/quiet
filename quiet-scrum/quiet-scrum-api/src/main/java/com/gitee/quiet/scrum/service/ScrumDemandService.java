@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service;
@@ -30,7 +31,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumDemandService {
-    
+
     /**
      * 根据迭代ID查询该迭代的所有需求
      *
@@ -38,7 +39,7 @@ public interface ScrumDemandService {
      * @return 迭代中的所有需求
      */
     List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
-    
+
     /**
      * 分页查询需求信息
      *
@@ -47,7 +48,7 @@ public interface ScrumDemandService {
      * @return 需求信息
      */
     Page<ScrumDemand> page(ScrumDemand params, Pageable page);
-    
+
     /**
      * 创建需求
      *
@@ -55,7 +56,7 @@ public interface ScrumDemandService {
      * @return 创建后的需求信息
      */
     ScrumDemand save(@NotNull ScrumDemand save);
-    
+
     /**
      * 更新需求
      *
@@ -63,14 +64,14 @@ public interface ScrumDemandService {
      * @return 更新后的需求信息
      */
     ScrumDemand update(@NotNull ScrumDemand update);
-    
+
     /**
      * 根据项目信息删除项目下的需求信息
      *
      * @param projectId 要删除需求的项目ID
      */
     void deleteAllByProjectId(@NotNull Long projectId);
-    
+
     /**
      * 根据优先级ID统计处于该优先级的需求数量
      *
@@ -78,7 +79,7 @@ public interface ScrumDemandService {
      * @return 处于该优先级的需求数量
      */
     long countByPriorityId(@NotNull Long priorityId);
-    
+
     /**
      * 查询待规划的需求
      *
@@ -89,7 +90,7 @@ public interface ScrumDemandService {
      * @return 项目待规划的需求
      */
     List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
-    
+
     /**
      * 根据迭代ID统计处于该迭代的需求数量
      *
@@ -97,7 +98,7 @@ public interface ScrumDemandService {
      * @return 处于该迭代的需求数量
      */
     long countByIterationId(@NotNull Long iterationId);
-    
+
     /**
      * 查询迭代的需求
      *
@@ -107,21 +108,21 @@ public interface ScrumDemandService {
      * @return 迭代的需求
      */
     List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
-    
+
     /**
      * 根据ID删除需求
      *
      * @param id 需求ID
      */
     void deleteById(Long id);
-    
+
     /**
      * 校验是否需求ID是否存在
      *
      * @param id 需求ID
      */
     void checkIdExist(Long id);
-    
+
     /**
      * 查询指定迭代未完成的所有需求
      *
@@ -129,7 +130,7 @@ public interface ScrumDemandService {
      * @return 未完成的需求信息
      */
     List<ScrumDemand> findAllUnfinished(Long iterationId);
-    
+
     /**
      * 批量保存需求信息
      *

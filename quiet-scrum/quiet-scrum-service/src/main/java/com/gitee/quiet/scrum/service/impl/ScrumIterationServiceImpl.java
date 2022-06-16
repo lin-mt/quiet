@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service.impl;
@@ -32,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -41,20 +43,20 @@ import java.util.Set;
  */
 @Service
 public class ScrumIterationServiceImpl implements ScrumIterationService {
-    
+
     private final ScrumIterationRepository iterationRepository;
-    
+
     private final ScrumVersionService versionService;
-    
+
     private final ScrumDemandService demandService;
-    
+
     public ScrumIterationServiceImpl(ScrumIterationRepository iterationRepository,
-            @Lazy ScrumVersionService versionService, ScrumDemandService demandService) {
+        @Lazy ScrumVersionService versionService, ScrumDemandService demandService) {
         this.iterationRepository = iterationRepository;
         this.versionService = versionService;
         this.demandService = demandService;
     }
-    
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteByVersionIds(Set<Long> versionIds) {
@@ -62,7 +64,7 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
             iterationRepository.deleteAllByVersionIdIn(versionIds);
         }
     }
-    
+
     @Override
     public List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds) {
         if (CollectionUtils.isNotEmpty(versionIds)) {
@@ -70,19 +72,19 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         }
         return List.of();
     }
-    
+
     @Override
     public ScrumIteration save(ScrumIteration save) {
         checkInfo(save);
         return iterationRepository.save(save);
     }
-    
+
     @Override
     public ScrumIteration update(ScrumIteration update) {
         checkInfo(update);
         return iterationRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (demandService.countByIterationId(id) > 0) {
@@ -91,40 +93,40 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         checkIdExist(id);
         iterationRepository.deleteById(id);
     }
-    
+
     @Override
     public long countByVersionId(Long versionId) {
         return iterationRepository.countByVersionId(versionId);
     }
-    
+
     @Override
     public void checkIdExist(Long id) {
         if (!iterationRepository.existsById(id)) {
             throw new ServiceException("iteration.id.not.exist", id);
         }
     }
-    
+
     @Override
     public ScrumIteration start(Long id) {
         ScrumIteration iteration = iterationRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
+            .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
         iteration.setStartTime(LocalDateTime.now());
         return iterationRepository.saveAndFlush(iteration);
     }
-    
+
     @Override
     public ScrumIteration end(Long id) {
         ScrumIteration iteration = iterationRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
+            .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
         List<ScrumDemand> unfinished = demandService.findAllUnfinished(iteration.getId());
         if (CollectionUtils.isNotEmpty(unfinished)) {
             ScrumIteration nextIteration = iterationRepository.findByVersionIdAndPlanStartDateAfter(
-                    iteration.getVersionId(), iteration.getPlanStartDate());
+                iteration.getVersionId(), iteration.getPlanStartDate());
             if (nextIteration == null) {
                 ScrumVersion nextVersion = versionService.nextVersion(iteration.getVersionId());
                 while (nextVersion != null && nextIteration == null) {
                     nextIteration = iterationRepository.findFirstByVersionIdOrderByPlanStartDateAsc(
-                            nextVersion.getId());
+                        nextVersion.getId());
                     if (nextIteration == null) {
                         nextVersion = versionService.nextVersion(nextVersion.getId());
                     }
@@ -141,12 +143,14 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
         iteration.setEndTime(LocalDateTime.now());
         return iterationRepository.saveAndFlush(iteration);
     }
-    
+
     private void checkInfo(@NotNull ScrumIteration iteration) {
-        checkIdExist(iteration.getId());
+        if (Objects.nonNull(iteration.getId())) {
+            checkIdExist(iteration.getId());
+        }
         versionService.checkIdExist(iteration.getVersionId());
         ScrumIteration exist = iterationRepository.findByVersionIdAndName(iteration.getVersionId(),
-                iteration.getName());
+            iteration.getName());
         if (exist != null && !exist.getId().equals(iteration.getId())) {
             throw new ServiceException("iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
         }

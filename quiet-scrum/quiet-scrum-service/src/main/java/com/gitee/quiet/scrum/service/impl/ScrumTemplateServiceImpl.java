@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service.impl;
@@ -32,7 +33,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -51,27 +51,27 @@ import static com.gitee.quiet.scrum.entity.QScrumTemplate.scrumTemplate;
  */
 @Service
 public class ScrumTemplateServiceImpl implements ScrumTemplateService {
-    
+
     private final ScrumTemplateRepository templateRepository;
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final ScrumTaskStepService taskStepService;
-    
+
     private final ScrumProjectService projectService;
-    
+
     private final ScrumPriorityService priorityService;
-    
+
     public ScrumTemplateServiceImpl(ScrumTemplateRepository templateRepository, JPAQueryFactory jpaQueryFactory,
-            ScrumTaskStepService taskStepService, ScrumProjectService projectService,
-            ScrumPriorityService priorityService) {
+        ScrumTaskStepService taskStepService, ScrumProjectService projectService,
+        ScrumPriorityService priorityService) {
         this.templateRepository = templateRepository;
         this.jpaQueryFactory = jpaQueryFactory;
         this.taskStepService = taskStepService;
         this.projectService = projectService;
         this.priorityService = priorityService;
     }
-    
+
     @Override
     public AllTemplate allTemplates() {
         Long currentUserId = CurrentUserUtil.getId();
@@ -95,19 +95,19 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         }
         return allTemplate;
     }
-    
+
     @Override
     public ScrumTemplate save(ScrumTemplate save) {
         checkInfo(save);
         return templateRepository.save(save);
     }
-    
+
     @Override
     public ScrumTemplate update(ScrumTemplate update) {
         checkInfo(update);
         return templateRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (projectService.countByTemplateId(id) > 0) {
@@ -119,36 +119,32 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         priorityService.deleteByTemplateId(id);
         templateRepository.deleteById(id);
     }
-    
+
     @Override
     public List<ScrumTemplate> listEnabledByName(String name, long limit) {
-        if (StringUtils.isBlank(name)) {
-            return List.of();
-        }
-        JPAQuery<ScrumTemplate> templateJPAQuery = SelectBooleanBuilder.booleanBuilder()
-                .notBlankContains(name, scrumTemplate.name).and(scrumTemplate.enabled.eq(true))
-                .from(jpaQueryFactory, scrumTemplate);
+        JPAQuery<ScrumTemplate> query = SelectBooleanBuilder.booleanBuilder().notBlankContains(name, scrumTemplate.name)
+            .and(scrumTemplate.enabled.eq(true)).from(jpaQueryFactory, scrumTemplate);
         if (limit > 0) {
-            templateJPAQuery.limit(limit);
+            query.limit(limit);
         }
-        return templateJPAQuery.fetch();
+        return query.fetch();
     }
-    
+
     @Override
     public List<ScrumTemplate> findAllByIds(Set<Long> ids) {
         return templateRepository.findAllById(ids);
     }
-    
+
     @Override
     public ScrumTemplate findById(Long id) {
         return templateRepository.findById(id).orElseThrow(() -> new ServiceException("template.id.not.exist", id));
     }
-    
+
     @Override
     public boolean existsById(Long id) {
         return templateRepository.existsById(id);
     }
-    
+
     @Override
     public ScrumTemplate templateInfo(Long id) {
         ScrumTemplate template = findById(id);
@@ -156,7 +152,12 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
         template.setPriorities(priorityService.findAllByTemplateId(id));
         return template;
     }
-    
+
+    /**
+     * 校验保存的信息.
+     *
+     * @param template 保存的模板信息
+     */
     public void checkInfo(@NotNull ScrumTemplate template) {
         ScrumTemplate exist = templateRepository.findByName(template.getName());
         if (exist != null && !exist.getName().equals(template.getName())) {

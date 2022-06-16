@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service.impl;
@@ -51,46 +52,46 @@ import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
  */
 @Service
 public class ScrumDemandServiceImpl implements ScrumDemandService {
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final ScrumDemandRepository demandRepository;
-    
+
     private final ScrumTaskService taskService;
-    
+
     private final ScrumIterationService iterationService;
-    
+
     public ScrumDemandServiceImpl(JPAQueryFactory jpaQueryFactory, ScrumDemandRepository demandRepository,
-            ScrumTaskService taskService, @Lazy ScrumIterationService iterationService) {
+        ScrumTaskService taskService, @Lazy ScrumIterationService iterationService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.demandRepository = demandRepository;
         this.taskService = taskService;
         this.iterationService = iterationService;
     }
-    
+
     @Override
     public List<ScrumDemand> findAllByIterationId(@Validated @NotNull Long iterationId) {
         return demandRepository.findAllByIterationId(iterationId);
     }
-    
+
     @Override
     public Page<ScrumDemand> page(ScrumDemand params, Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
         return demandRepository.findAll(predicate, page);
     }
-    
+
     @Override
     public ScrumDemand save(@Validated(Create.class) @NotNull ScrumDemand save) {
         checkDemand(save);
         return demandRepository.save(save);
     }
-    
+
     @Override
     public ScrumDemand update(@Validated(Update.class) @NotNull ScrumDemand update) {
         checkDemand(update);
         return demandRepository.save(update);
     }
-    
+
     @Override
     public void deleteAllByProjectId(@NotNull Long projectId) {
         List<ScrumDemand> demands = demandRepository.findAllByProjectId(projectId);
@@ -99,47 +100,47 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
             taskService.deleteAllByDemandIds(demandIds);
         }
     }
-    
+
     @Override
     public long countByPriorityId(Long priorityId) {
         return demandRepository.countByPriorityId(priorityId);
     }
-    
+
     @Override
     public List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit) {
         // @formatter:off
         JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder()
-                .notNullEq(projectId, scrumDemand.projectId)
-                .notNullEq(filter.getDemandType(), scrumDemand.type)
-                .notNullEq(filter.getPriorityId(), scrumDemand.priorityId)
-                .with(builder -> {
-                    if (filter.getPlanned() != null) {
-                        builder.and(filter.getPlanned() ? scrumDemand.iterationId.isNotNull()
-                                : scrumDemand.iterationId.isNull());
-                    }
-                }).from(jpaQueryFactory, scrumDemand).orderBy(scrumDemand.gmtCreate.desc());
+            .notNullEq(projectId, scrumDemand.projectId)
+            .notNullEq(filter.getDemandType(), scrumDemand.type)
+            .notNullEq(filter.getPriorityId(), scrumDemand.priorityId)
+            .with(builder -> {
+                if (filter.getPlanned() != null) {
+                    builder.and(filter.getPlanned() ? scrumDemand.iterationId.isNotNull()
+                        : scrumDemand.iterationId.isNull());
+                }
+            }).from(jpaQueryFactory, scrumDemand).orderBy(scrumDemand.gmtCreate.desc());
         // @formatter:on
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }
         return query.fetch();
     }
-    
+
     @Override
     public long countByIterationId(Long iterationId) {
         return demandRepository.countByIterationId(iterationId);
     }
-    
+
     @Override
     public List<ScrumDemand> scrollIteration(Long iterationId, Long offset, Long limit) {
         JPAQuery<ScrumDemand> query = SelectBooleanBuilder.booleanBuilder()
-                .notNullEq(iterationId, scrumDemand.iterationId).from(jpaQueryFactory, scrumDemand);
+            .notNullEq(iterationId, scrumDemand.iterationId).from(jpaQueryFactory, scrumDemand);
         if (!Long.valueOf(0).equals(limit)) {
             query.offset(offset == null ? 0 : offset).limit(limit);
         }
         return query.fetch();
     }
-    
+
     @Override
     public void deleteById(Long id) {
         ScrumDemand delete = demandRepository.getById(id);
@@ -148,33 +149,33 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
         }
         demandRepository.deleteById(id);
     }
-    
+
     @Override
     public void checkIdExist(Long id) {
         if (!demandRepository.existsById(id)) {
             throw new ServiceException("demand.id.notExist", id);
         }
     }
-    
+
     @Override
     public List<ScrumDemand> findAllUnfinished(Long iterationId) {
         List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
         if (CollectionUtils.isNotEmpty(allDemand)) {
             Set<Long> unfinishedDemandIds = taskService.findUnfinishedDemandIds(allDemand.get(0).getProjectId(),
-                    allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
+                allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
             if (CollectionUtils.isNotEmpty(unfinishedDemandIds)) {
                 return allDemand.stream().filter(demand -> unfinishedDemandIds.contains(demand.getId()))
-                        .collect(Collectors.toList());
+                    .collect(Collectors.toList());
             }
         }
         return List.of();
     }
-    
+
     @Override
     public void saveAll(List<ScrumDemand> demands) {
         demandRepository.saveAll(demands);
     }
-    
+
     private void checkDemand(@NotNull ScrumDemand demand) {
         ScrumDemand exist = demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
         if (exist != null && !exist.getId().equals(demand.getId())) {

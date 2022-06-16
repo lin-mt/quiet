@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.vo;
@@ -32,33 +33,33 @@ import java.util.List;
 @Getter
 @Setter
 public class ScrumTemplateVO extends BaseVO {
-    
+
     /**
      * 模板中的任务步骤
      */
     List<ScrumTaskStepVO> taskSteps;
-    
+
     /**
      * 模板中的优先级配置
      */
     List<ScrumPriorityVO> priorities;
-    
+
     /**
      * 模板名称
      */
     @NotBlank
     @Length(max = 10)
     private String name;
-    
+
     /**
      * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
      */
     private Boolean enabled;
-    
+
     /**
      * 模板备注信息
      */
     @Length(max = 30)
     private String remark;
-    
+
 }

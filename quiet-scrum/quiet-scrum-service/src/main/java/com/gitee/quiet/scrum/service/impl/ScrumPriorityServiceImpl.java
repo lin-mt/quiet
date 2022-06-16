@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.service.impl;
@@ -39,33 +40,32 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ScrumPriorityServiceImpl implements ScrumPriorityService {
-    
+
     private final ScrumPriorityRepository priorityRepository;
-    
+
     private final ScrumTemplateService templateService;
-    
+
     private final ScrumDemandService demandService;
-    
+
     public ScrumPriorityServiceImpl(ScrumPriorityRepository priorityRepository,
-            @Lazy ScrumTemplateService templateService, ScrumDemandService demandService) {
+        @Lazy ScrumTemplateService templateService, ScrumDemandService demandService) {
         this.priorityRepository = priorityRepository;
         this.templateService = templateService;
         this.demandService = demandService;
     }
-    
+
     @Override
     public ScrumPriority save(ScrumPriority save) {
         checkInfo(save);
         return priorityRepository.save(save);
     }
-    
-    
+
     @Override
     public ScrumPriority update(ScrumPriority update) {
         checkInfo(update);
         return priorityRepository.saveAndFlush(update);
     }
-    
+
     @Override
     public void deleteById(Long id) {
         if (demandService.countByPriorityId(id) > 0) {
@@ -79,7 +79,7 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
             templateService.update(template);
         }
     }
-    
+
     @Override
     public void deleteByTemplateId(Long templateId) {
         List<ScrumPriority> priorities = priorityRepository.findAllByTemplateId(templateId);
@@ -89,13 +89,13 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
             }
         }
     }
-    
+
     @Override
     public Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds) {
         return priorityRepository.findAllByTemplateIdIn(templateIds).stream()
-                .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
+            .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
     }
-    
+
     @Override
     public List<ScrumPriority> updateBatch(List<ScrumPriority> priorities) {
         if (CollectionUtils.isNotEmpty(priorities)) {
@@ -106,12 +106,12 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
         }
         return List.of();
     }
-    
+
     @Override
     public List<ScrumPriority> findAllByTemplateId(Long templateId) {
         return priorityRepository.findAllByTemplateId(templateId);
     }
-    
+
     @Override
     public List<ScrumPriority> findAllByIds(Set<Long> ids) {
         if (CollectionUtils.isNotEmpty(ids)) {
@@ -119,12 +119,12 @@ public class ScrumPriorityServiceImpl implements ScrumPriorityService {
         }
         return List.of();
     }
-    
+
     @Override
     public long countByTemplateId(Long templateId) {
         return priorityRepository.countByTemplateId(templateId);
     }
-    
+
     private void checkInfo(ScrumPriority priority) {
         if (!templateService.existsById(priority.getTemplateId())) {
             throw new ServiceException("template.id.not.exist");

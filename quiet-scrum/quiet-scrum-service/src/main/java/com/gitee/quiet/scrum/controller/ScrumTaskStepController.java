@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.controller;
@@ -48,11 +49,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RequestMapping("/task-step")
 public class ScrumTaskStepController {
-    
+
     private final ScrumTaskStepService taskStepService;
-    
+
     private final ScrumTaskStepConvert taskStepConvert;
-    
+
     /**
      * 新增任务步骤
      *
@@ -64,7 +65,7 @@ public class ScrumTaskStepController {
         ScrumTaskStep save = taskStepService.save(taskStepConvert.dto2entity(dto));
         return Result.createSuccess(taskStepConvert.entity2vo(save));
     }
-    
+
     /**
      * 更新任务步骤
      *
@@ -76,7 +77,7 @@ public class ScrumTaskStepController {
         ScrumTaskStep update = taskStepService.update(taskStepConvert.dto2entity(dto));
         return Result.updateSuccess(taskStepConvert.entity2vo(update));
     }
-    
+
     /**
      * 删除任务步骤
      *
@@ -88,7 +89,7 @@ public class ScrumTaskStepController {
         taskStepService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 批量更新任务步骤
      *
@@ -97,12 +98,12 @@ public class ScrumTaskStepController {
      */
     @PutMapping("/batch")
     public Result<List<ScrumTaskStepVO>> updateBatch(
-            @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
+        @RequestBody @Validated(Update.class) ValidListDTO<ScrumTaskStepDTO> dto) {
         List<ScrumTaskStep> batch = taskStepService.updateBatch(
-                dto.getData().stream().map(taskStepConvert::dto2entity).collect(Collectors.toList()));
+            dto.getData().stream().map(taskStepConvert::dto2entity).collect(Collectors.toList()));
         return Result.success(taskStepConvert.entities2vos(batch));
     }
-    
+
     /**
      * 根据模板ID查询该模板ID下的所有任务步骤配置信息
      *

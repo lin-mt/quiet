@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.controller;
@@ -48,13 +49,13 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/template")
 public class ScrumTemplateController {
-    
+
     private final ScrumTemplateService templateService;
-    
+
     private final ScrumTemplateConvert templateConvert;
-    
+
     /**
-     * 查询所有的模板信息
+     * 查询所有的模板信息.
      *
      * @return 根据是否创建人创建的模板进行分组
      */
@@ -62,9 +63,9 @@ public class ScrumTemplateController {
     public Result<AllTemplate> allTemplates() {
         return Result.success(templateService.allTemplates());
     }
-    
+
     /**
-     * 获取模板信息
+     * 获取模板信息.
      *
      * @param id 模板ID
      * @return 模板信息
@@ -74,9 +75,9 @@ public class ScrumTemplateController {
         ScrumTemplate scrumTemplate = templateService.templateInfo(id);
         return Result.success(templateConvert.entity2vo(scrumTemplate));
     }
-    
+
     /**
-     * 新增模板
+     * 新增模板.
      *
      * @param dto 新增的模板信息
      * @return 新增后的模板信息
@@ -86,9 +87,9 @@ public class ScrumTemplateController {
         ScrumTemplate save = templateService.save(templateConvert.dto2entity(dto));
         return Result.createSuccess(templateConvert.entity2vo(save));
     }
-    
+
     /**
-     * 更新模板
+     * 更新模板.
      *
      * @param dto 更新的模板信息
      * @return 更新后的模板信息
@@ -98,9 +99,9 @@ public class ScrumTemplateController {
         ScrumTemplate update = templateService.update(templateConvert.dto2entity(dto));
         return Result.updateSuccess(templateConvert.entity2vo(update));
     }
-    
+
     /**
-     * 删除模板
+     * 删除模板.
      *
      * @param id 删除的模板ID
      * @return 删除结果
@@ -110,9 +111,9 @@ public class ScrumTemplateController {
         templateService.deleteById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
-     * 根据模板名称查询启用的模板信息
+     * 根据模板名称查询启用的模板信息.
      *
      * @param name 模板名称
      * @return 查询结果

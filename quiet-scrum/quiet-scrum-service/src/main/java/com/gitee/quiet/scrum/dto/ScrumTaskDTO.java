@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.dto;
@@ -37,66 +38,66 @@ import java.util.Set;
 @Getter
 @Setter
 public class ScrumTaskDTO extends SerialDTO {
-    
+
     /**
      * 任务标题
      */
     @NotBlank
     @Length(max = 10)
     private String title;
-    
+
     /**
      * 任务类型
      */
     @NotNull
     private Dictionary<TaskType> type;
-    
+
     /**
      * 所属需求ID
      */
     @NotNull
     private Long demandId;
-    
+
     /**
      * 任务的当前步骤ID
      */
     @NotNull
     private Long taskStepId;
-    
+
     /**
      * 执行者
      */
     @NotNull
     private Long executorId;
-    
+
     /**
      * 参与者（最多20人参与）
      */
     @Size(max = 20)
     private Set<Long> participant;
-    
+
     /**
      * 前置任务
      */
     @Size(max = 20)
     private Set<Long> preTaskIds;
-    
+
     /**
      * 任务开始时间
      */
     private LocalDateTime startTime;
-    
+
     /**
      * 任务结束时间
      */
     private LocalDateTime endTime;
-    
+
     /**
      * 任务备注信息
      */
     @Length(max = 3000)
     private String remark;
-    
+
     /**
      * 查询的需求ID集合
      */
