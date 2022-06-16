@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.advice;
@@ -21,6 +22,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.service.config.MessageSourceConfig;
 import com.gitee.quiet.service.result.Result;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,11 +41,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-
 /**
  * Result 统一处理.
  *
@@ -49,32 +49,32 @@ import java.util.Objects;
 @Slf4j
 @RestControllerAdvice
 public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>> {
-    
+
     private final MessageSource messageSource;
-    
+
     private final MessageSource commonMessageSource;
-    
+
     private final ObjectMapper objectMapper;
-    
+
     public ResultResponseBodyAdvice(
-            @Qualifier(AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME) MessageSource messageSource,
-            @Qualifier(MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE) MessageSource commonMessageSource,
-            ObjectMapper objectMapper) {
+        @Qualifier(AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME) MessageSource messageSource,
+        @Qualifier(MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE) MessageSource commonMessageSource,
+        ObjectMapper objectMapper) {
         this.messageSource = messageSource;
         this.commonMessageSource = commonMessageSource;
         this.objectMapper = objectMapper;
     }
-    
+
     @Override
     public boolean supports(final MethodParameter methodParameter,
-            @NonNull final Class<? extends HttpMessageConverter<?>> aClass) {
+        @NonNull final Class<? extends HttpMessageConverter<?>> aClass) {
         return Result.class.isAssignableFrom(methodParameter.getParameterType());
     }
-    
+
     @Override
     public Result<T> beforeBodyWrite(final Result<T> result, @NonNull final MethodParameter methodParameter,
-            @NonNull final MediaType mediaType, @NonNull final Class<? extends HttpMessageConverter<?>> aClass,
-            @NonNull final ServerHttpRequest serverHttpRequest, @NonNull final ServerHttpResponse serverHttpResponse) {
+        @NonNull final MediaType mediaType, @NonNull final Class<? extends HttpMessageConverter<?>> aClass,
+        @NonNull final ServerHttpRequest serverHttpRequest, @NonNull final ServerHttpResponse serverHttpResponse) {
         if (Objects.nonNull(result)) {
             fillMessage(result, serverHttpRequest);
         }
@@ -85,7 +85,7 @@ public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>
         }
         return result;
     }
-    
+
     private void fillMessage(Result<T> result, ServerHttpRequest serverHttpRequest) {
         if (StringUtils.isBlank(result.getMessage())) {
             if (Objects.isNull(result.getCode()) && result.getCurdType() != null) {
@@ -118,7 +118,7 @@ public class ResultResponseBodyAdvice<T> implements ResponseBodyAdvice<Result<T>
             }
         }
     }
-    
+
     private String getMessage(Locale locale, String code, Object... param) {
         String message;
         try {

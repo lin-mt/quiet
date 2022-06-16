@@ -1,21 +1,23 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.security;
 
+import java.util.Collection;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.access.AccessDecisionManager;
@@ -26,8 +28,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Collection;
-
 /**
  * 动态权限决策管理器，用于判断用户是否有访问权限.
  *
@@ -35,18 +35,18 @@ import java.util.Collection;
  */
 @AllArgsConstructor
 public class QuietAccessDecisionManager implements AccessDecisionManager {
-    
+
     private final RoleHierarchy roleHierarchy;
-    
+
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
-            throws AccessDeniedException, InsufficientAuthenticationException {
+        throws AccessDeniedException, InsufficientAuthenticationException {
         // 当接口未被配置资源时直接放行
         if (CollectionUtils.isEmpty(configAttributes)) {
             return;
         }
         for (GrantedAuthority authority : roleHierarchy.getReachableGrantedAuthorities(
-                authentication.getAuthorities())) {
+            authentication.getAuthorities())) {
             for (ConfigAttribute configAttribute : configAttributes) {
                 if (authority.getAuthority().trim().equalsIgnoreCase(configAttribute.getAttribute())) {
                     return;
@@ -55,12 +55,12 @@ public class QuietAccessDecisionManager implements AccessDecisionManager {
         }
         throw new AccessDeniedException("抱歉，您没有访问权限");
     }
-    
+
     @Override
     public boolean supports(ConfigAttribute attribute) {
         return true;
     }
-    
+
     @Override
     public boolean supports(Class<?> clazz) {
         return true;

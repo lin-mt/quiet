@@ -1,42 +1,42 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.filter.wrapper;
 
 import com.gitee.quiet.common.util.StringConverterUtil;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.ArrayUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * 添加参数驼峰格式，同时不改变原有的下划线的参数.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper {
-    
+
     private final Enumeration<String> parameterNames;
-    
+
     private final Map<String, String[]> parameterMap;
-    
+
     /**
      * Constructs a request object wrapping the given request.
      *
@@ -61,17 +61,17 @@ public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper
         parameterNames = parameterNamesDatum.elements();
         parameterMap = Maps.newHashMap(parameterMapDatum);
     }
-    
+
     @Override
     public Enumeration<String> getParameterNames() {
         return this.parameterNames;
     }
-    
+
     @Override
     public String[] getParameterValues(String name) {
         return this.parameterMap.get(name);
     }
-    
+
     @Override
     public String getParameter(String name) {
         String[] values = parameterMap.get(name);
@@ -80,7 +80,7 @@ public class ParameterNameWithSnakeCaseWrapper extends HttpServletRequestWrapper
         }
         return null;
     }
-    
+
     @Override
     public Map<String, String[]> getParameterMap() {
         return parameterMap;

@@ -1,23 +1,23 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietUserRole;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietUserRoleService {
-    
+
     /**
      * 用户新增或更新角色信息.
      *
@@ -35,14 +35,14 @@ public interface QuietUserRoleService {
      * @return 用户-角色关联信息
      */
     QuietUserRole saveOrUpdate(QuietUserRole quietUserRole);
-    
+
     /**
      * 批量删除用户的角色信息.
      *
      * @param ids 要删除的id集合
      */
     void deleteByIds(List<Long> ids);
-    
+
     /**
      * 根据用户ID查询用户角色信息
      *
@@ -50,14 +50,14 @@ public interface QuietUserRoleService {
      * @return 用户角色信息
      */
     List<QuietUserRole> findByUserId(Long userId);
-    
+
     /**
      * 删除用户的角色信息
      *
      * @param userId 要删除角色信息的用户ID
      */
     void deleteByUserId(Long userId);
-    
+
     /**
      * 根据用户ID查询拥有的所有角色信息
      *
@@ -65,7 +65,7 @@ public interface QuietUserRoleService {
      * @return 角色信息
      */
     List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
-    
+
     /**
      * 删除某个用户的某个角色
      *
@@ -73,7 +73,7 @@ public interface QuietUserRoleService {
      * @param roleId 角色ID
      */
     void deleteUserRole(Long userId, Long roleId);
-    
+
     /**
      * 批量新增用户角色信息
      *

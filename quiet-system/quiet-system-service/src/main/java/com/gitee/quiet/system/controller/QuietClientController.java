@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.system.controller;
@@ -48,11 +49,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/client")
 @PreAuthorize(value = "hasRole('SystemAdmin')")
 public class QuietClientController {
-    
+
     private final QuietClientService clientService;
-    
+
     private final QuietClientConvert clientConvert;
-    
+
     /**
      * 分页查询客户端.
      *
@@ -64,7 +65,7 @@ public class QuietClientController {
         Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
         return Result.success(clientConvert.page2page(clients));
     }
-    
+
     /**
      * 新增客户端.
      *
@@ -76,7 +77,7 @@ public class QuietClientController {
         QuietClient save = clientService.save(clientConvert.dto2entity(dto));
         return Result.createSuccess(clientConvert.entity2vo(save));
     }
-    
+
     /**
      * 删除客户端.
      *
@@ -88,7 +89,7 @@ public class QuietClientController {
         clientService.deleteClientById(id);
         return Result.deleteSuccess();
     }
-    
+
     /**
      * 更新客户端.
      *
@@ -100,7 +101,7 @@ public class QuietClientController {
         QuietClient update = clientService.update(clientConvert.dto2entity(dto));
         return Result.updateSuccess(clientConvert.entity2vo(update));
     }
-    
+
     /**
      * 移除客户端的授权范围
      *
@@ -112,7 +113,7 @@ public class QuietClientController {
         QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
         return Result.success(clientConvert.entity2vo(client));
     }
-    
+
     /**
      * 移除客户端的认证类型
      *
@@ -122,8 +123,8 @@ public class QuietClientController {
     @PostMapping("/remove-client-authorized-grant-type")
     public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
         QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
-                dto.getClientAuthorizedGrantType());
+            dto.getClientAuthorizedGrantType());
         return Result.success(clientConvert.entity2vo(client));
     }
-    
+
 }

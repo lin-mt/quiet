@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.jpa.utils;
@@ -23,9 +24,8 @@ import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Pageable;
-
 import javax.validation.constraints.NotNull;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 查询条件构造器.
@@ -33,12 +33,12 @@ import javax.validation.constraints.NotNull;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public abstract class SelectBuilder<T extends Predicate> {
-    
+
     @NotNull
     public static SelectBooleanBuilder booleanBuilder() {
         return new SelectBooleanBuilder();
     }
-    
+
     @NotNull
     public static SelectBooleanBuilder booleanBuilder(BaseEntity entity) {
         BooleanBuilder builder = null;
@@ -47,7 +47,7 @@ public abstract class SelectBuilder<T extends Predicate> {
         }
         return new SelectBooleanBuilder(builder);
     }
-    
+
     /**
      * 获取查询条件
      *
@@ -55,9 +55,9 @@ public abstract class SelectBuilder<T extends Predicate> {
      */
     @NotNull
     public abstract T getPredicate();
-    
+
     public <E> QueryResults<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from,
-            Pageable page) {
+        Pageable page) {
         Predicate predicate = getPredicate();
         if (predicate == null) {
             throw new IllegalStateException("SelectBuilder 子类实现的方法不能返回 null");
@@ -68,7 +68,7 @@ public abstract class SelectBuilder<T extends Predicate> {
         }
         return selectFrom.fetchResults();
     }
-    
+
     public <E> JPAQuery<E> from(@NotNull JPAQueryFactory jpaQueryFactory, @NotNull EntityPath<E> from) {
         Predicate predicate = getPredicate();
         if (predicate == null) {

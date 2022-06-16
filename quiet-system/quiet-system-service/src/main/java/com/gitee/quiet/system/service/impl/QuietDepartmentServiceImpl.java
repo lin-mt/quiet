@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.system.service.impl;
@@ -27,13 +28,12 @@ import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartmentUser;
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
@@ -45,26 +45,26 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
  */
 @Service
 public class QuietDepartmentServiceImpl implements QuietDepartmentService {
-    
+
     private final JPAQueryFactory jpaQueryFactory;
-    
+
     private final QuietDepartmentRepository departmentRepository;
-    
+
     private final QuietDepartmentUserService departmentUserService;
-    
+
     public QuietDepartmentServiceImpl(JPAQueryFactory jpaQueryFactory, QuietDepartmentRepository departmentRepository,
-            QuietDepartmentUserService departmentUserService) {
+        QuietDepartmentUserService departmentUserService) {
         this.jpaQueryFactory = jpaQueryFactory;
         this.departmentRepository = departmentRepository;
         this.departmentUserService = departmentUserService;
     }
-    
+
     @Override
     public Page<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
         return departmentRepository.findAll(predicate, page);
     }
-    
+
     @Override
     public QuietDepartment saveOrUpdate(@NotNull QuietDepartment department) {
         if (department.getParentId() != null) {
@@ -78,7 +78,7 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
         }
         return departmentRepository.saveAndFlush(department);
     }
-    
+
     @Override
     public void deleteById(@NotNull Long deleteId) {
         if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
@@ -89,18 +89,18 @@ public class QuietDepartmentServiceImpl implements QuietDepartmentService {
         }
         departmentRepository.deleteById(deleteId);
     }
-    
+
     @Override
     public List<QuietDepartment> tree() {
         return EntityUtils.buildTreeData(departmentRepository.findAll());
     }
-    
+
     @Override
     public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, @NotNull Pageable page) {
         BooleanBuilder builder = SelectBuilder.booleanBuilder(params).getPredicate();
         builder.and(quietDepartmentUser.departmentId.eq(departmentId));
         return jpaQueryFactory.selectFrom(quietUser).leftJoin(quietDepartmentUser)
-                .on(quietUser.id.eq(quietDepartmentUser.userId)).where(builder).offset(page.getOffset())
-                .limit(page.getPageSize()).fetchResults();
+            .on(quietUser.id.eq(quietDepartmentUser.userId)).where(builder).offset(page.getOffset())
+            .limit(page.getPageSize()).fetchResults();
     }
 }

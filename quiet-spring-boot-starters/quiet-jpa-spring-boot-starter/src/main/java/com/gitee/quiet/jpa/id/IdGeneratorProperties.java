@@ -1,27 +1,27 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.jpa.id;
 
 import com.gitee.quiet.jpa.utils.IdWorker;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import javax.annotation.PostConstruct;
 
 /**
  * ID 生成器配置.
@@ -30,15 +30,15 @@ import javax.annotation.PostConstruct;
  */
 @ConfigurationProperties(prefix = "quiet.jpa.id-generator")
 public class IdGeneratorProperties {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(IdGeneratorProperties.class);
-    
+
     private long workerId = 0L;
-    
+
     private long dataCenterId = 0L;
-    
+
     private int maxServerNumber = 10;
-    
+
     @PostConstruct
     public void checkIsLegal() {
         if (dataCenterId > maxServerNumber) {
@@ -51,15 +51,15 @@ public class IdGeneratorProperties {
         }
         IdGenerator.setIdWorker(new IdWorker(getMachineId()));
     }
-    
+
     private long getMachineId() {
         return workerId * maxServerNumber + dataCenterId;
     }
-    
+
     public long getWorkerId() {
         return workerId;
     }
-    
+
     public void setWorkerId(long workerId) {
         if (workerId < 0) {
             LOGGER.warn("workerId 不能小于 0，当前值：0");
@@ -67,11 +67,11 @@ public class IdGeneratorProperties {
             this.workerId = workerId;
         }
     }
-    
+
     public long getDataCenterId() {
         return dataCenterId;
     }
-    
+
     public void setDataCenterId(long dataCenterId) {
         if (dataCenterId < 0) {
             LOGGER.warn("dataCenterId 不能小于 0，当前值：0");
@@ -79,11 +79,11 @@ public class IdGeneratorProperties {
             this.dataCenterId = dataCenterId;
         }
     }
-    
+
     public int getMaxServerNumber() {
         return maxServerNumber;
     }
-    
+
     public void setMaxServerNumber(int maxServerNumber) {
         if (maxServerNumber < 1) {
             LOGGER.warn("maxServerNumber 不能小于 1，当前值：10");

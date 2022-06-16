@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.system.service.impl;
@@ -23,6 +24,9 @@ import com.gitee.quiet.system.entity.QuietDictionary;
 import com.gitee.quiet.system.repository.QuietDictionaryRepository;
 import com.gitee.quiet.system.service.QuietDictionaryService;
 import com.querydsl.core.BooleanBuilder;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -31,11 +35,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-
-
 /**
  * 数据字典Service实现类.
  *
@@ -43,15 +42,15 @@ import java.util.Optional;
  */
 @Service
 public class QuietDictionaryServiceImpl implements QuietDictionaryService {
-    
+
     public static final String CACHE_NAME = "quiet:system:dictionary:info";
-    
+
     private final QuietDictionaryRepository dictionaryRepository;
-    
+
     public QuietDictionaryServiceImpl(QuietDictionaryRepository dictionaryRepository) {
         this.dictionaryRepository = dictionaryRepository;
     }
-    
+
     @Override
     public List<QuietDictionary> treeByType(String type) {
         List<QuietDictionary> dictionaries;
@@ -62,19 +61,19 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
         }
         return EntityUtils.buildTreeData(dictionaries);
     }
-    
+
     @Override
     public Page<QuietDictionary> page(QuietDictionary params, @NotNull Pageable page) {
         BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
         return dictionaryRepository.findAll(predicate, page);
     }
-    
+
     @Override
     public QuietDictionary save(@NotNull QuietDictionary save) {
         checkDictionaryInfo(save);
         return dictionaryRepository.save(save);
     }
-    
+
     @Override
     @CacheEvict(cacheNames = CACHE_NAME, key = "#result.type")
     public QuietDictionary delete(@NotNull Long id) {
@@ -89,14 +88,14 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
         dictionaryRepository.deleteById(id);
         return delete.get();
     }
-    
+
     @Override
     @CacheEvict(cacheNames = CACHE_NAME, key = "#update.type")
     public QuietDictionary update(@NotNull QuietDictionary update) {
         checkDictionaryInfo(update);
         return dictionaryRepository.saveAndFlush(update);
     }
-    
+
     @Override
     @Cacheable(cacheNames = CACHE_NAME, key = "#type", condition = "#type != null ", sync = true)
     public List<QuietDictionary> listByTypeForSelect(String type) {
@@ -104,17 +103,17 @@ public class QuietDictionaryServiceImpl implements QuietDictionaryService {
             return List.of();
         }
         List<QuietDictionary> dictionaries = dictionaryRepository.findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(
-                type);
+            type);
         return EntityUtils.buildTreeData(dictionaries);
     }
-    
+
     private void checkDictionaryInfo(@NotNull QuietDictionary dictionary) {
         if (StringUtils.isBlank(dictionary.getKey())) {
             dictionary.setKey(null);
         }
         boolean sameNullState =
-                (dictionary.getKey() != null && dictionary.getParentId() != null) || (dictionary.getKey() == null
-                        && dictionary.getParentId() == null);
+            (dictionary.getKey() != null && dictionary.getParentId() != null) || (dictionary.getKey() == null
+                && dictionary.getParentId() == null);
         if (!sameNullState) {
             throw new ServiceException("dictionary.key.parentId.differentNullState");
         }

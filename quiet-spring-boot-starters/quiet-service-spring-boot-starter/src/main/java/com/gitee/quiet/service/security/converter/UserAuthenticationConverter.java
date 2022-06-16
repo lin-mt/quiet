@@ -1,33 +1,33 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.security.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.service.security.entity.QuietUserDetails;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * ResourceAuthentication 和 ResourceServer之间的用户信息转换.
@@ -37,11 +37,11 @@ import java.util.Map;
 @AllArgsConstructor
 @SuppressWarnings("deprecation")
 public class UserAuthenticationConverter extends DefaultUserAuthenticationConverter {
-    
+
     public static final String QUIET_USER_DETAILS = "quiet_user_details";
-    
+
     private final ObjectMapper objectMapper;
-    
+
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
         Map<String, Object> response = new LinkedHashMap<>();
@@ -52,7 +52,7 @@ public class UserAuthenticationConverter extends DefaultUserAuthenticationConver
         response.put(QUIET_USER_DETAILS, authentication.getPrincipal());
         return response;
     }
-    
+
     @Override
     public Authentication extractAuthentication(Map<String, ?> map) {
         if (map.containsKey(QUIET_USER_DETAILS)) {

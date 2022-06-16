@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.jpa.utils;
@@ -27,49 +28,46 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @SuppressWarnings("ALL")
 public class IdWorker {
-    
+
     /**
      * Start time cut (2020-01-01)
      */
     private final long twepoch = 1577808000000L;
-    
+
     /**
      * The number of bits occupied by workerId
      */
     private final int workerIdBits = 10;
-    
+
     /**
      * The number of bits occupied by timestamp
      */
     private final int timestampBits = 41;
-    
+
     /**
      * The number of bits occupied by sequence
      */
     private final int sequenceBits = 12;
-    
+
     /**
      * Maximum supported machine id, the result is 1023
      */
     private final int maxWorkerId = ~(-1 << workerIdBits);
-    
+    /**
+     * mask that help to extract timestamp and sequence from a long
+     */
+    private final long timestampAndSequenceMask = ~(-1L << (timestampBits + sequenceBits));
     /**
      * business meaning: machine ID (0 ~ 1023) actual layout in memory: highest 1 bit: 0 middle 10 bit: workerId lowest
      * 53 bit: all 0
      */
     private long workerId;
-    
     /**
      * timestamp and sequence mix in one Long highest 11 bit: not used middle  41 bit: timestamp lowest  12 bit:
      * sequence
      */
     private AtomicLong timestampAndSequence;
-    
-    /**
-     * mask that help to extract timestamp and sequence from a long
-     */
-    private final long timestampAndSequenceMask = ~(-1L << (timestampBits + sequenceBits));
-    
+
     /**
      * instantiate an IdWorker using given workerId
      *
@@ -79,7 +77,7 @@ public class IdWorker {
         initTimestampAndSequence();
         initWorkerId(workerId);
     }
-    
+
     /**
      * init first timestamp and sequence immediately
      */
@@ -88,7 +86,7 @@ public class IdWorker {
         long timestampWithSequence = timestamp << sequenceBits;
         this.timestampAndSequence = new AtomicLong(timestampWithSequence);
     }
-    
+
     /**
      * init workerId
      *
@@ -104,7 +102,7 @@ public class IdWorker {
         }
         this.workerId = workerId << (timestampBits + sequenceBits);
     }
-    
+
     /**
      * get next UUID(base on snowflake algorithm), which look like: highest 1 bit: always 0 next   10 bit: workerId next
      * 41 bit: timestamp lowest 12 bit: sequence
@@ -117,7 +115,7 @@ public class IdWorker {
         long timestampWithSequence = next & timestampAndSequenceMask;
         return workerId | timestampWithSequence;
     }
-    
+
     /**
      * block current thread if the QPS of acquiring UUID is too high that current sequence space is exhausted
      */
@@ -133,14 +131,14 @@ public class IdWorker {
             }
         }
     }
-    
+
     /**
      * get newest timestamp relative to twepoch
      */
     private long getNewestTimestamp() {
         return System.currentTimeMillis() - twepoch;
     }
-    
+
     /**
      * auto generate workerId, try using mac first, if failed, then randomly generate one
      *
@@ -153,7 +151,7 @@ public class IdWorker {
             return generateRandomWorkerId();
         }
     }
-    
+
     /**
      * use lowest 10 bit of available MAC as workerId
      *
@@ -174,7 +172,7 @@ public class IdWorker {
         }
         throw new RuntimeException("no available mac found");
     }
-    
+
     /**
      * randomly generate one as workerId
      *

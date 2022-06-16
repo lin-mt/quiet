@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.dto;
@@ -19,14 +20,13 @@ package com.gitee.quiet.service.dto;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.service.vo.BaseVO;
 import com.querydsl.core.QueryResults;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 实体转换接口.
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends BaseVO> {
-    
+
     /**
      * DTO 转实体
      *
@@ -42,7 +42,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      * @return 实体信息
      */
     E dto2entity(D dto);
-    
+
     /**
      * 实体转VO
      *
@@ -50,7 +50,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      * @return Vo信息
      */
     V entity2vo(E entity);
-    
+
     /**
      * 实体分页信息转VO分页信息
      *
@@ -60,7 +60,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
     default Page<V> page2page(Page<E> ePage) {
         return ePage.map(this::entity2vo);
     }
-    
+
     /**
      * queryDsl 实体分页查询结果转vo分页查询结果
      *
@@ -69,9 +69,9 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
      */
     default QueryResults<V> results2results(QueryResults<E> results) {
         return new QueryResults<>(this.entities2vos(results.getResults()), results.getLimit(), results.getOffset(),
-                results.getTotal());
+            results.getTotal());
     }
-    
+
     /**
      * List 实体信息转 vo List
      *
@@ -84,7 +84,7 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
         }
         return entities.stream().map(this::entity2vo).collect(Collectors.toList());
     }
-    
+
     /**
      * Set 实体信息转 VO Set
      *

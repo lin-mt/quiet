@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.service.security.filter;
@@ -19,6 +20,13 @@ package com.gitee.quiet.service.security.filter;
 import com.gitee.quiet.service.security.QuietAccessDecisionManager;
 import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
+import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +38,6 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
 /**
  * Url 过滤.
  *
@@ -45,19 +45,19 @@ import java.io.IOException;
  */
 @AllArgsConstructor
 public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implements Filter {
-    
+
     private final QuietSecurityProperties quietSecurityProperties;
-    
+
     private final QuietSecurityMetadataSource quietSecurityMetadataSource;
-    
+
     @Autowired
     public void setAccessDecisionManager(QuietAccessDecisionManager accessDecisionManager) {
         super.setAccessDecisionManager(accessDecisionManager);
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
         if (HttpMethod.OPTIONS.matches(servletRequest.getMethod())) {
@@ -82,12 +82,12 @@ public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implemen
             super.afterInvocation(token, null);
         }
     }
-    
+
     @Override
     public Class<?> getSecureObjectClass() {
         return FilterInvocation.class;
     }
-    
+
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
         return quietSecurityMetadataSource;
