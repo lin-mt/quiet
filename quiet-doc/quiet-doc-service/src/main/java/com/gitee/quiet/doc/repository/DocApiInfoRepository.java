@@ -1,33 +1,36 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.jpa.repository.QuietRepository;
+import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 /**
  * api信息repository.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
 public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
-    
+
     /**
      * 根据 apiId 判断是否存在api信息
      *
@@ -35,7 +38,7 @@ public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
      * @return true：存在 false：不存在
      */
     boolean existsByApiId(Long apiId);
-    
+
     /**
      * 根据apiId查询api信息
      *
@@ -43,4 +46,12 @@ public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
      * @return api信息
      */
     DocApiInfo getByApiId(Long apiId);
+
+    /**
+     * 根据 api ID 批量查询api信息
+     *
+     * @param apiIds api id 集合
+     * @return api 信息
+     */
+    List<DocApiInfo> findAllByApiIdIn(Set<Long> apiIds);
 }

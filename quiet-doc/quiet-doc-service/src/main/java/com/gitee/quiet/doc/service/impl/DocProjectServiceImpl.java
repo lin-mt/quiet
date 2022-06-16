@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.doc.service.impl;
@@ -24,18 +25,17 @@ import com.gitee.quiet.doc.vo.MyDocProject;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.google.common.collect.Sets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Project Service 实现类.
@@ -45,13 +45,13 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class DocProjectServiceImpl implements DocProjectService {
-    
+
     public static final String CACHE_NAME = "quiet:doc:project:info";
-    
+
     public final DocProjectRepository projectRepository;
-    
+
     private final UserDubboService userDubboService;
-    
+
     @Override
     public MyDocProject getProjectByUserId(Long userId) {
         List<DocProject> docProjects = projectRepository.listAllByUserId(userId);
@@ -69,7 +69,7 @@ public class DocProjectServiceImpl implements DocProjectService {
             }
         });
         Map<Long, QuietUser> userIdToInfo = userDubboService.findByUserIds(userIds).stream()
-                .collect(Collectors.toMap(QuietUser::getId, user -> user));
+            .collect(Collectors.toMap(QuietUser::getId, user -> user));
         docProjects.forEach(docProject -> {
             docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
             if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
@@ -82,13 +82,13 @@ public class DocProjectServiceImpl implements DocProjectService {
         myDocProject.setAccessibleProjects(accessibleProjects);
         return myDocProject;
     }
-    
+
     @Override
     public DocProject save(DocProject save) {
         checkInfo(save);
         return projectRepository.save(save);
     }
-    
+
     @Override
     @PreAuthorize("@HasDocProjectPermission.edit(#update.id)")
     @CacheEvict(cacheNames = CACHE_NAME, key = "#update.id")
@@ -96,7 +96,7 @@ public class DocProjectServiceImpl implements DocProjectService {
         checkInfo(update);
         return projectRepository.saveAndFlush(update);
     }
-    
+
     @Override
     @PreAuthorize("@HasDocProjectPermission.delete(#id)")
     @CacheEvict(cacheNames = CACHE_NAME, key = "#id")
@@ -104,17 +104,17 @@ public class DocProjectServiceImpl implements DocProjectService {
         projectRepository.findById(id).orElseThrow(() -> new ServiceException("project.id.not.exist", id));
         projectRepository.deleteById(id);
     }
-    
+
     @Override
     @PreAuthorize("@HasDocProjectPermission.visit(#id)")
     @Cacheable(cacheNames = CACHE_NAME, key = "#id", condition = "#id != null ", sync = true)
     public DocProject getById(Long id) {
         DocProject docProject = projectRepository.findById(id)
-                .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
+            .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
         Set<Long> userIds = Sets.newHashSet(docProject.getVisitorIds());
         userIds.add(docProject.getPrincipal());
         Map<Long, QuietUser> userIdToInfo = userDubboService.findByUserIds(userIds).stream()
-                .collect(Collectors.toMap(QuietUser::getId, user -> user));
+            .collect(Collectors.toMap(QuietUser::getId, user -> user));
         docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
         if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
             for (Long visitorId : docProject.getVisitorIds()) {
@@ -123,17 +123,17 @@ public class DocProjectServiceImpl implements DocProjectService {
         }
         return docProject;
     }
-    
+
     private void checkInfo(DocProject docProject) {
         MyDocProject myDocProject = this.getProjectByUserId(docProject.getPrincipal());
         myDocProject.getResponsibleProjects().forEach(temp -> checkProjectName(docProject, temp));
         myDocProject.getAccessibleProjects().forEach(temp -> checkProjectName(docProject, temp));
     }
-    
+
     private void checkProjectName(DocProject docProject, DocProject existProject) {
         if (!existProject.getId().equals(docProject.getId()) && docProject.getName().equals(existProject.getName())) {
             throw new ServiceException("project.name.exist", existProject.getName());
         }
     }
-    
+
 }

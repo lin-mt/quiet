@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.doc.entity;
@@ -20,90 +21,89 @@ import com.gitee.quiet.doc.model.FormParam;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.PathParam;
 import com.gitee.quiet.doc.model.QueryParam;
+import com.gitee.quiet.doc.model.Schema;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
-
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 /**
  * api 信息，包含请求参数、请求头等信息.
  *
- * @author <a href="mailto:lin-mt@outlook.com">lin-mt<a>
+ * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
 @Entity
 @Table(name = "doc_api_info")
 public class DocApiInfo extends BaseEntity {
-    
+
     /**
      * 文档ID
      */
     @NotNull
     @Column(name = "api_id")
     private Long apiId;
-    
+
     /**
      * 路径参数
      */
     @Type(type = "json")
     @Column(name = "path_param", columnDefinition = "json")
     private List<PathParam> pathParam;
-    
+
     /**
      * 请求体的 jsonSchema
      */
     @Type(type = "json")
     @Column(name = "req_json_body", columnDefinition = "json")
-    private Map<String, Object> reqJsonBody;
-    
+    private Schema reqJsonBody;
+
     /**
      * form 参数
      */
     @Type(type = "json")
     @Column(name = "req_form", columnDefinition = "json")
     private List<FormParam> reqForm;
-    
+
     /**
      * 请求文件
      */
     @Column(name = "req_file")
     private String reqFile;
-    
+
     /**
      * raw
      */
     @Column(name = "req_raw")
     private String reqRaw;
-    
+
     /**
      * query 参数
      */
     @Type(type = "json")
     @Column(name = "req_query", columnDefinition = "json")
     private List<QueryParam> reqQuery;
-    
+
     /**
      * 请求头
      */
     @Type(type = "json")
     @Column(name = "headers", columnDefinition = "json")
     private List<Header> headers;
-    
+
     /*
      * 响应数据的 jsonSchema
      */
     @Type(type = "json")
     @Column(name = "resp_json_body", columnDefinition = "json")
-    private Map<String, Object> respJsonBody;
-    
+    private Schema respJsonBody;
+
     /**
      * 响应信息
      */

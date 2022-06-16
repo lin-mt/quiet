@@ -15,30 +15,46 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.enums;
+package com.gitee.quiet.doc.model;
 
-import com.gitee.quiet.jpa.enums.base.IntegerEnum;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import java.util.Map;
+import java.util.Set;
+import lombok.Data;
 
 /**
- * 接口状态.
+ * Schema.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@AllArgsConstructor
-public enum ApiState implements IntegerEnum {
+@Data
+public class Schema {
 
-    /**
-     * 未完成
-     */
-    UNFINISHED(0),
+    private String title;
 
-    /**
-     * 已完成
-     */
-    FINISHED(1);
+    private String type;
 
-    private final Integer value;
+    private Map<String, Schema> properties;
+
+    private Set<String> required;
+
+    private String description;
+
+    private Long minLength;
+
+    private Long maxLength;
+
+    private Long minimum;
+
+    private Long maximum;
+
+    private Boolean exclusiveMinimum;
+
+    private Boolean exclusiveMaximum;
+
+    private Schema items;
+
+    private Long minItems;
+
+    private Long maxItems;
+
 }

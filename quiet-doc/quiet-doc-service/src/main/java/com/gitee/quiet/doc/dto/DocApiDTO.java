@@ -1,17 +1,18 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.doc.dto;
@@ -19,18 +20,13 @@ package com.gitee.quiet.doc.dto;
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.service.dto.SerialDTO;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.Transient;
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 文档信息.
@@ -40,65 +36,69 @@ import java.util.Set;
 @Getter
 @Setter
 public class DocApiDTO extends SerialDTO {
-    
+
     /**
      * 接口名称
      */
     @NotBlank
     @Length(max = 30)
     private String name;
-    
+
     /**
      * 项目ID
      */
     @NotNull
     private Long projectId;
-    
+
     /**
      * 接口状态
      */
     @NotNull
     private ApiState apiState = ApiState.UNFINISHED;
-    
+
     /**
      * 请求地址
      */
     @NotBlank
     @Length(max = 300)
     private String path;
-    
+
     /**
      * 请求方法
      */
     @NotNull
     private HttpMethod method;
-    
+
     /**
      * 作者ID
      */
-    private Long authorId = CurrentUserUtil.getId();
-    
+    private Long authorId;
+
+    /**
+     * 作者
+     */
+    private String author;
+
     /**
      * 所属分组ID
      */
     private Long apiGroupId;
-    
+
     /**
      * 访问者用户ID
      */
     @Size(max = 30)
     private Set<Long> visitorIds;
-    
+
     /**
      * 备注
      */
     @Length(max = 300)
     private String remark;
-    
+
     /**
-     * 访问者信息
+     * api 信息
      */
-    @Transient
-    private List<QuietUser> visitors;
-    
+    private DocApiInfoDTO apiInfo;
+
 }

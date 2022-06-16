@@ -1,24 +1,23 @@
 /*
- * Copyright 2021 lin-mt@outlook.com
+ * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocProjectEnvironmentService {
-    
+
     /**
      * 根据项目ID查询项目所有的环境配置信息
      *
@@ -35,7 +34,7 @@ public interface DocProjectEnvironmentService {
      * @return 项目所有的环境配置信息
      */
     List<DocProjectEnvironment> listByProjectId(Long projectId);
-    
+
     /**
      * 创建项目环境
      *
@@ -43,7 +42,7 @@ public interface DocProjectEnvironmentService {
      * @return 创建的环境信息
      */
     DocProjectEnvironment save(DocProjectEnvironment save);
-    
+
     /**
      * 更新项目环境
      *
@@ -51,14 +50,14 @@ public interface DocProjectEnvironmentService {
      * @return 更新的环境信息
      */
     DocProjectEnvironment update(DocProjectEnvironment update);
-    
+
     /**
      * 根据ID删除数据
      *
      * @param id 要删除的数据的id
      */
     void deleteById(Long id);
-    
+
     /**
      * 根据环境ID查询项目环境配置信息
      *
