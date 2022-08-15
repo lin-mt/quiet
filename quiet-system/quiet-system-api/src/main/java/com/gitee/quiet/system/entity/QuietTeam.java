@@ -20,17 +20,18 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import java.util.List;
+import java.util.Map;
 
 import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
 
@@ -45,54 +46,38 @@ import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
 @Table(name = "quiet_team")
 public class QuietTeam extends BaseEntity {
 
-    /**
-     * 团队名称
-     */
-    @NotBlank
-    @Length(max = 16)
-    @Column(name = "team_name", nullable = false, length = 16)
-    private String teamName;
+  /** 团队名称 */
+  @NotBlank
+  @Length(max = 16)
+  @Column(name = "team_name", nullable = false, length = 16)
+  private String teamName;
 
-    /**
-     * 标语
-     */
-    @Column(name = "slogan", length = 30)
-    @Length(max = 30)
-    private String slogan;
+  /** 标语 */
+  @Column(name = "slogan", length = 30)
+  @Length(max = 30)
+  private String slogan;
 
-    /**
-     * 团队角色与成员信息信息
-     */
-    @Transient
-    private Map<Long, List<QuietUser>> roleIdToUsers;
+  /** 团队角色与成员信息信息 */
+  @Transient private Map<Long, List<QuietUser>> roleIdToUsers;
 
-    /**
-     * 团队PO
-     */
-    @Transient
-    private List<QuietUser> productOwners;
+  /** 团队PO */
+  @Transient private List<QuietUser> productOwners;
 
-    /**
-     * 团队SM
-     */
-    @Transient
-    private List<QuietUser> scrumMasters;
+  /** 团队SM */
+  @Transient private List<QuietUser> scrumMasters;
 
-    /**
-     * 团队成员
-     */
-    @Transient
-    private List<QuietUser> members;
+  /** 团队成员 */
+  @Transient private List<QuietUser> members;
 
-    @Nullable
-    @Override
-    public BooleanBuilder booleanBuilder() {
-        // @formatter:off
-        return SelectBuilder.booleanBuilder()
-            .notNullEq(getId(), quietTeam.id)
-            .notBlankContains(getTeamName(), quietTeam.teamName)
-            .notBlankContains(getSlogan(), quietTeam.slogan)
-            .getPredicate();
-        // @formatter:on
-    }
+  @Nullable
+  @Override
+  public BooleanBuilder booleanBuilder() {
+    // @formatter:off
+    return SelectBuilder.booleanBuilder()
+        .notNullEq(getId(), quietTeam.id)
+        .notBlankContains(getTeamName(), quietTeam.teamName)
+        .notBlankContains(getSlogan(), quietTeam.slogan)
+        .getPredicate();
+    // @formatter:on
+  }
 }

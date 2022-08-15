@@ -28,24 +28,24 @@ import java.util.List;
  */
 public interface TreeComponentVO<K, T> {
 
-    /**
-     * 选项标题
-     *
-     * @return 显示的选项标题
-     */
-    String getTitle();
+  /**
+   * 选项标题
+   *
+   * @return 显示的选项标题
+   */
+  String getTitle();
 
-    /**
-     * 组件 key
-     *
-     * @return 组件key
-     */
-    K getKey();
+  /**
+   * 组件 key
+   *
+   * @return 组件key
+   */
+  K getKey();
 
-    /**
-     * 子级选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
+  /**
+   * 子级选项
+   *
+   * @return 子级选项
+   */
+  List<T> getChildren();
 }

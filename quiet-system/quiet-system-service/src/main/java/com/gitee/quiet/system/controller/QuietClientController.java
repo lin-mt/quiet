@@ -30,14 +30,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 客户端Controller.
@@ -50,81 +43,81 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize(value = "hasRole('SystemAdmin')")
 public class QuietClientController {
 
-    private final QuietClientService clientService;
+  private final QuietClientService clientService;
 
-    private final QuietClientConvert clientConvert;
+  private final QuietClientConvert clientConvert;
 
-    /**
-     * 分页查询客户端.
-     *
-     * @param dto 查询参数
-     * @return 查询所有信息
-     */
-    @GetMapping("/page")
-    public Result<Page<QuietClientVO>> page(@Validated(PageValid.class) QuietClientDTO dto) {
-        Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
-        return Result.success(clientConvert.page2page(clients));
-    }
+  /**
+   * 分页查询客户端.
+   *
+   * @param dto 查询参数
+   * @return 查询所有信息
+   */
+  @GetMapping("/page")
+  public Result<Page<QuietClientVO>> page(@Validated(PageValid.class) QuietClientDTO dto) {
+    Page<QuietClient> clients = clientService.page(clientConvert.dto2entity(dto), dto.page());
+    return Result.success(clientConvert.page2page(clients));
+  }
 
-    /**
-     * 新增客户端.
-     *
-     * @param dto 新增的客户端信息
-     * @return 新增后的客户端信息
-     */
-    @PostMapping
-    public Result<QuietClientVO> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
-        QuietClient save = clientService.save(clientConvert.dto2entity(dto));
-        return Result.createSuccess(clientConvert.entity2vo(save));
-    }
+  /**
+   * 新增客户端.
+   *
+   * @param dto 新增的客户端信息
+   * @return 新增后的客户端信息
+   */
+  @PostMapping
+  public Result<QuietClientVO> save(@RequestBody @Validated(Create.class) QuietClientDTO dto) {
+    QuietClient save = clientService.save(clientConvert.dto2entity(dto));
+    return Result.createSuccess(clientConvert.entity2vo(save));
+  }
 
-    /**
-     * 删除客户端.
-     *
-     * @param id 删除的客户端ID
-     * @return Result
-     */
-    @DeleteMapping("/{id}")
-    public Result<Object> delete(@PathVariable Long id) {
-        clientService.deleteClientById(id);
-        return Result.deleteSuccess();
-    }
+  /**
+   * 删除客户端.
+   *
+   * @param id 删除的客户端ID
+   * @return Result
+   */
+  @DeleteMapping("/{id}")
+  public Result<Object> delete(@PathVariable Long id) {
+    clientService.deleteClientById(id);
+    return Result.deleteSuccess();
+  }
 
-    /**
-     * 更新客户端.
-     *
-     * @param dto 更新的客户端信息
-     * @return 新增后的客户端信息
-     */
-    @PutMapping
-    public Result<QuietClientVO> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
-        QuietClient update = clientService.update(clientConvert.dto2entity(dto));
-        return Result.updateSuccess(clientConvert.entity2vo(update));
-    }
+  /**
+   * 更新客户端.
+   *
+   * @param dto 更新的客户端信息
+   * @return 新增后的客户端信息
+   */
+  @PutMapping
+  public Result<QuietClientVO> update(@RequestBody @Validated(Update.class) QuietClientDTO dto) {
+    QuietClient update = clientService.update(clientConvert.dto2entity(dto));
+    return Result.updateSuccess(clientConvert.entity2vo(update));
+  }
 
-    /**
-     * 移除客户端的授权范围
-     *
-     * @param dto :id 客户端信息ID :clientScope 移除的授权范围
-     * @return 更新后的客户端信息
-     */
-    @PostMapping("/remove-client-scope")
-    public Result<QuietClientVO> removeClientScope(@RequestBody QuietClientDTO dto) {
-        QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
-        return Result.success(clientConvert.entity2vo(client));
-    }
+  /**
+   * 移除客户端的授权范围
+   *
+   * @param dto :id 客户端信息ID :clientScope 移除的授权范围
+   * @return 更新后的客户端信息
+   */
+  @PostMapping("/remove-client-scope")
+  public Result<QuietClientVO> removeClientScope(@RequestBody QuietClientDTO dto) {
+    QuietClient client = clientService.removeClientScope(dto.getId(), dto.getClientScope());
+    return Result.success(clientConvert.entity2vo(client));
+  }
 
-    /**
-     * 移除客户端的认证类型
-     *
-     * @param dto :id 客户端信息ID :clientAuthorizedGrantType 移除的认证类型
-     * @return 更新后的客户端信息
-     */
-    @PostMapping("/remove-client-authorized-grant-type")
-    public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
-        QuietClient client = clientService.removeClientAuthorizedGrantType(dto.getId(),
-            dto.getClientAuthorizedGrantType());
-        return Result.success(clientConvert.entity2vo(client));
-    }
-
+  /**
+   * 移除客户端的认证类型
+   *
+   * @param dto :id 客户端信息ID :clientAuthorizedGrantType 移除的认证类型
+   * @return 更新后的客户端信息
+   */
+  @PostMapping("/remove-client-authorized-grant-type")
+  public Result<QuietClientVO> removeClientAuthorizedGrantType(@RequestBody QuietClientDTO dto) {
+    QuietClient client =
+        clientService.removeClientAuthorizedGrantType(
+            dto.getId(), dto.getClientAuthorizedGrantType());
+    return Result.success(clientConvert.entity2vo(client));
+  }
 }

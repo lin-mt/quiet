@@ -18,14 +18,15 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * 用户所在团队的角色信息.
@@ -40,18 +41,13 @@ import lombok.Setter;
 @Table(name = "quiet_team_user_role")
 public class QuietTeamUserRole extends BaseEntity {
 
-    /**
-     * 团队-用户ID
-     */
-    @NotNull
-    @Column(name = "team_user_id", nullable = false)
-    private Long teamUserId;
+  /** 团队-用户ID */
+  @NotNull
+  @Column(name = "team_user_id", nullable = false)
+  private Long teamUserId;
 
-    /**
-     * 角色ID
-     */
-    @NotNull
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
-
+  /** 角色ID */
+  @NotNull
+  @Column(name = "role_id", nullable = false)
+  private Long roleId;
 }

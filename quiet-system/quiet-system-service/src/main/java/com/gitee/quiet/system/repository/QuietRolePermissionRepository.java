@@ -29,12 +29,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietRolePermissionRepository extends QuietRepository<QuietRolePermission> {
 
-    /**
-     * 根据角色ID 和权限ID 查询权限信息.
-     *
-     * @param roleId       角色ID
-     * @param permissionId 权限ID
-     * @return 角色-权限信息
-     */
-    QuietRolePermission getByRoleIdAndPermissionId(Long roleId, Long permissionId);
+  /**
+   * 根据角色ID 和权限ID 查询权限信息.
+   *
+   * @param roleId 角色ID
+   * @param permissionId 权限ID
+   * @return 角色-权限信息
+   */
+  QuietRolePermission getByRoleIdAndPermissionId(Long roleId, Long permissionId);
 }

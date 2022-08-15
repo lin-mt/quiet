@@ -26,22 +26,16 @@ import com.gitee.quiet.jpa.entity.Dictionary;
  */
 public class Environment extends Dictionary<Environment> {
 
-    /**
-     * 开发环境
-     */
-    public static final Environment Develop = new Environment("Develop");
+  /** 开发环境 */
+  public static final Environment Develop = new Environment("Develop");
 
-    /**
-     * 测试环境
-     */
-    public static final Environment Test = new Environment("Test");
+  /** 测试环境 */
+  public static final Environment Test = new Environment("Test");
 
-    /**
-     * 生产环境
-     */
-    public static final Environment Produce = new Environment("Produce");
+  /** 生产环境 */
+  public static final Environment Produce = new Environment("Produce");
 
-    private Environment(String key) {
-        super(Environment.class.getSimpleName(), key);
-    }
+  private Environment(String key) {
+    super(Environment.class.getSimpleName(), key);
+  }
 }

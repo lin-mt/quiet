@@ -18,12 +18,13 @@
 package com.gitee.quiet.service.security.context;
 
 import com.gitee.quiet.service.utils.SpringUtil;
-import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 对 SecurityContext 的扩展，从请求中获取 tokenValue，并从 redis 中获取认证信息.
@@ -32,28 +33,27 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
  */
 public class QuietSecurityContext implements SecurityContext {
 
-    private final String tokenValue;
+  private final String tokenValue;
 
-    private final SecurityContext securityContext = SecurityContextHolder.getContext();
+  private final SecurityContext securityContext = SecurityContextHolder.getContext();
 
-    public QuietSecurityContext(@NotBlank String tokenValue) {
-        this.tokenValue = tokenValue;
+  public QuietSecurityContext(@NotBlank String tokenValue) {
+    this.tokenValue = tokenValue;
+  }
+
+  @Override
+  public Authentication getAuthentication() {
+    if (securityContext.getAuthentication() != null) {
+      return securityContext.getAuthentication();
     }
+    TokenStore tokenStore = SpringUtil.getBean(TokenStore.class);
+    OAuth2Authentication authentication = tokenStore.readAuthentication(tokenValue);
+    this.setAuthentication(authentication);
+    return securityContext.getAuthentication();
+  }
 
-    @Override
-    public Authentication getAuthentication() {
-        if (securityContext.getAuthentication() != null) {
-            return securityContext.getAuthentication();
-        }
-        TokenStore tokenStore = SpringUtil.getBean(TokenStore.class);
-        OAuth2Authentication authentication = tokenStore.readAuthentication(tokenValue);
-        this.setAuthentication(authentication);
-        return securityContext.getAuthentication();
-    }
-
-    @Override
-    public void setAuthentication(Authentication authentication) {
-        securityContext.setAuthentication(authentication);
-    }
-
+  @Override
+  public void setAuthentication(Authentication authentication) {
+    securityContext.setAuthentication(authentication);
+  }
 }

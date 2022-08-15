@@ -25,8 +25,6 @@ import com.gitee.quiet.system.service.QuietClientService;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.BooleanBuilder;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -39,6 +37,9 @@ import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * 客户端实现类.
  *
@@ -48,79 +49,87 @@ import org.springframework.validation.annotation.Validated;
 @SuppressWarnings("deprecation")
 public class QuietClientServiceImpl implements QuietClientService {
 
-    public static final String CACHE_INFO = "quiet:system:client:info";
+  public static final String CACHE_INFO = "quiet:system:client:info";
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
-    private final QuietClientRepository clientRepository;
+  private final QuietClientRepository clientRepository;
 
-    public QuietClientServiceImpl(PasswordEncoder passwordEncoder, QuietClientRepository clientRepository) {
-        this.passwordEncoder = passwordEncoder;
-        this.clientRepository = clientRepository;
+  public QuietClientServiceImpl(
+      PasswordEncoder passwordEncoder, QuietClientRepository clientRepository) {
+    this.passwordEncoder = passwordEncoder;
+    this.clientRepository = clientRepository;
+  }
+
+  @Override
+  @Cacheable(value = CACHE_INFO, key = "#clientId")
+  public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
+    QuietClient client = clientRepository.findByClientId(clientId);
+    if (client != null) {
+      return client;
     }
+    logger.error("查询不到客户端信息 ClientId:{}", clientId);
+    throw new ClientRegistrationException("客户端信息不存在");
+  }
 
-    @Override
-    @Cacheable(value = CACHE_INFO, key = "#clientId")
-    public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-        QuietClient client = clientRepository.findByClientId(clientId);
-        if (client != null) {
-            return client;
-        }
-        logger.error("查询不到客户端信息 ClientId:{}", clientId);
-        throw new ClientRegistrationException("客户端信息不存在");
+  @Override
+  public Page<QuietClient> page(QuietClient params, Pageable page) {
+    BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+    return clientRepository.findAll(predicate, page);
+  }
+
+  @Override
+  public QuietClient save(@Validated(Create.class) QuietClient save) {
+    QuietClient exist = clientRepository.findByClientId(save.getClientId());
+    if (exist != null) {
+      throw new ServiceException("client.clientId.exist", save.getClientId());
     }
+    save.setClientSecret(passwordEncoder.encode(save.getClientSecret()));
+    return clientRepository.save(save);
+  }
 
-    @Override
-    public Page<QuietClient> page(QuietClient params, Pageable page) {
-        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
-        return clientRepository.findAll(predicate, page);
+  @Override
+  @CacheEvict(value = CACHE_INFO, allEntries = true)
+  public void deleteClientById(@NotNull Long id) {
+    clientRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
+    clientRepository.deleteById(id);
+  }
+
+  @Override
+  @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
+  public QuietClient update(@Validated(Update.class) QuietClient update) {
+    QuietClient exist = clientRepository.findByClientId(update.getClientId());
+    if (exist != null && !exist.getId().equals(update.getId())) {
+      throw new ServiceException("client.clientId.exist", update.getClientId());
     }
+    update.setClientSecret(passwordEncoder.encode(update.getClientSecret()));
+    return clientRepository.saveAndFlush(update);
+  }
 
-    @Override
-    public QuietClient save(@Validated(Create.class) QuietClient save) {
-        QuietClient exist = clientRepository.findByClientId(save.getClientId());
-        if (exist != null) {
-            throw new ServiceException("client.clientId.exist", save.getClientId());
-        }
-        save.setClientSecret(passwordEncoder.encode(save.getClientSecret()));
-        return clientRepository.save(save);
-    }
-
-    @Override
-    @CacheEvict(value = CACHE_INFO, allEntries = true)
-    public void deleteClientById(@NotNull Long id) {
-        clientRepository.findById(id).orElseThrow(() -> new ServiceException("client.id.not.exist", id));
-        clientRepository.deleteById(id);
-    }
-
-    @Override
-    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
-    public QuietClient update(@Validated(Update.class) QuietClient update) {
-        QuietClient exist = clientRepository.findByClientId(update.getClientId());
-        if (exist != null && !exist.getId().equals(update.getId())) {
-            throw new ServiceException("client.clientId.exist", update.getClientId());
-        }
-        update.setClientSecret(passwordEncoder.encode(update.getClientSecret()));
-        return clientRepository.saveAndFlush(update);
-    }
-
-    @Override
-    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
-    public QuietClient removeClientScope(@NotNull Long id, @NotEmpty String clientScope) {
-        QuietClient client = clientRepository.findById(id)
+  @Override
+  @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
+  public QuietClient removeClientScope(@NotNull Long id, @NotEmpty String clientScope) {
+    QuietClient client =
+        clientRepository
+            .findById(id)
             .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
-        client.removeScope(clientScope);
-        return clientRepository.saveAndFlush(client);
-    }
+    client.removeScope(clientScope);
+    return clientRepository.saveAndFlush(client);
+  }
 
-    @Override
-    @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
-    public QuietClient removeClientAuthorizedGrantType(@NotNull Long id, @NotEmpty String authorizedGrantType) {
-        QuietClient client = clientRepository.findById(id)
+  @Override
+  @CacheEvict(value = CACHE_INFO, key = "#result.clientId")
+  public QuietClient removeClientAuthorizedGrantType(
+      @NotNull Long id, @NotEmpty String authorizedGrantType) {
+    QuietClient client =
+        clientRepository
+            .findById(id)
             .orElseThrow(() -> new ServiceException("client.id.not.exist", id));
-        client.removeAuthorizedGrantType(authorizedGrantType);
-        return clientRepository.saveAndFlush(client);
-    }
+    client.removeAuthorizedGrantType(authorizedGrantType);
+    return clientRepository.saveAndFlush(client);
+  }
 }

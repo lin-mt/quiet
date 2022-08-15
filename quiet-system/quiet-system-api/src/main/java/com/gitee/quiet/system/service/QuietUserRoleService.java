@@ -18,6 +18,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietUserRole;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -28,56 +29,56 @@ import java.util.List;
  */
 public interface QuietUserRoleService {
 
-    /**
-     * 用户新增或更新角色信息.
-     *
-     * @param quietUserRole 用户-角色信息
-     * @return 用户-角色关联信息
-     */
-    QuietUserRole saveOrUpdate(QuietUserRole quietUserRole);
+  /**
+   * 用户新增或更新角色信息.
+   *
+   * @param quietUserRole 用户-角色信息
+   * @return 用户-角色关联信息
+   */
+  QuietUserRole saveOrUpdate(QuietUserRole quietUserRole);
 
-    /**
-     * 批量删除用户的角色信息.
-     *
-     * @param ids 要删除的id集合
-     */
-    void deleteByIds(List<Long> ids);
+  /**
+   * 批量删除用户的角色信息.
+   *
+   * @param ids 要删除的id集合
+   */
+  void deleteByIds(List<Long> ids);
 
-    /**
-     * 根据用户ID查询用户角色信息
-     *
-     * @param userId 用户ID
-     * @return 用户角色信息
-     */
-    List<QuietUserRole> findByUserId(Long userId);
+  /**
+   * 根据用户ID查询用户角色信息
+   *
+   * @param userId 用户ID
+   * @return 用户角色信息
+   */
+  List<QuietUserRole> findByUserId(Long userId);
 
-    /**
-     * 删除用户的角色信息
-     *
-     * @param userId 要删除角色信息的用户ID
-     */
-    void deleteByUserId(Long userId);
+  /**
+   * 删除用户的角色信息
+   *
+   * @param userId 要删除角色信息的用户ID
+   */
+  void deleteByUserId(Long userId);
 
-    /**
-     * 根据用户ID查询拥有的所有角色信息
-     *
-     * @param userIds 用户ID
-     * @return 角色信息
-     */
-    List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
+  /**
+   * 根据用户ID查询拥有的所有角色信息
+   *
+   * @param userIds 用户ID
+   * @return 角色信息
+   */
+  List<QuietUserRole> findRolesByUserIds(Collection<Long> userIds);
 
-    /**
-     * 删除某个用户的某个角色
-     *
-     * @param userId 用户ID
-     * @param roleId 角色ID
-     */
-    void deleteUserRole(Long userId, Long roleId);
+  /**
+   * 删除某个用户的某个角色
+   *
+   * @param userId 用户ID
+   * @param roleId 角色ID
+   */
+  void deleteUserRole(Long userId, Long roleId);
 
-    /**
-     * 批量新增用户角色信息
-     *
-     * @param userRoles 要新增的数据
-     */
-    List<QuietUserRole> addRoles(List<QuietUserRole> userRoles);
+  /**
+   * 批量新增用户角色信息
+   *
+   * @param userRoles 要新增的数据
+   */
+  List<QuietUserRole> addRoles(List<QuietUserRole> userRoles);
 }

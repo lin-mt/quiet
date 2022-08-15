@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.service.enums;
 
-public interface ServiceEnumsPackage {
-
-}
+public interface ServiceEnumsPackage {}

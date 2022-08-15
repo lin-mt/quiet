@@ -18,12 +18,13 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * 用户-角色.
@@ -36,18 +37,13 @@ import lombok.Setter;
 @Table(name = "quiet_user_role")
 public class QuietUserRole extends BaseEntity {
 
-    /**
-     * 用户ID
-     */
-    @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+  /** 用户ID */
+  @NotNull
+  @Column(name = "user_id", nullable = false)
+  private Long userId;
 
-    /**
-     * 角色ID
-     */
-    @NotNull
-    @Column(name = "role_id", nullable = false)
-    private Long roleId;
-
+  /** 角色ID */
+  @NotNull
+  @Column(name = "role_id", nullable = false)
+  private Long roleId;
 }

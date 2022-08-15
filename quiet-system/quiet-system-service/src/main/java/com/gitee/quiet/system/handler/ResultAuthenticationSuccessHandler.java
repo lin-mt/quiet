@@ -21,14 +21,15 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.service.config.MessageSourceConfig;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.MessageSourceUtil;
-import java.io.IOException;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 登陆/认证 成功 Handler.
@@ -39,17 +40,19 @@ import org.springframework.stereotype.Component;
 public class ResultAuthenticationSuccessHandler extends AbstractResponseJsonData
     implements AuthenticationSuccessHandler {
 
-    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
-    private MessageSource messageSource;
+  @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+  private MessageSource messageSource;
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException {
-        logger.info("用户登录成功：{}", authentication);
-        Result<Object> success = Result.success();
-        success.setCode(MessageSourceCode.Account.LOGIN_SUCCESS);
-        success.setMessage(
-            MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.LOGIN_SUCCESS));
-        responseJsonData(response, success);
-    }
+  @Override
+  public void onAuthenticationSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException {
+    logger.info("用户登录成功：{}", authentication);
+    Result<Object> success = Result.success();
+    success.setCode(MessageSourceCode.Account.LOGIN_SUCCESS);
+    success.setMessage(
+        MessageSourceUtil.getMessage(
+            request, messageSource, MessageSourceCode.Account.LOGIN_SUCCESS));
+    responseJsonData(response, success);
+  }
 }

@@ -19,12 +19,13 @@ package com.gitee.quiet.jpa.entity;
 
 import com.gitee.quiet.common.core.entity.Parent;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 /**
  * 带有父子关系的实体信息.
@@ -36,16 +37,10 @@ import lombok.Setter;
 @MappedSuperclass
 public class ParentEntity<T extends ParentEntity<T>> extends BaseEntity implements Parent<T> {
 
-    /**
-     * 父级ID
-     */
-    @Column(name = "parent_id")
-    private Long parentId;
+  /** 父级ID */
+  @Column(name = "parent_id")
+  private Long parentId;
 
-    /**
-     * 子级信息
-     */
-    @Transient
-    private List<T> children;
-
+  /** 子级信息 */
+  @Transient private List<T> children;
 }

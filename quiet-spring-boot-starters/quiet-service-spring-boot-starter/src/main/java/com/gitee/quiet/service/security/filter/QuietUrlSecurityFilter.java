@@ -20,13 +20,6 @@ package com.gitee.quiet.service.security.filter;
 import com.gitee.quiet.service.security.QuietAccessDecisionManager;
 import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
-import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +31,10 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
 /**
  * Url 过滤.
  *
@@ -46,50 +43,56 @@ import org.springframework.util.PathMatcher;
 @AllArgsConstructor
 public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implements Filter {
 
-    private final QuietSecurityProperties quietSecurityProperties;
+  private final QuietSecurityProperties quietSecurityProperties;
 
-    private final QuietSecurityMetadataSource quietSecurityMetadataSource;
+  private final QuietSecurityMetadataSource quietSecurityMetadataSource;
 
-    @Autowired
-    public void setAccessDecisionManager(QuietAccessDecisionManager accessDecisionManager) {
-        super.setAccessDecisionManager(accessDecisionManager);
+  @Autowired
+  public void setAccessDecisionManager(QuietAccessDecisionManager accessDecisionManager) {
+    super.setAccessDecisionManager(accessDecisionManager);
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
+    HttpServletRequest servletRequest = (HttpServletRequest) request;
+    FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
+    if (HttpMethod.OPTIONS.matches(servletRequest.getMethod())) {
+      filterInvocation
+          .getChain()
+          .doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+      return;
     }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-        throws IOException, ServletException {
-        HttpServletRequest servletRequest = (HttpServletRequest) request;
-        FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
-        if (HttpMethod.OPTIONS.matches(servletRequest.getMethod())) {
-            filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
-            return;
+    // 白名单请求直接放行
+    PathMatcher pathMatcher = new AntPathMatcher();
+    if (CollectionUtils.isNotEmpty(quietSecurityProperties.getIgnoreUrls())) {
+      for (String path : quietSecurityProperties.getIgnoreUrls()) {
+        if (pathMatcher.match(path, servletRequest.getRequestURI())) {
+          filterInvocation
+              .getChain()
+              .doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+          return;
         }
-        //白名单请求直接放行
-        PathMatcher pathMatcher = new AntPathMatcher();
-        if (CollectionUtils.isNotEmpty(quietSecurityProperties.getIgnoreUrls())) {
-            for (String path : quietSecurityProperties.getIgnoreUrls()) {
-                if (pathMatcher.match(path, servletRequest.getRequestURI())) {
-                    filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
-                    return;
-                }
-            }
-        }
-        //此处会调用AccessDecisionManager中的decide方法进行鉴权操作
-        InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
-        try {
-            filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
-        } finally {
-            super.afterInvocation(token, null);
-        }
+      }
     }
+    // 此处会调用AccessDecisionManager中的decide方法进行鉴权操作
+    InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
+    try {
+      filterInvocation
+          .getChain()
+          .doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
+    } finally {
+      super.afterInvocation(token, null);
+    }
+  }
 
-    @Override
-    public Class<?> getSecureObjectClass() {
-        return FilterInvocation.class;
-    }
+  @Override
+  public Class<?> getSecureObjectClass() {
+    return FilterInvocation.class;
+  }
 
-    @Override
-    public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return quietSecurityMetadataSource;
-    }
+  @Override
+  public SecurityMetadataSource obtainSecurityMetadataSource() {
+    return quietSecurityMetadataSource;
+  }
 }

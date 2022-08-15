@@ -26,7 +26,7 @@ import com.gitee.quiet.common.core.exception.QuietException;
  */
 public class ValidationException extends QuietException {
 
-    public ValidationException(String code, Object... msgParam) {
-        super(code, msgParam);
-    }
+  public ValidationException(String code, Object... msgParam) {
+    super(code, msgParam);
+  }
 }

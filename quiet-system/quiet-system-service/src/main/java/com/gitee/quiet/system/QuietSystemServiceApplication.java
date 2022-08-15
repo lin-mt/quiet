@@ -31,8 +31,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = Quiet.class)
 public class QuietSystemServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(QuietSystemServiceApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(QuietSystemServiceApplication.class, args);
+  }
 }

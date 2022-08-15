@@ -19,19 +19,17 @@ package com.gitee.quiet.common.core.order;
 
 import javax.annotation.Nullable;
 
-/**
- * 可排序
- */
+/** 可排序 */
 public interface Ordered extends Comparable<Ordered> {
 
-    default int getOrder() {
-        return 0;
-    }
+  default int getOrder() {
+    return 0;
+  }
 
-    default int compareTo(@Nullable Ordered other) {
-        if (other == null) {
-            return 1;
-        }
-        return Integer.compare(getOrder(), other.getOrder());
+  default int compareTo(@Nullable Ordered other) {
+    if (other == null) {
+      return 1;
     }
+    return Integer.compare(getOrder(), other.getOrder());
+  }
 }

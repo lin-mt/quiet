@@ -22,11 +22,7 @@ import com.gitee.quiet.service.security.context.QuietSecurityContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
-import org.apache.dubbo.rpc.Filter;
-import org.apache.dubbo.rpc.Invocation;
-import org.apache.dubbo.rpc.Invoker;
-import org.apache.dubbo.rpc.Result;
-import org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.rpc.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
@@ -38,19 +34,19 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 @Activate(group = CommonConstants.PROVIDER)
 public class AccessTokenValueFilter implements Filter {
 
-    @Override
-    public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        String tokenValue = invocation.getAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
-        if (StringUtils.isNotBlank(tokenValue)) {
-            DubboThreadLocal.USER_TOKEN.set(tokenValue);
-            SecurityContextHolder.setContext(new QuietSecurityContext(tokenValue));
-        }
-        try {
-            return invoker.invoke(invocation);
-        } finally {
-            if (StringUtils.isNotBlank(tokenValue)) {
-                SecurityContextHolder.clearContext();
-            }
-        }
+  @Override
+  public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+    String tokenValue = invocation.getAttachment(OAuth2AuthenticationDetails.ACCESS_TOKEN_VALUE);
+    if (StringUtils.isNotBlank(tokenValue)) {
+      DubboThreadLocal.USER_TOKEN.set(tokenValue);
+      SecurityContextHolder.setContext(new QuietSecurityContext(tokenValue));
     }
+    try {
+      return invoker.invoke(invocation);
+    } finally {
+      if (StringUtils.isNotBlank(tokenValue)) {
+        SecurityContextHolder.clearContext();
+      }
+    }
+  }
 }

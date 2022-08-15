@@ -23,25 +23,11 @@ import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.repository.QuietUserRepository;
-import com.gitee.quiet.system.service.QuietDepartmentUserService;
-import com.gitee.quiet.system.service.QuietRoleService;
-import com.gitee.quiet.system.service.QuietTeamUserService;
-import com.gitee.quiet.system.service.QuietUserRoleService;
-import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.system.service.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -51,6 +37,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 

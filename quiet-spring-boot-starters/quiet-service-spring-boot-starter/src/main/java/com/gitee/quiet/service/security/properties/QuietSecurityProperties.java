@@ -17,10 +17,11 @@
 
 package com.gitee.quiet.service.security.properties;
 
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Set;
 
 /**
  * 安全配置信息.
@@ -32,9 +33,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "quiet.security")
 public class QuietSecurityProperties {
 
-    /**
-     * 不需要校验权限的 url
-     */
-    private Set<String> ignoreUrls;
-
+  /** 不需要校验权限的 url */
+  private Set<String> ignoreUrls;
 }

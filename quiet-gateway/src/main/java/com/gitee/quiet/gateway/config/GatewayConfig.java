@@ -23,9 +23,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -33,6 +30,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 配置类.
@@ -42,33 +43,33 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 @Configuration
 public class GatewayConfig {
 
-    @Bean
-    public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
-        final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-        SimpleModule module = new SimpleModule();
-        // 日期序列化与反序列化
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        module.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
-        module.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
-        // 时间序列化与反序列化
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
-        objectMapper.registerModule(module);
-        return objectMapper;
-    }
+  @Bean
+  public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
+    final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+    SimpleModule module = new SimpleModule();
+    // 日期序列化与反序列化
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    module.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
+    module.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
+    // 时间序列化与反序列化
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+    module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+    objectMapper.registerModule(module);
+    return objectMapper;
+  }
 
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory,
-        ObjectMapper objectMapper) {
-        ObjectMapper redisObjectMapper = objectMapper.copy();
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        template.setKeySerializer(new StringRedisSerializer());
-        Jackson2JsonRedisSerializer<Object> redisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        redisSerializer.setObjectMapper(redisObjectMapper);
-        template.setValueSerializer(redisSerializer);
-        return template;
-    }
-
+  @Bean
+  public RedisTemplate<String, Object> redisTemplate(
+      RedisConnectionFactory redisConnectionFactory, ObjectMapper objectMapper) {
+    ObjectMapper redisObjectMapper = objectMapper.copy();
+    RedisTemplate<String, Object> template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory);
+    template.setKeySerializer(new StringRedisSerializer());
+    Jackson2JsonRedisSerializer<Object> redisSerializer =
+        new Jackson2JsonRedisSerializer<>(Object.class);
+    redisSerializer.setObjectMapper(redisObjectMapper);
+    template.setValueSerializer(redisSerializer);
+    return template;
+  }
 }

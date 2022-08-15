@@ -22,6 +22,5 @@ package com.gitee.quiet.service.dubbo.filter;
  */
 public class DubboThreadLocal {
 
-    public static final ThreadLocal<String> USER_TOKEN = ThreadLocal.withInitial(() -> "");
-
+  public static final ThreadLocal<String> USER_TOKEN = ThreadLocal.withInitial(() -> "");
 }

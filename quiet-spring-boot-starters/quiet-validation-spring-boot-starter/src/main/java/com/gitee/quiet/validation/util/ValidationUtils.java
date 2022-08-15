@@ -18,6 +18,7 @@
 package com.gitee.quiet.validation.util;
 
 import com.gitee.quiet.validation.exception.ValidationException;
+
 import java.util.Objects;
 
 /**
@@ -27,12 +28,11 @@ import java.util.Objects;
  */
 public final class ValidationUtils {
 
-    private ValidationUtils() {
-    }
+  private ValidationUtils() {}
 
-    public static void notNull(Object o, String code, Object... msgParam) {
-        if (Objects.isNull(o)) {
-            throw new ValidationException(code, msgParam);
-        }
+  public static void notNull(Object o, String code, Object... msgParam) {
+    if (Objects.isNull(o)) {
+      throw new ValidationException(code, msgParam);
     }
+  }
 }

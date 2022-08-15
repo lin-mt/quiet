@@ -42,68 +42,71 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final QuietUserService userService;
+  private final QuietUserService userService;
 
-    private final LoginByAccountFilter loginByAccountFilter;
+  private final LoginByAccountFilter loginByAccountFilter;
 
-    private final ResultAccessDeniedHandler accessDeniedHandler;
+  private final ResultAccessDeniedHandler accessDeniedHandler;
 
-    private final LogoutHandler logoutHandler;
+  private final LogoutHandler logoutHandler;
 
-    private final AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler;
+  private final AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler;
 
-    private final LogoutSuccessHandler logoutSuccessHandler;
+  private final LogoutSuccessHandler logoutSuccessHandler;
 
-    public SpringSecurityConfig(QuietUserService userService, LoginByAccountFilter loginByAccountFilter,
-        ResultAccessDeniedHandler accessDeniedHandler, LogoutHandler logoutHandler,
-        LogoutSuccessHandler logoutSuccessHandler,
-        AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler) {
-        this.userService = userService;
-        this.loginByAccountFilter = loginByAccountFilter;
-        this.accessDeniedHandler = accessDeniedHandler;
-        this.logoutHandler = logoutHandler;
-        this.authenticationJsonEntryPointHandler = authenticationJsonEntryPointHandler;
-        this.logoutSuccessHandler = logoutSuccessHandler;
-    }
+  public SpringSecurityConfig(
+      QuietUserService userService,
+      LoginByAccountFilter loginByAccountFilter,
+      ResultAccessDeniedHandler accessDeniedHandler,
+      LogoutHandler logoutHandler,
+      LogoutSuccessHandler logoutSuccessHandler,
+      AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler) {
+    this.userService = userService;
+    this.loginByAccountFilter = loginByAccountFilter;
+    this.accessDeniedHandler = accessDeniedHandler;
+    this.logoutHandler = logoutHandler;
+    this.authenticationJsonEntryPointHandler = authenticationJsonEntryPointHandler;
+    this.logoutSuccessHandler = logoutSuccessHandler;
+  }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().mvcMatchers(Url.REGISTER);
-    }
+  @Override
+  public void configure(WebSecurity web) {
+    web.ignoring().mvcMatchers(Url.REGISTER);
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userService);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http.csrf().disable()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS)
-            .permitAll()
-            .antMatchers("/oauth/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(authenticationJsonEntryPointHandler)
-            .accessDeniedHandler(accessDeniedHandler)
-            .and()
-            .logout()
-            .logoutUrl(Url.LOGOUT)
-            .addLogoutHandler(logoutHandler)
-            .logoutSuccessHandler(logoutSuccessHandler);
-        // @formatter:on
-        http.addFilterAt(loginByAccountFilter, UsernamePasswordAuthenticationFilter.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    // @formatter:off
+    http.csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.OPTIONS)
+        .permitAll()
+        .antMatchers("/oauth/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .exceptionHandling()
+        .authenticationEntryPoint(authenticationJsonEntryPointHandler)
+        .accessDeniedHandler(accessDeniedHandler)
+        .and()
+        .logout()
+        .logoutUrl(Url.LOGOUT)
+        .addLogoutHandler(logoutHandler)
+        .logoutSuccessHandler(logoutSuccessHandler);
+    // @formatter:on
+    http.addFilterAt(loginByAccountFilter, UsernamePasswordAuthenticationFilter.class);
+  }
 
-    @Bean
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
-
+  @Bean
+  @Override
+  protected AuthenticationManager authenticationManager() throws Exception {
+    return super.authenticationManager();
+  }
 }

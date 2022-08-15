@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface IntegerEnum extends JpaCustomEnum<Integer> {
-
-}
+public interface IntegerEnum extends JpaCustomEnum<Integer> {}

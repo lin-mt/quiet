@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface ShortEnum extends JpaCustomEnum<Short> {
-
-}
+public interface ShortEnum extends JpaCustomEnum<Short> {}

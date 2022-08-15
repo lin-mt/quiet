@@ -27,19 +27,12 @@ import lombok.Data;
 @Data
 public class UrlPermission {
 
-    /**
-     * URL 匹配规则
-     */
-    private String urlPattern;
+  /** URL 匹配规则 */
+  private String urlPattern;
 
-    /**
-     * 请求方法
-     */
-    private String requestMethod;
+  /** 请求方法 */
+  private String requestMethod;
 
-    /**
-     * 角色名
-     */
-    private String roleName;
-
+  /** 角色名 */
+  private String roleName;
 }

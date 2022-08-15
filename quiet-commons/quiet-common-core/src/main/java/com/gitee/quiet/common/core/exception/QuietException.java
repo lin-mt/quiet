@@ -29,10 +29,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QuietException extends RuntimeException {
 
-    private static final long serialVersionUID = -9053839678620632728L;
+  private static final long serialVersionUID = -9053839678620632728L;
 
-    private final String code;
+  private final String code;
 
-    private final Object[] msgParam;
-
+  private final Object[] msgParam;
 }

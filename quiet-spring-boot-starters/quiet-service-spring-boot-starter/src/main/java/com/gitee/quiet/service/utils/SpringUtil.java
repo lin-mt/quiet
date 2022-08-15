@@ -29,14 +29,15 @@ import org.springframework.lang.NonNull;
  */
 public class SpringUtil implements ApplicationContextAware {
 
-    private static ApplicationContext applicationContext;
+  private static ApplicationContext applicationContext;
 
-    public static <T> T getBean(Class<T> clazz) throws BeansException {
-        return applicationContext.getBean(clazz);
-    }
+  public static <T> T getBean(Class<T> clazz) throws BeansException {
+    return applicationContext.getBean(clazz);
+  }
 
-    @Override
-    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
-        SpringUtil.applicationContext = applicationContext;
-    }
+  @Override
+  public void setApplicationContext(@NonNull ApplicationContext applicationContext)
+      throws BeansException {
+    SpringUtil.applicationContext = applicationContext;
+  }
 }

@@ -22,6 +22,4 @@ package com.gitee.quiet.jpa.converter;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface CustomConverter {
-
-}
+public interface CustomConverter {}

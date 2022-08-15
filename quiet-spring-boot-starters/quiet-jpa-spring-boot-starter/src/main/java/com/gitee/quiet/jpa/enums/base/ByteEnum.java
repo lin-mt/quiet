@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface ByteEnum extends JpaCustomEnum<Byte> {
-
-}
+public interface ByteEnum extends JpaCustomEnum<Byte> {}

@@ -18,9 +18,10 @@
 package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.BaseVO;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 用户角色信息VO.
@@ -31,15 +32,9 @@ import lombok.Setter;
 @Setter
 public class QuietUserRoleVO extends BaseVO {
 
-    /**
-     * 用户ID
-     */
-    @NotNull
-    private Long userId;
+  /** 用户ID */
+  @NotNull private Long userId;
 
-    /**
-     * 角色ID
-     */
-    @NotNull
-    private Long roleId;
+  /** 角色ID */
+  @NotNull private Long roleId;
 }

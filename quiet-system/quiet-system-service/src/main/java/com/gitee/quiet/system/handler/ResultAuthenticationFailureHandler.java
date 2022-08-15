@@ -21,14 +21,15 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.service.config.MessageSourceConfig;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.MessageSourceUtil;
-import java.io.IOException;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 登陆/认证 失败 Handler.
@@ -39,17 +40,19 @@ import org.springframework.stereotype.Component;
 public class ResultAuthenticationFailureHandler extends AbstractResponseJsonData
     implements AuthenticationFailureHandler {
 
-    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
-    private MessageSource messageSource;
+  @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+  private MessageSource messageSource;
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-        AuthenticationException exception) throws IOException {
-        logger.error("用户登陆失败", exception);
-        Result<Object> failure = Result.failure();
-        failure.setCode(MessageSourceCode.Account.LOGIN_FAILURE);
-        failure.setMessage(
-            MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.LOGIN_FAILURE));
-        responseJsonData(response, failure);
-    }
+  @Override
+  public void onAuthenticationFailure(
+      HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+      throws IOException {
+    logger.error("用户登陆失败", exception);
+    Result<Object> failure = Result.failure();
+    failure.setCode(MessageSourceCode.Account.LOGIN_FAILURE);
+    failure.setMessage(
+        MessageSourceUtil.getMessage(
+            request, messageSource, MessageSourceCode.Account.LOGIN_FAILURE));
+    responseJsonData(response, failure);
+  }
 }
