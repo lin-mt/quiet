@@ -23,10 +23,11 @@ import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 文档分组Service实现类.
@@ -36,58 +37,66 @@ import org.springframework.stereotype.Service;
 @Service
 public class DocApiGroupServiceImpl implements DocApiGroupService {
 
-    private final DocApiGroupRepository apiGroupRepository;
+  private final DocApiGroupRepository apiGroupRepository;
 
-    private final DocApiService apiService;
+  private final DocApiService apiService;
 
-    public DocApiGroupServiceImpl(DocApiGroupRepository apiGroupRepository, DocApiService apiService) {
-        this.apiGroupRepository = apiGroupRepository;
-        this.apiService = apiService;
+  public DocApiGroupServiceImpl(
+      DocApiGroupRepository apiGroupRepository, DocApiService apiService) {
+    this.apiGroupRepository = apiGroupRepository;
+    this.apiService = apiService;
+  }
+
+  @Override
+  public DocApiGroup save(DocApiGroup save) {
+    checkInfo(save);
+    return apiGroupRepository.save(save);
+  }
+
+  @Override
+  public DocApiGroup update(DocApiGroup update) {
+    checkInfo(update);
+    apiGroupRepository
+        .findById(update.getId())
+        .orElseThrow(() -> new ServiceException("api.group.id.notExist", update.getId()));
+    return apiGroupRepository.saveAndFlush(update);
+  }
+
+  private void checkInfo(DocApiGroup apiGroup) {
+    DocApiGroup exist =
+        apiGroupRepository.findByProjectIdAndName(apiGroup.getProjectId(), apiGroup.getName());
+    if (exist != null && !exist.getId().equals(apiGroup.getId())) {
+      throw new ServiceException(
+          "api.group.name.exist", apiGroup.getProjectId(), apiGroup.getName());
     }
+  }
 
-    @Override
-    public DocApiGroup save(DocApiGroup save) {
-        checkInfo(save);
-        return apiGroupRepository.save(save);
-    }
+  @Override
+  public void deleteById(Long id) {
+    apiGroupRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
+    apiService.removeGroup(id);
+    apiGroupRepository.deleteById(id);
+  }
 
-    @Override
-    public DocApiGroup update(DocApiGroup update) {
-        checkInfo(update);
-        apiGroupRepository.findById(update.getId())
-            .orElseThrow(() -> new ServiceException("api.group.id.notExist", update.getId()));
-        return apiGroupRepository.saveAndFlush(update);
-    }
+  @Override
+  public List<DocApiGroup> listByProjectId(Long projectId) {
+    return apiGroupRepository.findAllByProjectId(projectId);
+  }
 
-    private void checkInfo(DocApiGroup apiGroup) {
-        DocApiGroup exist = apiGroupRepository.findByProjectIdAndName(apiGroup.getProjectId(), apiGroup.getName());
-        if (exist != null && !exist.getId().equals(apiGroup.getId())) {
-            throw new ServiceException("api.group.name.exist", apiGroup.getProjectId(), apiGroup.getName());
-        }
+  @Override
+  public List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit) {
+    if (Objects.isNull(projectId) || StringUtils.isBlank(name) || limit <= 0) {
+      return Lists.newArrayList();
     }
+    return apiGroupRepository.findAllByProjectIdAndName(projectId, name, limit);
+  }
 
-    @Override
-    public void deleteById(Long id) {
-        apiGroupRepository.findById(id).orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
-        apiService.removeGroup(id);
-        apiGroupRepository.deleteById(id);
-    }
-
-    @Override
-    public List<DocApiGroup> listByProjectId(Long projectId) {
-        return apiGroupRepository.findAllByProjectId(projectId);
-    }
-
-    @Override
-    public List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit) {
-        if (Objects.isNull(projectId) || StringUtils.isBlank(name) || limit <= 0) {
-            return Lists.newArrayList();
-        }
-        return apiGroupRepository.findAllByProjectIdAndName(projectId, name, limit);
-    }
-
-    @Override
-    public DocApiGroup findById(Long id) {
-        return apiGroupRepository.findById(id).orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
-    }
+  @Override
+  public DocApiGroup findById(Long id) {
+    return apiGroupRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
+  }
 }

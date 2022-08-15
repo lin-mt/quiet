@@ -19,8 +19,9 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProjectEnvironment;
 import com.gitee.quiet.jpa.repository.QuietRepository;
-import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 项目环境数据仓库.
@@ -30,20 +31,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocProjectEnvironmentRepository extends QuietRepository<DocProjectEnvironment> {
 
-    /**
-     * 根据项目ID查询所有数据
-     *
-     * @param projectId 项目ID
-     * @return 项目ID的所有环境配置
-     */
-    List<DocProjectEnvironment> findAllByProjectId(Long projectId);
+  /**
+   * 根据项目ID查询所有数据
+   *
+   * @param projectId 项目ID
+   * @return 项目ID的所有环境配置
+   */
+  List<DocProjectEnvironment> findAllByProjectId(Long projectId);
 
-    /**
-     * 根据项目ID和项目名称查询信息
-     *
-     * @param projectId 项目ID
-     * @param name      项目名称
-     * @return 项目信息
-     */
-    DocProjectEnvironment findByProjectIdAndName(Long projectId, String name);
+  /**
+   * 根据项目ID和项目名称查询信息
+   *
+   * @param projectId 项目ID
+   * @param name 项目名称
+   * @return 项目信息
+   */
+  DocProjectEnvironment findByProjectIdAndName(Long projectId, String name);
 }

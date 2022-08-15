@@ -29,20 +29,19 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum HttpMethod implements StringEnum {
+  GET("get"),
 
-    GET("get"),
+  HEAD("head"),
 
-    HEAD("head"),
+  POST("post"),
 
-    POST("post"),
+  PUT("put"),
 
-    PUT("put"),
+  DELETE("delete"),
 
-    DELETE("delete"),
+  OPTIONS("options"),
 
-    OPTIONS("options"),
+  PATCH("patch");
 
-    PATCH("patch");
-
-    public final String value;
+  public final String value;
 }

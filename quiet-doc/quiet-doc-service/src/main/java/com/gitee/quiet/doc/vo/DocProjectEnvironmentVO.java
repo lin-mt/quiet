@@ -21,12 +21,13 @@ import com.gitee.quiet.doc.model.Cookie;
 import com.gitee.quiet.doc.model.Header;
 import com.gitee.quiet.doc.model.HttpProtocol;
 import com.gitee.quiet.service.vo.BaseVO;
-import java.util.List;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 项目环境VO.
@@ -37,38 +38,24 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class DocProjectEnvironmentVO extends BaseVO {
 
-    /**
-     * 环境名称
-     */
-    @NotEmpty
-    @Length(max = 30)
-    private String name;
+  /** 环境名称 */
+  @NotEmpty
+  @Length(max = 30)
+  private String name;
 
-    /**
-     * 项目ID
-     */
-    @NotNull
-    private Long projectId;
+  /** 项目ID */
+  @NotNull private Long projectId;
 
-    /**
-     * http协议
-     */
-    @NotNull
-    private HttpProtocol protocol;
+  /** http协议 */
+  @NotNull private HttpProtocol protocol;
 
-    /**
-     * 请求路径
-     */
-    @Length(max = 90)
-    private String basePath;
+  /** 请求路径 */
+  @Length(max = 90)
+  private String basePath;
 
-    /**
-     * 请求头
-     */
-    private List<Header> headers;
+  /** 请求头 */
+  private List<Header> headers;
 
-    /**
-     * 请求cookie
-     */
-    private List<Cookie> cookies;
+  /** 请求cookie */
+  private List<Cookie> cookies;
 }

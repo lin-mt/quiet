@@ -18,9 +18,10 @@
 package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.entity.DocProject;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 登陆人的项目信息.
@@ -31,14 +32,9 @@ import lombok.Setter;
 @Setter
 public class MyDocProject {
 
-    /**
-     * 负责的项目
-     */
-    private List<DocProject> responsibleProjects = List.of();
+  /** 负责的项目 */
+  private List<DocProject> responsibleProjects = List.of();
 
-    /**
-     * 可访问的项目
-     */
-    private List<DocProject> accessibleProjects = List.of();
-
+  /** 可访问的项目 */
+  private List<DocProject> accessibleProjects = List.of();
 }

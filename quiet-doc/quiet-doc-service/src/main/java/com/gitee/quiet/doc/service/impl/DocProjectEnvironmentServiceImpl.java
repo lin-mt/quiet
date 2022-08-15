@@ -21,9 +21,10 @@ import com.gitee.quiet.doc.entity.DocProjectEnvironment;
 import com.gitee.quiet.doc.repository.DocProjectEnvironmentRepository;
 import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
 import com.gitee.quiet.service.exception.ServiceException;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 项目环境服务实现类.
@@ -34,41 +35,46 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class DocProjectEnvironmentServiceImpl implements DocProjectEnvironmentService {
 
-    private final DocProjectEnvironmentRepository repository;
+  private final DocProjectEnvironmentRepository repository;
 
-    @Override
-    public List<DocProjectEnvironment> listByProjectId(Long projectId) {
-        return repository.findAllByProjectId(projectId);
-    }
+  @Override
+  public List<DocProjectEnvironment> listByProjectId(Long projectId) {
+    return repository.findAllByProjectId(projectId);
+  }
 
-    @Override
-    public DocProjectEnvironment save(DocProjectEnvironment save) {
-        checkInfo(save);
-        return repository.save(save);
-    }
+  @Override
+  public DocProjectEnvironment save(DocProjectEnvironment save) {
+    checkInfo(save);
+    return repository.save(save);
+  }
 
-    @Override
-    public DocProjectEnvironment update(DocProjectEnvironment update) {
-        checkInfo(update);
-        return repository.save(update);
-    }
+  @Override
+  public DocProjectEnvironment update(DocProjectEnvironment update) {
+    checkInfo(update);
+    return repository.save(update);
+  }
 
-    @Override
-    public void deleteById(Long id) {
-        repository.findById(id).orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
-        repository.deleteById(id);
-    }
+  @Override
+  public void deleteById(Long id) {
+    repository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
+    repository.deleteById(id);
+  }
 
-    @Override
-    public DocProjectEnvironment getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
-    }
+  @Override
+  public DocProjectEnvironment getById(Long id) {
+    return repository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
+  }
 
-    private void checkInfo(DocProjectEnvironment entity) {
-        DocProjectEnvironment exist = repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
-        if (exist != null && !exist.getId().equals(entity.getId())) {
-            throw new ServiceException("projectEnvironment.name.exist", entity.getProjectId().toString(),
-                entity.getName());
-        }
+  private void checkInfo(DocProjectEnvironment entity) {
+    DocProjectEnvironment exist =
+        repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
+    if (exist != null && !exist.getId().equals(entity.getId())) {
+      throw new ServiceException(
+          "projectEnvironment.name.exist", entity.getProjectId().toString(), entity.getName());
     }
+  }
 }

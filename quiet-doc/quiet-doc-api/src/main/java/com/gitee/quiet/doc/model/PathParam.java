@@ -31,18 +31,12 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class PathParam {
 
-    /**
-     * 参数名称
-     */
-    private String name;
+  /** 参数名称 */
+  private String name;
 
-    /**
-     * 参数例子
-     */
-    private String example;
+  /** 参数例子 */
+  private String example;
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /** 备注 */
+  private String remark;
 }

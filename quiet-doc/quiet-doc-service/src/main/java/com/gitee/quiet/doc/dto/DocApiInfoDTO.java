@@ -17,16 +17,13 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.doc.model.FormParam;
-import com.gitee.quiet.doc.model.Header;
-import com.gitee.quiet.doc.model.PathParam;
-import com.gitee.quiet.doc.model.QueryParam;
-import com.gitee.quiet.doc.model.Schema;
+import com.gitee.quiet.doc.model.*;
 import com.gitee.quiet.service.dto.BaseDTO;
-import java.util.List;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * api信息dto.
@@ -37,54 +34,35 @@ import lombok.Setter;
 @Setter
 public class DocApiInfoDTO extends BaseDTO {
 
-    /**
-     * 文档ID
-     */
-    @NotNull
-    private Long apiId;
+  /** 文档ID */
+  @NotNull private Long apiId;
 
-    /**
-     * 路径参数
-     */
-    private List<PathParam> pathParam;
+  /** 路径参数 */
+  private List<PathParam> pathParam;
 
-    /**
-     * 请求体的 jsonSchema
-     */
-    private Schema reqJsonBody;
+  /** 请求体的 jsonSchema */
+  private Schema reqJsonBody;
 
-    /**
-     * form 参数
-     */
-    private List<FormParam> reqForm;
+  /** form 参数 */
+  private List<FormParam> reqForm;
 
-    /**
-     * 请求文件
-     */
-    private String reqFile;
+  /** 请求文件 */
+  private String reqFile;
 
-    /**
-     * raw
-     */
-    private String reqRaw;
+  /** raw */
+  private String reqRaw;
 
-    /**
-     * query 参数
-     */
-    private List<QueryParam> reqQuery;
+  /** query 参数 */
+  private List<QueryParam> reqQuery;
 
-    /**
-     * 请求头
-     */
-    private List<Header> headers;
+  /** 请求头 */
+  private List<Header> headers;
 
-    /*
-     * 响应数据的 jsonSchema
-     */
-    private Schema respJsonBody;
+  /*
+   * 响应数据的 jsonSchema
+   */
+  private Schema respJsonBody;
 
-    /**
-     * 响应信息
-     */
-    private String respRaw;
+  /** 响应信息 */
+  private String respRaw;
 }

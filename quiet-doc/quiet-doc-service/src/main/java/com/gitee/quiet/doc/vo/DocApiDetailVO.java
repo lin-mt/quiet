@@ -31,14 +31,9 @@ import lombok.Setter;
 @Builder
 public class DocApiDetailVO {
 
-    /**
-     * 接口信息
-     */
-    private DocApiVO api;
+  /** 接口信息 */
+  private DocApiVO api;
 
-    /**
-     * api信息
-     */
-    private DocApiInfoVO apiInfo;
-
+  /** api信息 */
+  private DocApiInfoVO apiInfo;
 }
