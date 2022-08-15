@@ -32,36 +32,36 @@ import java.util.Set;
 @Repository
 public interface ScrumTaskStepRepository extends QuietRepository<ScrumTaskStep> {
 
-    /**
-     * 根据模板ID和步骤名称查询步骤信息
-     *
-     * @param templateId 模板ID
-     * @param name       任务步骤名称
-     * @return 任务步骤信息
-     */
-    ScrumTaskStep findByTemplateIdAndName(Long templateId, String name);
+  /**
+   * 根据模板ID和步骤名称查询步骤信息
+   *
+   * @param templateId 模板ID
+   * @param name 任务步骤名称
+   * @return 任务步骤信息
+   */
+  ScrumTaskStep findByTemplateIdAndName(Long templateId, String name);
 
-    /**
-     * 根据模板ID查询所有任务步骤
-     *
-     * @param templateId 模板ID
-     * @return 任务步骤信息
-     */
-    List<ScrumTaskStep> findAllByTemplateId(Long templateId);
+  /**
+   * 根据模板ID查询所有任务步骤
+   *
+   * @param templateId 模板ID
+   * @return 任务步骤信息
+   */
+  List<ScrumTaskStep> findAllByTemplateId(Long templateId);
 
-    /**
-     * 根据模板ID集合查询所有任务步骤
-     *
-     * @param templateIds 模板ID集合
-     * @return 所有任务步骤信息
-     */
-    List<ScrumTaskStep> findAllByTemplateIdIn(Set<Long> templateIds);
+  /**
+   * 根据模板ID集合查询所有任务步骤
+   *
+   * @param templateIds 模板ID集合
+   * @return 所有任务步骤信息
+   */
+  List<ScrumTaskStep> findAllByTemplateIdIn(Set<Long> templateIds);
 
-    /**
-     * 根据模板ID统计该模板下任务有多少步骤
-     *
-     * @param templateId 模板ID
-     * @return 任务步骤数
-     */
-    long countByTemplateId(Long templateId);
+  /**
+   * 根据模板ID统计该模板下任务有多少步骤
+   *
+   * @param templateId 模板ID
+   * @return 任务步骤数
+   */
+  long countByTemplateId(Long templateId);
 }

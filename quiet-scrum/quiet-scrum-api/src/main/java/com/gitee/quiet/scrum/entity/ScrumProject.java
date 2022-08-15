@@ -46,95 +46,65 @@ import java.util.Set;
 @Table(name = "scrum_project")
 public class ScrumProject extends SerialEntity {
 
-    /**
-     * 项目名称
-     */
-    @NotBlank
-    @Length(max = 30)
-    @Column(name = "project_name", nullable = false, length = 30)
-    private String name;
+  /** 项目名称 */
+  @NotBlank
+  @Length(max = 30)
+  @Column(name = "project_name", nullable = false, length = 30)
+  private String name;
 
-    /**
-     * 项目经理
-     */
-    @NotNull
-    @Column(name = "manager", nullable = false)
-    private Long manager;
+  /** 项目经理 */
+  @NotNull
+  @Column(name = "manager", nullable = false)
+  private Long manager;
 
-    /**
-     * 项目描述信息
-     */
-    @Length(max = 100)
-    @Column(name = "project_description", length = 100)
-    private String description;
+  /** 项目描述信息 */
+  @Length(max = 100)
+  @Column(name = "project_description", length = 100)
+  private String description;
 
-    /**
-     * 需求前缀
-     */
-    @Length(max = 6)
-    @Column(name = "demand_prefix", length = 6)
-    private String demandPrefix;
+  /** 需求前缀 */
+  @Length(max = 6)
+  @Column(name = "demand_prefix", length = 6)
+  private String demandPrefix;
 
-    /**
-     * 任务前缀
-     */
-    @Length(max = 6)
-    @Column(name = "task_prefix", length = 6)
-    private String taskPrefix;
+  /** 任务前缀 */
+  @Length(max = 6)
+  @Column(name = "task_prefix", length = 6)
+  private String taskPrefix;
 
-    /**
-     * 模板ID
-     */
-    @NotNull
-    @Column(name = "template_id")
-    private Long templateId;
+  /** 模板ID */
+  @NotNull
+  @Column(name = "template_id")
+  private Long templateId;
 
-    /**
-     * 构建工具
-     */
-    @Column(name = "build_tool", length = 6)
-    private BuildTool buildTool;
+  /** 构建工具 */
+  @Column(name = "build_tool", length = 6)
+  private BuildTool buildTool;
 
-    /**
-     * 项目开始时间
-     */
-    @Column(name = "start_time")
-    private LocalDateTime startTime;
+  /** 项目开始时间 */
+  @Column(name = "start_time")
+  private LocalDateTime startTime;
 
-    /**
-     * 项目结束时间
-     */
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
+  /** 项目结束时间 */
+  @Column(name = "end_time")
+  private LocalDateTime endTime;
 
-    /**
-     * 负责的团队ID集合
-     */
-    @Transient
-    private Set<Long> teamIds;
+  /** 负责的团队ID集合 */
+  @Transient private Set<Long> teamIds;
 
-    /**
-     * 项目经理用户名
-     */
-    @Transient
-    private String managerName;
+  /** 项目经理用户名 */
+  @Transient private String managerName;
 
-    /**
-     * 模板名称
-     */
-    @Transient
-    private String templateName;
+  /** 模板名称 */
+  @Transient private String templateName;
 
-    /**
-     * 负责该项目的团队信息
-     */
-    @Transient
-    private List<QuietTeam> teams;
+  /** 负责该项目的团队信息 */
+  @Transient private List<QuietTeam> teams;
 
-    public void addTeamInfo(QuietTeam quietTeam) {
-        if (getTeams() == null) {
-            setTeams(new ArrayList<>());
-        }
-        getTeams().add(quietTeam);
+  public void addTeamInfo(QuietTeam quietTeam) {
+    if (getTeams() == null) {
+      setTeams(new ArrayList<>());
     }
+    getTeams().add(quietTeam);
+  }
 }

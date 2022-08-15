@@ -26,18 +26,13 @@ import com.gitee.quiet.jpa.entity.Dictionary;
  */
 public class DemandType extends Dictionary<DemandType> {
 
-    /**
-     * 功能需求
-     */
-    public static final DemandType Function = new DemandType("Function");
+  /** 功能需求 */
+  public static final DemandType Function = new DemandType("Function");
 
-    /**
-     * 优化需求
-     */
-    public static final DemandType Optimize = new DemandType("Optimize");
+  /** 优化需求 */
+  public static final DemandType Optimize = new DemandType("Optimize");
 
-    private DemandType(String key) {
-        super(DemandType.class.getSimpleName(), key);
-    }
-
+  private DemandType(String key) {
+    super(DemandType.class.getSimpleName(), key);
+  }
 }

@@ -32,74 +32,74 @@ import java.util.Set;
  */
 public interface ScrumProjectService {
 
-    /**
-     * 获取用户的所有项目信息
-     *
-     * @param userId 用户ID
-     * @return 项目信息
-     */
-    MyScrumProject allProjectByUserId(@NotNull Long userId);
+  /**
+   * 获取用户的所有项目信息
+   *
+   * @param userId 用户ID
+   * @return 项目信息
+   */
+  MyScrumProject allProjectByUserId(@NotNull Long userId);
 
-    /**
-     * 新增项目
-     *
-     * @param save 新增的项目信息
-     * @return 新增后的项目信息
-     */
-    ScrumProject save(@NotNull ScrumProject save);
+  /**
+   * 新增项目
+   *
+   * @param save 新增的项目信息
+   * @return 新增后的项目信息
+   */
+  ScrumProject save(@NotNull ScrumProject save);
 
-    /**
-     * 根据项目ID查询项目信息
-     *
-     * @param ids 项目ID集合
-     * @return 项目信息
-     */
-    List<ScrumProject> findAllByIds(Set<Long> ids);
+  /**
+   * 根据项目ID查询项目信息
+   *
+   * @param ids 项目ID集合
+   * @return 项目信息
+   */
+  List<ScrumProject> findAllByIds(Set<Long> ids);
 
-    /**
-     * 更新项目信息
-     *
-     * @param update 更新的项目信息
-     * @return 更新后的项目信息
-     */
-    ScrumProject update(@NotNull ScrumProject update);
+  /**
+   * 更新项目信息
+   *
+   * @param update 更新的项目信息
+   * @return 更新后的项目信息
+   */
+  ScrumProject update(@NotNull ScrumProject update);
 
-    /**
-     * 根据项目ID删除项目信息
-     *
-     * @param id 要删除的项目的ID
-     */
-    void deleteById(@NotNull Long id);
+  /**
+   * 根据项目ID删除项目信息
+   *
+   * @param id 要删除的项目的ID
+   */
+  void deleteById(@NotNull Long id);
 
-    /**
-     * 统计多少项目用了指定的模板
-     *
-     * @param templateId 统计的模板ID
-     * @return 使用了该模板的项目数量
-     */
-    long countByTemplateId(@NotNull Long templateId);
+  /**
+   * 统计多少项目用了指定的模板
+   *
+   * @param templateId 统计的模板ID
+   * @return 使用了该模板的项目数量
+   */
+  long countByTemplateId(@NotNull Long templateId);
 
-    /**
-     * 获取项目的详细信息，包含团队信息以及版本、迭代信息
-     *
-     * @param id 项目ID
-     * @return 项目详细信息
-     */
-    ScrumProjectDetail getDetail(@NotNull Long id);
+  /**
+   * 获取项目的详细信息，包含团队信息以及版本、迭代信息
+   *
+   * @param id 项目ID
+   * @return 项目详细信息
+   */
+  ScrumProjectDetail getDetail(@NotNull Long id);
 
-    /**
-     * 根据项目ID获取项目信息
-     *
-     * @param id 项目ID
-     * @return 项目信息
-     */
-    ScrumProject findById(@NotNull Long id);
+  /**
+   * 根据项目ID获取项目信息
+   *
+   * @param id 项目ID
+   * @return 项目信息
+   */
+  ScrumProject findById(@NotNull Long id);
 
-    /**
-     * 根据项目ID获取项目信息
-     *
-     * @param id 项目ID
-     * @return 项目信息
-     */
-    ScrumProject projectInfo(Long id);
+  /**
+   * 根据项目ID获取项目信息
+   *
+   * @param id 项目ID
+   * @return 项目信息
+   */
+  ScrumProject projectInfo(Long id);
 }

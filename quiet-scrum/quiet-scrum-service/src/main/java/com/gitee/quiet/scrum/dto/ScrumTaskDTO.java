@@ -39,67 +39,41 @@ import java.util.Set;
 @Setter
 public class ScrumTaskDTO extends SerialDTO {
 
-    /**
-     * 任务标题
-     */
-    @NotBlank
-    @Length(max = 10)
-    private String title;
+  /** 任务标题 */
+  @NotBlank
+  @Length(max = 10)
+  private String title;
 
-    /**
-     * 任务类型
-     */
-    @NotNull
-    private Dictionary<TaskType> type;
+  /** 任务类型 */
+  @NotNull private Dictionary<TaskType> type;
 
-    /**
-     * 所属需求ID
-     */
-    @NotNull
-    private Long demandId;
+  /** 所属需求ID */
+  @NotNull private Long demandId;
 
-    /**
-     * 任务的当前步骤ID
-     */
-    @NotNull
-    private Long taskStepId;
+  /** 任务的当前步骤ID */
+  @NotNull private Long taskStepId;
 
-    /**
-     * 执行者
-     */
-    @NotNull
-    private Long executorId;
+  /** 执行者 */
+  @NotNull private Long executorId;
 
-    /**
-     * 参与者（最多20人参与）
-     */
-    @Size(max = 20)
-    private Set<Long> participant;
+  /** 参与者（最多20人参与） */
+  @Size(max = 20)
+  private Set<Long> participant;
 
-    /**
-     * 前置任务
-     */
-    @Size(max = 20)
-    private Set<Long> preTaskIds;
+  /** 前置任务 */
+  @Size(max = 20)
+  private Set<Long> preTaskIds;
 
-    /**
-     * 任务开始时间
-     */
-    private LocalDateTime startTime;
+  /** 任务开始时间 */
+  private LocalDateTime startTime;
 
-    /**
-     * 任务结束时间
-     */
-    private LocalDateTime endTime;
+  /** 任务结束时间 */
+  private LocalDateTime endTime;
 
-    /**
-     * 任务备注信息
-     */
-    @Length(max = 3000)
-    private String remark;
+  /** 任务备注信息 */
+  @Length(max = 3000)
+  private String remark;
 
-    /**
-     * 查询的需求ID集合
-     */
-    private Set<Long> demandIds;
+  /** 查询的需求ID集合 */
+  private Set<Long> demandIds;
 }

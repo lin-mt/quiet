@@ -30,35 +30,35 @@ import java.util.Set;
  */
 public interface ScrumProjectTeamService {
 
-    /**
-     * 查询团队负责的所有项目
-     *
-     * @param teamIds 团队ID集合
-     * @return 团队负责的项目信息
-     */
-    List<ScrumProject> findAllProjectsByTeamIds(Set<Long> teamIds);
+  /**
+   * 查询团队负责的所有项目
+   *
+   * @param teamIds 团队ID集合
+   * @return 团队负责的项目信息
+   */
+  List<ScrumProject> findAllProjectsByTeamIds(Set<Long> teamIds);
 
-    /**
-     * 批量保存项目团队关系信息
-     *
-     * @param projectTeams 要新增的项目团队信息
-     * @return 新增后的团队信息
-     */
-    @SuppressWarnings("UnusedReturnValue")
-    List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams);
+  /**
+   * 批量保存项目团队关系信息
+   *
+   * @param projectTeams 要新增的项目团队信息
+   * @return 新增后的团队信息
+   */
+  @SuppressWarnings("UnusedReturnValue")
+  List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams);
 
-    /**
-     * 根据项目ID删除该项目的所有团队信息
-     *
-     * @param projectId 要删除团队信息的项目ID
-     */
-    void deleteAllByProjectId(Long projectId);
+  /**
+   * 根据项目ID删除该项目的所有团队信息
+   *
+   * @param projectId 要删除团队信息的项目ID
+   */
+  void deleteAllByProjectId(Long projectId);
 
-    /**
-     * 根据项目ID查询所有项目团队信息
-     *
-     * @param projectIds 项目ID集合
-     * @return 项目团队信息
-     */
-    List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds);
+  /**
+   * 根据项目ID查询所有项目团队信息
+   *
+   * @param projectIds 项目ID集合
+   * @return 项目团队信息
+   */
+  List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds);
 }

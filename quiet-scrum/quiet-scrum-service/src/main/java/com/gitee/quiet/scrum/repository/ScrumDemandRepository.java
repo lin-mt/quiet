@@ -31,44 +31,44 @@ import java.util.List;
 @Repository
 public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
 
-    /**
-     * 根据迭代ID查询该迭代的所有需求
-     *
-     * @param iterationId 迭代ID
-     * @return 迭代中的所有需求
-     */
-    List<ScrumDemand> findAllByIterationId(Long iterationId);
+  /**
+   * 根据迭代ID查询该迭代的所有需求
+   *
+   * @param iterationId 迭代ID
+   * @return 迭代中的所有需求
+   */
+  List<ScrumDemand> findAllByIterationId(Long iterationId);
 
-    /**
-     * 根据项目ID和需求标题查询需求信息
-     *
-     * @param projectId 项目ID
-     * @param title     需求标题
-     * @return 需求信息
-     */
-    ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
+  /**
+   * 根据项目ID和需求标题查询需求信息
+   *
+   * @param projectId 项目ID
+   * @param title 需求标题
+   * @return 需求信息
+   */
+  ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
 
-    /**
-     * 根据项目ID批量查询需求信息
-     *
-     * @param projectId 项目ID
-     * @return 项目的所有需求信息
-     */
-    List<ScrumDemand> findAllByProjectId(Long projectId);
+  /**
+   * 根据项目ID批量查询需求信息
+   *
+   * @param projectId 项目ID
+   * @return 项目的所有需求信息
+   */
+  List<ScrumDemand> findAllByProjectId(Long projectId);
 
-    /**
-     * 根据优先级ID统计处于该优先级的需求有多少
-     *
-     * @param priorityId 优先级ID
-     * @return 处于该优先级的需求数量
-     */
-    long countByPriorityId(Long priorityId);
+  /**
+   * 根据优先级ID统计处于该优先级的需求有多少
+   *
+   * @param priorityId 优先级ID
+   * @return 处于该优先级的需求数量
+   */
+  long countByPriorityId(Long priorityId);
 
-    /**
-     * 根据迭代ID统计处于该迭代的需求数量
-     *
-     * @param iterationId 迭代ID
-     * @return 处于该迭代的需求数量
-     */
-    long countByIterationId(Long iterationId);
+  /**
+   * 根据迭代ID统计处于该迭代的需求数量
+   *
+   * @param iterationId 迭代ID
+   * @return 处于该迭代的需求数量
+   */
+  long countByIterationId(Long iterationId);
 }

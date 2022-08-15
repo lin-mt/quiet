@@ -29,6 +29,5 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface ScrumTemplateConvert extends QuietConvert<ScrumTemplate, ScrumTemplateDTO, ScrumTemplateVO> {
-
-}
+public interface ScrumTemplateConvert
+    extends QuietConvert<ScrumTemplate, ScrumTemplateDTO, ScrumTemplateVO> {}

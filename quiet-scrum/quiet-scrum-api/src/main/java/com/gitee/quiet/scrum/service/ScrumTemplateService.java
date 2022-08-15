@@ -31,75 +31,75 @@ import java.util.Set;
  */
 public interface ScrumTemplateService {
 
-    /**
-     * 查询所有的模板信息
-     *
-     * @return 根据是否创建人创建的模板进行分组
-     */
-    AllTemplate allTemplates();
+  /**
+   * 查询所有的模板信息
+   *
+   * @return 根据是否创建人创建的模板进行分组
+   */
+  AllTemplate allTemplates();
 
-    /**
-     * 新增模板
-     *
-     * @param save 新增的模板信息
-     * @return 新增后的模板信息
-     */
-    ScrumTemplate save(ScrumTemplate save);
+  /**
+   * 新增模板
+   *
+   * @param save 新增的模板信息
+   * @return 新增后的模板信息
+   */
+  ScrumTemplate save(ScrumTemplate save);
 
-    /**
-     * 更新模板
-     *
-     * @param update 更新的模板信息
-     * @return 更新后的模板信息
-     */
-    ScrumTemplate update(ScrumTemplate update);
+  /**
+   * 更新模板
+   *
+   * @param update 更新的模板信息
+   * @return 更新后的模板信息
+   */
+  ScrumTemplate update(ScrumTemplate update);
 
-    /**
-     * 根据模板ID删除模板
-     *
-     * @param id 要删除的模板的ID
-     */
-    void deleteById(@NotNull Long id);
+  /**
+   * 根据模板ID删除模板
+   *
+   * @param id 要删除的模板的ID
+   */
+  void deleteById(@NotNull Long id);
 
-    /**
-     * 根据模板名称查询模板信息
-     *
-     * @param name  模板名称
-     * @param limit 查询的模板数量
-     * @return 查询结果
-     */
-    List<ScrumTemplate> listEnabledByName(String name, long limit);
+  /**
+   * 根据模板名称查询模板信息
+   *
+   * @param name 模板名称
+   * @param limit 查询的模板数量
+   * @return 查询结果
+   */
+  List<ScrumTemplate> listEnabledByName(String name, long limit);
 
-    /**
-     * 根据模板ID批量查询模板信息
-     *
-     * @param ids 模板ID集合
-     * @return 模板信息
-     */
-    List<ScrumTemplate> findAllByIds(Set<Long> ids);
+  /**
+   * 根据模板ID批量查询模板信息
+   *
+   * @param ids 模板ID集合
+   * @return 模板信息
+   */
+  List<ScrumTemplate> findAllByIds(Set<Long> ids);
 
-    /**
-     * 根据模板ID获取模板信息
-     *
-     * @param id 模板ID
-     * @return 模板信息
-     */
-    ScrumTemplate findById(Long id);
+  /**
+   * 根据模板ID获取模板信息
+   *
+   * @param id 模板ID
+   * @return 模板信息
+   */
+  ScrumTemplate findById(Long id);
 
-    /**
-     * 判断模板ID是否存在
-     *
-     * @param id 模板ID
-     * @return true：存在，false：不存在
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    boolean existsById(Long id);
+  /**
+   * 判断模板ID是否存在
+   *
+   * @param id 模板ID
+   * @return true：存在，false：不存在
+   */
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  boolean existsById(Long id);
 
-    /**
-     * 查询模板信息，包含步骤配置和优先级配置信息
-     *
-     * @param id 模板ID
-     * @return 模板信息
-     */
-    ScrumTemplate templateInfo(Long id);
+  /**
+   * 查询模板信息，包含步骤配置和优先级配置信息
+   *
+   * @param id 模板ID
+   * @return 模板信息
+   */
+  ScrumTemplate templateInfo(Long id);
 }

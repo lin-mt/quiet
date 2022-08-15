@@ -22,6 +22,4 @@ package com.gitee.quiet.scrum.repository;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Scrum {
-
-}
+public interface Scrum {}

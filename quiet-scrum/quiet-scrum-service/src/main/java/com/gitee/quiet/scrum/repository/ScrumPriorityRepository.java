@@ -32,36 +32,36 @@ import java.util.Set;
 @Repository
 public interface ScrumPriorityRepository extends QuietRepository<ScrumPriority> {
 
-    /**
-     * 根据模板ID和优先级名称查询优先级信息
-     *
-     * @param templateId 模板ID
-     * @param name       优先级名称
-     * @return 优先级信息
-     */
-    ScrumPriority findByTemplateIdAndName(Long templateId, String name);
+  /**
+   * 根据模板ID和优先级名称查询优先级信息
+   *
+   * @param templateId 模板ID
+   * @param name 优先级名称
+   * @return 优先级信息
+   */
+  ScrumPriority findByTemplateIdAndName(Long templateId, String name);
 
-    /**
-     * 根据模板ID查询优先级信息
-     *
-     * @param templateId 模板ID
-     * @return 优先级信息
-     */
-    List<ScrumPriority> findAllByTemplateId(Long templateId);
+  /**
+   * 根据模板ID查询优先级信息
+   *
+   * @param templateId 模板ID
+   * @return 优先级信息
+   */
+  List<ScrumPriority> findAllByTemplateId(Long templateId);
 
-    /**
-     * 根据模板ID集合批量查询所有的优先级配置
-     *
-     * @param templateIds 模板ID集合
-     * @return 所有优先级配置信息
-     */
-    List<ScrumPriority> findAllByTemplateIdIn(Set<Long> templateIds);
+  /**
+   * 根据模板ID集合批量查询所有的优先级配置
+   *
+   * @param templateIds 模板ID集合
+   * @return 所有优先级配置信息
+   */
+  List<ScrumPriority> findAllByTemplateIdIn(Set<Long> templateIds);
 
-    /**
-     * 根据模板ID统计优先级数量
-     *
-     * @param templateId 模板ID
-     * @return 优先级数量
-     */
-    long countByTemplateId(Long templateId);
+  /**
+   * 根据模板ID统计优先级数量
+   *
+   * @param templateId 模板ID
+   * @return 优先级数量
+   */
+  long countByTemplateId(Long templateId);
 }

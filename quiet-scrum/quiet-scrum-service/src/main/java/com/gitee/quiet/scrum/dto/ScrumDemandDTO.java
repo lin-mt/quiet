@@ -38,59 +38,36 @@ import java.time.LocalDateTime;
 @Setter
 public class ScrumDemandDTO extends ParentAndSerialDTO<ScrumDemandDTO> {
 
-    /**
-     * 需求标题
-     */
-    @NotBlank
-    @Length(max = 30)
-    private String title;
+  /** 需求标题 */
+  @NotBlank
+  @Length(max = 30)
+  private String title;
 
-    /**
-     * 需求类型
-     */
-    @NotNull
-    private Dictionary<DemandType> type;
+  /** 需求类型 */
+  @NotNull private Dictionary<DemandType> type;
 
-    /**
-     * 项目ID
-     */
-    @NotNull
-    private Long projectId;
+  /** 项目ID */
+  @NotNull private Long projectId;
 
-    /**
-     * 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID
-     */
-    private Long optimizeDemandId;
+  /** 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID */
+  private Long optimizeDemandId;
 
-    /**
-     * 所属迭代ID
-     */
-    private Long iterationId;
+  /** 所属迭代ID */
+  private Long iterationId;
 
-    /**
-     * 优先级ID
-     */
-    @NotNull
-    private Long priorityId;
+  /** 优先级ID */
+  @NotNull private Long priorityId;
 
-    /**
-     * 需求开始时间
-     */
-    private LocalDateTime startTime;
+  /** 需求开始时间 */
+  private LocalDateTime startTime;
 
-    /**
-     * 需求结束时间
-     */
-    private LocalDateTime endTime;
+  /** 需求结束时间 */
+  private LocalDateTime endTime;
 
-    /**
-     * 备注信息
-     */
-    @Length(max = 3000)
-    private String remark;
+  /** 备注信息 */
+  @Length(max = 3000)
+  private String remark;
 
-    /**
-     * 需求过滤条件
-     */
-    private ScrumDemandFilter demandFilter;
+  /** 需求过滤条件 */
+  private ScrumDemandFilter demandFilter;
 }

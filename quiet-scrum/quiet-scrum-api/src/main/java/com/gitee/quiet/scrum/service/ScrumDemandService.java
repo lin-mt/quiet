@@ -32,109 +32,110 @@ import java.util.List;
  */
 public interface ScrumDemandService {
 
-    /**
-     * 根据迭代ID查询该迭代的所有需求
-     *
-     * @param iterationId 迭代ID
-     * @return 迭代中的所有需求
-     */
-    List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
+  /**
+   * 根据迭代ID查询该迭代的所有需求
+   *
+   * @param iterationId 迭代ID
+   * @return 迭代中的所有需求
+   */
+  List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
 
-    /**
-     * 分页查询需求信息
-     *
-     * @param params 查询参数
-     * @param page   分页参数
-     * @return 需求信息
-     */
-    Page<ScrumDemand> page(ScrumDemand params, Pageable page);
+  /**
+   * 分页查询需求信息
+   *
+   * @param params 查询参数
+   * @param page 分页参数
+   * @return 需求信息
+   */
+  Page<ScrumDemand> page(ScrumDemand params, Pageable page);
 
-    /**
-     * 创建需求
-     *
-     * @param save 新需求
-     * @return 创建后的需求信息
-     */
-    ScrumDemand save(@NotNull ScrumDemand save);
+  /**
+   * 创建需求
+   *
+   * @param save 新需求
+   * @return 创建后的需求信息
+   */
+  ScrumDemand save(@NotNull ScrumDemand save);
 
-    /**
-     * 更新需求
-     *
-     * @param update 更新的需求信息
-     * @return 更新后的需求信息
-     */
-    ScrumDemand update(@NotNull ScrumDemand update);
+  /**
+   * 更新需求
+   *
+   * @param update 更新的需求信息
+   * @return 更新后的需求信息
+   */
+  ScrumDemand update(@NotNull ScrumDemand update);
 
-    /**
-     * 根据项目信息删除项目下的需求信息
-     *
-     * @param projectId 要删除需求的项目ID
-     */
-    void deleteAllByProjectId(@NotNull Long projectId);
+  /**
+   * 根据项目信息删除项目下的需求信息
+   *
+   * @param projectId 要删除需求的项目ID
+   */
+  void deleteAllByProjectId(@NotNull Long projectId);
 
-    /**
-     * 根据优先级ID统计处于该优先级的需求数量
-     *
-     * @param priorityId 优先级ID
-     * @return 处于该优先级的需求数量
-     */
-    long countByPriorityId(@NotNull Long priorityId);
+  /**
+   * 根据优先级ID统计处于该优先级的需求数量
+   *
+   * @param priorityId 优先级ID
+   * @return 处于该优先级的需求数量
+   */
+  long countByPriorityId(@NotNull Long priorityId);
 
-    /**
-     * 查询待规划的需求
-     *
-     * @param projectId 项目ID
-     * @param filter    过滤条件
-     * @param offset    跳过的数量
-     * @param limit     查询数量
-     * @return 项目待规划的需求
-     */
-    List<ScrumDemand> listToBePlanned(Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
+  /**
+   * 查询待规划的需求
+   *
+   * @param projectId 项目ID
+   * @param filter 过滤条件
+   * @param offset 跳过的数量
+   * @param limit 查询数量
+   * @return 项目待规划的需求
+   */
+  List<ScrumDemand> listToBePlanned(
+      Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
 
-    /**
-     * 根据迭代ID统计处于该迭代的需求数量
-     *
-     * @param iterationId 迭代ID
-     * @return 处于该迭代的需求数量
-     */
-    long countByIterationId(@NotNull Long iterationId);
+  /**
+   * 根据迭代ID统计处于该迭代的需求数量
+   *
+   * @param iterationId 迭代ID
+   * @return 处于该迭代的需求数量
+   */
+  long countByIterationId(@NotNull Long iterationId);
 
-    /**
-     * 查询迭代的需求
-     *
-     * @param iteration 迭代ID
-     * @param offset    跳过的数量
-     * @param limit     查询数量
-     * @return 迭代的需求
-     */
-    List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
+  /**
+   * 查询迭代的需求
+   *
+   * @param iteration 迭代ID
+   * @param offset 跳过的数量
+   * @param limit 查询数量
+   * @return 迭代的需求
+   */
+  List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
 
-    /**
-     * 根据ID删除需求
-     *
-     * @param id 需求ID
-     */
-    void deleteById(Long id);
+  /**
+   * 根据ID删除需求
+   *
+   * @param id 需求ID
+   */
+  void deleteById(Long id);
 
-    /**
-     * 校验是否需求ID是否存在
-     *
-     * @param id 需求ID
-     */
-    void checkIdExist(Long id);
+  /**
+   * 校验是否需求ID是否存在
+   *
+   * @param id 需求ID
+   */
+  void checkIdExist(Long id);
 
-    /**
-     * 查询指定迭代未完成的所有需求
-     *
-     * @param iterationId 迭代ID
-     * @return 未完成的需求信息
-     */
-    List<ScrumDemand> findAllUnfinished(Long iterationId);
+  /**
+   * 查询指定迭代未完成的所有需求
+   *
+   * @param iterationId 迭代ID
+   * @return 未完成的需求信息
+   */
+  List<ScrumDemand> findAllUnfinished(Long iterationId);
 
-    /**
-     * 批量保存需求信息
-     *
-     * @param demands 需求信息集合
-     */
-    void saveAll(List<ScrumDemand> demands);
+  /**
+   * 批量保存需求信息
+   *
+   * @param demands 需求信息集合
+   */
+  void saveAll(List<ScrumDemand> demands);
 }

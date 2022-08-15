@@ -38,40 +38,40 @@ import java.util.stream.Collectors;
 @Service
 public class ScrumProjectTeamServiceImpl implements ScrumProjectTeamService {
 
-    private final ScrumProjectTeamRepository projectTeamRepository;
+  private final ScrumProjectTeamRepository projectTeamRepository;
 
-    private final ScrumProjectService projectService;
+  private final ScrumProjectService projectService;
 
-    public ScrumProjectTeamServiceImpl(ScrumProjectTeamRepository projectTeamRepository,
-        ScrumProjectService projectService) {
-        this.projectTeamRepository = projectTeamRepository;
-        this.projectService = projectService;
+  public ScrumProjectTeamServiceImpl(
+      ScrumProjectTeamRepository projectTeamRepository, ScrumProjectService projectService) {
+    this.projectTeamRepository = projectTeamRepository;
+    this.projectService = projectService;
+  }
+
+  @Override
+  public List<ScrumProject> findAllProjectsByTeamIds(Set<Long> teamIds) {
+    List<ScrumProjectTeam> projectTeams = projectTeamRepository.findAllByTeamIdIn(teamIds);
+    if (CollectionUtils.isNotEmpty(projectTeams)) {
+      Set<Long> projectIds =
+          projectTeams.stream().map(ScrumProjectTeam::getProjectId).collect(Collectors.toSet());
+      return projectService.findAllByIds(projectIds);
     }
+    return List.of();
+  }
 
-    @Override
-    public List<ScrumProject> findAllProjectsByTeamIds(Set<Long> teamIds) {
-        List<ScrumProjectTeam> projectTeams = projectTeamRepository.findAllByTeamIdIn(teamIds);
-        if (CollectionUtils.isNotEmpty(projectTeams)) {
-            Set<Long> projectIds = projectTeams.stream().map(ScrumProjectTeam::getProjectId)
-                .collect(Collectors.toSet());
-            return projectService.findAllByIds(projectIds);
-        }
-        return List.of();
-    }
+  @Override
+  public List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams) {
+    return projectTeamRepository.saveAll(projectTeams);
+  }
 
-    @Override
-    public List<ScrumProjectTeam> saveAll(List<ScrumProjectTeam> projectTeams) {
-        return projectTeamRepository.saveAll(projectTeams);
-    }
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void deleteAllByProjectId(Long projectId) {
+    projectTeamRepository.deleteAllByProjectId(projectId);
+  }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteAllByProjectId(Long projectId) {
-        projectTeamRepository.deleteAllByProjectId(projectId);
-    }
-
-    @Override
-    public List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds) {
-        return projectTeamRepository.findAllByProjectIdIn(projectIds);
-    }
+  @Override
+  public List<ScrumProjectTeam> findAllByProjectIds(Set<Long> projectIds) {
+    return projectTeamRepository.findAllByProjectIdIn(projectIds);
+  }
 }
