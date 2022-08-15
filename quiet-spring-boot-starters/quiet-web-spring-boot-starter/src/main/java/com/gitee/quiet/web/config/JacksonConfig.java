@@ -25,16 +25,17 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.gitee.quiet.common.core.json.BeforeObjectMapperInjection;
 import com.gitee.quiet.web.json.JacksonConfigBasePackage;
 import com.gitee.quiet.web.json.module.QuietSimpleModule;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Jackson配置类.
@@ -45,32 +46,32 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 @ComponentScan(basePackageClasses = JacksonConfigBasePackage.class)
 public class JacksonConfig {
 
-    public static final String QUIET_MODULE_NAME = "QuietSimpleModule";
+  public static final String QUIET_MODULE_NAME = "QuietSimpleModule";
 
-    @Bean
-    public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder,
-        List<BeforeObjectMapperInjection> beforeObjectMapperInjections) {
-        final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-        QuietSimpleModule module = new QuietSimpleModule(QUIET_MODULE_NAME);
-        // 日期序列化与反序列化
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        module.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
-        module.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
-        // 时间序列化与反序列化
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
-        objectMapper.registerModule(module);
-        if (CollectionUtils.isNotEmpty(beforeObjectMapperInjections)) {
-            Collections.sort(beforeObjectMapperInjections);
-            for (BeforeObjectMapperInjection beforeObjectMapperInjection : beforeObjectMapperInjections) {
-                if (beforeObjectMapperInjection != null) {
-                    beforeObjectMapperInjection.config(objectMapper);
-                }
-            }
+  @Bean
+  public ObjectMapper jacksonObjectMapper(
+      Jackson2ObjectMapperBuilder builder,
+      List<BeforeObjectMapperInjection> beforeObjectMapperInjections) {
+    final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+    QuietSimpleModule module = new QuietSimpleModule(QUIET_MODULE_NAME);
+    // 日期序列化与反序列化
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    module.addSerializer(LocalDate.class, new LocalDateSerializer(dateFormatter));
+    module.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
+    // 时间序列化与反序列化
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+    module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+    objectMapper.registerModule(module);
+    if (CollectionUtils.isNotEmpty(beforeObjectMapperInjections)) {
+      Collections.sort(beforeObjectMapperInjections);
+      for (BeforeObjectMapperInjection beforeObjectMapperInjection : beforeObjectMapperInjections) {
+        if (beforeObjectMapperInjection != null) {
+          beforeObjectMapperInjection.config(objectMapper);
         }
-
-        return objectMapper;
+      }
     }
 
+    return objectMapper;
+  }
 }

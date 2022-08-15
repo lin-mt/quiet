@@ -32,14 +32,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 public class MessageSourceConfig {
 
-    public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
+  public static final String QUIET_COMMON_MESSAGE_SOURCE = "quietCommonMessageSource";
 
-    @Bean(QUIET_COMMON_MESSAGE_SOURCE)
-    public MessageSource commonMessageSource(MessageSourceProperties properties) {
-        MessageSourceProperties messageSourceProperties = new MessageSourceProperties();
-        BeanUtils.copyProperties(properties, messageSourceProperties);
-        messageSourceProperties.setBasename("quiet-common");
-        return MessageSourceUtil.buildMessageSource(messageSourceProperties);
-    }
-
+  @Bean(QUIET_COMMON_MESSAGE_SOURCE)
+  public MessageSource commonMessageSource(MessageSourceProperties properties) {
+    MessageSourceProperties messageSourceProperties = new MessageSourceProperties();
+    BeanUtils.copyProperties(properties, messageSourceProperties);
+    messageSourceProperties.setBasename("quiet-common");
+    return MessageSourceUtil.buildMessageSource(messageSourceProperties);
+  }
 }

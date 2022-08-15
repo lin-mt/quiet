@@ -36,20 +36,22 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration(proxyBeanMethods = false)
 public class CacheConfig {
 
-    @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        return RedisCacheManager.create(redisConnectionFactory);
-    }
+  @Bean
+  public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    return RedisCacheManager.create(redisConnectionFactory);
+  }
 
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, ObjectMapper objectMapper) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(factory);
-        template.setKeySerializer(new StringRedisSerializer());
-        ObjectMapper redisObjectMapper = objectMapper.copy();
-        Jackson2JsonRedisSerializer<Object> redisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        redisSerializer.setObjectMapper(redisObjectMapper);
-        template.setValueSerializer(redisSerializer);
-        return template;
-    }
+  @Bean
+  public RedisTemplate<String, Object> redisTemplate(
+      RedisConnectionFactory factory, ObjectMapper objectMapper) {
+    RedisTemplate<String, Object> template = new RedisTemplate<>();
+    template.setConnectionFactory(factory);
+    template.setKeySerializer(new StringRedisSerializer());
+    ObjectMapper redisObjectMapper = objectMapper.copy();
+    Jackson2JsonRedisSerializer<Object> redisSerializer =
+        new Jackson2JsonRedisSerializer<>(Object.class);
+    redisSerializer.setObjectMapper(redisObjectMapper);
+    template.setValueSerializer(redisSerializer);
+    return template;
+  }
 }

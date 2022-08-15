@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface LongEnum extends JpaCustomEnum<Long> {
-
-}
+public interface LongEnum extends JpaCustomEnum<Long> {}

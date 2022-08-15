@@ -44,35 +44,36 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @ConditionalOnMissingBean(value = AuthorizationServerConfigurer.class)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    private final ResourceServerProperties resourceServerProperties;
+  private final ResourceServerProperties resourceServerProperties;
 
-    private final AuthorizationServerProperties authorizationServerProperties;
+  private final AuthorizationServerProperties authorizationServerProperties;
 
-    private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-    public ResourceServerConfig(ResourceServerProperties resourceServerProperties,
-        AuthorizationServerProperties authorizationServerProperties, ObjectMapper objectMapper) {
-        this.resourceServerProperties = resourceServerProperties;
-        this.authorizationServerProperties = authorizationServerProperties;
-        this.objectMapper = objectMapper;
-    }
+  public ResourceServerConfig(
+      ResourceServerProperties resourceServerProperties,
+      AuthorizationServerProperties authorizationServerProperties,
+      ObjectMapper objectMapper) {
+    this.resourceServerProperties = resourceServerProperties;
+    this.authorizationServerProperties = authorizationServerProperties;
+    this.objectMapper = objectMapper;
+  }
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.tokenServices(remoteTokenService());
-    }
+  @Override
+  public void configure(ResourceServerSecurityConfigurer resources) {
+    resources.tokenServices(remoteTokenService());
+  }
 
-    @Bean
-    @Primary
-    public RemoteTokenServices remoteTokenService() {
-        RemoteTokenServices tokenService = new RemoteTokenServices();
-        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(new UserAuthenticationConverter(objectMapper));
-        tokenService.setAccessTokenConverter(accessTokenConverter);
-        tokenService.setClientId(resourceServerProperties.getClientId());
-        tokenService.setClientSecret(resourceServerProperties.getClientSecret());
-        tokenService.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
-        return tokenService;
-    }
-
+  @Bean
+  @Primary
+  public RemoteTokenServices remoteTokenService() {
+    RemoteTokenServices tokenService = new RemoteTokenServices();
+    DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+    accessTokenConverter.setUserTokenConverter(new UserAuthenticationConverter(objectMapper));
+    tokenService.setAccessTokenConverter(accessTokenConverter);
+    tokenService.setClientId(resourceServerProperties.getClientId());
+    tokenService.setClientSecret(resourceServerProperties.getClientSecret());
+    tokenService.setCheckTokenEndpointUrl(authorizationServerProperties.getCheckTokenAccess());
+    return tokenService;
+  }
 }

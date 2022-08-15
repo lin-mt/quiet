@@ -29,6 +29,5 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface QuietUserRoleConverter extends QuietConvert<QuietUserRole, QuietUserRoleDTO, QuietUserRoleVO> {
-
-}
+public interface QuietUserRoleConverter
+    extends QuietConvert<QuietUserRole, QuietUserRoleDTO, QuietUserRoleVO> {}

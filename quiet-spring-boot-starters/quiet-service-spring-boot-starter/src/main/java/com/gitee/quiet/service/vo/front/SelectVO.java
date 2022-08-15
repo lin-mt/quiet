@@ -25,21 +25,21 @@ package com.gitee.quiet.service.vo.front;
  */
 public interface SelectVO<V> {
 
-    /**
-     * 选中的值
-     *
-     * @return 用户选中的值
-     */
-    V getValue();
+  /**
+   * 选中的值
+   *
+   * @return 用户选中的值
+   */
+  V getValue();
 
-    /**
-     * 展示的值
-     *
-     * @return 组件展示给用户的值
-     */
-    String getLabel();
+  /**
+   * 展示的值
+   *
+   * @return 组件展示给用户的值
+   */
+  String getLabel();
 
-    default V getKey() {
-        return getValue();
-    }
+  default V getKey() {
+    return getValue();
+  }
 }

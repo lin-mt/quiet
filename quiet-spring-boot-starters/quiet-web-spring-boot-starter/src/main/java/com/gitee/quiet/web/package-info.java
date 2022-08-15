@@ -15,8 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * Quiet Web Starter
- */
-
+/** Quiet Web Starter */
 package com.gitee.quiet.web;

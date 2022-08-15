@@ -19,12 +19,13 @@ package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.BaseVO;
 import com.gitee.quiet.system.entity.QuietUser;
-import java.util.List;
-import java.util.Map;
-import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 团队VO.
@@ -35,36 +36,24 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class QuietTeamVO extends BaseVO {
 
-    /**
-     * 团队名称
-     */
-    @NotBlank
-    @Length(max = 16)
-    private String teamName;
+  /** 团队名称 */
+  @NotBlank
+  @Length(max = 16)
+  private String teamName;
 
-    /**
-     * 标语
-     */
-    @Length(max = 30)
-    private String slogan;
+  /** 标语 */
+  @Length(max = 30)
+  private String slogan;
 
-    /**
-     * 团队角色与成员信息信息
-     */
-    private Map<Long, List<QuietUser>> roleIdToUsers;
+  /** 团队角色与成员信息信息 */
+  private Map<Long, List<QuietUser>> roleIdToUsers;
 
-    /**
-     * 团队PO
-     */
-    private List<QuietUser> productOwners;
+  /** 团队PO */
+  private List<QuietUser> productOwners;
 
-    /**
-     * 团队SM
-     */
-    private List<QuietUser> scrumMasters;
+  /** 团队SM */
+  private List<QuietUser> scrumMasters;
 
-    /**
-     * 团队成员
-     */
-    private List<QuietUser> members;
+  /** 团队成员 */
+  private List<QuietUser> members;
 }

@@ -28,11 +28,10 @@ import java.util.List;
  */
 public interface CascaderVO<V, T> extends SelectVO<V> {
 
-    /**
-     * 子级选选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
-
+  /**
+   * 子级选选项
+   *
+   * @return 子级选项
+   */
+  List<T> getChildren();
 }

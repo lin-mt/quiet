@@ -18,9 +18,10 @@
 package com.gitee.quiet.validation.entity;
 
 import com.gitee.quiet.validation.annotation.DateRangeCheck;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * 时间范围的查询参数.
@@ -32,8 +33,7 @@ import lombok.Setter;
 @DateRangeCheck
 public class DateRange {
 
-    private LocalDateTime start;
+  private LocalDateTime start;
 
-    private LocalDateTime end;
-
+  private LocalDateTime end;
 }

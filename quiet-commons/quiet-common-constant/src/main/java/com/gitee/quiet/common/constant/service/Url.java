@@ -24,12 +24,11 @@ package com.gitee.quiet.common.constant.service;
  */
 public final class Url {
 
-    public static final String REGISTER = "/user/registered";
+  public static final String REGISTER = "/user/registered";
 
-    public static final String LOGIN_BY_ACCOUNT = "/login/account";
+  public static final String LOGIN_BY_ACCOUNT = "/login/account";
 
-    public static final String LOGOUT = "/login/out-login";
+  public static final String LOGOUT = "/login/out-login";
 
-    private Url() {
-    }
+  private Url() {}
 }

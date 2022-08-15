@@ -19,9 +19,10 @@ package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.ParentDTO;
 import com.gitee.quiet.system.entity.QuietUser;
-import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 /**
  * 部门信息.
@@ -32,24 +33,15 @@ import lombok.Setter;
 @Setter
 public class QuietDepartmentDTO extends ParentDTO<QuietDepartmentDTO> {
 
-    /**
-     * 部门名称
-     */
-    private String departmentName;
+  /** 部门名称 */
+  private String departmentName;
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /** 备注 */
+  private String remark;
 
-    /**
-     * 用户信息
-     */
-    private QuietUser params;
+  /** 用户信息 */
+  private QuietUser params;
 
-    /**
-     * 用户ID集合
-     */
-    private Set<Long> userIds;
-
+  /** 用户ID集合 */
+  private Set<Long> userIds;
 }

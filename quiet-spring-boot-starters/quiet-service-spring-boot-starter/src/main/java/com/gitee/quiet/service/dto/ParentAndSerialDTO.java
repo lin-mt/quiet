@@ -19,9 +19,10 @@ package com.gitee.quiet.service.dto;
 
 import com.gitee.quiet.common.core.entity.Parent;
 import com.gitee.quiet.common.core.entity.Serial;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 带有父子关系且有优先级信息的实体.
@@ -30,20 +31,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO implements Parent<T>, Serial {
+public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO
+    implements Parent<T>, Serial {
 
-    /**
-     * 序号
-     */
-    private int serialNumber;
+  /** 序号 */
+  private int serialNumber;
 
-    /**
-     * 父级ID
-     */
-    private Long parentId;
+  /** 父级ID */
+  private Long parentId;
 
-    /**
-     * 子数据
-     */
-    private List<T> children;
+  /** 子数据 */
+  private List<T> children;
 }

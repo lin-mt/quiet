@@ -15,8 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * 共用的工具类
- */
-
+/** 共用的工具类 */
 package com.gitee.quiet.common.util;

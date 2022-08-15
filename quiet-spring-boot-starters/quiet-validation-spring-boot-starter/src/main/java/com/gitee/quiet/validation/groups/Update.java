@@ -24,6 +24,4 @@ import javax.validation.groups.Default;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Update extends Default {
-
-}
+public interface Update extends Default {}

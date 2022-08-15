@@ -17,24 +17,24 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-import java.io.Serializable;
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 
+import java.io.Serializable;
+
 public final class AttributeConverterInterceptor {
 
-    private AttributeConverterInterceptor() {
-    }
+  private AttributeConverterInterceptor() {}
 
-    @RuntimeType
-    public static <T extends Enum<T> & JpaCustomEnum<V>, V extends Serializable> V convertToDatabaseColumn(
-        T attribute) {
-        return attribute == null ? null : attribute.getValue();
-    }
+  @RuntimeType
+  public static <T extends Enum<T> & JpaCustomEnum<V>, V extends Serializable>
+      V convertToDatabaseColumn(T attribute) {
+    return attribute == null ? null : attribute.getValue();
+  }
 
-    @RuntimeType
-    public static <T extends Enum<T> & JpaCustomEnum<V>, V extends Serializable> T convertToEntityAttribute(V dbData,
-        @FieldValue("enumType") Class<T> enumType) {
-        return dbData == null ? null : JpaCustomEnum.valueToEnum(enumType, dbData);
-    }
+  @RuntimeType
+  public static <T extends Enum<T> & JpaCustomEnum<V>, V extends Serializable>
+      T convertToEntityAttribute(V dbData, @FieldValue("enumType") Class<T> enumType) {
+    return dbData == null ? null : JpaCustomEnum.valueToEnum(enumType, dbData);
+  }
 }

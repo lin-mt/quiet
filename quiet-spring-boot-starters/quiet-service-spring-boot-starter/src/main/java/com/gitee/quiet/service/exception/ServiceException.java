@@ -26,7 +26,7 @@ import com.gitee.quiet.common.core.exception.QuietException;
  */
 public class ServiceException extends QuietException {
 
-    public ServiceException(String code, Object... msgParam) {
-        super(code, msgParam);
-    }
+  public ServiceException(String code, Object... msgParam) {
+    super(code, msgParam);
+  }
 }

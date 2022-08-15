@@ -54,51 +54,55 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 public class ServiceConfig {
 
-    @Bean
-    public SpringUtil springUtil() {
-        return new SpringUtil();
-    }
+  @Bean
+  public SpringUtil springUtil() {
+    return new SpringUtil();
+  }
 
-    @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
-    }
+  @Bean
+  public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    return new GrantedAuthorityDefaults(RoleNames.ROLE_PREFIX);
+  }
 
-    @Bean
-    public BeforeObjectMapperInjection serviceSimpleModule() {
-        return objectMapper -> {
-            ServiceSimpleModule module = new ServiceSimpleModule("ServiceSimpleModule");
-            objectMapper.registerModule(module);
-            SimpleFilterProvider filterProvider = new SimpleFilterProvider();
-            filterProvider.addFilter(JsonFilterName.HAS_ROLE, new HasRoleAnnotationFilter());
-            objectMapper.setFilterProvider(filterProvider);
-        };
-    }
+  @Bean
+  public BeforeObjectMapperInjection serviceSimpleModule() {
+    return objectMapper -> {
+      ServiceSimpleModule module = new ServiceSimpleModule("ServiceSimpleModule");
+      objectMapper.registerModule(module);
+      SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+      filterProvider.addFilter(JsonFilterName.HAS_ROLE, new HasRoleAnnotationFilter());
+      objectMapper.setFilterProvider(filterProvider);
+    };
+  }
 
-    @Bean
-    @ConditionalOnMissingBean(AuditorAware.class)
-    public QuietAuditorAware auditorAware() {
-        return new QuietAuditorAware();
-    }
+  @Bean
+  @ConditionalOnMissingBean(AuditorAware.class)
+  public QuietAuditorAware auditorAware() {
+    return new QuietAuditorAware();
+  }
 
-    @Bean
-    public StringToDictionaryConverter stringToDictionaryConverter() {
-        return new StringToDictionaryConverter();
-    }
+  @Bean
+  public StringToDictionaryConverter stringToDictionaryConverter() {
+    return new StringToDictionaryConverter();
+  }
 
-    @Bean
-    public EnumScanPath serviceEnumPath() {
-        return ServiceEnumsPackage.class::getPackageName;
-    }
+  @Bean
+  public EnumScanPath serviceEnumPath() {
+    return ServiceEnumsPackage.class::getPackageName;
+  }
 
-    @Bean
-    @ConditionalOnProperty(prefix = "spring.jackson", name = "property-naming-strategy", havingValue = "SNAKE_CASE")
-    public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> getMethodQueryParamSnakeCaseFilter() {
-        FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        registrationBean.setFilter(new GetMethodQueryParamSnakeCaseFilter());
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
+  @Bean
+  @ConditionalOnProperty(
+      prefix = "spring.jackson",
+      name = "property-naming-strategy",
+      havingValue = "SNAKE_CASE")
+  public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter>
+      getMethodQueryParamSnakeCaseFilter() {
+    FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> registrationBean =
+        new FilterRegistrationBean<>();
+    registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    registrationBean.setFilter(new GetMethodQueryParamSnakeCaseFilter());
+    registrationBean.addUrlPatterns("/*");
+    return registrationBean;
+  }
 }
-

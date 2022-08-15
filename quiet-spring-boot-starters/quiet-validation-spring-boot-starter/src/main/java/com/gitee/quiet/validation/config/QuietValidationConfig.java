@@ -17,7 +17,6 @@
 
 package com.gitee.quiet.validation.config;
 
-import java.time.Duration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
@@ -27,6 +26,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.time.Duration;
+
 /**
  * validation 配置类.
  *
@@ -35,39 +36,40 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration(proxyBeanMethods = false)
 public class QuietValidationConfig {
 
-    public static final String QUIET_VALIDATION_MESSAGE_SOURCE = "quietValidationMessageSource";
+  public static final String QUIET_VALIDATION_MESSAGE_SOURCE = "quietValidationMessageSource";
 
-    private static MessageSource buildMessageSource(MessageSourceProperties properties) {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        if (StringUtils.hasText(properties.getBasename())) {
-            messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
-                StringUtils.trimAllWhitespace(properties.getBasename())));
-        }
-        if (properties.getEncoding() != null) {
-            messageSource.setDefaultEncoding(properties.getEncoding().name());
-        }
-        messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
-        Duration cacheDuration = properties.getCacheDuration();
-        if (cacheDuration != null) {
-            messageSource.setCacheMillis(cacheDuration.toMillis());
-        }
-        messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
-        messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
-        return messageSource;
+  private static MessageSource buildMessageSource(MessageSourceProperties properties) {
+    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+    if (StringUtils.hasText(properties.getBasename())) {
+      messageSource.setBasenames(
+          StringUtils.commaDelimitedListToStringArray(
+              StringUtils.trimAllWhitespace(properties.getBasename())));
     }
-
-    @Bean(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
-    public MessageSource messageSource(MessageSourceProperties properties) {
-        properties.setBasename("quiet-validation,validation,ValidationMessages");
-        return buildMessageSource(properties);
+    if (properties.getEncoding() != null) {
+      messageSource.setDefaultEncoding(properties.getEncoding().name());
     }
-
-    @Bean
-    public LocalValidatorFactoryBean validatorFactoryBean(
-        @Qualifier(QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE) MessageSource messageSource) {
-        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
-        factoryBean.setValidationMessageSource(messageSource);
-        return factoryBean;
+    messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+    Duration cacheDuration = properties.getCacheDuration();
+    if (cacheDuration != null) {
+      messageSource.setCacheMillis(cacheDuration.toMillis());
     }
+    messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+    messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
+    return messageSource;
+  }
 
+  @Bean(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
+  public MessageSource messageSource(MessageSourceProperties properties) {
+    properties.setBasename("quiet-validation,validation,ValidationMessages");
+    return buildMessageSource(properties);
+  }
+
+  @Bean
+  public LocalValidatorFactoryBean validatorFactoryBean(
+      @Qualifier(QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
+          MessageSource messageSource) {
+    LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+    factoryBean.setValidationMessageSource(messageSource);
+    return factoryBean;
+  }
 }

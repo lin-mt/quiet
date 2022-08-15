@@ -26,11 +26,11 @@ import java.util.List;
  */
 public interface UrlPermissionService {
 
-    /**
-     * 根据应用名称获取全部 Url 权限配置信息
-     *
-     * @param applicationName 应用名称
-     * @return 该应用的Url配置信息
-     */
-    List<UrlPermission> listUrlPermission(String applicationName);
+  /**
+   * 根据应用名称获取全部 Url 权限配置信息
+   *
+   * @param applicationName 应用名称
+   * @return 该应用的Url配置信息
+   */
+  List<UrlPermission> listUrlPermission(String applicationName);
 }

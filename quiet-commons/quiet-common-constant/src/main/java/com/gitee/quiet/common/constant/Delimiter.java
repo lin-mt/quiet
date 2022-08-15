@@ -24,8 +24,7 @@ package com.gitee.quiet.common.constant;
  */
 public final class Delimiter {
 
-    public static final String COMMA = ",";
+  public static final String COMMA = ",";
 
-    private Delimiter() {
-    }
+  private Delimiter() {}
 }

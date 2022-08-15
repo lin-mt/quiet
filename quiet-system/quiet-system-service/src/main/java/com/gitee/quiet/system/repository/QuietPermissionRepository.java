@@ -19,8 +19,9 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietPermission;
-import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 查询权限信息.
@@ -30,19 +31,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietPermissionRepository extends QuietRepository<QuietPermission> {
 
-    /**
-     * 根据应用名称查询权限配置信息
-     *
-     * @param applicationName 应用名称
-     * @return 该应用的所有权限配置
-     */
-    List<QuietPermission> findAllByApplicationName(String applicationName);
+  /**
+   * 根据应用名称查询权限配置信息
+   *
+   * @param applicationName 应用名称
+   * @return 该应用的所有权限配置
+   */
+  List<QuietPermission> findAllByApplicationName(String applicationName);
 
-    /**
-     * 根据角色 ID 查询该角色下的所有权限配置信息
-     *
-     * @param roleId 角色ID
-     * @return 该角色下的所有权限配置信息
-     */
-    List<QuietPermission> findAllByRoleId(Long roleId);
+  /**
+   * 根据角色 ID 查询该角色下的所有权限配置信息
+   *
+   * @param roleId 角色ID
+   * @return 该角色下的所有权限配置信息
+   */
+  List<QuietPermission> findAllByRoleId(Long roleId);
 }

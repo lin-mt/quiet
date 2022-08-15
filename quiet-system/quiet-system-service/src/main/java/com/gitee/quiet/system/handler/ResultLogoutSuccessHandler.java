@@ -21,14 +21,15 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
 import com.gitee.quiet.service.config.MessageSourceConfig;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.MessageSourceUtil;
-import java.io.IOException;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 退出成功返回 json 数据.
@@ -36,19 +37,22 @@ import org.springframework.stereotype.Component;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Component
-public class ResultLogoutSuccessHandler extends AbstractResponseJsonData implements LogoutSuccessHandler {
+public class ResultLogoutSuccessHandler extends AbstractResponseJsonData
+    implements LogoutSuccessHandler {
 
-    @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
-    private MessageSource messageSource;
+  @Resource(name = MessageSourceConfig.QUIET_COMMON_MESSAGE_SOURCE)
+  private MessageSource messageSource;
 
-    @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-        throws IOException {
-        logger.info("用户退出登录成功：{}", authentication);
-        Result<Object> success = Result.success();
-        success.setCode(MessageSourceCode.Account.LOGOUT_SUCCESS);
-        success.setMessage(
-            MessageSourceUtil.getMessage(request, messageSource, MessageSourceCode.Account.LOGOUT_SUCCESS));
-        responseJsonData(response, success);
-    }
+  @Override
+  public void onLogoutSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException {
+    logger.info("用户退出登录成功：{}", authentication);
+    Result<Object> success = Result.success();
+    success.setCode(MessageSourceCode.Account.LOGOUT_SUCCESS);
+    success.setMessage(
+        MessageSourceUtil.getMessage(
+            request, messageSource, MessageSourceCode.Account.LOGOUT_SUCCESS));
+    responseJsonData(response, success);
+  }
 }

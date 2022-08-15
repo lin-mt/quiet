@@ -18,11 +18,12 @@
 package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.BaseDTO;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 权限.
@@ -33,37 +34,25 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class QuietPermissionDTO extends BaseDTO {
 
-    /**
-     * 应用名称
-     */
-    @NotBlank
-    @Length(max = 100)
-    private String applicationName;
+  /** 应用名称 */
+  @NotBlank
+  @Length(max = 100)
+  private String applicationName;
 
-    /**
-     * URL 匹配规则
-     */
-    @NotBlank
-    @Length(max = 100)
-    private String urlPattern;
+  /** URL 匹配规则 */
+  @NotBlank
+  @Length(max = 100)
+  private String urlPattern;
 
-    /**
-     * 请求方法
-     */
-    @NotBlank
-    @Length(max = 7)
-    private String requestMethod;
+  /** 请求方法 */
+  @NotBlank
+  @Length(max = 7)
+  private String requestMethod;
 
-    /**
-     * 角色ID
-     */
-    @NotNull
-    private Long roleId;
+  /** 角色ID */
+  @NotNull private Long roleId;
 
-    /**
-     * 备注
-     */
-    @Length(max = 100)
-    private String remark;
-
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
 }

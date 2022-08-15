@@ -17,10 +17,6 @@
 
 package com.gitee.quiet.jpa.enums.converter;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -30,39 +26,52 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 import org.springframework.util.ClassUtils;
 
-public class AutoGenerateConverterPersistenceUnitPostProcessor implements PersistenceUnitPostProcessor {
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-    private final List<String> packagesToScan;
+public class AutoGenerateConverterPersistenceUnitPostProcessor
+    implements PersistenceUnitPostProcessor {
 
-    private final List<CustomerEnumType> customerEnumTypes;
+  private final List<String> packagesToScan;
 
-    public AutoGenerateConverterPersistenceUnitPostProcessor(List<String> packagesToScan,
-        List<CustomerEnumType> customerEnumTypes) {
-        this.packagesToScan = packagesToScan;
-        this.customerEnumTypes = customerEnumTypes;
-    }
+  private final List<CustomerEnumType> customerEnumTypes;
 
-    @Override
-    public void postProcessPersistenceUnitInfo(@NonNull MutablePersistenceUnitInfo pui) {
-        if (CollectionUtils.isNotEmpty(customerEnumTypes) && CollectionUtils.isNotEmpty(packagesToScan)) {
-            customerEnumTypes.forEach(customerEnumType -> {
-                AttributeConverterAutoGenerator generator = new AttributeConverterAutoGenerator(
+  public AutoGenerateConverterPersistenceUnitPostProcessor(
+      List<String> packagesToScan, List<CustomerEnumType> customerEnumTypes) {
+    this.packagesToScan = packagesToScan;
+    this.customerEnumTypes = customerEnumTypes;
+  }
+
+  @Override
+  public void postProcessPersistenceUnitInfo(@NonNull MutablePersistenceUnitInfo pui) {
+    if (CollectionUtils.isNotEmpty(customerEnumTypes)
+        && CollectionUtils.isNotEmpty(packagesToScan)) {
+      customerEnumTypes.forEach(
+          customerEnumType -> {
+            AttributeConverterAutoGenerator generator =
+                new AttributeConverterAutoGenerator(
                     ClassUtils.getDefaultClassLoader(), customerEnumType.getValueClass());
-                findValueEnumClasses(customerEnumType.getSuperClass()).stream().map(generator::generate)
-                    .map(Class::getName).forEach(pui::addManagedClassName);
-            });
-        }
+            findValueEnumClasses(customerEnumType.getSuperClass()).stream()
+                .map(generator::generate)
+                .map(Class::getName)
+                .forEach(pui::addManagedClassName);
+          });
     }
+  }
 
-    private Set<Class<?>> findValueEnumClasses(Class<?> superClass) {
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AssignableTypeFilter(superClass));
-        Set<BeanDefinition> beanDefinitions = new HashSet<>();
-        for (String packageToScan : packagesToScan) {
-            beanDefinitions.addAll(scanner.findCandidateComponents(packageToScan));
-        }
-        return beanDefinitions.stream().filter(bd -> bd.getBeanClassName() != null)
-            .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
-            .collect(Collectors.toUnmodifiableSet());
+  private Set<Class<?>> findValueEnumClasses(Class<?> superClass) {
+    ClassPathScanningCandidateComponentProvider scanner =
+        new ClassPathScanningCandidateComponentProvider(false);
+    scanner.addIncludeFilter(new AssignableTypeFilter(superClass));
+    Set<BeanDefinition> beanDefinitions = new HashSet<>();
+    for (String packageToScan : packagesToScan) {
+      beanDefinitions.addAll(scanner.findCandidateComponents(packageToScan));
     }
+    return beanDefinitions.stream()
+        .filter(bd -> bd.getBeanClassName() != null)
+        .map(bd -> ClassUtils.resolveClassName(bd.getBeanClassName(), null))
+        .collect(Collectors.toUnmodifiableSet());
+  }
 }

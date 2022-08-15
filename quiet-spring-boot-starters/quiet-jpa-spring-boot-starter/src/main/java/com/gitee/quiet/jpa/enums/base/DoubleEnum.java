@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface DoubleEnum extends JpaCustomEnum<Double> {
-
-}
+public interface DoubleEnum extends JpaCustomEnum<Double> {}

@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.service.advice;
 
-public interface AdvicePackage {
-
-}
+public interface AdvicePackage {}

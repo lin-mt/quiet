@@ -25,19 +25,17 @@ package com.gitee.quiet.common.constant.service;
 @SuppressWarnings({"AlibabaConstantFieldShouldBeUpperCase", "unused"})
 public final class RoleNames {
 
-    public static final String ROLE_PREFIX = "ROLE_";
+  public static final String ROLE_PREFIX = "ROLE_";
 
-    // 为了角色名称更加直观，没有采用大写+下划线的命名风格
+  // 为了角色名称更加直观，没有采用大写+下划线的命名风格
 
-    public static final String SystemAdmin = "ROLE_SystemAdmin";
+  public static final String SystemAdmin = "ROLE_SystemAdmin";
 
-    public static final String Admin = "ROLE_Admin";
+  public static final String Admin = "ROLE_Admin";
 
-    public static final String ProductOwner = "ROLE_ProductOwner";
+  public static final String ProductOwner = "ROLE_ProductOwner";
 
-    public static final String ScrumMaster = "ROLE_ScrumMaster";
+  public static final String ScrumMaster = "ROLE_ScrumMaster";
 
-    private RoleNames() {
-    }
-
+  private RoleNames() {}
 }

@@ -28,12 +28,13 @@ import com.gitee.quiet.system.service.QuietDepartmentUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
-import javax.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 import static com.gitee.quiet.system.entity.QQuietDepartmentUser.quietDepartmentUser;
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
@@ -46,61 +47,71 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 @Service
 public class QuietDepartmentServiceImpl implements QuietDepartmentService {
 
-    private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory jpaQueryFactory;
 
-    private final QuietDepartmentRepository departmentRepository;
+  private final QuietDepartmentRepository departmentRepository;
 
-    private final QuietDepartmentUserService departmentUserService;
+  private final QuietDepartmentUserService departmentUserService;
 
-    public QuietDepartmentServiceImpl(JPAQueryFactory jpaQueryFactory, QuietDepartmentRepository departmentRepository,
-        QuietDepartmentUserService departmentUserService) {
-        this.jpaQueryFactory = jpaQueryFactory;
-        this.departmentRepository = departmentRepository;
-        this.departmentUserService = departmentUserService;
+  public QuietDepartmentServiceImpl(
+      JPAQueryFactory jpaQueryFactory,
+      QuietDepartmentRepository departmentRepository,
+      QuietDepartmentUserService departmentUserService) {
+    this.jpaQueryFactory = jpaQueryFactory;
+    this.departmentRepository = departmentRepository;
+    this.departmentUserService = departmentUserService;
+  }
+
+  @Override
+  public Page<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
+    BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+    return departmentRepository.findAll(predicate, page);
+  }
+
+  @Override
+  public QuietDepartment saveOrUpdate(@NotNull QuietDepartment department) {
+    if (department.getParentId() != null) {
+      if (!departmentRepository.existsById(department.getParentId())) {
+        throw new ServiceException("department.not.exit.id", department.getParentId());
+      }
+      QuietDepartment exist =
+          departmentRepository.getByDepartmentName(department.getDepartmentName());
+      if (exist != null && !exist.getId().equals(department.getId())) {
+        throw new ServiceException(
+            "department.departmentName.exist", department.getDepartmentName());
+      }
     }
+    return departmentRepository.saveAndFlush(department);
+  }
 
-    @Override
-    public Page<QuietDepartment> page(QuietDepartment params, @NotNull Pageable page) {
-        BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
-        return departmentRepository.findAll(predicate, page);
+  @Override
+  public void deleteById(@NotNull Long deleteId) {
+    if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
+      throw new ServiceException("department.has.children.can.not.deleted");
     }
+    if (CollectionUtils.isNotEmpty(departmentUserService.listAllByDepartmentId(deleteId))) {
+      throw new ServiceException("department.has.member.can.not.deleted");
+    }
+    departmentRepository.deleteById(deleteId);
+  }
 
-    @Override
-    public QuietDepartment saveOrUpdate(@NotNull QuietDepartment department) {
-        if (department.getParentId() != null) {
-            if (!departmentRepository.existsById(department.getParentId())) {
-                throw new ServiceException("department.not.exit.id", department.getParentId());
-            }
-            QuietDepartment exist = departmentRepository.getByDepartmentName(department.getDepartmentName());
-            if (exist != null && !exist.getId().equals(department.getId())) {
-                throw new ServiceException("department.departmentName.exist", department.getDepartmentName());
-            }
-        }
-        return departmentRepository.saveAndFlush(department);
-    }
+  @Override
+  public List<QuietDepartment> tree() {
+    return EntityUtils.buildTreeData(departmentRepository.findAll());
+  }
 
-    @Override
-    public void deleteById(@NotNull Long deleteId) {
-        if (CollectionUtils.isNotEmpty(departmentRepository.findAllByParentId(deleteId))) {
-            throw new ServiceException("department.has.children.can.not.deleted");
-        }
-        if (CollectionUtils.isNotEmpty(departmentUserService.listAllByDepartmentId(deleteId))) {
-            throw new ServiceException("department.has.member.can.not.deleted");
-        }
-        departmentRepository.deleteById(deleteId);
-    }
-
-    @Override
-    public List<QuietDepartment> tree() {
-        return EntityUtils.buildTreeData(departmentRepository.findAll());
-    }
-
-    @Override
-    public QueryResults<QuietUser> pageUser(@NotNull Long departmentId, QuietUser params, @NotNull Pageable page) {
-        BooleanBuilder builder = SelectBuilder.booleanBuilder(params).getPredicate();
-        builder.and(quietDepartmentUser.departmentId.eq(departmentId));
-        return jpaQueryFactory.selectFrom(quietUser).leftJoin(quietDepartmentUser)
-            .on(quietUser.id.eq(quietDepartmentUser.userId)).where(builder).offset(page.getOffset())
-            .limit(page.getPageSize()).fetchResults();
-    }
+  @Override
+  public QueryResults<QuietUser> pageUser(
+      @NotNull Long departmentId, QuietUser params, @NotNull Pageable page) {
+    BooleanBuilder builder = SelectBuilder.booleanBuilder(params).getPredicate();
+    builder.and(quietDepartmentUser.departmentId.eq(departmentId));
+    return jpaQueryFactory
+        .selectFrom(quietUser)
+        .leftJoin(quietDepartmentUser)
+        .on(quietUser.id.eq(quietDepartmentUser.userId))
+        .where(builder)
+        .offset(page.getOffset())
+        .limit(page.getPageSize())
+        .fetchResults();
+  }
 }

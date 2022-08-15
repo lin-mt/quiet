@@ -15,8 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * 各个 service 共用的接口、类
- */
-
+/** 各个 service 共用的接口、类 */
 package com.gitee.quiet.common.core;

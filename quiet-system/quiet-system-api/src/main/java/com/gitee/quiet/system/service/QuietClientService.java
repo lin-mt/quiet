@@ -30,51 +30,51 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 @SuppressWarnings("deprecation")
 public interface QuietClientService extends ClientDetailsService {
 
-    /**
-     * 分页查询客户端信息
-     *
-     * @param params 查询参数
-     * @param page   分页参数
-     * @return 客户端信息
-     */
-    Page<QuietClient> page(QuietClient params, Pageable page);
+  /**
+   * 分页查询客户端信息
+   *
+   * @param params 查询参数
+   * @param page 分页参数
+   * @return 客户端信息
+   */
+  Page<QuietClient> page(QuietClient params, Pageable page);
 
-    /**
-     * 新增客户端信息
-     *
-     * @param save 要新增的客户端信息
-     * @return 新增后的客户端信息
-     */
-    QuietClient save(QuietClient save);
+  /**
+   * 新增客户端信息
+   *
+   * @param save 要新增的客户端信息
+   * @return 新增后的客户端信息
+   */
+  QuietClient save(QuietClient save);
 
-    /**
-     * 删除客户端信息
-     *
-     * @param id 要删除的客户端的ID
-     */
-    void deleteClientById(Long id);
+  /**
+   * 删除客户端信息
+   *
+   * @param id 要删除的客户端的ID
+   */
+  void deleteClientById(Long id);
 
-    /**
-     * 更新客户端信息
-     *
-     * @param update 要更新的客户端信息
-     * @return 更新后的客户端信息
-     */
-    QuietClient update(QuietClient update);
+  /**
+   * 更新客户端信息
+   *
+   * @param update 要更新的客户端信息
+   * @return 更新后的客户端信息
+   */
+  QuietClient update(QuietClient update);
 
-    /**
-     * 移除客户端的授权范围
-     *
-     * @param id    客户端的ID
-     * @param scope 操作的授权范围
-     */
-    QuietClient removeClientScope(Long id, String scope);
+  /**
+   * 移除客户端的授权范围
+   *
+   * @param id 客户端的ID
+   * @param scope 操作的授权范围
+   */
+  QuietClient removeClientScope(Long id, String scope);
 
-    /**
-     * 移除客户端的授权类型
-     *
-     * @param id                  客户端的ID
-     * @param authorizedGrantType 操作的授权类型
-     */
-    QuietClient removeClientAuthorizedGrantType(Long id, String authorizedGrantType);
+  /**
+   * 移除客户端的授权类型
+   *
+   * @param id 客户端的ID
+   * @param authorizedGrantType 操作的授权类型
+   */
+  QuietClient removeClientAuthorizedGrantType(Long id, String authorizedGrantType);
 }

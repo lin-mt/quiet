@@ -22,7 +22,6 @@ import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.UrlPermissionService;
 import com.gitee.quiet.service.security.filter.QuietUrlSecurityFilter;
 import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
-import java.util.Optional;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +32,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+
+import java.util.Optional;
 
 /**
  * Web 安全配置.
@@ -45,39 +46,40 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 @EnableConfigurationProperties(QuietSecurityProperties.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UrlPermissionService urlPermissionService;
+  private final UrlPermissionService urlPermissionService;
 
-    private final GrantedAuthorityDefaults grantedAuthorityDefaults;
+  private final GrantedAuthorityDefaults grantedAuthorityDefaults;
 
-    public WebSecurityConfig(Optional<UrlPermissionService> urlPermissionService,
-        Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
-        this.urlPermissionService = urlPermissionService.orElseThrow();
-        this.grantedAuthorityDefaults = grantedAuthorityDefaults.orElse(null);
-    }
+  public WebSecurityConfig(
+      Optional<UrlPermissionService> urlPermissionService,
+      Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults) {
+    this.urlPermissionService = urlPermissionService.orElseThrow();
+    this.grantedAuthorityDefaults = grantedAuthorityDefaults.orElse(null);
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) {
-        http.addFilterBefore(quietUrlSecurityFilter(), FilterSecurityInterceptor.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) {
+    http.addFilterBefore(quietUrlSecurityFilter(), FilterSecurityInterceptor.class);
+  }
 
-    @Bean
-    public QuietSecurityProperties quietSecurityProperties() {
-        return new QuietSecurityProperties();
-    }
+  @Bean
+  public QuietSecurityProperties quietSecurityProperties() {
+    return new QuietSecurityProperties();
+  }
 
-    @Bean
-    @ConditionalOnBean(RoleHierarchy.class)
-    public QuietAccessDecisionManager quietAccessDecisionManager(RoleHierarchy roleHierarchy) {
-        return new QuietAccessDecisionManager(roleHierarchy);
-    }
+  @Bean
+  @ConditionalOnBean(RoleHierarchy.class)
+  public QuietAccessDecisionManager quietAccessDecisionManager(RoleHierarchy roleHierarchy) {
+    return new QuietAccessDecisionManager(roleHierarchy);
+  }
 
-    @Bean
-    public QuietUrlSecurityFilter quietUrlSecurityFilter() {
-        return new QuietUrlSecurityFilter(quietSecurityProperties(), quietSecurityMetadataSource());
-    }
+  @Bean
+  public QuietUrlSecurityFilter quietUrlSecurityFilter() {
+    return new QuietUrlSecurityFilter(quietSecurityProperties(), quietSecurityMetadataSource());
+  }
 
-    @Bean
-    public QuietSecurityMetadataSource quietSecurityMetadataSource() {
-        return new QuietSecurityMetadataSource(urlPermissionService, grantedAuthorityDefaults);
-    }
+  @Bean
+  public QuietSecurityMetadataSource quietSecurityMetadataSource() {
+    return new QuietSecurityMetadataSource(urlPermissionService, grantedAuthorityDefaults);
+  }
 }

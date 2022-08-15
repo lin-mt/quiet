@@ -19,8 +19,9 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietDictionary;
-import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 数据字典Repository.
@@ -30,36 +31,36 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietDictionaryRepository extends QuietRepository<QuietDictionary> {
 
-    /**
-     * 根据数据字典类型查询数据字典信息
-     *
-     * @param type 要查询的数据字典类型
-     * @return 该类型的所有数据字典信息
-     */
-    List<QuietDictionary> findAllByType(String type);
+  /**
+   * 根据数据字典类型查询数据字典信息
+   *
+   * @param type 要查询的数据字典类型
+   * @return 该类型的所有数据字典信息
+   */
+  List<QuietDictionary> findAllByType(String type);
 
-    /**
-     * 根据数据字典类型查询数据字典信息，不包含一级数据字典
-     *
-     * @param type 要查询的数据字典类型
-     * @return 该类型下的所有数据字典信息
-     */
-    List<QuietDictionary> findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(String type);
+  /**
+   * 根据数据字典类型查询数据字典信息，不包含一级数据字典
+   *
+   * @param type 要查询的数据字典类型
+   * @return 该类型下的所有数据字典信息
+   */
+  List<QuietDictionary> findAllByTypeAndKeyIsNotNullAndParentIdIsNotNull(String type);
 
-    /**
-     * 根据父数据字典ID查询子数据字典信息
-     *
-     * @param parentId 父数据字典ID
-     * @return 所有子数据字典
-     */
-    List<QuietDictionary> findAllByParentId(Long parentId);
+  /**
+   * 根据父数据字典ID查询子数据字典信息
+   *
+   * @param parentId 父数据字典ID
+   * @return 所有子数据字典
+   */
+  List<QuietDictionary> findAllByParentId(Long parentId);
 
-    /**
-     * 根据数据字典类型和key查询数据字典
-     *
-     * @param type 数据字典类型
-     * @param key  数据字典key
-     * @return 数据字典信息
-     */
-    QuietDictionary findByTypeAndKey(String type, String key);
+  /**
+   * 根据数据字典类型和key查询数据字典
+   *
+   * @param type 数据字典类型
+   * @param key 数据字典key
+   * @return 数据字典信息
+   */
+  QuietDictionary findByTypeAndKey(String type, String key);
 }
