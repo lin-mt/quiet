@@ -1,5 +1,10 @@
 # Quiet
 
+## TODO
+
+1. 使用 Google style 格式化代码
+2. 重新设计代码结构，解决循环依赖问题
+
 ## 编码规约
 
 1. 各个 `Service` 除了注入自身的 Repository 以外，只能注入其他 `Service`，不能直接注入其他的 `Repository`（后续可以优化增加中间层，代替 `Service` 之间的依赖）
