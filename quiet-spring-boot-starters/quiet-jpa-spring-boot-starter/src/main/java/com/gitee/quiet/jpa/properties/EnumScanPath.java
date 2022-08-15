@@ -21,9 +21,9 @@ import java.util.List;
 
 public interface EnumScanPath {
 
-    String getPath();
+  String getPath();
 
-    default List<String> getPaths() {
-        return List.of();
-    }
+  default List<String> getPaths() {
+    return List.of();
+  }
 }

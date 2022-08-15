@@ -26,18 +26,18 @@ import com.gitee.quiet.system.entity.QuietRolePermission;
  */
 public interface QuietRolePermissionService {
 
-    /**
-     * 新增角色-权限信息.
-     *
-     * @param rolePermission 角色-权限信息
-     * @return 新增的角色-权限信息
-     */
-    QuietRolePermission saveOrUpdate(QuietRolePermission rolePermission);
+  /**
+   * 新增角色-权限信息.
+   *
+   * @param rolePermission 角色-权限信息
+   * @return 新增的角色-权限信息
+   */
+  QuietRolePermission saveOrUpdate(QuietRolePermission rolePermission);
 
-    /**
-     * 删除角色-权限信息.
-     *
-     * @param deleteId 要删除的角色-权限信息ID
-     */
-    void delete(Long deleteId);
+  /**
+   * 删除角色-权限信息.
+   *
+   * @param deleteId 要删除的角色-权限信息ID
+   */
+  void delete(Long deleteId);
 }

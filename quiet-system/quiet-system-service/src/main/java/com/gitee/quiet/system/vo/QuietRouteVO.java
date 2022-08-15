@@ -19,12 +19,13 @@ package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.service.vo.BaseVO;
-import java.util.Set;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * 路由信息 VO.
@@ -35,54 +36,35 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class QuietRouteVO extends BaseVO {
 
-    /**
-     * 网关的路由ID
-     */
-    @NotBlank
-    @Length(max = 60)
-    private String routeId;
+  /** 网关的路由ID */
+  @NotBlank
+  @Length(max = 60)
+  private String routeId;
 
-    /**
-     * 环境，用于批量修改发布
-     */
-    @NotNull
-    private Dictionary<?> environment;
+  /** 环境，用于批量修改发布 */
+  @NotNull private Dictionary<?> environment;
 
-    /**
-     * 路由目标
-     */
-    @NotBlank
-    @Length(max = 200)
-    private String uri;
+  /** 路由目标 */
+  @NotBlank
+  @Length(max = 200)
+  private String uri;
 
-    /**
-     * 排序
-     */
-    private int order;
+  /** 排序 */
+  private int order;
 
-    /**
-     * 匹配规则
-     */
-    private Set<String> predicates;
+  /** 匹配规则 */
+  private Set<String> predicates;
 
-    /**
-     * 过滤器
-     */
-    private Set<String> filters;
+  /** 过滤器 */
+  private Set<String> filters;
 
-    /**
-     * 备注
-     */
-    @Length(max = 300)
-    private String remark;
+  /** 备注 */
+  @Length(max = 300)
+  private String remark;
 
-    /**
-     * 匹配规则
-     */
-    private String routePredicate;
+  /** 匹配规则 */
+  private String routePredicate;
 
-    /**
-     * 路由过滤器
-     */
-    private String routeFilter;
+  /** 路由过滤器 */
+  private String routeFilter;
 }

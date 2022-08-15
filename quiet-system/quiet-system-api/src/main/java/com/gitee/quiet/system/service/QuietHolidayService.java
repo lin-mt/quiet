@@ -18,6 +18,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietHoliday;
+
 import java.util.List;
 
 /**
@@ -27,19 +28,19 @@ import java.util.List;
  */
 public interface QuietHolidayService {
 
-    /**
-     * 根据年份查询假期信息
-     *
-     * @param year 年份
-     * @return 该年份的假期信息
-     */
-    List<QuietHoliday> listAllByYear(Integer year);
+  /**
+   * 根据年份查询假期信息
+   *
+   * @param year 年份
+   * @return 该年份的假期信息
+   */
+  List<QuietHoliday> listAllByYear(Integer year);
 
-    /**
-     * 更新假期信息
-     *
-     * @param entity 假期信息
-     * @return 假期信息
-     */
-    QuietHoliday update(QuietHoliday entity);
+  /**
+   * 更新假期信息
+   *
+   * @param entity 假期信息
+   * @return 假期信息
+   */
+  QuietHoliday update(QuietHoliday entity);
 }

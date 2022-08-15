@@ -19,9 +19,10 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietDepartmentUser;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Set;
-import org.springframework.stereotype.Repository;
 
 /**
  * 部门成员信息 repository.
@@ -31,34 +32,34 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietDepartmentUserRepository extends QuietRepository<QuietDepartmentUser> {
 
-    /**
-     * 根据部门ID查询用户信息
-     *
-     * @param departmentId 部门ID
-     * @return 该部门下的用户信息
-     */
-    List<QuietDepartmentUser> findAllByDepartmentId(Long departmentId);
+  /**
+   * 根据部门ID查询用户信息
+   *
+   * @param departmentId 部门ID
+   * @return 该部门下的用户信息
+   */
+  List<QuietDepartmentUser> findAllByDepartmentId(Long departmentId);
 
-    /**
-     * 根据用户查询该用户所属部门
-     *
-     * @param userId 用户ID
-     * @return 用户ID所属部门信息
-     */
-    QuietDepartmentUser getByUserId(Long userId);
+  /**
+   * 根据用户查询该用户所属部门
+   *
+   * @param userId 用户ID
+   * @return 用户ID所属部门信息
+   */
+  QuietDepartmentUser getByUserId(Long userId);
 
-    /**
-     * 根据用户ID删除该用户的部门信息
-     *
-     * @param userId 用户ID
-     */
-    void deleteByUserId(Long userId);
+  /**
+   * 根据用户ID删除该用户的部门信息
+   *
+   * @param userId 用户ID
+   */
+  void deleteByUserId(Long userId);
 
-    /**
-     * 批量删除某部门的用户
-     *
-     * @param departmentId 要删除的用户所在的部门ID
-     * @param userIds      要删除的用户ID
-     */
-    void deleteAllByDepartmentIdAndUserIdIsIn(Long departmentId, Set<Long> userIds);
+  /**
+   * 批量删除某部门的用户
+   *
+   * @param departmentId 要删除的用户所在的部门ID
+   * @param userIds 要删除的用户ID
+   */
+  void deleteAllByDepartmentIdAndUserIdIsIn(Long departmentId, Set<Long> userIds);
 }

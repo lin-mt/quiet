@@ -18,12 +18,13 @@
 package com.gitee.quiet.service.aware;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Optional;
 
 /**
  * JpaAuditorAware.
@@ -32,26 +33,27 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class QuietAuditorAware implements AuditorAware<Long> {
 
-    /**
-     * @return 操作者的 ID
-     */
-    @NonNull
-    @Override
-    public Optional<Long> getCurrentAuditor() {
-        // 获取创建者和更新者信息
-        // @formatter:off
-        Optional<Object> principle = Optional.ofNullable(SecurityContextHolder.getContext())
-            .map(SecurityContext::getAuthentication).filter(Authentication::isAuthenticated)
+  /**
+   * @return 操作者的 ID
+   */
+  @NonNull
+  @Override
+  public Optional<Long> getCurrentAuditor() {
+    // 获取创建者和更新者信息
+    // @formatter:off
+    Optional<Object> principle =
+        Optional.ofNullable(SecurityContextHolder.getContext())
+            .map(SecurityContext::getAuthentication)
+            .filter(Authentication::isAuthenticated)
             .map(Authentication::getPrincipal);
-        // @formatter:on
-        Long id = null;
-        if (principle.isPresent()) {
-            Object currentUser = principle.get();
-            if (currentUser instanceof BaseEntity) {
-                id = ((BaseEntity) currentUser).getId();
-            }
-        }
-        return Optional.ofNullable(id);
+    // @formatter:on
+    Long id = null;
+    if (principle.isPresent()) {
+      Object currentUser = principle.get();
+      if (currentUser instanceof BaseEntity) {
+        id = ((BaseEntity) currentUser).getId();
+      }
     }
-
+    return Optional.ofNullable(id);
+  }
 }

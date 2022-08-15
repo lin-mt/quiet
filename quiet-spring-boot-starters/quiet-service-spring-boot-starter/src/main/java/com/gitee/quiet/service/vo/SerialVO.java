@@ -30,5 +30,5 @@ import lombok.Setter;
 @Setter
 public class SerialVO extends BaseVO implements Serial {
 
-    private int serialNumber;
+  private int serialNumber;
 }

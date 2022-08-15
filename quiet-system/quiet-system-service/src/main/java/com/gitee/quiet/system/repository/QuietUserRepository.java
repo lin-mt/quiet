@@ -19,10 +19,11 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietUser;
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import org.springframework.stereotype.Repository;
 
 /**
  * 查询用户信息.
@@ -32,26 +33,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietUserRepository extends QuietRepository<QuietUser> {
 
-    /**
-     * 根据用户名获取用户信息.
-     *
-     * @param username 用户名
-     * @return 用户信息
-     */
-    QuietUser getByUsername(String username);
+  /**
+   * 根据用户名获取用户信息.
+   *
+   * @param username 用户名
+   * @return 用户信息
+   */
+  QuietUser getByUsername(String username);
 
-    /**
-     * 批量根据用户ID查询用户信息
-     *
-     * @param userIds 用户ID集合
-     * @return 用户信息
-     */
-    List<QuietUser> findByIdIsIn(Collection<Long> userIds);
+  /**
+   * 批量根据用户ID查询用户信息
+   *
+   * @param userIds 用户ID集合
+   * @return 用户信息
+   */
+  List<QuietUser> findByIdIsIn(Collection<Long> userIds);
 
-    /**
-     * 根据用户名批量查询
-     * @param usernames 用户名集合
-     * @return 用户信息
-     */
-    List<QuietUser> findByUsernameIsIn(Set<String> usernames);
+  /**
+   * 根据用户名批量查询
+   *
+   * @param usernames 用户名集合
+   * @return 用户信息
+   */
+  List<QuietUser> findByUsernameIsIn(Set<String> usernames);
 }

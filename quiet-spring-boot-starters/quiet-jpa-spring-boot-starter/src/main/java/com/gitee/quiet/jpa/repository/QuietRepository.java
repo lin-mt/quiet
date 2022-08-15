@@ -22,6 +22,4 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface QuietRepository<T> extends JpaRepository<T, Long>, QuerydslPredicateExecutor<T> {
-
-}
+public interface QuietRepository<T> extends JpaRepository<T, Long>, QuerydslPredicateExecutor<T> {}

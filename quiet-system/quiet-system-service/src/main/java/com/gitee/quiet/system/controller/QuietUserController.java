@@ -34,20 +34,13 @@ import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.gitee.quiet.validation.util.ValidationUtils;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户 Controller.
@@ -59,111 +52,110 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class QuietUserController {
 
-    private final QuietUserService userService;
+  private final QuietUserService userService;
 
-    private final QuietUserRoleService userRoleService;
+  private final QuietUserRoleService userRoleService;
 
-    private final QuietUserConvert userConvert;
+  private final QuietUserConvert userConvert;
 
-    private final QuietUserRoleConverter userRoleConverter;
+  private final QuietUserRoleConverter userRoleConverter;
 
-    /**
-     * 根据用户名/全名查询用户信息
-     *
-     * @param keyword 用户名/全名
-     * @return 用户信息
-     */
-    @GetMapping("/list-users-by-name")
-    public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
-        List<QuietUser> users = userService.listUsersByName(keyword, 9);
-        return Result.success(userConvert.entities2vos(users));
-    }
+  /**
+   * 根据用户名/全名查询用户信息
+   *
+   * @param keyword 用户名/全名
+   * @return 用户信息
+   */
+  @GetMapping("/list-users-by-name")
+  public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
+    List<QuietUser> users = userService.listUsersByName(keyword, 9);
+    return Result.success(userConvert.entities2vos(users));
+  }
 
-    /**
-     * 用户注册.
-     *
-     * @param dto 用户信息
-     * @return 注册后的用户信息
-     */
-    @PostMapping
-    public Result<QuietUserVO> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
-        // TODO 可以根据配置确定是否注册就直接启用该用户
-        QuietUser user = userService.save(userConvert.dto2entity(dto));
-        return Result.success(userConvert.entity2vo(user));
-    }
+  /**
+   * 用户注册.
+   *
+   * @param dto 用户信息
+   * @return 注册后的用户信息
+   */
+  @PostMapping
+  public Result<QuietUserVO> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
+    // TODO 可以根据配置确定是否注册就直接启用该用户
+    QuietUser user = userService.save(userConvert.dto2entity(dto));
+    return Result.success(userConvert.entity2vo(user));
+  }
 
-    /**
-     * 分页查询用户.
-     *
-     * @param dto 查询参数
-     * @return 查询的用户信息
-     */
-    @GetMapping("/page")
-    public Result<Page<QuietUserVO>> page(@Validated(PageValid.class) QuietUserDTO dto) {
-        Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
-        return Result.success(userConvert.page2page(userPage));
-    }
+  /**
+   * 分页查询用户.
+   *
+   * @param dto 查询参数
+   * @return 查询的用户信息
+   */
+  @GetMapping("/page")
+  public Result<Page<QuietUserVO>> page(@Validated(PageValid.class) QuietUserDTO dto) {
+    Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
+    return Result.success(userConvert.page2page(userPage));
+  }
 
-    /**
-     * 删除用户.
-     *
-     * @param id 要删除的用户ID
-     * @return 删除结果
-     */
-    @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@PathVariable Long id) {
-        userService.delete(id);
-        return Result.deleteSuccess();
-    }
+  /**
+   * 删除用户.
+   *
+   * @param id 要删除的用户ID
+   * @return 删除结果
+   */
+  @DeleteMapping("/{id}")
+  @PreAuthorize(value = "hasRole('Admin')")
+  public Result<Object> delete(@PathVariable Long id) {
+    userService.delete(id);
+    return Result.deleteSuccess();
+  }
 
-    /**
-     * 更新用户.
-     *
-     * @param dto :update 要更新的用户信息
-     * @return 更新后的用户信息
-     */
-    @PutMapping
-    @PreAuthorize(value = "#dto.id == authentication.principal.id || hasRole('Admin')")
-    public Result<QuietUserVO> update(@RequestBody @Validated(Update.class) QuietUserDTO dto) {
-        QuietUser update = userService.update(userConvert.dto2entity(dto));
-        return Result.updateSuccess(userConvert.entity2vo(update));
-    }
+  /**
+   * 更新用户.
+   *
+   * @param dto :update 要更新的用户信息
+   * @return 更新后的用户信息
+   */
+  @PutMapping
+  @PreAuthorize(value = "#dto.id == authentication.principal.id || hasRole('Admin')")
+  public Result<QuietUserVO> update(@RequestBody @Validated(Update.class) QuietUserDTO dto) {
+    QuietUser update = userService.update(userConvert.dto2entity(dto));
+    return Result.updateSuccess(userConvert.entity2vo(update));
+  }
 
-    /**
-     * 获取当前登陆人信息.
-     *
-     * @return 当前登陆人信息
-     */
-    @GetMapping("/current-user-info")
-    public Result<QuietUserDetails> currentUserInfo() {
-        return Result.success(CurrentUserUtil.get());
-    }
+  /**
+   * 获取当前登陆人信息.
+   *
+   * @return 当前登陆人信息
+   */
+  @GetMapping("/current-user-info")
+  public Result<QuietUserDetails> currentUserInfo() {
+    return Result.success(CurrentUserUtil.get());
+  }
 
-    /**
-     * 移除用户的角色
-     *
-     * @param dto :id 移除角色的用户的ID :roleId 移除的角色ID
-     * @return 移除结果
-     */
-    @PostMapping("/remove-role")
-    public Result<Object> removeRole(@RequestBody QuietUserDTO dto) {
-        ValidationUtils.notNull(dto.getId(), "userRole.useId.not.null");
-        ValidationUtils.notNull(dto.getRoleId(), "userRole.roleId.not.null");
-        userRoleService.deleteUserRole(dto.getId(), dto.getRoleId());
-        return Result.deleteSuccess();
-    }
+  /**
+   * 移除用户的角色
+   *
+   * @param dto :id 移除角色的用户的ID :roleId 移除的角色ID
+   * @return 移除结果
+   */
+  @PostMapping("/remove-role")
+  public Result<Object> removeRole(@RequestBody QuietUserDTO dto) {
+    ValidationUtils.notNull(dto.getId(), "userRole.useId.not.null");
+    ValidationUtils.notNull(dto.getRoleId(), "userRole.roleId.not.null");
+    userRoleService.deleteUserRole(dto.getId(), dto.getRoleId());
+    return Result.deleteSuccess();
+  }
 
-    /**
-     * 添加用户的角色
-     *
-     * @param dto :id 添加角色的用户的ID :roleId 添加的角色ID
-     * @return 移除结果
-     */
-    @PostMapping("/add-roles")
-    public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
-        List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
-        return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
-    }
-
+  /**
+   * 添加用户的角色
+   *
+   * @param dto :id 添加角色的用户的ID :roleId 添加的角色ID
+   * @return 移除结果
+   */
+  @PostMapping("/add-roles")
+  public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
+    List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
+    return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
+  }
 }

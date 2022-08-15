@@ -27,39 +27,39 @@ import java.util.List;
  */
 public interface Parent<T> {
 
-    /**
-     * 获取父的ID
-     *
-     * @return 父ID
-     */
-    Long getParentId();
+  /**
+   * 获取父的ID
+   *
+   * @return 父ID
+   */
+  Long getParentId();
 
-    /**
-     * 获取子级信息
-     *
-     * @return 子级信息集合
-     */
-    List<T> getChildren();
+  /**
+   * 获取子级信息
+   *
+   * @return 子级信息集合
+   */
+  List<T> getChildren();
 
-    /**
-     * 设置子级集合
-     *
-     * @param children 子级集合
-     */
-    void setChildren(List<T> children);
+  /**
+   * 设置子级集合
+   *
+   * @param children 子级集合
+   */
+  void setChildren(List<T> children);
 
-    /**
-     * 添加子级信息
-     *
-     * @param children 子级信息
-     */
-    default void addChildren(T children) {
-        if (null == getChildren()) {
-            setChildren(new ArrayList<>());
-            if (getChildren() == null) {
-                throw new IllegalStateException("设置子级信息后仍为 null");
-            }
-        }
-        getChildren().add(children);
+  /**
+   * 添加子级信息
+   *
+   * @param children 子级信息
+   */
+  default void addChildren(T children) {
+    if (null == getChildren()) {
+      setChildren(new ArrayList<>());
+      if (getChildren() == null) {
+        throw new IllegalStateException("设置子级信息后仍为 null");
+      }
     }
+    getChildren().add(children);
+  }
 }

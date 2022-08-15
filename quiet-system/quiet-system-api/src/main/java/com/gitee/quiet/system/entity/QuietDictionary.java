@@ -20,14 +20,15 @@ package com.gitee.quiet.system.entity;
 import com.gitee.quiet.jpa.entity.Dictionary;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 
@@ -39,27 +40,31 @@ import static com.gitee.quiet.system.entity.QQuietDictionary.quietDictionary;
 @Getter
 @Setter
 @Entity
-@Table(name = "quiet_dictionary", uniqueConstraints = {
-    @UniqueConstraint(name = "unique_type_key", columnNames = {"dictionary_type", "dictionary_key"})})
+@Table(
+    name = "quiet_dictionary",
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "unique_type_key",
+          columnNames = {"dictionary_type", "dictionary_key"})
+    })
 public class QuietDictionary extends Dictionary<QuietDictionary> {
 
-    /**
-     * 备注
-     */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
-    private String remark;
+  /** 备注 */
+  @Length(max = 100)
+  @Column(name = "remark", length = 100)
+  private String remark;
 
-    @Nullable
-    @Override
-    public BooleanBuilder booleanBuilder() {
-        // @formatter:off
-        return SelectBuilder.booleanBuilder()
-            .notNullEq(getId(), quietDictionary.id)
-            .notBlankContains(getType(), quietDictionary.type)
-            .notBlankContains(getKey(), quietDictionary.key)
-            .notBlankContains(getRemark(), quietDictionary.remark)
-            .notNullEq(getParentId(), quietDictionary.parentId).getPredicate();
-        // @formatter:on
-    }
+  @Nullable
+  @Override
+  public BooleanBuilder booleanBuilder() {
+    // @formatter:off
+    return SelectBuilder.booleanBuilder()
+        .notNullEq(getId(), quietDictionary.id)
+        .notBlankContains(getType(), quietDictionary.type)
+        .notBlankContains(getKey(), quietDictionary.key)
+        .notBlankContains(getRemark(), quietDictionary.remark)
+        .notNullEq(getParentId(), quietDictionary.parentId)
+        .getPredicate();
+    // @formatter:on
+  }
 }

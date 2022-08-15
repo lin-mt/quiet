@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface StringEnum extends JpaCustomEnum<String> {
-
-}
+public interface StringEnum extends JpaCustomEnum<String> {}

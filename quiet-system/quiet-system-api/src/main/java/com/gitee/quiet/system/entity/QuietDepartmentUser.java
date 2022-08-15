@@ -18,14 +18,15 @@
 package com.gitee.quiet.system.entity;
 
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * 部门成员信息.
@@ -40,18 +41,13 @@ import lombok.Setter;
 @Table(name = "quiet_department_user")
 public class QuietDepartmentUser extends BaseEntity {
 
-    /**
-     * 部门ID
-     */
-    @NotNull
-    @Column(name = "department_id", nullable = false)
-    private Long departmentId;
+  /** 部门ID */
+  @NotNull
+  @Column(name = "department_id", nullable = false)
+  private Long departmentId;
 
-    /**
-     * 用户ID
-     */
-    @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
+  /** 用户ID */
+  @NotNull
+  @Column(name = "user_id", nullable = false)
+  private Long userId;
 }

@@ -22,6 +22,4 @@ package com.gitee.quiet.web.json;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface JacksonConfigBasePackage {
-
-}
+public interface JacksonConfigBasePackage {}
