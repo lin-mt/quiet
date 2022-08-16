@@ -19,9 +19,10 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.jpa.repository.QuietRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Set;
-import org.springframework.stereotype.Repository;
 
 /**
  * api信息repository.
@@ -31,27 +32,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
 
-    /**
-     * 根据 apiId 判断是否存在api信息
-     *
-     * @param apiId apiId
-     * @return true：存在 false：不存在
-     */
-    boolean existsByApiId(Long apiId);
+  /**
+   * 根据 apiId 判断是否存在api信息
+   *
+   * @param apiId apiId
+   * @return true：存在 false：不存在
+   */
+  boolean existsByApiId(Long apiId);
 
-    /**
-     * 根据apiId查询api信息
-     *
-     * @param apiId apiId
-     * @return api信息
-     */
-    DocApiInfo getByApiId(Long apiId);
+  /**
+   * 根据apiId查询api信息
+   *
+   * @param apiId apiId
+   * @return api信息
+   */
+  DocApiInfo getByApiId(Long apiId);
 
-    /**
-     * 根据 api ID 批量查询api信息
-     *
-     * @param apiIds api id 集合
-     * @return api 信息
-     */
-    List<DocApiInfo> findAllByApiIdIn(Set<Long> apiIds);
+  /**
+   * 根据 api ID 批量查询api信息
+   *
+   * @param apiIds api id 集合
+   * @return api 信息
+   */
+  List<DocApiInfo> findAllByApiIdIn(Set<Long> apiIds);
 }

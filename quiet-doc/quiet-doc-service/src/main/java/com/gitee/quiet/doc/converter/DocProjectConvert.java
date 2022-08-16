@@ -29,6 +29,4 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDTO, DocProjectVO> {
-
-}
+public interface DocProjectConvert extends QuietConvert<DocProject, DocProjectDTO, DocProjectVO> {}

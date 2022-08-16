@@ -17,9 +17,10 @@
 
 package com.gitee.quiet.doc.model;
 
+import lombok.Data;
+
 import java.util.Map;
 import java.util.Set;
-import lombok.Data;
 
 /**
  * Schema.
@@ -29,32 +30,31 @@ import lombok.Data;
 @Data
 public class Schema {
 
-    private String title;
+  private String title;
 
-    private String type;
+  private String type;
 
-    private Map<String, Schema> properties;
+  private Map<String, Schema> properties;
 
-    private Set<String> required;
+  private Set<String> required;
 
-    private String description;
+  private String description;
 
-    private Long minLength;
+  private Long minLength;
 
-    private Long maxLength;
+  private Long maxLength;
 
-    private Long minimum;
+  private Long minimum;
 
-    private Long maximum;
+  private Long maximum;
 
-    private Boolean exclusiveMinimum;
+  private Boolean exclusiveMinimum;
 
-    private Boolean exclusiveMaximum;
+  private Boolean exclusiveMaximum;
 
-    private Schema items;
+  private Schema items;
 
-    private Long minItems;
+  private Long minItems;
 
-    private Long maxItems;
-
+  private Long maxItems;
 }

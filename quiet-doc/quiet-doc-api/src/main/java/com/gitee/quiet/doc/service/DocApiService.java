@@ -18,6 +18,7 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApi;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -28,63 +29,63 @@ import java.util.List;
  */
 public interface DocApiService {
 
-    /**
-     * 根据项目ID查询接口信息
-     *
-     * @param projectId 项目ID
-     * @return 接口信息
-     */
-    List<DocApi> listAllByProjectId(Long projectId);
+  /**
+   * 根据项目ID查询接口信息
+   *
+   * @param projectId 项目ID
+   * @return 接口信息
+   */
+  List<DocApi> listAllByProjectId(Long projectId);
 
-    /**
-     * 移除接口中的分组
-     *
-     * @param groupId 移除的分组的ID
-     */
-    void removeGroup(Long groupId);
+  /**
+   * 移除接口中的分组
+   *
+   * @param groupId 移除的分组的ID
+   */
+  void removeGroup(Long groupId);
 
-    /**
-     * 新增接口信息
-     *
-     * @param save 新增的接口信息
-     * @return 新增后的接口信息
-     */
-    DocApi save(DocApi save);
+  /**
+   * 新增接口信息
+   *
+   * @param save 新增的接口信息
+   * @return 新增后的接口信息
+   */
+  DocApi save(DocApi save);
 
-    /**
-     * 更新接口信息
-     *
-     * @param update 更新的接口信息
-     * @return 更新后的接口信息
-     */
-    DocApi update(DocApi update);
+  /**
+   * 更新接口信息
+   *
+   * @param update 更新的接口信息
+   * @return 更新后的接口信息
+   */
+  DocApi update(DocApi update);
 
-    /**
-     * 根据接口ID删除接口信息
-     *
-     * @param id 接口ID
-     */
-    void deleteById(Long id);
+  /**
+   * 根据接口ID删除接口信息
+   *
+   * @param id 接口ID
+   */
+  void deleteById(Long id);
 
-    /**
-     * 查询接口详细信息
-     *
-     * @param id 接口ID
-     * @return 接口详细信息
-     */
-    DocApi getById(Long id);
+  /**
+   * 查询接口详细信息
+   *
+   * @param id 接口ID
+   * @return 接口详细信息
+   */
+  DocApi getById(Long id);
 
-    /**
-     * 校验id是否存在
-     *
-     * @param id 要校验的ID
-     */
-    void checkId(Long id);
+  /**
+   * 校验id是否存在
+   *
+   * @param id 要校验的ID
+   */
+  void checkId(Long id);
 
-    /**
-     * 批量保存
-     *
-     * @param docApis 文档信息
-     */
-    void saveAll(Collection<DocApi> docApis);
+  /**
+   * 批量保存
+   *
+   * @param docApis 文档信息
+   */
+  void saveAll(Collection<DocApi> docApis);
 }

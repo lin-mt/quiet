@@ -18,11 +18,12 @@
 package com.gitee.quiet.doc.dto;
 
 import com.gitee.quiet.service.dto.SerialDTO;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Api 分组信息.
@@ -33,17 +34,11 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class DocApiGroupDTO extends SerialDTO {
 
-    /**
-     * 分组名称
-     */
-    @NotBlank
-    @Length(max = 30)
-    private String name;
+  /** 分组名称 */
+  @NotBlank
+  @Length(max = 30)
+  private String name;
 
-    /**
-     * 所属项目ID
-     */
-    @NotNull
-    private Long projectId;
-
+  /** 所属项目ID */
+  @NotNull private Long projectId;
 }

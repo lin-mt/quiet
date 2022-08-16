@@ -31,13 +31,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Cookie {
 
-    /**
-     * cookie name
-     */
-    private String name;
+  /** cookie name */
+  private String name;
 
-    /**
-     * cookie value
-     */
-    private String value;
+  /** cookie value */
+  private String value;
 }

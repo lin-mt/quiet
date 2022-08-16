@@ -18,11 +18,12 @@
 package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.service.vo.BaseVO;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * 项目配置信息 VO.
@@ -33,29 +34,19 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class DocProjectConfigVO extends BaseVO {
 
-    /**
-     * 配置名称
-     */
-    @NotEmpty
-    @Length(max = 30)
-    private String name;
+  /** 配置名称 */
+  @NotEmpty
+  @Length(max = 30)
+  private String name;
 
-    /**
-     * 请求路径
-     */
-    @Length(max = 90)
-    private String baseUrl;
+  /** 请求路径 */
+  @Length(max = 90)
+  private String baseUrl;
 
-    /**
-     * 项目ID
-     */
-    @NotNull
-    private Long projectId;
+  /** 项目ID */
+  @NotNull private Long projectId;
 
-    /**
-     * 备注
-     */
-    @Length(max = 100)
-    private String remark;
-
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
 }

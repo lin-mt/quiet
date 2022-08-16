@@ -19,11 +19,12 @@ package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.Getter;
 
 /**
  * 项目接口分组信息.
@@ -33,18 +34,12 @@ import lombok.Getter;
 @Getter
 public class ProjectApiInfo {
 
-    /**
-     * 未分组的接口
-     */
-    private final List<DocApi> ungroup = new ArrayList<>();
+  /** 未分组的接口 */
+  private final List<DocApi> ungroup = new ArrayList<>();
 
-    /**
-     * 已分组的接口
-     */
-    private final Map<Long, List<DocApi>> grouped = new HashMap<>();
+  /** 已分组的接口 */
+  private final Map<Long, List<DocApi>> grouped = new HashMap<>();
 
-    /**
-     * 项目接口分组
-     */
-    private final List<DocApiGroup> apiGroups = new ArrayList<>();
+  /** 项目接口分组 */
+  private final List<DocApiGroup> apiGroups = new ArrayList<>();
 }

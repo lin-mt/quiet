@@ -22,6 +22,4 @@ package com.gitee.quiet.doc.repository;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface Doc {
-
-}
+public interface Doc {}

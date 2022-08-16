@@ -22,12 +22,13 @@ import com.gitee.quiet.doc.repository.DocApiInfoRepository;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.service.exception.ServiceException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * api信息服务实现类.
@@ -37,47 +38,47 @@ import org.springframework.stereotype.Service;
 @Service
 public class DocApiInfoServiceImpl implements DocApiInfoService {
 
-    private final DocApiInfoRepository repository;
+  private final DocApiInfoRepository repository;
 
-    private final DocApiService apiService;
+  private final DocApiService apiService;
 
-    public DocApiInfoServiceImpl(DocApiInfoRepository repository, @Lazy DocApiService apiService) {
-        this.repository = repository;
-        this.apiService = apiService;
+  public DocApiInfoServiceImpl(DocApiInfoRepository repository, @Lazy DocApiService apiService) {
+    this.repository = repository;
+    this.apiService = apiService;
+  }
+
+  @Override
+  public DocApiInfo save(DocApiInfo save) {
+    apiService.checkId(save.getApiId());
+    if (repository.existsByApiId(save.getApiId())) {
+      throw new ServiceException("apiInfo.apiId.exist", save.getApiId());
     }
+    return repository.save(save);
+  }
 
-    @Override
-    public DocApiInfo save(DocApiInfo save) {
-        apiService.checkId(save.getApiId());
-        if (repository.existsByApiId(save.getApiId())) {
-            throw new ServiceException("apiInfo.apiId.exist", save.getApiId());
-        }
-        return repository.save(save);
+  @Override
+  public DocApiInfo update(DocApiInfo update) {
+    if (!repository.existsById(update.getId())) {
+      throw new ServiceException("apiInfo.id.notExist", update.getId());
     }
+    return repository.saveAndFlush(update);
+  }
 
-    @Override
-    public DocApiInfo update(DocApiInfo update) {
-        if (!repository.existsById(update.getId())) {
-            throw new ServiceException("apiInfo.id.notExist", update.getId());
-        }
-        return repository.saveAndFlush(update);
-    }
+  @Override
+  public DocApiInfo getByApiId(Long apiId) {
+    return repository.getByApiId(apiId);
+  }
 
-    @Override
-    public DocApiInfo getByApiId(Long apiId) {
-        return repository.getByApiId(apiId);
-    }
+  @Override
+  public List<DocApiInfo> listByApiIds(Set<Long> apiIds) {
+    return repository.findAllByApiIdIn(apiIds);
+  }
 
-    @Override
-    public List<DocApiInfo> listByApiIds(Set<Long> apiIds) {
-        return repository.findAllByApiIdIn(apiIds);
+  @Override
+  public void saveAll(Collection<DocApiInfo> apiInfos) {
+    if (CollectionUtils.isEmpty(apiInfos)) {
+      return;
     }
-
-    @Override
-    public void saveAll(Collection<DocApiInfo> apiInfos) {
-        if (CollectionUtils.isEmpty(apiInfos)) {
-            return;
-        }
-        repository.saveAll(apiInfos);
-    }
+    repository.saveAll(apiInfos);
+  }
 }

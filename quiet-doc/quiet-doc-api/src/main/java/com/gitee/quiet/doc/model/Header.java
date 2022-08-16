@@ -31,23 +31,15 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Header {
 
-    /**
-     * 参数名称
-     */
-    private String name;
+  /** 参数名称 */
+  private String name;
 
-    /**
-     * 参数值
-     */
-    private String value;
+  /** 参数值 */
+  private String value;
 
-    /**
-     * 是否必须
-     */
-    private boolean required;
+  /** 是否必须 */
+  private boolean required;
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /** 备注 */
+  private String remark;
 }

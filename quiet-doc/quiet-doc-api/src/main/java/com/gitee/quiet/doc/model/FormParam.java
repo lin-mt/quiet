@@ -32,43 +32,27 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class FormParam {
 
-    /**
-     * 参数名称
-     */
-    private String name;
+  /** 参数名称 */
+  private String name;
 
-    /**
-     * 是否必须
-     */
-    private boolean required;
+  /** 是否必须 */
+  private boolean required;
 
-    /**
-     * 参数类型
-     */
-    private FormParamType type;
+  /** 参数类型 */
+  private FormParamType type;
 
-    /**
-     * 最小长度
-     */
-    private Long minLength;
+  /** 最小长度 */
+  private Long minLength;
 
-    /**
-     * 最大长度
-     */
-    private Long maxLength;
+  /** 最大长度 */
+  private Long maxLength;
 
-    /**
-     * ContentType
-     */
-    private String contentType;
+  /** ContentType */
+  private String contentType;
 
-    /**
-     * 参数示例
-     */
-    private String example;
+  /** 参数示例 */
+  private String example;
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /** 备注 */
+  private String remark;
 }

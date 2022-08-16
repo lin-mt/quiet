@@ -21,10 +21,11 @@ import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.service.exception.ServiceException;
-import java.util.Collection;
-import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Api Service 实现类.
@@ -34,69 +35,69 @@ import org.springframework.stereotype.Service;
 @Service
 public class DocApiServiceImpl implements DocApiService {
 
-    private final DocApiRepository repository;
+  private final DocApiRepository repository;
 
-    public DocApiServiceImpl(DocApiRepository repository) {
-        this.repository = repository;
+  public DocApiServiceImpl(DocApiRepository repository) {
+    this.repository = repository;
+  }
+
+  @Override
+  public List<DocApi> listAllByProjectId(Long projectId) {
+    return repository.findAllByProjectId(projectId);
+  }
+
+  @Override
+  public void removeGroup(Long groupId) {
+    List<DocApi> apis = repository.findAllByApiGroupId(groupId);
+    if (CollectionUtils.isNotEmpty(apis)) {
+      apis.forEach(api -> api.setApiGroupId(null));
+      repository.saveAll(apis);
     }
+  }
 
-    @Override
-    public List<DocApi> listAllByProjectId(Long projectId) {
-        return repository.findAllByProjectId(projectId);
+  @Override
+  public DocApi save(DocApi save) {
+    checkInfo(save);
+    return repository.save(save);
+  }
+
+  @Override
+  public DocApi update(DocApi update) {
+    checkInfo(update);
+    return repository.saveAndFlush(update);
+  }
+
+  private void checkInfo(DocApi api) {
+    DocApi exist = repository.findByProjectIdAndName(api.getProjectId(), api.getName());
+    if (exist != null && !exist.getId().equals(api.getId())) {
+      throw new ServiceException("api.name.exist", api.getProjectId(), api.getName());
     }
+  }
 
-    @Override
-    public void removeGroup(Long groupId) {
-        List<DocApi> apis = repository.findAllByApiGroupId(groupId);
-        if (CollectionUtils.isNotEmpty(apis)) {
-            apis.forEach(api -> api.setApiGroupId(null));
-            repository.saveAll(apis);
-        }
+  @Override
+  public void deleteById(Long id) {
+
+    repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+    repository.deleteById(id);
+  }
+
+  @Override
+  public DocApi getById(Long id) {
+    return repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
+  }
+
+  @Override
+  public void checkId(Long id) {
+    if (!repository.existsById(id)) {
+      throw new ServiceException("api.id.notExist");
     }
+  }
 
-    @Override
-    public DocApi save(DocApi save) {
-        checkInfo(save);
-        return repository.save(save);
+  @Override
+  public void saveAll(Collection<DocApi> docApis) {
+    if (CollectionUtils.isEmpty(docApis)) {
+      return;
     }
-
-    @Override
-    public DocApi update(DocApi update) {
-        checkInfo(update);
-        return repository.saveAndFlush(update);
-    }
-
-    private void checkInfo(DocApi api) {
-        DocApi exist = repository.findByProjectIdAndName(api.getProjectId(), api.getName());
-        if (exist != null && !exist.getId().equals(api.getId())) {
-            throw new ServiceException("api.name.exist", api.getProjectId(), api.getName());
-        }
-    }
-
-    @Override
-    public void deleteById(Long id) {
-
-        repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-        repository.deleteById(id);
-    }
-
-    @Override
-    public DocApi getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-    }
-
-    @Override
-    public void checkId(Long id) {
-        if (!repository.existsById(id)) {
-            throw new ServiceException("api.id.notExist");
-        }
-    }
-
-    @Override
-    public void saveAll(Collection<DocApi> docApis) {
-        if (CollectionUtils.isEmpty(docApis)) {
-            return;
-        }
-        repository.saveAll(docApis);
-    }
+    repository.saveAll(docApis);
+  }
 }

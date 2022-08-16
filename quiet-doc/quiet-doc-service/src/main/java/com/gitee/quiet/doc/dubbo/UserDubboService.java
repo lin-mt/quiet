@@ -19,12 +19,13 @@ package com.gitee.quiet.doc.dubbo;
 
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.service.QuietUserService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * RPC 调用系统用户.
@@ -34,21 +35,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDubboService {
 
-    @DubboReference
-    private QuietUserService userService;
+  @DubboReference private QuietUserService userService;
 
-    public QuietUser getById(Long id) {
-        return userService.findById(id);
-    }
+  public QuietUser getById(Long id) {
+    return userService.findById(id);
+  }
 
-    public List<QuietUser> findByUserIds(Set<Long> userIds) {
-        return userService.findByUserIds(userIds);
-    }
+  public List<QuietUser> findByUserIds(Set<Long> userIds) {
+    return userService.findByUserIds(userIds);
+  }
 
-    public List<QuietUser> findByUsernames(Set<String> usernames) {
-        if (CollectionUtils.isEmpty(usernames)) {
-            return new ArrayList<>();
-        }
-        return userService.findByUsernames(usernames);
+  public List<QuietUser> findByUsernames(Set<String> usernames) {
+    if (CollectionUtils.isEmpty(usernames)) {
+      return new ArrayList<>();
     }
+    return userService.findByUsernames(usernames);
+  }
 }

@@ -32,38 +32,24 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class QueryParam {
 
-    /**
-     * 参数名称
-     */
-    private String name;
+  /** 参数名称 */
+  private String name;
 
-    /**
-     * 是否必须
-     */
-    private boolean required;
+  /** 是否必须 */
+  private boolean required;
 
-    /**
-     * 参数类型
-     */
-    private QueryParamType type;
+  /** 参数类型 */
+  private QueryParamType type;
 
-    /**
-     * 最小长度（值）
-     */
-    private Long min;
+  /** 最小长度（值） */
+  private Long min;
 
-    /**
-     * 最大长度（值）
-     */
-    private Long max;
+  /** 最大长度（值） */
+  private Long max;
 
-    /**
-     * 参数示例
-     */
-    private String example;
+  /** 参数示例 */
+  private String example;
 
-    /**
-     * 备注
-     */
-    private String remark;
+  /** 备注 */
+  private String remark;
 }
