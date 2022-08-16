@@ -34,23 +34,15 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ScrumTaskStepVO extends SerialVO {
 
-    /**
-     * 步骤名称
-     */
-    @NotBlank
-    @Length(max = 10)
-    private String name;
+  /** 步骤名称 */
+  @NotBlank
+  @Length(max = 10)
+  private String name;
 
-    /**
-     * 所属模板ID
-     */
-    @NotNull
-    private Long templateId;
+  /** 所属模板ID */
+  @NotNull private Long templateId;
 
-    /**
-     * 步骤备注信息
-     */
-    @Length(max = 30)
-    private String remark;
-
+  /** 步骤备注信息 */
+  @Length(max = 30)
+  private String remark;
 }

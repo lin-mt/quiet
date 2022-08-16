@@ -33,14 +33,9 @@ import java.util.List;
 @Setter
 public class ScrumProjectDetail {
 
-    /**
-     * 项目信息
-     */
-    private ScrumProject project;
+  /** 项目信息 */
+  private ScrumProject project;
 
-    /**
-     * 团队信息
-     */
-    private List<QuietTeam> teams;
-
+  /** 团队信息 */
+  private List<QuietTeam> teams;
 }

@@ -32,8 +32,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(exclude = UserDetailsServiceAutoConfiguration.class)
 public class QuietScrumServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(QuietScrumServiceApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(QuietScrumServiceApplication.class, args);
+  }
 }

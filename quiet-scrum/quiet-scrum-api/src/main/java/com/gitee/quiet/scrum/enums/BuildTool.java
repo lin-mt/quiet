@@ -29,15 +29,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum BuildTool implements StringEnum {
-    /**
-     * maven 构建工具
-     */
-    MAVEN("gradle"),
+  /** maven 构建工具 */
+  MAVEN("gradle"),
 
-    /**
-     * gradle 构建工具
-     */
-    GRADLE("gradle");
+  /** gradle 构建工具 */
+  GRADLE("gradle");
 
-    private final String value;
+  private final String value;
 }

@@ -45,71 +45,54 @@ import java.util.List;
 @Table(name = "scrum_version")
 public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
 
-    /**
-     * 版本名称
-     */
-    @NotBlank
-    @Length(max = 10)
-    @Column(name = "version_name", nullable = false, length = 10)
-    private String name;
+  /** 版本名称 */
+  @NotBlank
+  @Length(max = 10)
+  @Column(name = "version_name", nullable = false, length = 10)
+  private String name;
 
-    /**
-     * 所属项目ID
-     */
-    @NotNull
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+  /** 所属项目ID */
+  @NotNull
+  @Column(name = "project_id", nullable = false)
+  private Long projectId;
 
-    /**
-     * 计划开始日期
-     */
-    @NotNull
-    @Column(name = "plan_start_date", nullable = false)
-    private LocalDate planStartDate;
+  /** 计划开始日期 */
+  @NotNull
+  @Column(name = "plan_start_date", nullable = false)
+  private LocalDate planStartDate;
 
-    /**
-     * 计划结束日期
-     */
-    @NotNull
-    @Column(name = "plan_end_date", nullable = false)
-    private LocalDate planEndDate;
+  /** 计划结束日期 */
+  @NotNull
+  @Column(name = "plan_end_date", nullable = false)
+  private LocalDate planEndDate;
 
-    /**
-     * 版本开始时间
-     */
-    @Column(name = "start_time")
-    private LocalDateTime startTime;
+  /** 版本开始时间 */
+  @Column(name = "start_time")
+  private LocalDateTime startTime;
 
-    /**
-     * 版本结束时间
-     */
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
+  /** 版本结束时间 */
+  @Column(name = "end_time")
+  private LocalDateTime endTime;
 
-    /**
-     * 版本备注信息
-     */
-    @NotBlank
-    @Length(max = 1500)
-    @Column(name = "remark", nullable = false, length = 1500)
-    private String remark;
+  /** 版本备注信息 */
+  @NotBlank
+  @Length(max = 1500)
+  @Column(name = "remark", nullable = false, length = 1500)
+  private String remark;
 
-    /**
-     * 迭代信息
-     */
-    @Transient
-    private List<ScrumIteration> iterations;
+  /** 迭代信息 */
+  @Transient private List<ScrumIteration> iterations;
 
-    @Override
-    public int compareTo(@Nullable Serial other) {
-        int compare = super.compareTo(other);
-        if (compare == 0 && other instanceof ScrumVersion) {
-            ScrumVersion otherVersion = (ScrumVersion) other;
-            compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
-            if (compare == 0) {
-                compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
-            }
-        }
-        return compare;
+  @Override
+  public int compareTo(@Nullable Serial other) {
+    int compare = super.compareTo(other);
+    if (compare == 0 && other instanceof ScrumVersion) {
+      ScrumVersion otherVersion = (ScrumVersion) other;
+      compare = planStartDate.compareTo(otherVersion.getPlanStartDate());
+      if (compare == 0) {
+        compare = getGmtCreate().compareTo(otherVersion.getGmtCreate());
+      }
     }
+    return compare;
+  }
 }

@@ -32,36 +32,35 @@ import java.util.Set;
 @Repository
 public interface ScrumTaskRepository extends QuietRepository<ScrumTask> {
 
-    /**
-     * 根据需求ID查询任务信息
-     *
-     * @param demandIds 需求ID集合
-     * @return 所有任务信息
-     */
-    List<ScrumTask> findAllByDemandIdIn(Set<Long> demandIds);
+  /**
+   * 根据需求ID查询任务信息
+   *
+   * @param demandIds 需求ID集合
+   * @return 所有任务信息
+   */
+  List<ScrumTask> findAllByDemandIdIn(Set<Long> demandIds);
 
-    /**
-     * 根据需求ID集合批量删除任务信息
-     *
-     * @param demandIds 要删除的任务所属的需求ID集合
-     */
-    void deleteAllByDemandIdIn(Set<Long> demandIds);
+  /**
+   * 根据需求ID集合批量删除任务信息
+   *
+   * @param demandIds 要删除的任务所属的需求ID集合
+   */
+  void deleteAllByDemandIdIn(Set<Long> demandIds);
 
-    /**
-     * 根据步骤ID查询任务信息
-     *
-     * @param taskStepId 任务步骤ID
-     * @return 处于该任务步骤的所有任务信息
-     */
-    List<ScrumTask> findAllByTaskStepId(Long taskStepId);
+  /**
+   * 根据步骤ID查询任务信息
+   *
+   * @param taskStepId 任务步骤ID
+   * @return 处于该任务步骤的所有任务信息
+   */
+  List<ScrumTask> findAllByTaskStepId(Long taskStepId);
 
-    /**
-     * 根据需求ID和任务标题查询任务信息
-     *
-     * @param demandId 需求ID
-     * @param title    任务标题
-     * @return 任务信息
-     */
-    ScrumTask findByDemandIdAndTitle(Long demandId, String title);
-
+  /**
+   * 根据需求ID和任务标题查询任务信息
+   *
+   * @param demandId 需求ID
+   * @param title 任务标题
+   * @return 任务信息
+   */
+  ScrumTask findByDemandIdAndTitle(Long demandId, String title);
 }

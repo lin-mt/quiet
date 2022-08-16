@@ -40,34 +40,25 @@ import javax.validation.constraints.Pattern;
 @Table(name = "scrum_priority")
 public class ScrumPriority extends SerialEntity {
 
-    /**
-     * 优先级名称
-     */
-    @NotBlank
-    @Length(max = 10)
-    @Column(name = "priority_name", nullable = false, length = 10)
-    private String name;
+  /** 优先级名称 */
+  @NotBlank
+  @Length(max = 10)
+  @Column(name = "priority_name", nullable = false, length = 10)
+  private String name;
 
-    /**
-     * 图标的十六进制颜色
-     */
-    @Length(max = 7)
-    @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-    @Column(name = "color_hex", length = 7, nullable = false)
-    private String colorHex = "#1890FF";
+  /** 图标的十六进制颜色 */
+  @Length(max = 7)
+  @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+  @Column(name = "color_hex", length = 7, nullable = false)
+  private String colorHex = "#1890FF";
 
-    /**
-     * 模板ID
-     */
-    @NotNull
-    @Column(name = "template_id", nullable = false)
-    private Long templateId;
+  /** 模板ID */
+  @NotNull
+  @Column(name = "template_id", nullable = false)
+  private Long templateId;
 
-    /**
-     * 备注信息
-     */
-    @Length(max = 100)
-    @Column(name = "remark", length = 100)
-    private String remark;
-
+  /** 备注信息 */
+  @Length(max = 100)
+  @Column(name = "remark", length = 100)
+  private String remark;
 }

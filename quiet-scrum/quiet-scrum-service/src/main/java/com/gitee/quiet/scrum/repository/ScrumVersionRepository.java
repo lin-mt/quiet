@@ -32,43 +32,43 @@ import java.util.List;
 @Repository
 public interface ScrumVersionRepository extends QuietRepository<ScrumVersion> {
 
-    /**
-     * 根据项目id删除该项目下的所有版本信息
-     *
-     * @param projectId 项目ID
-     */
-    void deleteByProjectId(Long projectId);
+  /**
+   * 根据项目id删除该项目下的所有版本信息
+   *
+   * @param projectId 项目ID
+   */
+  void deleteByProjectId(Long projectId);
 
-    /**
-     * 根据项目ID查询项目版本信息
-     *
-     * @param projectId 项目ID
-     * @return 项目所有版本信息
-     */
-    List<ScrumVersion> findAllByProjectId(Long projectId);
+  /**
+   * 根据项目ID查询项目版本信息
+   *
+   * @param projectId 项目ID
+   * @return 项目所有版本信息
+   */
+  List<ScrumVersion> findAllByProjectId(Long projectId);
 
-    /**
-     * 根据项目ID和项目名称查询版本信息
-     *
-     * @param projectId 项目ID
-     * @param name      项目名称
-     * @return 版本信息
-     */
-    ScrumVersion findByProjectIdAndName(Long projectId, String name);
+  /**
+   * 根据项目ID和项目名称查询版本信息
+   *
+   * @param projectId 项目ID
+   * @param name 项目名称
+   * @return 版本信息
+   */
+  ScrumVersion findByProjectIdAndName(Long projectId, String name);
 
-    /**
-     * 根据父版本ID统计该父版本下有多少子版本
-     *
-     * @param parentId 父版本ID
-     * @return 子版本数量
-     */
-    long countByParentId(Long parentId);
+  /**
+   * 根据父版本ID统计该父版本下有多少子版本
+   *
+   * @param parentId 父版本ID
+   * @return 子版本数量
+   */
+  long countByParentId(Long parentId);
 
-    /**
-     * 查询下一个版本的信息
-     *
-     * @param planStartDate 当前版本的计划开始时间
-     * @return 下一个版本的版本信息
-     */
-    ScrumVersion findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(LocalDate planStartDate);
+  /**
+   * 查询下一个版本的信息
+   *
+   * @param planStartDate 当前版本的计划开始时间
+   * @return 下一个版本的版本信息
+   */
+  ScrumVersion findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(LocalDate planStartDate);
 }

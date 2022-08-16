@@ -32,6 +32,5 @@ import java.util.List;
 @Setter
 public class ValidList<T> {
 
-    @Valid
-    private List<T> data;
+  @Valid private List<T> data;
 }

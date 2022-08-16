@@ -35,34 +35,21 @@ import java.util.List;
 @Setter
 public class ScrumTemplateDTO extends BaseDTO {
 
-    /**
-     * 模板中的任务步骤
-     */
-    @Transient
-    List<ScrumTaskStepDTO> taskSteps;
+  /** 模板中的任务步骤 */
+  @Transient List<ScrumTaskStepDTO> taskSteps;
 
-    /**
-     * 模板中的优先级配置
-     */
-    @Transient
-    List<ScrumPriorityDTO> priorities;
+  /** 模板中的优先级配置 */
+  @Transient List<ScrumPriorityDTO> priorities;
 
-    /**
-     * 模板名称
-     */
-    @NotBlank
-    @Length(max = 10)
-    private String name;
+  /** 模板名称 */
+  @NotBlank
+  @Length(max = 10)
+  private String name;
 
-    /**
-     * 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块
-     */
-    private Boolean enabled;
+  /** 是否启用，true：项目可以选择该模板，false：项目新建的时候不可以选择该模块 */
+  private Boolean enabled;
 
-    /**
-     * 模板备注信息
-     */
-    @Length(max = 30)
-    private String remark;
-
+  /** 模板备注信息 */
+  @Length(max = 30)
+  private String remark;
 }

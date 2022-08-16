@@ -31,19 +31,12 @@ import lombok.Setter;
 @Setter
 public class ScrumDemandFilter {
 
-    /**
-     * 是否已规划
-     */
-    private Boolean planned;
+  /** 是否已规划 */
+  private Boolean planned;
 
-    /**
-     * 优先级ID
-     */
-    private Long priorityId;
+  /** 优先级ID */
+  private Long priorityId;
 
-    /**
-     * 需求类型
-     */
-    private Dictionary<DemandType> demandType;
-
+  /** 需求类型 */
+  private Dictionary<DemandType> demandType;
 }

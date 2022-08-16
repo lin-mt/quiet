@@ -31,28 +31,28 @@ import java.util.List;
 @Repository
 public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
 
-    /**
-     * 根据项目名称和负责经理查询项目信息
-     *
-     * @param name    项目名称
-     * @param manager 项目经理ID
-     * @return 项目信息
-     */
-    ScrumProject findByNameAndManager(String name, Long manager);
+  /**
+   * 根据项目名称和负责经理查询项目信息
+   *
+   * @param name 项目名称
+   * @param manager 项目经理ID
+   * @return 项目信息
+   */
+  ScrumProject findByNameAndManager(String name, Long manager);
 
-    /**
-     * 根据项目经理ID查询负责的项目信息
-     *
-     * @param manager 项目经理ID
-     * @return 项目信息
-     */
-    List<ScrumProject> findAllByManager(Long manager);
+  /**
+   * 根据项目经理ID查询负责的项目信息
+   *
+   * @param manager 项目经理ID
+   * @return 项目信息
+   */
+  List<ScrumProject> findAllByManager(Long manager);
 
-    /**
-     * 统计多少项目用了指定的模板
-     *
-     * @param templateId 统计的模板ID
-     * @return 使用了该模板的项目数量
-     */
-    long countByTemplateId(Long templateId);
+  /**
+   * 统计多少项目用了指定的模板
+   *
+   * @param templateId 统计的模板ID
+   * @return 使用了该模板的项目数量
+   */
+  long countByTemplateId(Long templateId);
 }
