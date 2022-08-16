@@ -32,13 +32,15 @@ import com.gitee.quiet.web.json.modifier.deserializer.CustomCollectionDeserializ
  */
 public class QuietDeserializerModifier extends BeanDeserializerModifier {
 
-    @Override
-    public JsonDeserializer<?> modifyCollectionDeserializer(DeserializationConfig config, CollectionType type,
-        BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
-        if (deserializer instanceof CollectionDeserializer) {
-            return new CustomCollectionDeserializer((CollectionDeserializer) deserializer);
-        }
-        return super.modifyCollectionDeserializer(config, type, beanDesc, deserializer);
+  @Override
+  public JsonDeserializer<?> modifyCollectionDeserializer(
+      DeserializationConfig config,
+      CollectionType type,
+      BeanDescription beanDesc,
+      JsonDeserializer<?> deserializer) {
+    if (deserializer instanceof CollectionDeserializer) {
+      return new CustomCollectionDeserializer((CollectionDeserializer) deserializer);
     }
-
+    return super.modifyCollectionDeserializer(config, type, beanDesc, deserializer);
+  }
 }

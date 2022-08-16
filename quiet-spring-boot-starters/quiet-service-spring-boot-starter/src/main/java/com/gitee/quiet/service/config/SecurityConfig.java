@@ -33,20 +33,19 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    private final RedisConnectionFactory redisConnectionFactory;
+  private final RedisConnectionFactory redisConnectionFactory;
 
-    public SecurityConfig(RedisConnectionFactory redisConnectionFactory) {
-        this.redisConnectionFactory = redisConnectionFactory;
-    }
+  public SecurityConfig(RedisConnectionFactory redisConnectionFactory) {
+    this.redisConnectionFactory = redisConnectionFactory;
+  }
 
-    @Bean
-    public TokenStore redisTokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
-    }
+  @Bean
+  public TokenStore redisTokenStore() {
+    return new RedisTokenStore(redisConnectionFactory);
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

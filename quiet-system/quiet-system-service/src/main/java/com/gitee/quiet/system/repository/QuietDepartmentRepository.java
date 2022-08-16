@@ -19,8 +19,9 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietDepartment;
-import java.util.List;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 部门Repository.
@@ -30,19 +31,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietDepartmentRepository extends QuietRepository<QuietDepartment> {
 
-    /**
-     * 根据部门名称查询部门信息
-     *
-     * @param departmentName 部门名称
-     * @return 部门信息
-     */
-    QuietDepartment getByDepartmentName(String departmentName);
+  /**
+   * 根据部门名称查询部门信息
+   *
+   * @param departmentName 部门名称
+   * @return 部门信息
+   */
+  QuietDepartment getByDepartmentName(String departmentName);
 
-    /**
-     * 根据部门 ID 查询子部门信息
-     *
-     * @param parentId 父级部门ID
-     * @return 所有子部门信息
-     */
-    List<QuietDepartment> findAllByParentId(Long parentId);
+  /**
+   * 根据部门 ID 查询子部门信息
+   *
+   * @param parentId 父级部门ID
+   * @return 所有子部门信息
+   */
+  List<QuietDepartment> findAllByParentId(Long parentId);
 }

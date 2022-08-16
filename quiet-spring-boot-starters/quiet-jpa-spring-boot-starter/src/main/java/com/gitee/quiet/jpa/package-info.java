@@ -15,8 +15,5 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/**
- * jap spring boot starter
- */
-
+/** jap spring boot starter */
 package com.gitee.quiet.jpa;

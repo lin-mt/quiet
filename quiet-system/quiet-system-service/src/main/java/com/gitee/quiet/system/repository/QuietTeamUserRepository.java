@@ -19,10 +19,11 @@ package com.gitee.quiet.system.repository;
 
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.system.entity.QuietTeamUser;
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import org.springframework.stereotype.Repository;
 
 /**
  * 团队成员 Repository.
@@ -32,50 +33,51 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietTeamUserRepository extends QuietRepository<QuietTeamUser> {
 
-    /**
-     * 根据团队ID查询该团队下的所有成员
-     *
-     * @param teamId 团队ID
-     * @return 该团队下的所有成员信息
-     */
-    List<QuietTeamUser> findAllByTeamId(Long teamId);
+  /**
+   * 根据团队ID查询该团队下的所有成员
+   *
+   * @param teamId 团队ID
+   * @return 该团队下的所有成员信息
+   */
+  List<QuietTeamUser> findAllByTeamId(Long teamId);
 
-    /**
-     * 查询该用户属于哪些团队
-     *
-     * @param userId 用户ID
-     * @return 该用户所属的所有团队
-     */
-    List<QuietTeamUser> findAllByUserId(Long userId);
+  /**
+   * 查询该用户属于哪些团队
+   *
+   * @param userId 用户ID
+   * @return 该用户所属的所有团队
+   */
+  List<QuietTeamUser> findAllByUserId(Long userId);
 
-    /**
-     * 根据用户ID删除该用户的所有团队信息
-     *
-     * @param userId 用户ID
-     */
-    void deleteByUserId(Long userId);
+  /**
+   * 根据用户ID删除该用户的所有团队信息
+   *
+   * @param userId 用户ID
+   */
+  void deleteByUserId(Long userId);
 
-    /**
-     * 根据团队ID批量查询成员信息
-     *
-     * @param teamIds 团队ID集合
-     * @return 成员信息
-     */
-    List<QuietTeamUser> findByTeamIdIsIn(Collection<? extends Serializable> teamIds);
+  /**
+   * 根据团队ID批量查询成员信息
+   *
+   * @param teamIds 团队ID集合
+   * @return 成员信息
+   */
+  List<QuietTeamUser> findByTeamIdIsIn(Collection<? extends Serializable> teamIds);
 
-    /**
-     * 根据团队ID删除成员信息
-     *
-     * @param teamId 要删除的团队ID
-     */
-    void deleteByTeamId(Long teamId);
+  /**
+   * 根据团队ID删除成员信息
+   *
+   * @param teamId 要删除的团队ID
+   */
+  void deleteByTeamId(Long teamId);
 
-    /**
-     * 根据团队ID和用户ID查询该团队下的团队-用户关系，如果用户ID不在团队中，则返回的集合中就没有该用户与团队的关系数据
-     *
-     * @param teamId  团队ID
-     * @param userIds 要查询的用户ID
-     * @return 在该团队中的团队和用户关系集合
-     */
-    List<QuietTeamUser> findAllByTeamIdAndUserIdIsIn(Long teamId, Collection<? extends Serializable> userIds);
+  /**
+   * 根据团队ID和用户ID查询该团队下的团队-用户关系，如果用户ID不在团队中，则返回的集合中就没有该用户与团队的关系数据
+   *
+   * @param teamId 团队ID
+   * @param userIds 要查询的用户ID
+   * @return 在该团队中的团队和用户关系集合
+   */
+  List<QuietTeamUser> findAllByTeamIdAndUserIdIsIn(
+      Long teamId, Collection<? extends Serializable> userIds);
 }

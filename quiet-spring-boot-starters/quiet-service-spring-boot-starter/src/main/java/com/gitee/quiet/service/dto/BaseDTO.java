@@ -17,19 +17,16 @@
 
 package com.gitee.quiet.service.dto;
 
-import com.gitee.quiet.validation.groups.Create;
-import com.gitee.quiet.validation.groups.IdValid;
-import com.gitee.quiet.validation.groups.OffsetLimitValid;
-import com.gitee.quiet.validation.groups.PageValid;
-import com.gitee.quiet.validation.groups.Update;
-import java.time.LocalDateTime;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import com.gitee.quiet.validation.groups.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 /**
  * 请求参数.
@@ -39,59 +36,47 @@ import org.springframework.data.domain.Pageable;
 @Data
 public class BaseDTO {
 
-    private static final String ASCEND = "ascend";
+  private static final String ASCEND = "ascend";
 
-    private static final String DESCEND = "descend";
+  private static final String DESCEND = "descend";
 
-    /**
-     * ID
-     */
-    @Null(groups = Create.class)
-    @NotNull(groups = {IdValid.class, Update.class})
-    private Long id;
+  /** ID */
+  @Null(groups = Create.class)
+  @NotNull(groups = {IdValid.class, Update.class})
+  private Long id;
 
-    /**
-     * 查询关键词
-     */
-    private String keyword;
+  /** 查询关键词 */
+  private String keyword;
 
-    /**
-     * 第几页
-     */
-    @NotNull(groups = PageValid.class)
-    @Min(value = 1, groups = PageValid.class)
-    private Integer current;
+  /** 第几页 */
+  @NotNull(groups = PageValid.class)
+  @Min(value = 1, groups = PageValid.class)
+  private Integer current;
 
-    /**
-     * 分页大小
-     */
-    @NotNull(groups = PageValid.class)
-    @Min(value = 1, groups = PageValid.class)
-    private Integer pageSize;
+  /** 分页大小 */
+  @NotNull(groups = PageValid.class)
+  @Min(value = 1, groups = PageValid.class)
+  private Integer pageSize;
 
-    /**
-     * 跳过几条数据
-     */
-    @Min(value = 0L, groups = OffsetLimitValid.class)
-    @NotNull(groups = OffsetLimitValid.class)
-    private Long offset;
+  /** 跳过几条数据 */
+  @Min(value = 0L, groups = OffsetLimitValid.class)
+  @NotNull(groups = OffsetLimitValid.class)
+  private Long offset;
 
-    /**
-     * 查询几条数据
-     */
-    @Range(max = 300L, groups = OffsetLimitValid.class)
-    @NotNull(groups = OffsetLimitValid.class)
-    private Long limit;
+  /** 查询几条数据 */
+  @Range(max = 300L, groups = OffsetLimitValid.class)
+  @NotNull(groups = OffsetLimitValid.class)
+  private Long limit;
 
-    private Long creator;
+  private Long creator;
 
-    private Long updater;
+  private Long updater;
 
-    private LocalDateTime gmtCreate;
+  private LocalDateTime gmtCreate;
 
-    private LocalDateTime gmtUpdate;
+  private LocalDateTime gmtUpdate;
 
-    public Pageable page() {
-        return PageRequest.of(getCurrent() - 1, this.getPageSize());
-    }
+  public Pageable page() {
+    return PageRequest.of(getCurrent() - 1, this.getPageSize());
+  }
 }

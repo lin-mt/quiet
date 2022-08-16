@@ -29,6 +29,4 @@ import org.mapstruct.Mapper;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Mapper
-public interface QuietTeamConvert extends QuietConvert<QuietTeam, QuietTeamDTO, QuietTeamVO> {
-
-}
+public interface QuietTeamConvert extends QuietConvert<QuietTeam, QuietTeamDTO, QuietTeamVO> {}

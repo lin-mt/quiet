@@ -17,9 +17,10 @@
 
 package com.gitee.quiet.gateway.entity;
 
-import java.util.Set;
-import javax.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 /**
  * 路由信息.
@@ -29,56 +30,53 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class QuietRoute {
 
-    @NotBlank
-    private String routeId;
+  @NotBlank private String routeId;
 
-    @NotBlank
-    private String uri;
+  @NotBlank private String uri;
 
-    private int order;
+  private int order;
 
-    private Set<String> predicates;
+  private Set<String> predicates;
 
-    private Set<String> filters;
+  private Set<String> filters;
 
-    public String getRouteId() {
-        return routeId;
-    }
+  public String getRouteId() {
+    return routeId;
+  }
 
-    public void setRouteId(String routeId) {
-        this.routeId = routeId;
-    }
+  public void setRouteId(String routeId) {
+    this.routeId = routeId;
+  }
 
-    public String getUri() {
-        return uri;
-    }
+  public String getUri() {
+    return uri;
+  }
 
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
+  public void setUri(String uri) {
+    this.uri = uri;
+  }
 
-    public int getOrder() {
-        return order;
-    }
+  public int getOrder() {
+    return order;
+  }
 
-    public void setOrder(int order) {
-        this.order = order;
-    }
+  public void setOrder(int order) {
+    this.order = order;
+  }
 
-    public Set<String> getPredicates() {
-        return predicates;
-    }
+  public Set<String> getPredicates() {
+    return predicates;
+  }
 
-    public void setPredicates(Set<String> predicates) {
-        this.predicates = predicates;
-    }
+  public void setPredicates(Set<String> predicates) {
+    this.predicates = predicates;
+  }
 
-    public Set<String> getFilters() {
-        return filters;
-    }
+  public Set<String> getFilters() {
+    return filters;
+  }
 
-    public void setFilters(Set<String> filters) {
-        this.filters = filters;
-    }
-
+  public void setFilters(Set<String> filters) {
+    this.filters = filters;
+  }
 }

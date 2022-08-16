@@ -17,6 +17,4 @@
 
 package com.gitee.quiet.jpa.enums.base;
 
-public interface FloatEnum extends JpaCustomEnum<Float> {
-
-}
+public interface FloatEnum extends JpaCustomEnum<Float> {}

@@ -18,6 +18,7 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietDepartmentUser;
+
 import java.util.List;
 import java.util.Set;
 
@@ -28,34 +29,34 @@ import java.util.Set;
  */
 public interface QuietDepartmentUserService {
 
-    /**
-     * 根据部门ID获取该部门下的所有用户
-     *
-     * @param departmentId 部门ID
-     * @return 该部门下的所有用户
-     */
-    List<QuietDepartmentUser> listAllByDepartmentId(Long departmentId);
+  /**
+   * 根据部门ID获取该部门下的所有用户
+   *
+   * @param departmentId 部门ID
+   * @return 该部门下的所有用户
+   */
+  List<QuietDepartmentUser> listAllByDepartmentId(Long departmentId);
 
-    /**
-     * 根据用户ID删除该用户的部门信息
-     *
-     * @param userId 用户信息
-     */
-    void deleteByUserId(Long userId);
+  /**
+   * 根据用户ID删除该用户的部门信息
+   *
+   * @param userId 用户信息
+   */
+  void deleteByUserId(Long userId);
 
-    /**
-     * 为部门批量添加用户
-     *
-     * @param departmentId 要添加的部门ID
-     * @param userIds      部门新增的用户ID集合
-     */
-    void addUsers(Long departmentId, Set<Long> userIds);
+  /**
+   * 为部门批量添加用户
+   *
+   * @param departmentId 要添加的部门ID
+   * @param userIds 部门新增的用户ID集合
+   */
+  void addUsers(Long departmentId, Set<Long> userIds);
 
-    /**
-     * 批量删除部门中的某些用户
-     *
-     * @param departmentId 要删除的用户所在的部门ID
-     * @param userIds      要删除的用户ID
-     */
-    void removeUsers(Long departmentId, Set<Long> userIds);
+  /**
+   * 批量删除部门中的某些用户
+   *
+   * @param departmentId 要删除的用户所在的部门ID
+   * @param userIds 要删除的用户ID
+   */
+  void removeUsers(Long departmentId, Set<Long> userIds);
 }

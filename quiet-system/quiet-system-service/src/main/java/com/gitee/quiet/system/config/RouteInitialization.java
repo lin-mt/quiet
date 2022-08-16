@@ -30,17 +30,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class RouteInitialization implements CommandLineRunner {
 
-    private final QuietRouteService routeService;
+  private final QuietRouteService routeService;
 
-    public RouteInitialization(QuietRouteService routeService) {
-        this.routeService = routeService;
-    }
+  public RouteInitialization(QuietRouteService routeService) {
+    this.routeService = routeService;
+  }
 
-    @Override
-    public void run(String... args) {
-        try {
-            routeService.publishRoute(Environment.Develop, null);
-        } catch (Exception ignore) {
-        }
+  @Override
+  public void run(String... args) {
+    try {
+      routeService.publishRoute(Environment.Develop, null);
+    } catch (Exception ignore) {
     }
+  }
 }

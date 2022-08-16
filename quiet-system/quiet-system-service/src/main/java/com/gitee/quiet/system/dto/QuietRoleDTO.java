@@ -18,11 +18,12 @@
 package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.ParentDTO;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 角色.
@@ -33,30 +34,20 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class QuietRoleDTO extends ParentDTO<QuietRoleDTO> {
 
-    /**
-     * 角色名称
-     */
-    @NotBlank
-    @Length(max = 30)
-    private String roleName;
+  /** 角色名称 */
+  @NotBlank
+  @Length(max = 30)
+  private String roleName;
 
-    /**
-     * 角色中文名
-     */
-    @NotBlank
-    @Length(max = 30)
-    private String roleCnName;
+  /** 角色中文名 */
+  @NotBlank
+  @Length(max = 30)
+  private String roleCnName;
 
-    /**
-     * 备注
-     */
-    @Length(max = 100)
-    private String remark;
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
 
-    /**
-     * 父角色名称
-     */
-    @Transient
-    private String parentRoleName;
-
+  /** 父角色名称 */
+  @Transient private String parentRoleName;
 }

@@ -19,14 +19,15 @@ package com.gitee.quiet.system.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitee.quiet.service.vo.BaseVO;
-import java.util.Set;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * 客户端 vo
@@ -37,45 +38,43 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class QuietClientVO extends BaseVO {
 
-    @NotBlank
-    @Length(max = 20)
-    private String clientId;
+  @NotBlank
+  @Length(max = 20)
+  private String clientId;
 
-    @NotBlank
-    @Length(max = 30)
-    private String clientName;
+  @NotBlank
+  @Length(max = 30)
+  private String clientName;
 
-    @NotBlank
-    @Length(max = 60)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String clientSecret;
+  @NotBlank
+  @Length(max = 60)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private String clientSecret;
 
-    private Set<String> resourceIds;
+  private Set<String> resourceIds;
 
-    @NotNull
-    private Boolean secretRequired;
+  @NotNull private Boolean secretRequired;
 
-    @NotNull
-    private Boolean scoped;
+  @NotNull private Boolean scoped;
 
-    private Set<String> scope;
+  private Set<String> scope;
 
-    private Set<String> authorizedGrantTypes;
+  private Set<String> authorizedGrantTypes;
 
-    private Set<String> registeredRedirectUri;
+  private Set<String> registeredRedirectUri;
 
-    @Min(0)
-    @NotNull
-    private Integer accessTokenValiditySeconds;
+  @Min(0)
+  @NotNull
+  private Integer accessTokenValiditySeconds;
 
-    @Min(0)
-    @NotNull
-    private Integer refreshTokenValiditySeconds;
+  @Min(0)
+  @NotNull
+  private Integer refreshTokenValiditySeconds;
 
-    @NotNull
-    @ColumnDefault("0")
-    private Boolean autoApprove;
+  @NotNull
+  @ColumnDefault("0")
+  private Boolean autoApprove;
 
-    @Length(max = 100)
-    private String remark;
+  @Length(max = 100)
+  private String remark;
 }

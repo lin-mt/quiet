@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
 import com.gitee.quiet.common.core.entity.Serial;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -33,27 +34,27 @@ import java.util.Collection;
  */
 public class CustomCollectionDeserializer extends CollectionDeserializer {
 
-    public CustomCollectionDeserializer(CollectionDeserializer deserializer) {
-        super(deserializer);
-    }
+  public CustomCollectionDeserializer(CollectionDeserializer deserializer) {
+    super(deserializer);
+  }
 
-    @Override
-    public Collection<Object> deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        Collection<Object> result = super.deserialize(parser, context);
-        int index = 0;
-        for (Object o : result) {
-            if (o instanceof Serial) {
-                ((Serial) o).setSerialNumber(index);
-                index++;
-            }
-        }
-        return result;
+  @Override
+  public Collection<Object> deserialize(JsonParser parser, DeserializationContext context)
+      throws IOException {
+    Collection<Object> result = super.deserialize(parser, context);
+    int index = 0;
+    for (Object o : result) {
+      if (o instanceof Serial) {
+        ((Serial) o).setSerialNumber(index);
+        index++;
+      }
     }
+    return result;
+  }
 
-    @Override
-    public CollectionDeserializer createContextual(DeserializationContext context, BeanProperty property)
-        throws JsonMappingException {
-        return new CustomCollectionDeserializer(super.createContextual(context, property));
-    }
+  @Override
+  public CollectionDeserializer createContextual(
+      DeserializationContext context, BeanProperty property) throws JsonMappingException {
+    return new CustomCollectionDeserializer(super.createContextual(context, property));
+  }
 }
-

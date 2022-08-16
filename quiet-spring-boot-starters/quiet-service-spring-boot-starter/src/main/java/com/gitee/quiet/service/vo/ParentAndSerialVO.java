@@ -17,9 +17,10 @@
 
 package com.gitee.quiet.service.vo;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 拥有父子关系且可排序的 VO.
@@ -30,9 +31,9 @@ import lombok.Setter;
 @Setter
 public class ParentAndSerialVO<T> extends BaseVO {
 
-    private int serialNumber;
+  private int serialNumber;
 
-    private Long parentId;
+  private Long parentId;
 
-    private List<T> children;
+  private List<T> children;
 }

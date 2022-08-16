@@ -28,28 +28,28 @@ import java.util.List;
  */
 public interface TreeSelectVO<V, T extends TreeSelectVO<V, T>> {
 
-    /**
-     * 标题
-     *
-     * @return 树型选择器选项的标题
-     */
-    String getTitle();
+  /**
+   * 标题
+   *
+   * @return 树型选择器选项的标题
+   */
+  String getTitle();
 
-    /**
-     * 值
-     *
-     * @return 用户选中的值
-     */
-    V getValue();
+  /**
+   * 值
+   *
+   * @return 用户选中的值
+   */
+  V getValue();
 
-    /**
-     * 子级选项
-     *
-     * @return 子级选项
-     */
-    List<T> getChildren();
+  /**
+   * 子级选项
+   *
+   * @return 子级选项
+   */
+  List<T> getChildren();
 
-    default V getKey() {
-        return getValue();
-    }
+  default V getKey() {
+    return getValue();
+  }
 }

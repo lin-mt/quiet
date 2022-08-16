@@ -28,15 +28,14 @@ import com.gitee.quiet.service.json.modifier.ServiceSerializerModifier;
  */
 public class ServiceSimpleModule extends SimpleModule {
 
-    public ServiceSimpleModule(String name) {
-        super(name);
-    }
+  public ServiceSimpleModule(String name) {
+    super(name);
+  }
 
-    @Override
-    public void setupModule(SetupContext context) {
-        super.setupModule(context);
-        context.addBeanDeserializerModifier(new ServiceDeserializerModifier());
-        context.addBeanSerializerModifier(new ServiceSerializerModifier());
-    }
-
+  @Override
+  public void setupModule(SetupContext context) {
+    super.setupModule(context);
+    context.addBeanDeserializerModifier(new ServiceDeserializerModifier());
+    context.addBeanSerializerModifier(new ServiceSerializerModifier());
+  }
 }

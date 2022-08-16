@@ -26,20 +26,13 @@ import com.gitee.quiet.system.vo.QuietDictionaryVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 数据字典Controller.
@@ -51,79 +44,83 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dictionary")
 public class QuietDictionaryController {
 
-    private final QuietDictionaryService dictionaryService;
+  private final QuietDictionaryService dictionaryService;
 
-    private final QuietDictionaryConvert dictionaryConvert;
+  private final QuietDictionaryConvert dictionaryConvert;
 
-    /**
-     * 根据数据字典类型查询该类型的数据字典，不包含一级数据字典，type 为空时返回空的集合
-     *
-     * @param type 数据字典类型
-     * @return 数据字典
-     */
-    @GetMapping("/list-by-type-for-select")
-    public Result<List<QuietDictionaryVO>> listByTypeForSelect(@RequestParam(required = false) String type) {
-        List<QuietDictionary> quietDictionaries = dictionaryService.listByTypeForSelect(type);
-        return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
-    }
+  /**
+   * 根据数据字典类型查询该类型的数据字典，不包含一级数据字典，type 为空时返回空的集合
+   *
+   * @param type 数据字典类型
+   * @return 数据字典
+   */
+  @GetMapping("/list-by-type-for-select")
+  public Result<List<QuietDictionaryVO>> listByTypeForSelect(
+      @RequestParam(required = false) String type) {
+    List<QuietDictionary> quietDictionaries = dictionaryService.listByTypeForSelect(type);
+    return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
+  }
 
-    /**
-     * 根据数据字典类型返回该类型所有字典信息，包含一级数据字典，type 为空的时候可以查询所有字典信息
-     *
-     * @param type 数据字典类型
-     * @return 数据字典信息
-     */
-    @GetMapping("/tree-by-type")
-    public Result<List<QuietDictionaryVO>> treeByType(@RequestParam(required = false) String type) {
-        List<QuietDictionary> quietDictionaries = dictionaryService.treeByType(type);
-        return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
-    }
+  /**
+   * 根据数据字典类型返回该类型所有字典信息，包含一级数据字典，type 为空的时候可以查询所有字典信息
+   *
+   * @param type 数据字典类型
+   * @return 数据字典信息
+   */
+  @GetMapping("/tree-by-type")
+  public Result<List<QuietDictionaryVO>> treeByType(@RequestParam(required = false) String type) {
+    List<QuietDictionary> quietDictionaries = dictionaryService.treeByType(type);
+    return Result.success(dictionaryConvert.entities2vos(quietDictionaries));
+  }
 
-    /**
-     * 分页查询数据字典.
-     *
-     * @return 查询的所有信息
-     */
-    @GetMapping("/page")
-    public Result<Page<QuietDictionaryVO>> page(@Validated(PageValid.class) QuietDictionaryDTO dto) {
-        Page<QuietDictionary> dictionaryPage = dictionaryService.page(dictionaryConvert.dto2entity(dto), dto.page());
-        return Result.success(dictionaryConvert.page2page(dictionaryPage));
-    }
+  /**
+   * 分页查询数据字典.
+   *
+   * @return 查询的所有信息
+   */
+  @GetMapping("/page")
+  public Result<Page<QuietDictionaryVO>> page(@Validated(PageValid.class) QuietDictionaryDTO dto) {
+    Page<QuietDictionary> dictionaryPage =
+        dictionaryService.page(dictionaryConvert.dto2entity(dto), dto.page());
+    return Result.success(dictionaryConvert.page2page(dictionaryPage));
+  }
 
-    /**
-     * 新增数据字典.
-     *
-     * @param dto 新增的数据字典信息
-     * @return 新增后的数据字典信息
-     */
-    @PostMapping
-    public Result<QuietDictionaryVO> save(@RequestBody @Validated(Create.class) QuietDictionaryDTO dto) {
-        QuietDictionary save = dictionaryService.save(dictionaryConvert.dto2entity(dto));
-        return Result.createSuccess(dictionaryConvert.entity2vo(save));
-    }
+  /**
+   * 新增数据字典.
+   *
+   * @param dto 新增的数据字典信息
+   * @return 新增后的数据字典信息
+   */
+  @PostMapping
+  public Result<QuietDictionaryVO> save(
+      @RequestBody @Validated(Create.class) QuietDictionaryDTO dto) {
+    QuietDictionary save = dictionaryService.save(dictionaryConvert.dto2entity(dto));
+    return Result.createSuccess(dictionaryConvert.entity2vo(save));
+  }
 
-    /**
-     * 删除数据字典.
-     *
-     * @param id 删除的数据字典ID
-     * @return Result
-     */
-    @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasRole('Admin')")
-    public Result<Object> delete(@PathVariable Long id) {
-        dictionaryService.delete(id);
-        return Result.deleteSuccess();
-    }
+  /**
+   * 删除数据字典.
+   *
+   * @param id 删除的数据字典ID
+   * @return Result
+   */
+  @DeleteMapping("/{id}")
+  @PreAuthorize(value = "hasRole('Admin')")
+  public Result<Object> delete(@PathVariable Long id) {
+    dictionaryService.delete(id);
+    return Result.deleteSuccess();
+  }
 
-    /**
-     * 更新数据字典.
-     *
-     * @param dto 更新的数据字典信息
-     * @return 新增后的数据字典信息
-     */
-    @PutMapping
-    public Result<QuietDictionaryVO> update(@RequestBody @Validated(Update.class) QuietDictionaryDTO dto) {
-        QuietDictionary update = dictionaryService.update(dictionaryConvert.dto2entity(dto));
-        return Result.updateSuccess(dictionaryConvert.entity2vo(update));
-    }
+  /**
+   * 更新数据字典.
+   *
+   * @param dto 更新的数据字典信息
+   * @return 新增后的数据字典信息
+   */
+  @PutMapping
+  public Result<QuietDictionaryVO> update(
+      @RequestBody @Validated(Update.class) QuietDictionaryDTO dto) {
+    QuietDictionary update = dictionaryService.update(dictionaryConvert.dto2entity(dto));
+    return Result.updateSuccess(dictionaryConvert.entity2vo(update));
+  }
 }

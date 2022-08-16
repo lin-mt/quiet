@@ -17,33 +17,26 @@
 
 package com.gitee.quiet.jpa.enums.converter;
 
-import com.gitee.quiet.jpa.enums.base.ByteEnum;
-import com.gitee.quiet.jpa.enums.base.DoubleEnum;
-import com.gitee.quiet.jpa.enums.base.FloatEnum;
-import com.gitee.quiet.jpa.enums.base.IntegerEnum;
-import com.gitee.quiet.jpa.enums.base.LongEnum;
-import com.gitee.quiet.jpa.enums.base.ShortEnum;
-import com.gitee.quiet.jpa.enums.base.StringEnum;
+import com.gitee.quiet.jpa.enums.base.*;
 import lombok.Getter;
 
 @Getter
 public enum CustomerEnumType {
+  BYTE(ByteEnum.class, Byte.class),
+  DOUBLE(DoubleEnum.class, Double.class),
+  FLOAT(FloatEnum.class, Float.class),
+  INTEGER(IntegerEnum.class, Integer.class),
+  LONG(LongEnum.class, Long.class),
+  SHORT(ShortEnum.class, Short.class),
+  STRING(StringEnum.class, String.class),
+  ;
 
-    BYTE(ByteEnum.class, Byte.class),
-    DOUBLE(DoubleEnum.class, Double.class),
-    FLOAT(FloatEnum.class, Float.class),
-    INTEGER(IntegerEnum.class, Integer.class),
-    LONG(LongEnum.class, Long.class),
-    SHORT(ShortEnum.class, Short.class),
-    STRING(StringEnum.class, String.class),
-    ;
+  private final Class<?> superClass;
 
-    private final Class<?> superClass;
+  private final Class<?> valueClass;
 
-    private final Class<?> valueClass;
-
-    CustomerEnumType(Class<?> superClass, Class<?> valueClass) {
-        this.superClass = superClass;
-        this.valueClass = valueClass;
-    }
+  CustomerEnumType(Class<?> superClass, Class<?> valueClass) {
+    this.superClass = superClass;
+    this.valueClass = valueClass;
+  }
 }

@@ -18,10 +18,11 @@
 package com.gitee.quiet.system.service;
 
 import com.gitee.quiet.system.entity.QuietTeam;
-import java.util.List;
-import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 团队 Service.
@@ -30,52 +31,52 @@ import org.springframework.data.domain.Pageable;
  */
 public interface QuietTeamService {
 
-    /**
-     * 分页查询团队信息
-     *
-     * @param params 查询条件
-     * @param page   分页条件
-     * @return 查询结果
-     */
-    Page<QuietTeam> page(QuietTeam params, Pageable page);
+  /**
+   * 分页查询团队信息
+   *
+   * @param params 查询条件
+   * @param page 分页条件
+   * @return 查询结果
+   */
+  Page<QuietTeam> page(QuietTeam params, Pageable page);
 
-    /**
-     * 新增或更新团队信息
-     *
-     * @param team 团队信息
-     * @return 新增或更新后的团队信息
-     */
-    QuietTeam saveOrUpdate(QuietTeam team);
+  /**
+   * 新增或更新团队信息
+   *
+   * @param team 团队信息
+   * @return 新增或更新后的团队信息
+   */
+  QuietTeam saveOrUpdate(QuietTeam team);
 
-    /**
-     * 删除团队信息
-     *
-     * @param deleteId 要删除的团队 ID
-     */
-    void deleteTeam(Long deleteId);
+  /**
+   * 删除团队信息
+   *
+   * @param deleteId 要删除的团队 ID
+   */
+  void deleteTeam(Long deleteId);
 
-    /**
-     * 根据团队名称传销团队信息
-     *
-     * @param teamName 团队名称
-     * @param limit    要查询的团队数量
-     * @return 团队信息
-     */
-    List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
+  /**
+   * 根据团队名称传销团队信息
+   *
+   * @param teamName 团队名称
+   * @param limit 要查询的团队数量
+   * @return 团队信息
+   */
+  List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
 
-    /**
-     * 根据团队ID批量查询团队信息
-     *
-     * @param ids 团队ID集合
-     * @return 团队信息
-     */
-    List<QuietTeam> findAllByIds(Set<Long> ids);
+  /**
+   * 根据团队ID批量查询团队信息
+   *
+   * @param ids 团队ID集合
+   * @return 团队信息
+   */
+  List<QuietTeam> findAllByIds(Set<Long> ids);
 
-    /**
-     * 根据团队ID批量查询团队信息，包含团队的成员信息
-     *
-     * @param ids 团队ID集合
-     * @return 团队信息
-     */
-    List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids);
+  /**
+   * 根据团队ID批量查询团队信息，包含团队的成员信息
+   *
+   * @param ids 团队ID集合
+   * @return 团队信息
+   */
+  List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids);
 }

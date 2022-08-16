@@ -19,12 +19,13 @@ package com.gitee.quiet.jpa.utils;
 
 import com.gitee.quiet.common.core.entity.Parent;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * 实体类工具.
@@ -33,29 +34,29 @@ import org.apache.commons.collections4.CollectionUtils;
  */
 public final class EntityUtils {
 
-    private EntityUtils() {
-    }
+  private EntityUtils() {}
 
-    /**
-     * 构建树形结构的数据
-     *
-     * @param source 要构建的原数据
-     * @param <T>    实体
-     * @return 构建后的数据
-     */
-    public static <T extends BaseEntity & Parent<T>> List<T> buildTreeData(List<T> source) {
-        List<T> treeData = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(source)) {
-            Map<Long, T> idToEntity = source.stream().collect(Collectors.toMap(BaseEntity::getId, p -> p));
-            Set<Long> keys = idToEntity.keySet();
-            for (T datum : source) {
-                if (datum.getParentId() == null || !keys.contains(datum.getParentId())) {
-                    treeData.add(datum);
-                    continue;
-                }
-                idToEntity.get(datum.getParentId()).addChildren(datum);
-            }
+  /**
+   * 构建树形结构的数据
+   *
+   * @param source 要构建的原数据
+   * @param <T> 实体
+   * @return 构建后的数据
+   */
+  public static <T extends BaseEntity & Parent<T>> List<T> buildTreeData(List<T> source) {
+    List<T> treeData = new ArrayList<>();
+    if (CollectionUtils.isNotEmpty(source)) {
+      Map<Long, T> idToEntity =
+          source.stream().collect(Collectors.toMap(BaseEntity::getId, p -> p));
+      Set<Long> keys = idToEntity.keySet();
+      for (T datum : source) {
+        if (datum.getParentId() == null || !keys.contains(datum.getParentId())) {
+          treeData.add(datum);
+          continue;
         }
-        return treeData;
+        idToEntity.get(datum.getParentId()).addChildren(datum);
+      }
     }
+    return treeData;
+  }
 }

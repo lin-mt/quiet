@@ -28,15 +28,14 @@ import com.gitee.quiet.web.json.modifier.QuietSerializerModifier;
  */
 public class QuietSimpleModule extends SimpleModule {
 
-    public QuietSimpleModule(String name) {
-        super(name);
-    }
+  public QuietSimpleModule(String name) {
+    super(name);
+  }
 
-    @Override
-    public void setupModule(SetupContext context) {
-        super.setupModule(context);
-        context.addBeanDeserializerModifier(new QuietDeserializerModifier());
-        context.addBeanSerializerModifier(new QuietSerializerModifier());
-    }
-
+  @Override
+  public void setupModule(SetupContext context) {
+    super.setupModule(context);
+    context.addBeanDeserializerModifier(new QuietDeserializerModifier());
+    context.addBeanSerializerModifier(new QuietSerializerModifier());
+  }
 }

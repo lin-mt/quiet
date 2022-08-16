@@ -26,47 +26,31 @@ import com.gitee.quiet.common.constant.service.MessageSourceCode;
  */
 public enum CurdType {
 
-    /**
-     * 新增成功.
-     */
-    CREATE_SUCCESS(MessageSourceCode.Curd.CREATE_SUCCESS),
-    /**
-     * 新增失败.
-     */
-    CREATE_FAILURE(MessageSourceCode.Curd.CREATE_FAILURE),
-    /**
-     * 更新成功.
-     */
-    UPDATE_SUCCESS(MessageSourceCode.Curd.UPDATE_SUCCESS),
-    /**
-     * 更新失败.
-     */
-    UPDATE_FAILURE(MessageSourceCode.Curd.UPDATE_FAILURE),
-    /**
-     * 查询成功.
-     */
-    READ_SUCCESS(MessageSourceCode.Curd.READ_SUCCESS),
-    /**
-     * 查询失败.
-     */
-    READ_FAILURE(MessageSourceCode.Curd.READ_FAILURE),
-    /**
-     * 删除成功.
-     */
-    DELETE_SUCCESS(MessageSourceCode.Curd.DELETE_SUCCESS),
-    /**
-     * 删除失败.
-     */
-    DELETE_FAILURE(MessageSourceCode.Curd.DELETE_FAILURE),
-    ;
+  /** 新增成功. */
+  CREATE_SUCCESS(MessageSourceCode.Curd.CREATE_SUCCESS),
+  /** 新增失败. */
+  CREATE_FAILURE(MessageSourceCode.Curd.CREATE_FAILURE),
+  /** 更新成功. */
+  UPDATE_SUCCESS(MessageSourceCode.Curd.UPDATE_SUCCESS),
+  /** 更新失败. */
+  UPDATE_FAILURE(MessageSourceCode.Curd.UPDATE_FAILURE),
+  /** 查询成功. */
+  READ_SUCCESS(MessageSourceCode.Curd.READ_SUCCESS),
+  /** 查询失败. */
+  READ_FAILURE(MessageSourceCode.Curd.READ_FAILURE),
+  /** 删除成功. */
+  DELETE_SUCCESS(MessageSourceCode.Curd.DELETE_SUCCESS),
+  /** 删除失败. */
+  DELETE_FAILURE(MessageSourceCode.Curd.DELETE_FAILURE),
+  ;
 
-    private final String code;
+  private final String code;
 
-    CurdType(String code) {
-        this.code = code;
-    }
+  CurdType(String code) {
+    this.code = code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 }

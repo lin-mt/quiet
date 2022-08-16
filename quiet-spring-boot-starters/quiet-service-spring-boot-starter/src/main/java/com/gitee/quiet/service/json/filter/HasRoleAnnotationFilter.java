@@ -23,12 +23,13 @@ import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.service.json.annotation.JsonHasRole;
-import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.Collection;
 
 /**
  * json 序列化属性根据当前角色过滤.
@@ -37,30 +38,31 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class HasRoleAnnotationFilter extends SimpleBeanPropertyFilter {
 
-    @Override
-    public void serializeAsField(Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer)
-        throws Exception {
-        boolean hasRolePermission = false;
-        ServletRequestAttributes request = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (request != null && Url.REGISTER.equals(request.getRequest().getRequestURI())) {
-            return;
-        }
-        JsonHasRole jsonHasRole = writer.getAnnotation(JsonHasRole.class);
-        if (jsonHasRole != null && StringUtils.isNoneBlank(jsonHasRole.value())) {
-            Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication()
-                .getAuthorities();
-            for (GrantedAuthority authority : authorities) {
-                if (jsonHasRole.value().equals(authority.getAuthority())) {
-                    hasRolePermission = true;
-                    break;
-                }
-            }
-        } else {
-            hasRolePermission = true;
-        }
-        if (hasRolePermission) {
-            super.serializeAsField(pojo, jgen, provider, writer);
-        }
+  @Override
+  public void serializeAsField(
+      Object pojo, JsonGenerator jgen, SerializerProvider provider, PropertyWriter writer)
+      throws Exception {
+    boolean hasRolePermission = false;
+    ServletRequestAttributes request =
+        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    if (request != null && Url.REGISTER.equals(request.getRequest().getRequestURI())) {
+      return;
     }
-
+    JsonHasRole jsonHasRole = writer.getAnnotation(JsonHasRole.class);
+    if (jsonHasRole != null && StringUtils.isNoneBlank(jsonHasRole.value())) {
+      Collection<? extends GrantedAuthority> authorities =
+          SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+      for (GrantedAuthority authority : authorities) {
+        if (jsonHasRole.value().equals(authority.getAuthority())) {
+          hasRolePermission = true;
+          break;
+        }
+      }
+    } else {
+      hasRolePermission = true;
+    }
+    if (hasRolePermission) {
+      super.serializeAsField(pojo, jgen, provider, writer);
+    }
+  }
 }

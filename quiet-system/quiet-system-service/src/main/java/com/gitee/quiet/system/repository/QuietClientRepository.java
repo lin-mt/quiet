@@ -29,12 +29,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuietClientRepository extends QuietRepository<QuietClient> {
 
-    /**
-     * 根据客户端 ID 查询客户端信息
-     *
-     * @param clientId 客户端 ID
-     * @return 客户端信息
-     */
-    QuietClient findByClientId(String clientId);
-
+  /**
+   * 根据客户端 ID 查询客户端信息
+   *
+   * @param clientId 客户端 ID
+   * @return 客户端信息
+   */
+  QuietClient findByClientId(String clientId);
 }

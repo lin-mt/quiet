@@ -18,9 +18,10 @@
 package com.gitee.quiet.system.dto;
 
 import com.gitee.quiet.service.dto.BaseDTO;
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 /**
  * 假期 DTO.
@@ -31,13 +32,9 @@ import lombok.Setter;
 @Setter
 public class QuietHolidayDTO extends BaseDTO {
 
-    /**
-     * 当前日期
-     */
-    private LocalDate dateInfo;
+  /** 当前日期 */
+  private LocalDate dateInfo;
 
-    /**
-     * 是否是假期
-     */
-    private Boolean isHoliday;
+  /** 是否是假期 */
+  private Boolean isHoliday;
 }

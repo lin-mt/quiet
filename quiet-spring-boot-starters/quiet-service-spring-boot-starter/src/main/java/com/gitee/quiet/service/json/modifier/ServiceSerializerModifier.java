@@ -32,12 +32,13 @@ import com.gitee.quiet.service.json.modifier.serializer.DictionarySerializer;
  */
 public class ServiceSerializerModifier extends BeanSerializerModifier {
 
-    @Override
-    public JsonSerializer<?> modifySerializer(SerializationConfig config, BeanDescription beanDesc,
-        JsonSerializer<?> serializer) {
-        if (Dictionary.class.isAssignableFrom(beanDesc.getBeanClass()) && serializer instanceof BeanSerializerBase) {
-            return new DictionarySerializer((BeanSerializerBase) serializer);
-        }
-        return super.modifySerializer(config, beanDesc, serializer);
+  @Override
+  public JsonSerializer<?> modifySerializer(
+      SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
+    if (Dictionary.class.isAssignableFrom(beanDesc.getBeanClass())
+        && serializer instanceof BeanSerializerBase) {
+      return new DictionarySerializer((BeanSerializerBase) serializer);
     }
+    return super.modifySerializer(config, beanDesc, serializer);
+  }
 }
