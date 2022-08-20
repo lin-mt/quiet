@@ -95,8 +95,8 @@ public class QuietUserServiceImpl implements QuietUserService {
     if (CollectionUtils.isNotEmpty(quietUserRoles)) {
       Set<Long> roleIds =
           quietUserRoles.stream().map(QuietUserRole::getRoleId).collect(Collectors.toSet());
-      List<QuietRole> roles = roleService.findAllById(roleIds);
-      roles.addAll(roleService.getReachableGrantedAuthorities(roles));
+      List<QuietRole> roles =
+          roleService.getReachableGrantedAuthorities(roleService.findAllById(roleIds));
       user.setAuthorities(roles);
     }
     return user;

@@ -26,7 +26,6 @@ import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.BooleanBuilder;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
@@ -50,13 +49,12 @@ public class QuietRoleServiceImpl implements QuietRoleService {
 
   private final QuietPermissionService permissionService;
 
-  private String rolePrefix = "ROLE_";
-
   public QuietRoleServiceImpl(
       Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults,
       QuietRoleRepository roleRepository,
       QuietPermissionService permissionService) {
-    grantedAuthorityDefaults.ifPresent(prefix -> rolePrefix = prefix.getRolePrefix());
+    grantedAuthorityDefaults.ifPresent(prefix -> {
+    });
     this.roleRepository = roleRepository;
     this.permissionService = permissionService;
   }
@@ -172,22 +170,15 @@ public class QuietRoleServiceImpl implements QuietRoleService {
     Set<String> roleNames =
         authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
     List<QuietRole> reachableRoles = new ArrayList<>();
+    Set<String> allRoleName = new HashSet<>(roleNames);
     while (!roleNames.isEmpty()) {
       List<QuietRole> roles = roleRepository.findByRoleNameIn(roleNames);
-      reachableRoles.addAll(
-          roles.stream()
-              .peek(
-                  r -> {
-                    if (StringUtils.isNoneBlank(r.getRoleName())
-                        && !r.getRoleName().startsWith(rolePrefix)) {
-                      r.setRoleName(rolePrefix + r.getRoleName());
-                    }
-                  })
-              .collect(Collectors.toSet()));
+      reachableRoles.addAll(roles);
       Set<Long> parentIds = roles.stream().map(QuietRole::getId).collect(Collectors.toSet());
       roleNames =
           roleRepository.findByParentIdIn(parentIds).stream()
               .map(QuietRole::getRoleName)
+              .filter(allRoleName::add)
               .collect(Collectors.toSet());
     }
     return reachableRoles;
