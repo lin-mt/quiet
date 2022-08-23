@@ -41,6 +41,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户 Controller.
@@ -82,7 +83,7 @@ public class QuietUserController {
   public Result<QuietUserVO> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
     // TODO 可以根据配置确定是否注册就直接启用该用户
     QuietUser user = userService.save(userConvert.dto2entity(dto));
-    return Result.success(userConvert.entity2vo(user));
+    return Result.createSuccess(userConvert.entity2vo(user));
   }
 
   /**
@@ -157,5 +158,19 @@ public class QuietUserController {
   public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
     List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
     return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
+  }
+
+  /**
+   * 更新用户的角色
+   *
+   * @param userId 用户ID
+   * @param roleIds 用户拥有的所有角色Id集合
+   * @return 移除结果
+   */
+  @PostMapping("/update-roles/{userId}")
+  public Result<List<QuietUserRoleVO>> updateRoles(
+      @PathVariable Long userId, @RequestBody(required = false) Set<Long> roleIds) {
+    userRoleService.updateRoles(userId, roleIds);
+    return Result.updateSuccess();
   }
 }

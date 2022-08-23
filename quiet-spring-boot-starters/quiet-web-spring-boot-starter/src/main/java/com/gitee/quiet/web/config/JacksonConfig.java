@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.web.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -53,6 +54,7 @@ public class JacksonConfig {
       Jackson2ObjectMapperBuilder builder,
       List<BeforeObjectMapperInjection> beforeObjectMapperInjections) {
     final ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     QuietSimpleModule module = new QuietSimpleModule(QUIET_MODULE_NAME);
     // 日期序列化与反序列化
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

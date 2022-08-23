@@ -37,7 +37,6 @@ public class QuietUser extends QuietUserDetails {
 
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
         .notNullEq(getId(), quietUser.id)
         .notBlankContains(getUsername(), quietUser.username)
@@ -48,7 +47,7 @@ public class QuietUser extends QuietUserDetails {
         .notNullEq(getAccountExpired(), quietUser.accountExpired)
         .notNullEq(getAccountLocked(), quietUser.accountLocked)
         .notNullEq(getCredentialsExpired(), quietUser.credentialsExpired)
+        .notNullEq(getEnabled(), quietUser.enabled)
         .getPredicate();
-    // @formatter:on
   }
 }
