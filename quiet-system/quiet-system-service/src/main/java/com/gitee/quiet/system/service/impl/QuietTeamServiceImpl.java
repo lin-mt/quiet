@@ -18,6 +18,7 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.constant.service.RoleNames;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.*;
@@ -33,11 +34,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.gitee.quiet.system.entity.QQuietTeam.quietTeam;
+import static com.gitee.quiet.system.entity.QQuietTeamUser.quietTeamUser;
 
 /**
  * 团队 Service 实现类.
@@ -78,54 +81,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
   @Override
   public Page<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
     BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
-    Page<QuietTeam> result = teamRepository.findAll(predicate, page);
-    if (CollectionUtils.isNotEmpty(result.getContent())) {
-      Set<Long> teamIds =
-          result.getContent().stream().map(QuietTeam::getId).collect(Collectors.toSet());
-      List<QuietTeamUser> allTeamUsers = teamUserService.findAllUsersByTeamIds(teamIds);
-      Map<Long, List<QuietTeamUser>> teamIdToTeamUsers =
-          allTeamUsers.stream().collect(Collectors.groupingBy(QuietTeamUser::getTeamId));
-      Set<Long> allUserIds =
-          allTeamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
-      List<QuietTeamUserRole> userTeamRoles =
-          teamUserRoleService.findByTeamUserIds(
-              allTeamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
-      Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles =
-          userTeamRoles.stream().collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
-      Map<Long, QuietUser> userIdToUserInfo =
-          userService.findByUserIds(allUserIds).stream()
-              .collect(Collectors.toMap(QuietUser::getId, u -> u));
-      QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
-      QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
-      for (QuietTeam quietTeam : result.getContent()) {
-        List<QuietTeamUser> quietTeamUsers = teamIdToTeamUsers.get(quietTeam.getId());
-        if (CollectionUtils.isNotEmpty(quietTeamUsers)) {
-          List<QuietUser> members = new ArrayList<>();
-          List<QuietUser> teamProductOwners = new ArrayList<>();
-          List<QuietUser> teamScrumMasters = new ArrayList<>();
-          for (QuietTeamUser quietTeamUser : quietTeamUsers) {
-            List<QuietTeamUserRole> quietTeamUserRoles =
-                teamUserIdToRoles.get(quietTeamUser.getId());
-            if (CollectionUtils.isNotEmpty(quietTeamUserRoles)) {
-              for (QuietTeamUserRole quietTeamUserRole : quietTeamUserRoles) {
-                if (quietTeamUserRole.getRoleId().equals(productOwner.getId())) {
-                  teamProductOwners.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
-                }
-                if (quietTeamUserRole.getRoleId().equals(scrumMaster.getId())) {
-                  teamScrumMasters.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
-                }
-              }
-            } else {
-              members.add(userIdToUserInfo.get(quietTeamUser.getUserId()));
-            }
-          }
-          quietTeam.setMembers(members);
-          quietTeam.setProductOwners(teamProductOwners);
-          quietTeam.setScrumMasters(teamScrumMasters);
-        }
-      }
-    }
-    return result;
+    return teamRepository.findAll(predicate, page);
   }
 
   @Override
@@ -226,6 +182,40 @@ public class QuietTeamServiceImpl implements QuietTeamService {
       }
       team.setMembers(members);
     }
+    return teams;
+  }
+
+  @Nullable
+  @Override
+  public QuietTeam findById(Long id) {
+    if (id == null) {
+      return null;
+    }
+    return teamRepository.findById(id).orElse(null);
+  }
+
+  @Override
+  public List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName) {
+    List<QuietTeam> teams = new ArrayList<>();
+    if (id != null) {
+      QuietTeam team = this.findById(id);
+      if (team != null) {
+        teams.add(team);
+      }
+      return teams;
+    }
+    BooleanBuilder where =
+            SelectBooleanBuilder.booleanBuilder()
+                    .notNullEq(teamUserId, quietTeamUser.userId)
+                    .notBlankContains(teamName, quietTeam.teamName)
+                    .getPredicate();
+    teams = jpaQueryFactory
+            .selectFrom(quietTeam)
+            .leftJoin(quietTeamUser)
+            .on(quietTeam.id.eq(quietTeamUser.teamId))
+            .where(where)
+            .distinct()
+            .fetch();
     return teams;
   }
 }

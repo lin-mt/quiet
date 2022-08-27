@@ -21,6 +21,7 @@ import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietTeamConvert;
 import com.gitee.quiet.system.dto.QuietTeamDTO;
 import com.gitee.quiet.system.entity.QuietTeam;
+import com.gitee.quiet.system.manager.QuietTeamManager;
 import com.gitee.quiet.system.service.QuietTeamService;
 import com.gitee.quiet.system.vo.QuietTeamVO;
 import com.gitee.quiet.validation.groups.Create;
@@ -45,6 +46,8 @@ public class QuietTeamController {
 
   private final QuietTeamService teamService;
 
+  private final QuietTeamManager teamManager;
+
   private final QuietTeamConvert teamConvert;
 
   /**
@@ -56,6 +59,30 @@ public class QuietTeamController {
   @GetMapping("/list-teams-by-team-name")
   public Result<List<QuietTeamVO>> listTeamsByTeamName(QuietTeamDTO dto) {
     List<QuietTeam> teams = teamService.listTeamsByTeamName(dto.getTeamName(), 9);
+    return Result.success(teamConvert.entities2vos(teams));
+  }
+
+  /**
+   * 根据团队ID获取团队信息
+   *
+   * @param id 团队ID
+   * @return 团队信息
+   */
+  @GetMapping("/{id}")
+  public Result<QuietTeamVO> get(@PathVariable Long id) {
+    QuietTeam team = teamManager.getDetailById(id);
+    return Result.success(teamConvert.entity2vo(team));
+  }
+
+  /**
+   * 根据团队ID、成员ID、团队名称查询团队信息
+   *
+   * @param dto :teamName 团队名称 :id 团队ID :userId 团队成员ID
+   * @return 团队信息
+   */
+  @GetMapping("/list-teams")
+  public Result<List<QuietTeamVO>> listTeams(QuietTeamDTO dto) {
+    List<QuietTeam> teams = teamService.listTeams(dto.getId(), dto.getTeamUserId(), dto.getTeamName());
     return Result.success(teamConvert.entities2vos(teams));
   }
 

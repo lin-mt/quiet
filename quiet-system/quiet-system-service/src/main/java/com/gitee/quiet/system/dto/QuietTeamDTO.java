@@ -37,11 +37,14 @@ public class QuietTeamDTO extends BaseDTO {
 
   /** 团队名称 */
   @NotBlank
-  @Length(max = 16)
+  @Length(max = 8)
   private String teamName;
 
+  /** 团队成员ID */
+  private Long teamUserId;
+
   /** 标语 */
-  @Length(max = 30)
+  @Length(max = 60)
   private String slogan;
 
   /** 团队PO */

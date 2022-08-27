@@ -38,11 +38,11 @@ public class QuietTeamVO extends BaseVO {
 
   /** 团队名称 */
   @NotBlank
-  @Length(max = 16)
+  @Length(max = 8)
   private String teamName;
 
   /** 标语 */
-  @Length(max = 30)
+  @Length(max = 60)
   private String slogan;
 
   /** 团队角色与成员信息信息 */

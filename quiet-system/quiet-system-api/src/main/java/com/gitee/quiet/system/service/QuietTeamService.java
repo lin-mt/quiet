@@ -21,6 +21,7 @@ import com.gitee.quiet.system.entity.QuietTeam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
@@ -79,4 +80,23 @@ public interface QuietTeamService {
    * @return 团队信息
    */
   List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids);
+
+  /**
+   * 根据团队ID查询团队信息
+   *
+   * @param id 团队ID
+   * @return 团队信息
+   */
+  @Nullable
+  QuietTeam findById(Long id);
+
+  /**
+   * 根据团队ID、成员ID、团队名称查询团队信息
+   *
+   * @param id 团队ID
+   * @param teamUserId 成员ID
+   * @param teamName 团队名称
+   * @return 所有团队信息
+   */
+  List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName);
 }

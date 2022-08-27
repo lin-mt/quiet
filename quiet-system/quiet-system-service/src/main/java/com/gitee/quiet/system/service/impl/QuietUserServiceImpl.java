@@ -199,14 +199,19 @@ public class QuietUserServiceImpl implements QuietUserService {
   }
 
   @Override
-  public List<QuietUser> listUsersByName(String name, int limit) {
-    if (StringUtils.isBlank(name)) {
-      return new ArrayList<>();
-    }
-    JPAQuery<QuietUser> query =
-        jpaQueryFactory
-            .selectFrom(quietUser)
-            .where(quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
+  public List<QuietUser> listUsers(String name, Set<Long> userIds, int limit) {
+    BooleanBuilder where =
+        SelectBuilder.booleanBuilder()
+            .notEmptyIn(userIds, quietUser.id)
+            .with(
+                builder -> {
+                  if (StringUtils.isNotBlank(name)) {
+                    builder.and(
+                        quietUser.username.contains(name).or(quietUser.fullName.contains(name)));
+                  }
+                })
+            .getPredicate();
+    JPAQuery<QuietUser> query = jpaQueryFactory.selectFrom(quietUser).where(where);
     if (limit > 0) {
       query.limit(limit);
     }

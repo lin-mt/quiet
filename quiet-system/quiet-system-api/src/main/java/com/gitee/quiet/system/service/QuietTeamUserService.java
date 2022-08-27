@@ -84,4 +84,12 @@ public interface QuietTeamUserService {
    * @return 团队信息
    */
   List<QuietTeamUser> findAllByUserId(Long userId);
+
+  /**
+   * 根据团队ID查询团队成员信息
+   *
+   * @param id 团队ID
+   * @return 团队成员信息
+   */
+  List<QuietTeamUser> findByTeamId(Long id);
 }

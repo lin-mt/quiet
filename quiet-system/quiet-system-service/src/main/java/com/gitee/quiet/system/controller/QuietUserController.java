@@ -67,9 +67,11 @@ public class QuietUserController {
    * @param keyword 用户名/全名
    * @return 用户信息
    */
-  @GetMapping("/list-users-by-name")
-  public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
-    List<QuietUser> users = userService.listUsersByName(keyword, 9);
+  @GetMapping("/list-users")
+  public Result<List<QuietUserVO>> listUsers(
+      @RequestParam(required = false) String keyword,
+      @RequestParam(required = false) Set<Long> userIds) {
+    List<QuietUser> users = userService.listUsers(keyword, userIds, 9);
     return Result.success(userConvert.entities2vos(users));
   }
 
