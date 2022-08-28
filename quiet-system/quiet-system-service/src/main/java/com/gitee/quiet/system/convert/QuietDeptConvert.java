@@ -15,33 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.system.convert;
 
-import com.gitee.quiet.service.dto.ParentDTO;
-import com.gitee.quiet.system.entity.QuietUser;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Set;
+import com.gitee.quiet.service.dto.QuietConvert;
+import com.gitee.quiet.system.dto.QuietDeptDTO;
+import com.gitee.quiet.system.entity.QuietDept;
+import com.gitee.quiet.system.vo.QuietDeptVO;
+import org.mapstruct.Mapper;
 
 /**
- * 部门信息.
+ * 部门实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class QuietDepartmentDTO extends ParentDTO<QuietDepartmentDTO> {
-
-  /** 部门名称 */
-  private String departmentName;
-
-  /** 备注 */
-  private String remark;
-
-  /** 用户信息 */
-  private QuietUser params;
-
-  /** 用户ID集合 */
-  private Set<Long> userIds;
-}
+@Mapper
+public interface QuietDeptConvert
+    extends QuietConvert<QuietDept, QuietDeptDTO, QuietDeptVO> {}

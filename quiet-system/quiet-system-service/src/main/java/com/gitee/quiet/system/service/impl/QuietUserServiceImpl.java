@@ -64,7 +64,7 @@ public class QuietUserServiceImpl implements QuietUserService {
 
   private final QuietRoleService roleService;
 
-  private final QuietDepartmentUserService departmentUserService;
+  private final QuietDeptUserService deptUserService;
 
   private final QuietTeamUserService teamUserService;
 
@@ -74,14 +74,14 @@ public class QuietUserServiceImpl implements QuietUserService {
       QuietUserRepository userRepository,
       QuietUserRoleService userRoleService,
       QuietRoleService roleService,
-      QuietDepartmentUserService departmentUserService,
+      QuietDeptUserService deptUserService,
       QuietTeamUserService teamUserService) {
     this.jpaQueryFactory = jpaQueryFactory;
     this.passwordEncoder = passwordEncoder;
     this.userRepository = userRepository;
     this.userRoleService = userRoleService;
     this.roleService = roleService;
-    this.departmentUserService = departmentUserService;
+    this.deptUserService = deptUserService;
     this.teamUserService = teamUserService;
   }
 
@@ -116,7 +116,7 @@ public class QuietUserServiceImpl implements QuietUserService {
     // 删除用户-角色信息
     userRoleService.deleteByUserId(deleteId);
     // 删除部门-用户信息
-    departmentUserService.deleteByUserId(deleteId);
+    deptUserService.deleteByUserId(deleteId);
     // 删除团队-用户信息
     teamUserService.deleteByUserId(deleteId);
     // TODO 删除跟用户相关的其他信息

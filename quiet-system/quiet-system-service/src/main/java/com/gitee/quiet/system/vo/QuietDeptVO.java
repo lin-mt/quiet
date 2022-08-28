@@ -15,19 +15,42 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.system.vo;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietDepartmentDTO;
-import com.gitee.quiet.system.entity.QuietDepartment;
-import com.gitee.quiet.system.vo.QuietDepartmentVO;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.service.vo.ParentVO;
+import com.gitee.quiet.service.vo.front.TreeSelectVO;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * 部门实体信息转换.
+ * 部门信息 Vo.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface QuietDepartmentConvert
-    extends QuietConvert<QuietDepartment, QuietDepartmentDTO, QuietDepartmentVO> {}
+@Getter
+@Setter
+public class QuietDeptVO extends ParentVO<QuietDeptVO>
+    implements TreeSelectVO<Long, QuietDeptVO> {
+
+  /** 部门名称 */
+  @NotBlank
+  @Length(max = 10)
+  private String deptName;
+
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
+
+  @Override
+  public String getTitle() {
+    return getDeptName();
+  }
+
+  @Override
+  public Long getValue() {
+    return getId();
+  }
+}

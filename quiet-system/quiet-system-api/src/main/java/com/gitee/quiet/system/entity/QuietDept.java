@@ -30,7 +30,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
+import static com.gitee.quiet.system.entity.QQuietDept.quietDept;
 
 /**
  * 部门信息.
@@ -40,14 +40,14 @@ import static com.gitee.quiet.system.entity.QQuietDepartment.quietDepartment;
 @Getter
 @Setter
 @Entity
-@Table(name = "quiet_department")
-public class QuietDepartment extends ParentEntity<QuietDepartment> {
+@Table(name = "quiet_dept")
+public class QuietDept extends ParentEntity<QuietDept> {
 
   /** 部门名称 */
   @NotBlank
   @Length(max = 10)
-  @Column(name = "department_name", length = 10, nullable = false)
-  private String departmentName;
+  @Column(name = "depat_name", length = 10, nullable = false)
+  private String deptName;
 
   /** 备注 */
   @Length(max = 100)
@@ -59,10 +59,10 @@ public class QuietDepartment extends ParentEntity<QuietDepartment> {
   public BooleanBuilder booleanBuilder() {
     // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietDepartment.id)
-        .notNullEq(getParentId(), quietDepartment.parentId)
-        .notBlankContains(getDepartmentName(), quietDepartment.departmentName)
-        .notBlankContains(getRemark(), quietDepartment.remark)
+        .notNullEq(getId(), quietDept.id)
+        .notNullEq(getParentId(), quietDept.parentId)
+        .notBlankContains(getDeptName(), quietDept.deptName)
+        .notBlankContains(getRemark(), quietDept.remark)
         .getPredicate();
     // @formatter:on
   }

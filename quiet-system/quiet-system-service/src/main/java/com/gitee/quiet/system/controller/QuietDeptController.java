@@ -18,14 +18,14 @@
 package com.gitee.quiet.system.controller;
 
 import com.gitee.quiet.service.result.Result;
-import com.gitee.quiet.system.convert.QuietDepartmentConvert;
+import com.gitee.quiet.system.convert.QuietDeptConvert;
 import com.gitee.quiet.system.convert.QuietUserConvert;
-import com.gitee.quiet.system.dto.QuietDepartmentDTO;
-import com.gitee.quiet.system.entity.QuietDepartment;
+import com.gitee.quiet.system.dto.QuietDeptDTO;
+import com.gitee.quiet.system.entity.QuietDept;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.gitee.quiet.system.service.QuietDepartmentService;
-import com.gitee.quiet.system.service.QuietDepartmentUserService;
-import com.gitee.quiet.system.vo.QuietDepartmentVO;
+import com.gitee.quiet.system.service.QuietDeptService;
+import com.gitee.quiet.system.service.QuietDeptUserService;
+import com.gitee.quiet.system.vo.QuietDeptVO;
 import com.gitee.quiet.system.vo.QuietUserVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
@@ -45,14 +45,14 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/department")
-public class QuietDepartmentController {
+@RequestMapping("/dept")
+public class QuietDeptController {
 
-  private final QuietDepartmentService departmentService;
+  private final QuietDeptService deptService;
 
-  private final QuietDepartmentUserService departmentUserService;
+  private final QuietDeptUserService deptUserService;
 
-  private final QuietDepartmentConvert departmentConvert;
+  private final QuietDeptConvert deptConvert;
 
   private final QuietUserConvert userConvert;
 
@@ -63,8 +63,8 @@ public class QuietDepartmentController {
    * @return 删除结果
    */
   @PostMapping("/remove-users")
-  public Result<Object> removeUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDTO dto) {
-    departmentUserService.removeUsers(dto.getId(), dto.getUserIds());
+  public Result<Object> removeUsers(@RequestBody @Validated(IdValid.class) QuietDeptDTO dto) {
+    deptUserService.removeUsers(dto.getId(), dto.getUserIds());
     return Result.success();
   }
 
@@ -75,8 +75,8 @@ public class QuietDepartmentController {
    * @return 添加结果
    */
   @PostMapping("/add-users")
-  public Result<Object> addUsers(@RequestBody @Validated(IdValid.class) QuietDepartmentDTO dto) {
-    departmentUserService.addUsers(dto.getId(), dto.getUserIds());
+  public Result<Object> addUsers(@RequestBody @Validated(IdValid.class) QuietDeptDTO dto) {
+    deptUserService.addUsers(dto.getId(), dto.getUserIds());
     return Result.success();
   }
 
@@ -87,9 +87,9 @@ public class QuietDepartmentController {
    * @return 查询的部门的用户信息
    */
   @GetMapping("/page-user")
-  public Result<QueryResults<QuietUserVO>> pageUser(QuietDepartmentDTO dto) {
+  public Result<QueryResults<QuietUserVO>> pageUser(QuietDeptDTO dto) {
     QueryResults<QuietUser> userQueryResults =
-        departmentService.pageUser(dto.getId(), dto.getParams(), dto.page());
+        deptService.pageUser(dto.getId(), dto.getParams(), dto.page());
     return Result.success(userConvert.results2results(userQueryResults));
   }
 
@@ -100,10 +100,9 @@ public class QuietDepartmentController {
    * @return 查询的部门信息
    */
   @GetMapping("/page")
-  public Result<Page<QuietDepartmentVO>> page(QuietDepartmentDTO dto) {
-    Page<QuietDepartment> departmentPage =
-        departmentService.page(departmentConvert.dto2entity(dto), dto.page());
-    return Result.success(departmentConvert.page2page(departmentPage));
+  public Result<Page<QuietDeptVO>> page(QuietDeptDTO dto) {
+    Page<QuietDept> deptPage = deptService.page(deptConvert.dto2entity(dto), dto.page());
+    return Result.success(deptConvert.page2page(deptPage));
   }
 
   /**
@@ -112,9 +111,9 @@ public class QuietDepartmentController {
    * @return 查询的部门信息
    */
   @GetMapping("/tree")
-  public Result<List<QuietDepartmentVO>> tree() {
-    List<QuietDepartment> tree = departmentService.tree();
-    return Result.success(departmentConvert.entities2vos(tree));
+  public Result<List<QuietDeptVO>> tree() {
+    List<QuietDept> tree = deptService.tree();
+    return Result.success(deptConvert.entities2vos(tree));
   }
 
   /**
@@ -124,10 +123,9 @@ public class QuietDepartmentController {
    * @return 新增的部门信息
    */
   @PostMapping
-  public Result<QuietDepartmentVO> save(
-      @RequestBody @Validated(Create.class) QuietDepartmentDTO dto) {
-    QuietDepartment department = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
-    return Result.createSuccess(departmentConvert.entity2vo(department));
+  public Result<QuietDeptVO> save(@RequestBody @Validated(Create.class) QuietDeptDTO dto) {
+    QuietDept dept = deptService.saveOrUpdate(deptConvert.dto2entity(dto));
+    return Result.createSuccess(deptConvert.entity2vo(dept));
   }
 
   /**
@@ -137,10 +135,9 @@ public class QuietDepartmentController {
    * @return 更新后的部门信息
    */
   @PutMapping
-  public Result<QuietDepartmentVO> update(
-      @RequestBody @Validated(Update.class) QuietDepartmentDTO dto) {
-    QuietDepartment update = departmentService.saveOrUpdate(departmentConvert.dto2entity(dto));
-    return Result.updateSuccess(departmentConvert.entity2vo(update));
+  public Result<QuietDeptVO> update(@RequestBody @Validated(Update.class) QuietDeptDTO dto) {
+    QuietDept update = deptService.saveOrUpdate(deptConvert.dto2entity(dto));
+    return Result.updateSuccess(deptConvert.entity2vo(update));
   }
 
   /**
@@ -151,7 +148,7 @@ public class QuietDepartmentController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    departmentService.deleteById(id);
+    deptService.deleteById(id);
     return Result.deleteSuccess();
   }
 }
