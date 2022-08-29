@@ -17,9 +17,9 @@
 
 package com.gitee.quiet.system.service;
 
+import com.blazebit.persistence.PagedList;
 import com.gitee.quiet.system.entity.QuietDept;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -67,8 +67,8 @@ public interface QuietDeptService {
    *
    * @param deptId 部门ID
    * @param params 用户过滤条件
-   * @param page 分页信息
+   * @param page   分页信息
    * @return 部门下的用户信息
    */
-  QueryResults<QuietUser> pageUser(Long deptId, QuietUser params, Pageable page);
+  PagedList<QuietUser> pageUser(Long deptId, QuietUser params, Pageable page);
 }

@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.system.controller;
 
+import com.blazebit.persistence.PagedList;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietDeptConvert;
 import com.gitee.quiet.system.convert.QuietUserConvert;
@@ -30,7 +31,6 @@ import com.gitee.quiet.system.vo.QuietUserVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.Update;
-import com.querydsl.core.QueryResults;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -87,10 +87,9 @@ public class QuietDeptController {
    * @return 查询的部门的用户信息
    */
   @GetMapping("/page-user")
-  public Result<QueryResults<QuietUserVO>> pageUser(QuietDeptDTO dto) {
-    QueryResults<QuietUser> userQueryResults =
-        deptService.pageUser(dto.getId(), dto.getParams(), dto.page());
-    return Result.success(userConvert.results2results(userQueryResults));
+  public Result<Page<QuietUserVO>> pageUser(QuietDeptDTO dto) {
+    PagedList<QuietUser> pagedList = deptService.pageUser(dto.getId(), dto.getParams(), dto.page());
+    return Result.success(userConvert.pageList2page(pagedList, dto.page()));
   }
 
   /**

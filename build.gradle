@@ -34,6 +34,7 @@ buildscript {
                 'hibernateTypes52'                 : '2.12.1',
                 'okhttp'                           : '4.9.2',
                 'dubbo'                            : '3.0.5',
+                'blazePersistence'                 : '1.6.7',
         ]
 
         deps = [
@@ -59,7 +60,11 @@ buildscript {
                 'okhttp'                           : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
                 'dubboSpringBootStarter'           : "org.apache.dubbo:dubbo-spring-boot-starter:${versions.dubbo}",
                 'dubboConfigcenterNacos'           : "org.apache.dubbo:dubbo-configcenter-nacos:${versions.dubbo}",
-                'dubboRegistryNacos'               : "org.apache.dubbo:dubbo-registry-nacos:${versions.dubbo}"
+                'dubboRegistryNacos'               : "org.apache.dubbo:dubbo-registry-nacos:${versions.dubbo}",
+                'blazePersistenceCoreApi'          : "com.blazebit:blaze-persistence-core-api:${versions.blazePersistence}",
+                'blazePersistenceCoreImpl'         : "com.blazebit:blaze-persistence-core-impl:${versions.blazePersistence}",
+                'blazePersistenceQueryDsl'         : "com.blazebit:blaze-persistence-integration-querydsl-expressions:${versions.blazePersistence}",
+                'blazePersistenceHibernate'        : "com.blazebit:blaze-persistence-integration-hibernate-5.6:${versions.blazePersistence}",
         ]
 
         springBootDeps = [

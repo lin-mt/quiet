@@ -17,6 +17,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
+import com.blazebit.persistence.CriteriaBuilderFactory;
+import com.blazebit.persistence.PagedList;
+import com.blazebit.persistence.querydsl.BlazeJPAQuery;
 import com.gitee.quiet.jpa.utils.EntityUtils;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
@@ -26,13 +29,12 @@ import com.gitee.quiet.system.repository.QuietDeptRepository;
 import com.gitee.quiet.system.service.QuietDeptService;
 import com.gitee.quiet.system.service.QuietDeptUserService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -47,19 +49,21 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 @Service
 public class QuietDeptServiceImpl implements QuietDeptService {
 
-  private final JPAQueryFactory jpaQueryFactory;
-
   private final QuietDeptRepository deptRepository;
 
   private final QuietDeptUserService deptUserService;
+  private final CriteriaBuilderFactory criteriaBuilderFactory;
+  private final EntityManager entityManager;
 
   public QuietDeptServiceImpl(
-      JPAQueryFactory jpaQueryFactory,
       QuietDeptRepository deptRepository,
-      QuietDeptUserService deptUserService) {
-    this.jpaQueryFactory = jpaQueryFactory;
+      QuietDeptUserService deptUserService,
+      CriteriaBuilderFactory criteriaBuilderFactory,
+      EntityManager entityManager) {
     this.deptRepository = deptRepository;
     this.deptUserService = deptUserService;
+    this.criteriaBuilderFactory = criteriaBuilderFactory;
+    this.entityManager = entityManager;
   }
 
   @Override
@@ -99,17 +103,17 @@ public class QuietDeptServiceImpl implements QuietDeptService {
   }
 
   @Override
-  public QueryResults<QuietUser> pageUser(
+  public PagedList<QuietUser> pageUser(
       @NotNull Long deptId, QuietUser params, @NotNull Pageable page) {
     BooleanBuilder builder = SelectBuilder.booleanBuilder(params).getPredicate();
     builder.and(quietDeptUser.deptId.eq(deptId));
-    return jpaQueryFactory
-        .selectFrom(quietUser)
+    return new BlazeJPAQuery<QuietUser>(entityManager, criteriaBuilderFactory)
+        .select(quietUser)
+        .from(quietUser)
         .leftJoin(quietDeptUser)
         .on(quietUser.id.eq(quietDeptUser.userId))
         .where(builder)
-        .offset(page.getOffset())
-        .limit(page.getPageSize())
-        .fetchResults();
+        .orderBy(quietUser.id.desc())
+        .fetchPage((int) page.getOffset(), page.getPageSize());
   }
 }
