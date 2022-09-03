@@ -15,31 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.jpa.entity;
 
-import com.gitee.quiet.common.core.entity.Parent;
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Min;
 
 /**
- * 带有父子关系且有优先级信息的实体.
+ * 具有排序字段的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO
-    implements Parent<T>, Serial {
+@MappedSuperclass
+public class SortableEntity extends BaseEntity implements Sortable {
 
   /** 序号 */
-  private int serialNumber;
-
-  /** 父级ID */
-  private Long parentId;
-
-  /** 子数据 */
-  private List<T> children;
+  @Min(0)
+  @Column(name = "sort_num", nullable = false)
+  private int sortNum = 0;
 }

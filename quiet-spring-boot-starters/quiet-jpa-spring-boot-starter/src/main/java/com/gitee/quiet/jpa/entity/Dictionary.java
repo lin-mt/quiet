@@ -39,7 +39,7 @@ import java.io.Serializable;
 @Setter
 @QueryEntity
 @MappedSuperclass
-public class Dictionary<T extends Dictionary<T>> extends ParentAndSerialEntity<T>
+public class Dictionary<T extends Dictionary<T>> extends ParentAndSortableEntity<T>
     implements Serializable {
 
   /** 数据字典类型 */

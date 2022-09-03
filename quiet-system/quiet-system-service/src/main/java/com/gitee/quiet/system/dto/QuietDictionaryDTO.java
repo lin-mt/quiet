@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.service.dto.ParentAndSerialDTO;
+import com.gitee.quiet.service.dto.ParentAndSortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -31,7 +31,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class QuietDictionaryDTO extends ParentAndSerialDTO<QuietDictionaryDTO> {
+public class QuietDictionaryDTO extends ParentAndSortableDTO<QuietDictionaryDTO> {
 
   /** 数据字典类型 */
   @Length(max = 30)

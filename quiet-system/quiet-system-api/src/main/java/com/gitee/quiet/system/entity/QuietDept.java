@@ -46,7 +46,7 @@ public class QuietDept extends ParentEntity<QuietDept> {
   /** 部门名称 */
   @NotBlank
   @Length(max = 10)
-  @Column(name = "depat_name", length = 10, nullable = false)
+  @Column(name = "dept_name", length = 10, nullable = false)
   private String deptName;
 
   /** 备注 */

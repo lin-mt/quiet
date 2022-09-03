@@ -15,20 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.vo;
+package com.gitee.quiet.service.dto;
 
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.common.core.entity.Parent;
+import com.gitee.quiet.common.core.entity.Sortable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
- * 可排序的VO.
+ * 带有父子关系且有优先级信息的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class SerialVO extends BaseVO implements Serial {
+public class ParentAndSortableDTO<T extends ParentAndSortableDTO<T>> extends BaseDTO
+    implements Parent<T>, Sortable {
 
-  private int serialNumber;
+  /** 序号 */
+  private int sortNum;
+
+  /** 父级ID */
+  private Long parentId;
+
+  /** 子数据 */
+  private List<T> children;
 }

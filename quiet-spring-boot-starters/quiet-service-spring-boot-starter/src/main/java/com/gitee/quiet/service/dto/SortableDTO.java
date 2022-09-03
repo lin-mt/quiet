@@ -15,15 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.jpa.entity;
+package com.gitee.quiet.service.dto;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.common.core.entity.Sortable;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Min;
 
 /**
@@ -33,11 +30,9 @@ import javax.validation.constraints.Min;
  */
 @Getter
 @Setter
-@MappedSuperclass
-public class SerialEntity extends BaseEntity implements Serial {
+public class SortableDTO extends BaseDTO implements Sortable {
 
   /** 序号 */
   @Min(0)
-  @Column(name = "serial_number", nullable = false)
-  private int serialNumber = 0;
+  private int sortNum;
 }
