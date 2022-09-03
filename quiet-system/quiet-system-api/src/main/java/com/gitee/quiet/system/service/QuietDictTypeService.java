@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
@@ -58,4 +59,12 @@ public interface QuietDictTypeService {
    * @return 数据字典类型
    */
   List<QuietDictType> listByEnabledAndName(boolean enabled, String name);
+
+  /**
+   * 根据ID集合批量查询数据字典类型
+   *
+   * @param ids ID集合
+   * @return 数据字典类型信息
+   */
+  List<QuietDictType> listByIds(Set<Long> ids);
 }

@@ -21,8 +21,10 @@ import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietDictConverter;
 import com.gitee.quiet.system.dto.QuietDictDTO;
 import com.gitee.quiet.system.entity.QuietDict;
+import com.gitee.quiet.system.entity.QuietDictType;
 import com.gitee.quiet.system.manager.QuietDictManager;
 import com.gitee.quiet.system.service.QuietDictService;
+import com.gitee.quiet.system.service.QuietDictTypeService;
 import com.gitee.quiet.system.vo.QuietDictVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
@@ -33,10 +35,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
@@ -51,6 +51,8 @@ public class QuietDictController {
   private final QuietDictManager dictManager;
 
   private final QuietDictConverter dictConverter;
+
+  private final QuietDictTypeService dictTypeService;
 
   /**
    * 根据数据字典类型查询数据字典.
@@ -71,7 +73,8 @@ public class QuietDictController {
           result.add(dictVO);
           continue;
         }
-        QuietDictVO parent = key2info.get(dictVO.getKey().substring(0, dictVO.getKey().length() - 2));
+        QuietDictVO parent =
+            key2info.get(dictVO.getKey().substring(0, dictVO.getKey().length() - 2));
         if (parent.getChildren() == null) {
           parent.setChildren(new ArrayList<>());
         }
@@ -89,7 +92,18 @@ public class QuietDictController {
   @GetMapping("/page")
   public Result<Page<QuietDictVO>> page(QuietDictDTO dto) {
     Page<QuietDict> dictPage = dictService.page(dictConverter.dto2entity(dto), dto.page());
-    return Result.success(dictConverter.page2page(dictPage));
+    Page<QuietDictVO> page = dictConverter.page2page(dictPage);
+    List<QuietDictVO> content = page.getContent();
+    if (CollectionUtils.isNotEmpty(content)) {
+      Set<Long> typeIds = content.stream().map(QuietDictVO::getTypeId).collect(Collectors.toSet());
+      Map<Long, QuietDictType> id2info =
+          dictTypeService.listByIds(typeIds).stream()
+              .collect(Collectors.toMap(QuietDictType::getId, t -> t));
+      for (QuietDictVO vo : content) {
+        vo.setTypeName(id2info.get(vo.getTypeId()).getName());
+      }
+    }
+    return Result.success(page);
   }
 
   /**

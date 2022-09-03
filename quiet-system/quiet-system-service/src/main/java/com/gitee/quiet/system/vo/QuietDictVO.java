@@ -33,8 +33,7 @@ import java.util.List;
 public class QuietDictVO extends SortableVO {
 
   /** 数据字典类型ID */
-  @NotNull
-  private Long typeId;
+  @NotNull private Long typeId;
 
   /** 字典key，格式为每层级占两位数字，第一层级范围：00-99，第二层级的前两位为第一层级的key， 所以第二层级范围为：0000-9999，后续层级以此类推 */
   @Length(max = 18)
@@ -45,12 +44,14 @@ public class QuietDictVO extends SortableVO {
   private String name;
 
   /** 是否启用 */
-  @NotNull
-  private Boolean enabled;
+  @NotNull private Boolean enabled;
 
   /** 备注 */
   @Length(max = 100)
   private String remark;
+
+  /** 类型名称 */
+  private String typeName;
 
   /** 子类型 */
   private List<QuietDictVO> children;

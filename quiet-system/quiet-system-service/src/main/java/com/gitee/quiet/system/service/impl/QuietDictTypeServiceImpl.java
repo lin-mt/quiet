@@ -26,11 +26,13 @@ import com.gitee.quiet.system.service.QuietDictTypeService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.gitee.quiet.system.entity.QQuietDictType.quietDictType;
 
@@ -77,5 +79,13 @@ public class QuietDictTypeServiceImpl implements QuietDictTypeService {
             .notBlankContains(name, quietDictType.name)
             .getPredicate();
     return jpaQueryFactory.selectFrom(quietDictType).where(where).fetch();
+  }
+
+  @Override
+  public List<QuietDictType> listByIds(Set<Long> ids) {
+    if (CollectionUtils.isEmpty(ids)) {
+      return List.of();
+    }
+    return repository.findAllById(ids);
   }
 }
