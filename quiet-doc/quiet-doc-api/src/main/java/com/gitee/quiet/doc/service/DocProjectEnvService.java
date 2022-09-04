@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.service;
 
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface DocProjectEnvironmentService {
+public interface DocProjectEnvService {
 
   /**
    * 根据项目ID查询项目所有的环境配置信息
@@ -34,7 +34,7 @@ public interface DocProjectEnvironmentService {
    * @param projectId 项目ID
    * @return 项目所有的环境配置信息
    */
-  List<DocProjectEnvironment> listByProjectId(Long projectId);
+  List<DocProjectEnv> listByProjectId(Long projectId);
 
   /**
    * 创建项目环境
@@ -42,7 +42,7 @@ public interface DocProjectEnvironmentService {
    * @param save 环境信息
    * @return 创建的环境信息
    */
-  DocProjectEnvironment save(DocProjectEnvironment save);
+  DocProjectEnv save(DocProjectEnv save);
 
   /**
    * 更新项目环境
@@ -50,7 +50,7 @@ public interface DocProjectEnvironmentService {
    * @param update 环境信息
    * @return 更新的环境信息
    */
-  DocProjectEnvironment update(DocProjectEnvironment update);
+  DocProjectEnv update(DocProjectEnv update);
 
   /**
    * 根据ID删除数据
@@ -65,5 +65,5 @@ public interface DocProjectEnvironmentService {
    * @param id 环境ID
    * @return 环境配置信息
    */
-  DocProjectEnvironment getById(Long id);
+  DocProjectEnv getById(Long id);
 }

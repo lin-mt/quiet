@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.repository;
 
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +29,7 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocProjectEnvironmentRepository extends QuietRepository<DocProjectEnvironment> {
+public interface DocProjectEnvRepository extends QuietRepository<DocProjectEnv> {
 
   /**
    * 根据项目ID查询所有数据
@@ -37,7 +37,7 @@ public interface DocProjectEnvironmentRepository extends QuietRepository<DocProj
    * @param projectId 项目ID
    * @return 项目ID的所有环境配置
    */
-  List<DocProjectEnvironment> findAllByProjectId(Long projectId);
+  List<DocProjectEnv> findAllByProjectId(Long projectId);
 
   /**
    * 根据项目ID和项目名称查询信息
@@ -46,5 +46,5 @@ public interface DocProjectEnvironmentRepository extends QuietRepository<DocProj
    * @param name 项目名称
    * @return 项目信息
    */
-  DocProjectEnvironment findByProjectIdAndName(Long projectId, String name);
+  DocProjectEnv findByProjectIdAndName(Long projectId, String name);
 }

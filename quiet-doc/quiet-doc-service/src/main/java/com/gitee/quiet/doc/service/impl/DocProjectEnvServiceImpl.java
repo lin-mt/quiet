@@ -17,9 +17,9 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-import com.gitee.quiet.doc.repository.DocProjectEnvironmentRepository;
-import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
+import com.gitee.quiet.doc.repository.DocProjectEnvRepository;
+import com.gitee.quiet.doc.service.DocProjectEnvService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,23 +33,23 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class DocProjectEnvironmentServiceImpl implements DocProjectEnvironmentService {
+public class DocProjectEnvServiceImpl implements DocProjectEnvService {
 
-  private final DocProjectEnvironmentRepository repository;
+  private final DocProjectEnvRepository repository;
 
   @Override
-  public List<DocProjectEnvironment> listByProjectId(Long projectId) {
+  public List<DocProjectEnv> listByProjectId(Long projectId) {
     return repository.findAllByProjectId(projectId);
   }
 
   @Override
-  public DocProjectEnvironment save(DocProjectEnvironment save) {
+  public DocProjectEnv save(DocProjectEnv save) {
     checkInfo(save);
     return repository.save(save);
   }
 
   @Override
-  public DocProjectEnvironment update(DocProjectEnvironment update) {
+  public DocProjectEnv update(DocProjectEnv update) {
     checkInfo(update);
     return repository.save(update);
   }
@@ -58,23 +58,23 @@ public class DocProjectEnvironmentServiceImpl implements DocProjectEnvironmentSe
   public void deleteById(Long id) {
     repository
         .findById(id)
-        .orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
+        .orElseThrow(() -> new ServiceException("projectEnv.id.not.exist", id));
     repository.deleteById(id);
   }
 
   @Override
-  public DocProjectEnvironment getById(Long id) {
+  public DocProjectEnv getById(Long id) {
     return repository
         .findById(id)
-        .orElseThrow(() -> new ServiceException("projectEnvironment.id.not.exist", id));
+        .orElseThrow(() -> new ServiceException("projectEnv.id.not.exist", id));
   }
 
-  private void checkInfo(DocProjectEnvironment entity) {
-    DocProjectEnvironment exist =
+  private void checkInfo(DocProjectEnv entity) {
+    DocProjectEnv exist =
         repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
     if (exist != null && !exist.getId().equals(entity.getId())) {
       throw new ServiceException(
-          "projectEnvironment.name.exist", entity.getProjectId().toString(), entity.getName());
+          "projectEnv.name.exist", entity.getProjectId().toString(), entity.getName());
     }
   }
 }

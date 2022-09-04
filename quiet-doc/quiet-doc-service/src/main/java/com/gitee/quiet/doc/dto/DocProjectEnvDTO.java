@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class DocProjectEnvironmentDTO extends BaseDTO {
+public class DocProjectEnvDTO extends BaseDTO {
 
   /** 环境名称 */
   @NotEmpty
