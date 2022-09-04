@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -32,7 +32,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class DocApiGroupDTO extends SerialDTO {
+public class DocApiGroupDTO extends SortableDTO {
 
   /** 分组名称 */
   @NotBlank

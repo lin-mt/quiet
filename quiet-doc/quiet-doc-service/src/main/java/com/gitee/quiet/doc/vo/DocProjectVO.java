@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.vo.SortableVO;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocProjectVO extends SerialVO {
+public class DocProjectVO extends SortableVO {
 
   /** 项目名称 */
   @NotBlank

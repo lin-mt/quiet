@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +43,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "doc_project")
-public class DocProject extends SerialEntity {
+public class DocProject extends SortableEntity {
 
   /** 访问者信息 */
   @Transient private final List<QuietUser> visitors = new ArrayList<>();

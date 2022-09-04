@@ -19,7 +19,7 @@ package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.vo.SortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocApiVO extends SerialVO {
+public class DocApiVO extends SortableVO {
 
   /** 接口名称 */
   @NotBlank

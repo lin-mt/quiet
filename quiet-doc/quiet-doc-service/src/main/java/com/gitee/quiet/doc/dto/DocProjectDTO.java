@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.service.dto.SortableDTO;
 import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +37,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocProjectDTO extends SerialDTO {
+public class DocProjectDTO extends SortableDTO {
 
   /** 项目名称 */
   @NotBlank

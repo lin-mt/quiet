@@ -19,7 +19,7 @@ package com.gitee.quiet.doc.dto;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocApiDTO extends SerialDTO {
+public class DocApiDTO extends SortableDTO {
 
   /** 接口名称 */
   @NotBlank

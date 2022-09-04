@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.vo.SortableVO;
 import com.gitee.quiet.service.vo.front.SelectVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class DocApiGroupVO extends SerialVO implements SelectVO<Long> {
+public class DocApiGroupVO extends SortableVO implements SelectVO<Long> {
 
   /** 分组名称 */
   @NotBlank

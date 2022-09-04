@@ -19,7 +19,7 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -42,7 +42,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "doc_api")
-public class DocApi extends SerialEntity {
+public class DocApi extends SortableEntity {
 
   /** 接口名称 */
   @NotBlank
