@@ -15,33 +15,40 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.jpa.entity;
 
-import com.gitee.quiet.service.dto.ParentDTO;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.common.core.entity.Parent;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 /**
- * 部门信息.
+ * 带有父子关系且有优先级信息的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class QuietDepartmentDTO extends ParentDTO<QuietDepartmentDTO> {
+@MappedSuperclass
+public class ParentAndSortableEntity<T extends ParentAndSortableEntity<T>> extends BaseEntity
+    implements Parent<T>, Sortable {
 
-  /** 部门名称 */
-  private String departmentName;
+  /** 序号 */
+  @Min(0)
+  @Column(name = "sort_num", nullable = false)
+  private int sortNum = 0;
 
-  /** 备注 */
-  private String remark;
+  /** 父级ID */
+  @Column(name = "parent_id")
+  private Long parentId;
 
-  /** 用户信息 */
-  private QuietUser params;
-
-  /** 用户ID集合 */
-  private Set<Long> userIds;
+  /** 子级信息 */
+  @Transient private List<T> children;
 }

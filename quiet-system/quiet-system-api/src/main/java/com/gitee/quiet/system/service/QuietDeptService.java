@@ -17,9 +17,9 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.system.entity.QuietDepartment;
+import com.blazebit.persistence.PagedList;
+import com.gitee.quiet.system.entity.QuietDept;
 import com.gitee.quiet.system.entity.QuietUser;
-import com.querydsl.core.QueryResults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuietDepartmentService {
+public interface QuietDeptService {
 
   /**
    * 分页查询部门数据
@@ -39,14 +39,14 @@ public interface QuietDepartmentService {
    * @param page 分页参数
    * @return 查询结果
    */
-  Page<QuietDepartment> page(QuietDepartment params, Pageable page);
+  Page<QuietDept> page(QuietDept params, Pageable page);
 
   /**
    * 保存或者更新部门数据
    *
-   * @param department 保存或者更新的部门ID
+   * @param dept 保存或者更新的部门ID
    */
-  QuietDepartment saveOrUpdate(QuietDepartment department);
+  QuietDept saveOrUpdate(QuietDept dept);
 
   /**
    * 删除部门数据
@@ -60,15 +60,15 @@ public interface QuietDepartmentService {
    *
    * @return 所有部门信息
    */
-  List<QuietDepartment> tree();
+  List<QuietDept> tree();
 
   /**
    * 分页查询部门下的用户信息
    *
-   * @param departmentId 部门ID
+   * @param deptId 部门ID
    * @param params 用户过滤条件
-   * @param page 分页信息
+   * @param page   分页信息
    * @return 部门下的用户信息
    */
-  QueryResults<QuietUser> pageUser(Long departmentId, QuietUser params, Pageable page);
+  PagedList<QuietUser> pageUser(Long deptId, QuietUser params, Pageable page);
 }

@@ -17,9 +17,9 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.system.entity.QuietDepartmentUser;
-import com.gitee.quiet.system.repository.QuietDepartmentUserRepository;
-import com.gitee.quiet.system.service.QuietDepartmentUserService;
+import com.gitee.quiet.system.entity.QuietDeptUser;
+import com.gitee.quiet.system.repository.QuietDeptUserRepository;
+import com.gitee.quiet.system.service.QuietDeptUserService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,44 +37,44 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
-public class QuietDepartmentUserServiceImpl implements QuietDepartmentUserService {
+public class QuietDeptUserServiceImpl implements QuietDeptUserService {
 
-  private final QuietDepartmentUserRepository departmentUserRepository;
+  private final QuietDeptUserRepository deptUserRepository;
 
-  public QuietDepartmentUserServiceImpl(QuietDepartmentUserRepository departmentUserRepository) {
-    this.departmentUserRepository = departmentUserRepository;
+  public QuietDeptUserServiceImpl(QuietDeptUserRepository deptUserRepository) {
+    this.deptUserRepository = deptUserRepository;
   }
 
   @Override
-  public List<QuietDepartmentUser> listAllByDepartmentId(@NotNull Long departmentId) {
-    return departmentUserRepository.findAllByDepartmentId(departmentId);
+  public List<QuietDeptUser> listAllByDeptId(@NotNull Long deptId) {
+    return deptUserRepository.findAllByDeptId(deptId);
   }
 
   @Override
   public void deleteByUserId(@NotNull Long userId) {
-    departmentUserRepository.deleteByUserId(userId);
+    deptUserRepository.deleteByUserId(userId);
   }
 
   @Override
-  public void addUsers(@NotNull Long departmentId, @NotNull Set<Long> userIds) {
-    List<QuietDepartmentUser> departmentUsers = this.listAllByDepartmentId(departmentId);
-    if (CollectionUtils.isNotEmpty(departmentUsers)) {
+  public void addUsers(@NotNull Long deptId, @NotNull Set<Long> userIds) {
+    List<QuietDeptUser> deptUsers = this.listAllByDeptId(deptId);
+    if (CollectionUtils.isNotEmpty(deptUsers)) {
       Set<Long> existUserIds =
-          departmentUsers.stream().map(QuietDepartmentUser::getUserId).collect(Collectors.toSet());
+          deptUsers.stream().map(QuietDeptUser::getUserId).collect(Collectors.toSet());
       userIds.removeAll(existUserIds);
     }
     if (CollectionUtils.isNotEmpty(userIds)) {
-      List<QuietDepartmentUser> newUserInfo = new ArrayList<>(userIds.size());
+      List<QuietDeptUser> newUserInfo = new ArrayList<>(userIds.size());
       for (Long userId : userIds) {
-        newUserInfo.add(new QuietDepartmentUser(departmentId, userId));
+        newUserInfo.add(new QuietDeptUser(deptId, userId));
       }
-      departmentUserRepository.saveAll(newUserInfo);
+      deptUserRepository.saveAll(newUserInfo);
     }
   }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public void removeUsers(@NotNull Long departmentId, @NotNull @NotEmpty Set<Long> userIds) {
-    departmentUserRepository.deleteAllByDepartmentIdAndUserIdIsIn(departmentId, userIds);
+  public void removeUsers(@NotNull Long deptId, @NotNull @NotEmpty Set<Long> userIds) {
+    deptUserRepository.deleteAllByDeptIdAndUserIdIsIn(deptId, userIds);
   }
 }

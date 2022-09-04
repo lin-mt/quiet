@@ -15,20 +15,42 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.vo;
+package com.gitee.quiet.system.vo;
 
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.service.vo.ParentVO;
+import com.gitee.quiet.service.vo.front.TreeSelectVO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * 可排序的VO.
+ * 部门信息 Vo.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class SerialVO extends BaseVO implements Serial {
+public class QuietDeptVO extends ParentVO<QuietDeptVO>
+    implements TreeSelectVO<Long, QuietDeptVO> {
 
-  private int serialNumber;
+  /** 部门名称 */
+  @NotBlank
+  @Length(max = 10)
+  private String deptName;
+
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
+
+  @Override
+  public String getTitle() {
+    return getDeptName();
+  }
+
+  @Override
+  public Long getValue() {
+    return getId();
+  }
 }

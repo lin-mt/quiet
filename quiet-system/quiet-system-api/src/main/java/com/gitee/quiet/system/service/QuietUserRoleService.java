@@ -21,6 +21,7 @@ import com.gitee.quiet.system.entity.QuietUserRole;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户-角色 Service.
@@ -81,4 +82,12 @@ public interface QuietUserRoleService {
    * @param userRoles 要新增的数据
    */
   List<QuietUserRole> addRoles(List<QuietUserRole> userRoles);
+
+  /**
+   * 更新用户拥有的角色信息
+   *
+   * @param userId 用户ID
+   * @param roleIds 用户拥有的所有角色信息
+   */
+  void updateRoles(Long userId, Set<Long> roleIds);
 }

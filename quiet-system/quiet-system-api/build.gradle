@@ -18,6 +18,7 @@ dependencies {
     api project(path: ":quiet-spring-boot-starters:quiet-service-spring-boot-starter", configuration: "default")
 
     compileOnly deps.lombok
+    compileOnly deps.blazePersistenceQueryDsl
 
     annotationProcessor deps.lombok
     annotationProcessor deps.queryDslApt

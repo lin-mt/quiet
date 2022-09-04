@@ -15,42 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.vo;
+package com.gitee.quiet.service.dto;
 
-import com.gitee.quiet.service.vo.ParentVO;
-import com.gitee.quiet.service.vo.front.TreeSelectVO;
+import com.gitee.quiet.common.core.entity.Sortable;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
 
 /**
- * 部门信息 Vo.
+ * 具有排序字段的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class QuietDepartmentVO extends ParentVO<QuietDepartmentVO>
-    implements TreeSelectVO<Long, QuietDepartmentVO> {
+public class SortableDTO extends BaseDTO implements Sortable {
 
-  /** 部门名称 */
-  @NotBlank
-  @Length(max = 10)
-  private String departmentName;
-
-  /** 备注 */
-  @Length(max = 100)
-  private String remark;
-
-  @Override
-  public String getTitle() {
-    return getDepartmentName();
-  }
-
-  @Override
-  public Long getValue() {
-    return getId();
-  }
+  /** 序号 */
+  @Min(0)
+  private int sortNum;
 }

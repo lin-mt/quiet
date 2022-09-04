@@ -15,39 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.entity;
+package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.jpa.entity.base.BaseEntity;
-import lombok.AllArgsConstructor;
+import com.gitee.quiet.service.dto.ParentDTO;
+import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
- * 部门成员信息.
+ * 部门信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "quiet_department_user")
-public class QuietDepartmentUser extends BaseEntity {
+public class QuietDeptDTO extends ParentDTO<QuietDeptDTO> {
 
-  /** 部门ID */
-  @NotNull
-  @Column(name = "department_id", nullable = false)
-  private Long departmentId;
+  /** 部门名称 */
+  private String deptName;
 
-  /** 用户ID */
-  @NotNull
-  @Column(name = "user_id", nullable = false)
-  private Long userId;
+  /** 备注 */
+  private String remark;
+
+  /** 用户信息 */
+  private QuietUser params;
+
+  /** 用户ID集合 */
+  private Set<Long> userIds;
 }

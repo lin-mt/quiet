@@ -15,24 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.system.convert;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.Min;
+import com.gitee.quiet.service.dto.QuietConvert;
+import com.gitee.quiet.system.dto.QuietDeptDTO;
+import com.gitee.quiet.system.entity.QuietDept;
+import com.gitee.quiet.system.vo.QuietDeptVO;
+import org.mapstruct.Mapper;
 
 /**
- * 具有排序字段的实体.
+ * 部门实体信息转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class SerialDTO extends BaseDTO implements Serial {
-
-  /** 序号 */
-  @Min(0)
-  private int serialNumber;
-}
+@Mapper
+public interface QuietDeptConvert
+    extends QuietConvert<QuietDept, QuietDeptDTO, QuietDeptVO> {}

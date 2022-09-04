@@ -15,19 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.service.dto;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietDepartmentDTO;
-import com.gitee.quiet.system.entity.QuietDepartment;
-import com.gitee.quiet.system.vo.QuietDepartmentVO;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.common.core.entity.Parent;
+import com.gitee.quiet.common.core.entity.Sortable;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 /**
- * 部门实体信息转换.
+ * 带有父子关系且有优先级信息的实体.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface QuietDepartmentConvert
-    extends QuietConvert<QuietDepartment, QuietDepartmentDTO, QuietDepartmentVO> {}
+@Getter
+@Setter
+public class ParentAndSortableDTO<T extends ParentAndSortableDTO<T>> extends BaseDTO
+    implements Parent<T>, Sortable {
+
+  /** 序号 */
+  private int sortNum;
+
+  /** 父级ID */
+  private Long parentId;
+
+  /** 子数据 */
+  private List<T> children;
+}

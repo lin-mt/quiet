@@ -15,40 +15,39 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.jpa.entity;
+package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.common.core.entity.Parent;
-import com.gitee.quiet.common.core.entity.Serial;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
-import javax.validation.constraints.Min;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
- * 带有父子关系且有优先级信息的实体.
+ * 部门成员信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-@MappedSuperclass
-public class ParentAndSerialEntity<T extends ParentAndSerialEntity<T>> extends BaseEntity
-    implements Parent<T>, Serial {
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "quiet_dept_user")
+public class QuietDeptUser extends BaseEntity {
 
-  /** 序号 */
-  @Min(0)
-  @Column(name = "serial_number", nullable = false)
-  private int serialNumber = 0;
+  /** 部门ID */
+  @NotNull
+  @Column(name = "dept_id", nullable = false)
+  private Long deptId;
 
-  /** 父级ID */
-  @Column(name = "parent_id")
-  private Long parentId;
-
-  /** 子级信息 */
-  @Transient private List<T> children;
+  /** 用户ID */
+  @NotNull
+  @Column(name = "user_id", nullable = false)
+  private Long userId;
 }

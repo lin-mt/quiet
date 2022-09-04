@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.jpa.entity;
 
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.common.core.entity.Sortable;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,10 +34,10 @@ import javax.validation.constraints.Min;
 @Getter
 @Setter
 @MappedSuperclass
-public class SerialEntity extends BaseEntity implements Serial {
+public class SortableEntity extends BaseEntity implements Sortable {
 
   /** 序号 */
   @Min(0)
-  @Column(name = "serial_number", nullable = false)
-  private int serialNumber = 0;
+  @Column(name = "sort_num", nullable = false)
+  private int sortNum = 0;
 }

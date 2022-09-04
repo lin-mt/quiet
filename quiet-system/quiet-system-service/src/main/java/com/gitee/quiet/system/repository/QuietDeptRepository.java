@@ -15,31 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.dto;
+package com.gitee.quiet.system.repository;
 
-import com.gitee.quiet.common.core.entity.Parent;
-import com.gitee.quiet.common.core.entity.Serial;
-import lombok.Getter;
-import lombok.Setter;
+import com.gitee.quiet.jpa.repository.QuietRepository;
+import com.gitee.quiet.system.entity.QuietDept;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * 带有父子关系且有优先级信息的实体.
+ * 部门Repository.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class ParentAndSerialDTO<T extends ParentAndSerialDTO<T>> extends BaseDTO
-    implements Parent<T>, Serial {
+@Repository
+public interface QuietDeptRepository extends QuietRepository<QuietDept> {
 
-  /** 序号 */
-  private int serialNumber;
+  /**
+   * 根据部门名称查询部门信息
+   *
+   * @param deptName 部门名称
+   * @return 部门信息
+   */
+  QuietDept getByDeptName(String deptName);
 
-  /** 父级ID */
-  private Long parentId;
-
-  /** 子数据 */
-  private List<T> children;
+  /**
+   * 根据部门 ID 查询子部门信息
+   *
+   * @param parentId 父级部门ID
+   * @return 所有子部门信息
+   */
+  List<QuietDept> findAllByParentId(Long parentId);
 }

@@ -15,44 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.dto;
+package com.gitee.quiet.service.vo;
 
-import com.gitee.quiet.service.dto.BaseDTO;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.common.core.entity.Sortable;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
- * 团队.
+ * 可排序的VO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class QuietTeamDTO extends BaseDTO {
+public class SortableVO extends BaseVO implements Sortable {
 
-  /** 团队名称 */
-  @NotBlank
-  @Length(max = 8)
-  private String teamName;
-
-  /** 团队成员ID */
-  private Long teamUserId;
-
-  /** 标语 */
-  @Length(max = 60)
-  private String slogan;
-
-  /** 团队PO */
-  private List<QuietUser> productOwners;
-
-  /** 团队SM */
-  private List<QuietUser> scrumMasters;
-
-  /** 团队成员 */
-  private List<QuietUser> members;
+  private int sortNum;
 }
