@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.system.vo;
 
-import com.gitee.quiet.service.vo.ParentAndSerialVO;
+import com.gitee.quiet.service.vo.ParentAndSortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -31,7 +31,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class QuietDictionaryVO extends ParentAndSerialVO<QuietDictionaryVO> {
+public class QuietDictionaryVO extends ParentAndSortableVO<QuietDictionaryVO> {
 
   /** 数据字典类型 */
   @Length(max = 30)
