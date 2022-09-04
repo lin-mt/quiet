@@ -4,6 +4,7 @@
 
 1. 使用 Google style 格式化代码
 2. 重新设计代码结构，解决循环依赖问题
+3. 使用Spring Authorization Server鉴权
 
 ## 编码规约
 
