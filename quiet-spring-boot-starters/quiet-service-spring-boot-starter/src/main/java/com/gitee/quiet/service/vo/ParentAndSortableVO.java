@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ParentAndSerialVO<T> extends BaseVO {
+public class ParentAndSortableVO<T> extends BaseVO {
 
   private int serialNumber;
 
