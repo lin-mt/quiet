@@ -41,7 +41,15 @@ public interface DocProjectRepository extends QuietRepository<DocProject> {
    */
   @Query(
       value =
-          "select * from doc_project where principal = :userId or find_in_set(visitor_id, :userId)",
+          "select * from doc_project where principal = :userId or find_in_set(member_id, :userId)",
       nativeQuery = true)
   List<DocProject> listAllByUserId(@Param("userId") Long userId);
+
+  /**
+   * 根据分组ID查询所有项目信息
+   *
+   * @param groupId 项目分组ID
+   * @return 在该分组下的所有项目信息
+   */
+  List<DocProject> findAllByGroupId(Long groupId);
 }

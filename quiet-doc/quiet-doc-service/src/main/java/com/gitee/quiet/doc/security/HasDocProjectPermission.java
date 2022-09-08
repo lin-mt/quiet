@@ -51,7 +51,7 @@ public class HasDocProjectPermission {
     }
     Long currentUserId = CurrentUserUtil.getId();
     DocProject docProject = getById(projectId);
-    if (docProject.getVisitorIds().contains(currentUserId)) {
+    if (docProject.getMemberIds().contains(currentUserId)) {
       return true;
     }
     return currentUserId.equals(docProject.getPrincipal());

@@ -94,6 +94,17 @@ public class DocProjectController {
   }
 
   /**
+   * 根据项目分组ID获取项目信息
+   *
+   * @param groupId 项目分组ID，小于等于0则查询创建人为当前登录人，且未分组的项目
+   * @return 项目信息
+   */
+  @GetMapping("/project-group/{groupId}")
+  public Result<List<DocProject>> projectGroup(@PathVariable Long groupId) {
+    return Result.success(projectService.listAllByGroupId(groupId));
+  }
+
+  /**
    * 根据项目ID查询项目信息
    *
    * @param id 项目ID
@@ -113,7 +124,7 @@ public class DocProjectController {
    */
   @PostMapping
   public Result<DocProjectVO> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
-    DocProject save = projectService.save(projectConvert.dto2entity(dto));
+    DocProject save = projectService.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.createSuccess(projectConvert.entity2vo(save));
   }
 
@@ -125,7 +136,7 @@ public class DocProjectController {
    */
   @PutMapping
   public Result<DocProjectVO> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
-    DocProject update = projectService.update(projectConvert.dto2entity(dto));
+    DocProject update = projectService.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.updateSuccess(projectConvert.entity2vo(update));
   }
 

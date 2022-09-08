@@ -54,6 +54,10 @@ public class DocProject extends SortableEntity {
   @Column(name = "project_name", nullable = false, length = 30)
   private String name;
 
+  /** 分组ID */
+  @Column(name = "group_id")
+  private Long groupId;
+
   /** 接口基本路径 */
   @Length(max = 30)
   @Column(name = "base_path", length = 30)
@@ -64,10 +68,10 @@ public class DocProject extends SortableEntity {
   @Column(name = "principal", nullable = false)
   private Long principal;
 
-  /** 访问者用户ID */
+  /** 成员用户ID */
   @Size(max = 30)
-  @Column(name = "visitor_id", length = 570)
-  private Set<Long> visitorIds;
+  @Column(name = "member_id", length = 570)
+  private Set<Long> memberIds;
 
   /** 备注 */
   @Length(max = 100)

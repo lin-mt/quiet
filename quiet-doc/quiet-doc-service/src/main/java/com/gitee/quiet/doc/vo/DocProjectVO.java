@@ -47,12 +47,15 @@ public class DocProjectVO extends SortableVO {
   @Length(max = 30)
   private String basePath;
 
+  /** 分组ID */
+  private Long groupId;
+
   /** 项目文档负责人 */
   @NotNull private Long principal;
 
-  /** 访问者用户ID */
+  /** 成员用户ID */
   @Size(max = 30)
-  private Set<Long> visitorIds;
+  private Set<Long> memberIds;
 
   /** 备注 */
   @Length(max = 100)

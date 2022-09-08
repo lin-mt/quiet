@@ -22,9 +22,13 @@ import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.MyDocProject;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.google.common.collect.Sets;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
@@ -32,11 +36,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.gitee.quiet.doc.entity.QDocProject.docProject;
 
 /**
  * Project Service 实现类.
@@ -49,7 +56,9 @@ public class DocProjectServiceImpl implements DocProjectService {
 
   public static final String CACHE_NAME = "quiet:doc:project:info";
 
-  public final DocProjectRepository projectRepository;
+  private final DocProjectRepository projectRepository;
+
+  private final JPAQueryFactory jpaQueryFactory;
 
   private final UserDubboService userDubboService;
 
@@ -63,7 +72,7 @@ public class DocProjectServiceImpl implements DocProjectService {
     docProjects.forEach(
         docProject -> {
           userIds.add(docProject.getPrincipal());
-          userIds.addAll(docProject.getVisitorIds());
+          userIds.addAll(docProject.getMemberIds());
           if (docProject.getPrincipal().equals(userId)) {
             responsibleProjects.add(docProject);
           } else {
@@ -76,8 +85,8 @@ public class DocProjectServiceImpl implements DocProjectService {
     docProjects.forEach(
         docProject -> {
           docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
-          if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
-            for (Long visitorId : docProject.getVisitorIds()) {
+          if (CollectionUtils.isNotEmpty(docProject.getMemberIds())) {
+            for (Long visitorId : docProject.getMemberIds()) {
               docProject.getVisitors().add(userIdToInfo.get(visitorId));
             }
           }
@@ -88,17 +97,23 @@ public class DocProjectServiceImpl implements DocProjectService {
   }
 
   @Override
-  public DocProject save(DocProject save) {
-    checkInfo(save);
-    return projectRepository.save(save);
-  }
-
-  @Override
-  @PreAuthorize("@HasDocProjectPermission.edit(#update.id)")
-  @CacheEvict(cacheNames = CACHE_NAME, key = "#update.id")
-  public DocProject update(DocProject update) {
-    checkInfo(update);
-    return projectRepository.saveAndFlush(update);
+  @PreAuthorize("@HasDocProjectPermission.edit(#entity.id)")
+  @CacheEvict(cacheNames = CACHE_NAME, key = "#entity.id", condition = "#entity.id != null")
+  public DocProject saveOrUpdate(@NotNull DocProject entity) {
+    Long groupId = entity.getGroupId();
+    SelectBooleanBuilder builder =
+        SelectBooleanBuilder.booleanBuilder().and(docProject.name.eq(entity.getName()));
+    if (groupId == null || groupId <= 0) {
+      builder.and(docProject.creator.eq(CurrentUserUtil.getId())).and(docProject.groupId.isNull());
+    } else {
+      builder.and(docProject.groupId.eq(groupId));
+    }
+    DocProject exist =
+        jpaQueryFactory.selectFrom(docProject).where(builder.getPredicate()).fetchOne();
+    if (exist != null && !exist.getId().equals(entity.getId())) {
+      throw new ServiceException("project.projectGroup.projectName.exist", entity.getName());
+    }
+    return projectRepository.saveAndFlush(entity);
   }
 
   @Override
@@ -119,30 +134,30 @@ public class DocProjectServiceImpl implements DocProjectService {
         projectRepository
             .findById(id)
             .orElseThrow(() -> new ServiceException("project.id.not.exist", id));
-    Set<Long> userIds = Sets.newHashSet(docProject.getVisitorIds());
+    Set<Long> userIds = Sets.newHashSet(docProject.getMemberIds());
     userIds.add(docProject.getPrincipal());
     Map<Long, QuietUser> userIdToInfo =
         userDubboService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
     docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
-    if (CollectionUtils.isNotEmpty(docProject.getVisitorIds())) {
-      for (Long visitorId : docProject.getVisitorIds()) {
+    if (CollectionUtils.isNotEmpty(docProject.getMemberIds())) {
+      for (Long visitorId : docProject.getMemberIds()) {
         docProject.getVisitors().add(userIdToInfo.get(visitorId));
       }
     }
     return docProject;
   }
 
-  private void checkInfo(DocProject docProject) {
-    MyDocProject myDocProject = this.getProjectByUserId(docProject.getPrincipal());
-    myDocProject.getResponsibleProjects().forEach(temp -> checkProjectName(docProject, temp));
-    myDocProject.getAccessibleProjects().forEach(temp -> checkProjectName(docProject, temp));
-  }
-
-  private void checkProjectName(DocProject docProject, DocProject existProject) {
-    if (!existProject.getId().equals(docProject.getId())
-        && docProject.getName().equals(existProject.getName())) {
-      throw new ServiceException("project.name.exist", existProject.getName());
+  @Override
+  public List<DocProject> listAllByGroupId(Long groupId) {
+    if (groupId == null || groupId <= 0) {
+      BooleanBuilder where =
+          SelectBooleanBuilder.booleanBuilder()
+              .and(docProject.creator.eq(CurrentUserUtil.getId()))
+              .and(docProject.groupId.isNull())
+              .getPredicate();
+      return jpaQueryFactory.selectFrom(docProject).where(where).fetch();
     }
+    return projectRepository.findAllByGroupId(groupId);
   }
 }

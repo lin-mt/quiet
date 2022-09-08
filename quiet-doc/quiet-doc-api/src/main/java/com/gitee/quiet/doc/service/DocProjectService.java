@@ -20,6 +20,9 @@ package com.gitee.quiet.doc.service;
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.vo.MyDocProject;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 /**
  * Project Service.
  *
@@ -36,20 +39,12 @@ public interface DocProjectService {
   MyDocProject getProjectByUserId(Long userId);
 
   /**
-   * 新建文档项目
+   * 新增/更新文档项目
    *
-   * @param save 新增的文档信息
-   * @return 新增的文档信息
+   * @param entity 新增/更新的文档信息
+   * @return 新增/更新后的文档信息
    */
-  DocProject save(DocProject save);
-
-  /**
-   * 更新文档项目
-   *
-   * @param update 更新的文档信息
-   * @return 更新后的文档信息
-   */
-  DocProject update(DocProject update);
+  DocProject saveOrUpdate(@NotNull DocProject entity);
 
   /**
    * 根据ID删除文档项目
@@ -65,4 +60,12 @@ public interface DocProjectService {
    * @return 文档项目信息
    */
   DocProject getById(Long id);
+
+  /**
+   * 根据项目分组ID获取项目信息
+   *
+   * @param groupId 项目分组ID，小于等于0则查询创建人为当前登录人，且未分组的项目
+   * @return 项目信息
+   */
+  List<DocProject> listAllByGroupId(Long groupId);
 }
