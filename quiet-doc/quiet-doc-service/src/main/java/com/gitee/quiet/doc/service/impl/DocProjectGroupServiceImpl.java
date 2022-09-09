@@ -18,10 +18,14 @@
 package com.gitee.quiet.doc.service.impl;
 
 import com.gitee.quiet.doc.entity.DocProjectGroup;
+import com.gitee.quiet.doc.entity.DocProjectGroupMember;
+import com.gitee.quiet.doc.enums.Permission;
+import com.gitee.quiet.doc.repository.DocProjectGroupMemberRepository;
 import com.gitee.quiet.doc.repository.DocProjectGroupRepository;
 import com.gitee.quiet.doc.service.DocProjectGroupService;
 import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
@@ -40,16 +44,25 @@ import static com.gitee.quiet.doc.entity.QDocProjectGroup.docProjectGroup;
 public class DocProjectGroupServiceImpl implements DocProjectGroupService {
 
   private final DocProjectGroupRepository repository;
-
+  private final DocProjectGroupMemberRepository projectGroupMemberRepository;
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public DocProjectGroup saveOrUpdate(DocProjectGroup entity) {
-    DocProjectGroup projectGroup = repository.findByName(entity.getName());
-    if (projectGroup != null && !projectGroup.getId().equals(entity.getId())) {
+    DocProjectGroup exist = repository.findByName(entity.getName());
+    if (exist != null && !exist.getId().equals(entity.getId())) {
       throw new ServiceException("projectGroup.name.exist", entity.getName());
     }
-    return repository.saveAndFlush(entity);
+    DocProjectGroup projectGroup = repository.saveAndFlush(entity);
+    if (entity.getId() == null) {
+      // 新建项目组，新增当前创建人为组长
+      DocProjectGroupMember projectGroupMember = new DocProjectGroupMember();
+      projectGroupMember.setGroupId(projectGroup.getId());
+      projectGroupMember.setUserId(CurrentUserUtil.getId());
+      projectGroupMember.setPermission(Permission.GROUP_LEADER);
+      projectGroupMemberRepository.saveAndFlush(projectGroupMember);
+    }
+    return projectGroup;
   }
 
   @Override

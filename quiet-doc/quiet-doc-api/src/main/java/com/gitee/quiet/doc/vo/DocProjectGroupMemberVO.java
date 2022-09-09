@@ -39,6 +39,12 @@ public class DocProjectGroupMemberVO extends BaseVO {
   /** 用户ID */
   @NotNull private Long userId;
 
+  /** 用户名 */
+  private String username;
+
+  /** 用户头像 */
+  private String avatar;
+
   /** 权限 */
   @NotNull private Permission permission;
 }

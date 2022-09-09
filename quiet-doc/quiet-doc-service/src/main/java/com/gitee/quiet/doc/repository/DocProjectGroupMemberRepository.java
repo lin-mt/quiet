@@ -18,11 +18,41 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProjectGroupMember;
+import com.gitee.quiet.doc.enums.Permission;
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Repository
-public interface DocProjectGroupMemberRepository extends QuietRepository<DocProjectGroupMember> {}
+public interface DocProjectGroupMemberRepository extends QuietRepository<DocProjectGroupMember> {
+
+  /**
+   * 根据项目分组ID查询成员信息
+   *
+   * @param groupId 分组ID
+   * @return 成员信息
+   */
+  List<DocProjectGroupMember> findAllByGroupId(Long groupId);
+
+  /**
+   * 根据分组ID和用户ID查询信息
+   *
+   * @param groupId 分组ID
+   * @param userId 用户ID
+   * @return 分组成员信息
+   */
+  DocProjectGroupMember findByGroupIdAndUserId(Long groupId, Long userId);
+
+  /**
+   * 统计项目组中权限人数
+   *
+   * @param groupId 项目组ID
+   * @param permission 权限
+   * @return 拥有该权限的人数
+   */
+  long countByGroupIdAndPermission(Long groupId, Permission permission);
+}

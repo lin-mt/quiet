@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.service.impl;
 
-import com.gitee.quiet.doc.dubbo.UserDubboService;
+import com.gitee.quiet.doc.dubbo.DubboUserService;
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocProjectService;
@@ -60,7 +60,7 @@ public class DocProjectServiceImpl implements DocProjectService {
 
   private final JPAQueryFactory jpaQueryFactory;
 
-  private final UserDubboService userDubboService;
+  private final DubboUserService dubboUserService;
 
   @Override
   public MyDocProject getProjectByUserId(Long userId) {
@@ -80,7 +80,7 @@ public class DocProjectServiceImpl implements DocProjectService {
           }
         });
     Map<Long, QuietUser> userIdToInfo =
-        userDubboService.findByUserIds(userIds).stream()
+        dubboUserService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
     docProjects.forEach(
         docProject -> {
@@ -137,7 +137,7 @@ public class DocProjectServiceImpl implements DocProjectService {
     Set<Long> userIds = Sets.newHashSet(docProject.getMemberIds());
     userIds.add(docProject.getPrincipal());
     Map<Long, QuietUser> userIdToInfo =
-        userDubboService.findByUserIds(userIds).stream()
+        dubboUserService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
     docProject.setPrincipalName(userIdToInfo.get(docProject.getPrincipal()).getFullName());
     if (CollectionUtils.isNotEmpty(docProject.getMemberIds())) {

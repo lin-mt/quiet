@@ -21,7 +21,7 @@ import com.gitee.quiet.doc.converter.DocApiConvert;
 import com.gitee.quiet.doc.converter.DocApiGroupConvert;
 import com.gitee.quiet.doc.converter.DocApiInfoConvert;
 import com.gitee.quiet.doc.dto.DocApiDTO;
-import com.gitee.quiet.doc.dubbo.UserDubboService;
+import com.gitee.quiet.doc.dubbo.DubboUserService;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocApiInfo;
@@ -71,7 +71,7 @@ public class DocApiController {
 
   private final DocApiGroupConvert apiGroupConvert;
 
-  private final UserDubboService userDubboService;
+  private final DubboUserService dubboUserService;
 
   /**
    * 查询接口详细信息
@@ -93,7 +93,7 @@ public class DocApiController {
     userIds.add(docApi.getCreator());
     userIds.add(docApi.getUpdater());
     Map<Long, QuietUser> userId2Info =
-        userDubboService.findByUserIds(userIds).stream()
+        dubboUserService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
     if (userId2Info.get(docApi.getCreator()) != null) {
       docApi.setCreatorFullName(userId2Info.get(docApi.getCreator()).getFullName());
@@ -173,7 +173,7 @@ public class DocApiController {
     if (MapUtils.isNotEmpty(key2newInfo)) {
       Set<String> authors =
           key2newInfo.values().stream().map(DocApiDTO::getAuthor).collect(Collectors.toSet());
-      List<QuietUser> usernames = userDubboService.findByUsernames(authors);
+      List<QuietUser> usernames = dubboUserService.findByUsernames(authors);
       Map<String, Long> username2Id =
           usernames.stream().collect(Collectors.toMap(QuietUser::getUsername, QuietUser::getId));
       key2newInfo.forEach(
