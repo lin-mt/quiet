@@ -57,14 +57,12 @@ public class QuietDictionary extends Dictionary<QuietDictionary> {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietDictionary.id)
+        .isIdEq(getId(), quietDictionary.id)
         .notBlankContains(getType(), quietDictionary.type)
         .notBlankContains(getKey(), quietDictionary.key)
         .notBlankContains(getRemark(), quietDictionary.remark)
-        .notNullEq(getParentId(), quietDictionary.parentId)
+        .isIdEq(getParentId(), quietDictionary.parentId)
         .getPredicate();
-    // @formatter:on
   }
 }

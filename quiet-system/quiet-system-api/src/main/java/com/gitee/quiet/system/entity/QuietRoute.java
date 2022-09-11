@@ -83,14 +83,12 @@ public class QuietRoute extends BaseEntity {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
         .notBlankContains(getRouteId(), quietRoute.routeId)
         .notNullEq(getEnvironment(), quietRoute.environment)
         .notBlankContains(getUri(), quietRoute.uri)
         .notBlankContains(getRemark(), quietRoute.remark)
         .getPredicate();
-    // @formatter:on
   }
 
   public void addPredicate(String predicate) {

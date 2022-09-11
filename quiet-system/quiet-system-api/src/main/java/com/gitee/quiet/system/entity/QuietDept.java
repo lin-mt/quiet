@@ -57,13 +57,11 @@ public class QuietDept extends ParentEntity<QuietDept> {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietDept.id)
-        .notNullEq(getParentId(), quietDept.parentId)
+        .isIdEq(getId(), quietDept.id)
+        .isIdEq(getParentId(), quietDept.parentId)
         .notBlankContains(getDeptName(), quietDept.deptName)
         .notBlankContains(getRemark(), quietDept.remark)
         .getPredicate();
-    // @formatter:on
   }
 }

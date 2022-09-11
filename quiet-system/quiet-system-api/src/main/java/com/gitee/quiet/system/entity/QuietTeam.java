@@ -72,12 +72,10 @@ public class QuietTeam extends BaseEntity {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietTeam.id)
+        .isIdEq(getId(), quietTeam.id)
         .notBlankContains(getTeamName(), quietTeam.teamName)
         .notBlankContains(getSlogan(), quietTeam.slogan)
         .getPredicate();
-    // @formatter:on
   }
 }

@@ -96,6 +96,21 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     return this;
   }
 
+  public SelectBooleanBuilder isIdEq(Long param, NumberPath<Long> path) {
+    if (param != null && param > 0L) {
+      builder.and(path.eq(param));
+    }
+    return this;
+  }
+
+  public <T extends Number & Comparable<?>> SelectBooleanBuilder leZeroIsNull(
+          T param, NumberPath<T> path) {
+    if (param != null && param.longValue() <= 0) {
+      builder.and(path.isNull());
+    }
+    return this;
+  }
+
   public SelectBooleanBuilder notBlankEq(String param, StringPath path) {
     if (StringUtils.isNoneBlank(param)) {
       builder.and(path.eq(param));

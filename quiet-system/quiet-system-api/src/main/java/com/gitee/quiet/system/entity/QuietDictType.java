@@ -65,7 +65,7 @@ public class QuietDictType extends BaseEntity {
   @Override
   public BooleanBuilder booleanBuilder() {
     return SelectBooleanBuilder.booleanBuilder()
-        .notNullEq(getId(), quietDictType.id)
+        .isIdEq(getId(), quietDictType.id)
         .notBlankContains(getServiceId(), quietDictType.serviceId)
         .notBlankContains(getName(), quietDictType.name)
         .notNullEq(getEnabled(), quietDictType.enabled)

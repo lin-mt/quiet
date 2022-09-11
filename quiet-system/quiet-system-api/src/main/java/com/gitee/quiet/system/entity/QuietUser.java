@@ -38,7 +38,7 @@ public class QuietUser extends QuietUserDetails {
   @Override
   public BooleanBuilder booleanBuilder() {
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietUser.id)
+        .isIdEq(getId(), quietUser.id)
         .notBlankContains(getUsername(), quietUser.username)
         .notBlankContains(getFullName(), quietUser.fullName)
         .notNullEq(getGender(), quietUser.gender)
