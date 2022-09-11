@@ -69,8 +69,8 @@ public class QuietDict extends SortableEntity {
   @Override
   public BooleanBuilder booleanBuilder() {
     return SelectBooleanBuilder.booleanBuilder()
-        .notNullEq(getId(), quietDict.id)
-        .notNullEq(getTypeId(), quietDict.typeId)
+        .isIdEq(getId(), quietDict.id)
+        .isIdEq(getTypeId(), quietDict.typeId)
         .notBlankEq(getKey(), quietDict.key)
         .notBlankContains(getName(), quietDict.name)
         .notNullEq(getEnabled(), quietDict.enabled)

@@ -52,15 +52,9 @@ import static com.gitee.quiet.system.entity.QQuietTeamUser.quietTeamUser;
 public class QuietTeamServiceImpl implements QuietTeamService {
 
   private final JPAQueryFactory jpaQueryFactory;
-
   private final QuietTeamRepository teamRepository;
-
   private final QuietTeamUserService teamUserService;
-
   private final QuietTeamUserRoleService teamUserRoleService;
-
-  private final QuietRoleService roleService;
-
   private final QuietUserService userService;
 
   public QuietTeamServiceImpl(
@@ -68,13 +62,11 @@ public class QuietTeamServiceImpl implements QuietTeamService {
       QuietTeamRepository teamRepository,
       QuietTeamUserService teamUserService,
       QuietTeamUserRoleService teamUserRoleService,
-      QuietRoleService roleService,
       QuietUserService userService) {
     this.jpaQueryFactory = jpaQueryFactory;
     this.teamRepository = teamRepository;
     this.teamUserService = teamUserService;
     this.teamUserRoleService = teamUserRoleService;
-    this.roleService = roleService;
     this.userService = userService;
   }
 
@@ -206,7 +198,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
     }
     BooleanBuilder where =
             SelectBooleanBuilder.booleanBuilder()
-                    .notNullEq(teamUserId, quietTeamUser.userId)
+                    .isIdEq(teamUserId, quietTeamUser.userId)
                     .notBlankContains(teamName, quietTeam.teamName)
                     .getPredicate();
     teams = jpaQueryFactory
