@@ -20,6 +20,7 @@ package com.gitee.quiet.doc.service;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Api分组Service.
@@ -45,13 +46,6 @@ public interface DocApiGroupService {
   DocApiGroup update(DocApiGroup update);
 
   /**
-   * 根据接口分组ID删除信息
-   *
-   * @param id 要删除的接口分组ID
-   */
-  void deleteById(Long id);
-
-  /**
    * 根据项目ID查询所有接口分组信息
    *
    * @param projectId 项目ID
@@ -63,11 +57,12 @@ public interface DocApiGroupService {
    * 根据项目ID和接口名称查询接口分组信息
    *
    * @param projectId 项目ID
+   * @param ids 分组ID集合
    * @param name 分组名称
    * @param limit 查询条数
    * @return 接口分组信息
    */
-  List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit);
+  List<DocApiGroup> listByProjectIdAndName(Long projectId, Set<Long> ids, String name, Long limit);
 
   /**
    * 根据ID查询分组信息

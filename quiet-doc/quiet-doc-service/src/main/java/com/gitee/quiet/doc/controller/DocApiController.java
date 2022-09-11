@@ -40,6 +40,7 @@ import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,20 +59,42 @@ import java.util.stream.Collectors;
 public class DocApiController {
 
   private final DocApiService apiService;
-
   private final DocApiGroupService apiGroupService;
-
   private final DocApiInfoService apiInfoService;
-
   private final DocProjectService docProjectService;
-
   private final DocApiConvert apiConvert;
-
   private final DocApiInfoConvert apiInfoConvert;
-
   private final DocApiGroupConvert apiGroupConvert;
-
   private final DubboUserService dubboUserService;
+
+  /**
+   * 根据项目ID和接口名称模糊查询接口信息
+   *
+   * @param projectId 项目ID
+   * @param name 接口名称
+   * @param limit 限制查询条数，小于等于0或者不传则查询所有
+   * @return 接口信息
+   */
+  @GetMapping("/list")
+  public Result<List<DocApiVO>> list(
+      @RequestParam Long projectId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Long limit) {
+    List<DocApi> docApis = apiService.listByProjectIdAndName(projectId, name, limit);
+    return Result.success(apiConvert.entities2vos(docApis));
+  }
+
+  /**
+   * 分页查询接口，api_group_id 传0时会加上 api_group_id is null 过滤条件
+   *
+   * @param dto 分页参数
+   * @return 查询结果
+   */
+  @GetMapping("/page")
+  public Result<Page<DocApiVO>> page(DocApiDTO dto) {
+    Page<DocApi> page = apiService.page(apiConvert.dto2entity(dto), dto.page());
+    return Result.success(apiConvert.page2page(page));
+  }
 
   /**
    * 查询接口详细信息

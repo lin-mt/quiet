@@ -20,12 +20,23 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.repository.DocApiRepository;
 import com.gitee.quiet.doc.service.DocApiService;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
+import com.google.common.collect.Lists;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+
+import static com.gitee.quiet.doc.entity.QDocApi.docApi;
 
 /**
  * Api Service 实现类.
@@ -33,13 +44,11 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class DocApiServiceImpl implements DocApiService {
 
   private final DocApiRepository repository;
-
-  public DocApiServiceImpl(DocApiRepository repository) {
-    this.repository = repository;
-  }
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public List<DocApi> listAllByProjectId(Long projectId) {
@@ -76,7 +85,6 @@ public class DocApiServiceImpl implements DocApiService {
 
   @Override
   public void deleteById(Long id) {
-
     repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
     repository.deleteById(id);
   }
@@ -99,5 +107,28 @@ public class DocApiServiceImpl implements DocApiService {
       return;
     }
     repository.saveAll(docApis);
+  }
+
+  @Override
+  public List<DocApi> listByProjectIdAndName(Long projectId, String name, Long limit) {
+    if (Objects.isNull(projectId)) {
+      return Lists.newArrayList();
+    }
+    BooleanBuilder where =
+            SelectBooleanBuilder.booleanBuilder()
+                    .and(docApi.projectId.eq(projectId))
+                    .notBlankContains(name, docApi.name)
+                    .getPredicate();
+    JPAQuery<DocApi> query = jpaQueryFactory.selectFrom(docApi).where(where);
+    if (limit != null && limit > 0) {
+      query.limit(limit);
+    }
+    return query.fetch();
+  }
+
+  @Override
+  public Page<DocApi> page(DocApi entity, Pageable page) {
+    BooleanBuilder where = SelectBooleanBuilder.booleanBuilder(entity).getPredicate();
+    return repository.findAll(where, page);
   }
 }
