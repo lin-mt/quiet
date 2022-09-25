@@ -47,7 +47,7 @@ public class DocApiDTO extends SortableDTO {
   @NotNull private Long projectId;
 
   /** 接口状态 */
-  @NotNull private ApiState apiState = ApiState.UNFINISHED;
+  @NotNull private ApiState apiState;
 
   /** 请求地址 */
   @NotBlank

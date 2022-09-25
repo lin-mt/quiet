@@ -60,10 +60,10 @@ public class DocProjectEnv extends BaseEntity {
   @Column(name = "protocol", nullable = false)
   private HttpProtocol protocol;
 
-  /** 请求路径 */
+  /** 域名 */
   @Length(max = 90)
-  @Column(name = "base_path", length = 90)
-  private String basePath;
+  @Column(name = "domain", length = 90)
+  private String domain;
 
   /** 请求头 */
   @Type(type = "json")

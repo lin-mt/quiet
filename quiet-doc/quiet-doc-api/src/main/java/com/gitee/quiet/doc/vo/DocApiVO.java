@@ -47,7 +47,7 @@ public class DocApiVO extends SortableVO {
   @NotNull private Long projectId;
 
   /** 接口状态 */
-  @NotNull private ApiState apiState = ApiState.UNFINISHED;
+  @NotNull private ApiState apiState;
 
   /** 请求地址 */
   @NotBlank
@@ -84,5 +84,5 @@ public class DocApiVO extends SortableVO {
   private DocApiGroupVO apiGroup;
 
   /** api 详细信息 */
-  private DocApiInfoVO docApiInfo;
+  private DocApiInfoVO apiInfo;
 }

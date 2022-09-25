@@ -18,10 +18,10 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocProject;
-import com.gitee.quiet.doc.vo.MyDocProject;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Project Service.
@@ -29,14 +29,6 @@ import java.util.List;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface DocProjectService {
-
-  /**
-   * 根据用户ID查询用户的文档项目信息
-   *
-   * @param userId 用户ID
-   * @return 可访问的项目信息
-   */
-  MyDocProject getProjectByUserId(Long userId);
 
   /**
    * 新增/更新文档项目
@@ -68,4 +60,14 @@ public interface DocProjectService {
    * @return 项目信息
    */
   List<DocProject> listAllByGroupId(Long groupId);
+
+  /**
+   * 根据项目名称、项目ID集合查询项目信息
+   *
+   * @param name 项目名称
+   * @param ids 项目ID集合
+   * @param limit 限制查询条数，小于等于0或者不传则查询 15 条信息
+   * @return 项目信息
+   */
+  List<DocProject> list(String name, Set<Long> ids, Long limit);
 }

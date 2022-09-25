@@ -103,7 +103,7 @@ public class RequestController {
       String hostname;
       if (!NONE_SELECTED_ENVIRONMENT_ID.equals(envId)) {
         DocProjectEnv env = projectEnvService.getById(envId);
-        hostname = env.getProtocol().getValue() + env.getBasePath();
+        hostname = env.getProtocol().getValue() + env.getDomain();
       } else {
         hostname = DEFAULT_HOSTNAME;
       }

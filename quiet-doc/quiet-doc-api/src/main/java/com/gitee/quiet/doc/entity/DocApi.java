@@ -63,7 +63,7 @@ public class DocApi extends SortableEntity {
   /** 接口状态 */
   @NotNull
   @Column(name = "api_state", nullable = false, length = 10)
-  private ApiState apiState = ApiState.UNFINISHED;
+  private ApiState apiState;
 
   /** 请求地址 */
   @NotBlank

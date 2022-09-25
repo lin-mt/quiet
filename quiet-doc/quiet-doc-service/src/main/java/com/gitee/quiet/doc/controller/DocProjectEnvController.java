@@ -23,7 +23,10 @@ import com.gitee.quiet.doc.entity.DocProjectEnv;
 import com.gitee.quiet.doc.service.DocProjectEnvService;
 import com.gitee.quiet.doc.vo.DocProjectEnvVO;
 import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,11 +38,10 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/project-environment")
+@RequestMapping("/project-env")
 public class DocProjectEnvController {
 
   private final DocProjectEnvConverter converter;
-
   private final DocProjectEnvService service;
 
   /**
@@ -49,7 +51,7 @@ public class DocProjectEnvController {
    * @return 创建的环境信息
    */
   @PostMapping
-  public Result<DocProjectEnvVO> save(@RequestBody DocProjectEnvDTO dto) {
+  public Result<DocProjectEnvVO> save(@RequestBody @Validated(Create.class) DocProjectEnvDTO dto) {
     DocProjectEnv projectEnv = service.save(converter.dto2entity(dto));
     return Result.createSuccess(converter.entity2vo(projectEnv));
   }
@@ -61,7 +63,7 @@ public class DocProjectEnvController {
    * @return 更新的环境信息
    */
   @PutMapping
-  public Result<DocProjectEnvVO> update(@RequestBody DocProjectEnvDTO dto) {
+  public Result<DocProjectEnvVO> update(@RequestBody @Validated(Update.class)  DocProjectEnvDTO dto) {
     DocProjectEnv update = service.update(converter.dto2entity(dto));
     return Result.updateSuccess(converter.entity2vo(update));
   }
@@ -84,7 +86,7 @@ public class DocProjectEnvController {
    * @param projectId 项目ID
    * @return 项目环境配置信息
    */
-  @GetMapping("/list-by-project-id/{projectId}")
+  @GetMapping("/list/{projectId}")
   public Result<List<DocProjectEnvVO>> listByProjectId(@PathVariable Long projectId) {
     List<DocProjectEnv> docProjectEnvs = service.listByProjectId(projectId);
     return Result.success(converter.entities2vos(docProjectEnvs));

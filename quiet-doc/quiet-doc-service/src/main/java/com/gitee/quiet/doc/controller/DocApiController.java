@@ -29,7 +29,6 @@ import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
-import com.gitee.quiet.doc.vo.DocApiDetailVO;
 import com.gitee.quiet.doc.vo.DocApiVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
@@ -103,37 +102,35 @@ public class DocApiController {
    * @return 接口详细信息
    */
   @GetMapping("/detail/{id}")
-  public Result<DocApiDetailVO> getDetail(@PathVariable Long id) {
-    DocApiVO docApi = apiConvert.entity2vo(apiService.getById(id));
-    if (docApi.getApiGroupId() != null) {
-      DocApiGroup apiGroup = apiGroupService.findById(docApi.getApiGroupId());
+  public Result<DocApiVO> getDetail(@PathVariable Long id) {
+    DocApiVO docApiVO = apiConvert.entity2vo(apiService.getById(id));
+    if (docApiVO.getApiGroupId() != null) {
+      DocApiGroup apiGroup = apiGroupService.findById(docApiVO.getApiGroupId());
       if (apiGroup != null) {
-        docApi.setApiGroup(apiGroupConvert.entity2vo(apiGroup));
+        docApiVO.setApiGroup(apiGroupConvert.entity2vo(apiGroup));
       }
     }
     Set<Long> userIds = new HashSet<>();
-    userIds.add(docApi.getAuthorId());
-    userIds.add(docApi.getCreator());
-    userIds.add(docApi.getUpdater());
+    userIds.add(docApiVO.getAuthorId());
+    userIds.add(docApiVO.getCreator());
+    userIds.add(docApiVO.getUpdater());
     Map<Long, QuietUser> userId2Info =
         dubboUserService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
-    if (userId2Info.get(docApi.getCreator()) != null) {
-      docApi.setCreatorFullName(userId2Info.get(docApi.getCreator()).getFullName());
+    if (userId2Info.get(docApiVO.getCreator()) != null) {
+      docApiVO.setCreatorFullName(userId2Info.get(docApiVO.getCreator()).getFullName());
     }
-    if (userId2Info.get(docApi.getUpdater()) != null) {
-      docApi.setUpdaterFullName(userId2Info.get(docApi.getUpdater()).getFullName());
+    if (userId2Info.get(docApiVO.getUpdater()) != null) {
+      docApiVO.setUpdaterFullName(userId2Info.get(docApiVO.getUpdater()).getFullName());
     }
-    if (userId2Info.get(docApi.getAuthorId()) != null) {
-      docApi.setAuthorFullName(userId2Info.get(docApi.getAuthorId()).getFullName());
+    if (userId2Info.get(docApiVO.getAuthorId()) != null) {
+      docApiVO.setAuthorFullName(userId2Info.get(docApiVO.getAuthorId()).getFullName());
     }
-    DocApiDetailVO.DocApiDetailVOBuilder builder = DocApiDetailVO.builder();
-    builder.api(docApi);
     DocApiInfo apiInfo = apiInfoService.getByApiId(id);
     if (apiInfo != null) {
-      builder.apiInfo(apiInfoConvert.entity2vo(apiInfo));
+      docApiVO.setApiInfo(apiInfoConvert.entity2vo(apiInfo));
     }
-    return Result.success(builder.build());
+    return Result.success(docApiVO);
   }
 
   /**

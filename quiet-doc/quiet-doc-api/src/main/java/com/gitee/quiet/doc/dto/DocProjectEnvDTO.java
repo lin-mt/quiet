@@ -49,9 +49,10 @@ public class DocProjectEnvDTO extends BaseDTO {
   /** http协议 */
   @NotNull private HttpProtocol protocol;
 
-  /** 请求路径 */
+  /** 域名 */
+  @NotEmpty
   @Length(max = 90)
-  private String basePath;
+  private String domain;
 
   /** 请求头 */
   private List<Header> headers;

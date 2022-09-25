@@ -29,10 +29,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 项目信息.
@@ -68,16 +66,8 @@ public class DocProject extends SortableEntity {
   @Column(name = "principal", nullable = false)
   private Long principal;
 
-  /** 成员用户ID */
-  @Size(max = 30)
-  @Column(name = "member_id", length = 570)
-  private Set<Long> memberIds;
-
   /** 备注 */
   @Length(max = 100)
   @Column(name = "remark", length = 100)
   private String remark;
-
-  /** 负责人名称 */
-  @Transient private String principalName;
 }

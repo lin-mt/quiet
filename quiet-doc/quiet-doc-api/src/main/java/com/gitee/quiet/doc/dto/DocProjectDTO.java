@@ -18,17 +18,12 @@
 package com.gitee.quiet.doc.dto;
 
 import com.gitee.quiet.service.dto.SortableDTO;
-import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 项目信息.
@@ -54,14 +49,8 @@ public class DocProjectDTO extends SortableDTO {
   /** 项目文档负责人 */
   @NotNull private Long principal;
 
-  /** 成员用户ID */
-  @Size(max = 30)
-  private Set<Long> memberIds;
-
   /** 备注 */
   @Length(max = 100)
   private String remark;
 
-  /** 访问者信息 */
-  @Transient private List<QuietUser> visitors;
 }
