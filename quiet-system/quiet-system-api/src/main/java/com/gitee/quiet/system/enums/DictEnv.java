@@ -15,31 +15,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.vo;
+package com.gitee.quiet.system.enums;
 
-import com.gitee.quiet.service.vo.BaseVO;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
-@Setter
-public class QuietDictTypeVO extends BaseVO {
-
-  /** 服务ID */
-  private String serviceId;
-
-  /** key */
-  private String key;
-
-  /** 名称 */
-  private String name;
-
-  /** 是否启用 */
-  private Boolean enabled;
-
-  /** 备注 */
-  private String remark;
+@AllArgsConstructor
+public enum DictEnv implements BaseDict {
+  DEV("00"),
+  PRO("01"),
+  TEST("02");
+  private final String key;
 }

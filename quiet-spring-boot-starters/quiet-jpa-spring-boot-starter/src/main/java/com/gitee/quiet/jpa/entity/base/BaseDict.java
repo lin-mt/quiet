@@ -15,31 +15,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.vo;
-
-import com.gitee.quiet.service.vo.BaseVO;
-import lombok.Getter;
-import lombok.Setter;
+package com.gitee.quiet.jpa.entity.base;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class QuietDictTypeVO extends BaseVO {
+public interface BaseDict {
 
-  /** 服务ID */
-  private String serviceId;
-
-  /** key */
-  private String key;
-
-  /** 名称 */
-  private String name;
-
-  /** 是否启用 */
-  private Boolean enabled;
-
-  /** 备注 */
-  private String remark;
+  String getKey();
 }

@@ -46,6 +46,11 @@ public class QuietDictType extends BaseEntity {
   @Column(name = "service_id", length = 30)
   private String serviceId;
 
+  /** key */
+  @Length(max = 30)
+  @Column(name = "dict_type_key", length = 30)
+  private String key;
+
   /** 名称 */
   @Length(max = 10)
   @Column(name = "dict_type_name", length = 10)
@@ -67,6 +72,7 @@ public class QuietDictType extends BaseEntity {
     return SelectBooleanBuilder.booleanBuilder()
         .isIdEq(getId(), quietDictType.id)
         .notBlankContains(getServiceId(), quietDictType.serviceId)
+        .notBlankEq(getKey(), quietDictType.key)
         .notBlankContains(getName(), quietDictType.name)
         .notNullEq(getEnabled(), quietDictType.enabled)
         .getPredicate();

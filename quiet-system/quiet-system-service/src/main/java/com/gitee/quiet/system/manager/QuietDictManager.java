@@ -21,6 +21,7 @@ import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietDict;
 import com.gitee.quiet.system.entity.QuietDictType;
 import com.gitee.quiet.system.repository.QuietDictRepository;
+import com.gitee.quiet.system.repository.QuietDictTypeRepository;
 import com.gitee.quiet.system.service.QuietDictService;
 import com.gitee.quiet.system.service.QuietDictTypeService;
 import lombok.AllArgsConstructor;
@@ -39,10 +40,9 @@ import java.util.Objects;
 public class QuietDictManager {
 
   private final QuietDictService dictService;
-
   private final QuietDictRepository dictRepository;
-
   private final QuietDictTypeService dictTypeService;
+  private final QuietDictTypeRepository dictTypeRepository;
 
   /**
    * 新增/更新数据字典.
@@ -58,8 +58,7 @@ public class QuietDictManager {
     }
     QuietDict exist = dictService.getByTypeIdAndKey(entity.getTypeId(), entity.getKey());
     if (exist != null && !exist.getId().equals(entity.getId())) {
-      throw new ServiceException(
-              "dict.typeId.key.exist", entity.getTypeId(), entity.getKey());
+      throw new ServiceException("dict.typeId.key.exist", entity.getTypeId(), entity.getKey());
     }
     int maxLevel = keyLength / 2;
     int level = 1;
@@ -79,15 +78,23 @@ public class QuietDictManager {
 
   /**
    * 根据是否启用和类型ID查询数据字典
+   *
    * @param enabled 是否启用，true：查询在已启用的数据字典类型下已启用的数据字典，false：查询未启用的数据字典
    * @param typeId 数据字典类型
+   * @param typeKey 数据字典类型key，typeId 不为 null，则以typeId为准
    * @return 数据字典信息
    */
-  public List<QuietDict> findByEnabledAndTypeId(Boolean enabled, Long typeId) {
-    if (Objects.isNull(typeId)) {
+  public List<QuietDict> findByEnabledAndTypeId(Boolean enabled, Long typeId, String typeKey) {
+    QuietDictType dictType = null;
+    if (Objects.nonNull(typeId)) {
+      dictType = dictTypeService.getById(typeId);
+    }
+    if (Objects.isNull(typeId) && StringUtils.isNotBlank(typeKey)) {
+      dictType = dictTypeRepository.findByKey(typeKey);
+    }
+    if (Objects.isNull(dictType)) {
       return List.of();
     }
-    QuietDictType dictType = dictTypeService.getById(typeId);
     if (Objects.nonNull(enabled) && enabled) {
       // 查询启用的数据字典，如果数据字典类型未启用，则返回空
       if (!dictType.getEnabled()) {

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.service.json.modifier.serializer.DictionarySerializer;
+import com.gitee.quiet.jpa.entity.Dict;
+import com.gitee.quiet.service.json.modifier.serializer.DictSerializer;
 
 /**
  * QuietSerializerModifier.
@@ -35,9 +35,9 @@ public class ServiceSerializerModifier extends BeanSerializerModifier {
   @Override
   public JsonSerializer<?> modifySerializer(
       SerializationConfig config, BeanDescription beanDesc, JsonSerializer<?> serializer) {
-    if (Dictionary.class.isAssignableFrom(beanDesc.getBeanClass())
+    if (Dict.class.isAssignableFrom(beanDesc.getBeanClass())
         && serializer instanceof BeanSerializerBase) {
-      return new DictionarySerializer((BeanSerializerBase) serializer);
+      return new DictSerializer((BeanSerializerBase) serializer);
     }
     return super.modifySerializer(config, beanDesc, serializer);
   }

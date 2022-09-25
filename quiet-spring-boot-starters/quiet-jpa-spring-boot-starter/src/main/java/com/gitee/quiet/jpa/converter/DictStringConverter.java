@@ -15,26 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.service.converter;
+package com.gitee.quiet.jpa.converter;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.convert.converter.Converter;
+import com.gitee.quiet.jpa.entity.Dict;
 
-import javax.annotation.Nullable;
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 /**
- * String 转数据字典.
+ * 数据字典与数据库的转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class StringToDictionaryConverter implements Converter<String, Dictionary<?>> {
+@Converter(autoApply = true)
+public class DictStringConverter implements AttributeConverter<Dict, String> {
 
   @Override
-  public Dictionary<?> convert(@Nullable String source) {
-    if (StringUtils.isBlank(source)) {
-      return null;
+  public String convertToDatabaseColumn(Dict attribute) {
+    if (attribute != null) {
+      return attribute.getKey();
     }
-    return Dictionary.convertFromString(source);
+    return null;
+  }
+
+  @Override
+  public Dict convertToEntityAttribute(String dbData) {
+    Dict dict = new Dict();
+    dict.setKey(dbData);
+    return dict;
   }
 }

@@ -15,31 +15,43 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.vo;
+package com.gitee.quiet.jpa.entity;
 
-import com.gitee.quiet.service.vo.BaseVO;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
+import com.querydsl.core.annotations.QueryEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class QuietDictTypeVO extends BaseVO {
+@QueryEntity
+@MappedSuperclass
+public class Dict extends SortableEntity implements BaseDict {
 
-  /** 服务ID */
-  private String serviceId;
+  /** 字典类型ID */
+  @Column(name = "type_id", nullable = false)
+  private Long typeId;
 
-  /** key */
+  /** 字典key，格式为每层级占两位数字，第一层级范围：00-99，第二层级的前两位为第一层级的key， 所以第二层级范围为：0000-9999，后续层级以此类推 */
+  @Length(max = 18)
+  @Column(name = "dict_key", length = 18, nullable = false)
   private String key;
 
   /** 名称 */
+  @Length(max = 10)
+  @Column(name = "dict_name", length = 10, nullable = false)
   private String name;
 
   /** 是否启用 */
+  @ColumnDefault("0")
+  @Column(name = "enabled", columnDefinition = "TINYINT(1)", nullable = false)
   private Boolean enabled;
-
-  /** 备注 */
-  private String remark;
 }

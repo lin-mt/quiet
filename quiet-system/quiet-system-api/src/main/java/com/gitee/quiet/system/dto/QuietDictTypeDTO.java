@@ -20,6 +20,7 @@ package com.gitee.quiet.system.dto;
 import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,15 +34,21 @@ public class QuietDictTypeDTO extends BaseDTO {
 
   /** 服务ID */
   @NotBlank
+  @Length(max = 30)
   private String serviceId;
+
+  /** key */
+  @NotBlank
+  @Length(max = 30)
+  private String key;
 
   /** 名称 */
   @NotBlank
+  @Length(max = 10)
   private String name;
 
   /** 是否启用 */
-  @NotNull
-  private Boolean enabled;
+  @NotNull private Boolean enabled;
 
   /** 备注 */
   private String remark;

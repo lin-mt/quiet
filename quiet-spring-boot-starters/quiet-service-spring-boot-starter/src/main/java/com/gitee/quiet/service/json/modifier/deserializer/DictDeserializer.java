@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.BeanDeserializer;
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dict;
 
 import java.io.IOException;
 
@@ -30,11 +30,11 @@ import java.io.IOException;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DictionaryDeserializer extends BeanDeserializer {
+public class DictDeserializer extends BeanDeserializer {
 
   private final BeanDeserializer defaultBeanDeserializer;
 
-  public DictionaryDeserializer(BeanDeserializer defaultBeanDeserializer) {
+  public DictDeserializer(BeanDeserializer defaultBeanDeserializer) {
     super(defaultBeanDeserializer);
     this.defaultBeanDeserializer = defaultBeanDeserializer;
   }
@@ -43,7 +43,9 @@ public class DictionaryDeserializer extends BeanDeserializer {
   public Object deserialize(JsonParser jsonParser, DeserializationContext context)
       throws IOException {
     if (JsonToken.VALUE_STRING.equals(jsonParser.getCurrentToken())) {
-      return Dictionary.convertFromString(jsonParser.getText());
+      Dict dict = new Dict();
+      dict.setKey(jsonParser.getText());
+      return dict;
     }
     return defaultBeanDeserializer.deserialize(jsonParser, context);
   }
