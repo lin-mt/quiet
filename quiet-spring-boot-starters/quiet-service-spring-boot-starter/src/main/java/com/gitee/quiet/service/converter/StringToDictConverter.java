@@ -15,19 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.system.convert;
+package com.gitee.quiet.service.converter;
 
-import com.gitee.quiet.service.dto.QuietConvert;
-import com.gitee.quiet.system.dto.QuietDictionaryDTO;
-import com.gitee.quiet.system.entity.QuietDictionary;
-import com.gitee.quiet.system.vo.QuietDictionaryVO;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.jpa.entity.Dict;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import javax.annotation.Nullable;
 
 /**
- * 数据字典实体信息转换.
+ * String 转数据字典.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface QuietDictionaryConvert
-    extends QuietConvert<QuietDictionary, QuietDictionaryDTO, QuietDictionaryVO> {}
+public class StringToDictConverter implements Converter<String, Dict> {
+
+  @Override
+  public Dict convert(@Nullable String source) {
+    if (StringUtils.isBlank(source)) {
+      return null;
+    }
+    Dict dict = new Dict();
+    dict.setKey(source);
+    return dict;
+  }
+}

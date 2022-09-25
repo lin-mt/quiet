@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
 import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dict;
 
 import java.io.IOException;
 import java.util.Set;
@@ -33,16 +33,16 @@ import java.util.Set;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class DictionarySerializer extends BeanSerializerBase {
+public class DictSerializer extends BeanSerializerBase {
 
   private final BeanSerializerBase defaultSerializer;
 
-  public DictionarySerializer(BeanSerializerBase defaultSerializer) {
+  public DictSerializer(BeanSerializerBase defaultSerializer) {
     super(defaultSerializer);
     this.defaultSerializer = defaultSerializer;
   }
 
-  public DictionarySerializer(
+  public DictSerializer(
       BeanSerializerBase defaultSerializer,
       ObjectIdWriter objectIdWriter,
       Object propertyFilterId) {
@@ -50,13 +50,13 @@ public class DictionarySerializer extends BeanSerializerBase {
     this.defaultSerializer = defaultSerializer;
   }
 
-  public DictionarySerializer(
+  public DictSerializer(
       BeanSerializerBase defaultSerializer, Set<String> toIgnore, Set<String> toInclude) {
     super(defaultSerializer, toIgnore, toInclude);
     this.defaultSerializer = defaultSerializer;
   }
 
-  public DictionarySerializer(
+  public DictSerializer(
       BeanSerializerBase defaultSerializer,
       BeanPropertyWriter[] properties,
       BeanPropertyWriter[] filteredProperties) {
@@ -66,12 +66,12 @@ public class DictionarySerializer extends BeanSerializerBase {
 
   @Override
   public BeanSerializerBase withObjectIdWriter(ObjectIdWriter objectIdWriter) {
-    return new DictionarySerializer(defaultSerializer, objectIdWriter, _propertyFilterId);
+    return new DictSerializer(defaultSerializer, objectIdWriter, _propertyFilterId);
   }
 
   @Override
   protected BeanSerializerBase withByNameInclusion(Set<String> toIgnore, Set<String> toInclude) {
-    return new DictionarySerializer(this, toIgnore, toInclude);
+    return new DictSerializer(this, toIgnore, toInclude);
   }
 
   @Override
@@ -84,22 +84,25 @@ public class DictionarySerializer extends BeanSerializerBase {
 
   @Override
   public BeanSerializerBase withFilterId(Object filterId) {
-    return new DictionarySerializer(defaultSerializer, _objectIdWriter, filterId);
+    return new DictSerializer(defaultSerializer, _objectIdWriter, filterId);
   }
 
   @Override
   protected BeanSerializerBase withProperties(
       BeanPropertyWriter[] properties, BeanPropertyWriter[] filteredProperties) {
-    return new DictionarySerializer(this, properties, filteredProperties);
+    return new DictSerializer(this, properties, filteredProperties);
   }
 
   @Override
   public void serialize(Object bean, JsonGenerator gen, SerializerProvider provider)
       throws IOException {
-    if (bean instanceof Dictionary && ((Dictionary<?>) bean).getId() == null) {
-      gen.writeString(Dictionary.convertToString(((Dictionary<?>) bean)));
-    } else {
-      defaultSerializer.serialize(bean, gen, provider);
+    if (bean instanceof Dict) {
+      Dict dict = (Dict) bean;
+      if (dict.getTypeId() == null) {
+        gen.writeString(dict.getKey());
+        return;
+      }
     }
+    defaultSerializer.serialize(bean, gen, provider);
   }
 }

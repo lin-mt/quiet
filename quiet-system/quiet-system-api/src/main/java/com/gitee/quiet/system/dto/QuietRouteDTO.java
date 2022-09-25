@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.system.dto;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dict;
 import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public class QuietRouteDTO extends BaseDTO {
   private String routeId;
 
   /** 环境，用于批量修改发布 */
-  @NotNull private Dictionary<?> environment;
+  @NotNull private Dict dictEnv;
 
   /** 路由目标 */
   @NotBlank

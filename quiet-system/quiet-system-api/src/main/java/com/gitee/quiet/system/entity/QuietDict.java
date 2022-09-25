@@ -17,12 +17,11 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.jpa.entity.SortableEntity;
+import com.gitee.quiet.jpa.entity.Dict;
 import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
@@ -39,26 +38,7 @@ import static com.gitee.quiet.system.entity.QQuietDict.quietDict;
 @Setter
 @Entity
 @Table(name = "quiet_dict")
-public class QuietDict extends SortableEntity {
-
-  /** 字典类型ID */
-  @Column(name = "type_id", nullable = false)
-  private Long typeId;
-
-  /** 字典key，格式为每层级占两位数字，第一层级范围：00-99，第二层级的前两位为第一层级的key， 所以第二层级范围为：0000-9999，后续层级以此类推 */
-  @Length(max = 18)
-  @Column(name = "dict_key", length = 18, nullable = false)
-  private String key;
-
-  /** 名称 */
-  @Length(max = 10)
-  @Column(name = "dict_name", length = 10, nullable = false)
-  private String name;
-
-  /** 是否启用 */
-  @ColumnDefault("0")
-  @Column(name = "enabled", columnDefinition = "TINYINT(1)", nullable = false)
-  private Boolean enabled;
+public class QuietDict extends Dict {
 
   /** 备注 */
   @Length(max = 100)

@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.system.config;
 
-import com.gitee.quiet.system.dictionary.Environment;
+import com.gitee.quiet.system.enums.DictEnv;
 import com.gitee.quiet.system.service.QuietRouteService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ public class RouteInitialization implements CommandLineRunner {
   @Override
   public void run(String... args) {
     try {
-      routeService.publishRoute(Environment.Develop, null);
+      routeService.publishRoute(DictEnv.DEV, null);
     } catch (Exception ignore) {
     }
   }
