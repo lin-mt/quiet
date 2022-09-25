@@ -43,9 +43,7 @@ import java.util.List;
 public class QuietDictTypeController {
 
   private final QuietDictTypeService dictTypeService;
-
   private final QuietDictTypeManager dictTypeManager;
-
   private final QuietDictTypeConvert dictTypeConvert;
 
   /**

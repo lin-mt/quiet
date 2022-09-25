@@ -60,9 +60,10 @@ public class QuietDictController {
    * @param typeId 数据字典类型ID
    * @return 查询所有信息
    */
-  @GetMapping("/enabled/{typeId}")
-  public Result<List<QuietDictVO>> enabled(@PathVariable Long typeId) {
-    List<QuietDict> dictList = dictManager.findByEnabledAndTypeId(true, typeId);
+  @GetMapping("/enabled")
+  public Result<List<QuietDictVO>> enabled(
+      @RequestParam(required = false) Long typeId, @RequestParam(required = false) String typeKey) {
+    List<QuietDict> dictList = dictManager.findByEnabledAndTypeId(true, typeId, typeKey);
     List<QuietDictVO> dictVOS = dictConverter.entities2vos(dictList);
     List<QuietDictVO> result = new ArrayList<>(dictVOS.size());
     if (CollectionUtils.isNotEmpty(dictVOS)) {

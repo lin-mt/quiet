@@ -35,4 +35,11 @@ public interface QuietDictTypeRepository extends QuietRepository<QuietDictType> 
    * @return 数据字典信息
    */
   QuietDictType findByServiceIdAndName(String serviceId, String name);
+
+  /**
+   * 根据数据字典类型 key 查询数据类型信息
+   * @param key 类型
+   * @return 数据字典类型信息
+   */
+  QuietDictType findByKey(String key);
 }

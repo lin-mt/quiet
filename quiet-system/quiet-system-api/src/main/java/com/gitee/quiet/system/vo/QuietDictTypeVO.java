@@ -31,6 +31,9 @@ public class QuietDictTypeVO extends BaseVO {
   /** 服务ID */
   private String serviceId;
 
+  /** key */
+  private String key;
+
   /** 名称 */
   private String name;
 
