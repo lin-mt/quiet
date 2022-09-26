@@ -17,8 +17,8 @@
 
 package com.gitee.quiet.jpa.utils;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.jpa.entity.QDictionary;
+import com.gitee.quiet.jpa.entity.Dict;
+import com.gitee.quiet.jpa.entity.QDict;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.*;
@@ -96,6 +96,21 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     return this;
   }
 
+  public SelectBooleanBuilder isIdEq(Long param, NumberPath<Long> path) {
+    if (param != null && param > 0L) {
+      builder.and(path.eq(param));
+    }
+    return this;
+  }
+
+  public <T extends Number & Comparable<?>> SelectBooleanBuilder leZeroIsNull(
+      T param, NumberPath<T> path) {
+    if (param != null && param.longValue() <= 0) {
+      builder.and(path.isNull());
+    }
+    return this;
+  }
+
   public SelectBooleanBuilder notBlankEq(String param, StringPath path) {
     if (StringUtils.isNoneBlank(param)) {
       builder.and(path.eq(param));
@@ -124,11 +139,9 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     return this;
   }
 
-  public SelectBooleanBuilder notNullEq(Dictionary<?> dictionary, QDictionary qDictionary) {
-    if (dictionary != null
-        && StringUtils.isNoneBlank(dictionary.getType())
-        && StringUtils.isNoneBlank(dictionary.getKey())) {
-      builder.and(qDictionary.eq(dictionary));
+  public SelectBooleanBuilder notNullEq(Dict dict, QDict qDict) {
+    if (dict != null && StringUtils.isNoneBlank(dict.getKey())) {
+      builder.and(qDict.eq(dict));
     }
     return this;
   }

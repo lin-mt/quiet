@@ -17,10 +17,12 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
 import com.gitee.quiet.system.entity.QuietRoute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 路由信息service.
@@ -80,8 +82,8 @@ public interface QuietRouteService {
   /**
    * 发布路由配置到Redis
    *
-   * @param environment 发布的环境
+   * @param dictEnv 发布的环境
    * @param timeOut 存储在redis的过期时间，null 则不设置过期时间
    */
-  void publishRoute(Dictionary<?> environment, Long timeOut);
+  void publishRoute(@NotNull BaseDict dictEnv, Long timeOut);
 }

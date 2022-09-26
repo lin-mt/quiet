@@ -18,7 +18,7 @@
 package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.common.constant.cache.Gateway;
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRoute;
@@ -31,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -97,10 +98,9 @@ public class QuietRouteServiceImpl implements QuietRouteService {
               });
     }
     QuietRoute exist =
-        routeRepository.findByRouteIdAndEnvironment(route.getRouteId(), route.getEnvironment());
+        routeRepository.findByRouteIdAndDictEnv(route.getRouteId(), route.getDictEnv());
     if (exist != null && !exist.getId().equals(route.getId())) {
-      throw new ServiceException(
-          "route.environment.routeId.exist", route.getEnvironment(), route.getRouteId());
+      throw new ServiceException("route.env.routeId.exist", route.getDictEnv(), route.getRouteId());
     }
   }
 
@@ -119,8 +119,8 @@ public class QuietRouteServiceImpl implements QuietRouteService {
   }
 
   @Override
-  public void publishRoute(Dictionary<?> environment, Long timeOut) {
-    List<QuietRoute> routes = routeRepository.findByEnvironment(environment);
+  public void publishRoute(@NotNull BaseDict dictEnv, Long timeOut) {
+    List<QuietRoute> routes = routeRepository.findByDictEnv(dictEnv);
     if (CollectionUtils.isNotEmpty(routes)) {
       redisTemplate.delete(Gateway.ROUTE_DEFINITION);
       if (timeOut == null) {
@@ -131,7 +131,7 @@ public class QuietRouteServiceImpl implements QuietRouteService {
             .set(Gateway.ROUTE_DEFINITION, routes, timeOut, TimeUnit.SECONDS);
       }
     } else {
-      throw new ServiceException("route.environment.notRouteConfigInfo", environment);
+      throw new ServiceException("route.env.notRouteConfigInfo", dictEnv);
     }
   }
 }

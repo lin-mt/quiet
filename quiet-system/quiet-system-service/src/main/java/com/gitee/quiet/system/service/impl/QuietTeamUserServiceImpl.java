@@ -119,4 +119,9 @@ public class QuietTeamUserServiceImpl implements QuietTeamUserService {
   public List<QuietTeamUser> findAllByUserId(@NotNull Long userId) {
     return teamUserRepository.findAllByUserId(userId);
   }
+
+  @Override
+  public List<QuietTeamUser> findByTeamId(Long id) {
+    return teamUserRepository.findAllByTeamId(id);
+  }
 }

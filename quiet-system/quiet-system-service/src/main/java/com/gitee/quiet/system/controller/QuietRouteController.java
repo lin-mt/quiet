@@ -102,7 +102,7 @@ public class QuietRouteController {
    */
   @PostMapping("/publish-route")
   public Result<Object> publishRoute(@RequestBody QuietRouteDTO dto) {
-    routeService.publishRoute(dto.getEnvironment(), 100L);
+    routeService.publishRoute(dto.getDictEnv(), 100L);
     return Result.success();
   }
 

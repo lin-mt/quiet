@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.system.entity;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.Dict;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.querydsl.core.BooleanBuilder;
@@ -55,8 +55,8 @@ public class QuietRoute extends BaseEntity {
 
   /** 环境，用于批量修改发布 */
   @NotNull
-  @Column(name = "environment", length = 30, nullable = false)
-  private Dictionary<?> environment;
+  @Column(name = "dict_env", length = 18, nullable = false)
+  private Dict dictEnv;
 
   /** 路由目标 */
   @NotBlank
@@ -83,14 +83,12 @@ public class QuietRoute extends BaseEntity {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
         .notBlankContains(getRouteId(), quietRoute.routeId)
-        .notNullEq(getEnvironment(), quietRoute.environment)
+        .notNullEq(getDictEnv(), quietRoute.dictEnv)
         .notBlankContains(getUri(), quietRoute.uri)
         .notBlankContains(getRemark(), quietRoute.remark)
         .getPredicate();
-    // @formatter:on
   }
 
   public void addPredicate(String predicate) {

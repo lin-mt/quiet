@@ -63,6 +63,7 @@ public interface QuietUserRoleRepository extends QuietRepository<QuietUserRole> 
    *
    * @param userId 用户ID
    */
+  @Transactional
   void deleteByUserId(Long userId);
 
   /**

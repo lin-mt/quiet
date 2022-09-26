@@ -48,13 +48,13 @@ public class QuietTeam extends BaseEntity {
 
   /** 团队名称 */
   @NotBlank
-  @Length(max = 16)
+  @Length(max = 8)
   @Column(name = "team_name", nullable = false, length = 16)
   private String teamName;
 
   /** 标语 */
-  @Column(name = "slogan", length = 30)
-  @Length(max = 30)
+  @Column(name = "slogan", length = 60)
+  @Length(max = 60)
   private String slogan;
 
   /** 团队角色与成员信息信息 */
@@ -72,12 +72,10 @@ public class QuietTeam extends BaseEntity {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietTeam.id)
+        .isIdEq(getId(), quietTeam.id)
         .notBlankContains(getTeamName(), quietTeam.teamName)
         .notBlankContains(getSlogan(), quietTeam.slogan)
         .getPredicate();
-    // @formatter:on
   }
 }
