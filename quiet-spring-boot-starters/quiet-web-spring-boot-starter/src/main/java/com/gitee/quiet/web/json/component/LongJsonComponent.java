@@ -47,7 +47,7 @@ public class LongJsonComponent {
     public Long deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
         throws IOException {
       if (StringUtils.isNoneBlank(jsonParser.getText())) {
-        return Long.parseLong(jsonParser.getText());
+        return jsonParser.getValueAsLong();
       }
       return null;
     }

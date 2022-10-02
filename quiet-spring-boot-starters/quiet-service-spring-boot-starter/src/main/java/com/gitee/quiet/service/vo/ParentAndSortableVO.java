@@ -31,7 +31,7 @@ import java.util.List;
 @Setter
 public class ParentAndSortableVO<T> extends BaseVO {
 
-  private int serialNumber;
+  private int sortNum;
 
   private Long parentId;
 

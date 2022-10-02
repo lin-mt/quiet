@@ -148,21 +148,21 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
 
   public SelectBooleanBuilder notNullBefore(LocalDateTime param, DateTimePath<LocalDateTime> path) {
     if (param != null) {
-      path.before(param);
+      builder.and(path.before(param));
     }
     return this;
   }
 
   public SelectBooleanBuilder notNullAfter(LocalDateTime param, DateTimePath<LocalDateTime> path) {
     if (param != null) {
-      path.after(param);
+      builder.and(path.after(param));
     }
     return this;
   }
 
   public SelectBooleanBuilder notEmptyIn(Collection<? extends Long> param, NumberPath<Long> path) {
     if (CollectionUtils.isNotEmpty(param)) {
-      path.in(param);
+      builder.and(path.in(param));
     }
     return this;
   }
