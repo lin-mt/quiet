@@ -18,7 +18,6 @@
 package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
-import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -66,13 +65,6 @@ public interface ScrumDemandService {
   ScrumDemand update(@NotNull ScrumDemand update);
 
   /**
-   * 根据项目信息删除项目下的需求信息
-   *
-   * @param projectId 要删除需求的项目ID
-   */
-  void deleteAllByProjectId(@NotNull Long projectId);
-
-  /**
    * 根据优先级ID统计处于该优先级的需求数量
    *
    * @param priorityId 优先级ID
@@ -81,34 +73,12 @@ public interface ScrumDemandService {
   long countByPriorityId(@NotNull Long priorityId);
 
   /**
-   * 查询待规划的需求
-   *
-   * @param projectId 项目ID
-   * @param filter 过滤条件
-   * @param offset 跳过的数量
-   * @param limit 查询数量
-   * @return 项目待规划的需求
-   */
-  List<ScrumDemand> listToBePlanned(
-      Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
-
-  /**
    * 根据迭代ID统计处于该迭代的需求数量
    *
    * @param iterationId 迭代ID
    * @return 处于该迭代的需求数量
    */
   long countByIterationId(@NotNull Long iterationId);
-
-  /**
-   * 查询迭代的需求
-   *
-   * @param iteration 迭代ID
-   * @param offset 跳过的数量
-   * @param limit 查询数量
-   * @return 迭代的需求
-   */
-  List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
 
   /**
    * 根据ID删除需求

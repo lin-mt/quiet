@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -50,13 +51,13 @@ public class ScrumTaskController {
   /**
    * 查询需求的所有任务信息
    *
-   * @param dto :demandIds 查询的需求ID集合
+   * @param ids 查询的需求ID集合
    * @return 根据需求ID以及任务步骤ID分组后的任务集合
    */
   @GetMapping("/all-task-by-demand-ids")
-  public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
+  public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(Set<Long> ids) {
     Map<Long, Map<Long, List<ScrumTask>>> tasks =
-        taskService.findAllTaskByDemandIds(dto.getDemandIds());
+        taskService.findAllTaskByDemandIds(ids);
     Map<Long, Map<Long, List<ScrumTaskVO>>> result =
         tasks.entrySet().stream()
             .collect(

@@ -20,16 +20,16 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumPriorityConvert;
 import com.gitee.quiet.scrum.dto.ScrumPriorityDTO;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
+import com.gitee.quiet.scrum.manager.ScrumPriorityManager;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.vo.ScrumPriorityVO;
-import com.gitee.quiet.service.dto.ValidListDTO;
 import com.gitee.quiet.service.result.Result;
-import com.gitee.quiet.validation.groups.Create;
-import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,76 +38,42 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Validated
 @RestController
 @AllArgsConstructor
 @RequestMapping("/priority")
 public class ScrumPriorityController {
 
   private final ScrumPriorityService priorityService;
-
+  private final ScrumPriorityManager priorityManager;
   private final ScrumPriorityConvert priorityConvert;
 
   /**
-   * 新增优先级选项
+   * 批量保存/更新优先级信息
    *
-   * @param dto 新增的优先级信息
-   * @return 新增后的优先级信息
+   * @param priorities 批量保存/更新的优先级信息
+   * @return 保存后的优先级信息
    */
-  @PostMapping
-  public Result<ScrumPriorityVO> save(@RequestBody @Validated(Create.class) ScrumPriorityDTO dto) {
-    ScrumPriority save = priorityService.save(priorityConvert.dto2entity(dto));
-    return Result.createSuccess(priorityConvert.entity2vo(save));
-  }
-
-  /**
-   * 更新优先级选项信息
-   *
-   * @param dto 更新的优先级信息
-   * @return 更新后的优先级信息
-   */
-  @PutMapping
-  public Result<ScrumPriorityVO> update(
-      @RequestBody @Validated(Update.class) ScrumPriorityDTO dto) {
-    ScrumPriority update = priorityService.update(priorityConvert.dto2entity(dto));
-    return Result.updateSuccess(priorityConvert.entity2vo(update));
-  }
-
-  /**
-   * 删除优先级信息
-   *
-   * @param id 删除的优先级ID
-   * @return 删除结果
-   */
-  @DeleteMapping("/{id}")
-  public Result<Object> delete(@PathVariable Long id) {
-    priorityService.deleteById(id);
-    return Result.deleteSuccess();
-  }
-
-  /**
-   * 批量更新优先级信息
-   *
-   * @param dto :data 批量更新的优先级信息
-   * @return 更新结果
-   */
-  @PutMapping("/batch")
-  public Result<List<ScrumPriorityVO>> updateBatch(
-      @RequestBody @Validated(Update.class) ValidListDTO<ScrumPriorityDTO> dto) {
+  @PostMapping("/batch")
+  public Result<List<ScrumPriorityVO>> saveBatch(
+      @RequestBody @NotEmpty List<@Valid ScrumPriorityDTO> priorities,
+      @RequestParam Long templateId) {
     List<ScrumPriority> batch =
-        priorityService.updateBatch(
-            dto.getData().stream().map(priorityConvert::dto2entity).collect(Collectors.toList()));
+        priorityManager.saveBatch(
+            templateId,
+            priorities.stream().map(priorityConvert::dto2entity).collect(Collectors.toList()));
     return Result.success(priorityConvert.entities2vos(batch));
   }
 
   /**
    * 根据模板ID查询该模板ID下的所有优先级配置信息
    *
-   * @param id 模板ID
+   * @param templateId 模板ID
    * @return 模板下的所有优先级配置信息
    */
-  @GetMapping("/all-by-template-id/{id}")
-  public Result<List<ScrumPriorityVO>> allByTemplateId(@PathVariable Long id) {
-    List<ScrumPriority> priorities = priorityService.findAllByTemplateId(id);
+  @GetMapping("/list")
+  public Result<List<ScrumPriorityVO>> list(@RequestParam Long templateId) {
+    List<ScrumPriority> priorities = priorityService.list(templateId);
     return Result.success(priorityConvert.entities2vos(priorities));
   }
 }

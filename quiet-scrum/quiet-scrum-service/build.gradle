@@ -3,8 +3,12 @@ dependencies {
 
     implementation project(':quiet-scrum:quiet-scrum-api')
     implementation deps.mapstruct
+    runtimeOnly deps.blazePersistenceCoreImpl
+    runtimeOnly deps.blazePersistenceHibernate
 
     compileOnly deps.lombok
+    compileOnly deps.blazePersistenceCoreApi
+    compileOnly deps.blazePersistenceQueryDsl
 
     annotationProcessor deps.lombok
     annotationProcessor deps.mapstructProcessor

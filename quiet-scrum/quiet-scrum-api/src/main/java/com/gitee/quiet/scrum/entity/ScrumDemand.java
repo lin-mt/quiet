@@ -17,10 +17,9 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.jpa.entity.Dict;
+import com.gitee.quiet.jpa.entity.ParentAndSortableEntity;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
-import com.gitee.quiet.scrum.dictionary.DemandType;
 import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +44,7 @@ import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 @Setter
 @Entity
 @Table(name = "scrum_demand")
-public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
+public class ScrumDemand extends ParentAndSortableEntity<ScrumDemand> {
 
   /** 需求标题 */
   @NotBlank
@@ -56,7 +55,7 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
   /** 需求类型 */
   @NotNull
   @Column(name = "demand_type", nullable = false, length = 30)
-  private Dictionary<DemandType> type;
+  private Dict type;
 
   /** 项目ID */
   @NotNull
@@ -92,16 +91,14 @@ public class ScrumDemand extends ParentAndSerialEntity<ScrumDemand> {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), scrumDemand.id)
+        .isIdEq(getId(), scrumDemand.id)
         .notNullEq(getType(), scrumDemand.type)
         .notBlankContains(getTitle(), scrumDemand.title)
-        .notNullEq(getProjectId(), scrumDemand.projectId)
-        .notNullEq(getOptimizeDemandId(), scrumDemand.optimizeDemandId)
-        .notNullEq(getIterationId(), scrumDemand.iterationId)
-        .notNullEq(getPriorityId(), scrumDemand.priorityId)
+        .isIdEq(getProjectId(), scrumDemand.projectId)
+        .isIdEq(getOptimizeDemandId(), scrumDemand.optimizeDemandId)
+        .isIdEq(getIterationId(), scrumDemand.iterationId)
+        .isIdEq(getPriorityId(), scrumDemand.priorityId)
         .getPredicate();
-    // @formatter:on
   }
 }

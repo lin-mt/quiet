@@ -73,7 +73,7 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
       Map<Long, List<ScrumIteration>> versionIdToIterations =
           iterations.stream().collect(Collectors.groupingBy(ScrumIteration::getVersionId));
       for (ScrumVersion version : versions) {
-        version.setIterations(versionIdToIterations.getOrDefault(version.getId(), List.of()));
+//        version.setIterations(versionIdToIterations.getOrDefault(version.getId(), List.of()));
       }
     }
     return EntityUtils.buildTreeData(versions);

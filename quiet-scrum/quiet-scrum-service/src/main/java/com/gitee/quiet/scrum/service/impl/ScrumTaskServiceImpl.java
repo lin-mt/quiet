@@ -109,9 +109,9 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
   @Override
   public Set<Long> findUnfinishedDemandIds(Long projectId, Set<Long> demandIds) {
     ScrumProject project = projectService.findById(projectId);
-    ScrumTemplate templateInfo = templateService.templateInfo(project.getTemplateId());
-    List<ScrumTaskStep> taskSteps =
-        templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
+    ScrumTemplate templateInfo = templateService.findById(project.getTemplateId());
+    List<ScrumTaskStep> taskSteps = new ArrayList<>();
+//        templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
     Long lastTaskStepId = taskSteps.get(taskSteps.size() - 1).getId();
     List<ScrumTask> allTasks = taskRepository.findAllByDemandIdIn(demandIds);
     Set<Long> hasTaskDemandIds = new HashSet<>();

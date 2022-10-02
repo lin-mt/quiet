@@ -15,63 +15,53 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.core.entity.Sortable;
-import com.gitee.quiet.service.dto.SortableDTO;
+import com.gitee.quiet.service.vo.ParentAndSortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 迭代信息.
+ * 项目的版本信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumIterationDTO extends SortableDTO {
+public class ScrumVersionVO extends ParentAndSortableVO<ScrumVersionVO> {
 
-  /** 迭代名称 */
+  /** 版本名称 */
   @NotBlank
-  @Length(max = 30)
+  @Length(max = 10)
   private String name;
 
-  /** 所属版本ID */
-  @NotNull private Long versionId;
+  /** 所属项目ID */
+  @NotNull private Long projectId;
 
-  /** 迭代计划开始日期 */
+  /** 计划开始日期 */
   @NotNull private LocalDate planStartDate;
 
-  /** 迭代计划结束日期 */
+  /** 计划结束日期 */
   @NotNull private LocalDate planEndDate;
 
-  /** 迭代开始时间 */
+  /** 版本开始时间 */
   private LocalDateTime startTime;
 
-  /** 迭代结束时间 */
+  /** 版本结束时间 */
   private LocalDateTime endTime;
 
-  /** 备注信息 */
-  @Length(max = 1000)
+  /** 版本备注信息 */
+  @NotBlank
+  @Length(max = 1500)
   private String remark;
 
-  @Override
-  public int compareTo(@Nullable Sortable other) {
-    int compare = super.compareTo(other);
-    if (compare == 0 && other instanceof ScrumIterationDTO) {
-      ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;
-      compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
-      if (compare == 0) {
-        compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
-      }
-    }
-    return compare;
-  }
+  /** 迭代信息 */
+  private List<ScrumIterationVO> iterations;
 }

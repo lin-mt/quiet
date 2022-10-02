@@ -17,8 +17,7 @@
 
 package com.gitee.quiet.scrum.filter;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.scrum.dictionary.DemandType;
+import com.gitee.quiet.jpa.entity.Dict;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,5 +37,5 @@ public class ScrumDemandFilter {
   private Long priorityId;
 
   /** 需求类型 */
-  private Dictionary<DemandType> demandType;
+  private Dict demandType;
 }

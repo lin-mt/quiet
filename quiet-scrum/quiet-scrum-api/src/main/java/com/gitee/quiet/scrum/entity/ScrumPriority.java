@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -38,7 +38,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @Entity
 @Table(name = "scrum_priority")
-public class ScrumPriority extends SerialEntity {
+public class ScrumPriority extends SortableEntity {
 
   /** 优先级名称 */
   @NotBlank
@@ -50,7 +50,7 @@ public class ScrumPriority extends SerialEntity {
   @Length(max = 7)
   @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
   @Column(name = "color_hex", length = 7, nullable = false)
-  private String colorHex = "#1890FF";
+  private String colorHex;
 
   /** 模板ID */
   @NotNull

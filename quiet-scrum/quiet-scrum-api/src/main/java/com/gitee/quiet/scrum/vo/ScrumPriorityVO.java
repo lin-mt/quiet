@@ -15,40 +15,41 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
-import com.gitee.quiet.service.annotation.ExistId;
-import com.gitee.quiet.service.dto.SortableDTO;
+import com.gitee.quiet.service.vo.SortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
- * 任务步骤.
+ * 优先级.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumTaskStepDTO extends SortableDTO {
+public class ScrumPriorityVO extends SortableVO {
 
-  /** 步骤名称 */
+  /** 优先级名称 */
   @NotBlank
   @Length(max = 10)
   private String name;
 
-  /** 所属模板ID */
+  /** 图标的十六进制颜色 */
+  @Length(max = 7)
+  @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+  private String colorHex = "#1890FF";
+
+  /** 模板ID */
   @NotNull
-  @ExistId(
-      message = "quiet.validation.template.id.notExist",
-      repository = ScrumTemplateRepository.class)
   private Long templateId;
 
-  /** 步骤备注信息 */
-  @Length(max = 30)
+  /** 备注信息 */
+  @Length(max = 100)
   private String remark;
 }

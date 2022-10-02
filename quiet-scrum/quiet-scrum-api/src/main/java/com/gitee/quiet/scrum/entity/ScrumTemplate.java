@@ -26,9 +26,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * 项目模板.
@@ -40,12 +38,6 @@ import java.util.List;
 @Entity
 @Table(name = "scrum_template")
 public class ScrumTemplate extends BaseEntity {
-
-  /** 模板中的任务步骤 */
-  @Transient List<ScrumTaskStep> taskSteps;
-
-  /** 模板中的优先级配置 */
-  @Transient List<ScrumPriority> priorities;
 
   /** 模板名称 */
   @NotBlank

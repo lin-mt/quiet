@@ -24,8 +24,6 @@ import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.vo.ScrumDemandVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
-import com.gitee.quiet.validation.groups.IdValid;
-import com.gitee.quiet.validation.groups.OffsetLimitValid;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,7 +43,6 @@ import java.util.List;
 public class ScrumDemandController {
 
   private final ScrumDemandService demandService;
-
   private final ScrumDemandConvert demandConvert;
 
   /**
@@ -58,35 +55,6 @@ public class ScrumDemandController {
   public Result<Object> delete(@PathVariable Long id) {
     demandService.deleteById(id);
     return Result.deleteSuccess();
-  }
-
-  /**
-   * 滚动查询待规划的需求
-   *
-   * @param dto :id 项目ID ：demandFilter 需求过滤条件
-   * @return 待规划的需求
-   */
-  @GetMapping("/scroll-to-be-planned")
-  public Result<List<ScrumDemandVO>> scrollToBePlanned(
-      @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
-    List<ScrumDemand> scrumDemands =
-        demandService.listToBePlanned(
-            dto.getId(), dto.getDemandFilter(), dto.getOffset(), dto.getLimit());
-    return Result.success(demandConvert.entities2vos(scrumDemands));
-  }
-
-  /**
-   * 滚动查询迭代的需求
-   *
-   * @param dto :id 迭代ID
-   * @return 处于该迭代的需求
-   */
-  @GetMapping("/scroll-by-iteration-id")
-  public Result<List<ScrumDemandVO>> scrollByIterationId(
-      @Validated({OffsetLimitValid.class, IdValid.class}) ScrumDemandDTO dto) {
-    List<ScrumDemand> scrumDemands =
-        demandService.scrollIteration(dto.getId(), dto.getOffset(), dto.getLimit());
-    return Result.success(demandConvert.entities2vos(scrumDemands));
   }
 
   /**
@@ -114,14 +82,14 @@ public class ScrumDemandController {
   }
 
   /**
-   * 查询一个迭代下的所有需求信息
+   * 根据迭代ID查询迭代下的所有需求信息
    *
-   * @param id 迭代ID
+   * @param iterationId 迭代ID
    * @return 需求信息
    */
-  @GetMapping("/all/{id}")
-  public Result<List<ScrumDemandVO>> all(@PathVariable Long id) {
-    List<ScrumDemand> scrumDemands = demandService.findAllByIterationId(id);
+  @GetMapping("/all")
+  public Result<List<ScrumDemandVO>> all(@RequestParam Long iterationId) {
+    List<ScrumDemand> scrumDemands = demandService.findAllByIterationId(iterationId);
     return Result.success(demandConvert.entities2vos(scrumDemands));
   }
 

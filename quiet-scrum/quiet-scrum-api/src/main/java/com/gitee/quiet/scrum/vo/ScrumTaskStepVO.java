@@ -15,11 +15,9 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
-import com.gitee.quiet.service.annotation.ExistId;
-import com.gitee.quiet.service.dto.SortableDTO;
+import com.gitee.quiet.service.vo.SortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -34,7 +32,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class ScrumTaskStepDTO extends SortableDTO {
+public class ScrumTaskStepVO extends SortableVO {
 
   /** 步骤名称 */
   @NotBlank
@@ -42,11 +40,7 @@ public class ScrumTaskStepDTO extends SortableDTO {
   private String name;
 
   /** 所属模板ID */
-  @NotNull
-  @ExistId(
-      message = "quiet.validation.template.id.notExist",
-      repository = ScrumTemplateRepository.class)
-  private Long templateId;
+  @NotNull private Long templateId;
 
   /** 步骤备注信息 */
   @Length(max = 30)

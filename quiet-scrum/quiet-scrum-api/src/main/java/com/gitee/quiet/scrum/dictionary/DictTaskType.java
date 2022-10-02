@@ -17,22 +17,18 @@
 
 package com.gitee.quiet.scrum.dictionary;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * 任务类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class TaskType extends Dictionary<TaskType> {
-
-  /** 后端接口 */
-  public static final TaskType BackendApi = new TaskType("BackendApi");
-
-  /** 前端界面 */
-  public static final TaskType FrontendInterface = new TaskType("FrontendInterface");
-
-  private TaskType(String key) {
-    super(TaskType.class.getSimpleName(), key);
-  }
+@Getter
+@AllArgsConstructor
+public enum DictTaskType implements BaseDict {
+  ;
+  private final String key;
 }

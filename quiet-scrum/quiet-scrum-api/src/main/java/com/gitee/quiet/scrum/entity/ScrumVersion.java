@@ -17,8 +17,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.jpa.entity.ParentAndSerialEntity;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.jpa.entity.ParentAndSortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -27,12 +27,10 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 项目的版本信息.
@@ -43,7 +41,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "scrum_version")
-public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
+public class ScrumVersion extends ParentAndSortableEntity<ScrumVersion> {
 
   /** 版本名称 */
   @NotBlank
@@ -80,11 +78,8 @@ public class ScrumVersion extends ParentAndSerialEntity<ScrumVersion> {
   @Column(name = "remark", nullable = false, length = 1500)
   private String remark;
 
-  /** 迭代信息 */
-  @Transient private List<ScrumIteration> iterations;
-
   @Override
-  public int compareTo(@Nullable Serial other) {
+  public int compareTo(@Nullable Sortable other) {
     int compare = super.compareTo(other);
     if (compare == 0 && other instanceof ScrumVersion) {
       ScrumVersion otherVersion = (ScrumVersion) other;

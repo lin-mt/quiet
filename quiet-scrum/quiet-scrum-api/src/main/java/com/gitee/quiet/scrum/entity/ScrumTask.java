@@ -17,9 +17,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.jpa.entity.SerialEntity;
-import com.gitee.quiet.scrum.dictionary.TaskType;
+import com.gitee.quiet.jpa.entity.Dict;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -42,7 +41,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "scrum_task")
-public class ScrumTask extends SerialEntity {
+public class ScrumTask extends SortableEntity {
 
   /** 任务标题 */
   @NotBlank
@@ -53,7 +52,7 @@ public class ScrumTask extends SerialEntity {
   /** 任务类型 */
   @NotNull
   @Column(name = "task_type", nullable = false, length = 30)
-  private Dictionary<TaskType> type;
+  private Dict type;
 
   /** 所属需求ID */
   @NotNull

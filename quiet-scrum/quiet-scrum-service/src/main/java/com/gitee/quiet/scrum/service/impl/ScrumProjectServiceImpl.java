@@ -25,7 +25,6 @@ import com.gitee.quiet.scrum.service.*;
 import com.gitee.quiet.scrum.vo.MyScrumProject;
 import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
 import com.gitee.quiet.service.exception.ServiceException;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.entity.QuietTeamUser;
 import com.gitee.quiet.system.entity.QuietUser;
@@ -98,7 +97,6 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
           teamUsers.stream().map(QuietTeamUser::getTeamId).collect(Collectors.toSet());
       List<ScrumProject> projectInvolved = projectTeamService.findAllProjectsByTeamIds(teamIds);
       if (CollectionUtils.isNotEmpty(projectManaged)) {
-        projectManaged.forEach(project -> project.setManagerName(CurrentUserUtil.getFullName()));
         Set<Long> manageProjectIds =
             projectManaged.stream().map(ScrumProject::getId).collect(Collectors.toSet());
         projectInvolved =
@@ -113,7 +111,6 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
               .collect(Collectors.toMap(QuietUser::getId, QuietUser::getFullName));
       projectInvolved.forEach(
           project -> {
-            project.setManagerName(userIdToFullName.get(project.getManager()));
             allProjectIds.add(project.getId());
             allTemplateIds.add(project.getTemplateId());
           });
@@ -147,9 +144,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     if (CollectionUtils.isNotEmpty(projects)) {
       projects.forEach(
           project -> {
-            project.setTemplateName(templateIdToInfos.get(project.getTemplateId()).getName());
             List<ScrumProjectTeam> projectTeams = projectIdToTeams.get(project.getId());
-            projectTeams.forEach(pt -> project.addTeamInfo(teamIdToTeamInfos.get(pt.getTeamId())));
           });
     }
   }
@@ -157,9 +152,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
   @Override
   public ScrumProject save(@NotNull ScrumProject save) {
     checkProjectInfo(save);
-    ScrumProject project = projectRepository.save(save);
-    addProjectTeams(save.getTeamIds(), project);
-    return project;
+    return projectRepository.save(save);
   }
 
   @Override
@@ -178,9 +171,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     }
     projectTeamService.deleteAllByProjectId(update.getId());
     checkProjectInfo(update);
-    ScrumProject project = projectRepository.saveAndFlush(update);
-    addProjectTeams(update.getTeamIds(), project);
-    return project;
+    return projectRepository.saveAndFlush(update);
   }
 
   @Override
@@ -189,7 +180,7 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     // 删除版本信息
     versionService.deleteAllByProjectId(id);
     // 删除需求信息
-    demandService.deleteAllByProjectId(id);
+//    demandService.deleteAllByProjectId(id);
     // 删除项目团队信息
     projectTeamService.deleteAllByProjectId(id);
     // 删除项目信息
@@ -206,7 +197,6 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     ScrumProjectDetail projectDetail = new ScrumProjectDetail();
     ScrumProject project = findById(id);
     QuietUser manager = quietUserService.findById(project.getManager());
-    project.setManagerName(manager.getFullName());
     projectDetail.setProject(project);
     Set<Long> teamIds =
         projectTeamService.findAllByProjectIds(Set.of(id)).stream()
@@ -227,14 +217,11 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
   public ScrumProject projectInfo(Long id) {
     ScrumProject scrumProject = findById(id);
     QuietUser user = quietUserService.findById(scrumProject.getManager());
-    scrumProject.setManagerName(user.getFullName());
     Set<Long> teamIds =
         projectTeamService.findAllByProjectIds(Set.of(id)).stream()
             .map(ScrumProjectTeam::getTeamId)
             .collect(Collectors.toSet());
-    scrumProject.setTemplateName(templateService.findById(scrumProject.getTemplateId()).getName());
-    scrumProject.setTeamIds(teamIds);
-    scrumProject.setTeams(quietTeamService.findAllByIds(teamIds));
+//    scrumProject.setTeamIds(teamIds);
     return scrumProject;
   }
 
@@ -244,19 +231,19 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     if (exist != null && !exist.getId().equals(project.getId())) {
       throw new ServiceException("project.manager.projectName.exist", project.getName());
     }
-    if (CollectionUtils.isEmpty(project.getTeamIds())) {
-      throw new ServiceException("project.teamIds.canNotEmpty");
-    }
-    List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(project.getTeamIds());
-    if (CollectionUtils.isNotEmpty(projects)) {
-      List<ScrumProject> existProjectName =
-          projects.stream()
-              .filter(p -> p.getName().equals(project.getName()))
-              .collect(Collectors.toList());
-      if (CollectionUtils.isNotEmpty(existProjectName)) {
-        throw new ServiceException("project.team.projectName.exist", project.getName());
-      }
-    }
+//    if (CollectionUtils.isEmpty(project.getTeamIds())) {
+//      throw new ServiceException("project.teamIds.canNotEmpty");
+//    }
+//    List<ScrumProject> projects = projectTeamService.findAllProjectsByTeamIds(project.getTeamIds());
+//    if (CollectionUtils.isNotEmpty(projects)) {
+//      List<ScrumProject> existProjectName =
+//          projects.stream()
+//              .filter(p -> p.getName().equals(project.getName()))
+//              .collect(Collectors.toList());
+//      if (CollectionUtils.isNotEmpty(existProjectName)) {
+//        throw new ServiceException("project.team.projectName.exist", project.getName());
+//      }
+//    }
   }
 
   private void addProjectTeams(@NotNull @NotEmpty Set<Long> teamIds, ScrumProject project) {

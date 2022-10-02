@@ -15,15 +15,13 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.vo;
 
-import com.gitee.quiet.common.core.entity.Sortable;
-import com.gitee.quiet.service.dto.SortableDTO;
+import com.gitee.quiet.service.vo.SortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -36,7 +34,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class ScrumIterationDTO extends SortableDTO {
+public class ScrumIterationVO extends SortableVO {
 
   /** 迭代名称 */
   @NotBlank
@@ -61,17 +59,4 @@ public class ScrumIterationDTO extends SortableDTO {
   /** 备注信息 */
   @Length(max = 1000)
   private String remark;
-
-  @Override
-  public int compareTo(@Nullable Sortable other) {
-    int compare = super.compareTo(other);
-    if (compare == 0 && other instanceof ScrumIterationDTO) {
-      ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;
-      compare = planStartDate.compareTo(otherIteration.getPlanStartDate());
-      if (compare == 0) {
-        compare = getGmtCreate().compareTo(otherIteration.getGmtCreate());
-      }
-    }
-    return compare;
-  }
 }

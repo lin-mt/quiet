@@ -17,8 +17,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -41,7 +41,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "scrum_iteration")
-public class ScrumIteration extends SerialEntity {
+public class ScrumIteration extends SortableEntity {
 
   /** 迭代名称 */
   @NotBlank
@@ -78,7 +78,7 @@ public class ScrumIteration extends SerialEntity {
   private String remark;
 
   @Override
-  public int compareTo(@Nullable Serial other) {
+  public int compareTo(@Nullable Sortable other) {
     int compare = super.compareTo(other);
     if (compare == 0 && other instanceof ScrumIteration) {
       ScrumIteration otherIteration = (ScrumIteration) other;

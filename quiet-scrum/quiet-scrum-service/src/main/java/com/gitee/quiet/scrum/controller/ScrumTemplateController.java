@@ -20,8 +20,8 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumTemplateConvert;
 import com.gitee.quiet.scrum.dto.ScrumTemplateDTO;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
+import com.gitee.quiet.scrum.manager.ScrumTemplateManager;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
-import com.gitee.quiet.scrum.vo.AllTemplate;
 import com.gitee.quiet.scrum.vo.ScrumTemplateVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
@@ -43,17 +43,26 @@ import java.util.List;
 public class ScrumTemplateController {
 
   private final ScrumTemplateService templateService;
-
   private final ScrumTemplateConvert templateConvert;
+  private final ScrumTemplateManager templateManager;
 
   /**
-   * 查询所有的模板信息.
+   * 根据模板id、名称、状态查询模板信息
    *
-   * @return 根据是否创建人创建的模板进行分组
+   * @param id 模板ID
+   * @param name 模板名称
+   * @param enabled 模板状态
+   * @param limit 查询数量，默认查询 15 条数据，传 0 则查询所有
+   * @return 模板信息
    */
-  @GetMapping("/all-templates")
-  public Result<AllTemplate> allTemplates() {
-    return Result.success(templateService.allTemplates());
+  @GetMapping("/list")
+  public Result<List<ScrumTemplateVO>> list(
+      @RequestParam(required = false) Long id,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Boolean enabled,
+      @RequestParam(required = false) Long limit) {
+    List<ScrumTemplate> templates = templateService.list(id, name, enabled, limit);
+    return Result.success(templateConvert.entities2vos(templates));
   }
 
   /**
@@ -63,8 +72,8 @@ public class ScrumTemplateController {
    * @return 模板信息
    */
   @GetMapping("/{id}")
-  public Result<ScrumTemplateVO> templateInfo(@PathVariable Long id) {
-    ScrumTemplate scrumTemplate = templateService.templateInfo(id);
+  public Result<ScrumTemplateVO> getById(@PathVariable Long id) {
+    ScrumTemplate scrumTemplate = templateService.findById(id);
     return Result.success(templateConvert.entity2vo(scrumTemplate));
   }
 
@@ -76,7 +85,7 @@ public class ScrumTemplateController {
    */
   @PostMapping
   public Result<ScrumTemplateVO> save(@RequestBody @Validated(Create.class) ScrumTemplateDTO dto) {
-    ScrumTemplate save = templateService.save(templateConvert.dto2entity(dto));
+    ScrumTemplate save = templateService.saveOrUpdate(templateConvert.dto2entity(dto));
     return Result.createSuccess(templateConvert.entity2vo(save));
   }
 
@@ -89,8 +98,21 @@ public class ScrumTemplateController {
   @PutMapping
   public Result<ScrumTemplateVO> update(
       @RequestBody @Validated(Update.class) ScrumTemplateDTO dto) {
-    ScrumTemplate update = templateService.update(templateConvert.dto2entity(dto));
+    ScrumTemplate update = templateService.saveOrUpdate(templateConvert.dto2entity(dto));
     return Result.updateSuccess(templateConvert.entity2vo(update));
+  }
+
+  /**
+   * 更新模板状态.
+   *
+   * @param id 更新的模板ID
+   * @param enabled 模板状态
+   * @return 更新结果
+   */
+  @PostMapping("/enabled")
+  public Result<Object> enabled(@RequestParam Long id, @RequestParam Boolean enabled) {
+    templateManager.enabled(id, enabled);
+    return Result.updateSuccess();
   }
 
   /**
@@ -101,20 +123,7 @@ public class ScrumTemplateController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    templateService.deleteById(id);
+    templateManager.deleteById(id);
     return Result.deleteSuccess();
-  }
-
-  /**
-   * 根据模板名称查询启用的模板信息.
-   *
-   * @param name 模板名称
-   * @return 查询结果
-   */
-  @GetMapping("/list-enabled-by-name")
-  public Result<List<ScrumTemplateVO>> listEnabledByName(
-      @RequestParam(required = false) String name) {
-    List<ScrumTemplate> scrumTemplates = templateService.listEnabledByName(name, 9L);
-    return Result.success(templateConvert.entities2vos(scrumTemplates));
   }
 }
