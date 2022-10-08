@@ -62,6 +62,9 @@ public class ScrumProjectVO extends SortableVO {
   /** 模板ID */
   @NotNull private Long templateId;
 
+  /** 项目组ID */
+  private Long groupId;
+
   /** 构建工具 */
   private BuildTool buildTool;
 
@@ -82,5 +85,4 @@ public class ScrumProjectVO extends SortableVO {
 
   /** 负责该项目的团队信息 */
   private List<QuietTeam> teams;
-
 }

@@ -22,7 +22,6 @@ import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
-import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;

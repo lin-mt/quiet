@@ -102,4 +102,12 @@ public interface ScrumProjectService {
    * @return 项目信息
    */
   ScrumProject projectInfo(Long id);
+
+  /**
+   * 根据项目ID查询项目列表
+   *
+   * @param groupId 项目组ID
+   * @return 项目列表
+   */
+  List<ScrumProject> list(Long groupId);
 }

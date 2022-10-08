@@ -56,8 +56,6 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
 
   private final ScrumVersionService versionService;
 
-  private final ScrumDemandService demandService;
-
   private final ScrumTemplateService templateService;
 
   @DubboReference private QuietTeamUserService quietTeamUserService;
@@ -75,7 +73,6 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
     this.projectRepository = projectRepository;
     this.projectTeamService = projectTeamService;
     this.versionService = versionService;
-    this.demandService = demandService;
     this.templateService = templateService;
   }
 
@@ -223,6 +220,11 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
             .collect(Collectors.toSet());
 //    scrumProject.setTeamIds(teamIds);
     return scrumProject;
+  }
+
+  @Override
+  public List<ScrumProject> list(Long groupId) {
+    return projectRepository.findAllByGroupId(groupId);
   }
 
   private void checkProjectInfo(ScrumProject project) {

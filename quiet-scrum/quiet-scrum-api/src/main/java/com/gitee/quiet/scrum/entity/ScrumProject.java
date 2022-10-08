@@ -72,6 +72,10 @@ public class ScrumProject extends SortableEntity {
   @Column(name = "template_id")
   private Long templateId;
 
+  /** 项目组ID */
+  @Column(name = "group_id")
+  private Long groupId;
+
   /** 构建工具 */
   @Column(name = "build_tool", length = 6)
   private BuildTool buildTool;

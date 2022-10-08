@@ -55,4 +55,12 @@ public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
    * @return 使用了该模板的项目数量
    */
   long countByTemplateId(Long templateId);
+
+  /**
+   * 根据项目组ID查询项目列表
+   *
+   * @param groupId 项目组ID
+   * @return 项目列表
+   */
+  List<ScrumProject> findAllByGroupId(Long groupId);
 }

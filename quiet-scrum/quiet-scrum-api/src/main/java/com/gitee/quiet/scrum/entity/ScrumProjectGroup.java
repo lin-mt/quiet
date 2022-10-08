@@ -15,59 +15,35 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.dto;
+package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.scrum.enums.BuildTool;
-import com.gitee.quiet.service.dto.SortableDTO;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 /**
- * 项目.
- *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class ScrumProjectDTO extends SortableDTO {
+@Entity
+@Table(name = "scrum_project_group")
+public class ScrumProjectGroup extends SortableEntity {
 
-  /** 项目名称 */
+  /** 分组名称 */
   @NotBlank
   @Length(max = 30)
+  @Column(name = "group_name", length = 30, nullable = false)
   private String name;
 
-  /** 项目经理 */
-  @NotNull private Long manager;
-
-  /** 项目描述信息 */
-  @Length(max = 100)
-  private String description;
-
-  /** 需求前缀 */
-  @Length(max = 6)
-  private String demandPrefix;
-
-  /** 任务前缀 */
-  @Length(max = 6)
-  private String taskPrefix;
-
-  /** 模板ID */
-  @NotNull private Long templateId;
-
-  /** 项目组ID */
-  private Long groupId;
-
-  /** 构建工具 */
-  private BuildTool buildTool;
-
-  /** 项目开始时间 */
-  private LocalDateTime startTime;
-
-  /** 项目结束时间 */
-  private LocalDateTime endTime;
+  /** 备注 */
+  @Length(max = 300)
+  @Column(name = "remark", length = 300)
+  private String remark;
 }
