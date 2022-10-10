@@ -46,7 +46,9 @@ public class ExistIdValidator implements ConstraintValidator<ExistId, Long> {
   @Override
   public boolean isValid(Long value, ConstraintValidatorContext context) {
     boolean isValid;
-    if (value <= 0) {
+    if (value == null) {
+      isValid = true;
+    } else if (value <= 0) {
       isValid = false;
     } else {
       QuietRepository<?> quietRepository =
