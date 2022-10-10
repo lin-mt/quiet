@@ -18,6 +18,9 @@
 package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.scrum.enums.BuildTool;
+import com.gitee.quiet.scrum.repository.ScrumProjectGroupRepository;
+import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
+import com.gitee.quiet.service.annotation.ExistId;
 import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +49,7 @@ public class ScrumProjectDTO extends SortableDTO {
 
   /** 项目描述信息 */
   @Length(max = 100)
-  private String description;
+  private String remark;
 
   /** 需求前缀 */
   @Length(max = 6)
@@ -57,10 +60,21 @@ public class ScrumProjectDTO extends SortableDTO {
   private String taskPrefix;
 
   /** 模板ID */
-  @NotNull private Long templateId;
+  @NotNull
+  @ExistId(
+      repository = ScrumTemplateRepository.class,
+      message = "quiet.validation.template.id.notExist")
+  private Long templateId;
 
   /** 项目组ID */
+  @ExistId(
+      repository = ScrumProjectGroupRepository.class,
+      message = "quiet.validation.project-group.id.notExist")
   private Long groupId;
+
+  /** 负责项目的团队ID */
+  // TODO 校验团队ID的合法性
+  @NotNull private Long teamId;
 
   /** 构建工具 */
   private BuildTool buildTool;

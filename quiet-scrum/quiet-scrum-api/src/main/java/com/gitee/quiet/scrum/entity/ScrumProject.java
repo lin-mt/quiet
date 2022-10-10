@@ -54,8 +54,8 @@ public class ScrumProject extends SortableEntity {
 
   /** 项目描述信息 */
   @Length(max = 100)
-  @Column(name = "project_description", length = 100)
-  private String description;
+  @Column(name = "remark", length = 100)
+  private String remark;
 
   /** 需求前缀 */
   @Length(max = 6)
@@ -87,4 +87,9 @@ public class ScrumProject extends SortableEntity {
   /** 项目结束时间 */
   @Column(name = "end_time")
   private LocalDateTime endTime;
+
+  /** 负责项目的团队ID */
+  @NotNull
+  @Column(name = "team_id")
+  private Long teamId;
 }

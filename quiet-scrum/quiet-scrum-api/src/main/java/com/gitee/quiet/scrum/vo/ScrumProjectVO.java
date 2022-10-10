@@ -19,7 +19,6 @@ package com.gitee.quiet.scrum.vo;
 
 import com.gitee.quiet.scrum.enums.BuildTool;
 import com.gitee.quiet.service.vo.SortableVO;
-import com.gitee.quiet.system.entity.QuietTeam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -27,8 +26,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 项目.
@@ -49,7 +46,7 @@ public class ScrumProjectVO extends SortableVO {
 
   /** 项目描述信息 */
   @Length(max = 100)
-  private String description;
+  private String remark;
 
   /** 需求前缀 */
   @Length(max = 6)
@@ -74,15 +71,6 @@ public class ScrumProjectVO extends SortableVO {
   /** 项目结束时间 */
   private LocalDateTime endTime;
 
-  /** 负责的团队ID集合 */
-  private Set<Long> teamIds;
-
-  /** 项目经理用户名 */
-  private String managerName;
-
-  /** 模板名称 */
-  private String templateName;
-
-  /** 负责该项目的团队信息 */
-  private List<QuietTeam> teams;
+  /** 负责项目的团队ID */
+  @NotNull private Long teamId;
 }

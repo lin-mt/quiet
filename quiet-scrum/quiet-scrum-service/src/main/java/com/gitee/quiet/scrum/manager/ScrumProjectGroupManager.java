@@ -17,15 +17,11 @@
 
 package com.gitee.quiet.scrum.manager;
 
-import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.repository.ScrumProjectGroupRepository;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
@@ -43,8 +39,8 @@ public class ScrumProjectGroupManager {
    * @param id 项目组ID
    */
   public void delete(Long id) {
-    List<ScrumProject> projects = projectService.list(id);
-    if (CollectionUtils.isNotEmpty(projects)) {
+    Long count = projectService.countByGroupId(id);
+    if (count > 0) {
       throw new ServiceException("projectGroup.canNot.delete.projectExist");
     }
     projectGroupRepository.deleteById(id);

@@ -116,6 +116,11 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     demandRepository.saveAll(demands);
   }
 
+  @Override
+  public void deleteAllByProjectId(Long projectId) {
+    demandRepository.deleteByProjectId(projectId);
+  }
+
   private void checkDemand(@NotNull ScrumDemand demand) {
     ScrumDemand exist =
         demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());

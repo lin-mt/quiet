@@ -71,4 +71,11 @@ public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
    * @return 处于该迭代的需求数量
    */
   long countByIterationId(Long iterationId);
+
+  /**
+   * 根据项目ID删除所有需求信息
+   *
+   * @param projectId 项目ID
+   */
+  void deleteByProjectId(Long projectId);
 }
