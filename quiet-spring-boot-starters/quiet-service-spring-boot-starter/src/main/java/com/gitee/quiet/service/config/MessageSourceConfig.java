@@ -18,11 +18,14 @@
 package com.gitee.quiet.service.config;
 
 import com.gitee.quiet.service.utils.MessageSourceUtil;
+import com.gitee.quiet.validation.extension.ValidationResource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.context.MessageSourceProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Set;
 
 /**
  * MessageSource 配置类.
@@ -40,5 +43,10 @@ public class MessageSourceConfig {
     BeanUtils.copyProperties(properties, messageSourceProperties);
     messageSourceProperties.setBasename("quiet-common");
     return MessageSourceUtil.buildMessageSource(messageSourceProperties);
+  }
+
+  @Bean
+  public ValidationResource validationResource() {
+    return () -> Set.of("validation-service");
   }
 }

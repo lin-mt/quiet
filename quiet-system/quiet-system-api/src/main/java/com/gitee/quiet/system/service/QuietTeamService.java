@@ -57,15 +57,6 @@ public interface QuietTeamService {
   void deleteTeam(Long deleteId);
 
   /**
-   * 根据团队名称传销团队信息
-   *
-   * @param teamName 团队名称
-   * @param limit 要查询的团队数量
-   * @return 团队信息
-   */
-  List<QuietTeam> listTeamsByTeamName(String teamName, int limit);
-
-  /**
    * 根据团队ID批量查询团队信息
    *
    * @param ids 团队ID集合
@@ -96,7 +87,8 @@ public interface QuietTeamService {
    * @param id 团队ID
    * @param teamUserId 成员ID
    * @param teamName 团队名称
+   * @param ids 团队ID集合
    * @return 所有团队信息
    */
-  List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName);
+  List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName, Set<Long> ids);
 }

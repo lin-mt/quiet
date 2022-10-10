@@ -19,12 +19,13 @@ package com.gitee.quiet.service.advice;
 
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.MessageSourceUtil;
-import com.gitee.quiet.validation.config.QuietValidationConfig;
 import com.gitee.quiet.validation.exception.ValidationException;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Converter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -35,8 +36,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 参数验证异常.
@@ -50,7 +56,7 @@ public class ValidationExceptionAdvice {
   private static final Converter<String, String> CAMEL_TO_UNDERSCORE_CONVERTER =
       CaseFormat.LOWER_CAMEL.converterTo(CaseFormat.LOWER_UNDERSCORE);
 
-  @Resource(name = QuietValidationConfig.QUIET_VALIDATION_MESSAGE_SOURCE)
+  @Resource(name = AbstractApplicationContext.MESSAGE_SOURCE_BEAN_NAME)
   private MessageSource messageSource;
 
   /**
@@ -62,19 +68,46 @@ public class ValidationExceptionAdvice {
   @ExceptionHandler(value = BindException.class)
   public Result<Object> handleMethodArgumentNotValidException(final BindException e) {
     StringBuilder errorMsg = new StringBuilder();
-    e.printStackTrace();
     if (e.getBindingResult().hasErrors()) {
       List<ObjectError> errors = e.getBindingResult().getAllErrors();
       for (ObjectError error : errors) {
         if (error instanceof FieldError) {
           String fieldName = ((FieldError) error).getField();
           errorMsg.append(CAMEL_TO_UNDERSCORE_CONVERTER.convert(fieldName));
-          errorMsg.append(" ");
+          errorMsg.append(": ");
         } else {
           log.error("错误类型异常未处理：{}", error.getClass());
         }
-        errorMsg.append(error.getDefaultMessage()).append(";\r\n");
+        errorMsg.append(error.getDefaultMessage()).append("; ");
       }
+    }
+    Result<Object> exception = Result.exception();
+    exception.setMessage(errorMsg.toString());
+    return exception;
+  }
+
+  @ExceptionHandler(value = ConstraintViolationException.class)
+  public Result<Object> handleConstraintViolationException(final ConstraintViolationException e) {
+    StringBuilder errorMsg = new StringBuilder();
+    Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+    if (CollectionUtils.isNotEmpty(constraintViolations)) {
+      constraintViolations.forEach(
+          constraintViolation -> {
+            Path propertyPath = constraintViolation.getPropertyPath();
+            Iterator<Path.Node> iterator = propertyPath.iterator();
+            StringBuilder fieldName = new StringBuilder();
+            while (iterator.hasNext()) {
+              Path.Node next = iterator.next();
+              if (next instanceof Path.MethodNode) {
+                continue;
+              }
+              fieldName.append(next.getName());
+            }
+            errorMsg.append(CAMEL_TO_UNDERSCORE_CONVERTER.convert(fieldName.toString()));
+            errorMsg.append(": ");
+            String message = constraintViolation.getMessage();
+            errorMsg.append(message).append("; ");
+          });
     }
     Result<Object> exception = Result.exception();
     exception.setMessage(errorMsg.toString());

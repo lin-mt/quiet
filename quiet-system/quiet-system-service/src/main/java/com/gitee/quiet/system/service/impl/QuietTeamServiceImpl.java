@@ -21,14 +21,17 @@ import com.gitee.quiet.common.constant.service.RoleNames;
 import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
-import com.gitee.quiet.system.entity.*;
+import com.gitee.quiet.system.entity.QuietTeam;
+import com.gitee.quiet.system.entity.QuietTeamUser;
+import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietTeamRepository;
-import com.gitee.quiet.system.service.*;
+import com.gitee.quiet.system.service.QuietTeamService;
+import com.gitee.quiet.system.service.QuietTeamUserRoleService;
+import com.gitee.quiet.system.service.QuietTeamUserService;
+import com.gitee.quiet.system.service.QuietUserService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -128,20 +131,6 @@ public class QuietTeamServiceImpl implements QuietTeamService {
   }
 
   @Override
-  public List<QuietTeam> listTeamsByTeamName(String teamName, int limit) {
-    BooleanBuilder builder = new BooleanBuilder();
-    if (StringUtils.isBlank(teamName)) {
-      return new ArrayList<>();
-    }
-    builder.and(quietTeam.teamName.contains(teamName));
-    JPAQuery<QuietTeam> query = jpaQueryFactory.selectFrom(quietTeam).where(builder);
-    if (limit > 0) {
-      query.limit(limit);
-    }
-    return query.fetch();
-  }
-
-  @Override
   public List<QuietTeam> findAllByIds(Set<Long> ids) {
     return teamRepository.findAllById(ids);
   }
@@ -187,7 +176,7 @@ public class QuietTeamServiceImpl implements QuietTeamService {
   }
 
   @Override
-  public List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName) {
+  public List<QuietTeam> listTeams(Long id, Long teamUserId, String teamName, Set<Long> ids) {
     List<QuietTeam> teams = new ArrayList<>();
     if (id != null) {
       QuietTeam team = this.findById(id);
@@ -197,11 +186,13 @@ public class QuietTeamServiceImpl implements QuietTeamService {
       return teams;
     }
     BooleanBuilder where =
-            SelectBooleanBuilder.booleanBuilder()
-                    .isIdEq(teamUserId, quietTeamUser.userId)
-                    .notBlankContains(teamName, quietTeam.teamName)
-                    .getPredicate();
-    teams = jpaQueryFactory
+        SelectBooleanBuilder.booleanBuilder()
+            .isIdEq(teamUserId, quietTeamUser.userId)
+            .notBlankContains(teamName, quietTeam.teamName)
+            .notEmptyIn(ids, quietTeam.id)
+            .getPredicate();
+    teams =
+        jpaQueryFactory
             .selectFrom(quietTeam)
             .leftJoin(quietTeamUser)
             .on(quietTeam.id.eq(quietTeamUser.teamId))
