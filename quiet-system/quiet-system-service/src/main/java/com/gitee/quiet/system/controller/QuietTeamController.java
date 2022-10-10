@@ -45,22 +45,8 @@ import java.util.List;
 public class QuietTeamController {
 
   private final QuietTeamService teamService;
-
   private final QuietTeamManager teamManager;
-
   private final QuietTeamConvert teamConvert;
-
-  /**
-   * 根据团队名称查询团队信息
-   *
-   * @param dto :teamName 团队名称
-   * @return 团队信息
-   */
-  @GetMapping("/list-teams-by-team-name")
-  public Result<List<QuietTeamVO>> listTeamsByTeamName(QuietTeamDTO dto) {
-    List<QuietTeam> teams = teamService.listTeamsByTeamName(dto.getTeamName(), 9);
-    return Result.success(teamConvert.entities2vos(teams));
-  }
 
   /**
    * 根据团队ID获取团队信息
@@ -82,7 +68,7 @@ public class QuietTeamController {
    */
   @GetMapping("/list-teams")
   public Result<List<QuietTeamVO>> listTeams(QuietTeamDTO dto) {
-    List<QuietTeam> teams = teamService.listTeams(dto.getId(), dto.getTeamUserId(), dto.getTeamName());
+    List<QuietTeam> teams = teamService.listTeams(dto.getId(), dto.getTeamUserId(), dto.getTeamName(), dto.getIds());
     return Result.success(teamConvert.entities2vos(teams));
   }
 

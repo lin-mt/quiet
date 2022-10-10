@@ -20,6 +20,7 @@ package com.gitee.quiet.service.advice;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.service.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -44,7 +45,19 @@ public class ApplicationExceptionAdvice {
   public Result<Object> handleServiceException(final ServiceException exception) {
     log.error("业务异常", exception);
     if (Objects.nonNull(exception.getCode())) {
-      return Result.exceptionMsg(exception.getCode(), exception.getMsgParam());
+      Object[] msgParam = exception.getMsgParam();
+      if (ArrayUtils.isNotEmpty(msgParam)) {
+        Object[] newParams = new Object[msgParam.length];
+        for (int i = 0; i < msgParam.length; i++) {
+          Object param = msgParam[i];
+          if (param instanceof Number) {
+            param = param.toString();
+          }
+          newParams[i] = param;
+        }
+        msgParam = newParams;
+      }
+      return Result.exceptionMsg(exception.getCode(), msgParam);
     }
     Result<Object> exceptionResult = Result.exception();
     exceptionResult.setMessage(exception.getMessage());
