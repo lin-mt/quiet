@@ -224,9 +224,4 @@ public class QuietUserServiceImpl implements QuietUserService {
         .findById(id)
         .orElseThrow(() -> new ServiceException("user.id.not.exist", id));
   }
-
-  @Override
-  public List<QuietUser> findByUsernames(Set<String> usernames) {
-    return userRepository.findByUsernameIsIn(usernames);
-  }
 }
