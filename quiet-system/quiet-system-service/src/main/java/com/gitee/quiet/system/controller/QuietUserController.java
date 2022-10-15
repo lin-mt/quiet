@@ -89,6 +89,18 @@ public class QuietUserController {
   }
 
   /**
+   * 获取用户信息.
+   *
+   * @param id 用户ID
+   * @return 用户信息
+   */
+  @GetMapping("/{id}")
+  public Result<QuietUserVO> get(@PathVariable Long id) {
+    QuietUser user = userService.findById(id);
+    return Result.createSuccess(userConvert.entity2vo(user));
+  }
+
+  /**
    * 分页查询用户.
    *
    * @param dto 查询参数
