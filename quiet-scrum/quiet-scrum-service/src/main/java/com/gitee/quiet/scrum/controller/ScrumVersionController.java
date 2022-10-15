@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.scrum.controller;
 
+import com.gitee.quiet.jpa.utils.EntityUtils;
 import com.gitee.quiet.scrum.convert.ScrumVersionConvert;
 import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
@@ -46,15 +47,15 @@ public class ScrumVersionController {
   private final ScrumVersionConvert versionConvert;
 
   /**
-   * 查询项目的所有版本信息，包含迭代信息
+   * 查询项目的所有版本信息
    *
-   * @param id 项目ID
-   * @return 项目的所有版本信息，包含各个版本的迭代信息
+   * @param projectId 项目ID
+   * @return 项目的所有版本信息
    */
-  @GetMapping("/all/{id}")
-  public Result<List<ScrumVersionVO>> all(@PathVariable Long id) {
-    List<ScrumVersion> scrumVersions = versionService.findDetailsByProjectId(id);
-    return Result.success(versionConvert.entities2vos(scrumVersions));
+  @GetMapping("/tree")
+  public Result<List<ScrumVersionVO>> tree(@RequestParam Long projectId) {
+    List<ScrumVersion> scrumVersions = versionService.list(projectId);
+    return Result.success(versionConvert.entities2vos(EntityUtils.buildTreeData(scrumVersions)));
   }
 
   /**
@@ -65,7 +66,7 @@ public class ScrumVersionController {
    */
   @PostMapping
   public Result<ScrumVersionVO> save(@RequestBody @Validated(Create.class) ScrumVersionDTO dto) {
-    ScrumVersion save = versionService.save(versionConvert.dto2entity(dto));
+    ScrumVersion save = versionService.saveOrUpdate(versionConvert.dto2entity(dto));
     return Result.createSuccess(versionConvert.entity2vo(save));
   }
 
@@ -77,7 +78,7 @@ public class ScrumVersionController {
    */
   @PutMapping
   public Result<ScrumVersionVO> update(@RequestBody @Validated(Update.class) ScrumVersionDTO dto) {
-    ScrumVersion update = versionService.update(versionConvert.dto2entity(dto));
+    ScrumVersion update = versionService.saveOrUpdate(versionConvert.dto2entity(dto));
     return Result.updateSuccess(versionConvert.entity2vo(update));
   }
 

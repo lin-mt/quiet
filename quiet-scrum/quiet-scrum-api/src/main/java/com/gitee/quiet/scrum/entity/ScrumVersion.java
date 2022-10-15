@@ -73,9 +73,8 @@ public class ScrumVersion extends ParentAndSortableEntity<ScrumVersion> {
   private LocalDateTime endTime;
 
   /** 版本备注信息 */
-  @NotBlank
   @Length(max = 1500)
-  @Column(name = "remark", nullable = false, length = 1500)
+  @Column(name = "remark", length = 1500)
   private String remark;
 
   @Override

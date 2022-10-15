@@ -18,6 +18,8 @@
 package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
+import com.gitee.quiet.service.annotation.ExistId;
 import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +46,11 @@ public class ScrumIterationDTO extends SortableDTO {
   private String name;
 
   /** 所属版本ID */
-  @NotNull private Long versionId;
+  @NotNull
+  @ExistId(
+      repository = ScrumVersionRepository.class,
+      message = "quiet.validation.version.id.notExist")
+  private Long versionId;
 
   /** 迭代计划开始日期 */
   @NotNull private LocalDate planStartDate;

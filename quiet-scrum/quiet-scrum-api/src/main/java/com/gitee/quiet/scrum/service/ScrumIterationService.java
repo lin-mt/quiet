@@ -46,20 +46,12 @@ public interface ScrumIterationService {
   List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds);
 
   /**
-   * 新建迭代
+   * 新建/更新迭代
    *
-   * @param save 新建的迭代信息
-   * @return 新建后的迭代信息
+   * @param iteration 新建/更新的迭代信息
+   * @return 新建/更新后的迭代信息
    */
-  ScrumIteration save(ScrumIteration save);
-
-  /**
-   * 更新迭代信息
-   *
-   * @param update 更新的迭代信息
-   * @return 更新后的迭代信息
-   */
-  ScrumIteration update(ScrumIteration update);
+  ScrumIteration saveOrUpdate(ScrumIteration iteration);
 
   /**
    * 根据ID删除迭代信息
@@ -98,4 +90,12 @@ public interface ScrumIterationService {
    * @return 迭代信息
    */
   ScrumIteration end(Long id);
+
+  /**
+   * 根据id查询迭代信息
+   *
+   * @param id 迭代id
+   * @return 迭代信息
+   */
+  ScrumIteration getById(Long id);
 }

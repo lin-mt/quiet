@@ -18,18 +18,18 @@
 package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
+import com.gitee.quiet.service.annotation.ExistId;
 import com.gitee.quiet.service.dto.ParentAndSortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 项目的版本信息.
@@ -46,7 +46,9 @@ public class ScrumVersionDTO extends ParentAndSortableDTO<ScrumVersionDTO> {
   private String name;
 
   /** 所属项目ID */
-  @NotNull private Long projectId;
+  @NotNull
+  @ExistId(repository = ScrumProjectRepository.class, message = "quiet.validation.project.id.notExist")
+  private Long projectId;
 
   /** 计划开始日期 */
   @NotNull private LocalDate planStartDate;
@@ -61,12 +63,8 @@ public class ScrumVersionDTO extends ParentAndSortableDTO<ScrumVersionDTO> {
   private LocalDateTime endTime;
 
   /** 版本备注信息 */
-  @NotBlank
   @Length(max = 1500)
   private String remark;
-
-  /** 迭代信息 */
-  @Transient private List<ScrumIterationDTO> iterations;
 
   @Override
   public int compareTo(@Nullable Sortable other) {

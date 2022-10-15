@@ -62,9 +62,10 @@ public class ScrumProjectServiceImpl implements ScrumProjectService {
   }
 
   @Override
-  public List<ScrumProject> list(Long groupId) {
+  public List<ScrumProject> list(Long groupId, String name, Long id) {
     BooleanBuilder where =
         SelectBooleanBuilder.booleanBuilder()
+            .isIdEq(id, scrumProject.id)
             .isIdEq(groupId, scrumProject.groupId)
             .with(
                 builder -> {

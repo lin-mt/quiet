@@ -30,10 +30,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -76,15 +74,14 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
   }
 
   @Override
-  public ScrumIteration save(ScrumIteration save) {
-    checkInfo(save);
-    return iterationRepository.save(save);
-  }
-
-  @Override
-  public ScrumIteration update(ScrumIteration update) {
-    checkInfo(update);
-    return iterationRepository.saveAndFlush(update);
+  public ScrumIteration saveOrUpdate(ScrumIteration iteration) {
+    ScrumIteration exist =
+        iterationRepository.findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
+    if (exist != null && !exist.getId().equals(iteration.getId())) {
+      throw new ServiceException(
+          "iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
+    }
+    return iterationRepository.saveAndFlush(iteration);
   }
 
   @Override
@@ -151,16 +148,10 @@ public class ScrumIterationServiceImpl implements ScrumIterationService {
     return iterationRepository.saveAndFlush(iteration);
   }
 
-  private void checkInfo(@NotNull ScrumIteration iteration) {
-    if (Objects.nonNull(iteration.getId())) {
-      checkIdExist(iteration.getId());
-    }
-    versionService.checkIdExist(iteration.getVersionId());
-    ScrumIteration exist =
-        iterationRepository.findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
-    if (exist != null && !exist.getId().equals(iteration.getId())) {
-      throw new ServiceException(
-          "iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
-    }
+  @Override
+  public ScrumIteration getById(Long id) {
+    return iterationRepository
+            .findById(id)
+            .orElseThrow(() -> new ServiceException("iteration.id.not.exist", id));
   }
 }

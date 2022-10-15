@@ -30,6 +30,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 迭代 Controller.
  *
@@ -53,7 +56,7 @@ public class ScrumIterationController {
   @PostMapping
   public Result<ScrumIterationVO> save(
       @RequestBody @Validated(Create.class) ScrumIterationDTO dto) {
-    ScrumIteration save = iterationService.save(iterationConvert.dto2entity(dto));
+    ScrumIteration save = iterationService.saveOrUpdate(iterationConvert.dto2entity(dto));
     return Result.createSuccess(iterationConvert.entity2vo(save));
   }
 
@@ -66,7 +69,7 @@ public class ScrumIterationController {
   @PutMapping
   public Result<ScrumIterationVO> update(
       @RequestBody @Validated(Update.class) ScrumIterationDTO dto) {
-    ScrumIteration update = iterationService.update(iterationConvert.dto2entity(dto));
+    ScrumIteration update = iterationService.saveOrUpdate(iterationConvert.dto2entity(dto));
     return Result.updateSuccess(iterationConvert.entity2vo(update));
   }
 
@@ -106,5 +109,29 @@ public class ScrumIterationController {
   public Result<Object> delete(@PathVariable Long id) {
     iterationService.deleteById(id);
     return Result.deleteSuccess();
+  }
+
+  /**
+   * 获取迭代信息
+   *
+   * @param id 迭代ID
+   * @return 迭代信息
+   */
+  @GetMapping("/{id}")
+  public Result<ScrumIterationVO> get(@PathVariable Long id) {
+    ScrumIteration iteration = iterationService.getById(id);
+    return Result.success(iterationConvert.entity2vo(iteration));
+  }
+
+  /**
+   * 查询迭代信息
+   *
+   * @param versionIds 版本ID集合
+   * @return 迭代信息
+   */
+  @GetMapping("/list")
+  public Result<List<ScrumIterationVO>> get(@RequestParam(required = false) Set<Long> versionIds) {
+    List<ScrumIteration> iterations = iterationService.findAllByVersionIds(versionIds);
+    return Result.success(iterationConvert.entities2vos(iterations));
   }
 }

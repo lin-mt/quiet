@@ -58,7 +58,6 @@ public class ScrumVersionVO extends ParentAndSortableVO<ScrumVersionVO> {
   private LocalDateTime endTime;
 
   /** 版本备注信息 */
-  @NotBlank
   @Length(max = 1500)
   private String remark;
 

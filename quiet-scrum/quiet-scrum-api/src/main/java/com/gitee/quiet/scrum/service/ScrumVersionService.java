@@ -42,23 +42,15 @@ public interface ScrumVersionService {
    * @param projectId 要查询的项目ID
    * @return 版本信息
    */
-  List<ScrumVersion> findDetailsByProjectId(@NotNull Long projectId);
+  List<ScrumVersion> list(@NotNull Long projectId);
 
   /**
-   * 新建版本信息
+   * 新建/更新版本信息
    *
-   * @param save 新建的版本信息
-   * @return 新建后的版本信息
+   * @param entity 新建/更新的版本信息
+   * @return 新建/更新后的版本信息
    */
-  ScrumVersion save(ScrumVersion save);
-
-  /**
-   * 更新版本信息
-   *
-   * @param update 更新的版本信息
-   * @return 更新后的版本信息
-   */
-  ScrumVersion update(ScrumVersion update);
+  ScrumVersion saveOrUpdate(ScrumVersion entity);
 
   /**
    * 根据id判断版本是否存在，不存在则抛出ServiceException异常

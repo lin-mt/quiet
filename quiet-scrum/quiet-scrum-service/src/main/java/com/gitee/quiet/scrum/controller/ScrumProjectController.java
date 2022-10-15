@@ -65,8 +65,11 @@ public class ScrumProjectController {
    * @return 项目信息
    */
   @GetMapping("/list")
-  public Result<List<ScrumProjectVO>> list(@RequestParam(required = false) Long groupId) {
-    List<ScrumProject> projects = projectService.list(groupId);
+  public Result<List<ScrumProjectVO>> list(
+      @RequestParam(required = false) Long groupId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Long id) {
+    List<ScrumProject> projects = projectService.list(groupId, name, id);
     return Result.success(projectConvert.entities2vos(projects));
   }
 

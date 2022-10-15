@@ -57,9 +57,11 @@ public interface ScrumProjectService {
    * 根据项目ID查询项目列表
    *
    * @param groupId 项目组ID
+   * @param name 项目名称
+   * @param id 项目ID
    * @return 项目列表
    */
-  List<ScrumProject> list(Long groupId);
+  List<ScrumProject> list(Long groupId, String name, Long id);
 
   /**
    * 根据项目组ID统计项目数量
