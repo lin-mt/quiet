@@ -31,4 +31,7 @@ import lombok.Setter;
 public class SortableVO extends BaseVO implements Sortable {
 
   private int sortNum;
+
+  private boolean autoSort = true;
+
 }

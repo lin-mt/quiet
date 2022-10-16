@@ -28,18 +28,11 @@ import org.springframework.stereotype.Repository;
 public interface QuietDictTypeRepository extends QuietRepository<QuietDictType> {
 
   /**
-   * 根据服务ID和名称查询数据字典类型
+   * 根据数据字典类型 key 查询数据类型信息
    *
    * @param serviceId 服务ID
-   * @param name 数据字典名称
-   * @return 数据字典信息
-   */
-  QuietDictType findByServiceIdAndName(String serviceId, String name);
-
-  /**
-   * 根据数据字典类型 key 查询数据类型信息
    * @param key 类型
    * @return 数据字典类型信息
    */
-  QuietDictType findByKey(String key);
+  QuietDictType findByServiceIdAndKey(String serviceId, String key);
 }
