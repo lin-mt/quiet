@@ -35,5 +35,7 @@ public class ParentAndSortableVO<T> extends BaseVO {
 
   private Long parentId;
 
+  private boolean autoSort = true;
+
   private List<T> children;
 }

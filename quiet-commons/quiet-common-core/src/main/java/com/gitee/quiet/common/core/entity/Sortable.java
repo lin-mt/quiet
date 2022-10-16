@@ -49,6 +49,14 @@ public interface Sortable extends Comparable<Sortable> {
   void setSortNum(int sortNum);
 
   /**
+   * 返回前端时是否自动排序
+   * @return true：自动排序，false：不自动排序
+   */
+  default boolean isAutoSort() {
+    return true;
+  }
+
+  /**
    * 跟其他对象进行比较
    *
    * @param other 比较的对象
@@ -71,7 +79,9 @@ public interface Sortable extends Comparable<Sortable> {
         for (int i = 0; i < sorted.size(); i++) {
           T t = sorted.get(i);
           if (t instanceof Sortable) {
-            indexToValue.put(i, t);
+            if (((Sortable)t).isAutoSort()) {
+              indexToValue.put(i, t);
+            }
           }
         }
         if (MapUtils.isNotEmpty(indexToValue)) {
