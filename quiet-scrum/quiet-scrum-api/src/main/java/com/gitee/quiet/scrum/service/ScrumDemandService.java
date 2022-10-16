@@ -43,10 +43,11 @@ public interface ScrumDemandService {
    * 分页查询需求信息
    *
    * @param params 查询参数
+   * @param planned 是否已规划，true：已规划，false：待规划
    * @param page 分页参数
    * @return 需求信息
    */
-  Page<ScrumDemand> page(ScrumDemand params, Pageable page);
+  Page<ScrumDemand> page(ScrumDemand params, Boolean planned, Pageable page);
 
   /**
    * 创建需求
@@ -54,15 +55,7 @@ public interface ScrumDemandService {
    * @param save 新需求
    * @return 创建后的需求信息
    */
-  ScrumDemand save(@NotNull ScrumDemand save);
-
-  /**
-   * 更新需求
-   *
-   * @param update 更新的需求信息
-   * @return 更新后的需求信息
-   */
-  ScrumDemand update(@NotNull ScrumDemand update);
+  ScrumDemand saveOrUpdate(@NotNull ScrumDemand save);
 
   /**
    * 根据优先级ID统计处于该优先级的需求数量

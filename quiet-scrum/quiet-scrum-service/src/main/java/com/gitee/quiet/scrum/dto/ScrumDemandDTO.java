@@ -18,7 +18,11 @@
 package com.gitee.quiet.scrum.dto;
 
 import com.gitee.quiet.jpa.entity.Dict;
-import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
+import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
+import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
+import com.gitee.quiet.scrum.repository.ScrumPriorityRepository;
+import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
+import com.gitee.quiet.service.annotation.ExistId;
 import com.gitee.quiet.service.dto.ParentAndSortableDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,16 +50,30 @@ public class ScrumDemandDTO extends ParentAndSortableDTO<ScrumDemandDTO> {
   @NotNull private Dict type;
 
   /** 项目ID */
-  @NotNull private Long projectId;
+  @NotNull
+  @ExistId(
+      repository = ScrumProjectRepository.class,
+      message = "quiet.validation.project.id.notExist")
+  private Long projectId;
 
   /** 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID */
+  @ExistId(
+      repository = ScrumDemandRepository.class,
+      message = "quiet.validation.demand.id.notExist")
   private Long optimizeDemandId;
 
   /** 所属迭代ID */
+  @ExistId(
+      repository = ScrumIterationRepository.class,
+      message = "quiet.validation.iteration.id.notExist")
   private Long iterationId;
 
   /** 优先级ID */
-  @NotNull private Long priorityId;
+  @NotNull
+  @ExistId(
+      repository = ScrumPriorityRepository.class,
+      message = "quiet.validation.priority.id.notExist")
+  private Long priorityId;
 
   /** 需求开始时间 */
   private LocalDateTime startTime;
@@ -67,6 +85,6 @@ public class ScrumDemandDTO extends ParentAndSortableDTO<ScrumDemandDTO> {
   @Length(max = 3000)
   private String remark;
 
-  /** 需求过滤条件 */
-  private ScrumDemandFilter demandFilter;
+  /** 是否已规划 */
+  private Boolean planned;
 }

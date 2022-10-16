@@ -65,8 +65,8 @@ public class ScrumDemandController {
    */
   @PostMapping
   public Result<ScrumDemandVO> save(@RequestBody @Validated(Create.class) ScrumDemandDTO dto) {
-    ScrumDemand save = demandService.save(demandConvert.dto2entity(dto));
-    return Result.success(demandConvert.entity2vo(save));
+    ScrumDemand save = demandService.saveOrUpdate(demandConvert.dto2entity(dto));
+    return Result.createSuccess(demandConvert.entity2vo(save));
   }
 
   /**
@@ -77,8 +77,8 @@ public class ScrumDemandController {
    */
   @PutMapping
   public Result<ScrumDemandVO> update(@RequestBody @Validated(Update.class) ScrumDemandDTO dto) {
-    ScrumDemand update = demandService.update(demandConvert.dto2entity(dto));
-    return Result.success(demandConvert.entity2vo(update));
+    ScrumDemand update = demandService.saveOrUpdate(demandConvert.dto2entity(dto));
+    return Result.updateSuccess(demandConvert.entity2vo(update));
   }
 
   /**
@@ -101,7 +101,9 @@ public class ScrumDemandController {
    */
   @GetMapping("/page")
   public Result<Page<ScrumDemandVO>> page(ScrumDemandDTO dto) {
-    Page<ScrumDemand> page = demandService.page(demandConvert.dto2entity(dto), dto.page());
-    return Result.success(demandConvert.page2page(page));
+    Page<ScrumDemand> page = demandService.page(demandConvert.dto2entity(dto), dto.getPlanned(), dto.page());
+    Page<ScrumDemandVO> vos = demandConvert.page2page(page);
+    vos.getContent().forEach(scrumDemandVO -> scrumDemandVO.setAutoSort(false));
+    return Result.success(vos);
   }
 }

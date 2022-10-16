@@ -23,7 +23,6 @@ import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.validation.groups.Create;
-import com.gitee.quiet.validation.groups.Update;
 import com.querydsl.core.BooleanBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,6 +32,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
 /**
  * 需求信息service实现类.
@@ -51,21 +52,34 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   }
 
   @Override
-  public Page<ScrumDemand> page(ScrumDemand params, Pageable page) {
-    BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
+  public Page<ScrumDemand> page(ScrumDemand params, Boolean planned, Pageable page) {
+    BooleanBuilder predicate =
+        SelectBuilder.booleanBuilder(params)
+            .with(
+                builder -> {
+                  if (planned != null) {
+                    if (planned) {
+                      builder.and(scrumDemand.iterationId.isNotNull());
+                    } else {
+                      builder.and(scrumDemand.iterationId.isNull());
+                    }
+                  }
+                })
+            .getPredicate();
     return demandRepository.findAll(predicate, page);
   }
 
   @Override
-  public ScrumDemand save(@Validated(Create.class) @NotNull ScrumDemand save) {
-    checkDemand(save);
-    return demandRepository.save(save);
-  }
-
-  @Override
-  public ScrumDemand update(@Validated(Update.class) @NotNull ScrumDemand update) {
-    checkDemand(update);
-    return demandRepository.save(update);
+  public ScrumDemand saveOrUpdate(@Validated(Create.class) @NotNull ScrumDemand entity) {
+    ScrumDemand exist =
+        demandRepository.findByProjectIdAndTitle(entity.getProjectId(), entity.getTitle());
+    if (exist != null && !exist.getId().equals(entity.getId())) {
+      throw new ServiceException("demand.in.project.title.exist", entity.getTitle());
+    }
+    if (entity.getParentId() != null && !demandRepository.existsById(entity.getParentId())) {
+      throw new ServiceException("demand.parentId.not.exist", entity.getParentId());
+    }
+    return demandRepository.saveAndFlush(entity);
   }
 
   @Override
@@ -97,17 +111,17 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   @Override
   public List<ScrumDemand> findAllUnfinished(Long iterationId) {
     List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
-//    if (CollectionUtils.isNotEmpty(allDemand)) {
-//      Set<Long> unfinishedDemandIds =
-//          taskService.findUnfinishedDemandIds(
-//              allDemand.get(0).getProjectId(),
-//              allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
-//      if (CollectionUtils.isNotEmpty(unfinishedDemandIds)) {
-//        return allDemand.stream()
-//            .filter(demand -> unfinishedDemandIds.contains(demand.getId()))
-//            .collect(Collectors.toList());
-//      }
-//    }
+    //    if (CollectionUtils.isNotEmpty(allDemand)) {
+    //      Set<Long> unfinishedDemandIds =
+    //          taskService.findUnfinishedDemandIds(
+    //              allDemand.get(0).getProjectId(),
+    //              allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
+    //      if (CollectionUtils.isNotEmpty(unfinishedDemandIds)) {
+    //        return allDemand.stream()
+    //            .filter(demand -> unfinishedDemandIds.contains(demand.getId()))
+    //            .collect(Collectors.toList());
+    //      }
+    //    }
     return List.of();
   }
 
@@ -119,23 +133,5 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   @Override
   public void deleteAllByProjectId(Long projectId) {
     demandRepository.deleteByProjectId(projectId);
-  }
-
-  private void checkDemand(@NotNull ScrumDemand demand) {
-    ScrumDemand exist =
-        demandRepository.findByProjectIdAndTitle(demand.getProjectId(), demand.getTitle());
-    if (exist != null && !exist.getId().equals(demand.getId())) {
-      throw new ServiceException("demand.in.project.title.exist", demand.getTitle());
-    }
-    if (demand.getParentId() != null && !demandRepository.existsById(demand.getParentId())) {
-      throw new ServiceException("demand.parentId.not.exist", demand.getParentId());
-    }
-    if (demand.getIterationId() != null) {
-//      iterationService.checkIdExist(demand.getIterationId());
-    }
-    if (demand.getOptimizeDemandId() != null
-        && !demandRepository.existsById(demand.getOptimizeDemandId())) {
-      throw new ServiceException("demand.optimizeDemandId.not.exist", demand.getOptimizeDemandId());
-    }
   }
 }
