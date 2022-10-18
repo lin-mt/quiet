@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
@@ -24,6 +25,8 @@ import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.validation.groups.Create;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,10 +48,22 @@ import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 public class ScrumDemandServiceImpl implements ScrumDemandService {
 
   private final ScrumDemandRepository demandRepository;
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
-  public List<ScrumDemand> findAllByIterationId(@Validated @NotNull Long iterationId) {
-    return demandRepository.findAllByIterationId(iterationId);
+  public List<ScrumDemand> list(Long iterationId, Long limit) {
+    if (iterationId == null && (limit == null || limit > 30 || limit < 0)) {
+      limit = 30L;
+    }
+    BooleanBuilder predicate =
+        SelectBooleanBuilder.booleanBuilder()
+            .isIdEq(iterationId, scrumDemand.iterationId)
+            .getPredicate();
+    JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(predicate);
+    if (limit != null) {
+      query.limit(limit);
+    }
+    return query.fetch();
   }
 
   @Override
@@ -110,7 +125,7 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
 
   @Override
   public List<ScrumDemand> findAllUnfinished(Long iterationId) {
-    List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
+    //    List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
     //    if (CollectionUtils.isNotEmpty(allDemand)) {
     //      Set<Long> unfinishedDemandIds =
     //          taskService.findUnfinishedDemandIds(

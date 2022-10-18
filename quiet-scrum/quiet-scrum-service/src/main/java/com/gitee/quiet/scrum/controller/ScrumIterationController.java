@@ -130,7 +130,7 @@ public class ScrumIterationController {
    * @return 迭代信息
    */
   @GetMapping("/list")
-  public Result<List<ScrumIterationVO>> get(@RequestParam(required = false) Set<Long> versionIds) {
+  public Result<List<ScrumIterationVO>> list(@RequestParam(required = false) Set<Long> versionIds) {
     List<ScrumIteration> iterations = iterationService.findAllByVersionIds(versionIds);
     return Result.success(iterationConvert.entities2vos(iterations));
   }

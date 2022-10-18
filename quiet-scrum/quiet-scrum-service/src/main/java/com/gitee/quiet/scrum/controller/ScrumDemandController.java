@@ -82,14 +82,17 @@ public class ScrumDemandController {
   }
 
   /**
-   * 根据迭代ID查询迭代下的所有需求信息
+   * 根据迭代ID查询迭代下的需求信息，迭代ID为空，limit 则不超过 30
    *
    * @param iterationId 迭代ID
+   * @param limit 查询数量
    * @return 需求信息
    */
-  @GetMapping("/all")
-  public Result<List<ScrumDemandVO>> all(@RequestParam Long iterationId) {
-    List<ScrumDemand> scrumDemands = demandService.findAllByIterationId(iterationId);
+  @GetMapping("/list")
+  public Result<List<ScrumDemandVO>> list(
+      @RequestParam(required = false) Long iterationId,
+      @RequestParam(required = false) Long limit) {
+    List<ScrumDemand> scrumDemands = demandService.list(iterationId, limit);
     return Result.success(demandConvert.entities2vos(scrumDemands));
   }
 
@@ -101,7 +104,8 @@ public class ScrumDemandController {
    */
   @GetMapping("/page")
   public Result<Page<ScrumDemandVO>> page(ScrumDemandDTO dto) {
-    Page<ScrumDemand> page = demandService.page(demandConvert.dto2entity(dto), dto.getPlanned(), dto.page());
+    Page<ScrumDemand> page =
+        demandService.page(demandConvert.dto2entity(dto), dto.getPlanned(), dto.page());
     Page<ScrumDemandVO> vos = demandConvert.page2page(page);
     vos.getContent().forEach(scrumDemandVO -> scrumDemandVO.setAutoSort(false));
     return Result.success(vos);

@@ -32,12 +32,13 @@ import java.util.List;
 public interface ScrumDemandService {
 
   /**
-   * 根据迭代ID查询该迭代的所有需求
+   * 根据迭代ID查询需求，迭代ID为空，limit 则不超过 30
    *
    * @param iterationId 迭代ID
-   * @return 迭代中的所有需求
+   * @param limit 查询数量
+   * @return 需求信息
    */
-  List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
+  List<ScrumDemand> list(Long iterationId, Long limit);
 
   /**
    * 分页查询需求信息

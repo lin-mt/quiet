@@ -32,14 +32,6 @@ import java.util.List;
 public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
 
   /**
-   * 根据迭代ID查询该迭代的所有需求
-   *
-   * @param iterationId 迭代ID
-   * @return 迭代中的所有需求
-   */
-  List<ScrumDemand> findAllByIterationId(Long iterationId);
-
-  /**
    * 根据项目ID和需求标题查询需求信息
    *
    * @param projectId 项目ID
