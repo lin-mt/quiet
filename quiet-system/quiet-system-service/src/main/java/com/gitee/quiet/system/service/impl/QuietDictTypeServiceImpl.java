@@ -56,10 +56,10 @@ public class QuietDictTypeServiceImpl implements QuietDictTypeService {
   @Override
   public QuietDictType saveOrUpdate(QuietDictType entity) {
     QuietDictType exist =
-        repository.findByServiceIdAndName(entity.getServiceId(), entity.getName());
+        repository.findByServiceIdAndKey(entity.getServiceId(), entity.getKey());
     if (exist != null && !exist.getId().equals(entity.getId())) {
       throw new ServiceException(
-          "dictType.serviceId.name.exist", entity.getServiceId(), entity.getName());
+              "dictType.serviceId.key.exist", entity.getServiceId(), entity.getKey());
     }
     return repository.saveAndFlush(entity);
   }

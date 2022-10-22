@@ -89,6 +89,18 @@ public class QuietUserController {
   }
 
   /**
+   * 获取用户信息.
+   *
+   * @param id 用户ID
+   * @return 用户信息
+   */
+  @GetMapping("/{id}")
+  public Result<QuietUserVO> get(@PathVariable Long id) {
+    QuietUser user = userService.findById(id);
+    return Result.createSuccess(userConvert.entity2vo(user));
+  }
+
+  /**
    * 分页查询用户.
    *
    * @param dto 查询参数
@@ -174,5 +186,17 @@ public class QuietUserController {
       @PathVariable Long userId, @RequestBody(required = false) Set<Long> roleIds) {
     userRoleService.updateRoles(userId, roleIds);
     return Result.updateSuccess();
+  }
+
+  /**
+   * 根据团队ID获取团队成员信息
+   *
+   * @param id 团队ID
+   * @return 团队成员信息
+   */
+  @GetMapping("/team/{id}")
+  public Result<List<QuietUserVO>> listTeamUser(@PathVariable Long id) {
+    List<QuietUser> users = userService.listTeamUser(id);
+    return Result.success(userConvert.entities2vos(users));
   }
 }
