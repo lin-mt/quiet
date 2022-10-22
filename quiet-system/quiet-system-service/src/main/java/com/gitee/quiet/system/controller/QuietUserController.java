@@ -187,4 +187,16 @@ public class QuietUserController {
     userRoleService.updateRoles(userId, roleIds);
     return Result.updateSuccess();
   }
+
+  /**
+   * 根据团队ID获取团队成员信息
+   *
+   * @param id 团队ID
+   * @return 团队成员信息
+   */
+  @GetMapping("/team/{id}")
+  public Result<List<QuietUserVO>> listTeamUser(@PathVariable Long id) {
+    List<QuietUser> users = userService.listTeamUser(id);
+    return Result.success(userConvert.entities2vos(users));
+  }
 }

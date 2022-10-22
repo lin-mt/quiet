@@ -42,35 +42,11 @@ public interface QuietTeamService {
   Page<QuietTeam> page(QuietTeam params, Pageable page);
 
   /**
-   * 新增或更新团队信息
-   *
-   * @param team 团队信息
-   * @return 新增或更新后的团队信息
-   */
-  QuietTeam saveOrUpdate(QuietTeam team);
-
-  /**
    * 删除团队信息
    *
    * @param deleteId 要删除的团队 ID
    */
   void deleteTeam(Long deleteId);
-
-  /**
-   * 根据团队ID批量查询团队信息
-   *
-   * @param ids 团队ID集合
-   * @return 团队信息
-   */
-  List<QuietTeam> findAllByIds(Set<Long> ids);
-
-  /**
-   * 根据团队ID批量查询团队信息，包含团队的成员信息
-   *
-   * @param ids 团队ID集合
-   * @return 团队信息
-   */
-  List<QuietTeam> findAllByIdsIncludeMembers(Set<Long> ids);
 
   /**
    * 根据团队ID查询团队信息

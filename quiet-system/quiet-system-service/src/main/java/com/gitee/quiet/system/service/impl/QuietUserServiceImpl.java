@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.system.service.impl;
 
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietRole;
@@ -43,6 +44,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.gitee.quiet.system.entity.QQuietTeamUser.quietTeamUser;
 import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
 
 /**
@@ -223,5 +225,17 @@ public class QuietUserServiceImpl implements QuietUserService {
     return userRepository
         .findById(id)
         .orElseThrow(() -> new ServiceException("user.id.not.exist", id));
+  }
+
+  @Override
+  public List<QuietUser> listTeamUser(Long id) {
+    BooleanBuilder predicate =
+        SelectBooleanBuilder.booleanBuilder().isIdEq(id, quietTeamUser.teamId).getPredicate();
+    return jpaQueryFactory
+        .selectFrom(quietUser)
+        .leftJoin(quietTeamUser)
+        .on(quietUser.id.eq(quietTeamUser.userId))
+        .where(predicate)
+        .fetch();
   }
 }

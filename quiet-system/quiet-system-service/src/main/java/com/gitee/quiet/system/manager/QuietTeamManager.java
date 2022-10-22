@@ -18,16 +18,19 @@
 package com.gitee.quiet.system.manager;
 
 import com.gitee.quiet.common.constant.service.RoleNames;
-import com.gitee.quiet.system.entity.*;
-import com.gitee.quiet.system.service.*;
+import com.gitee.quiet.service.exception.ServiceException;
+import com.gitee.quiet.system.entity.QuietTeam;
+import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.repository.QuietTeamRepository;
+import com.gitee.quiet.system.service.QuietTeamUserRoleService;
+import com.gitee.quiet.system.service.QuietTeamUserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,61 +41,61 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class QuietTeamManager {
 
-  private final QuietTeamService teamService;
-
+  private final QuietTeamRepository teamRepository;
   private final QuietTeamUserService teamUserService;
-
   private final QuietTeamUserRoleService teamUserRoleService;
 
-  private final QuietRoleService roleService;
-
-  private final QuietUserService userService;
-
   /**
-   * 根据团队ID查询团队详情，包括团队成员、PM、SM的信息
+   * 新增或更新团队信息
    *
-   * @param id 团队ID
-   * @return 团队详细信息
+   * @param team 团队信息
+   * @param productOwners PO
+   * @param scrumMasters SM
+   * @param members 团队成员
+   * @return 新增或更新后的团队信息
    */
-  @Nullable
-  public QuietTeam getDetailById(Long id) {
-    QuietTeam team = teamService.findById(id);
-    if (team == null) {
-      return null;
+  public QuietTeam saveOrUpdate(
+      QuietTeam team,
+      List<QuietUser> productOwners,
+      List<QuietUser> scrumMasters,
+      List<QuietUser> members) {
+    QuietTeam exist = teamRepository.getByTeamName(team.getTeamName());
+    if (exist != null && !exist.getId().equals(team.getId())) {
+      throw new ServiceException("team.teamName.exist", team.getTeamName());
     }
-    List<QuietTeamUser> teamUsers = teamUserService.findByTeamId(id);
-    Set<Long> userIds =
-        teamUsers.stream().map(QuietTeamUser::getUserId).collect(Collectors.toSet());
-    List<QuietTeamUserRole> userTeamRoles =
-        teamUserRoleService.findByTeamUserIds(
-            teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
-    Map<Long, List<QuietTeamUserRole>> teamUserIdToRoles =
-        userTeamRoles.stream().collect(Collectors.groupingBy(QuietTeamUserRole::getTeamUserId));
-    Map<Long, QuietUser> userIdToUserInfo =
-        userService.findByUserIds(userIds).stream()
-            .collect(Collectors.toMap(QuietUser::getId, u -> u));
-    QuietRole productOwner = roleService.findByRoleName(RoleNames.ProductOwner);
-    QuietRole scrumMaster = roleService.findByRoleName(RoleNames.ScrumMaster);
-    List<QuietUser> members = new ArrayList<>();
-    List<QuietUser> teamProductOwners = new ArrayList<>();
-    List<QuietUser> teamScrumMasters = new ArrayList<>();
-    for (QuietTeamUser teamUser : teamUsers) {
-      List<QuietTeamUserRole> teamUserRoles = teamUserIdToRoles.get(teamUser.getId());
-      if (CollectionUtils.isNotEmpty(teamUserRoles)) {
-        for (QuietTeamUserRole quietTeamUserRole : teamUserRoles) {
-          if (quietTeamUserRole.getRoleId().equals(productOwner.getId())) {
-            teamProductOwners.add(userIdToUserInfo.get(teamUser.getUserId()));
-          }
-          if (quietTeamUserRole.getRoleId().equals(scrumMaster.getId())) {
-            teamScrumMasters.add(userIdToUserInfo.get(teamUser.getUserId()));
-          }
-        }
+    // 更新团队信息
+    QuietTeam quietTeam = teamRepository.saveAndFlush(team);
+    // 删除所有旧数据，包括团队成员信息、团队成员的角色信息
+    teamUserService.deleteByTeamId(quietTeam.getId());
+    Set<Long> memberIds = new HashSet<>();
+    // 保存成员信息，包括 PO 和 SM
+    this.addMemberId(memberIds, members);
+    this.addMemberId(memberIds, productOwners);
+    this.addMemberId(memberIds, scrumMasters);
+    // 添加团队成员信息
+    teamUserService.addUsers(quietTeam.getId(), memberIds);
+    // 添加 PO 角色
+    if (CollectionUtils.isNotEmpty(productOwners)) {
+      teamUserRoleService.addRoleForTeam(
+          quietTeam.getId(),
+          productOwners.stream().map(QuietUser::getId).collect(Collectors.toSet()),
+          RoleNames.ProductOwner);
+    }
+    // 添加 SM 角色
+    if (CollectionUtils.isNotEmpty(scrumMasters)) {
+      teamUserRoleService.addRoleForTeam(
+          quietTeam.getId(),
+          scrumMasters.stream().map(QuietUser::getId).collect(Collectors.toSet()),
+          RoleNames.ScrumMaster);
+    }
+    return quietTeam;
+  }
+
+  private void addMemberId(@NotNull Set<Long> memberIds, List<QuietUser> members) {
+    if (CollectionUtils.isNotEmpty(members)) {
+      for (QuietUser member : members) {
+        memberIds.add(member.getId());
       }
-      members.add(userIdToUserInfo.get(teamUser.getUserId()));
     }
-    team.setMembers(members);
-    team.setProductOwners(teamProductOwners);
-    team.setScrumMasters(teamScrumMasters);
-    return team;
   }
 }
