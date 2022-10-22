@@ -85,14 +85,18 @@ public class ScrumDemandController {
    * 根据迭代ID查询迭代下的需求信息，迭代ID为空，limit 则不超过 30
    *
    * @param iterationId 迭代ID
+   * @param title 需求标题
+   * @param priorityId 优先级ID
    * @param limit 查询数量
    * @return 需求信息
    */
   @GetMapping("/list")
   public Result<List<ScrumDemandVO>> list(
       @RequestParam(required = false) Long iterationId,
+      @RequestParam(required = false) String title,
+      @RequestParam(required = false) Long priorityId,
       @RequestParam(required = false) Long limit) {
-    List<ScrumDemand> scrumDemands = demandService.list(iterationId, limit);
+    List<ScrumDemand> scrumDemands = demandService.list(iterationId, title, priorityId, limit);
     return Result.success(demandConvert.entities2vos(scrumDemands));
   }
 

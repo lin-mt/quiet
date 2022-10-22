@@ -30,9 +30,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 任务Controller.
@@ -49,28 +47,15 @@ public class ScrumTaskController {
   private final ScrumTaskConvert taskConvert;
 
   /**
-   * 查询需求的所有任务信息
+   * 查询任务信息
    *
-   * @param ids 查询的需求ID集合
-   * @return 根据需求ID以及任务步骤ID分组后的任务集合
+   * @param demandIds 需求ID集合
+   * @return 任务集合
    */
-  @GetMapping("/all-task-by-demand-ids")
-  public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(Set<Long> ids) {
-    Map<Long, Map<Long, List<ScrumTask>>> tasks =
-        taskService.findAllTaskByDemandIds(ids);
-    Map<Long, Map<Long, List<ScrumTaskVO>>> result =
-        tasks.entrySet().stream()
-            .collect(
-                Collectors.toMap(
-                    Map.Entry::getKey,
-                    entry ->
-                        entry.getValue().entrySet().stream()
-                            .collect(
-                                Collectors.toMap(
-                                    Map.Entry::getKey,
-                                    tasksEntry ->
-                                        taskConvert.entities2vos(tasksEntry.getValue())))));
-    return Result.success(result);
+  @GetMapping("/list")
+  public Result<List<ScrumTaskVO>> list(@RequestParam(required = false) Set<Long> demandIds) {
+    List<ScrumTask> tasks = taskService.list(demandIds);
+    return Result.success(taskConvert.entities2vos(tasks));
   }
 
   /**

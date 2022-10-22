@@ -35,10 +35,12 @@ public interface ScrumDemandService {
    * 根据迭代ID查询需求，迭代ID为空，limit 则不超过 30
    *
    * @param iterationId 迭代ID
+   * @param title 需求标题
+   * @param priorityId 优先级ID
    * @param limit 查询数量
    * @return 需求信息
    */
-  List<ScrumDemand> list(Long iterationId, Long limit);
+  List<ScrumDemand> list(Long iterationId, String title, Long priorityId, Long limit);
 
   /**
    * 分页查询需求信息

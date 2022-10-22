@@ -20,7 +20,6 @@ package com.gitee.quiet.scrum.service;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,12 +30,12 @@ import java.util.Set;
 public interface ScrumTaskService {
 
   /**
-   * 根据需求ID集合查询指定需求下的所有任务，并根据任务步骤进行分组
+   * 查询任务信息
    *
    * @param demandIds 需求ID集合
-   * @return 根据需求ID和任务步骤分组后的任务集合
+   * @return 任务集合
    */
-  Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds);
+  List<ScrumTask> list(Set<Long> demandIds);
 
   /**
    * 根据需求ID集合批量删除任务信息

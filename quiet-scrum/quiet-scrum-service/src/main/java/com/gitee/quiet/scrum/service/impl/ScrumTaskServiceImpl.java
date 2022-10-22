@@ -63,14 +63,11 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
   }
 
   @Override
-  public Map<Long, Map<Long, List<ScrumTask>>> findAllTaskByDemandIds(Set<Long> demandIds) {
+  public List<ScrumTask> list(Set<Long> demandIds) {
     if (CollectionUtils.isEmpty(demandIds)) {
-      return Map.of();
+      return List.of();
     }
-    return taskRepository.findAllByDemandIdIn(demandIds).stream()
-        .collect(
-            Collectors.groupingBy(
-                ScrumTask::getDemandId, Collectors.groupingBy(ScrumTask::getTaskStepId)));
+    return taskRepository.findAllByDemandIdIn(demandIds);
   }
 
   @Override
@@ -111,7 +108,7 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
     ScrumProject project = projectService.findById(projectId);
     ScrumTemplate templateInfo = templateService.findById(project.getTemplateId());
     List<ScrumTaskStep> taskSteps = new ArrayList<>();
-//        templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
+    //        templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
     Long lastTaskStepId = taskSteps.get(taskSteps.size() - 1).getId();
     List<ScrumTask> allTasks = taskRepository.findAllByDemandIdIn(demandIds);
     Set<Long> hasTaskDemandIds = new HashSet<>();

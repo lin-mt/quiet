@@ -51,13 +51,15 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override
-  public List<ScrumDemand> list(Long iterationId, Long limit) {
+  public List<ScrumDemand> list(Long iterationId, String title, Long priorityId, Long limit) {
     if (iterationId == null && (limit == null || limit > 30 || limit < 0)) {
       limit = 30L;
     }
     BooleanBuilder predicate =
         SelectBooleanBuilder.booleanBuilder()
             .isIdEq(iterationId, scrumDemand.iterationId)
+            .notBlankContains(title, scrumDemand.title)
+            .isIdEq(priorityId, scrumDemand.priorityId)
             .getPredicate();
     JPAQuery<ScrumDemand> query = jpaQueryFactory.selectFrom(scrumDemand).where(predicate);
     if (limit != null) {
