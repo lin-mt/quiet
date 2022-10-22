@@ -60,15 +60,6 @@ public class QuietTeam extends BaseEntity {
   /** 团队角色与成员信息信息 */
   @Transient private Map<Long, List<QuietUser>> roleIdToUsers;
 
-  /** 团队PO */
-  @Transient private List<QuietUser> productOwners;
-
-  /** 团队SM */
-  @Transient private List<QuietUser> scrumMasters;
-
-  /** 团队成员 */
-  @Transient private List<QuietUser> members;
-
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {

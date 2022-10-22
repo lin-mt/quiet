@@ -109,4 +109,12 @@ public interface QuietUserService extends UserDetailsService {
    * @return 用户信息
    */
   QuietUser findById(Long id);
+
+  /**
+   * 根据团队ID获取团队成员信息
+   *
+   * @param id 团队ID
+   * @return 团队成员信息
+   */
+  List<QuietUser> listTeamUser(Long id);
 }

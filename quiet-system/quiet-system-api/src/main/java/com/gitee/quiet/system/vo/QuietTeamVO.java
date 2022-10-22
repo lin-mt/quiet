@@ -18,11 +18,13 @@
 package com.gitee.quiet.system.vo;
 
 import com.gitee.quiet.service.vo.BaseVO;
+import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 团队VO.
@@ -42,4 +44,12 @@ public class QuietTeamVO extends BaseVO {
   @Length(max = 60)
   private String slogan;
 
+  /** 团队PO */
+  private List<QuietUser> productOwners;
+
+  /** 团队SM */
+  private List<QuietUser> scrumMasters;
+
+  /** 团队成员 */
+  private List<QuietUser> members;
 }
