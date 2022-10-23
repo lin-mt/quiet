@@ -32,10 +32,11 @@ public interface ScrumTaskService {
   /**
    * 查询任务信息
    *
-   * @param demandIds 需求ID集合
+   * @param demandIds   需求ID集合
+   * @param executorIds 执行者ID集合
    * @return 任务集合
    */
-  List<ScrumTask> list(Set<Long> demandIds);
+  List<ScrumTask> list(Set<Long> demandIds, Set<Long> executorIds);
 
   /**
    * 根据需求ID集合批量删除任务信息

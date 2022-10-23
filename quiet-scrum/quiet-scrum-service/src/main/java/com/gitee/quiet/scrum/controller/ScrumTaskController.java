@@ -50,11 +50,13 @@ public class ScrumTaskController {
    * 查询任务信息
    *
    * @param demandIds 需求ID集合
+   * @param executorIds 执行者ID集合
    * @return 任务集合
    */
   @GetMapping("/list")
-  public Result<List<ScrumTaskVO>> list(@RequestParam(required = false) Set<Long> demandIds) {
-    List<ScrumTask> tasks = taskService.list(demandIds);
+  public Result<List<ScrumTaskVO>> list(@RequestParam(required = false) Set<Long> demandIds,
+                                        @RequestParam(required = false) Set<Long> executorIds) {
+    List<ScrumTask> tasks = taskService.list(demandIds, executorIds);
     return Result.success(taskConvert.entities2vos(tasks));
   }
 
@@ -67,7 +69,7 @@ public class ScrumTaskController {
   @PostMapping
   public Result<ScrumTaskVO> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
     ScrumTask save = taskService.save(taskConvert.dto2entity(dto));
-    return Result.success(taskConvert.entity2vo(save));
+    return Result.createSuccess(taskConvert.entity2vo(save));
   }
 
   /**
@@ -79,7 +81,7 @@ public class ScrumTaskController {
   @PutMapping
   public Result<ScrumTaskVO> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
     ScrumTask update = taskService.update(taskConvert.dto2entity(dto));
-    return Result.success(taskConvert.entity2vo(update));
+    return Result.updateSuccess(taskConvert.entity2vo(update));
   }
 
   /**

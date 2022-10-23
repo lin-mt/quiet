@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.scrum.service.impl;
 
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
@@ -24,12 +25,16 @@ import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
 import com.gitee.quiet.scrum.service.*;
 import com.gitee.quiet.service.exception.ServiceException;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.gitee.quiet.scrum.entity.QScrumTask.scrumTask;
 
 /**
  * 任务信息service实现类.
@@ -39,6 +44,7 @@ import java.util.stream.Collectors;
 @Service
 public class ScrumTaskServiceImpl implements ScrumTaskService {
 
+  private final JPAQueryFactory jpaQueryFactory;
   private final ScrumTaskRepository taskRepository;
 
   private final ScrumDemandService demandService;
@@ -50,11 +56,13 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
   private final ScrumTemplateService templateService;
 
   public ScrumTaskServiceImpl(
+          JPAQueryFactory jpaQueryFactory,
       ScrumTaskRepository taskRepository,
       @Lazy ScrumDemandService demandService,
       @Lazy ScrumTaskStepService taskStepService,
       @Lazy ScrumProjectService projectService,
       @Lazy ScrumTemplateService templateService) {
+    this.jpaQueryFactory = jpaQueryFactory;
     this.taskRepository = taskRepository;
     this.demandService = demandService;
     this.taskStepService = taskStepService;
@@ -63,11 +71,13 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
   }
 
   @Override
-  public List<ScrumTask> list(Set<Long> demandIds) {
+  public List<ScrumTask> list(Set<Long> demandIds, Set<Long> executorIds) {
     if (CollectionUtils.isEmpty(demandIds)) {
       return List.of();
     }
-    return taskRepository.findAllByDemandIdIn(demandIds);
+    BooleanBuilder predicate = SelectBooleanBuilder.booleanBuilder().notEmptyIn(demandIds, scrumTask.demandId)
+            .notEmptyIn(executorIds, scrumTask.executorId).getPredicate();
+    return jpaQueryFactory.selectFrom(scrumTask).where(predicate).fetch();
   }
 
   @Override
