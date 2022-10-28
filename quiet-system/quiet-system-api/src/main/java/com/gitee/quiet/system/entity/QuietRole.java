@@ -55,9 +55,6 @@ public class QuietRole extends QuietGrantedAuthority<QuietRole> {
   @Column(name = "remark", length = 100)
   private String remark;
 
-  /** 父角色名称 */
-  @Transient private String parentRoleName;
-
   @Override
   @Transient
   public String getAuthority() {
