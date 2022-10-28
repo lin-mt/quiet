@@ -84,11 +84,12 @@ public interface ScrumDemandService {
   void deleteById(Long id);
 
   /**
-   * 校验是否需求ID是否存在
+   * 根据ID查询需求信息
    *
    * @param id 需求ID
+   * @return 需求信息
    */
-  void checkIdExist(Long id);
+  ScrumDemand getById(Long id);
 
   /**
    * 查询指定迭代未完成的所有需求

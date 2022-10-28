@@ -20,6 +20,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumTaskConvert;
 import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
 import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.manager.ScrumTaskManager;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.vo.ScrumTaskVO;
 import com.gitee.quiet.service.result.Result;
@@ -43,7 +44,7 @@ import java.util.Set;
 public class ScrumTaskController {
 
   private final ScrumTaskService taskService;
-
+  private final ScrumTaskManager taskManager;
   private final ScrumTaskConvert taskConvert;
 
   /**
@@ -68,7 +69,7 @@ public class ScrumTaskController {
    */
   @PostMapping
   public Result<ScrumTaskVO> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
-    ScrumTask save = taskService.save(taskConvert.dto2entity(dto));
+    ScrumTask save = taskManager.saveOrUpdate(taskConvert.dto2entity(dto));
     return Result.createSuccess(taskConvert.entity2vo(save));
   }
 
@@ -80,7 +81,7 @@ public class ScrumTaskController {
    */
   @PutMapping
   public Result<ScrumTaskVO> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
-    ScrumTask update = taskService.update(taskConvert.dto2entity(dto));
+    ScrumTask update = taskManager.saveOrUpdate(taskConvert.dto2entity(dto));
     return Result.updateSuccess(taskConvert.entity2vo(update));
   }
 

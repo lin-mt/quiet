@@ -119,27 +119,15 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   }
 
   @Override
-  public void checkIdExist(Long id) {
-    if (!demandRepository.existsById(id)) {
-      throw new ServiceException("demand.id.notExist", id);
-    }
+  public ScrumDemand getById(Long id) {
+    return demandRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("demand.id.notExist", id));
   }
 
   @Override
   public List<ScrumDemand> findAllUnfinished(Long iterationId) {
-    //    List<ScrumDemand> allDemand = demandRepository.findAllByIterationId(iterationId);
-    //    if (CollectionUtils.isNotEmpty(allDemand)) {
-    //      Set<Long> unfinishedDemandIds =
-    //          taskService.findUnfinishedDemandIds(
-    //              allDemand.get(0).getProjectId(),
-    //              allDemand.stream().map(ScrumDemand::getId).collect(Collectors.toSet()));
-    //      if (CollectionUtils.isNotEmpty(unfinishedDemandIds)) {
-    //        return allDemand.stream()
-    //            .filter(demand -> unfinishedDemandIds.contains(demand.getId()))
-    //            .collect(Collectors.toList());
-    //      }
-    //    }
-    return List.of();
+    return demandRepository.findAllByIterationIdAndEndTimeIsNull(iterationId);
   }
 
   @Override

@@ -53,9 +53,18 @@ public interface ScrumTaskStepService {
   long countByTemplateId(Long templateId);
 
   /**
-   * 校验是否存在该任务步骤ID
+   * 根据任务步骤ID获取任务步骤信息
    *
    * @param id 任务步骤ID
+   * @return 任务步骤信息
    */
-  void checkIdExist(Long id);
+  ScrumTaskStep getById(Long id);
+
+  /**
+   * 根据模板ID获取最后一个任务步骤
+   *
+   * @param templateId 模板ID
+   * @return 最后一个任务步骤
+   */
+  ScrumTaskStep getLastStep(Long templateId);
 }

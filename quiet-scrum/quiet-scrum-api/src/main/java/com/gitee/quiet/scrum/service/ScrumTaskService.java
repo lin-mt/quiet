@@ -54,22 +54,6 @@ public interface ScrumTaskService {
   List<ScrumTask> findAllByTaskStepId(Long taskStepId);
 
   /**
-   * 新建任务
-   *
-   * @param save 新建的任务信息
-   * @return 新建后的任务信息
-   */
-  ScrumTask save(ScrumTask save);
-
-  /**
-   * 更新任务
-   *
-   * @param update 更新的任务信息
-   * @return 更新后的任务信息
-   */
-  ScrumTask update(ScrumTask update);
-
-  /**
    * 根据任务ID删除任务信息
    *
    * @param id 任务ID

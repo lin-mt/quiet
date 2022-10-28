@@ -81,4 +81,12 @@ public interface ScrumIterationRepository extends QuietRepository<ScrumIteration
    * @return 指定版本的第一个迭代信息
    */
   ScrumIteration findFirstByVersionIdOrderByPlanStartDateAsc(Long versionId);
+
+  /**
+   * 根据版本ID查询版本下的所有迭代信息
+   *
+   * @param versionId 版本ID
+   * @return 迭代信息
+   */
+  List<ScrumIteration> findAllByVersionId(Long versionId);
 }

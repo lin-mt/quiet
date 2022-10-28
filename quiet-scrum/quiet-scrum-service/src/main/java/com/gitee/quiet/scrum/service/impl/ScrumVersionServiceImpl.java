@@ -69,10 +69,10 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
   }
 
   @Override
-  public void checkIdExist(Long id) {
-    if (!versionRepository.existsById(id)) {
-      throw new ServiceException("version.id.not.exist");
-    }
+  public ScrumVersion getById(Long id) {
+    return versionRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("version.id.not.exist"));
   }
 
   @Override

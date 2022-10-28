@@ -63,4 +63,12 @@ public interface ScrumTaskRepository extends QuietRepository<ScrumTask> {
    * @return 任务信息
    */
   ScrumTask findByDemandIdAndTitle(Long demandId, String title);
+
+  /**
+   * 根据需求ID查询所有任务信息
+   *
+   * @param demandId 需求ID
+   * @return 需求下的所有任务信息
+   */
+  List<ScrumTask> findAllByDemandId(Long demandId);
 }

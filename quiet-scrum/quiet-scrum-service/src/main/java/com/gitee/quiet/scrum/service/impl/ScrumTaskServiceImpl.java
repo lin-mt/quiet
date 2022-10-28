@@ -23,7 +23,9 @@ import com.gitee.quiet.scrum.entity.ScrumTask;
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
-import com.gitee.quiet.scrum.service.*;
+import com.gitee.quiet.scrum.service.ScrumProjectService;
+import com.gitee.quiet.scrum.service.ScrumTaskService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,8 +33,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.gitee.quiet.scrum.entity.QScrumTask.scrumTask;
 
@@ -46,26 +50,16 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
 
   private final JPAQueryFactory jpaQueryFactory;
   private final ScrumTaskRepository taskRepository;
-
-  private final ScrumDemandService demandService;
-
-  private final ScrumTaskStepService taskStepService;
-
   private final ScrumProjectService projectService;
-
   private final ScrumTemplateService templateService;
 
   public ScrumTaskServiceImpl(
           JPAQueryFactory jpaQueryFactory,
       ScrumTaskRepository taskRepository,
-      @Lazy ScrumDemandService demandService,
-      @Lazy ScrumTaskStepService taskStepService,
       @Lazy ScrumProjectService projectService,
       @Lazy ScrumTemplateService templateService) {
     this.jpaQueryFactory = jpaQueryFactory;
     this.taskRepository = taskRepository;
-    this.demandService = demandService;
-    this.taskStepService = taskStepService;
     this.projectService = projectService;
     this.templateService = templateService;
   }
@@ -90,18 +84,6 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
   @Override
   public List<ScrumTask> findAllByTaskStepId(Long taskStepId) {
     return taskRepository.findAllByTaskStepId(taskStepId);
-  }
-
-  @Override
-  public ScrumTask save(ScrumTask save) {
-    checkTaskInfo(save);
-    return taskRepository.save(save);
-  }
-
-  @Override
-  public ScrumTask update(ScrumTask update) {
-    checkTaskInfo(update);
-    return taskRepository.saveAndFlush(update);
   }
 
   @Override
@@ -135,26 +117,4 @@ public class ScrumTaskServiceImpl implements ScrumTaskService {
     return demandIds;
   }
 
-  private void checkTaskInfo(ScrumTask scrumTask) {
-    // TODO 校验执行者和参与者信息
-    demandService.checkIdExist(scrumTask.getDemandId());
-    taskStepService.checkIdExist(scrumTask.getTaskStepId());
-    ScrumTask exist =
-        taskRepository.findByDemandIdAndTitle(scrumTask.getDemandId(), scrumTask.getTitle());
-    if (exist != null && !exist.getId().equals(scrumTask.getId())) {
-      throw new ServiceException(
-          "task.demandId.title.exist", scrumTask.getDemandId(), scrumTask.getTitle());
-    }
-    if (CollectionUtils.isNotEmpty(scrumTask.getPreTaskIds())) {
-      Set<Long> existIds =
-          taskRepository.findAllById(scrumTask.getPreTaskIds()).stream()
-              .map(ScrumTask::getId)
-              .collect(Collectors.toSet());
-      if (CollectionUtils.isEmpty(existIds) || !existIds.containsAll(scrumTask.getPreTaskIds())) {
-        scrumTask.getPreTaskIds().removeAll(existIds);
-        throw new ServiceException(
-            "task.ids.notExist", Arrays.toString(scrumTask.getPreTaskIds().toArray()));
-      }
-    }
-  }
 }

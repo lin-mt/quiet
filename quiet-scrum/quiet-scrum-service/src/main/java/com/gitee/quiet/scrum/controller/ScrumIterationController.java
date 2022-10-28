@@ -20,11 +20,11 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumIterationConvert;
 import com.gitee.quiet.scrum.dto.ScrumIterationDTO;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
+import com.gitee.quiet.scrum.manager.ScrumIterationManager;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.vo.ScrumIterationVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
-import com.gitee.quiet.validation.groups.IdValid;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -44,7 +44,7 @@ import java.util.Set;
 public class ScrumIterationController {
 
   private final ScrumIterationService iterationService;
-
+  private final ScrumIterationManager iterationManager;
   private final ScrumIterationConvert iterationConvert;
 
   /**
@@ -56,7 +56,7 @@ public class ScrumIterationController {
   @PostMapping
   public Result<ScrumIterationVO> save(
       @RequestBody @Validated(Create.class) ScrumIterationDTO dto) {
-    ScrumIteration save = iterationService.saveOrUpdate(iterationConvert.dto2entity(dto));
+    ScrumIteration save = iterationManager.saveOrUpdate(iterationConvert.dto2entity(dto));
     return Result.createSuccess(iterationConvert.entity2vo(save));
   }
 
@@ -69,33 +69,32 @@ public class ScrumIterationController {
   @PutMapping
   public Result<ScrumIterationVO> update(
       @RequestBody @Validated(Update.class) ScrumIterationDTO dto) {
-    ScrumIteration update = iterationService.saveOrUpdate(iterationConvert.dto2entity(dto));
+    ScrumIteration update = iterationManager.saveOrUpdate(iterationConvert.dto2entity(dto));
     return Result.updateSuccess(iterationConvert.entity2vo(update));
   }
 
   /**
    * 开始迭代
    *
-   * @param dto :id 开始迭代的迭代ID
+   * @param id 开始迭代的迭代ID
    * @return 开始迭代的迭代信息
    */
   @PostMapping("/start")
-  public Result<ScrumIterationVO> start(
-      @RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
-    ScrumIteration iteration = iterationService.start(dto.getId());
+  public Result<ScrumIterationVO> start(@RequestParam Long id) {
+    ScrumIteration iteration = iterationManager.start(id);
     return Result.updateSuccess(iterationConvert.entity2vo(iteration));
   }
 
   /**
    * 结束迭代
    *
-   * @param dto :id 结束迭代的迭代ID
+   * @param id 结束迭代的迭代ID
+   * @param nextId 需求移入的下一个迭代ID
    * @return 结束迭代的迭代信息
    */
   @PostMapping("/end")
-  public Result<ScrumIterationVO> end(
-      @RequestBody @Validated(IdValid.class) ScrumIterationDTO dto) {
-    ScrumIteration iteration = iterationService.end(dto.getId());
+  public Result<ScrumIterationVO> end(@RequestParam Long id, @RequestParam(required = false) Long nextId) {
+    ScrumIteration iteration = iterationManager.end(id, nextId);
     return Result.updateSuccess(iterationConvert.entity2vo(iteration));
   }
 
@@ -107,7 +106,7 @@ public class ScrumIterationController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    iterationService.deleteById(id);
+    iterationManager.deleteById(id);
     return Result.deleteSuccess();
   }
 

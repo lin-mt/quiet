@@ -53,11 +53,12 @@ public interface ScrumVersionService {
   ScrumVersion saveOrUpdate(ScrumVersion entity);
 
   /**
-   * 根据id判断版本是否存在，不存在则抛出ServiceException异常
+   * 根据id获取版本信息
    *
    * @param id 版本ID
+   * @return 版本信息
    */
-  void checkIdExist(Long id);
+  ScrumVersion getById(Long id);
 
   /**
    * 根据版本id删除版本信息
