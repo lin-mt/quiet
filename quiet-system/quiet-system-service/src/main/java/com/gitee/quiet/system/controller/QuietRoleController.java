@@ -26,12 +26,17 @@ import com.gitee.quiet.system.vo.QuietRoleVO;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 角色 Controller.
@@ -66,7 +71,25 @@ public class QuietRoleController {
   @GetMapping("/page")
   public Result<Page<QuietRoleVO>> page(QuietRoleDTO dto) {
     Page<QuietRole> rolePage = roleService.page(roleConvert.dto2entity(dto), dto.page());
-    return Result.success(roleConvert.page2page(rolePage));
+    Page<QuietRoleVO> roles = roleConvert.page2page(rolePage);
+    if (!roles.isEmpty()) {
+      Set<Long> parentIds =
+              roles.getContent().stream()
+                      .map(QuietRoleVO::getParentId)
+                      .filter(Objects::nonNull)
+                      .collect(Collectors.toSet());
+      if (CollectionUtils.isNotEmpty(parentIds)) {
+        Map<Long, QuietRole> idToRoleInfo =
+                roleService.findAllById(parentIds).stream()
+                        .collect(Collectors.toMap(QuietRole::getId, role -> role));
+        for (QuietRoleVO role : roles.getContent()) {
+          if (role.getParentId() != null) {
+            role.setParentRoleName(idToRoleInfo.get(role.getParentId()).getRoleName());
+          }
+        }
+      }
+    }
+    return Result.success(roles);
   }
 
   /**

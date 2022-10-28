@@ -85,23 +85,7 @@ public class QuietRoleServiceImpl implements QuietRoleService {
   @Override
   public Page<QuietRole> page(QuietRole params, @NotNull Pageable page) {
     BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
-    Page<QuietRole> roles = roleRepository.findAll(predicate, page);
-    if (!roles.isEmpty()) {
-      Set<Long> parentIds =
-          roles.getContent().stream()
-              .map(QuietRole::getParentId)
-              .filter(parentId -> !Objects.isNull(parentId))
-              .collect(Collectors.toSet());
-      Map<Long, QuietRole> idToRoleInfo =
-          roleRepository.findAllById(parentIds).stream()
-              .collect(Collectors.toMap(QuietRole::getId, role -> role));
-      for (QuietRole role : roles.getContent()) {
-        if (role.getParentId() != null) {
-          role.setParentRoleName(idToRoleInfo.get(role.getParentId()).getRoleName());
-        }
-      }
-    }
-    return roles;
+    return roleRepository.findAll(predicate, page);
   }
 
   @Override
