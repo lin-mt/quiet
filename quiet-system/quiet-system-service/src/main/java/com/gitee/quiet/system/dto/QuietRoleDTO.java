@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -48,6 +47,4 @@ public class QuietRoleDTO extends ParentDTO<QuietRoleDTO> {
   @Length(max = 100)
   private String remark;
 
-  /** 父角色名称 */
-  @Transient private String parentRoleName;
 }

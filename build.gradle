@@ -22,7 +22,6 @@ buildscript {
                 'lombok'                           : '1.18.20',
                 'mapstruct'                        : '1.4.2.Final',
                 'springCloud'                      : '2021.0.1',
-                'springCloudAlibaba'               : '2021.0.1.0',
                 'springSecurityOauth2'             : '2.5.1.RELEASE',
                 'redissonSpringDataStarter'        : '3.16.2',
                 'springSecurityOauth2Autoconfigure': '2.5.2',
@@ -34,6 +33,7 @@ buildscript {
                 'hibernateTypes52'                 : '2.12.1',
                 'okhttp'                           : '4.9.2',
                 'dubbo'                            : '3.0.5',
+                'blazePersistence'                 : '1.6.7',
         ]
 
         deps = [
@@ -59,7 +59,11 @@ buildscript {
                 'okhttp'                           : "com.squareup.okhttp3:okhttp:${versions.okhttp}",
                 'dubboSpringBootStarter'           : "org.apache.dubbo:dubbo-spring-boot-starter:${versions.dubbo}",
                 'dubboConfigcenterNacos'           : "org.apache.dubbo:dubbo-configcenter-nacos:${versions.dubbo}",
-                'dubboRegistryNacos'               : "org.apache.dubbo:dubbo-registry-nacos:${versions.dubbo}"
+                'dubboRegistryNacos'               : "org.apache.dubbo:dubbo-registry-nacos:${versions.dubbo}",
+                'blazePersistenceCoreApi'          : "com.blazebit:blaze-persistence-core-api:${versions.blazePersistence}",
+                'blazePersistenceCoreImpl'         : "com.blazebit:blaze-persistence-core-impl:${versions.blazePersistence}",
+                'blazePersistenceQueryDsl'         : "com.blazebit:blaze-persistence-integration-querydsl-expressions:${versions.blazePersistence}",
+                'blazePersistenceHibernate'        : "com.blazebit:blaze-persistence-integration-hibernate-5.6:${versions.blazePersistence}",
         ]
 
         springBootDeps = [
@@ -82,11 +86,6 @@ buildscript {
                 'gateway'     : 'org.springframework.cloud:spring-cloud-starter-gateway',
         ]
 
-        springCloudAlibaba = [
-                'dubbo'         : 'com.alibaba.cloud:spring-cloud-starter-dubbo',
-                'nacosConfig'   : 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config',
-                'nacosDiscovery': 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-        ]
     }
 }
 

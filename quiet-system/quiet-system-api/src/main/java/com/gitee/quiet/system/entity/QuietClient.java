@@ -225,9 +225,8 @@ public class QuietClient extends BaseEntity implements ClientDetails {
   @Nullable
   @Override
   public BooleanBuilder booleanBuilder() {
-    // @formatter:off
     return SelectBuilder.booleanBuilder()
-        .notNullEq(getId(), quietClient.id)
+        .isIdEq(getId(), quietClient.id)
         .notNullEq(getAutoApprove(), quietClient.autoApprove)
         .notNullEq(getScoped(), quietClient.scoped)
         .notNullEq(getSecretRequired(), quietClient.secretRequired)
@@ -235,6 +234,5 @@ public class QuietClient extends BaseEntity implements ClientDetails {
         .notBlankContains(getClientName(), quietClient.clientName)
         .notBlankContains(getRemark(), quietClient.remark)
         .getPredicate();
-    // @formatter:on
   }
 }

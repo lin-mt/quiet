@@ -25,6 +25,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 团队.
@@ -37,12 +38,18 @@ public class QuietTeamDTO extends BaseDTO {
 
   /** 团队名称 */
   @NotBlank
-  @Length(max = 16)
+  @Length(max = 8)
   private String teamName;
 
+  /** 团队成员ID */
+  private Long teamUserId;
+
   /** 标语 */
-  @Length(max = 30)
+  @Length(max = 60)
   private String slogan;
+
+  /** ID 团队集合 */
+  private Set<Long> ids;
 
   /** 团队PO */
   private List<QuietUser> productOwners;

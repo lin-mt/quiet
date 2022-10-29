@@ -17,14 +17,17 @@
 
 package com.gitee.quiet.service.dto;
 
+import com.blazebit.persistence.PagedList;
 import com.gitee.quiet.jpa.entity.base.BaseEntity;
 import com.gitee.quiet.service.vo.BaseVO;
-import com.querydsl.core.QueryResults;
 import org.apache.commons.collections4.CollectionUtils;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -63,20 +66,6 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
   }
 
   /**
-   * queryDsl 实体分页查询结果转vo分页查询结果
-   *
-   * @param results 实体分页信息
-   * @return vo分页信息
-   */
-  default QueryResults<V> results2results(QueryResults<E> results) {
-    return new QueryResults<>(
-        this.entities2vos(results.getResults()),
-        results.getLimit(),
-        results.getOffset(),
-        results.getTotal());
-  }
-
-  /**
    * List 实体信息转 vo List
    *
    * @param entities 实体信息
@@ -100,5 +89,13 @@ public interface QuietConvert<E extends BaseEntity, D extends BaseDTO, V extends
       return Sets.newHashSet();
     }
     return entities.stream().map(this::entity2vo).collect(Collectors.toSet());
+  }
+
+  default Page<V> pageList2page(PagedList<E> pagedList, Pageable page) {
+    List<V> result = new ArrayList<>();
+    if (CollectionUtils.isNotEmpty(pagedList)) {
+      result.addAll(pagedList.stream().map(this::entity2vo).collect(Collectors.toList()));
+    }
+    return new PageImpl<>(result, page, pagedList.getTotalSize());
   }
 }

@@ -41,7 +41,9 @@ public class GetMethodQueryParamSnakeCaseFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
-    if (HttpMethod.GET.name().equals(request.getMethod())) {
+    if (HttpMethod.GET.name().equalsIgnoreCase(request.getMethod())
+        || HttpMethod.DELETE.name().equalsIgnoreCase(request.getMethod())
+        || HttpMethod.POST.name().equalsIgnoreCase(request.getMethod())) {
       filterChain.doFilter(new ParameterNameWithSnakeCaseWrapper(request), response);
       return;
     }

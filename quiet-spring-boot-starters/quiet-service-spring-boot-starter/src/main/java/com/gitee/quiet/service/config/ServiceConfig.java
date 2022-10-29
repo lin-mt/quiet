@@ -23,7 +23,7 @@ import com.gitee.quiet.common.core.json.BeforeObjectMapperInjection;
 import com.gitee.quiet.jpa.properties.EnumScanPath;
 import com.gitee.quiet.service.advice.AdvicePackage;
 import com.gitee.quiet.service.aware.QuietAuditorAware;
-import com.gitee.quiet.service.converter.StringToDictionaryConverter;
+import com.gitee.quiet.service.converter.StringToDictConverter;
 import com.gitee.quiet.service.enums.ServiceEnumsPackage;
 import com.gitee.quiet.service.filter.GetMethodQueryParamSnakeCaseFilter;
 import com.gitee.quiet.service.json.filter.HasRoleAnnotationFilter;
@@ -82,8 +82,8 @@ public class ServiceConfig {
   }
 
   @Bean
-  public StringToDictionaryConverter stringToDictionaryConverter() {
-    return new StringToDictionaryConverter();
+  public StringToDictConverter stringToDictConverter() {
+    return new StringToDictConverter();
   }
 
   @Bean

@@ -41,6 +41,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户 Controller.
@@ -66,9 +67,11 @@ public class QuietUserController {
    * @param keyword 用户名/全名
    * @return 用户信息
    */
-  @GetMapping("/list-users-by-name")
-  public Result<List<QuietUserVO>> listUsersByName(@RequestParam String keyword) {
-    List<QuietUser> users = userService.listUsersByName(keyword, 9);
+  @GetMapping("/list-users")
+  public Result<List<QuietUserVO>> listUsers(
+      @RequestParam(required = false) String keyword,
+      @RequestParam(required = false) Set<Long> userIds) {
+    List<QuietUser> users = userService.listUsers(keyword, userIds, 9);
     return Result.success(userConvert.entities2vos(users));
   }
 
@@ -82,7 +85,19 @@ public class QuietUserController {
   public Result<QuietUserVO> create(@RequestBody @Validated(Create.class) QuietUserDTO dto) {
     // TODO 可以根据配置确定是否注册就直接启用该用户
     QuietUser user = userService.save(userConvert.dto2entity(dto));
-    return Result.success(userConvert.entity2vo(user));
+    return Result.createSuccess(userConvert.entity2vo(user));
+  }
+
+  /**
+   * 获取用户信息.
+   *
+   * @param id 用户ID
+   * @return 用户信息
+   */
+  @GetMapping("/{id}")
+  public Result<QuietUserVO> get(@PathVariable Long id) {
+    QuietUser user = userService.findById(id);
+    return Result.createSuccess(userConvert.entity2vo(user));
   }
 
   /**
@@ -157,5 +172,31 @@ public class QuietUserController {
   public Result<List<QuietUserRoleVO>> addRoles(@RequestBody QuietUserRoleDTO dto) {
     List<QuietUserRole> userRoles = userRoleService.addRoles(dto.getUserRoles());
     return Result.createSuccess(userRoleConverter.entities2vos(userRoles));
+  }
+
+  /**
+   * 更新用户的角色
+   *
+   * @param userId 用户ID
+   * @param roleIds 用户拥有的所有角色Id集合
+   * @return 移除结果
+   */
+  @PostMapping("/update-roles/{userId}")
+  public Result<List<QuietUserRoleVO>> updateRoles(
+      @PathVariable Long userId, @RequestBody(required = false) Set<Long> roleIds) {
+    userRoleService.updateRoles(userId, roleIds);
+    return Result.updateSuccess();
+  }
+
+  /**
+   * 根据团队ID获取团队成员信息
+   *
+   * @param id 团队ID
+   * @return 团队成员信息
+   */
+  @GetMapping("/team/{id}")
+  public Result<List<QuietUserVO>> listTeamUser(@PathVariable Long id) {
+    List<QuietUser> users = userService.listTeamUser(id);
+    return Result.success(userConvert.entities2vos(users));
   }
 }

@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.validation.util;
 
+import com.gitee.quiet.validation.constant.ValidationCode;
 import com.gitee.quiet.validation.exception.ValidationException;
 
 import java.util.Objects;
@@ -33,6 +34,12 @@ public final class ValidationUtils {
   public static void notNull(Object o, String code, Object... msgParam) {
     if (Objects.isNull(o)) {
       throw new ValidationException(code, msgParam);
+    }
+  }
+
+  public static void idNotNull(Long id) {
+    if (Objects.isNull(id)) {
+      throw new ValidationException(ValidationCode.idNotNull);
     }
   }
 }

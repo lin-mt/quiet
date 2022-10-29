@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ser.ContainerSerializer;
 import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import com.fasterxml.jackson.databind.ser.std.AsArraySerializerBase;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.common.core.entity.Sortable;
 
 import java.io.IOException;
 import java.util.List;
@@ -72,8 +72,7 @@ public class CustomCollectionSerializer extends AsArraySerializerBase<List<Objec
   @Override
   public void serialize(List<Object> value, JsonGenerator gen, SerializerProvider provider)
       throws IOException {
-    Serial.Utils.sortSerial(value);
-    defaultSerializer.serialize(value, gen, provider);
+    defaultSerializer.serialize(Sortable.Utils.sortSerial(value), gen, provider);
   }
 
   @Override

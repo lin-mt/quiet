@@ -118,4 +118,38 @@ public class QuietUserRoleServiceImpl implements QuietUserRoleService {
     }
     return List.of();
   }
+
+  @Override
+  public void updateRoles(Long userId, Set<Long> roleIds) {
+    if (CollectionUtils.isEmpty(roleIds)) {
+      userRoleRepository.deleteByUserId(userId);
+      return;
+    }
+    List<QuietUserRole> userRoles = userRoleRepository.findByUserId(userId);
+    Set<Long> existRole = new HashSet<>();
+    if (CollectionUtils.isNotEmpty(userRoles)) {
+      Iterator<QuietUserRole> iterator = userRoles.iterator();
+      while (iterator.hasNext()) {
+        QuietUserRole userRole = iterator.next();
+        if (roleIds.contains(userRole.getRoleId())) {
+          existRole.add(userRole.getRoleId());
+          iterator.remove();
+        }
+      }
+    }
+    if (CollectionUtils.isNotEmpty(userRoles)) {
+      userRoleRepository.deleteAll(userRoles);
+    }
+    roleIds.removeAll(existRole);
+    if (CollectionUtils.isNotEmpty(roleIds)) {
+      List<QuietUserRole> newRoles = new ArrayList<>();
+      for (Long roleId : roleIds) {
+        QuietUserRole quietUserRole = new QuietUserRole();
+        quietUserRole.setUserId(userId);
+        quietUserRole.setRoleId(roleId);
+        newRoles.add(quietUserRole);
+      }
+      userRoleRepository.saveAll(newRoles);
+    }
+  }
 }

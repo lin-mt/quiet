@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.deser.BeanDeserializer;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
-import com.gitee.quiet.jpa.entity.Dictionary;
-import com.gitee.quiet.service.json.modifier.deserializer.DictionaryDeserializer;
+import com.gitee.quiet.jpa.entity.Dict;
+import com.gitee.quiet.service.json.modifier.deserializer.DictDeserializer;
 
 /**
  * QuietDeserializerModifier.
@@ -35,9 +35,9 @@ public class ServiceDeserializerModifier extends BeanDeserializerModifier {
   @Override
   public JsonDeserializer<?> modifyDeserializer(
       DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
-    if (Dictionary.class.isAssignableFrom(beanDesc.getBeanClass())
+    if (Dict.class.isAssignableFrom(beanDesc.getBeanClass())
         && deserializer instanceof BeanDeserializer) {
-      return new DictionaryDeserializer((BeanDeserializer) deserializer);
+      return new DictDeserializer((BeanDeserializer) deserializer);
     }
     return super.modifyDeserializer(config, beanDesc, deserializer);
   }

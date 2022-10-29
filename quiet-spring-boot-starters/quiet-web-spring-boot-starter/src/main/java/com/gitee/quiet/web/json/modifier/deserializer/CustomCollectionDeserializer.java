@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.deser.std.CollectionDeserializer;
-import com.gitee.quiet.common.core.entity.Serial;
+import com.gitee.quiet.common.core.entity.Sortable;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -44,8 +44,8 @@ public class CustomCollectionDeserializer extends CollectionDeserializer {
     Collection<Object> result = super.deserialize(parser, context);
     int index = 0;
     for (Object o : result) {
-      if (o instanceof Serial) {
-        ((Serial) o).setSerialNumber(index);
+      if (o instanceof Sortable) {
+        ((Sortable) o).setSortNum(index);
         index++;
       }
     }
