@@ -18,12 +18,12 @@
 package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumDemand;
-import com.gitee.quiet.scrum.filter.ScrumDemandFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 需求service.
@@ -33,21 +33,25 @@ import java.util.List;
 public interface ScrumDemandService {
 
   /**
-   * 根据迭代ID查询该迭代的所有需求
+   * 根据迭代ID查询需求，迭代ID为空，limit 则不超过 30
    *
    * @param iterationId 迭代ID
-   * @return 迭代中的所有需求
+   * @param title 需求标题
+   * @param priorityId 优先级ID
+   * @param limit 查询数量
+   * @return 需求信息
    */
-  List<ScrumDemand> findAllByIterationId(@NotNull Long iterationId);
+  List<ScrumDemand> list(Long iterationId, String title, Long priorityId, Long limit);
 
   /**
    * 分页查询需求信息
    *
    * @param params 查询参数
+   * @param planned 是否已规划，true：已规划，false：待规划
    * @param page 分页参数
    * @return 需求信息
    */
-  Page<ScrumDemand> page(ScrumDemand params, Pageable page);
+  Page<ScrumDemand> page(ScrumDemand params, Boolean planned, Pageable page);
 
   /**
    * 创建需求
@@ -55,42 +59,15 @@ public interface ScrumDemandService {
    * @param save 新需求
    * @return 创建后的需求信息
    */
-  ScrumDemand save(@NotNull ScrumDemand save);
+  ScrumDemand saveOrUpdate(@NotNull ScrumDemand save);
 
   /**
-   * 更新需求
+   * 根据优先级ID集合统计需求数量
    *
-   * @param update 更新的需求信息
-   * @return 更新后的需求信息
-   */
-  ScrumDemand update(@NotNull ScrumDemand update);
-
-  /**
-   * 根据项目信息删除项目下的需求信息
-   *
-   * @param projectId 要删除需求的项目ID
-   */
-  void deleteAllByProjectId(@NotNull Long projectId);
-
-  /**
-   * 根据优先级ID统计处于该优先级的需求数量
-   *
-   * @param priorityId 优先级ID
+   * @param priorityIds 优先级ID
    * @return 处于该优先级的需求数量
    */
-  long countByPriorityId(@NotNull Long priorityId);
-
-  /**
-   * 查询待规划的需求
-   *
-   * @param projectId 项目ID
-   * @param filter 过滤条件
-   * @param offset 跳过的数量
-   * @param limit 查询数量
-   * @return 项目待规划的需求
-   */
-  List<ScrumDemand> listToBePlanned(
-      Long projectId, ScrumDemandFilter filter, Long offset, Long limit);
+  long countByPriorityIdIn(Set<Long> priorityIds);
 
   /**
    * 根据迭代ID统计处于该迭代的需求数量
@@ -101,28 +78,12 @@ public interface ScrumDemandService {
   long countByIterationId(@NotNull Long iterationId);
 
   /**
-   * 查询迭代的需求
-   *
-   * @param iteration 迭代ID
-   * @param offset 跳过的数量
-   * @param limit 查询数量
-   * @return 迭代的需求
-   */
-  List<ScrumDemand> scrollIteration(Long iteration, Long offset, Long limit);
-
-  /**
-   * 根据ID删除需求
+   * 根据ID查询需求信息
    *
    * @param id 需求ID
+   * @return 需求信息
    */
-  void deleteById(Long id);
-
-  /**
-   * 校验是否需求ID是否存在
-   *
-   * @param id 需求ID
-   */
-  void checkIdExist(Long id);
+  ScrumDemand getById(Long id);
 
   /**
    * 查询指定迭代未完成的所有需求

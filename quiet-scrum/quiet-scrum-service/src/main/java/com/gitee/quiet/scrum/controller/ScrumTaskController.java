@@ -20,6 +20,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumTaskConvert;
 import com.gitee.quiet.scrum.dto.ScrumTaskDTO;
 import com.gitee.quiet.scrum.entity.ScrumTask;
+import com.gitee.quiet.scrum.manager.ScrumTaskManager;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.vo.ScrumTaskVO;
 import com.gitee.quiet.service.result.Result;
@@ -30,8 +31,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  * 任务Controller.
@@ -44,32 +44,21 @@ import java.util.stream.Collectors;
 public class ScrumTaskController {
 
   private final ScrumTaskService taskService;
-
+  private final ScrumTaskManager taskManager;
   private final ScrumTaskConvert taskConvert;
 
   /**
-   * 查询需求的所有任务信息
+   * 查询任务信息
    *
-   * @param dto :demandIds 查询的需求ID集合
-   * @return 根据需求ID以及任务步骤ID分组后的任务集合
+   * @param demandIds 需求ID集合
+   * @param executorIds 执行者ID集合
+   * @return 任务集合
    */
-  @GetMapping("/all-task-by-demand-ids")
-  public Result<Map<Long, Map<Long, List<ScrumTaskVO>>>> allTaskByDemandIds(ScrumTaskDTO dto) {
-    Map<Long, Map<Long, List<ScrumTask>>> tasks =
-        taskService.findAllTaskByDemandIds(dto.getDemandIds());
-    Map<Long, Map<Long, List<ScrumTaskVO>>> result =
-        tasks.entrySet().stream()
-            .collect(
-                Collectors.toMap(
-                    Map.Entry::getKey,
-                    entry ->
-                        entry.getValue().entrySet().stream()
-                            .collect(
-                                Collectors.toMap(
-                                    Map.Entry::getKey,
-                                    tasksEntry ->
-                                        taskConvert.entities2vos(tasksEntry.getValue())))));
-    return Result.success(result);
+  @GetMapping("/list")
+  public Result<List<ScrumTaskVO>> list(@RequestParam(required = false) Set<Long> demandIds,
+                                        @RequestParam(required = false) Set<Long> executorIds) {
+    List<ScrumTask> tasks = taskService.list(demandIds, executorIds);
+    return Result.success(taskConvert.entities2vos(tasks));
   }
 
   /**
@@ -80,8 +69,8 @@ public class ScrumTaskController {
    */
   @PostMapping
   public Result<ScrumTaskVO> save(@RequestBody @Validated(Create.class) ScrumTaskDTO dto) {
-    ScrumTask save = taskService.save(taskConvert.dto2entity(dto));
-    return Result.success(taskConvert.entity2vo(save));
+    ScrumTask save = taskManager.saveOrUpdate(taskConvert.dto2entity(dto));
+    return Result.createSuccess(taskConvert.entity2vo(save));
   }
 
   /**
@@ -92,8 +81,8 @@ public class ScrumTaskController {
    */
   @PutMapping
   public Result<ScrumTaskVO> update(@RequestBody @Validated(Update.class) ScrumTaskDTO dto) {
-    ScrumTask update = taskService.update(taskConvert.dto2entity(dto));
-    return Result.success(taskConvert.entity2vo(update));
+    ScrumTask update = taskManager.saveOrUpdate(taskConvert.dto2entity(dto));
+    return Result.updateSuccess(taskConvert.entity2vo(update));
   }
 
   /**

@@ -15,35 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.entity;
+package com.gitee.quiet.scrum.dictionary;
 
-import com.gitee.quiet.jpa.entity.base.BaseEntity;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
- * 项目-团队信息.
+ * 任务类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
-@Setter
-@Entity
-@Table(name = "scrum_project_team")
-public class ScrumProjectTeam extends BaseEntity {
-
-  /** 项目ID */
-  @NotNull
-  @Column(name = "project_id", nullable = false)
-  private Long projectId;
-
-  /** 团队ID */
-  @NotNull
-  @Column(name = "team_id", nullable = false)
-  private Long teamId;
+@AllArgsConstructor
+public enum DictTaskType implements BaseDict {
+  ;
+  private final String key;
 }

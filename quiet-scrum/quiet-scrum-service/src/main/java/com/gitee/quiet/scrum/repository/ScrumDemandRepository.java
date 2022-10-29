@@ -22,6 +22,7 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 需求repository.
@@ -30,14 +31,6 @@ import java.util.List;
  */
 @Repository
 public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
-
-  /**
-   * 根据迭代ID查询该迭代的所有需求
-   *
-   * @param iterationId 迭代ID
-   * @return 迭代中的所有需求
-   */
-  List<ScrumDemand> findAllByIterationId(Long iterationId);
 
   /**
    * 根据项目ID和需求标题查询需求信息
@@ -49,20 +42,12 @@ public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
   ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
 
   /**
-   * 根据项目ID批量查询需求信息
+   * 根据优先级ID集合统计需求数量
    *
-   * @param projectId 项目ID
-   * @return 项目的所有需求信息
-   */
-  List<ScrumDemand> findAllByProjectId(Long projectId);
-
-  /**
-   * 根据优先级ID统计处于该优先级的需求有多少
-   *
-   * @param priorityId 优先级ID
+   * @param priorityIds 优先级ID集合
    * @return 处于该优先级的需求数量
    */
-  long countByPriorityId(Long priorityId);
+  long countByPriorityIdIn(Set<Long> priorityIds);
 
   /**
    * 根据迭代ID统计处于该迭代的需求数量
@@ -71,4 +56,19 @@ public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
    * @return 处于该迭代的需求数量
    */
   long countByIterationId(Long iterationId);
+
+  /**
+   * 根据项目ID删除所有需求信息
+   *
+   * @param projectId 项目ID
+   */
+  void deleteByProjectId(Long projectId);
+
+  /**
+   * 根据迭代ID查询在该迭代中未完成的需求
+   *
+   * @param iterationId 迭代ID
+   * @return 未完成的需求
+   */
+  List<ScrumDemand> findAllByIterationIdAndEndTimeIsNull(Long iterationId);
 }

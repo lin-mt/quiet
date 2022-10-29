@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @Table(name = "scrum_task_step")
-public class ScrumTaskStep extends SerialEntity {
+public class ScrumTaskStep extends SortableEntity {
 
   /** 步骤名称 */
   @NotBlank

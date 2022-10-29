@@ -1,35 +1,35 @@
 /*
- * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
+ *     Copyright (C) 2022  lin-mt@outlook.com
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.service.dto.ParentAndSerialDTO;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
+import com.gitee.quiet.service.annotation.ExistId;
+import com.gitee.quiet.service.dto.ParentAndSortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.annotation.Nullable;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 项目的版本信息.
@@ -38,7 +38,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> {
+public class ScrumVersionDTO extends ParentAndSortableDTO<ScrumVersionDTO> {
 
   /** 版本名称 */
   @NotBlank
@@ -46,7 +46,9 @@ public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> {
   private String name;
 
   /** 所属项目ID */
-  @NotNull private Long projectId;
+  @NotNull
+  @ExistId(repository = ScrumProjectRepository.class, message = "quiet.validation.project.id.notExist")
+  private Long projectId;
 
   /** 计划开始日期 */
   @NotNull private LocalDate planStartDate;
@@ -61,15 +63,11 @@ public class ScrumVersionDTO extends ParentAndSerialDTO<ScrumVersionDTO> {
   private LocalDateTime endTime;
 
   /** 版本备注信息 */
-  @NotBlank
   @Length(max = 1500)
   private String remark;
 
-  /** 迭代信息 */
-  @Transient private List<ScrumIterationDTO> iterations;
-
   @Override
-  public int compareTo(@Nullable Serial other) {
+  public int compareTo(@Nullable Sortable other) {
     int compare = super.compareTo(other);
     if (compare == 0 && other instanceof ScrumVersionDTO) {
       ScrumVersionDTO otherVersion = (ScrumVersionDTO) other;

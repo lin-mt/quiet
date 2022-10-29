@@ -20,17 +20,17 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumProjectConvert;
 import com.gitee.quiet.scrum.dto.ScrumProjectDTO;
 import com.gitee.quiet.scrum.entity.ScrumProject;
+import com.gitee.quiet.scrum.manager.ScrumProjectManager;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
-import com.gitee.quiet.scrum.vo.MyScrumProject;
-import com.gitee.quiet.scrum.vo.ScrumProjectDetail;
 import com.gitee.quiet.scrum.vo.ScrumProjectVO;
 import com.gitee.quiet.service.result.Result;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 项目Controller.
@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.*;
 public class ScrumProjectController {
 
   private final ScrumProjectService projectService;
-
+  private final ScrumProjectManager projectManager;
   private final ScrumProjectConvert projectConvert;
 
   /**
@@ -59,24 +59,18 @@ public class ScrumProjectController {
   }
 
   /**
-   * 获取项目的详细信息
+   * 获取项目信息
    *
-   * @param id 项目ID
-   * @return 项目详细信息
-   */
-  @GetMapping("/detail/{id}")
-  public Result<ScrumProjectDetail> detail(@PathVariable Long id) {
-    return Result.success(projectService.getDetail(id));
-  }
-
-  /**
-   * 查询当前登陆人的所有项目
-   *
+   * @param groupId 项目组ID
    * @return 项目信息
    */
-  @GetMapping("/all-my-projects")
-  public Result<MyScrumProject> allMyProjects() {
-    return Result.success(projectService.allProjectByUserId(CurrentUserUtil.getId()));
+  @GetMapping("/list")
+  public Result<List<ScrumProjectVO>> list(
+      @RequestParam(required = false) Long groupId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Long id) {
+    List<ScrumProject> projects = projectService.list(groupId, name, id);
+    return Result.success(projectConvert.entities2vos(projects));
   }
 
   /**
@@ -87,7 +81,7 @@ public class ScrumProjectController {
    */
   @PostMapping
   public Result<ScrumProjectVO> save(@RequestBody @Validated(Create.class) ScrumProjectDTO dto) {
-    ScrumProject save = projectService.save(projectConvert.dto2entity(dto));
+    ScrumProject save = projectManager.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.createSuccess(projectConvert.entity2vo(save));
   }
 
@@ -99,7 +93,7 @@ public class ScrumProjectController {
    */
   @PutMapping
   public Result<ScrumProjectVO> update(@RequestBody @Validated(Update.class) ScrumProjectDTO dto) {
-    ScrumProject update = projectService.update(projectConvert.dto2entity(dto));
+    ScrumProject update = projectManager.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.updateSuccess(projectConvert.entity2vo(update));
   }
 
@@ -111,7 +105,7 @@ public class ScrumProjectController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    projectService.deleteById(id);
+    projectManager.deleteById(id);
     return Result.deleteSuccess();
   }
 }

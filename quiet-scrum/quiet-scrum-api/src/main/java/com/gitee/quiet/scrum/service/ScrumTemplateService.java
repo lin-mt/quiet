@@ -18,11 +18,8 @@
 package com.gitee.quiet.scrum.service;
 
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
-import com.gitee.quiet.scrum.vo.AllTemplate;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 模板信息Service.
@@ -30,53 +27,6 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumTemplateService {
-
-  /**
-   * 查询所有的模板信息
-   *
-   * @return 根据是否创建人创建的模板进行分组
-   */
-  AllTemplate allTemplates();
-
-  /**
-   * 新增模板
-   *
-   * @param save 新增的模板信息
-   * @return 新增后的模板信息
-   */
-  ScrumTemplate save(ScrumTemplate save);
-
-  /**
-   * 更新模板
-   *
-   * @param update 更新的模板信息
-   * @return 更新后的模板信息
-   */
-  ScrumTemplate update(ScrumTemplate update);
-
-  /**
-   * 根据模板ID删除模板
-   *
-   * @param id 要删除的模板的ID
-   */
-  void deleteById(@NotNull Long id);
-
-  /**
-   * 根据模板名称查询模板信息
-   *
-   * @param name 模板名称
-   * @param limit 查询的模板数量
-   * @return 查询结果
-   */
-  List<ScrumTemplate> listEnabledByName(String name, long limit);
-
-  /**
-   * 根据模板ID批量查询模板信息
-   *
-   * @param ids 模板ID集合
-   * @return 模板信息
-   */
-  List<ScrumTemplate> findAllByIds(Set<Long> ids);
 
   /**
    * 根据模板ID获取模板信息
@@ -87,19 +37,27 @@ public interface ScrumTemplateService {
   ScrumTemplate findById(Long id);
 
   /**
-   * 判断模板ID是否存在
+   * 根据模板id、名称、状态查询模板信息
    *
    * @param id 模板ID
-   * @return true：存在，false：不存在
-   */
-  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-  boolean existsById(Long id);
-
-  /**
-   * 查询模板信息，包含步骤配置和优先级配置信息
-   *
-   * @param id 模板ID
+   * @param name 模板名称
+   * @param enabled 模板状态
+   * @param limit 查询数量，默认查询 15 条数据，传 0 则查询所有
    * @return 模板信息
    */
-  ScrumTemplate templateInfo(Long id);
+  List<ScrumTemplate> list(Long id, String name, Boolean enabled, Long limit);
+
+  /**
+   * 保存或更新模板，新增时启用状态默认为 false，更新时不更新启用状态
+   *
+   * @param entity 模板信息
+   * @return 保存或更新后的模板信息
+   */
+  ScrumTemplate saveOrUpdate(ScrumTemplate entity);
+
+  /**
+   * 根据模板ID禁用模板
+   * @param id 模板ID
+   */
+  void disable(Long id);
 }

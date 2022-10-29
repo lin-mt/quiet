@@ -17,9 +17,8 @@
 
 package com.gitee.quiet.scrum.entity;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import com.gitee.quiet.scrum.enums.BuildTool;
-import com.gitee.quiet.system.entity.QuietTeam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -27,13 +26,9 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 项目.
@@ -44,7 +39,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "scrum_project")
-public class ScrumProject extends SerialEntity {
+public class ScrumProject extends SortableEntity {
 
   /** 项目名称 */
   @NotBlank
@@ -59,8 +54,8 @@ public class ScrumProject extends SerialEntity {
 
   /** 项目描述信息 */
   @Length(max = 100)
-  @Column(name = "project_description", length = 100)
-  private String description;
+  @Column(name = "remark", length = 100)
+  private String remark;
 
   /** 需求前缀 */
   @Length(max = 6)
@@ -77,6 +72,10 @@ public class ScrumProject extends SerialEntity {
   @Column(name = "template_id")
   private Long templateId;
 
+  /** 项目组ID */
+  @Column(name = "group_id")
+  private Long groupId;
+
   /** 构建工具 */
   @Column(name = "build_tool", length = 6)
   private BuildTool buildTool;
@@ -89,22 +88,8 @@ public class ScrumProject extends SerialEntity {
   @Column(name = "end_time")
   private LocalDateTime endTime;
 
-  /** 负责的团队ID集合 */
-  @Transient private Set<Long> teamIds;
-
-  /** 项目经理用户名 */
-  @Transient private String managerName;
-
-  /** 模板名称 */
-  @Transient private String templateName;
-
-  /** 负责该项目的团队信息 */
-  @Transient private List<QuietTeam> teams;
-
-  public void addTeamInfo(QuietTeam quietTeam) {
-    if (getTeams() == null) {
-      setTeams(new ArrayList<>());
-    }
-    getTeams().add(quietTeam);
-  }
+  /** 负责项目的团队ID */
+  @NotNull
+  @Column(name = "team_id")
+  private Long teamId;
 }

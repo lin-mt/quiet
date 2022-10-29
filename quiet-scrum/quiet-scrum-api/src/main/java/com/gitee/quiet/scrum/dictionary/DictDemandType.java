@@ -15,40 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.scrum.vo;
+package com.gitee.quiet.scrum.dictionary;
 
-import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.jpa.entity.base.BaseDict;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 /**
- * 优先级.
+ * 需求类型.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
-@Setter
-public class ScrumPriorityVO extends SerialVO {
-
-  /** 优先级名称 */
-  @NotBlank
-  @Length(max = 10)
-  private String name;
-
-  /** 图标的十六进制颜色 */
-  @Length(max = 7)
-  @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-  private String colorHex = "#1890FF";
-
-  /** 模板ID */
-  @NotNull private Long templateId;
-
-  /** 备注信息 */
-  @Length(max = 100)
-  private String remark;
+@AllArgsConstructor
+public enum DictDemandType implements BaseDict {
+  ;
+  private final String key;
 }

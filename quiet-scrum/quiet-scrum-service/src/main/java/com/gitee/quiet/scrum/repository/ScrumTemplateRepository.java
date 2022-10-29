@@ -21,8 +21,6 @@ import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * 模板Repository.
  *
@@ -30,15 +28,6 @@ import java.util.List;
  */
 @Repository
 public interface ScrumTemplateRepository extends QuietRepository<ScrumTemplate> {
-
-  /**
-   * 查询启用的或者创建者为 creator 的模板信息
-   *
-   * @param enabled 是否启用
-   * @param creator 创建者ID
-   * @return 是否启用为enable或者创建者为creator创建模板信息
-   */
-  List<ScrumTemplate> findAllByEnabledOrCreator(boolean enabled, Long creator);
 
   /**
    * 根据模板名称查找模板信息

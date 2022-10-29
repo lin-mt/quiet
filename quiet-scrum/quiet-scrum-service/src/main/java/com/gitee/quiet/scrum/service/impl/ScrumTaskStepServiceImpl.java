@@ -18,21 +18,14 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskStepRepository;
-import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
-import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 任务步骤service实现类.
@@ -40,83 +33,21 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
 
   private final ScrumTaskStepRepository taskStepRepository;
 
-  private final ScrumTaskService taskService;
-
-  private final ScrumTemplateService templateService;
-
-  public ScrumTaskStepServiceImpl(
-      ScrumTaskStepRepository taskStepRepository,
-      ScrumTaskService taskService,
-      @Lazy ScrumTemplateService templateService) {
-    this.taskStepRepository = taskStepRepository;
-    this.taskService = taskService;
-    this.templateService = templateService;
-  }
-
   @Override
-  public ScrumTaskStep save(ScrumTaskStep save) {
-    checkInfo(save);
-    return taskStepRepository.save(save);
-  }
-
-  @Override
-  public ScrumTaskStep update(ScrumTaskStep update) {
-    checkInfo(update);
-    return taskStepRepository.saveAndFlush(update);
-  }
-
-  @Override
-  public List<ScrumTaskStep> findAllByTemplateId(Long templateId) {
+  public List<ScrumTaskStep> list(Long templateId) {
     return taskStepRepository.findAllByTemplateId(templateId);
-  }
-
-  @Override
-  public Map<Long, List<ScrumTaskStep>> findAllByTemplateIds(Set<Long> templateIds) {
-    List<ScrumTaskStep> taskSteps = taskStepRepository.findAllByTemplateIdIn(templateIds);
-    Map<Long, List<ScrumTaskStep>> templateIdToTaskSteps = new HashMap<>(templateIds.size());
-    if (CollectionUtils.isNotEmpty(taskSteps)) {
-      templateIdToTaskSteps =
-          taskSteps.stream().collect(Collectors.groupingBy(ScrumTaskStep::getTemplateId));
-    }
-    return templateIdToTaskSteps;
-  }
-
-  @Override
-  public void deleteById(Long id) {
-    if (CollectionUtils.isNotEmpty(taskService.findAllByTaskStepId(id))) {
-      throw new ServiceException("taskStep.hasTask.can.not.delete");
-    }
-    ScrumTaskStep delete = taskStepRepository.getById(id);
-    taskStepRepository.deleteById(id);
-    if (taskStepRepository.countByTemplateId(delete.getTemplateId()) == 0) {
-      ScrumTemplate template = templateService.findById(delete.getTemplateId());
-      template.setEnabled(false);
-      templateService.update(template);
-    }
-  }
-
-  @Override
-  public List<ScrumTaskStep> updateBatch(List<ScrumTaskStep> taskSteps) {
-    if (CollectionUtils.isNotEmpty(taskSteps)) {
-      for (ScrumTaskStep taskStep : taskSteps) {
-        checkInfo(taskStep);
-      }
-      return taskStepRepository.saveAll(taskSteps);
-    }
-    return List.of();
   }
 
   @Override
   public void deleteByTemplateId(Long templateId) {
     List<ScrumTaskStep> taskSteps = taskStepRepository.findAllByTemplateId(templateId);
     if (CollectionUtils.isNotEmpty(taskSteps)) {
-      for (ScrumTaskStep taskStep : taskSteps) {
-        deleteById(taskStep.getId());
-      }
+      taskStepRepository.deleteAll(taskSteps);
     }
   }
 
@@ -126,21 +57,9 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
   }
 
   @Override
-  public void checkIdExist(Long id) {
-    if (!taskStepRepository.existsById(id)) {
-      throw new ServiceException("taskStep.id.notExist", id);
-    }
-  }
-
-  private void checkInfo(ScrumTaskStep taskStep) {
-    if (!templateService.existsById(taskStep.getTemplateId())) {
-      throw new ServiceException("template.id.not.exist");
-    }
-    ScrumTaskStep exist =
-        taskStepRepository.findByTemplateIdAndName(taskStep.getTemplateId(), taskStep.getName());
-    if (exist != null && !exist.getId().equals(taskStep.getId())) {
-      throw new ServiceException(
-          "taskStep.templateId.name.exist", taskStep.getTemplateId(), taskStep.getName());
-    }
+  public ScrumTaskStep getById(Long id) {
+    return taskStepRepository
+        .findById(id)
+        .orElseThrow(() -> new ServiceException("taskStep.id.notExist", id));
   }
 }

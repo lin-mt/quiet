@@ -1,24 +1,26 @@
 /*
- * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
+ *     Copyright (C) 2022  lin-mt@outlook.com
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package com.gitee.quiet.scrum.dto;
 
-import com.gitee.quiet.common.core.entity.Serial;
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.common.core.entity.Sortable;
+import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
+import com.gitee.quiet.service.annotation.ExistId;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -36,7 +38,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class ScrumIterationDTO extends SerialDTO {
+public class ScrumIterationDTO extends SortableDTO {
 
   /** 迭代名称 */
   @NotBlank
@@ -44,7 +46,11 @@ public class ScrumIterationDTO extends SerialDTO {
   private String name;
 
   /** 所属版本ID */
-  @NotNull private Long versionId;
+  @NotNull
+  @ExistId(
+      repository = ScrumVersionRepository.class,
+      message = "quiet.validation.version.id.notExist")
+  private Long versionId;
 
   /** 迭代计划开始日期 */
   @NotNull private LocalDate planStartDate;
@@ -63,7 +69,7 @@ public class ScrumIterationDTO extends SerialDTO {
   private String remark;
 
   @Override
-  public int compareTo(@Nullable Serial other) {
+  public int compareTo(@Nullable Sortable other) {
     int compare = super.compareTo(other);
     if (compare == 0 && other instanceof ScrumIterationDTO) {
       ScrumIterationDTO otherIteration = (ScrumIterationDTO) other;

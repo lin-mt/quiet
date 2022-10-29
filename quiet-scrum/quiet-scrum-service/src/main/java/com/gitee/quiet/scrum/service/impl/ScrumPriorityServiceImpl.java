@@ -18,124 +18,38 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.scrum.entity.ScrumPriority;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumPriorityRepository;
-import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
-import com.gitee.quiet.scrum.service.ScrumTemplateService;
-import com.gitee.quiet.service.exception.ServiceException;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
- * 迭代信息service实现类.
- *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class ScrumPriorityServiceImpl implements ScrumPriorityService {
 
   private final ScrumPriorityRepository priorityRepository;
-
-  private final ScrumTemplateService templateService;
-
-  private final ScrumDemandService demandService;
-
-  public ScrumPriorityServiceImpl(
-      ScrumPriorityRepository priorityRepository,
-      @Lazy ScrumTemplateService templateService,
-      ScrumDemandService demandService) {
-    this.priorityRepository = priorityRepository;
-    this.templateService = templateService;
-    this.demandService = demandService;
-  }
-
-  @Override
-  public ScrumPriority save(ScrumPriority save) {
-    checkInfo(save);
-    return priorityRepository.save(save);
-  }
-
-  @Override
-  public ScrumPriority update(ScrumPriority update) {
-    checkInfo(update);
-    return priorityRepository.saveAndFlush(update);
-  }
-
-  @Override
-  public void deleteById(Long id) {
-    if (demandService.countByPriorityId(id) > 0) {
-      throw new ServiceException("priority.hasDemand.can.not.delete");
-    }
-    ScrumPriority delete = priorityRepository.getById(id);
-    priorityRepository.deleteById(id);
-    if (priorityRepository.countByTemplateId(delete.getTemplateId()) == 0) {
-      ScrumTemplate template = templateService.findById(delete.getTemplateId());
-      template.setEnabled(false);
-      templateService.update(template);
-    }
-  }
 
   @Override
   public void deleteByTemplateId(Long templateId) {
     List<ScrumPriority> priorities = priorityRepository.findAllByTemplateId(templateId);
     if (CollectionUtils.isNotEmpty(priorities)) {
-      for (ScrumPriority priority : priorities) {
-        deleteById(priority.getId());
-      }
+      priorityRepository.deleteAll(priorities);
     }
   }
 
   @Override
-  public Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds) {
-    return priorityRepository.findAllByTemplateIdIn(templateIds).stream()
-        .collect(Collectors.groupingBy(ScrumPriority::getTemplateId));
-  }
-
-  @Override
-  public List<ScrumPriority> updateBatch(List<ScrumPriority> priorities) {
-    if (CollectionUtils.isNotEmpty(priorities)) {
-      for (ScrumPriority priority : priorities) {
-        checkInfo(priority);
-      }
-      return priorityRepository.saveAll(priorities);
-    }
-    return List.of();
-  }
-
-  @Override
-  public List<ScrumPriority> findAllByTemplateId(Long templateId) {
+  public List<ScrumPriority> list(Long templateId) {
     return priorityRepository.findAllByTemplateId(templateId);
-  }
-
-  @Override
-  public List<ScrumPriority> findAllByIds(Set<Long> ids) {
-    if (CollectionUtils.isNotEmpty(ids)) {
-      return priorityRepository.findAllById(ids);
-    }
-    return List.of();
   }
 
   @Override
   public long countByTemplateId(Long templateId) {
     return priorityRepository.countByTemplateId(templateId);
-  }
-
-  private void checkInfo(ScrumPriority priority) {
-    if (!templateService.existsById(priority.getTemplateId())) {
-      throw new ServiceException("template.id.not.exist");
-    }
-    ScrumPriority exist =
-        priorityRepository.findByTemplateIdAndName(priority.getTemplateId(), priority.getName());
-    if (exist != null && !exist.getId().equals(priority.getId())) {
-      throw new ServiceException(
-          "priority.templateId.name.exist", priority.getTemplateId(), priority.getName());
-    }
   }
 }

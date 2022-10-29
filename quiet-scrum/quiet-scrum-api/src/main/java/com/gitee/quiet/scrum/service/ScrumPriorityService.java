@@ -20,8 +20,6 @@ package com.gitee.quiet.scrum.service;
 import com.gitee.quiet.scrum.entity.ScrumPriority;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 优先级信息service.
@@ -31,29 +29,6 @@ import java.util.Set;
 public interface ScrumPriorityService {
 
   /**
-   * 保存优先级选项信息
-   *
-   * @param save 新增的优先级信息
-   * @return 新增后的优先级信息
-   */
-  ScrumPriority save(ScrumPriority save);
-
-  /**
-   * 更新优先级信息
-   *
-   * @param update 更新的优先级信息
-   * @return 更新后的优先级信息
-   */
-  ScrumPriority update(ScrumPriority update);
-
-  /**
-   * 根据id删除优先级信息
-   *
-   * @param id 要删除的优先级ID
-   */
-  void deleteById(Long id);
-
-  /**
    * 根据模板ID删除优先级信息
    *
    * @param templateId 模板ID
@@ -61,35 +36,12 @@ public interface ScrumPriorityService {
   void deleteByTemplateId(Long templateId);
 
   /**
-   * 根据模板ID集合查询模板的所有优先级配置
-   *
-   * @param templateIds 模板ID集合
-   * @return 模板下的所有优先级信息
-   */
-  Map<Long, List<ScrumPriority>> findAllByTemplateIds(Set<Long> templateIds);
-
-  /**
-   * 批量更新优先级信息
-   *
-   * @param priorities 要更新的优先级信息
-   */
-  List<ScrumPriority> updateBatch(List<ScrumPriority> priorities);
-
-  /**
    * 根据模板ID查询优先级配置信息
    *
    * @param templateId 模板ID
    * @return 模板ID下的所有优先级配置信息
    */
-  List<ScrumPriority> findAllByTemplateId(Long templateId);
-
-  /**
-   * 根据ID集合批量查找优先级信息
-   *
-   * @param ids id集合
-   * @return 优先级信息
-   */
-  List<ScrumPriority> findAllByIds(Set<Long> ids);
+  List<ScrumPriority> list(Long templateId);
 
   /**
    * 根据模板ID统计优先级数量

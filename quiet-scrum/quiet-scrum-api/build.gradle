@@ -18,11 +18,12 @@ dependencies {
     api project(path: ":quiet-spring-boot-starters:quiet-service-spring-boot-starter", configuration: "default")
     api project(path: ':quiet-system:quiet-system-api', configuration: 'default')
     compileOnly deps.lombok
+    compileOnly deps.blazePersistenceQueryDsl
 
     annotationProcessor deps.lombok
     annotationProcessor deps.queryDslApt
-    annotationProcessor deps.javaxPersistenceHibernateJpa21api
     annotationProcessor deps.javaxAnnotationApi
+    annotationProcessor deps.javaxPersistenceHibernateJpa21api
 }
 
 bootJar {
