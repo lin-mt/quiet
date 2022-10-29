@@ -131,8 +131,4 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
     demandRepository.saveAll(demands);
   }
 
-  @Override
-  public void deleteAllByProjectId(Long projectId) {
-    demandRepository.deleteByProjectId(projectId);
-  }
 }

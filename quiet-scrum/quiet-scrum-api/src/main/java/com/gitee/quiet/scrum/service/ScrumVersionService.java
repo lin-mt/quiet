@@ -30,13 +30,6 @@ import java.util.List;
 public interface ScrumVersionService {
 
   /**
-   * 根据项目ID删除版本信息
-   *
-   * @param projectId 要删除版本信息的项目ID
-   */
-  void deleteAllByProjectId(@NotNull Long projectId);
-
-  /**
    * v 查询项目的版本信息，版本中包含迭代信息
    *
    * @param projectId 要查询的项目ID

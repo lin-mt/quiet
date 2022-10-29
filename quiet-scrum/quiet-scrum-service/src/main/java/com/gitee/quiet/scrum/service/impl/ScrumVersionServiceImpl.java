@@ -22,11 +22,8 @@ import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -39,15 +36,6 @@ import java.util.List;
 public class ScrumVersionServiceImpl implements ScrumVersionService {
 
   private final ScrumVersionRepository versionRepository;
-
-  @Override
-  @Transactional(rollbackFor = Exception.class)
-  public void deleteAllByProjectId(@NotNull Long projectId) {
-    List<ScrumVersion> versions = versionRepository.findAllByProjectId(projectId);
-    if (CollectionUtils.isNotEmpty(versions)) {
-      versionRepository.deleteByProjectId(projectId);
-    }
-  }
 
   @Override
   public List<ScrumVersion> list(Long projectId) {

@@ -44,4 +44,13 @@ public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
    * @return 项目数量
    */
   Long countByGroupId(Long groupId);
+
+  /**
+   * 根据项目组ID和项目名称查询项目信息
+   *
+   * @param groupId 项目组ID
+   * @param name 项目名称
+   * @return 项目信息
+   */
+  ScrumProject findByGroupIdAndName(Long groupId, String name);
 }

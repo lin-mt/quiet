@@ -99,11 +99,4 @@ public interface ScrumDemandService {
    * @param demands 需求信息集合
    */
   void saveAll(List<ScrumDemand> demands);
-
-  /**
-   * 根据项目ID删除所有需求信息
-   *
-   * @param projectId 项目ID
-   */
-  void deleteAllByProjectId(Long projectId);
 }

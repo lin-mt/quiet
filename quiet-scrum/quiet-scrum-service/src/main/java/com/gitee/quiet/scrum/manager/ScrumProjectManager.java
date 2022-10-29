@@ -17,19 +17,14 @@
 
 package com.gitee.quiet.scrum.manager;
 
-import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.repository.ScrumProjectRepository;
-import com.gitee.quiet.scrum.service.ScrumDemandService;
-import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-
-import static com.gitee.quiet.scrum.entity.QScrumProject.scrumProject;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
@@ -39,8 +34,6 @@ import static com.gitee.quiet.scrum.entity.QScrumProject.scrumProject;
 public class ScrumProjectManager {
 
   private final ScrumProjectRepository projectRepository;
-  private final ScrumVersionService versionService;
-  private final ScrumDemandService demandService;
 
   /**
    * 根据项目ID删除项目信息
@@ -49,14 +42,13 @@ public class ScrumProjectManager {
    */
   @Transactional(rollbackFor = Exception.class)
   public void deleteById(@NotNull Long id) {
-    // TODO 删除迭代信息
-    // 删除版本信息
-    versionService.deleteAllByProjectId(id);
-    // TODO 删除任务信息
+    // 删除任务信息
     // 删除需求信息
-    demandService.deleteAllByProjectId(id);
+    // 删除迭代信息
+    // 删除版本信息
     // 删除项目信息
-    projectRepository.deleteById(id);
+    // TODO 备份项目信息
+    throw new UnsupportedOperationException(String.format("不支持删除项目:%s", id));
   }
 
   /**
@@ -66,18 +58,16 @@ public class ScrumProjectManager {
    * @return 新增/更新后的项目信息
    */
   public ScrumProject saveOrUpdate(ScrumProject entity) {
-    SelectBooleanBuilder where =
-            SelectBooleanBuilder.booleanBuilder()
-                    .isIdEq(entity.getGroupId(), scrumProject.groupId)
-                    .notBlankEq(entity.getName(), scrumProject.name);
-    ScrumProject scrumProject = projectRepository.findOne(where.getPredicate()).orElse(null);
+    ScrumProject scrumProject =
+        projectRepository.findByGroupIdAndName(entity.getGroupId(), entity.getName());
     if (scrumProject != null) {
-      if (!scrumProject.getId().equals(entity.getId())){
+      if (!scrumProject.getId().equals(entity.getId())) {
         throw new ServiceException(
-                "project.group-id.name.exist", entity.getGroupId(), entity.getName());
+            "project.group-id.name.exist", entity.getGroupId(), entity.getName());
       }
       if (!scrumProject.getTemplateId().equals(entity.getTemplateId())) {
-        // TODO 模板出现变更，处理任务步骤下的任务信息
+        // TODO 处理任务信息、需求信息
+        throw new UnsupportedOperationException("不支持变更模板");
       }
     }
     return projectRepository.saveAndFlush(entity);
