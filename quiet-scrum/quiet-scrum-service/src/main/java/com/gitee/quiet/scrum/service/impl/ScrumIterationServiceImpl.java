@@ -24,7 +24,6 @@ import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -39,14 +38,6 @@ import java.util.Set;
 public class ScrumIterationServiceImpl implements ScrumIterationService {
 
   private final ScrumIterationRepository iterationRepository;
-
-  @Override
-  @Transactional(rollbackFor = Exception.class)
-  public void deleteByVersionIds(Set<Long> versionIds) {
-    if (CollectionUtils.isNotEmpty(versionIds)) {
-      iterationRepository.deleteAllByVersionIdIn(versionIds);
-    }
-  }
 
   @Override
   public List<ScrumIteration> findAllByVersionIds(Set<Long> versionIds) {

@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 需求service.
@@ -61,12 +62,12 @@ public interface ScrumDemandService {
   ScrumDemand saveOrUpdate(@NotNull ScrumDemand save);
 
   /**
-   * 根据优先级ID统计处于该优先级的需求数量
+   * 根据优先级ID集合统计需求数量
    *
-   * @param priorityId 优先级ID
+   * @param priorityIds 优先级ID
    * @return 处于该优先级的需求数量
    */
-  long countByPriorityId(@NotNull Long priorityId);
+  long countByPriorityIdIn(Set<Long> priorityIds);
 
   /**
    * 根据迭代ID统计处于该迭代的需求数量
@@ -75,13 +76,6 @@ public interface ScrumDemandService {
    * @return 处于该迭代的需求数量
    */
   long countByIterationId(@NotNull Long iterationId);
-
-  /**
-   * 根据ID删除需求
-   *
-   * @param id 需求ID
-   */
-  void deleteById(Long id);
 
   /**
    * 根据ID查询需求信息

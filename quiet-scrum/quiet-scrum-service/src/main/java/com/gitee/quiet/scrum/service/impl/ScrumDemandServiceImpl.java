@@ -28,6 +28,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 import static com.gitee.quiet.scrum.entity.QScrumDemand.scrumDemand;
 
@@ -100,22 +102,16 @@ public class ScrumDemandServiceImpl implements ScrumDemandService {
   }
 
   @Override
-  public long countByPriorityId(Long priorityId) {
-    return demandRepository.countByPriorityId(priorityId);
+  public long countByPriorityIdIn(Set<Long> priorityIds) {
+    if (CollectionUtils.isEmpty(priorityIds)) {
+      return 0L;
+    }
+    return demandRepository.countByPriorityIdIn(priorityIds);
   }
 
   @Override
   public long countByIterationId(Long iterationId) {
     return demandRepository.countByIterationId(iterationId);
-  }
-
-  @Override
-  public void deleteById(Long id) {
-    ScrumDemand delete = demandRepository.getById(id);
-    if (delete.getIterationId() != null) {
-      throw new ServiceException("demand.iterationId.notNull.canNotDelete");
-    }
-    demandRepository.deleteById(id);
   }
 
   @Override

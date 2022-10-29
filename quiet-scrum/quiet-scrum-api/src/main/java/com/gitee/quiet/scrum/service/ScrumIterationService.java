@@ -31,13 +31,6 @@ import java.util.Set;
 public interface ScrumIterationService {
 
   /**
-   * 根据版本ID集合批量删除迭代信息
-   *
-   * @param versionIds 要删除的迭代信息所属的版本ID集合
-   */
-  void deleteByVersionIds(Set<Long> versionIds);
-
-  /**
    * 根据版本ID集合批量查询迭代信息
    *
    * @param versionIds 要查询的版本ID集合

@@ -60,11 +60,4 @@ public interface ScrumTaskStepService {
    */
   ScrumTaskStep getById(Long id);
 
-  /**
-   * 根据模板ID获取最后一个任务步骤
-   *
-   * @param templateId 模板ID
-   * @return 最后一个任务步骤
-   */
-  ScrumTaskStep getLastStep(Long templateId);
 }

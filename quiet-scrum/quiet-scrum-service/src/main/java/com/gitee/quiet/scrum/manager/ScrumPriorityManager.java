@@ -18,8 +18,8 @@
 package com.gitee.quiet.scrum.manager;
 
 import com.gitee.quiet.scrum.entity.ScrumPriority;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumPriorityRepository;
+import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ public class ScrumPriorityManager {
   private final ScrumPriorityService priorityService;
   private final ScrumPriorityRepository priorityRepository;
   private final ScrumTemplateService templateService;
+  private final ScrumDemandService demandService;
 
   /**
    * 批量更新/保存模板下的优先级信息
@@ -51,29 +53,34 @@ public class ScrumPriorityManager {
    */
   @SuppressWarnings("DuplicatedCode")
   public List<ScrumPriority> saveBatch(Long templateId, List<ScrumPriority> priorities) {
-    if (CollectionUtils.isEmpty(priorities)) {
-      priorityService.deleteByTemplateId(templateId);
-      ScrumTemplate template = templateService.findById(templateId);
-      template.setEnabled(false);
-      templateService.saveOrUpdate(template);
-      return List.of();
-    }
     Set<Long> existIds =
-        priorityService.list(templateId).stream()
-            .map(ScrumPriority::getId)
-            .collect(Collectors.toSet());
+            priorityService.list(templateId).stream()
+                    .map(ScrumPriority::getId)
+                    .collect(Collectors.toSet());
+    Set<Long> updateIds =
+            priorities.stream()
+                    .map(ScrumPriority::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+    Set<Long> deleteIds =
+            existIds.stream().filter(id -> !updateIds.contains(id)).collect(Collectors.toSet());
+    if (CollectionUtils.isNotEmpty(deleteIds)) {
+      if (demandService.countByPriorityIdIn(deleteIds) > 0) {
+        throw new ServiceException("priority.hasDemand.canNotDelete", deleteIds);
+      }
+      priorityRepository.deleteAllById(deleteIds);
+      if (deleteIds.size() == existIds.size()) {
+        templateService.disable(templateId);
+      }
+    }
     Set<String> allNames = new HashSet<>();
     priorities.forEach(
-        priority -> {
-          allNames.add(priority.getName());
-          existIds.remove(priority.getId());
-          priority.setTemplateId(templateId);
-        });
+            priority -> {
+              allNames.add(priority.getName());
+              priority.setTemplateId(templateId);
+            });
     if (allNames.size() != priorities.size()) {
       throw new ServiceException("priority.templateId.name.repeat");
-    }
-    if (CollectionUtils.isNotEmpty(existIds)) {
-      priorityRepository.deleteAllById(existIds);
     }
     return priorityRepository.saveAll(priorities);
   }

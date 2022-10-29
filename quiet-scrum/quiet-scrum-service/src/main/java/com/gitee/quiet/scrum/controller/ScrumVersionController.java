@@ -21,6 +21,7 @@ import com.gitee.quiet.jpa.utils.EntityUtils;
 import com.gitee.quiet.scrum.convert.ScrumVersionConvert;
 import com.gitee.quiet.scrum.dto.ScrumVersionDTO;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
+import com.gitee.quiet.scrum.manager.ScrumVersionManager;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
 import com.gitee.quiet.scrum.vo.ScrumVersionVO;
 import com.gitee.quiet.service.result.Result;
@@ -43,7 +44,7 @@ import java.util.List;
 public class ScrumVersionController {
 
   private final ScrumVersionService versionService;
-
+  private final ScrumVersionManager versionManager;
   private final ScrumVersionConvert versionConvert;
 
   /**
@@ -90,7 +91,7 @@ public class ScrumVersionController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    versionService.deleteById(id);
+    versionManager.deleteById(id);
     return Result.deleteSuccess();
   }
 }

@@ -20,6 +20,7 @@ package com.gitee.quiet.scrum.controller;
 import com.gitee.quiet.scrum.convert.ScrumDemandConvert;
 import com.gitee.quiet.scrum.dto.ScrumDemandDTO;
 import com.gitee.quiet.scrum.entity.ScrumDemand;
+import com.gitee.quiet.scrum.manager.ScrumDemandManager;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.vo.ScrumDemandVO;
 import com.gitee.quiet.service.result.Result;
@@ -43,6 +44,7 @@ import java.util.List;
 public class ScrumDemandController {
 
   private final ScrumDemandService demandService;
+  private final ScrumDemandManager demandManager;
   private final ScrumDemandConvert demandConvert;
 
   /**
@@ -53,7 +55,7 @@ public class ScrumDemandController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    demandService.deleteById(id);
+    demandManager.deleteById(id);
     return Result.deleteSuccess();
   }
 

@@ -62,14 +62,4 @@ public class ScrumTaskStepServiceImpl implements ScrumTaskStepService {
         .findById(id)
         .orElseThrow(() -> new ServiceException("taskStep.id.notExist", id));
   }
-
-  @Override
-  public ScrumTaskStep getLastStep(Long templateId) {
-    List<ScrumTaskStep> taskSteps = list(templateId);
-    return taskSteps.stream()
-        .sorted()
-        .skip(taskSteps.size() - 1)
-        .findFirst()
-        .orElseThrow(() -> new ServiceException("taskStep.templateId.errorConfig"));
-  }
 }

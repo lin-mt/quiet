@@ -22,6 +22,7 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 需求repository.
@@ -41,20 +42,12 @@ public interface ScrumDemandRepository extends QuietRepository<ScrumDemand> {
   ScrumDemand findByProjectIdAndTitle(Long projectId, String title);
 
   /**
-   * 根据项目ID批量查询需求信息
+   * 根据优先级ID集合统计需求数量
    *
-   * @param projectId 项目ID
-   * @return 项目的所有需求信息
-   */
-  List<ScrumDemand> findAllByProjectId(Long projectId);
-
-  /**
-   * 根据优先级ID统计处于该优先级的需求有多少
-   *
-   * @param priorityId 优先级ID
+   * @param priorityIds 优先级ID集合
    * @return 处于该优先级的需求数量
    */
-  long countByPriorityId(Long priorityId);
+  long countByPriorityIdIn(Set<Long> priorityIds);
 
   /**
    * 根据迭代ID统计处于该迭代的需求数量

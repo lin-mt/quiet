@@ -18,8 +18,8 @@
 package com.gitee.quiet.scrum.manager;
 
 import com.gitee.quiet.scrum.entity.ScrumTaskStep;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskStepRepository;
+import com.gitee.quiet.scrum.service.ScrumTaskService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
 import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ public class ScrumTaskStepManager {
   private final ScrumTaskStepService taskStepService;
   private final ScrumTaskStepRepository taskStepRepository;
   private final ScrumTemplateService templateService;
+  private final ScrumTaskService taskService;
 
   /**
    * 批量更新任务步骤信息
@@ -51,29 +53,34 @@ public class ScrumTaskStepManager {
    */
   @SuppressWarnings("DuplicatedCode")
   public List<ScrumTaskStep> saveBatch(Long templateId, List<ScrumTaskStep> taskSteps) {
-    if (CollectionUtils.isEmpty(taskSteps)) {
-      taskStepService.deleteByTemplateId(templateId);
-      ScrumTemplate template = templateService.findById(templateId);
-      template.setEnabled(false);
-      templateService.saveOrUpdate(template);
-      return List.of();
-    }
     Set<Long> existIds =
         taskStepService.list(templateId).stream()
             .map(ScrumTaskStep::getId)
             .collect(Collectors.toSet());
+    Set<Long> updateIds =
+        taskSteps.stream()
+            .map(ScrumTaskStep::getId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+    Set<Long> deleteIds =
+        existIds.stream().filter(id -> !updateIds.contains(id)).collect(Collectors.toSet());
+    if (CollectionUtils.isNotEmpty(deleteIds)) {
+      if (taskService.countByTaskStepIdIn(deleteIds) > 0) {
+        throw new ServiceException("taskStep.hasTask.canNotDelete", deleteIds);
+      }
+      taskStepRepository.deleteAllById(deleteIds);
+      if (deleteIds.size() == existIds.size()) {
+        templateService.disable(templateId);
+      }
+    }
     Set<String> allNames = new HashSet<>();
     taskSteps.forEach(
         taskStep -> {
           allNames.add(taskStep.getName());
-          existIds.remove(taskStep.getId());
           taskStep.setTemplateId(templateId);
         });
     if (allNames.size() != taskSteps.size()) {
       throw new ServiceException("taskStep.templateId.name.repeat");
-    }
-    if (CollectionUtils.isNotEmpty(existIds)) {
-      taskStepRepository.deleteAllById(existIds);
     }
     return taskStepRepository.saveAll(taskSteps);
   }

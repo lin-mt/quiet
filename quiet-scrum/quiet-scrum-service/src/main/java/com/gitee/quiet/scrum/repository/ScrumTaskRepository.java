@@ -33,29 +33,6 @@ import java.util.Set;
 public interface ScrumTaskRepository extends QuietRepository<ScrumTask> {
 
   /**
-   * 根据需求ID查询任务信息
-   *
-   * @param demandIds 需求ID集合
-   * @return 所有任务信息
-   */
-  List<ScrumTask> findAllByDemandIdIn(Set<Long> demandIds);
-
-  /**
-   * 根据需求ID集合批量删除任务信息
-   *
-   * @param demandIds 要删除的任务所属的需求ID集合
-   */
-  void deleteAllByDemandIdIn(Set<Long> demandIds);
-
-  /**
-   * 根据步骤ID查询任务信息
-   *
-   * @param taskStepId 任务步骤ID
-   * @return 处于该任务步骤的所有任务信息
-   */
-  List<ScrumTask> findAllByTaskStepId(Long taskStepId);
-
-  /**
    * 根据需求ID和任务标题查询任务信息
    *
    * @param demandId 需求ID
@@ -71,4 +48,12 @@ public interface ScrumTaskRepository extends QuietRepository<ScrumTask> {
    * @return 需求下的所有任务信息
    */
   List<ScrumTask> findAllByDemandId(Long demandId);
+
+  /**
+   * 根据任务步骤ID集合统计在该集合下的任务数量
+   *
+   * @param taskStepIds 任务步骤ID集合
+   * @return 任务数量
+   */
+  Long countByTaskStepIdIn(Set<Long> taskStepIds);
 }

@@ -29,7 +29,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.gitee.quiet.scrum.entity.QScrumTemplate.scrumTemplate;
 
@@ -44,11 +43,6 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
 
   private final ScrumTemplateRepository templateRepository;
   private final JPAQueryFactory jpaQueryFactory;
-
-  @Override
-  public List<ScrumTemplate> findAllByIds(Set<Long> ids) {
-    return templateRepository.findAllById(ids);
-  }
 
   @Override
   public ScrumTemplate findById(Long id) {
@@ -87,5 +81,12 @@ public class ScrumTemplateServiceImpl implements ScrumTemplateService {
       entity.setEnabled(false);
     }
     return templateRepository.saveAndFlush(entity);
+  }
+
+  @Override
+  public void disable(Long id) {
+    ScrumTemplate template = findById(id);
+    template.setEnabled(false);
+    templateRepository.saveAndFlush(template);
   }
 }

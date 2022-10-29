@@ -18,25 +18,20 @@
 package com.gitee.quiet.scrum.service.impl;
 
 import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
-import com.gitee.quiet.scrum.entity.ScrumProject;
 import com.gitee.quiet.scrum.entity.ScrumTask;
-import com.gitee.quiet.scrum.entity.ScrumTaskStep;
-import com.gitee.quiet.scrum.entity.ScrumTemplate;
 import com.gitee.quiet.scrum.repository.ScrumTaskRepository;
-import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskService;
-import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.gitee.quiet.scrum.entity.QScrumTask.scrumTask;
 
@@ -46,75 +41,54 @@ import static com.gitee.quiet.scrum.entity.QScrumTask.scrumTask;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class ScrumTaskServiceImpl implements ScrumTaskService {
 
   private final JPAQueryFactory jpaQueryFactory;
   private final ScrumTaskRepository taskRepository;
-  private final ScrumProjectService projectService;
-  private final ScrumTemplateService templateService;
-
-  public ScrumTaskServiceImpl(
-          JPAQueryFactory jpaQueryFactory,
-      ScrumTaskRepository taskRepository,
-      @Lazy ScrumProjectService projectService,
-      @Lazy ScrumTemplateService templateService) {
-    this.jpaQueryFactory = jpaQueryFactory;
-    this.taskRepository = taskRepository;
-    this.projectService = projectService;
-    this.templateService = templateService;
-  }
 
   @Override
   public List<ScrumTask> list(Set<Long> demandIds, Set<Long> executorIds) {
     if (CollectionUtils.isEmpty(demandIds)) {
       return List.of();
     }
-    BooleanBuilder predicate = SelectBooleanBuilder.booleanBuilder().notEmptyIn(demandIds, scrumTask.demandId)
-            .notEmptyIn(executorIds, scrumTask.executorId).getPredicate();
+    BooleanBuilder predicate =
+        SelectBooleanBuilder.booleanBuilder()
+            .notEmptyIn(demandIds, scrumTask.demandId)
+            .notEmptyIn(executorIds, scrumTask.executorId)
+            .getPredicate();
     return jpaQueryFactory.selectFrom(scrumTask).where(predicate).fetch();
-  }
-
-  @Override
-  public void deleteAllByDemandIds(Set<Long> demandIds) {
-    if (CollectionUtils.isNotEmpty(demandIds)) {
-      taskRepository.deleteAllByDemandIdIn(demandIds);
-    }
-  }
-
-  @Override
-  public List<ScrumTask> findAllByTaskStepId(Long taskStepId) {
-    return taskRepository.findAllByTaskStepId(taskStepId);
   }
 
   @Override
   public void deleteById(Long id) {
     if (id == null) {
-      // TODO 校验是否存在后置任务
-      throw new ServiceException("task.preTask.contains.canNotDelete", id);
+      return;
+    }
+    BooleanBuilder predicate =
+        SelectBooleanBuilder.booleanBuilder().findInSet(id, scrumTask.preTaskIds).getPredicate();
+    List<ScrumTask> afterTasks = jpaQueryFactory.selectFrom(scrumTask).where(predicate).fetch();
+    if (CollectionUtils.isNotEmpty(afterTasks)) {
+      throw new ServiceException(
+          "task.preTask.contains.canNotDelete",
+          afterTasks.stream()
+              .map(ScrumTask::getId)
+              .map(Objects::toString)
+              .collect(Collectors.joining(",")));
     }
     taskRepository.deleteById(id);
   }
 
   @Override
-  public Set<Long> findUnfinishedDemandIds(Long projectId, Set<Long> demandIds) {
-    ScrumProject project = projectService.findById(projectId);
-    ScrumTemplate templateInfo = templateService.findById(project.getTemplateId());
-    List<ScrumTaskStep> taskSteps = new ArrayList<>();
-    //        templateInfo.getTaskSteps().stream().sorted().collect(Collectors.toList());
-    Long lastTaskStepId = taskSteps.get(taskSteps.size() - 1).getId();
-    List<ScrumTask> allTasks = taskRepository.findAllByDemandIdIn(demandIds);
-    Set<Long> hasTaskDemandIds = new HashSet<>();
-    Set<Long> unfinishedDemandIds = new HashSet<>();
-    allTasks.forEach(
-        task -> {
-          hasTaskDemandIds.add(task.getDemandId());
-          if (!task.getTaskStepId().equals(lastTaskStepId)) {
-            unfinishedDemandIds.add(task.getDemandId());
-          }
-        });
-    demandIds.removeAll(hasTaskDemandIds);
-    demandIds.addAll(unfinishedDemandIds);
-    return demandIds;
+  public List<ScrumTask> listAllByDemandId(Long demandId) {
+    return taskRepository.findAllByDemandId(demandId);
   }
 
+  @Override
+  public Long countByTaskStepIdIn(Set<Long> taskStepIds) {
+    if (CollectionUtils.isEmpty(taskStepIds)) {
+      return 0L;
+    }
+    return taskRepository.countByTaskStepIdIn(taskStepIds);
+  }
 }

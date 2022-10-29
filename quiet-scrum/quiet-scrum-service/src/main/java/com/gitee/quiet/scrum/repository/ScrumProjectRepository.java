@@ -21,8 +21,6 @@ import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumProject;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * 项目repository.
  *
@@ -38,14 +36,6 @@ public interface ScrumProjectRepository extends QuietRepository<ScrumProject> {
    * @return 使用了该模板的项目数量
    */
   long countByTemplateId(Long templateId);
-
-  /**
-   * 根据项目组ID查询项目列表
-   *
-   * @param groupId 项目组ID
-   * @return 项目列表
-   */
-  List<ScrumProject> findAllByGroupId(Long groupId);
 
   /**
    * 根据项目组ID统计项目数量

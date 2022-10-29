@@ -22,6 +22,7 @@ import com.gitee.quiet.scrum.repository.ScrumTemplateRepository;
 import com.gitee.quiet.scrum.service.ScrumPriorityService;
 import com.gitee.quiet.scrum.service.ScrumProjectService;
 import com.gitee.quiet.scrum.service.ScrumTaskStepService;
+import com.gitee.quiet.scrum.service.ScrumTemplateService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ScrumTemplateManager {
 
+  private final ScrumTemplateService templateService;
   private final ScrumTemplateRepository templateRepository;
   private final ScrumProjectService projectService;
   private final ScrumTaskStepService taskStepService;
@@ -61,7 +63,7 @@ public class ScrumTemplateManager {
    * @param enabled 更新的状态
    */
   public void enabled(Long id, Boolean enabled) {
-    ScrumTemplate template = templateRepository.findById(id).orElseThrow(() -> new ServiceException("template.id.notExist"));
+    ScrumTemplate template = templateService.findById(id);
     boolean newEnabled = BooleanUtils.toBoolean(enabled);
     if (newEnabled) {
       if (template.getId() == null || taskStepService.countByTemplateId(template.getId()) == 0) {

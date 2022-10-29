@@ -61,17 +61,10 @@ public interface ScrumVersionService {
   ScrumVersion getById(Long id);
 
   /**
-   * 根据版本id删除版本信息
+   * 根据版本ID查询所有子版本
    *
    * @param id 版本ID
+   * @return 子版本
    */
-  void deleteById(Long id);
-
-  /**
-   * 查询下一个版本信息
-   *
-   * @param id 当前版本ID
-   * @return 下一个版本信息
-   */
-  ScrumVersion nextVersion(Long id);
+  List<ScrumVersion> listAllChildren(Long id);
 }

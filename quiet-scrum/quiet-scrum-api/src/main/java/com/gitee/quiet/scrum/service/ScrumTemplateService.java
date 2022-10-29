@@ -20,7 +20,6 @@ package com.gitee.quiet.scrum.service;
 import com.gitee.quiet.scrum.entity.ScrumTemplate;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 模板信息Service.
@@ -28,14 +27,6 @@ import java.util.Set;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 public interface ScrumTemplateService {
-
-  /**
-   * 根据模板ID批量查询模板信息
-   *
-   * @param ids 模板ID集合
-   * @return 模板信息
-   */
-  List<ScrumTemplate> findAllByIds(Set<Long> ids);
 
   /**
    * 根据模板ID获取模板信息
@@ -63,4 +54,10 @@ public interface ScrumTemplateService {
    * @return 保存或更新后的模板信息
    */
   ScrumTemplate saveOrUpdate(ScrumTemplate entity);
+
+  /**
+   * 根据模板ID禁用模板
+   * @param id 模板ID
+   */
+  void disable(Long id);
 }

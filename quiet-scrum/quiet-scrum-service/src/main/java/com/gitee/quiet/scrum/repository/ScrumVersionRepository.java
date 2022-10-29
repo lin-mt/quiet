@@ -21,7 +21,6 @@ import com.gitee.quiet.jpa.repository.QuietRepository;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -65,10 +64,10 @@ public interface ScrumVersionRepository extends QuietRepository<ScrumVersion> {
   long countByParentId(Long parentId);
 
   /**
-   * 查询下一个版本的信息
+   * 根据版本ID查询所有子版本
    *
-   * @param planStartDate 当前版本的计划开始时间
-   * @return 下一个版本的版本信息
+   * @param id 版本ID
+   * @return 子版本信息
    */
-  ScrumVersion findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(LocalDate planStartDate);
+  List<ScrumVersion> findAllByParentId(Long id);
 }

@@ -21,6 +21,7 @@ import com.gitee.quiet.scrum.entity.ScrumDemand;
 import com.gitee.quiet.scrum.entity.ScrumIteration;
 import com.gitee.quiet.scrum.entity.ScrumVersion;
 import com.gitee.quiet.scrum.repository.ScrumIterationRepository;
+import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
 import com.gitee.quiet.scrum.service.ScrumDemandService;
 import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.scrum.service.ScrumVersionService;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 public class ScrumIterationManager {
 
   private final ScrumIterationRepository iterationRepository;
+  private final ScrumVersionRepository versionRepository;
   private final ScrumIterationService iterationService;
   private final ScrumDemandService demandService;
   private final ScrumVersionService versionService;
@@ -54,10 +56,10 @@ public class ScrumIterationManager {
    */
   public ScrumIteration saveOrUpdate(ScrumIteration iteration) {
     ScrumIteration exist =
-            iterationRepository.findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
+        iterationRepository.findByVersionIdAndName(iteration.getVersionId(), iteration.getName());
     if (exist != null && !exist.getId().equals(iteration.getId())) {
       throw new ServiceException(
-              "iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
+          "iteration.versionId.name.exist", iteration.getVersionId(), iteration.getName());
     }
     if (iteration.getId() == null) {
       ScrumVersion version = versionService.getById(iteration.getVersionId());
@@ -80,8 +82,17 @@ public class ScrumIterationManager {
     iteration.setStartTime(LocalDateTime.now());
     ScrumVersion version = versionService.getById(iteration.getVersionId());
     if (version.getStartTime() == null) {
+      Long parentId = version.getParentId();
+      while (parentId != null) {
+        ScrumVersion parent = versionService.getById(parentId);
+        parentId = parent.getParentId();
+        if (parent.getStartTime() == null) {
+          parent.setStartTime(LocalDateTime.now());
+        }
+        versionRepository.saveAndFlush(parent);
+      }
       version.setStartTime(LocalDateTime.now());
-      versionService.saveOrUpdate(version);
+      versionRepository.saveAndFlush(version);
     }
     return iterationRepository.saveAndFlush(iteration);
   }
@@ -107,18 +118,28 @@ public class ScrumIterationManager {
       unfinished.forEach(demand -> demand.setIterationId(nextId));
       demandService.saveAll(unfinished);
     }
-    List<ScrumIteration> unfinishedIterations =
-        iterationRepository.findAllByVersionId(iteration.getVersionId()).stream()
-            .filter(i -> Objects.isNull(i.getEndTime()))
-            .filter(i -> !i.getId().equals(id))
-            .collect(Collectors.toList());
-    if (CollectionUtils.isEmpty(unfinishedIterations)) {
-      ScrumVersion version = versionService.getById(iteration.getVersionId());
-      version.setEndTime(LocalDateTime.now());
-      versionService.saveOrUpdate(version);
-    }
+    endVersion(id, iteration.getVersionId());
     iteration.setEndTime(LocalDateTime.now());
     return iterationRepository.saveAndFlush(iteration);
+  }
+
+  private void endVersion(Long iterationId, Long versionId) {
+    List<ScrumIteration> unfinishedIterations =
+        iterationRepository.findAllByVersionId(versionId).stream()
+            .filter(i -> Objects.isNull(i.getEndTime()))
+            .filter(i -> !i.getId().equals(iterationId))
+            .collect(Collectors.toList());
+    List<ScrumVersion> unfinishedVersions = versionService.listAllChildren(versionId).stream()
+            .filter(v -> Objects.isNull(v.getEndTime()))
+            .collect(Collectors.toList());
+    if (CollectionUtils.isEmpty(unfinishedIterations) && CollectionUtils.isEmpty(unfinishedVersions)) {
+      ScrumVersion version = versionService.getById(versionId);
+      version.setEndTime(LocalDateTime.now());
+      versionService.saveOrUpdate(version);
+      if (version.getParentId() != null) {
+        endVersion(null, version.getParentId());
+      }
+    }
   }
 
   /**

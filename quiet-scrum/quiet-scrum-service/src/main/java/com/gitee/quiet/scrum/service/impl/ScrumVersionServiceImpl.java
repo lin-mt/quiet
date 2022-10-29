@@ -76,20 +76,8 @@ public class ScrumVersionServiceImpl implements ScrumVersionService {
   }
 
   @Override
-  public void deleteById(Long id) {
-    if (versionRepository.countByParentId(id) > 0) {
-      throw new ServiceException("version.hasChild.canNotDelete", id);
-    }
-    versionRepository.deleteById(id);
+  public List<ScrumVersion> listAllChildren(Long id) {
+    return versionRepository.findAllByParentId(id);
   }
 
-  @Override
-  public ScrumVersion nextVersion(Long id) {
-    ScrumVersion currentVersion =
-        versionRepository
-            .findById(id)
-            .orElseThrow(() -> new ServiceException("version.id.not.exist"));
-    return versionRepository.findFirstByPlanStartDateAfterOrderByPlanEndDateAsc(
-        currentVersion.getPlanStartDate());
-  }
 }

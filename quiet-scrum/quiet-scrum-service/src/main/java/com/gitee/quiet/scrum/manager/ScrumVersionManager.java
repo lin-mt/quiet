@@ -17,38 +17,34 @@
 
 package com.gitee.quiet.scrum.manager;
 
-import com.gitee.quiet.scrum.entity.ScrumDemand;
-import com.gitee.quiet.scrum.entity.ScrumTask;
-import com.gitee.quiet.scrum.repository.ScrumDemandRepository;
-import com.gitee.quiet.scrum.service.ScrumDemandService;
-import com.gitee.quiet.scrum.service.ScrumTaskService;
+import com.gitee.quiet.scrum.repository.ScrumVersionRepository;
+import com.gitee.quiet.scrum.service.ScrumIterationService;
 import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
 @AllArgsConstructor
-public class ScrumDemandManager {
+public class ScrumVersionManager {
 
-  private final ScrumDemandService demandService;
-  private final ScrumDemandRepository demandRepository;
-  private final ScrumTaskService taskService;
+  private final ScrumVersionRepository versionRepository;
+  private final ScrumIterationService iterationService;
 
+  /**
+   * 根据版本id删除版本信息
+   *
+   * @param id 版本ID
+   */
   public void deleteById(Long id) {
-    ScrumDemand delete = demandService.getById(id);
-    if (delete.getIterationId() != null) {
-      throw new ServiceException("demand.iterationId.notNull.canNotDelete", id);
+    if (versionRepository.countByParentId(id) > 0) {
+      throw new ServiceException("version.hasChild.canNotDelete", id);
     }
-    List<ScrumTask> tasks = taskService.listAllByDemandId(id);
-    if (CollectionUtils.isNotEmpty(tasks)) {
-      throw new ServiceException("demand.hasTasks.canNotDelete");
+    if (iterationService.countByVersionId(id) > 0) {
+      throw new ServiceException("version.hasIteration.canNotDelete", id);
     }
-    demandRepository.deleteById(id);
+    versionRepository.deleteById(id);
   }
 }

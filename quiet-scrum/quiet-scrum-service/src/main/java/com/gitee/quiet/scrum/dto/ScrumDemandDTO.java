@@ -59,7 +59,7 @@ public class ScrumDemandDTO extends ParentAndSortableDTO<ScrumDemandDTO> {
   /** 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID */
   @ExistId(
       repository = ScrumDemandRepository.class,
-      message = "quiet.validation.demand.id.notExist")
+      message = "quiet.validation.optimizeDemandId.notExist")
   private Long optimizeDemandId;
 
   /** 所属迭代ID */
