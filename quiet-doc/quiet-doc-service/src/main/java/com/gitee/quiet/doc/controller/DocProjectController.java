@@ -19,29 +19,18 @@ package com.gitee.quiet.doc.controller;
 
 import com.gitee.quiet.doc.converter.DocProjectConvert;
 import com.gitee.quiet.doc.dto.DocProjectDTO;
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocProject;
-import com.gitee.quiet.doc.service.DocApiGroupService;
-import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.DocProjectVO;
-import com.gitee.quiet.doc.vo.MyDocProject;
-import com.gitee.quiet.doc.vo.ProjectApiInfo;
 import com.gitee.quiet.service.result.Result;
-import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
  * Project Controller.
@@ -55,42 +44,34 @@ public class DocProjectController {
 
   private final DocProjectService projectService;
 
-  private final DocApiGroupService apiGroupService;
-
-  private final DocApiService apiService;
-
   private final DocProjectConvert projectConvert;
 
   /**
-   * 根据项目ID查询所有接口分组信息，包含接口信息
+   * 根据项目名称、项目ID集合查询项目信息
    *
-   * @param id 项目ID
-   * @return 项目所有接口分组信息
+   * @param name 项目名称
+   * @param ids 项目ID集合
+   * @param limit 限制查询条数，小于等于0或者不传则查询 15 条信息
+   * @return 项目信息
    */
-  @GetMapping("/apis/{id}")
-  public Result<ProjectApiInfo> apis(@PathVariable Long id) {
-    List<DocApiGroup> apiGroups = apiGroupService.listByProjectId(id);
-    Map<Long, DocApiGroup> apiGroupIdToInfo =
-        apiGroups.stream().collect(Collectors.toMap(DocApiGroup::getId, a -> a));
-    ProjectApiInfo projectApiInfo = new ProjectApiInfo();
-    projectApiInfo.getApiGroups().addAll(apiGroups);
-    List<DocApi> apis = apiService.listAllByProjectId(id);
-    if (CollectionUtils.isNotEmpty(apis)) {
-      List<DocApi> ungroup = new ArrayList<>();
-      Map<Long, List<DocApi>> grouped = new HashMap<>();
-      for (DocApi api : apis) {
-        if (api.getApiGroupId() == null) {
-          ungroup.add(api);
-          continue;
-        }
-        grouped.computeIfAbsent(api.getApiGroupId(), k -> new ArrayList<>());
-        grouped.get(api.getApiGroupId()).add(api);
-        api.setApiGroup(apiGroupIdToInfo.get(api.getApiGroupId()));
-      }
-      projectApiInfo.getUngroup().addAll(ungroup);
-      projectApiInfo.getGrouped().putAll(grouped);
-    }
-    return Result.success(projectApiInfo);
+  @GetMapping("/list")
+  public Result<List<DocProjectVO>> list(
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Set<Long> ids,
+      @RequestParam(required = false) Long limit) {
+    List<DocProject> docProjects = projectService.list(name, ids, limit);
+    return Result.success(projectConvert.entities2vos(docProjects));
+  }
+
+  /**
+   * 根据项目分组ID获取项目信息
+   *
+   * @param groupId 项目分组ID，小于等于0则查询创建人为当前登录人，且未分组的项目
+   * @return 项目信息
+   */
+  @GetMapping("/project-group/{groupId}")
+  public Result<List<DocProject>> projectGroup(@PathVariable Long groupId) {
+    return Result.success(projectService.listAllByGroupId(groupId));
   }
 
   /**
@@ -113,7 +94,7 @@ public class DocProjectController {
    */
   @PostMapping
   public Result<DocProjectVO> save(@RequestBody @Validated(Create.class) DocProjectDTO dto) {
-    DocProject save = projectService.save(projectConvert.dto2entity(dto));
+    DocProject save = projectService.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.createSuccess(projectConvert.entity2vo(save));
   }
 
@@ -125,7 +106,7 @@ public class DocProjectController {
    */
   @PutMapping
   public Result<DocProjectVO> update(@RequestBody @Validated(Update.class) DocProjectDTO dto) {
-    DocProject update = projectService.update(projectConvert.dto2entity(dto));
+    DocProject update = projectService.saveOrUpdate(projectConvert.dto2entity(dto));
     return Result.updateSuccess(projectConvert.entity2vo(update));
   }
 
@@ -139,15 +120,5 @@ public class DocProjectController {
   public Result<Object> delete(@PathVariable Long id) {
     projectService.delete(id);
     return Result.deleteSuccess();
-  }
-
-  /**
-   * 获取登陆人可访问的项目信息
-   *
-   * @return 可访问的项目信息
-   */
-  @GetMapping("/my-project")
-  public Result<MyDocProject> myDocProject() {
-    return Result.success(projectService.getProjectByUserId(CurrentUserUtil.getId()));
   }
 }

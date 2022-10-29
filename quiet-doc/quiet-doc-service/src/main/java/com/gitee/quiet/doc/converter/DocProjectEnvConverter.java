@@ -15,26 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.converter;
 
-import com.gitee.quiet.doc.entity.DocProject;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
+import com.gitee.quiet.doc.dto.DocProjectEnvDTO;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
+import com.gitee.quiet.doc.vo.DocProjectEnvVO;
+import com.gitee.quiet.service.dto.QuietConvert;
+import org.mapstruct.Mapper;
 
 /**
- * 登陆人的项目信息.
+ * 项目环境数据转换.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Getter
-@Setter
-public class MyDocProject {
-
-  /** 负责的项目 */
-  private List<DocProject> responsibleProjects = List.of();
-
-  /** 可访问的项目 */
-  private List<DocProject> accessibleProjects = List.of();
-}
+@Mapper
+public interface DocProjectEnvConverter
+    extends QuietConvert<
+        DocProjectEnv, DocProjectEnvDTO, DocProjectEnvVO> {}

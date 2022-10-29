@@ -15,11 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.dto;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.service.vo.SerialVO;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -36,7 +36,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocApiVO extends SerialVO {
+public class DocApiDTO extends SortableDTO {
 
   /** 接口名称 */
   @NotBlank
@@ -47,7 +47,7 @@ public class DocApiVO extends SerialVO {
   @NotNull private Long projectId;
 
   /** 接口状态 */
-  @NotNull private ApiState apiState = ApiState.UNFINISHED;
+  @NotNull private ApiState apiState;
 
   /** 请求地址 */
   @NotBlank
@@ -60,8 +60,8 @@ public class DocApiVO extends SerialVO {
   /** 作者ID */
   private Long authorId;
 
-  /** 作者全名 */
-  private String authorFullName;
+  /** 作者 */
+  private String author;
 
   /** 所属分组ID */
   private Long apiGroupId;
@@ -74,15 +74,6 @@ public class DocApiVO extends SerialVO {
   @Length(max = 300)
   private String remark;
 
-  /** 创建人用户名 */
-  private String creatorFullName;
-
-  /** 更新人用户名 */
-  private String updaterFullName;
-
-  /** 所属分组信息 */
-  private DocApiGroupVO apiGroup;
-
-  /** api 详细信息 */
-  private DocApiInfoVO docApiInfo;
+  /** api 信息 */
+  private DocApiInfoDTO apiInfo;
 }

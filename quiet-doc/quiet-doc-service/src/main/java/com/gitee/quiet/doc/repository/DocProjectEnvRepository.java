@@ -15,20 +15,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.converter;
+package com.gitee.quiet.doc.repository;
 
-import com.gitee.quiet.doc.dto.DocProjectEnvironmentDTO;
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-import com.gitee.quiet.doc.vo.DocProjectEnvironmentVO;
-import com.gitee.quiet.service.dto.QuietConvert;
-import org.mapstruct.Mapper;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
+import com.gitee.quiet.jpa.repository.QuietRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
- * 项目环境数据转换.
+ * 项目环境数据仓库.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Mapper
-public interface DocProjectEnvironmentConverter
-    extends QuietConvert<
-        DocProjectEnvironment, DocProjectEnvironmentDTO, DocProjectEnvironmentVO> {}
+@Repository
+public interface DocProjectEnvRepository extends QuietRepository<DocProjectEnv> {
+
+  /**
+   * 根据项目ID查询所有数据
+   *
+   * @param projectId 项目ID
+   * @return 项目ID的所有环境配置
+   */
+  List<DocProjectEnv> findAllByProjectId(Long projectId);
+
+  /**
+   * 根据项目ID和项目名称查询信息
+   *
+   * @param projectId 项目ID
+   * @param name 项目名称
+   * @return 项目信息
+   */
+  DocProjectEnv findByProjectIdAndName(Long projectId, String name);
+}

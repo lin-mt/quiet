@@ -17,7 +17,7 @@
 
 package com.gitee.quiet.doc.entity;
 
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 @Table(name = "doc_api_group")
-public class DocApiGroup extends SerialEntity {
+public class DocApiGroup extends SortableEntity {
 
   /** 分组名称 */
   @NotBlank

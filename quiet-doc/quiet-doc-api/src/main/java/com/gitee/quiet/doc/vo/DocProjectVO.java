@@ -15,47 +15,41 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.dto;
+package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.model.Cookie;
-import com.gitee.quiet.doc.model.Header;
-import com.gitee.quiet.doc.model.HttpProtocol;
-import com.gitee.quiet.service.dto.BaseDTO;
+import com.gitee.quiet.service.vo.SortableVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
- * 项目环境DTO.
+ * 项目信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocProjectEnvironmentDTO extends BaseDTO {
+public class DocProjectVO extends SortableVO {
 
-  /** 环境名称 */
-  @NotEmpty
+  /** 项目名称 */
+  @NotBlank
   @Length(max = 30)
   private String name;
 
-  /** 项目ID */
-  @NotNull private Long projectId;
-
-  /** http协议 */
-  @NotNull private HttpProtocol protocol;
-
-  /** 请求路径 */
-  @Length(max = 90)
+  /** 接口基本路径 */
+  @Length(max = 30)
   private String basePath;
 
-  /** 请求头 */
-  private List<Header> headers;
+  /** 分组ID */
+  private Long groupId;
 
-  /** 请求cookie */
-  private List<Cookie> cookies;
+  /** 项目文档负责人 */
+  @NotNull private Long principal;
+
+  /** 备注 */
+  @Length(max = 100)
+  private String remark;
 }

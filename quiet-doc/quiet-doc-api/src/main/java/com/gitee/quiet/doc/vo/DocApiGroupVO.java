@@ -17,45 +17,39 @@
 
 package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.model.Cookie;
-import com.gitee.quiet.doc.model.Header;
-import com.gitee.quiet.doc.model.HttpProtocol;
-import com.gitee.quiet.service.vo.BaseVO;
+import com.gitee.quiet.service.vo.SortableVO;
+import com.gitee.quiet.service.vo.front.SelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
- * 项目环境VO.
+ * Api 分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocProjectEnvironmentVO extends BaseVO {
+public class DocApiGroupVO extends SortableVO implements SelectVO<Long> {
 
-  /** 环境名称 */
-  @NotEmpty
+  /** 分组名称 */
+  @NotBlank
   @Length(max = 30)
   private String name;
 
-  /** 项目ID */
+  /** 所属项目ID */
   @NotNull private Long projectId;
 
-  /** http协议 */
-  @NotNull private HttpProtocol protocol;
+  @Override
+  public Long getValue() {
+    return getId();
+  }
 
-  /** 请求路径 */
-  @Length(max = 90)
-  private String basePath;
-
-  /** 请求头 */
-  private List<Header> headers;
-
-  /** 请求cookie */
-  private List<Cookie> cookies;
+  @Override
+  public String getLabel() {
+    return getName();
+  }
 }

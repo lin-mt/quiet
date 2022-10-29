@@ -4,8 +4,12 @@ dependencies {
     implementation project(':quiet-doc:quiet-doc-api')
     implementation deps.mapstruct
     implementation deps.okhttp
+    runtimeOnly deps.blazePersistenceCoreImpl
+    runtimeOnly deps.blazePersistenceHibernate
 
     compileOnly deps.lombok
+    compileOnly deps.blazePersistenceCoreApi
+    compileOnly deps.blazePersistenceQueryDsl
 
     annotationProcessor deps.lombok
     annotationProcessor deps.mapstructProcessor

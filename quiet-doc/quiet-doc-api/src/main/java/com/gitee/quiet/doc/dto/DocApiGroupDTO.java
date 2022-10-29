@@ -15,31 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.doc.entity.DocApi;
-import com.gitee.quiet.doc.entity.DocApiGroup;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
- * 项目接口分组信息.
+ * Api 分组信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
-public class ProjectApiInfo {
+@Setter
+public class DocApiGroupDTO extends SortableDTO {
 
-  /** 未分组的接口 */
-  private final List<DocApi> ungroup = new ArrayList<>();
+  /** 分组名称 */
+  @NotBlank
+  @Length(max = 30)
+  private String name;
 
-  /** 已分组的接口 */
-  private final Map<Long, List<DocApi>> grouped = new HashMap<>();
-
-  /** 项目接口分组 */
-  private final List<DocApiGroup> apiGroups = new ArrayList<>();
+  /** 所属项目ID */
+  @NotNull private Long projectId;
 }

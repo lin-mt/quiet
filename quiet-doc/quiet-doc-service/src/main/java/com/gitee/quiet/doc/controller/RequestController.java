@@ -18,8 +18,8 @@
 package com.gitee.quiet.doc.controller;
 
 import com.gitee.quiet.common.util.JsonUtils;
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
+import com.gitee.quiet.doc.service.DocProjectEnvService;
 import com.google.common.io.ByteStreams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,13 +54,13 @@ public class RequestController {
 
   private final OkHttpClient client = new OkHttpClient();
 
-  private final DocProjectEnvironmentService projectEnvironmentService;
+  private final DocProjectEnvService projectEnvService;
 
-  @RequestMapping("/{environmentId}/**")
+  @RequestMapping("/{envId}/**")
   public void request(
       final HttpServletRequest servletRequest,
       final HttpServletResponse servletResponse,
-      @PathVariable Long environmentId)
+      @PathVariable Long envId)
       throws IOException {
     RequestBody requestBody;
     String contentType = servletRequest.getContentType();
@@ -101,16 +101,16 @@ public class RequestController {
         requestBody = RequestBody.create(requestBodyBytes, mediaType);
       }
       String hostname;
-      if (!NONE_SELECTED_ENVIRONMENT_ID.equals(environmentId)) {
-        DocProjectEnvironment environment = projectEnvironmentService.getById(environmentId);
-        hostname = environment.getProtocol().getValue() + environment.getBasePath();
+      if (!NONE_SELECTED_ENVIRONMENT_ID.equals(envId)) {
+        DocProjectEnv env = projectEnvService.getById(envId);
+        hostname = env.getProtocol().getValue() + env.getDomain();
       } else {
         hostname = DEFAULT_HOSTNAME;
       }
       String path =
           servletRequest
               .getRequestURI()
-              .substring(String.format(REMOVED_FORMAT, environmentId).length());
+              .substring(String.format(REMOVED_FORMAT, envId).length());
       if (StringUtils.isNotBlank(servletRequest.getQueryString())) {
         path = path + "?" + servletRequest.getQueryString();
       }

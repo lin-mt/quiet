@@ -17,13 +17,16 @@
 
 package com.gitee.quiet.doc.controller;
 
-import com.gitee.quiet.doc.converter.DocProjectEnvironmentConverter;
-import com.gitee.quiet.doc.dto.DocProjectEnvironmentDTO;
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-import com.gitee.quiet.doc.service.DocProjectEnvironmentService;
-import com.gitee.quiet.doc.vo.DocProjectEnvironmentVO;
+import com.gitee.quiet.doc.converter.DocProjectEnvConverter;
+import com.gitee.quiet.doc.dto.DocProjectEnvDTO;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
+import com.gitee.quiet.doc.service.DocProjectEnvService;
+import com.gitee.quiet.doc.vo.DocProjectEnvVO;
 import com.gitee.quiet.service.result.Result;
+import com.gitee.quiet.validation.groups.Create;
+import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +38,11 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/project-environment")
-public class DocProjectEnvironmentController {
+@RequestMapping("/project-env")
+public class DocProjectEnvController {
 
-  private final DocProjectEnvironmentConverter converter;
-
-  private final DocProjectEnvironmentService service;
+  private final DocProjectEnvConverter converter;
+  private final DocProjectEnvService service;
 
   /**
    * 创建项目环境
@@ -49,9 +51,9 @@ public class DocProjectEnvironmentController {
    * @return 创建的环境信息
    */
   @PostMapping
-  public Result<DocProjectEnvironmentVO> save(@RequestBody DocProjectEnvironmentDTO dto) {
-    DocProjectEnvironment projectEnvironment = service.save(converter.dto2entity(dto));
-    return Result.createSuccess(converter.entity2vo(projectEnvironment));
+  public Result<DocProjectEnvVO> save(@RequestBody @Validated(Create.class) DocProjectEnvDTO dto) {
+    DocProjectEnv projectEnv = service.save(converter.dto2entity(dto));
+    return Result.createSuccess(converter.entity2vo(projectEnv));
   }
 
   /**
@@ -61,8 +63,8 @@ public class DocProjectEnvironmentController {
    * @return 更新的环境信息
    */
   @PutMapping
-  public Result<DocProjectEnvironmentVO> update(@RequestBody DocProjectEnvironmentDTO dto) {
-    DocProjectEnvironment update = service.update(converter.dto2entity(dto));
+  public Result<DocProjectEnvVO> update(@RequestBody @Validated(Update.class)  DocProjectEnvDTO dto) {
+    DocProjectEnv update = service.update(converter.dto2entity(dto));
     return Result.updateSuccess(converter.entity2vo(update));
   }
 
@@ -84,9 +86,9 @@ public class DocProjectEnvironmentController {
    * @param projectId 项目ID
    * @return 项目环境配置信息
    */
-  @GetMapping("/list-by-project-id/{projectId}")
-  public Result<List<DocProjectEnvironmentVO>> listByProjectId(@PathVariable Long projectId) {
-    List<DocProjectEnvironment> docProjectEnvironments = service.listByProjectId(projectId);
-    return Result.success(converter.entities2vos(docProjectEnvironments));
+  @GetMapping("/list/{projectId}")
+  public Result<List<DocProjectEnvVO>> listByProjectId(@PathVariable Long projectId) {
+    List<DocProjectEnv> docProjectEnvs = service.listByProjectId(projectId);
+    return Result.success(converter.entities2vos(docProjectEnvs));
   }
 }

@@ -15,65 +15,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.dto;
+package com.gitee.quiet.doc.vo;
 
-import com.gitee.quiet.doc.enums.ApiState;
-import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.service.dto.SerialDTO;
+import com.gitee.quiet.doc.model.Cookie;
+import com.gitee.quiet.doc.model.Header;
+import com.gitee.quiet.doc.model.HttpProtocol;
+import com.gitee.quiet.service.vo.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
+import java.util.List;
 
 /**
- * 文档信息.
+ * 项目环境VO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocApiDTO extends SerialDTO {
+public class DocProjectEnvVO extends BaseVO {
 
-  /** 接口名称 */
-  @NotBlank
+  /** 环境名称 */
+  @NotEmpty
   @Length(max = 30)
   private String name;
 
   /** 项目ID */
   @NotNull private Long projectId;
 
-  /** 接口状态 */
-  @NotNull private ApiState apiState = ApiState.UNFINISHED;
+  /** http协议 */
+  @NotNull private HttpProtocol protocol;
 
-  /** 请求地址 */
-  @NotBlank
-  @Length(max = 300)
-  private String path;
+  /** 域名 */
+  @NotEmpty
+  @Length(max = 90)
+  private String domain;
 
-  /** 请求方法 */
-  @NotNull private HttpMethod method;
+  /** 请求头 */
+  private List<Header> headers;
 
-  /** 作者ID */
-  private Long authorId;
-
-  /** 作者 */
-  private String author;
-
-  /** 所属分组ID */
-  private Long apiGroupId;
-
-  /** 访问者用户ID */
-  @Size(max = 30)
-  private Set<Long> visitorIds;
-
-  /** 备注 */
-  @Length(max = 300)
-  private String remark;
-
-  /** api 信息 */
-  private DocApiInfoDTO apiInfo;
+  /** 请求cookie */
+  private List<Cookie> cookies;
 }

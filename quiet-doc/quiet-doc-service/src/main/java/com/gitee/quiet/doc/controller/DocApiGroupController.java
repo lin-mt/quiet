@@ -20,6 +20,7 @@ package com.gitee.quiet.doc.controller;
 import com.gitee.quiet.doc.converter.DocApiGroupConvert;
 import com.gitee.quiet.doc.dto.DocApiGroupDTO;
 import com.gitee.quiet.doc.entity.DocApiGroup;
+import com.gitee.quiet.doc.manager.DocApiGroupManager;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.vo.DocApiGroupVO;
 import com.gitee.quiet.service.result.Result;
@@ -30,6 +31,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 接口分组信息Api.
@@ -42,7 +44,7 @@ import java.util.List;
 public class DocApiGroupController {
 
   private final DocApiGroupService apiGroupService;
-
+  private final DocApiGroupManager apiGroupManager;
   private final DocApiGroupConvert apiGroupConvert;
 
   /**
@@ -77,20 +79,37 @@ public class DocApiGroupController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    apiGroupService.deleteById(id);
+    apiGroupManager.deleteById(id);
     return Result.deleteSuccess();
   }
 
   /**
-   * 根据项目ID和接口名称模糊查询6条接口分组信息
+   * 根据接口分组ID获取分组信息
    *
-   * @param dto :projectId 项目ID :name 分组名称
+   * @param id 接口分组ID
    * @return 接口分组信息
    */
-  @GetMapping("/list-by-project-id-and-name")
-  public Result<List<DocApiGroupVO>> listByProjectIdAndName(DocApiGroupDTO dto) {
-    List<DocApiGroup> docApiGroups =
-        apiGroupService.listByProjectIdAndName(dto.getProjectId(), dto.getName(), 6L);
+  @GetMapping("/{id}")
+  public Result<DocApiGroupVO> get(@PathVariable Long id) {
+    DocApiGroup apiGroup = apiGroupService.findById(id);
+    return Result.success(apiGroupConvert.entity2vo(apiGroup));
+  }
+
+  /**
+   * 根据项目ID和接口分组名称模糊查询接口分组信息
+   *
+   * @param projectId 项目ID
+   * @param name 分组名称
+   * @param limit 限制查询条数，小于等于0或者不传则查询所有
+   * @return 接口分组信息
+   */
+  @GetMapping("/list")
+  public Result<List<DocApiGroupVO>> list(
+      @RequestParam Long projectId,
+      @RequestParam(required = false) Set<Long> ids,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Long limit) {
+    List<DocApiGroup> docApiGroups = apiGroupService.listByProjectIdAndName(projectId, ids, name, limit);
     return Result.success(apiGroupConvert.entities2vos(docApiGroups));
   }
 }

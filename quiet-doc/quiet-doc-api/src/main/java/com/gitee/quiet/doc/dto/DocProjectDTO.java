@@ -15,19 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.service.vo.SerialVO;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.service.dto.SortableDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
 
 /**
  * 项目信息.
@@ -36,7 +32,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class DocProjectVO extends SerialVO {
+public class DocProjectDTO extends SortableDTO {
 
   /** 项目名称 */
   @NotBlank
@@ -47,20 +43,14 @@ public class DocProjectVO extends SerialVO {
   @Length(max = 30)
   private String basePath;
 
+  /** 分组ID */
+  private Long groupId;
+
   /** 项目文档负责人 */
   @NotNull private Long principal;
-
-  /** 访问者用户ID */
-  @Size(max = 30)
-  private Set<Long> visitorIds;
 
   /** 备注 */
   @Length(max = 100)
   private String remark;
 
-  /** 访问者信息 */
-  private List<QuietUser> visitors;
-
-  /** 负责人名称 */
-  private String principalName;
 }

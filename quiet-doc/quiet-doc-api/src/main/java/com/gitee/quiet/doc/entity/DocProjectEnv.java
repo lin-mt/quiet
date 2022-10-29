@@ -41,13 +41,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "doc_project_environment")
-public class DocProjectEnvironment extends BaseEntity {
+@Table(name = "doc_project_env")
+public class DocProjectEnv extends BaseEntity {
 
   /** 环境名称 */
   @NotEmpty
   @Length(max = 30)
-  @Column(name = "environment_name", nullable = false, length = 30)
+  @Column(name = "env_name", nullable = false, length = 30)
   private String name;
 
   /** 项目ID */
@@ -60,10 +60,10 @@ public class DocProjectEnvironment extends BaseEntity {
   @Column(name = "protocol", nullable = false)
   private HttpProtocol protocol;
 
-  /** 请求路径 */
+  /** 域名 */
   @Length(max = 90)
-  @Column(name = "base_path", length = 90)
-  private String basePath;
+  @Column(name = "domain", length = 90)
+  private String domain;
 
   /** 请求头 */
   @Type(type = "json")

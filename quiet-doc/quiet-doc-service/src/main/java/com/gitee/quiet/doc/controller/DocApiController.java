@@ -21,7 +21,7 @@ import com.gitee.quiet.doc.converter.DocApiConvert;
 import com.gitee.quiet.doc.converter.DocApiGroupConvert;
 import com.gitee.quiet.doc.converter.DocApiInfoConvert;
 import com.gitee.quiet.doc.dto.DocApiDTO;
-import com.gitee.quiet.doc.dubbo.UserDubboService;
+import com.gitee.quiet.doc.dubbo.DubboUserService;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocApiInfo;
@@ -29,7 +29,6 @@ import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
-import com.gitee.quiet.doc.vo.DocApiDetailVO;
 import com.gitee.quiet.doc.vo.DocApiVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
@@ -40,6 +39,7 @@ import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,20 +58,42 @@ import java.util.stream.Collectors;
 public class DocApiController {
 
   private final DocApiService apiService;
-
   private final DocApiGroupService apiGroupService;
-
   private final DocApiInfoService apiInfoService;
-
   private final DocProjectService docProjectService;
-
   private final DocApiConvert apiConvert;
-
   private final DocApiInfoConvert apiInfoConvert;
-
   private final DocApiGroupConvert apiGroupConvert;
+  private final DubboUserService dubboUserService;
 
-  private final UserDubboService userDubboService;
+  /**
+   * 根据项目ID和接口名称模糊查询接口信息
+   *
+   * @param projectId 项目ID
+   * @param name 接口名称
+   * @param limit 限制查询条数，小于等于0或者不传则查询所有
+   * @return 接口信息
+   */
+  @GetMapping("/list")
+  public Result<List<DocApiVO>> list(
+      @RequestParam Long projectId,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) Long limit) {
+    List<DocApi> docApis = apiService.listByProjectIdAndName(projectId, name, limit);
+    return Result.success(apiConvert.entities2vos(docApis));
+  }
+
+  /**
+   * 分页查询接口，api_group_id 传0时会加上 api_group_id is null 过滤条件
+   *
+   * @param dto 分页参数
+   * @return 查询结果
+   */
+  @GetMapping("/page")
+  public Result<Page<DocApiVO>> page(DocApiDTO dto) {
+    Page<DocApi> page = apiService.page(apiConvert.dto2entity(dto), dto.page());
+    return Result.success(apiConvert.page2page(page));
+  }
 
   /**
    * 查询接口详细信息
@@ -80,37 +102,35 @@ public class DocApiController {
    * @return 接口详细信息
    */
   @GetMapping("/detail/{id}")
-  public Result<DocApiDetailVO> getDetail(@PathVariable Long id) {
-    DocApiVO docApi = apiConvert.entity2vo(apiService.getById(id));
-    if (docApi.getApiGroupId() != null) {
-      DocApiGroup apiGroup = apiGroupService.findById(docApi.getApiGroupId());
+  public Result<DocApiVO> getDetail(@PathVariable Long id) {
+    DocApiVO docApiVO = apiConvert.entity2vo(apiService.getById(id));
+    if (docApiVO.getApiGroupId() != null) {
+      DocApiGroup apiGroup = apiGroupService.findById(docApiVO.getApiGroupId());
       if (apiGroup != null) {
-        docApi.setApiGroup(apiGroupConvert.entity2vo(apiGroup));
+        docApiVO.setApiGroup(apiGroupConvert.entity2vo(apiGroup));
       }
     }
     Set<Long> userIds = new HashSet<>();
-    userIds.add(docApi.getAuthorId());
-    userIds.add(docApi.getCreator());
-    userIds.add(docApi.getUpdater());
+    userIds.add(docApiVO.getAuthorId());
+    userIds.add(docApiVO.getCreator());
+    userIds.add(docApiVO.getUpdater());
     Map<Long, QuietUser> userId2Info =
-        userDubboService.findByUserIds(userIds).stream()
+        dubboUserService.findByUserIds(userIds).stream()
             .collect(Collectors.toMap(QuietUser::getId, user -> user));
-    if (userId2Info.get(docApi.getCreator()) != null) {
-      docApi.setCreatorFullName(userId2Info.get(docApi.getCreator()).getFullName());
+    if (userId2Info.get(docApiVO.getCreator()) != null) {
+      docApiVO.setCreatorFullName(userId2Info.get(docApiVO.getCreator()).getFullName());
     }
-    if (userId2Info.get(docApi.getUpdater()) != null) {
-      docApi.setUpdaterFullName(userId2Info.get(docApi.getUpdater()).getFullName());
+    if (userId2Info.get(docApiVO.getUpdater()) != null) {
+      docApiVO.setUpdaterFullName(userId2Info.get(docApiVO.getUpdater()).getFullName());
     }
-    if (userId2Info.get(docApi.getAuthorId()) != null) {
-      docApi.setAuthorFullName(userId2Info.get(docApi.getAuthorId()).getFullName());
+    if (userId2Info.get(docApiVO.getAuthorId()) != null) {
+      docApiVO.setAuthorFullName(userId2Info.get(docApiVO.getAuthorId()).getFullName());
     }
-    DocApiDetailVO.DocApiDetailVOBuilder builder = DocApiDetailVO.builder();
-    builder.api(docApi);
     DocApiInfo apiInfo = apiInfoService.getByApiId(id);
     if (apiInfo != null) {
-      builder.apiInfo(apiInfoConvert.entity2vo(apiInfo));
+      docApiVO.setApiInfo(apiInfoConvert.entity2vo(apiInfo));
     }
-    return Result.success(builder.build());
+    return Result.success(docApiVO);
   }
 
   /**
@@ -173,7 +193,7 @@ public class DocApiController {
     if (MapUtils.isNotEmpty(key2newInfo)) {
       Set<String> authors =
           key2newInfo.values().stream().map(DocApiDTO::getAuthor).collect(Collectors.toSet());
-      List<QuietUser> usernames = userDubboService.findByUsernames(authors);
+      List<QuietUser> usernames = dubboUserService.findByUsernames(authors);
       Map<String, Long> username2Id =
           usernames.stream().collect(Collectors.toMap(QuietUser::getUsername, QuietUser::getId));
       key2newInfo.forEach(

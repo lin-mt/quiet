@@ -19,11 +19,14 @@ package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.doc.enums.ApiState;
 import com.gitee.quiet.doc.enums.HttpMethod;
-import com.gitee.quiet.jpa.entity.SerialEntity;
+import com.gitee.quiet.jpa.entity.SortableEntity;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
+import com.querydsl.core.BooleanBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -32,6 +35,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
+
+import static com.gitee.quiet.doc.entity.QDocApi.docApi;
 
 /**
  * 文档信息.
@@ -42,7 +47,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "doc_api")
-public class DocApi extends SerialEntity {
+public class DocApi extends SortableEntity {
 
   /** 接口名称 */
   @NotBlank
@@ -58,7 +63,7 @@ public class DocApi extends SerialEntity {
   /** 接口状态 */
   @NotNull
   @Column(name = "api_state", nullable = false, length = 10)
-  private ApiState apiState = ApiState.UNFINISHED;
+  private ApiState apiState;
 
   /** 请求地址 */
   @NotBlank
@@ -92,4 +97,20 @@ public class DocApi extends SerialEntity {
 
   /** 所属分组信息 */
   @Transient private DocApiGroup apiGroup;
+
+  @Nullable
+  @Override
+  public BooleanBuilder booleanBuilder() {
+    return SelectBooleanBuilder.booleanBuilder()
+        .isIdEq(getId(), docApi.id)
+        .notBlankContains(getName(), docApi.name)
+        .isIdEq(getProjectId(), docApi.projectId)
+        .notNullEq(getApiState(), docApi.apiState)
+        .notBlankContains(getPath(), docApi.path)
+        .notNullEq(getMethod(), docApi.method)
+        .isIdEq(getAuthorId(), docApi.authorId)
+        .isIdEq(getApiGroupId(), docApi.apiGroupId)
+        .leZeroIsNull(getApiGroupId(), docApi.apiGroupId)
+        .getPredicate();
+  }
 }

@@ -15,36 +15,55 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.repository;
+package com.gitee.quiet.doc.service;
 
-import com.gitee.quiet.doc.entity.DocProjectEnvironment;
-import com.gitee.quiet.jpa.repository.QuietRepository;
-import org.springframework.stereotype.Repository;
+import com.gitee.quiet.doc.entity.DocProjectEnv;
 
 import java.util.List;
 
 /**
- * 项目环境数据仓库.
+ * 项目环境 Service.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Repository
-public interface DocProjectEnvironmentRepository extends QuietRepository<DocProjectEnvironment> {
+public interface DocProjectEnvService {
 
   /**
-   * 根据项目ID查询所有数据
+   * 根据项目ID查询项目所有的环境配置信息
    *
    * @param projectId 项目ID
-   * @return 项目ID的所有环境配置
+   * @return 项目所有的环境配置信息
    */
-  List<DocProjectEnvironment> findAllByProjectId(Long projectId);
+  List<DocProjectEnv> listByProjectId(Long projectId);
 
   /**
-   * 根据项目ID和项目名称查询信息
+   * 创建项目环境
    *
-   * @param projectId 项目ID
-   * @param name 项目名称
-   * @return 项目信息
+   * @param save 环境信息
+   * @return 创建的环境信息
    */
-  DocProjectEnvironment findByProjectIdAndName(Long projectId, String name);
+  DocProjectEnv save(DocProjectEnv save);
+
+  /**
+   * 更新项目环境
+   *
+   * @param update 环境信息
+   * @return 更新的环境信息
+   */
+  DocProjectEnv update(DocProjectEnv update);
+
+  /**
+   * 根据ID删除数据
+   *
+   * @param id 要删除的数据的id
+   */
+  void deleteById(Long id);
+
+  /**
+   * 根据环境ID查询项目环境配置信息
+   *
+   * @param id 环境ID
+   * @return 环境配置信息
+   */
+  DocProjectEnv getById(Long id);
 }

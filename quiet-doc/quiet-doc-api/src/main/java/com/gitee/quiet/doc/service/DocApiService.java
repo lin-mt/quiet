@@ -18,6 +18,8 @@
 package com.gitee.quiet.doc.service;
 
 import com.gitee.quiet.doc.entity.DocApi;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
@@ -88,4 +90,23 @@ public interface DocApiService {
    * @param docApis 文档信息
    */
   void saveAll(Collection<DocApi> docApis);
+
+  /**
+   * 根据项目ID和接口名称模糊查询接口信息
+   *
+   * @param projectId 项目ID
+   * @param name 接口名称
+   * @param limit 限制查询条数，小于等于0或者不传则查询所有
+   * @return 接口信息
+   */
+  List<DocApi> listByProjectIdAndName(Long projectId, String name, Long limit);
+
+  /**
+   * 分页查询接口，api_group_id 传0时会加上 api_group_id is null 过滤条件
+   *
+   * @param entity 过滤条件
+   * @param page 分页参数
+   * @return 查询结果
+   */
+  Page<DocApi> page(DocApi entity, Pageable page);
 }

@@ -20,6 +20,7 @@ dependencies {
     api project(path: ':quiet-system:quiet-system-api', configuration: 'default')
 
     compileOnly deps.lombok
+    compileOnly deps.blazePersistenceQueryDsl
 
     annotationProcessor deps.lombok
     annotationProcessor deps.queryDslApt

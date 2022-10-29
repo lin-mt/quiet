@@ -33,7 +33,7 @@ import java.util.Set;
  * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Component
-public class UserDubboService {
+public class DubboUserService {
 
   @DubboReference private QuietUserService userService;
 

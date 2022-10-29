@@ -15,41 +15,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.doc.vo;
+package com.gitee.quiet.doc.dto;
 
-import com.gitee.quiet.service.vo.SerialVO;
-import com.gitee.quiet.service.vo.front.SelectVO;
+import com.gitee.quiet.doc.model.Cookie;
+import com.gitee.quiet.doc.model.Header;
+import com.gitee.quiet.doc.model.HttpProtocol;
+import com.gitee.quiet.service.dto.BaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * Api 分组信息.
+ * 项目环境DTO.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Getter
 @Setter
-public class DocApiGroupVO extends SerialVO implements SelectVO<Long> {
+public class DocProjectEnvDTO extends BaseDTO {
 
-  /** 分组名称 */
-  @NotBlank
+  /** 环境名称 */
+  @NotEmpty
   @Length(max = 30)
   private String name;
 
-  /** 所属项目ID */
+  /** 项目ID */
   @NotNull private Long projectId;
 
-  @Override
-  public Long getValue() {
-    return getId();
-  }
+  /** http协议 */
+  @NotNull private HttpProtocol protocol;
 
-  @Override
-  public String getLabel() {
-    return getName();
-  }
+  /** 域名 */
+  @NotEmpty
+  @Length(max = 90)
+  private String domain;
+
+  /** 请求头 */
+  private List<Header> headers;
+
+  /** 请求cookie */
+  private List<Cookie> cookies;
 }

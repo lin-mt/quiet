@@ -20,14 +20,20 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.repository.DocApiGroupRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
-import com.gitee.quiet.doc.service.DocApiService;
+import com.gitee.quiet.jpa.utils.SelectBooleanBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+import static com.gitee.quiet.doc.entity.QDocApiGroup.docApiGroup;
 
 /**
  * 文档分组Service实现类.
@@ -35,17 +41,11 @@ import java.util.Objects;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class DocApiGroupServiceImpl implements DocApiGroupService {
 
   private final DocApiGroupRepository apiGroupRepository;
-
-  private final DocApiService apiService;
-
-  public DocApiGroupServiceImpl(
-      DocApiGroupRepository apiGroupRepository, DocApiService apiService) {
-    this.apiGroupRepository = apiGroupRepository;
-    this.apiService = apiService;
-  }
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public DocApiGroup save(DocApiGroup save) {
@@ -72,25 +72,26 @@ public class DocApiGroupServiceImpl implements DocApiGroupService {
   }
 
   @Override
-  public void deleteById(Long id) {
-    apiGroupRepository
-        .findById(id)
-        .orElseThrow(() -> new ServiceException("api.group.id.notExist", id));
-    apiService.removeGroup(id);
-    apiGroupRepository.deleteById(id);
-  }
-
-  @Override
   public List<DocApiGroup> listByProjectId(Long projectId) {
     return apiGroupRepository.findAllByProjectId(projectId);
   }
 
   @Override
-  public List<DocApiGroup> listByProjectIdAndName(Long projectId, String name, long limit) {
-    if (Objects.isNull(projectId) || StringUtils.isBlank(name) || limit <= 0) {
+  public List<DocApiGroup> listByProjectIdAndName(Long projectId, Set<Long> ids, String name, Long limit) {
+    if (Objects.isNull(projectId)) {
       return Lists.newArrayList();
     }
-    return apiGroupRepository.findAllByProjectIdAndName(projectId, name, limit);
+    BooleanBuilder where =
+        SelectBooleanBuilder.booleanBuilder()
+            .and(docApiGroup.projectId.eq(projectId))
+            .notEmptyIn(ids, docApiGroup.id)
+            .notBlankContains(name, docApiGroup.name)
+            .getPredicate();
+    JPAQuery<DocApiGroup> query = jpaQueryFactory.selectFrom(docApiGroup).where(where);
+    if (limit != null && limit > 0) {
+      query.limit(limit);
+    }
+    return query.fetch();
   }
 
   @Override
