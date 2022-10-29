@@ -19,6 +19,9 @@ package com.gitee.quiet.common.core.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * Quiet 系统异常.
@@ -34,4 +37,13 @@ public class QuietException extends RuntimeException {
   private final String code;
 
   private final Object[] msgParam;
+
+  @Override
+  public String getMessage() {
+    String message = super.getMessage();
+    if (StringUtils.isBlank(message)) {
+      message = "{code='" + code + "', msg_param=" + Arrays.toString(msgParam) + '}';
+    }
+    return message;
+  }
 }
