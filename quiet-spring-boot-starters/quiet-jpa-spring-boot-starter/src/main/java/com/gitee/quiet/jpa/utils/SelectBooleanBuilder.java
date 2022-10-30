@@ -166,4 +166,11 @@ public class SelectBooleanBuilder extends SelectBuilder<BooleanBuilder> {
     }
     return this;
   }
+
+  public SelectBooleanBuilder findInSet(Long param, SetPath<Long, NumberPath<Long>> path) {
+    if (param != null) {
+      builder.and(Expressions.booleanTemplate("FIND_IN_SET({0}, {1}) > 0", param, path));
+    }
+    return this;
+  }
 }
