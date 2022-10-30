@@ -18,7 +18,6 @@
 package com.gitee.quiet.doc.vo;
 
 import com.gitee.quiet.service.vo.SortableVO;
-import com.gitee.quiet.service.vo.front.SelectVO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -33,7 +32,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class DocApiGroupVO extends SortableVO implements SelectVO<Long> {
+public class DocApiGroupVO extends SortableVO {
 
   /** 分组名称 */
   @NotBlank
@@ -42,14 +41,4 @@ public class DocApiGroupVO extends SortableVO implements SelectVO<Long> {
 
   /** 所属项目ID */
   @NotNull private Long projectId;
-
-  @Override
-  public Long getValue() {
-    return getId();
-  }
-
-  @Override
-  public String getLabel() {
-    return getName();
-  }
 }
