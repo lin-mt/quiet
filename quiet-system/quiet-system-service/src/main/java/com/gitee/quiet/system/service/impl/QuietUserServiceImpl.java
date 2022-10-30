@@ -238,4 +238,9 @@ public class QuietUserServiceImpl implements QuietUserService {
         .where(predicate)
         .fetch();
   }
+
+  @Override
+  public List<QuietUser> findByUsernames(Set<String> usernames) {
+    return userRepository.findByUsernameIsIn(usernames);
+  }
 }
