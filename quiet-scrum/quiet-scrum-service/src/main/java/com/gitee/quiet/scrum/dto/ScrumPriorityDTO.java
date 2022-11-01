@@ -42,10 +42,12 @@ public class ScrumPriorityDTO extends SortableDTO {
   @Length(max = 10)
   private String name;
 
-  /** 图标的十六进制颜色 */
-  @Length(max = 7)
-  @Pattern(regexp = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
-  private String colorHex;
+  /** 图标的十六进制颜色/arco颜色 */
+  @Length(max = 25)
+  @Pattern(
+      regexp =
+          "^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|(rgb\\(var\\(--(red|orangered|orange|gold|yellow|lime|green|cyan|blue|arcoblue|purple|pinkpurple|magenta)-([1-9]|10)\\)\\))$")
+  private String color;
 
   /** 模板ID */
   @NotNull
