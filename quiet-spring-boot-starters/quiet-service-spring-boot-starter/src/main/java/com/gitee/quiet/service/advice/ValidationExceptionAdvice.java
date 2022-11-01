@@ -39,7 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -94,16 +94,16 @@ public class ValidationExceptionAdvice {
       constraintViolations.forEach(
           constraintViolation -> {
             Path propertyPath = constraintViolation.getPropertyPath();
-            Iterator<Path.Node> iterator = propertyPath.iterator();
-            StringBuilder fieldName = new StringBuilder();
-            while (iterator.hasNext()) {
-              Path.Node next = iterator.next();
-              if (next instanceof Path.MethodNode) {
-                continue;
+            List<String> nodeNames = new ArrayList<>();
+            for (Path.Node next : propertyPath) {
+              switch (next.getKind()) {
+                case PARAMETER:
+                case PROPERTY:
+                  nodeNames.add(next.toString());
+                default:
               }
-              fieldName.append(next.getName());
             }
-            errorMsg.append(CAMEL_TO_UNDERSCORE_CONVERTER.convert(fieldName.toString()));
+            errorMsg.append(CAMEL_TO_UNDERSCORE_CONVERTER.convert(String.join(".", nodeNames)));
             errorMsg.append(": ");
             String message = constraintViolation.getMessage();
             errorMsg.append(message).append("; ");
