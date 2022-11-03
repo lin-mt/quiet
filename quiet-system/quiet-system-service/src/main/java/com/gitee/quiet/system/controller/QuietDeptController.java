@@ -24,6 +24,7 @@ import com.gitee.quiet.system.convert.QuietUserConvert;
 import com.gitee.quiet.system.dto.QuietDeptDTO;
 import com.gitee.quiet.system.entity.QuietDept;
 import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.manager.QuietDeptManager;
 import com.gitee.quiet.system.service.QuietDeptService;
 import com.gitee.quiet.system.service.QuietDeptUserService;
 import com.gitee.quiet.system.vo.QuietDeptVO;
@@ -49,11 +50,9 @@ import java.util.List;
 public class QuietDeptController {
 
   private final QuietDeptService deptService;
-
+  private final QuietDeptManager deptManager;
   private final QuietDeptUserService deptUserService;
-
   private final QuietDeptConvert deptConvert;
-
   private final QuietUserConvert userConvert;
 
   /**
@@ -147,7 +146,7 @@ public class QuietDeptController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    deptService.deleteById(id);
+    deptManager.deleteById(id);
     return Result.deleteSuccess();
   }
 }

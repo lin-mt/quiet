@@ -19,19 +19,19 @@ package com.gitee.quiet.system.manager;
 
 import com.gitee.quiet.common.constant.service.RoleNames;
 import com.gitee.quiet.service.exception.ServiceException;
-import com.gitee.quiet.system.entity.QuietTeam;
-import com.gitee.quiet.system.entity.QuietUser;
+import com.gitee.quiet.system.entity.*;
 import com.gitee.quiet.system.repository.QuietTeamRepository;
+import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserRoleService;
 import com.gitee.quiet.system.service.QuietTeamUserService;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +44,7 @@ public class QuietTeamManager {
   private final QuietTeamRepository teamRepository;
   private final QuietTeamUserService teamUserService;
   private final QuietTeamUserRoleService teamUserRoleService;
+  private final QuietRoleService roleService;
 
   /**
    * 新增或更新团队信息
@@ -66,7 +67,12 @@ public class QuietTeamManager {
     // 更新团队信息
     QuietTeam quietTeam = teamRepository.saveAndFlush(team);
     // 删除所有旧数据，包括团队成员信息、团队成员的角色信息
-    teamUserService.deleteByTeamId(quietTeam.getId());
+    List<QuietTeamUser> allUsers = teamUserService.findAllByTeamId(quietTeam.getId());
+    if (CollectionUtils.isNotEmpty(allUsers)) {
+      teamUserRoleService.deleteByTeamUserIds(
+              allUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()));
+      teamUserService.deleteByTeamId(quietTeam.getId());
+    }
     Set<Long> memberIds = new HashSet<>();
     // 保存成员信息，包括 PO 和 SM
     this.addMemberId(memberIds, members);
@@ -76,19 +82,62 @@ public class QuietTeamManager {
     teamUserService.addUsers(quietTeam.getId(), memberIds);
     // 添加 PO 角色
     if (CollectionUtils.isNotEmpty(productOwners)) {
-      teamUserRoleService.addRoleForTeam(
+      this.addRoleForTeam(
           quietTeam.getId(),
           productOwners.stream().map(QuietUser::getId).collect(Collectors.toSet()),
           RoleNames.ProductOwner);
     }
     // 添加 SM 角色
     if (CollectionUtils.isNotEmpty(scrumMasters)) {
-      teamUserRoleService.addRoleForTeam(
+      this.addRoleForTeam(
           quietTeam.getId(),
           scrumMasters.stream().map(QuietUser::getId).collect(Collectors.toSet()),
           RoleNames.ScrumMaster);
     }
     return quietTeam;
+  }
+
+  /**
+   * 为团队用户批量添加角色，不检查用户在团队中是否有该角色
+   *
+   * @param teamId 团队ID
+   * @param userIds 要添加角色的用户ID集合
+   * @param roleName 角色名称
+   */
+  public void addRoleForTeam(
+          @NotNull Long teamId, @NotEmpty Set<Long> userIds, @NotNull String roleName) {
+    List<QuietTeamUser> teamUsers = teamUserService.findByTeamIdAndUserIds(teamId, userIds);
+    if (CollectionUtils.isEmpty(teamUsers)) {
+      // 确保添加的用户ID都属于该团队
+      return;
+    }
+    Map<String, QuietTeamUserRole> teamUserIdToRole =
+            teamUserRoleService.findByTeamUserIds(
+                            teamUsers.stream().map(QuietTeamUser::getId).collect(Collectors.toSet()))
+                    .stream()
+                    .collect(Collectors.toMap(this::buildTeamUserIdToRole, v -> v));
+    QuietRole role = roleService.findByRoleName(roleName);
+    List<QuietTeamUserRole> newRoles = new ArrayList<>(teamUsers.size());
+    for (QuietTeamUser teamUser : teamUsers) {
+      if (MapUtils.isNotEmpty(teamUserIdToRole)) {
+        QuietTeamUserRole exist = teamUserIdToRole.get(buildTeamUserIdToRole(teamUser, role));
+        if (exist != null && exist.getRoleId().equals(role.getId())) {
+          continue;
+        }
+      }
+      newRoles.add(new QuietTeamUserRole(teamUser.getId(), role.getId()));
+    }
+    if (CollectionUtils.isNotEmpty(newRoles)) {
+      teamUserRoleService.saveAll(newRoles);
+    }
+  }
+
+  private String buildTeamUserIdToRole(@NotNull QuietTeamUserRole teamUserRole) {
+    return teamUserRole.getTeamUserId().toString() + "-" + teamUserRole.getRoleId().toString();
+  }
+
+  private String buildTeamUserIdToRole(@NotNull QuietTeamUser teamUser, @NotNull QuietRole role) {
+    return teamUser.getId().toString() + "-" + role.getId().toString();
   }
 
   private void addMemberId(@NotNull Set<Long> memberIds, List<QuietUser> members) {
@@ -97,5 +146,12 @@ public class QuietTeamManager {
         memberIds.add(member.getId());
       }
     }
+  }
+
+  public void deleteTeam(@NotNull Long deleteId) {
+    // 删除团队成员信息
+    teamUserService.deleteByTeamId(deleteId);
+    // 删除团队信息
+    teamRepository.deleteById(deleteId);
   }
 }

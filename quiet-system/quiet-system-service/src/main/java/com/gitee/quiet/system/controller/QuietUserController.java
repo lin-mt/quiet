@@ -24,8 +24,11 @@ import com.gitee.quiet.system.convert.QuietUserConvert;
 import com.gitee.quiet.system.convert.QuietUserRoleConverter;
 import com.gitee.quiet.system.dto.QuietUserDTO;
 import com.gitee.quiet.system.dto.QuietUserRoleDTO;
+import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.entity.QuietUserRole;
+import com.gitee.quiet.system.manager.QuietUserManager;
+import com.gitee.quiet.system.manager.QuietUserRoleManager;
 import com.gitee.quiet.system.service.QuietUserRoleService;
 import com.gitee.quiet.system.service.QuietUserService;
 import com.gitee.quiet.system.vo.QuietUserRoleVO;
@@ -35,13 +38,16 @@ import com.gitee.quiet.validation.groups.PageValid;
 import com.gitee.quiet.validation.groups.Update;
 import com.gitee.quiet.validation.util.ValidationUtils;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户 Controller.
@@ -54,11 +60,10 @@ import java.util.Set;
 public class QuietUserController {
 
   private final QuietUserService userService;
-
   private final QuietUserRoleService userRoleService;
-
+  private final QuietUserRoleManager userRoleManager;
+  private final QuietUserManager userManager;
   private final QuietUserConvert userConvert;
-
   private final QuietUserRoleConverter userRoleConverter;
 
   /**
@@ -109,6 +114,14 @@ public class QuietUserController {
   @GetMapping("/page")
   public Result<Page<QuietUserVO>> page(@Validated(PageValid.class) QuietUserDTO dto) {
     Page<QuietUser> userPage = userService.page(userConvert.dto2entity(dto), dto.page());
+    if (CollectionUtils.isNotEmpty(userPage.getContent())) {
+      Set<Long> userIds =
+              userPage.getContent().stream().map(QuietUser::getId).collect(Collectors.toSet());
+      Map<Long, List<QuietRole>> userIdToRoleInfo = userRoleManager.mapUserIdToRoleInfo(userIds);
+      for (QuietUser user : userPage.getContent()) {
+        user.setAuthorities(userIdToRoleInfo.get(user.getId()));
+      }
+    }
     return Result.success(userConvert.page2page(userPage));
   }
 
@@ -121,7 +134,7 @@ public class QuietUserController {
   @DeleteMapping("/{id}")
   @PreAuthorize(value = "hasRole('Admin')")
   public Result<Object> delete(@PathVariable Long id) {
-    userService.delete(id);
+    userManager.delete(id);
     return Result.deleteSuccess();
   }
 

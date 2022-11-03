@@ -19,8 +19,8 @@ package com.gitee.quiet.system.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.service.security.converter.UserAuthenticationConverter;
+import com.gitee.quiet.system.manager.QuietUserManager;
 import com.gitee.quiet.system.service.QuietClientService;
-import com.gitee.quiet.system.service.QuietUserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -42,7 +42,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-  private final QuietUserService userService;
+  private final QuietUserManager userManager;
 
   private final QuietClientService clientService;
 
@@ -53,12 +53,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
   private final ObjectMapper objectMapper;
 
   public AuthorizationServerConfig(
-      QuietUserService userService,
+      QuietUserManager userManager,
       QuietClientService clientService,
       AuthenticationManager authenticationManager,
       TokenStore redisTokenStore,
       ObjectMapper objectMapper) {
-    this.userService = userService;
+    this.userManager = userManager;
     this.clientService = clientService;
     this.authenticationManager = authenticationManager;
     this.redisTokenStore = redisTokenStore;
@@ -70,12 +70,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
     UserAuthenticationConverter authenticationConverter =
         new UserAuthenticationConverter(objectMapper);
-    authenticationConverter.setUserDetailsService(userService);
+    authenticationConverter.setUserDetailsService(userManager);
     accessTokenConverter.setUserTokenConverter(authenticationConverter);
     // @formatter:off
     endpoints
         .authenticationManager(authenticationManager)
-        .userDetailsService(userService)
+        .userDetailsService(userManager)
         .accessTokenConverter(accessTokenConverter)
         .tokenStore(redisTokenStore);
     // @formatter:on

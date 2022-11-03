@@ -49,13 +49,6 @@ public interface QuietDeptService {
   QuietDept saveOrUpdate(QuietDept dept);
 
   /**
-   * 删除部门数据
-   *
-   * @param deleteId 要删除的部门ID
-   */
-  void deleteById(Long deleteId);
-
-  /**
    * 获取所有部门的树形结构信息
    *
    * @return 所有部门信息

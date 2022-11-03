@@ -42,13 +42,6 @@ public interface QuietTeamService {
   Page<QuietTeam> page(QuietTeam params, Pageable page);
 
   /**
-   * 删除团队信息
-   *
-   * @param deleteId 要删除的团队 ID
-   */
-  void deleteTeam(Long deleteId);
-
-  /**
    * 根据团队ID查询团队信息
    *
    * @param id 团队ID
