@@ -47,7 +47,9 @@ public class ScrumVersionDTO extends ParentAndSortableDTO<ScrumVersionDTO> {
 
   /** 所属项目ID */
   @NotNull
-  @ExistId(repository = ScrumProjectRepository.class, message = "quiet.validation.project.id.notExist")
+  @ExistId(
+      repository = ScrumProjectRepository.class,
+      message = "{quiet.validation.project.id.notExist}")
   private Long projectId;
 
   /** 计划开始日期 */

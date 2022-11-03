@@ -63,13 +63,13 @@ public class ScrumProjectDTO extends SortableDTO {
   @NotNull
   @ExistId(
       repository = ScrumTemplateRepository.class,
-      message = "quiet.validation.template.id.notExist")
+      message = "{quiet.validation.template.id.notExist}")
   private Long templateId;
 
   /** 项目组ID */
   @ExistId(
       repository = ScrumProjectGroupRepository.class,
-      message = "quiet.validation.project-group.id.notExist")
+      message = "{quiet.validation.project-group.id.notExist}")
   private Long groupId;
 
   /** 负责项目的团队ID */

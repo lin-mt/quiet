@@ -49,7 +49,7 @@ public class ScrumIterationDTO extends SortableDTO {
   @NotNull
   @ExistId(
       repository = ScrumVersionRepository.class,
-      message = "quiet.validation.version.id.notExist")
+      message = "{quiet.validation.version.id.notExist}")
   private Long versionId;
 
   /** 迭代计划开始日期 */
