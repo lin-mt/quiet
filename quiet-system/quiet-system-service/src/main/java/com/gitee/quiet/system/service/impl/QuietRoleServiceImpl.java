@@ -19,16 +19,14 @@ package com.gitee.quiet.system.service.impl;
 
 import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
-import com.gitee.quiet.system.entity.QuietPermission;
 import com.gitee.quiet.system.entity.QuietRole;
 import com.gitee.quiet.system.repository.QuietRoleRepository;
-import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.querydsl.core.BooleanBuilder;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -43,21 +41,10 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class QuietRoleServiceImpl implements QuietRoleService {
 
   private final QuietRoleRepository roleRepository;
-
-  private final QuietPermissionService permissionService;
-
-  public QuietRoleServiceImpl(
-      Optional<GrantedAuthorityDefaults> grantedAuthorityDefaults,
-      QuietRoleRepository roleRepository,
-      QuietPermissionService permissionService) {
-    grantedAuthorityDefaults.ifPresent(prefix -> {
-    });
-    this.roleRepository = roleRepository;
-    this.permissionService = permissionService;
-  }
 
   @Override
   public QuietRole save(@NotNull QuietRole quietRole) {
@@ -86,24 +73,6 @@ public class QuietRoleServiceImpl implements QuietRoleService {
   public Page<QuietRole> page(QuietRole params, @NotNull Pageable page) {
     BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
     return roleRepository.findAll(predicate, page);
-  }
-
-  @Override
-  public void deleteRole(@NotNull Long deleteId) {
-    Optional<QuietRole> exist = roleRepository.findById(deleteId);
-    if (exist.isEmpty()) {
-      throw new ServiceException("role.not.exist");
-    }
-    List<QuietRole> children =
-        roleRepository.findByParentIdIn(Collections.singleton(exist.get().getId()));
-    if (CollectionUtils.isNotEmpty(children)) {
-      throw new ServiceException("role.can.not.delete.has.children");
-    }
-    List<QuietPermission> permissions = permissionService.listByRoleId(deleteId);
-    if (CollectionUtils.isNotEmpty(permissions)) {
-      throw new ServiceException("role.can.not.delete.has.permission.config");
-    }
-    roleRepository.deleteById(deleteId);
   }
 
   @Override

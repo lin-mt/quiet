@@ -17,14 +17,11 @@
 
 package com.gitee.quiet.system.service.impl;
 
-import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.system.entity.QuietUserRole;
 import com.gitee.quiet.system.repository.QuietUserRoleRepository;
-import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.service.QuietUserRoleService;
-import com.gitee.quiet.system.service.QuietUserService;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotEmpty;
@@ -38,36 +35,10 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class QuietUserRoleServiceImpl implements QuietUserRoleService {
 
   private final QuietUserRoleRepository userRoleRepository;
-
-  private final QuietUserService userService;
-
-  private final QuietRoleService roleService;
-
-  public QuietUserRoleServiceImpl(
-      QuietUserRoleRepository userRoleRepository,
-      @Lazy QuietUserService userService,
-      QuietRoleService roleService) {
-    this.userRoleRepository = userRoleRepository;
-    this.userService = userService;
-    this.roleService = roleService;
-  }
-
-  @Override
-  public QuietUserRole saveOrUpdate(@NotNull QuietUserRole userRole) {
-    if (!userService.existsById(userRole.getUserId())) {
-      throw new ServiceException("userRole.user.id.no.exist", userRole.getUserId());
-    }
-    if (!roleService.existsById(userRole.getRoleId())) {
-      throw new ServiceException("userRole.role.id.no.exist", userRole.getRoleId());
-    }
-    Optional<QuietUserRole> exist =
-        userRoleRepository.findByUserIdAndRoleId(userRole.getUserId(), userRole.getRoleId());
-    exist.ifPresent(ur -> userRole.setId(ur.getId()));
-    return userRoleRepository.save(userRole);
-  }
 
   @Override
   public void deleteByIds(@NotNull @NotEmpty List<Long> ids) {

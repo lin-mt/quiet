@@ -21,6 +21,7 @@ import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietPermissionConvert;
 import com.gitee.quiet.system.dto.QuietPermissionDTO;
 import com.gitee.quiet.system.entity.QuietPermission;
+import com.gitee.quiet.system.manager.QuietPermissionManager;
 import com.gitee.quiet.system.service.QuietPermissionService;
 import com.gitee.quiet.system.vo.QuietPermissionVO;
 import com.gitee.quiet.validation.groups.Create;
@@ -41,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 public class QuietPermissionController {
 
   private final QuietPermissionService permissionService;
-
+  private final QuietPermissionManager permissionManager;
   private final QuietPermissionConvert permissionConvert;
 
   /**
@@ -66,7 +67,7 @@ public class QuietPermissionController {
   @PostMapping
   public Result<QuietPermissionVO> save(
       @RequestBody @Validated(Create.class) QuietPermissionDTO dto) {
-    QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
+    QuietPermission permission = permissionManager.saveOrUpdate(permissionConvert.dto2entity(dto));
     return Result.createSuccess(permissionConvert.entity2vo(permission));
   }
 
@@ -79,7 +80,7 @@ public class QuietPermissionController {
   @PutMapping
   public Result<QuietPermissionVO> update(
       @RequestBody @Validated(Update.class) QuietPermissionDTO dto) {
-    QuietPermission permission = permissionService.saveOrUpdate(permissionConvert.dto2entity(dto));
+    QuietPermission permission = permissionManager.saveOrUpdate(permissionConvert.dto2entity(dto));
     return Result.updateSuccess(permissionConvert.entity2vo(permission));
   }
 

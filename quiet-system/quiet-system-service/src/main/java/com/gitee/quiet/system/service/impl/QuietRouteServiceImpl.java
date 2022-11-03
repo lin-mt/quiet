@@ -25,6 +25,7 @@ import com.gitee.quiet.system.entity.QuietRoute;
 import com.gitee.quiet.system.repository.QuietRouteRepository;
 import com.gitee.quiet.system.service.QuietRouteService;
 import com.querydsl.core.BooleanBuilder;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,17 +42,11 @@ import java.util.concurrent.TimeUnit;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class QuietRouteServiceImpl implements QuietRouteService {
 
   private final QuietRouteRepository routeRepository;
-
   private final RedisTemplate<String, Object> redisTemplate;
-
-  public QuietRouteServiceImpl(
-      QuietRouteRepository routeRepository, RedisTemplate<String, Object> redisTemplate) {
-    this.routeRepository = routeRepository;
-    this.redisTemplate = redisTemplate;
-  }
 
   @Override
   public Page<QuietRoute> page(QuietRoute params, Pageable page) {

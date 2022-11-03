@@ -76,13 +76,6 @@ public interface QuietRoleService extends RoleHierarchy {
   Page<QuietRole> page(QuietRole params, Pageable page);
 
   /**
-   * 根据角色 ID 删除角色
-   *
-   * @param deleteId 要删除的角色 ID
-   */
-  void deleteRole(Long deleteId);
-
-  /**
    * 判断该角色 ID 是否存在
    *
    * @param roleId 角色ID

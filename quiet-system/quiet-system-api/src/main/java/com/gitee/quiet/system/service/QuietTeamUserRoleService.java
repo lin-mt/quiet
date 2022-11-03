@@ -45,11 +45,9 @@ public interface QuietTeamUserRoleService {
   void deleteByTeamUserIds(Set<Long> teamUserIds);
 
   /**
-   * 为团队用户批量添加角色，不检查用户在团队中是否有该角色
+   * 保存团队成员的角色信息
    *
-   * @param teamId 团队ID
-   * @param userIds 要添加角色的用户ID集合
-   * @param roleName 角色名称
+   * @param teamUserRoles 团队成员的角色信息
    */
-  void addRoleForTeam(Long teamId, Set<Long> userIds, String roleName);
+  void saveAll(List<QuietTeamUserRole> teamUserRoles);
 }

@@ -27,9 +27,8 @@ import com.gitee.quiet.system.entity.QuietDept;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.repository.QuietDeptRepository;
 import com.gitee.quiet.system.service.QuietDeptService;
-import com.gitee.quiet.system.service.QuietDeptUserService;
 import com.querydsl.core.BooleanBuilder;
-import org.apache.commons.collections4.CollectionUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,24 +46,12 @@ import static com.gitee.quiet.system.entity.QQuietUser.quietUser;
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class QuietDeptServiceImpl implements QuietDeptService {
 
   private final QuietDeptRepository deptRepository;
-
-  private final QuietDeptUserService deptUserService;
   private final CriteriaBuilderFactory criteriaBuilderFactory;
   private final EntityManager entityManager;
-
-  public QuietDeptServiceImpl(
-      QuietDeptRepository deptRepository,
-      QuietDeptUserService deptUserService,
-      CriteriaBuilderFactory criteriaBuilderFactory,
-      EntityManager entityManager) {
-    this.deptRepository = deptRepository;
-    this.deptUserService = deptUserService;
-    this.criteriaBuilderFactory = criteriaBuilderFactory;
-    this.entityManager = entityManager;
-  }
 
   @Override
   public Page<QuietDept> page(QuietDept params, @NotNull Pageable page) {
@@ -84,17 +71,6 @@ public class QuietDeptServiceImpl implements QuietDeptService {
       }
     }
     return deptRepository.saveAndFlush(dept);
-  }
-
-  @Override
-  public void deleteById(@NotNull Long deleteId) {
-    if (CollectionUtils.isNotEmpty(deptRepository.findAllByParentId(deleteId))) {
-      throw new ServiceException("dept.has.children.can.not.deleted");
-    }
-    if (CollectionUtils.isNotEmpty(deptUserService.listAllByDeptId(deleteId))) {
-      throw new ServiceException("dept.has.member.can.not.deleted");
-    }
-    deptRepository.deleteById(deleteId);
   }
 
   @Override
