@@ -17,11 +17,14 @@
 
 package com.gitee.quiet.system.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.system.filter.LoginByAccountFilter;
 import com.gitee.quiet.system.handler.AuthenticationJsonEntryPointHandler;
 import com.gitee.quiet.system.handler.ResultAccessDeniedHandler;
-import com.gitee.quiet.system.service.QuietUserService;
+import com.gitee.quiet.system.handler.ResultAuthenticationFailureHandler;
+import com.gitee.quiet.system.handler.ResultAuthenticationSuccessHandler;
+import com.gitee.quiet.system.manager.QuietUserManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,31 +45,32 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final QuietUserService userService;
-
-  private final LoginByAccountFilter loginByAccountFilter;
-
+  private final QuietUserManager userManager;
   private final ResultAccessDeniedHandler accessDeniedHandler;
-
   private final LogoutHandler logoutHandler;
-
   private final AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler;
-
   private final LogoutSuccessHandler logoutSuccessHandler;
+  private final ResultAuthenticationSuccessHandler authenticationSuccessHandler;
+  private final ResultAuthenticationFailureHandler authenticationFailureHandler;
+  private final ObjectMapper objectMapper;
 
   public SpringSecurityConfig(
-      QuietUserService userService,
-      LoginByAccountFilter loginByAccountFilter,
+      QuietUserManager userManager,
       ResultAccessDeniedHandler accessDeniedHandler,
       LogoutHandler logoutHandler,
       LogoutSuccessHandler logoutSuccessHandler,
-      AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler) {
-    this.userService = userService;
-    this.loginByAccountFilter = loginByAccountFilter;
+      ResultAuthenticationSuccessHandler authenticationSuccessHandler,
+      ResultAuthenticationFailureHandler authenticationFailureHandler,
+      AuthenticationJsonEntryPointHandler authenticationJsonEntryPointHandler,
+      ObjectMapper objectMapper) {
+    this.userManager = userManager;
     this.accessDeniedHandler = accessDeniedHandler;
     this.logoutHandler = logoutHandler;
+    this.authenticationSuccessHandler = authenticationSuccessHandler;
+    this.authenticationFailureHandler = authenticationFailureHandler;
     this.authenticationJsonEntryPointHandler = authenticationJsonEntryPointHandler;
     this.logoutSuccessHandler = logoutSuccessHandler;
+    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -76,7 +80,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userService);
+    auth.userDetailsService(userManager);
   }
 
   @Override
@@ -100,13 +104,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .logoutUrl(Url.LOGOUT)
         .addLogoutHandler(logoutHandler)
         .logoutSuccessHandler(logoutSuccessHandler);
+    LoginByAccountFilter loginByAccountFilter =
+        new LoginByAccountFilter(
+            authenticationSuccessHandler,
+            authenticationFailureHandler,
+            authenticationManagerBean(),
+            objectMapper);
     // @formatter:on
     http.addFilterAt(loginByAccountFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean
   @Override
-  protected AuthenticationManager authenticationManager() throws Exception {
+  public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManager();
   }
 }

@@ -22,8 +22,6 @@ import com.gitee.quiet.common.constant.service.Url;
 import com.gitee.quiet.system.entity.QuietUser;
 import com.gitee.quiet.system.handler.ResultAuthenticationFailureHandler;
 import com.gitee.quiet.system.handler.ResultAuthenticationSuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -32,7 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,16 +41,14 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Component
 public class LoginByAccountFilter extends UsernamePasswordAuthenticationFilter {
 
   private final ObjectMapper objectMapper;
 
-  @Autowired
   public LoginByAccountFilter(
       ResultAuthenticationSuccessHandler authenticationSuccessHandler,
       ResultAuthenticationFailureHandler authenticationFailureHandler,
-      @Lazy AuthenticationManager authenticationManager,
+      AuthenticationManager authenticationManager,
       ObjectMapper objectMapper) {
     // 自定义该方式处理登录信息的登录地址，默认是 /login POST
     this.setRequiresAuthenticationRequestMatcher(
