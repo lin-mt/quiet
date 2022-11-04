@@ -95,13 +95,6 @@ public class DocApiServiceImpl implements DocApiService {
   }
 
   @Override
-  public void checkId(Long id) {
-    if (!repository.existsById(id)) {
-      throw new ServiceException("api.id.notExist");
-    }
-  }
-
-  @Override
   public void saveAll(Collection<DocApi> docApis) {
     if (CollectionUtils.isEmpty(docApis)) {
       return;

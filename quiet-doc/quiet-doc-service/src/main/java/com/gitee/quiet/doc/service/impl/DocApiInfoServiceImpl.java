@@ -20,10 +20,9 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.doc.repository.DocApiInfoRepository;
 import com.gitee.quiet.doc.service.DocApiInfoService;
-import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.service.exception.ServiceException;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -36,20 +35,13 @@ import java.util.Set;
  * @author @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @Service
+@AllArgsConstructor
 public class DocApiInfoServiceImpl implements DocApiInfoService {
 
   private final DocApiInfoRepository repository;
 
-  private final DocApiService apiService;
-
-  public DocApiInfoServiceImpl(DocApiInfoRepository repository, @Lazy DocApiService apiService) {
-    this.repository = repository;
-    this.apiService = apiService;
-  }
-
   @Override
   public DocApiInfo save(DocApiInfo save) {
-    apiService.checkId(save.getApiId());
     if (repository.existsByApiId(save.getApiId())) {
       throw new ServiceException("apiInfo.apiId.exist", save.getApiId());
     }
