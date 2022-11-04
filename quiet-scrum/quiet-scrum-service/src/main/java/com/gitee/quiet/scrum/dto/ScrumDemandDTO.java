@@ -53,26 +53,26 @@ public class ScrumDemandDTO extends ParentAndSortableDTO<ScrumDemandDTO> {
   @NotNull
   @ExistId(
       repository = ScrumProjectRepository.class,
-      message = "quiet.validation.project.id.notExist")
+      message = "{quiet.validation.project.id.notExist}")
   private Long projectId;
 
   /** 该需求所优化的需求ID，A需求优化了B需求，则A需求的optimizeDemandId为B需求的ID */
   @ExistId(
       repository = ScrumDemandRepository.class,
-      message = "quiet.validation.optimizeDemandId.notExist")
+      message = "{quiet.validation.optimizeDemandId.notExist}")
   private Long optimizeDemandId;
 
   /** 所属迭代ID */
   @ExistId(
       repository = ScrumIterationRepository.class,
-      message = "quiet.validation.iteration.id.notExist")
+      message = "{quiet.validation.iteration.id.notExist}")
   private Long iterationId;
 
   /** 优先级ID */
   @NotNull
   @ExistId(
       repository = ScrumPriorityRepository.class,
-      message = "quiet.validation.priority.id.notExist")
+      message = "{quiet.validation.priority.id.notExist}")
   private Long priorityId;
 
   /** 需求开始时间 */

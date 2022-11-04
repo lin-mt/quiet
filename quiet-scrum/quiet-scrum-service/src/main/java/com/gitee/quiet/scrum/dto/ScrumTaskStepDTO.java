@@ -44,7 +44,7 @@ public class ScrumTaskStepDTO extends SortableDTO {
   /** 所属模板ID */
   @NotNull
   @ExistId(
-      message = "quiet.validation.template.id.notExist",
+      message = "{quiet.validation.template.id.notExist}",
       repository = ScrumTemplateRepository.class)
   private Long templateId;
 
