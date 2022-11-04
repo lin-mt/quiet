@@ -78,13 +78,6 @@ public interface DocApiService {
   DocApi getById(Long id);
 
   /**
-   * 校验id是否存在
-   *
-   * @param id 要校验的ID
-   */
-  void checkId(Long id);
-
-  /**
    * 批量保存
    *
    * @param docApis 文档信息
