@@ -21,6 +21,7 @@ import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.system.convert.QuietRoleConvert;
 import com.gitee.quiet.system.dto.QuietRoleDTO;
 import com.gitee.quiet.system.entity.QuietRole;
+import com.gitee.quiet.system.manager.QuietRoleManager;
 import com.gitee.quiet.system.service.QuietRoleService;
 import com.gitee.quiet.system.vo.QuietRoleVO;
 import com.gitee.quiet.validation.groups.Create;
@@ -49,7 +50,7 @@ import java.util.stream.Collectors;
 public class QuietRoleController {
 
   private final QuietRoleService roleService;
-
+  private final QuietRoleManager roleManager;
   private final QuietRoleConvert roleConvert;
 
   /**
@@ -113,7 +114,7 @@ public class QuietRoleController {
   @DeleteMapping("/{id}")
   @PreAuthorize(value = "hasRole('Admin')")
   public Result<Object> delete(@PathVariable Long id) {
-    roleService.deleteRole(id);
+    roleManager.deleteRole(id);
     return Result.deleteSuccess();
   }
 

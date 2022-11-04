@@ -17,7 +17,6 @@
 
 package com.gitee.quiet.system.service;
 
-import com.gitee.quiet.service.security.UrlPermissionService;
 import com.gitee.quiet.system.entity.QuietPermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +28,9 @@ import java.util.List;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public interface QuietPermissionService extends UrlPermissionService {
+public interface QuietPermissionService {
 
-  /**
-   * 新增或更新权限信息.
-   *
-   * @param quietPermission 新增或更新的权限信息
-   * @return 新增或更新的权限信息
-   */
-  QuietPermission saveOrUpdate(QuietPermission quietPermission);
+  String CACHE_INFO = "quiet:system:permission:info";
 
   /**
    * 删除权限信息.

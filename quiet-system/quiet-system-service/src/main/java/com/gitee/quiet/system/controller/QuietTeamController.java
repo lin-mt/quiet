@@ -155,7 +155,7 @@ public class QuietTeamController {
   @DeleteMapping("/{id}")
   @PreAuthorize(value = "hasRole('Admin')")
   public Result<Object> delete(@PathVariable Long id) {
-    teamService.deleteTeam(id);
+    teamManager.deleteTeam(id);
     return Result.deleteSuccess();
   }
 

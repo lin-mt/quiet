@@ -31,13 +31,6 @@ import java.util.Set;
 public interface QuietTeamUserService {
 
   /**
-   * 根据用户ID删除该用户的团队信息
-   *
-   * @param userId 用户ID
-   */
-  void deleteByUserId(Long userId);
-
-  /**
    * 根据团队ID批量查询成员信息
    *
    * @param teamIds 团队ID
@@ -52,13 +45,6 @@ public interface QuietTeamUserService {
    * @return 所有成员信息
    */
   List<QuietTeamUser> findAllUsersByTeamIds(Set<Long> teamIds);
-
-  /**
-   * 删除某个团队的所有成员信息
-   *
-   * @param teamId 团队ID
-   */
-  void deleteByTeamId(Long teamId);
 
   /**
    * 为团队批量添加成员
@@ -92,4 +78,26 @@ public interface QuietTeamUserService {
    * @return 团队成员信息
    */
   List<QuietTeamUser> findByTeamId(Long id);
+
+  /**
+   * 根据团队ID查询成员
+   *
+   * @param teamId 团队ID
+   * @return 团队成员信息
+   */
+  List<QuietTeamUser> findAllByTeamId(Long teamId);
+
+  /**
+   * 根据团队ID删除成员信息
+   *
+   * @param teamId 团队ID
+   */
+  void deleteByTeamId(Long teamId);
+
+  /**
+   * 根据用户ID删除用户的团队信息
+   *
+   * @param userId 用户ID
+   */
+  void deleteByUserId(Long userId);
 }

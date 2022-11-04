@@ -22,9 +22,9 @@ import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.system.entity.QuietTeam;
 import com.gitee.quiet.system.repository.QuietTeamRepository;
 import com.gitee.quiet.system.service.QuietTeamService;
-import com.gitee.quiet.system.service.QuietTeamUserService;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,34 +46,16 @@ import static com.gitee.quiet.system.entity.QQuietTeamUser.quietTeamUser;
  */
 @Service
 @DubboService
+@AllArgsConstructor
 public class QuietTeamServiceImpl implements QuietTeamService {
 
   private final JPAQueryFactory jpaQueryFactory;
   private final QuietTeamRepository teamRepository;
-  private final QuietTeamUserService teamUserService;
-
-  public QuietTeamServiceImpl(
-      JPAQueryFactory jpaQueryFactory,
-      QuietTeamRepository teamRepository,
-      QuietTeamUserService teamUserService) {
-    this.jpaQueryFactory = jpaQueryFactory;
-    this.teamRepository = teamRepository;
-    this.teamUserService = teamUserService;
-  }
 
   @Override
   public Page<QuietTeam> page(QuietTeam params, @NotNull Pageable page) {
     BooleanBuilder predicate = SelectBuilder.booleanBuilder(params).getPredicate();
     return teamRepository.findAll(predicate, page);
-  }
-
-  @Override
-  public void deleteTeam(@NotNull Long deleteId) {
-    // TODO 删除团队中的成员信息
-    // 删除团队成员信息
-    teamUserService.deleteByTeamId(deleteId);
-    // 删除团队信息
-    teamRepository.deleteById(deleteId);
   }
 
   @Nullable

@@ -31,14 +31,6 @@ import java.util.Set;
 public interface QuietUserRoleService {
 
   /**
-   * 用户新增或更新角色信息.
-   *
-   * @param quietUserRole 用户-角色信息
-   * @return 用户-角色关联信息
-   */
-  QuietUserRole saveOrUpdate(QuietUserRole quietUserRole);
-
-  /**
    * 批量删除用户的角色信息.
    *
    * @param ids 要删除的id集合
