@@ -56,10 +56,11 @@ public class DocProjectController {
    */
   @GetMapping("/list")
   public Result<List<DocProjectVO>> list(
+          @RequestParam(required = false) Long groupId,
       @RequestParam(required = false) String name,
       @RequestParam(required = false) Set<Long> ids,
       @RequestParam(required = false) Long limit) {
-    List<DocProject> docProjects = projectService.list(name, ids, limit);
+    List<DocProject> docProjects = projectService.list(groupId, name, ids, limit);
     return Result.success(projectConvert.entities2vos(docProjects));
   }
 

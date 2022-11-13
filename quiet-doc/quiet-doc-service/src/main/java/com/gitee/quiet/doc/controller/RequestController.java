@@ -38,7 +38,10 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -108,9 +111,7 @@ public class RequestController {
         hostname = DEFAULT_HOSTNAME;
       }
       String path =
-          servletRequest
-              .getRequestURI()
-              .substring(String.format(REMOVED_FORMAT, envId).length());
+          servletRequest.getRequestURI().substring(String.format(REMOVED_FORMAT, envId).length());
       if (StringUtils.isNotBlank(servletRequest.getQueryString())) {
         path = path + "?" + servletRequest.getQueryString();
       }
@@ -124,7 +125,6 @@ public class RequestController {
       Request request = builder.build();
       try (Response response = client.newCall(request).execute()) {
         servletResponse.reset();
-        InputStream stream = Objects.requireNonNull(response.body()).byteStream();
         Map<String, String> originHeaders = new HashMap<>();
         for (String name : response.headers().names()) {
           servletResponse.setHeader(name, response.header(name));
@@ -132,7 +132,10 @@ public class RequestController {
         }
         servletResponse.setHeader("origin-headers", JsonUtils.toJsonString(originHeaders));
         servletResponse.setStatus(response.code());
-        servletResponse.getOutputStream().write(stream.readAllBytes());
+        ResponseBody responseBody = response.body();
+        if (responseBody != null) {
+          servletResponse.getOutputStream().write(responseBody.byteStream().readAllBytes());
+        }
       }
     } catch (IOException | ServletException exception) {
       log.error("请求出错", exception);

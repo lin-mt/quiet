@@ -64,10 +64,11 @@ public interface DocProjectService {
   /**
    * 根据项目名称、项目ID集合查询项目信息
    *
-   * @param name 项目名称
-   * @param ids 项目ID集合
-   * @param limit 限制查询条数，小于等于0或者不传则查询 15 条信息
+   * @param groupId 项目组ID
+   * @param name    项目名称
+   * @param ids     项目ID集合
+   * @param limit   限制查询条数，小于等于0或者不传则查询 15 条信息
    * @return 项目信息
    */
-  List<DocProject> list(String name, Set<Long> ids, Long limit);
+  List<DocProject> list(Long groupId, String name, Set<Long> ids, Long limit);
 }
