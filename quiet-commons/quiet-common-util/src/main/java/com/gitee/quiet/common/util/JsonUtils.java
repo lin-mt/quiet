@@ -60,6 +60,18 @@ public class JsonUtils {
   }
 
   @SneakyThrows
+  public static <T> T toObject(String jsonString, Class<T> clazz) {
+    return OBJECT_MAPPER.readValue(jsonString, clazz);
+  }
+
+  public static <T> T convert(Object source, Class<T> clazz) {
+    if (source == null) {
+      return null;
+    }
+    return toObject(toJsonString(source), clazz);
+  }
+
+  @SneakyThrows
   public static <T> T readValue(String value, TypeReference<T> reference) {
     return OBJECT_MAPPER.readValue(value, reference);
   }
