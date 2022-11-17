@@ -31,7 +31,6 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -127,13 +126,14 @@ public class DocProjectController {
     return Result.deleteSuccess();
   }
 
+  @Validated
   @PutMapping("/swagger/{id}")
   public Result<DocProjectVO> swagger(
       @PathVariable @Range(min = 1L) Long id,
       @RequestParam Boolean enabled,
-      @RequestParam @NotBlank String url,
-      @RequestParam @NotBlank String cron) {
+      @RequestParam(required = false) String url,
+      @RequestParam(required = false) String cron) {
     DocProject project = projectManager.updateSwagger(id, enabled, url, cron);
-    return Result.success(projectConvert.entity2vo(project));
+    return Result.updateSuccess(projectConvert.entity2vo(project));
   }
 }

@@ -34,6 +34,7 @@ import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.service.DocProjectService;
+import com.gitee.quiet.service.exception.ServiceException;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -54,10 +55,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronExpression;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
@@ -98,6 +99,13 @@ public class DocProjectManager implements ApplicationRunner {
    * @return 项目信息
    */
   public DocProject updateSwagger(Long id, Boolean enabled, String url, String cron) {
+    boolean swaggerEnabled = BooleanUtils.toBoolean(enabled);
+    if (swaggerEnabled && (StringUtils.isBlank(url) || StringUtils.isBlank(cron))) {
+      throw new ServiceException("project.swagger-enabled.url.cron.can-not.empty");
+    }
+    if (StringUtils.isNotBlank(cron) && !CronExpression.isValidExpression(cron)) {
+      throw new ServiceException("project.swagger.cron.error");
+    }
     DocProject project = projectService.getById(id);
     ScheduledFuture<?> scheduledFuture = PROJECT_ID_2_SCHEDULED_FUTURE.get(id);
     if (scheduledFuture != null) {
@@ -107,7 +115,7 @@ public class DocProjectManager implements ApplicationRunner {
     project.setSwaggerUrl(url);
     project.setSwaggerCron(cron);
     DocProject update = projectService.saveOrUpdate(project);
-    if (BooleanUtils.toBoolean(enabled)) {
+    if (swaggerEnabled) {
       buildSwaggerTask(project);
     }
     return update;
@@ -271,26 +279,32 @@ public class DocProjectManager implements ApplicationRunner {
               boolean required = BooleanUtils.toBoolean(parameter.getRequired());
               String description = parameter.getDescription();
               String type = parameter.getSchema().getType();
-              if ("query".equals(parameter.getIn())) {
-                QueryParam param = new QueryParam();
-                param.setName(name);
-                param.setRequired(required);
-                param.setRemark(description);
-                param.setType(QueryParamType.valueOf(type.toUpperCase()));
-                reqQuery.add(param);
-              }
-              if ("path".equals(parameter.getIn())) {
-                PathParam param = new PathParam();
-                param.setName(name);
-                param.setRemark(description);
-                pathParam.add(param);
-              }
-              if ("header".equals(parameter.getIn())) {
-                Header param = new Header();
-                param.setName(name);
-                param.setRequired(required);
-                param.setRemark(description);
-                headers.add(param);
+              String in = parameter.getIn();
+              switch (in) {
+                case "query":
+                  QueryParam qParam = new QueryParam();
+                  qParam.setName(name);
+                  qParam.setRequired(required);
+                  qParam.setRemark(description);
+                  qParam.setType(QueryParamType.valueOf(type.toUpperCase()));
+                  reqQuery.add(qParam);
+                  break;
+                case "path":
+                  PathParam pParam = new PathParam();
+                  pParam.setName(name);
+                  pParam.setRemark(description);
+                  pathParam.add(pParam);
+                  break;
+                case "header":
+                  Header hParam = new Header();
+                  hParam.setName(name);
+                  hParam.setRequired(required);
+                  hParam.setRemark(description);
+                  headers.add(hParam);
+                  break;
+                default:
+                  log.error("unknown parameter in {}", in);
+                  break;
               }
             });
         if (CollectionUtils.isNotEmpty(reqQuery)) {
@@ -307,9 +321,7 @@ public class DocProjectManager implements ApplicationRunner {
       if (requestBody != null) {
         MediaType applicationJson = requestBody.getContent().get("application/json");
         if (applicationJson != null) {
-          Schema schema = new Schema();
-          BeanUtils.copyProperties(applicationJson.getSchema(), schema);
-          docApiInfo.setReqJsonBody(schema);
+          docApiInfo.setReqJsonBody(JsonUtils.convert(applicationJson.getSchema(), Schema.class));
         }
       }
       ApiResponses responses = operation.getResponses();
@@ -321,9 +333,7 @@ public class DocProjectManager implements ApplicationRunner {
           response = content.get("*/*");
         }
         if (response != null) {
-          Schema schema = new Schema();
-          BeanUtils.copyProperties(response.getSchema(), schema);
-          docApiInfo.setRespJsonBody(schema);
+          docApiInfo.setRespJsonBody(JsonUtils.convert(response.getSchema(), Schema.class));
         } else {
           docApiInfo.setRespRaw(JsonUtils.toJsonString(content));
         }

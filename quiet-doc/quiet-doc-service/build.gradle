@@ -1,8 +1,8 @@
 dependencies {
     runtimeOnly deps.mysql
 
-    implementation 'io.swagger.parser.v3:swagger-parser:2.1.8'
     implementation project(':quiet-doc:quiet-doc-api')
+    implementation deps.swaggerParserV3
     implementation deps.mapstruct
     implementation deps.okhttp
     runtimeOnly deps.blazePersistenceCoreImpl

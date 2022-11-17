@@ -17,15 +17,19 @@
 
 package com.gitee.quiet.doc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Schema {
 
   @JsonProperty("default")
@@ -95,4 +99,44 @@ public class Schema {
   private Map<String, List<String>> dependentRequired;
   private String $comment;
   private Boolean booleanSchemaValue;
+
+  public String get$ref() {
+    return $ref;
+  }
+
+  public void set$ref(String $ref) {
+    this.$ref = $ref;
+  }
+
+  public String get$id() {
+    return $id;
+  }
+
+  public void set$id(String $id) {
+    this.$id = $id;
+  }
+
+  public String get$schema() {
+    return $schema;
+  }
+
+  public void set$schema(String $schema) {
+    this.$schema = $schema;
+  }
+
+  public String get$anchor() {
+    return $anchor;
+  }
+
+  public void set$anchor(String $anchor) {
+    this.$anchor = $anchor;
+  }
+
+  public String get$comment() {
+    return $comment;
+  }
+
+  public void set$comment(String $comment) {
+    this.$comment = $comment;
+  }
 }
