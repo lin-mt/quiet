@@ -202,7 +202,7 @@ public class DocApiController {
             DocApi save = apiService.save(apiConvert.dto2entity(newApi));
             DocApiInfo docApiInfo = apiInfoConvert.dto2entity(newApi.getApiInfo());
             docApiInfo.setApiId(save.getId());
-            apiInfoService.save(docApiInfo);
+            apiInfoService.saveOrUpdate(docApiInfo);
           });
     }
     apiService.saveAll(key2oldInfo.values());

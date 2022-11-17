@@ -31,20 +31,12 @@ import java.util.Set;
 public interface DocApiInfoService {
 
   /**
-   * 新增api信息
+   * 新增或更新api信息
    *
-   * @param save 新增的api信息
+   * @param apiInfo 新增的api信息
    * @return 新增的api数据库信息
    */
-  DocApiInfo save(DocApiInfo save);
-
-  /**
-   * 更新api信息
-   *
-   * @param update 要更新的api信息
-   * @return 更新后的api信息
-   */
-  DocApiInfo update(DocApiInfo update);
+  DocApiInfo saveOrUpdate(DocApiInfo apiInfo);
 
   /**
    * 根据apiId查询api信息

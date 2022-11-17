@@ -28,6 +28,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ import static com.gitee.quiet.doc.entity.QDocProject.docProject;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DocProjectServiceImpl implements DocProjectService {
@@ -50,7 +52,6 @@ public class DocProjectServiceImpl implements DocProjectService {
   public static final String CACHE_NAME = "quiet:doc:project:info";
 
   private final DocProjectRepository projectRepository;
-
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override

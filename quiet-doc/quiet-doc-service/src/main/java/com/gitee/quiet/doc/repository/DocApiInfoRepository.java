@@ -33,12 +33,12 @@ import java.util.Set;
 public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
 
   /**
-   * 根据 apiId 判断是否存在api信息
+   * 根据 apiId 查询api信息
    *
    * @param apiId apiId
-   * @return true：存在 false：不存在
+   * @return api 信息
    */
-  boolean existsByApiId(Long apiId);
+  DocApiInfo findByApiId(Long apiId);
 
   /**
    * 根据apiId查询api信息
