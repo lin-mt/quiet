@@ -17,6 +17,7 @@
 
 package com.gitee.quiet.common.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -50,6 +51,7 @@ public class JsonUtils {
     module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
     module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
     OBJECT_MAPPER.registerModule(module);
+    OBJECT_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
   }
 
   private JsonUtils() {}
