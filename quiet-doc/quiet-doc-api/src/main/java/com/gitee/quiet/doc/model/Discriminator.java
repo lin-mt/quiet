@@ -17,14 +17,20 @@
 
 package com.gitee.quiet.doc.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Data
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Discriminator {
   private String propertyName;
   private Map<String, String> mapping;

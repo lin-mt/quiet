@@ -61,11 +61,11 @@ public class DocApiInfo extends BaseEntity {
   private List<FormParam> reqForm;
 
   /** 请求文件 */
-  @Column(name = "req_file")
+  @Column(name = "req_file", length = 200)
   private String reqFile;
 
   /** raw */
-  @Column(name = "req_raw")
+  @Column(name = "req_raw", length = 2000)
   private String reqRaw;
 
   /** query 参数 */
@@ -86,6 +86,6 @@ public class DocApiInfo extends BaseEntity {
   private Schema respJsonBody;
 
   /** 响应信息 */
-  @Column(name = "resp_raw")
+  @Column(name = "resp_raw", length = 3000)
   private String respRaw;
 }

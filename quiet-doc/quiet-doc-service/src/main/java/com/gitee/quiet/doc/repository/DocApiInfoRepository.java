@@ -55,4 +55,11 @@ public interface DocApiInfoRepository extends QuietRepository<DocApiInfo> {
    * @return api 信息
    */
   List<DocApiInfo> findAllByApiIdIn(Set<Long> apiIds);
+
+  /**
+   * 根据ApiId删除api信息
+   *
+   * @param apiId apiId
+   */
+  void deleteByApiId(Long apiId);
 }

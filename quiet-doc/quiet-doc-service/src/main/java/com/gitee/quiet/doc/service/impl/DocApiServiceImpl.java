@@ -84,12 +84,6 @@ public class DocApiServiceImpl implements DocApiService {
   }
 
   @Override
-  public void deleteById(Long id) {
-    repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-    repository.deleteById(id);
-  }
-
-  @Override
   public DocApi getById(Long id) {
     return repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
   }

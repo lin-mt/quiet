@@ -326,16 +326,20 @@ public class DocProjectManager implements ApplicationRunner {
       }
       ApiResponses responses = operation.getResponses();
       if (responses != null) {
-        ApiResponse successResponse = responses.get("200");
-        Content content = successResponse.getContent();
-        MediaType response = content.get("application/json");
-        if (response == null) {
-          response = content.get("*/*");
-        }
-        if (response != null) {
-          docApiInfo.setRespJsonBody(JsonUtils.convert(response.getSchema(), Schema.class));
+        ApiResponse response200 = responses.get("200");
+        if (response200 != null) {
+          Content content = response200.getContent();
+          MediaType responseInfo = content.get("application/json");
+          if (responseInfo == null) {
+            responseInfo = content.get("*/*");
+          }
+          if (responseInfo != null) {
+            docApiInfo.setRespJsonBody(JsonUtils.convert(responseInfo.getSchema(), Schema.class));
+          } else {
+            docApiInfo.setRespRaw(JsonUtils.toJsonString(content));
+          }
         } else {
-          docApiInfo.setRespRaw(JsonUtils.toJsonString(content));
+          docApiInfo.setRespRaw(JsonUtils.toJsonString(responses));
         }
       }
       return docApiInfo;
@@ -348,11 +352,11 @@ public class DocProjectManager implements ApplicationRunner {
       docApi.setCreator(0L);
       docApi.setAuthorId(0L);
       docApi.setProjectId(projectId);
-      String summary = operation.getSummary();
-      if (summary == null) {
-        summary = path.length() > 30 ? path.substring(0, 30) : path;
+      String name = operation.getSummary();
+      if (name == null) {
+        name = path;
       }
-      docApi.setName(summary);
+      docApi.setName(name.length() > 30 ? name.substring(0, 30) : name);
       String description = operation.getDescription();
       if (description != null && description.length() > 300) {
         description = description.substring(0, 300);

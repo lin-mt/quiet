@@ -17,6 +17,8 @@
 
 package com.gitee.quiet.doc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.gitee.quiet.doc.enums.FormParamType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,6 +32,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormParam {
 
   /** 参数名称 */
