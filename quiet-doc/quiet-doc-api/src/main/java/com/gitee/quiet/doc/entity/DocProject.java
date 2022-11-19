@@ -18,19 +18,16 @@
 package com.gitee.quiet.doc.entity;
 
 import com.gitee.quiet.jpa.entity.SortableEntity;
-import com.gitee.quiet.system.entity.QuietUser;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 项目信息.
@@ -42,9 +39,6 @@ import java.util.List;
 @Entity
 @Table(name = "doc_project")
 public class DocProject extends SortableEntity {
-
-  /** 访问者信息 */
-  @Transient private final List<QuietUser> visitors = new ArrayList<>();
 
   /** 项目名称 */
   @NotBlank
@@ -65,6 +59,19 @@ public class DocProject extends SortableEntity {
   @NotNull
   @Column(name = "principal", nullable = false)
   private Long principal;
+
+  /** swagger 地址 */
+  @Column(name = "swagger_url", length = 200)
+  private String swaggerUrl;
+
+  /** swagger 定时任务 */
+  @Column(name = "swagger_cron", length = 50)
+  private String swaggerCron;
+
+  /** swagger 同步是否启用 */
+  @ColumnDefault("0")
+  @Column(name = "swagger_enabled", columnDefinition = "TINYINT(1)")
+  private Boolean swaggerEnabled;
 
   /** 备注 */
   @Length(max = 100)

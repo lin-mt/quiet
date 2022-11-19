@@ -20,11 +20,11 @@ package com.gitee.quiet.doc.service.impl;
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.doc.repository.DocApiInfoRepository;
 import com.gitee.quiet.doc.service.DocApiInfoService;
-import com.gitee.quiet.service.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -41,19 +41,12 @@ public class DocApiInfoServiceImpl implements DocApiInfoService {
   private final DocApiInfoRepository repository;
 
   @Override
-  public DocApiInfo save(DocApiInfo save) {
-    if (repository.existsByApiId(save.getApiId())) {
-      throw new ServiceException("apiInfo.apiId.exist", save.getApiId());
+  public DocApiInfo saveOrUpdate(DocApiInfo apiInfo) {
+    DocApiInfo exist = repository.findByApiId(apiInfo.getApiId());
+    if (exist != null) {
+      apiInfo.setId(exist.getId());
     }
-    return repository.save(save);
-  }
-
-  @Override
-  public DocApiInfo update(DocApiInfo update) {
-    if (!repository.existsById(update.getId())) {
-      throw new ServiceException("apiInfo.id.notExist", update.getId());
-    }
-    return repository.saveAndFlush(update);
+    return repository.save(apiInfo);
   }
 
   @Override
@@ -63,6 +56,9 @@ public class DocApiInfoServiceImpl implements DocApiInfoService {
 
   @Override
   public List<DocApiInfo> listByApiIds(Set<Long> apiIds) {
+    if (CollectionUtils.isEmpty(apiIds)) {
+      return new ArrayList<>();
+    }
     return repository.findAllByApiIdIn(apiIds);
   }
 

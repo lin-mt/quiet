@@ -77,16 +77,10 @@ public class DocApiServiceImpl implements DocApiService {
   }
 
   private void checkInfo(DocApi api) {
-    DocApi exist = repository.findByProjectIdAndName(api.getProjectId(), api.getName());
+    DocApi exist = repository.findByProjectIdAndPathAndMethod(api.getProjectId(), api.getPath(), api.getMethod());
     if (exist != null && !exist.getId().equals(api.getId())) {
-      throw new ServiceException("api.name.exist", api.getProjectId(), api.getName());
+      throw new ServiceException("api.path.method.exist", api.getProjectId(), api.getPath(), api.getMethod());
     }
-  }
-
-  @Override
-  public void deleteById(Long id) {
-    repository.findById(id).orElseThrow(() -> new ServiceException("api.id.notExist"));
-    repository.deleteById(id);
   }
 
   @Override

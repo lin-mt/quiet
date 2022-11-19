@@ -33,7 +33,11 @@ public enum QueryParamType implements StringEnum {
 
   INTEGER("integer"),
 
-  NUMBER("number");
+  NUMBER("number"),
+
+  ARRAY("array"),
+
+  OBJECT("object");
 
   private final String value;
 }

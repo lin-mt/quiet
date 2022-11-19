@@ -2,6 +2,7 @@ dependencies {
     runtimeOnly deps.mysql
 
     implementation project(':quiet-doc:quiet-doc-api')
+    implementation deps.swaggerParserV3
     implementation deps.mapstruct
     implementation deps.okhttp
     runtimeOnly deps.blazePersistenceCoreImpl

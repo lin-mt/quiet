@@ -25,6 +25,7 @@ import com.gitee.quiet.doc.dubbo.DubboUserService;
 import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocApiInfo;
+import com.gitee.quiet.doc.manager.DocApiManager;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
@@ -58,6 +59,7 @@ import java.util.stream.Collectors;
 public class DocApiController {
 
   private final DocApiService apiService;
+  private final DocApiManager apiManager;
   private final DocApiGroupService apiGroupService;
   private final DocApiInfoService apiInfoService;
   private final DocProjectService docProjectService;
@@ -202,7 +204,7 @@ public class DocApiController {
             DocApi save = apiService.save(apiConvert.dto2entity(newApi));
             DocApiInfo docApiInfo = apiInfoConvert.dto2entity(newApi.getApiInfo());
             docApiInfo.setApiId(save.getId());
-            apiInfoService.save(docApiInfo);
+            apiInfoService.saveOrUpdate(docApiInfo);
           });
     }
     apiService.saveAll(key2oldInfo.values());
@@ -243,7 +245,7 @@ public class DocApiController {
    */
   @DeleteMapping("/{id}")
   public Result<Object> delete(@PathVariable Long id) {
-    apiService.deleteById(id);
+    apiManager.deleteById(id);
     return Result.deleteSuccess();
   }
 }

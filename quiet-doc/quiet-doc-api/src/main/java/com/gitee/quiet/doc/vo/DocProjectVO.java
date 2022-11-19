@@ -49,6 +49,15 @@ public class DocProjectVO extends SortableVO {
   /** 项目文档负责人 */
   @NotNull private Long principal;
 
+  /** swagger 地址 */
+  private String swaggerUrl;
+
+  /** swagger 定时任务 */
+  private String swaggerCron;
+
+  /** swagger 同步是否启用 */
+  private Boolean swaggerEnabled;
+
   /** 备注 */
   @Length(max = 100)
   private String remark;

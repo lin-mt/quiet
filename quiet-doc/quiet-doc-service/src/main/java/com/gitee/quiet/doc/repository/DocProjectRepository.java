@@ -19,8 +19,6 @@ package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocProject;
 import com.gitee.quiet.jpa.repository.QuietRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,22 +32,18 @@ import java.util.List;
 public interface DocProjectRepository extends QuietRepository<DocProject> {
 
   /**
-   * 根据用户ID查询用户负责的项目和可访问的项目
-   *
-   * @param userId 用户ID
-   * @return 可访问的所有项目
-   */
-  @Query(
-      value =
-          "select * from doc_project where principal = :userId or find_in_set(member_id, :userId)",
-      nativeQuery = true)
-  List<DocProject> listAllByUserId(@Param("userId") Long userId);
-
-  /**
    * 根据分组ID查询所有项目信息
    *
    * @param groupId 项目分组ID
    * @return 在该分组下的所有项目信息
    */
   List<DocProject> findAllByGroupId(Long groupId);
+
+  /**
+   * 根据是否启 Swagger 用查询项目信息
+   *
+   * @param enabled 是否启用
+   * @return 项目信息
+   */
+  List<DocProject> findAllBySwaggerEnabled(boolean enabled);
 }

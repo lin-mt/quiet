@@ -20,12 +20,14 @@ package com.gitee.quiet.doc.controller;
 import com.gitee.quiet.doc.converter.DocProjectConvert;
 import com.gitee.quiet.doc.dto.DocProjectDTO;
 import com.gitee.quiet.doc.entity.DocProject;
+import com.gitee.quiet.doc.manager.DocProjectManager;
 import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.DocProjectVO;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.validation.groups.Create;
 import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +45,7 @@ import java.util.Set;
 public class DocProjectController {
 
   private final DocProjectService projectService;
+  private final DocProjectManager projectManager;
 
   private final DocProjectConvert projectConvert;
 
@@ -56,10 +59,11 @@ public class DocProjectController {
    */
   @GetMapping("/list")
   public Result<List<DocProjectVO>> list(
+      @RequestParam(required = false) Long groupId,
       @RequestParam(required = false) String name,
       @RequestParam(required = false) Set<Long> ids,
       @RequestParam(required = false) Long limit) {
-    List<DocProject> docProjects = projectService.list(name, ids, limit);
+    List<DocProject> docProjects = projectService.list(groupId, name, ids, limit);
     return Result.success(projectConvert.entities2vos(docProjects));
   }
 
@@ -120,5 +124,16 @@ public class DocProjectController {
   public Result<Object> delete(@PathVariable Long id) {
     projectService.delete(id);
     return Result.deleteSuccess();
+  }
+
+  @Validated
+  @PutMapping("/swagger/{id}")
+  public Result<DocProjectVO> swagger(
+      @PathVariable @Range(min = 1L) Long id,
+      @RequestParam Boolean enabled,
+      @RequestParam(required = false) String url,
+      @RequestParam(required = false) String cron) {
+    DocProject project = projectManager.updateSwagger(id, enabled, url, cron);
+    return Result.updateSuccess(projectConvert.entity2vo(project));
   }
 }

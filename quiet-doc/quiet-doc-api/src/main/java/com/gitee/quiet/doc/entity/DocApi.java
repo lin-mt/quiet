@@ -30,7 +30,6 @@ import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -94,9 +93,6 @@ public class DocApi extends SortableEntity {
   @Length(max = 300)
   @Column(name = "remark", length = 300)
   private String remark;
-
-  /** 所属分组信息 */
-  @Transient private DocApiGroup apiGroup;
 
   @Nullable
   @Override

@@ -18,6 +18,7 @@
 package com.gitee.quiet.doc.repository;
 
 import com.gitee.quiet.doc.entity.DocApi;
+import com.gitee.quiet.doc.enums.HttpMethod;
 import com.gitee.quiet.jpa.repository.QuietRepository;
 import org.springframework.stereotype.Repository;
 
@@ -43,10 +44,11 @@ public interface DocApiRepository extends QuietRepository<DocApi> {
    * 根据项目ID和接口名称查询接口文档信息
    *
    * @param projectId 项目ID
-   * @param name 接口名称
+   * @param path 接口路径
+   * @param method 接口方法
    * @return 接口文档信息
    */
-  DocApi findByProjectIdAndName(Long projectId, String name);
+  DocApi findByProjectIdAndPathAndMethod(Long projectId, String path, HttpMethod method);
 
   /**
    * 根据分组ID查询在该分组的所有接口文档

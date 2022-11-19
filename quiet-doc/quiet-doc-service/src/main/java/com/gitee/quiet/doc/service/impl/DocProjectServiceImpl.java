@@ -25,8 +25,10 @@ import com.gitee.quiet.jpa.utils.SelectBuilder;
 import com.gitee.quiet.service.exception.ServiceException;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,7 @@ import static com.gitee.quiet.doc.entity.QDocProject.docProject;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DocProjectServiceImpl implements DocProjectService {
@@ -49,7 +52,6 @@ public class DocProjectServiceImpl implements DocProjectService {
   public static final String CACHE_NAME = "quiet:doc:project:info";
 
   private final DocProjectRepository projectRepository;
-
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override
@@ -102,15 +104,25 @@ public class DocProjectServiceImpl implements DocProjectService {
   }
 
   @Override
-  public List<DocProject> list(String name, Set<Long> ids, Long limit) {
-    if (limit == null || limit <= 0) {
-      limit = 15L;
-    }
+  public List<DocProject> list(Long groupId, String name, Set<Long> ids, Long limit) {
     BooleanBuilder where =
         SelectBuilder.booleanBuilder()
+            .isIdEq(groupId, docProject.groupId)
             .notBlankContains(name, docProject.name)
             .notEmptyIn(ids, docProject.id)
+            .with(
+                builder -> {
+                  if (groupId == null) {
+                    builder
+                        .and(docProject.groupId.isNull())
+                        .and(docProject.creator.eq(CurrentUserUtil.getId()));
+                  }
+                })
             .getPredicate();
-    return jpaQueryFactory.selectFrom(docProject).where(where).limit(limit).fetch();
+    JPAQuery<DocProject> query = jpaQueryFactory.selectFrom(docProject).where(where);
+    if (limit != null) {
+      query.limit(limit);
+    }
+    return query.fetch();
   }
 }

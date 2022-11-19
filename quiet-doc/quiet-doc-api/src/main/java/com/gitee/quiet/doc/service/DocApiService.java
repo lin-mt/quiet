@@ -63,13 +63,6 @@ public interface DocApiService {
   DocApi update(DocApi update);
 
   /**
-   * 根据接口ID删除接口信息
-   *
-   * @param id 接口ID
-   */
-  void deleteById(Long id);
-
-  /**
    * 查询接口详细信息
    *
    * @param id 接口ID
