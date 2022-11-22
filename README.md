@@ -10,9 +10,11 @@ Quiet 是一个关注于管理项目迭代项目相关文档的开源项目。
 
 前端：Arco Design Pro 等
 
-[项目示例](EXAMPLE.md)
+[项目图片示例](EXAMPLE.md)
 
 [编码规约](CODING_PROTOCOL.md)
+
+![example](https://user-images.githubusercontent.com/58337359/203343775-d3d38dd8-a433-468a-9cd1-42318026ae9b.gif)
 
 ## 功能简介
 
