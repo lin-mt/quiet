@@ -46,6 +46,7 @@ public class AccessTokenValueFilter implements Filter {
     } finally {
       if (StringUtils.isNotBlank(tokenValue)) {
         SecurityContextHolder.clearContext();
+        DubboThreadLocal.USER_TOKEN.remove();
       }
     }
   }
