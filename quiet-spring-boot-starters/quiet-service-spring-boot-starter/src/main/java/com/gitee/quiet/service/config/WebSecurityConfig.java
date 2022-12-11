@@ -21,9 +21,7 @@ import com.gitee.quiet.service.security.QuietAccessDecisionManager;
 import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
 import com.gitee.quiet.service.security.UrlPermissionService;
 import com.gitee.quiet.service.security.filter.QuietUrlSecurityFilter;
-import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -43,7 +41,6 @@ import java.util.Optional;
 @Order(101)
 @Configuration
 @ConditionalOnBean(UrlPermissionService.class)
-@EnableConfigurationProperties(QuietSecurityProperties.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UrlPermissionService urlPermissionService;
@@ -63,11 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public QuietSecurityProperties quietSecurityProperties() {
-    return new QuietSecurityProperties();
-  }
-
-  @Bean
   @ConditionalOnBean(RoleHierarchy.class)
   public QuietAccessDecisionManager quietAccessDecisionManager(RoleHierarchy roleHierarchy) {
     return new QuietAccessDecisionManager(roleHierarchy);
@@ -75,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public QuietUrlSecurityFilter quietUrlSecurityFilter() {
-    return new QuietUrlSecurityFilter(quietSecurityProperties(), quietSecurityMetadataSource());
+    return new QuietUrlSecurityFilter(quietSecurityMetadataSource());
   }
 
   @Bean
