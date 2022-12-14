@@ -21,12 +21,14 @@ import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
+@Order(101)
 @AllArgsConstructor
 @EnableConfigurationProperties(QuietSecurityProperties.class)
 public class QuietSecurityConfig extends WebSecurityConfigurerAdapter {
