@@ -19,10 +19,10 @@ package com.gitee.quiet.minio.properties;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 import java.util.Set;
 
@@ -31,15 +31,19 @@ import java.util.Set;
  */
 @Data
 @Slf4j
+@Validated
 @ConfigurationProperties(prefix = "quiet.minio")
-public class MinioConfigurationProperties implements InitializingBean {
+public class MinioConfigurationProperties {
 
   private String url = "http://localhost:7000";
 
+  @NotBlank(message = "Minio's accessKey cannot be blank.")
   private String accessKey;
 
+  @NotBlank(message = "Minio's secretKey cannot be blank.")
   private String secretKey;
 
+  @NotBlank(message = "Minio's bucketName cannot be blank.")
   private String bucketName;
 
   private Set<String> classifications;
@@ -55,20 +59,4 @@ public class MinioConfigurationProperties implements InitializingBean {
   private boolean checkBucket = true;
 
   private boolean createBucketIfNotExist = true;
-
-  @Override
-  public void afterPropertiesSet() {
-    if (StringUtils.isBlank(accessKey)) {
-      throw new IllegalArgumentException("Minio's accessKey cannot be blank.");
-    }
-    if (StringUtils.isBlank(secretKey)) {
-      throw new IllegalArgumentException("Minio's secretKey cannot be blank.");
-    }
-    if (StringUtils.isBlank(bucketName)) {
-      throw new IllegalArgumentException("Minio's bucketName cannot be blank.");
-    }
-    if (StringUtils.isBlank(objectPrefix)) {
-      throw new IllegalArgumentException("Minio's objectPrefix cannot be blank.");
-    }
-  }
 }

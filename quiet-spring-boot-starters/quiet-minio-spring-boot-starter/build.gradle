@@ -16,8 +16,9 @@
 
 dependencies {
 
-    implementation springBootStarter.actuator
     implementation springBootStarter.web
+    implementation springBootStarter.actuator
+    implementation springBootStarter.validation
     implementation deps.minio
 
     compileOnly deps.lombok
