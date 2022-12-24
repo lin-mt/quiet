@@ -1,5 +1,6 @@
 dependencies {
     runtimeOnly deps.mysql
+    api project(path: ":quiet-spring-boot-starters:quiet-minio-spring-boot-starter", configuration: "default")
 
     implementation project(':quiet-doc:quiet-doc-api')
     implementation deps.swaggerParserV3

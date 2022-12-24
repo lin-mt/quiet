@@ -17,7 +17,17 @@ dubbo:
   scan:
     base-packages: com.gitee.quiet.doc.service
 quiet:
+  security:
+    ignore-urls:
+      - /minio/view/**
   jpa:
     id-generator:
       worker-id: 2
       data-center-id: 0
+  minio:
+    bucket-name: ${spring.application.name}
+    access-key: 65mtumFyO3xMpUyP
+    secret-key: sXBTjKmCtWf8iwOiy8Uw3fCOhe8ibuGV
+    object-prefix: http://localhost:8080/doc
+    classifications:
+      - api/remark
