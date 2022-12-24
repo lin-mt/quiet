@@ -28,7 +28,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Order(101)
+@Order(98)
 @AllArgsConstructor
 @EnableConfigurationProperties(QuietSecurityProperties.class)
 public class QuietSecurityConfig extends WebSecurityConfigurerAdapter {
