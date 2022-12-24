@@ -19,17 +19,13 @@ package com.gitee.quiet.service.security.filter;
 
 import com.gitee.quiet.service.security.QuietAccessDecisionManager;
 import com.gitee.quiet.service.security.QuietSecurityMetadataSource;
-import com.gitee.quiet.service.security.properties.QuietSecurityProperties;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -42,8 +38,6 @@ import java.io.IOException;
  */
 @AllArgsConstructor
 public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implements Filter {
-
-  private final QuietSecurityProperties quietSecurityProperties;
 
   private final QuietSecurityMetadataSource quietSecurityMetadataSource;
 
@@ -62,18 +56,6 @@ public class QuietUrlSecurityFilter extends AbstractSecurityInterceptor implemen
           .getChain()
           .doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
       return;
-    }
-    // 白名单请求直接放行
-    PathMatcher pathMatcher = new AntPathMatcher();
-    if (CollectionUtils.isNotEmpty(quietSecurityProperties.getIgnoreUrls())) {
-      for (String path : quietSecurityProperties.getIgnoreUrls()) {
-        if (pathMatcher.match(path, servletRequest.getRequestURI())) {
-          filterInvocation
-              .getChain()
-              .doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
-          return;
-        }
-      }
     }
     // 此处会调用AccessDecisionManager中的decide方法进行鉴权操作
     InterceptorStatusToken token = super.beforeInvocation(filterInvocation);
