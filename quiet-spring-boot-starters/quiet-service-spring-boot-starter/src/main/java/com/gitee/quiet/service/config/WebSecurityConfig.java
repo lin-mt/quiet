@@ -38,7 +38,7 @@ import java.util.Optional;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Order(101)
+@Order(99)
 @Configuration
 @ConditionalOnBean(UrlPermissionService.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

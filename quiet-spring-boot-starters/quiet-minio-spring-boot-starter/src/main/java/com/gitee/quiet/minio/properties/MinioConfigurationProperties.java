@@ -17,11 +17,12 @@
 
 package com.gitee.quiet.minio.properties;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.util.Assert;
 
 import java.time.Duration;
 import java.util.Set;
@@ -29,8 +30,9 @@ import java.util.Set;
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Data
 @Slf4j
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "quiet.minio")
 public class MinioConfigurationProperties implements InitializingBean {
 
@@ -58,17 +60,9 @@ public class MinioConfigurationProperties implements InitializingBean {
 
   @Override
   public void afterPropertiesSet() {
-    if (StringUtils.isBlank(accessKey)) {
-      throw new IllegalArgumentException("Minio's accessKey cannot be blank.");
-    }
-    if (StringUtils.isBlank(secretKey)) {
-      throw new IllegalArgumentException("Minio's secretKey cannot be blank.");
-    }
-    if (StringUtils.isBlank(bucketName)) {
-      throw new IllegalArgumentException("Minio's bucketName cannot be blank.");
-    }
-    if (StringUtils.isBlank(objectPrefix)) {
-      throw new IllegalArgumentException("Minio's objectPrefix cannot be blank.");
-    }
+    Assert.hasText(accessKey, "accessKey must not be empty.");
+    Assert.hasText(secretKey, "secretKey must not be empty.");
+    Assert.hasText(bucketName, "bucketName must not be empty.");
+    Assert.hasText(objectPrefix, "objectPrefix must not be empty.");
   }
 }
