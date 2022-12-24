@@ -60,7 +60,7 @@ public class MinioController {
   private final Optional<MinioHandler> minioHandler;
 
   private String getFileName(String object) {
-    if (!StringUtils.isNotBlank(object)) {
+    if (StringUtils.isBlank(object)) {
       return UUID.randomUUID().toString().replace("-", "");
     }
     if (!object.contains("/") || object.endsWith("/")) {
