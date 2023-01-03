@@ -52,7 +52,7 @@ public class DocProjectEnvController {
    */
   @PostMapping
   public Result<DocProjectEnvVO> save(@RequestBody @Validated(Create.class) DocProjectEnvDTO dto) {
-    DocProjectEnv projectEnv = service.save(converter.dto2entity(dto));
+    DocProjectEnv projectEnv = service.saveOrUpdate(converter.dto2entity(dto));
     return Result.createSuccess(converter.entity2vo(projectEnv));
   }
 
@@ -64,7 +64,7 @@ public class DocProjectEnvController {
    */
   @PutMapping
   public Result<DocProjectEnvVO> update(@RequestBody @Validated(Update.class)  DocProjectEnvDTO dto) {
-    DocProjectEnv update = service.update(converter.dto2entity(dto));
+    DocProjectEnv update = service.saveOrUpdate(converter.dto2entity(dto));
     return Result.updateSuccess(converter.entity2vo(update));
   }
 
