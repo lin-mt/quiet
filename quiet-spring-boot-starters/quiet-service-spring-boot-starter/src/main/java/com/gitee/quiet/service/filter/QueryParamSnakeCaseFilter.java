@@ -29,11 +29,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Get 请求方法添加参数的驼峰格式，同时不修改原有参数信息.
+ * 请求方法添加参数的驼峰格式，同时不修改原有参数信息.
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-public class GetMethodQueryParamSnakeCaseFilter extends OncePerRequestFilter {
+public class QueryParamSnakeCaseFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(
