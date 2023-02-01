@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = ExistIdValidator.class)
