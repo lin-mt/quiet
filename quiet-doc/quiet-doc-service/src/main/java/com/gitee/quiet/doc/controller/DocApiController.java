@@ -26,11 +26,12 @@ import com.gitee.quiet.doc.entity.DocApi;
 import com.gitee.quiet.doc.entity.DocApiGroup;
 import com.gitee.quiet.doc.entity.DocApiInfo;
 import com.gitee.quiet.doc.manager.DocApiManager;
+import com.gitee.quiet.doc.repository.DocProjectRepository;
 import com.gitee.quiet.doc.service.DocApiGroupService;
 import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
-import com.gitee.quiet.doc.service.DocProjectService;
 import com.gitee.quiet.doc.vo.DocApiVO;
+import com.gitee.quiet.service.annotation.ExistId;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.service.utils.ObjectUtils;
@@ -42,10 +43,23 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -62,7 +76,6 @@ public class DocApiController {
   private final DocApiManager apiManager;
   private final DocApiGroupService apiGroupService;
   private final DocApiInfoService apiInfoService;
-  private final DocProjectService docProjectService;
   private final DocApiConvert apiConvert;
   private final DocApiInfoConvert apiInfoConvert;
   private final DocApiGroupConvert apiGroupConvert;
@@ -142,13 +155,16 @@ public class DocApiController {
    * @param apis 接口信息
    * @return 更新结果
    */
-  @PostMapping("/all/{projectId}")
+  @Valid
+  @PostMapping("/batch/{projectId}")
   public Result<Object> all(
-      @PathVariable Long projectId, @RequestBody @Valid List<DocApiDTO> apis) {
+      @PathVariable
+          @ExistId(repository = DocProjectRepository.class, message = "{project.id.not.exist}")
+          Long projectId,
+      @RequestBody List<DocApiDTO> apis) {
     if (CollectionUtils.isEmpty(apis)) {
       return Result.createSuccess();
     }
-    docProjectService.getById(projectId);
     List<DocApi> allApi = apiService.listAllByProjectId(projectId);
     String keyPattern = "%s:%s";
     Map<String, DocApiDTO> key2newInfo = new HashMap<>(apis.size());
@@ -195,9 +211,9 @@ public class DocApiController {
     if (MapUtils.isNotEmpty(key2newInfo)) {
       Set<String> authors =
           key2newInfo.values().stream().map(DocApiDTO::getAuthor).collect(Collectors.toSet());
-      List<QuietUser> usernames = dubboUserService.findByUsernames(authors);
+      List<QuietUser> users = dubboUserService.findByUsernames(authors);
       Map<String, Long> username2Id =
-          usernames.stream().collect(Collectors.toMap(QuietUser::getUsername, QuietUser::getId));
+          users.stream().collect(Collectors.toMap(QuietUser::getUsername, QuietUser::getId));
       key2newInfo.forEach(
           (key, newApi) -> {
             newApi.setAuthorId(username2Id.getOrDefault(newApi.getAuthor(), 0L));
