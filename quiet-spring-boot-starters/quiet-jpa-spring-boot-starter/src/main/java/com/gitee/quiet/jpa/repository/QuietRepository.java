@@ -21,5 +21,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
+/**
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
 @NoRepositoryBean
 public interface QuietRepository<T> extends JpaRepository<T, Long>, QuerydslPredicateExecutor<T> {}
