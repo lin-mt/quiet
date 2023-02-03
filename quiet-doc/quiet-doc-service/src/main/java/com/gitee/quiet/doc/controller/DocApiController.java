@@ -32,6 +32,7 @@ import com.gitee.quiet.doc.service.DocApiInfoService;
 import com.gitee.quiet.doc.service.DocApiService;
 import com.gitee.quiet.doc.vo.DocApiVO;
 import com.gitee.quiet.service.annotation.ExistId;
+import com.gitee.quiet.service.result.BatchResult;
 import com.gitee.quiet.service.result.Result;
 import com.gitee.quiet.service.utils.CurrentUserUtil;
 import com.gitee.quiet.service.utils.ObjectUtils;
@@ -157,15 +158,17 @@ public class DocApiController {
    */
   @Valid
   @PostMapping("/batch/{projectId}")
-  public Result<Object> all(
+  public Result<BatchResult> batch(
       @PathVariable
           @ExistId(repository = DocProjectRepository.class, message = "{project.id.not.exist}")
           Long projectId,
       @RequestBody List<DocApiDTO> apis) {
+    BatchResult result = new BatchResult();
     if (CollectionUtils.isEmpty(apis)) {
-      return Result.createSuccess();
+      return Result.success(result);
     }
     List<DocApi> allApi = apiService.listAllByProjectId(projectId);
+    // 根据 ${请求路径}:${请求方法} 判断是否同一个 api
     String keyPattern = "%s:%s";
     Map<String, DocApiDTO> key2newInfo = new HashMap<>(apis.size());
     for (DocApiDTO api : apis) {
@@ -222,10 +225,12 @@ public class DocApiController {
             docApiInfo.setApiId(save.getId());
             apiInfoService.saveOrUpdate(docApiInfo);
           });
+      result.setAddNum(key2newInfo.size());
     }
     apiService.saveAll(key2oldInfo.values());
+    result.setUpdateNum(key2oldInfo.size());
     apiInfoService.saveAll(apiId2Info.values());
-    return Result.createSuccess();
+    return Result.success(result);
   }
 
   /**
