@@ -42,6 +42,7 @@ import com.gitee.quiet.validation.groups.Update;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -168,11 +169,26 @@ public class DocApiController {
       return Result.success(result);
     }
     List<DocApi> allApi = apiService.listAllByProjectId(projectId);
+    Map<String, Long> groupName2Id =
+        apiGroupService.listByProjectId(projectId).stream()
+            .collect(Collectors.toMap(DocApiGroup::getName, DocApiGroup::getId));
     // 根据 ${请求路径}:${请求方法} 判断是否同一个 api
     String keyPattern = "%s:%s";
     Map<String, DocApiDTO> key2newInfo = new HashMap<>(apis.size());
     for (DocApiDTO api : apis) {
       api.setProjectId(projectId);
+      String groupName = api.getGroupName();
+      Long groupId = groupName2Id.get(groupName);
+      if (StringUtils.isNotBlank(groupName) && groupId == null) {
+        DocApiGroup apiGroup = new DocApiGroup();
+        apiGroup.setProjectId(projectId);
+        String newGroupName = StringUtils.substring(groupName, 0, 30);
+        apiGroup.setName(newGroupName);
+        DocApiGroup save = apiGroupService.save(apiGroup);
+        groupId = save.getId();
+        groupName2Id.put(newGroupName, groupId);
+      }
+      api.setApiGroupId(groupId);
       key2newInfo.put(String.format(keyPattern, api.getPath(), api.getMethod()), api);
     }
     Set<Long> apiIds = new HashSet<>(allApi.size());
