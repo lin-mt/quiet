@@ -25,7 +25,7 @@ import com.gitee.quiet.service.advice.AdvicePackage;
 import com.gitee.quiet.service.aware.QuietAuditorAware;
 import com.gitee.quiet.service.converter.StringToDictConverter;
 import com.gitee.quiet.service.enums.ServiceEnumsPackage;
-import com.gitee.quiet.service.filter.GetMethodQueryParamSnakeCaseFilter;
+import com.gitee.quiet.service.filter.QueryParamSnakeCaseFilter;
 import com.gitee.quiet.service.json.filter.HasRoleAnnotationFilter;
 import com.gitee.quiet.service.json.filter.JsonFilterName;
 import com.gitee.quiet.service.json.module.ServiceSimpleModule;
@@ -96,12 +96,12 @@ public class ServiceConfig {
       prefix = "spring.jackson",
       name = "property-naming-strategy",
       havingValue = "SNAKE_CASE")
-  public FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter>
+  public FilterRegistrationBean<QueryParamSnakeCaseFilter>
       getMethodQueryParamSnakeCaseFilter() {
-    FilterRegistrationBean<GetMethodQueryParamSnakeCaseFilter> registrationBean =
+    FilterRegistrationBean<QueryParamSnakeCaseFilter> registrationBean =
         new FilterRegistrationBean<>();
     registrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    registrationBean.setFilter(new GetMethodQueryParamSnakeCaseFilter());
+    registrationBean.setFilter(new QueryParamSnakeCaseFilter());
     registrationBean.addUrlPatterns("/*");
     return registrationBean;
   }

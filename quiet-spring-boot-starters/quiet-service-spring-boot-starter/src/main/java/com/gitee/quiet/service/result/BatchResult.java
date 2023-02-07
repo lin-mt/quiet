@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022  lin-mt<lin-mt@outlook.com>
+ * Copyright (C) 2023  lin-mt<lin-mt@outlook.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,14 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.gitee.quiet.jpa.repository;
+package com.gitee.quiet.service.result;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
-import org.springframework.data.repository.NoRepositoryBean;
+import lombok.Data;
 
 /**
  * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
-@NoRepositoryBean
-public interface QuietRepository<T> extends JpaRepository<T, Long>, QuerydslPredicateExecutor<T> {}
+@Data
+public class BatchResult {
+
+  /** 成功新增的数量 */
+  private Integer addNum;
+
+  /** 成功更新的数量 */
+  private Integer updateNum;
+
+  /** 失败的数量 */
+  private Integer failNum;
+}
