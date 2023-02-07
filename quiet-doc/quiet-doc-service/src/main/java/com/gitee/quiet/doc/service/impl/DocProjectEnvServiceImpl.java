@@ -43,22 +43,19 @@ public class DocProjectEnvServiceImpl implements DocProjectEnvService {
   }
 
   @Override
-  public DocProjectEnv save(DocProjectEnv save) {
-    checkInfo(save);
-    return repository.save(save);
-  }
-
-  @Override
-  public DocProjectEnv update(DocProjectEnv update) {
-    checkInfo(update);
-    return repository.save(update);
+  public DocProjectEnv saveOrUpdate(DocProjectEnv entity) {
+    DocProjectEnv exist =
+        repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
+    if (exist != null && !exist.getId().equals(entity.getId())) {
+      throw new ServiceException(
+          "projectEnv.name.exist", entity.getProjectId().toString(), entity.getName());
+    }
+    return repository.save(entity);
   }
 
   @Override
   public void deleteById(Long id) {
-    repository
-        .findById(id)
-        .orElseThrow(() -> new ServiceException("projectEnv.id.not.exist", id));
+    repository.findById(id).orElseThrow(() -> new ServiceException("projectEnv.id.not.exist", id));
     repository.deleteById(id);
   }
 
@@ -67,14 +64,5 @@ public class DocProjectEnvServiceImpl implements DocProjectEnvService {
     return repository
         .findById(id)
         .orElseThrow(() -> new ServiceException("projectEnv.id.not.exist", id));
-  }
-
-  private void checkInfo(DocProjectEnv entity) {
-    DocProjectEnv exist =
-        repository.findByProjectIdAndName(entity.getProjectId(), entity.getName());
-    if (exist != null && !exist.getId().equals(entity.getId())) {
-      throw new ServiceException(
-          "projectEnv.name.exist", entity.getProjectId().toString(), entity.getName());
-    }
   }
 }

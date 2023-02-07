@@ -37,20 +37,12 @@ public interface DocProjectEnvService {
   List<DocProjectEnv> listByProjectId(Long projectId);
 
   /**
-   * 创建项目环境
+   * 新建或更新项目环境
    *
-   * @param save 环境信息
-   * @return 创建的环境信息
+   * @param projectEnv 环境信息
+   * @return 环境信息
    */
-  DocProjectEnv save(DocProjectEnv save);
-
-  /**
-   * 更新项目环境
-   *
-   * @param update 环境信息
-   * @return 更新的环境信息
-   */
-  DocProjectEnv update(DocProjectEnv update);
+  DocProjectEnv saveOrUpdate(DocProjectEnv projectEnv);
 
   /**
    * 根据ID删除数据

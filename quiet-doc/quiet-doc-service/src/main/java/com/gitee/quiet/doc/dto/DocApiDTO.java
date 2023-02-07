@@ -47,6 +47,9 @@ public class DocApiDTO extends SortableDTO {
   @NotNull
   private Long projectId;
 
+  /** 分组名称 */
+  private String groupName;
+
   /** 接口状态 */
   @NotNull private ApiState apiState;
 

@@ -41,7 +41,10 @@ public enum HttpMethod implements StringEnum {
 
   OPTIONS("options"),
 
-  PATCH("patch");
+  PATCH("patch"),
+
+  TRACE("trace")
+  ;
 
   public final String value;
 }
