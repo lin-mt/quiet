@@ -74,7 +74,7 @@ public class ScrumIteration extends SortableEntity {
 
   /** 备注信息 */
   @Length(max = 1000)
-  @Column(name = "remark", nullable = false, length = 1000)
+  @Column(name = "remark", length = 1000)
   private String remark;
 
   @Override
