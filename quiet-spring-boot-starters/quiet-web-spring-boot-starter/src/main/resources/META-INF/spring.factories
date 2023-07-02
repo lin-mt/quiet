@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.gitee.quiet.service.config.MessageSourceConfig,\
-  com.gitee.quiet.web.config.JacksonConfig

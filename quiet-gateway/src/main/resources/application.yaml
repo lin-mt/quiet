@@ -1,25 +1,44 @@
+server:
+  port: 8080
 spring:
   application:
     name: quiet-gateway
-  profiles:
-    active: dev
-  config:
-    import:
-      - classpath:application-redis.yaml
-      - classpath:application-registry.yaml
-      - classpath:application-routes.yaml
+  cloud:
+    gateway:
+      routes:
+        - id: quiet-system
+          uri: http://127.0.0.1:9000/system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+            - TokenRelay=
   jackson:
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false
     locale: zh_CN
     time-zone: GMT+8
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+  security:
+    oauth2:
+      client:
+        registration:
+          quiet-gateway:
+            provider: quiet-auth-server
+            client-id: quiet-gateway
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_basic
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: openid,user.read
+        provider:
+          quiet-auth-server:
+            issuer-uri: http://127.0.0.1:8000
+quiet:
+  gateway:
+    oauth2-token-uri: http://127.0.0.1:8000/oauth2/token
+    issuer-uri: http://127.0.0.1:8000
+logging:
+  level:
+    org.springframework.security: trace

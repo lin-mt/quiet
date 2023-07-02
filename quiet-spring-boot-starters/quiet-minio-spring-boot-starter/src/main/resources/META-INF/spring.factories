@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.gitee.quiet.minio.config.QuietMinioConfiguration

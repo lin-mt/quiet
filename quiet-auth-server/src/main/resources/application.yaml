@@ -1,0 +1,50 @@
+server:
+  port: 8000
+spring:
+  jpa:
+    database: mysql
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/quiet?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root93633
+    hikari:
+      minimum-idle: 8
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 12
+      connection-timeout: 30000
+      auto-commit: true
+      connection-test-query: select 1 from dual
+  security:
+    oauth2:
+      authorizationserver:
+        client:
+          quiet-gateway:
+            token:
+              access-token-time-to-live: 605800s
+              refresh-token-time-to-live: 2678500s
+            registration:
+              client-id: quiet-gateway
+              client-secret: '{bcrypt}$2a$10$jdJGhzsiIqYFpjJiYWMl/eKDOd8vdyQis2aynmFN0dgJ53XvpzzwC'
+              client-authentication-methods:
+                - client_secret_basic
+              authorization-grant-types:
+                - client_credentials
+                - authorization_code
+                - refresh_token
+              redirect-uris:
+                - http://127.0.0.1:8080/login/oauth2/code/quiet-gateway
+                - http://127.0.0.1:8080/access_token
+              scopes:
+                - openid
+                - user.read
+logging:
+  level:
+    org.springframework.security: trace

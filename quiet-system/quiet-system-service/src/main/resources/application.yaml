@@ -1,17 +1,35 @@
-spring:
-  application:
-    name: quiet-system
-  profiles:
-    active: dev
-  config:
-    import: optional:classpath:application-all.yaml
 server:
   port: 9000
-dubbo:
-  scan:
-    base-packages: com.gitee.quiet.system.service
-quiet:
+spring:
   jpa:
-    id-generator:
-      worker-id: 0
-      data-center-id: 0
+    database: mysql
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/quiet?serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root93633
+    hikari:
+      minimum-idle: 8
+      idle-timeout: 300000
+      max-lifetime: 900000
+      maximum-pool-size: 12
+      connection-timeout: 30000
+      auto-commit: true
+      connection-test-query: select 1 from dual
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://127.0.0.1:8000
+
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
