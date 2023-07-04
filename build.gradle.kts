@@ -37,6 +37,12 @@ subprojects {
         }
     }
 
+    dependencies {
+        implementation("org.apache.commons:commons-lang3:${property("apacheCommonsLang3Version")}")
+        implementation("org.apache.commons:commons-collections4:${property("apacheCommonsCollections4Version")}")
+        implementation("com.google.guava:guava:${property("googleGuavaVersion")}")
+    }
+
     dependencyManagement {
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
