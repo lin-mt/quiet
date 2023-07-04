@@ -1,5 +1,7 @@
 package cn.linmt.quiet.gateway.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import cn.linmt.quiet.gateway.properties.GatewayProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -14,6 +16,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,9 +29,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableReactiveMethodSecurity
 @EnableConfigurationProperties(GatewayProperties.class)
 public class GatewayConfig {
-
-  private final AuthenticationManager authenticationManager;
-  private final SecurityContextRepository securityContextRepository;
 
   @Bean
   public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
@@ -43,25 +44,13 @@ public class GatewayConfig {
     return builder.createXmlMapper(false).build();
   }
 
-  //  @Bean
-  //  public SecurityWebFilterChain oauth2SecurityFilterChain(ServerHttpSecurity http) {
-  //    http.authenticationManager(authenticationManager);
-  //    http.securityContextRepository(securityContextRepository);
-  //    http.authorizeExchange((exchange) -> exchange.anyExchange().authenticated());
-  //    http.oauth2Login(withDefaults());
-  //    http.oauth2Client(withDefaults());
-  //    http.formLogin(withDefaults());
-  //    http.httpBasic(withDefaults());
-  //    return http.build();
-  //  }
-
-  //  @Bean
-  //  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-  //    http.authorizeExchange((exchange) -> exchange.anyExchange().authenticated().matchers());
-  //    http.oauth2Login(withDefaults());
-  //    http.oauth2Client(withDefaults());
-  //    return http.build();
-  //  }
+  @Bean
+  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    http.authorizeExchange((exchange) -> exchange.anyExchange().authenticated());
+    http.oauth2Login(withDefaults());
+    http.oauth2Client(withDefaults());
+    return http.build();
+  }
 
   @Bean
   public RestTemplate restTemplate(ObjectMapper objectMapper) {
