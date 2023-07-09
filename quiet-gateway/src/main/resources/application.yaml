@@ -35,10 +35,12 @@ spring:
         provider:
           quiet-auth-server:
             issuer-uri: http://127.0.0.1:8000
+            authorization-uri: http://127.0.0.1:8000/oauth2/authorize
+            token-uri: http://127.0.0.1:8000/oauth2/token
+            jwk-set-uri: http://127.0.0.1:8000/oauth2/jwks
 quiet:
   gateway:
     oauth2-token-uri: http://127.0.0.1:8000/oauth2/token
-    issuer-uri: http://127.0.0.1:8000
 logging:
   level:
     org.springframework.security: trace

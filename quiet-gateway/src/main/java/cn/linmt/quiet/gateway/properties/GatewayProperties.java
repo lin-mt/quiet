@@ -12,5 +12,4 @@ public class GatewayProperties {
 
   private String oauth2TokenUri;
 
-  private String issuerUri;
 }

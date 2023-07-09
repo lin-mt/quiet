@@ -27,7 +27,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://127.0.0.1:8000
-
+          jwk-set-uri: http://127.0.0.1:8000/oauth2/jwks
 logging:
   level:
     org:
