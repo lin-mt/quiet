@@ -19,9 +19,15 @@ public class QuietSystemServiceApplication {
     SpringApplication.run(QuietSystemServiceApplication.class, args);
   }
 
-  @GetMapping("/")
+  @GetMapping("/scope")
   @PreAuthorize("hasAuthority('SCOPE_user.read')")
   public Map<String, String> read() {
-    return Map.of("message", "read");
+    return Map.of("message", "scope");
+  }
+
+  @GetMapping("/role")
+  @PreAuthorize("hasRole('ROLE_user')")
+  public Map<String, String> role() {
+    return Map.of("message", "role");
   }
 }
