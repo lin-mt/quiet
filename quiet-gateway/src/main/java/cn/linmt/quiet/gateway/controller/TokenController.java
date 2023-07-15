@@ -41,8 +41,7 @@ public class TokenController implements InitializingBean {
   public void afterPropertiesSet() {
     basic =
         Base64.getEncoder()
-            .encodeToString(
-                String.format("%s:%s", clientId, clientSecret).getBytes(StandardCharsets.UTF_8));
+            .encodeToString((clientId + ":" + clientSecret).getBytes(StandardCharsets.UTF_8));
   }
 
   @GetMapping(value = "/access_token")
@@ -53,7 +52,7 @@ public class TokenController implements InitializingBean {
     String uriStr = uri.toString();
     String query = uri.getQuery();
     String redirectUri = uriStr.replace(query, "").replace("?", "");
-    headers.set("Authorization", "Basic " + basic);
+    headers.set(HttpHeaders.AUTHORIZATION, "Basic " + basic);
     MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
     requestBody.add("grant_type", "authorization_code");
     requestBody.add("redirect_uri", redirectUri);

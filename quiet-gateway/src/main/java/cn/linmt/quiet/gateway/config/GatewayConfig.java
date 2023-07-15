@@ -47,6 +47,7 @@ public class GatewayConfig {
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     http.authorizeExchange((exchange) -> exchange.anyExchange().authenticated());
+    http.securityContextRepository(new SecurityContextRepository());
     http.oauth2Login(withDefaults());
     http.oauth2Client(withDefaults());
     return http.build();

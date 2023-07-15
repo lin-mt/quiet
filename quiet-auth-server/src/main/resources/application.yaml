@@ -29,7 +29,7 @@ spring:
           quiet-gateway:
             token:
               access-token-time-to-live: 605800s
-              refresh-token-time-to-live: 2678500s
+              refresh-token-time-to-live: 2592000s
             registration:
               client-id: quiet-gateway
               client-secret: '{bcrypt}$2a$10$jdJGhzsiIqYFpjJiYWMl/eKDOd8vdyQis2aynmFN0dgJ53XvpzzwC'
