@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
+ */
 @RestController
 @EnableWebSecurity
 @EnableMethodSecurity

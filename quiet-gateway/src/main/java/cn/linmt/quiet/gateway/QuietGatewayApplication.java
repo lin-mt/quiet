@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author lin-mt
+ * @author <a href="mailto:lin-mt@outlook.com">lin-mt</a>
  */
 @SpringBootApplication
 public class QuietGatewayApplication {
