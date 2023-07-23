@@ -11,6 +11,8 @@ dependencies {
     runtimeOnly("com.blazebit:blaze-persistence-core-impl-jakarta:${property("blazePersistenceVersion")}")
     runtimeOnly("com.blazebit:blaze-persistence-integration-hibernate-6.2:${property("blazePersistenceVersion")}")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor("com.querydsl:querydsl-apt:${property("queryDslVersion")}:jakarta")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
