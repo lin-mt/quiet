@@ -1,5 +1,6 @@
 plugins {
     java
+    `java-library`
     id("org.springframework.boot") version "3.1.1"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.graalvm.buildtools.native") version "0.9.23"
@@ -15,10 +16,15 @@ repositories {
 }
 
 subprojects {
-    apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.graalvm.buildtools.native")
+
+    if (name.endsWith("service")) {
+        plugins.apply("java")
+    } else {
+        plugins.apply("java-library")
+    }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
