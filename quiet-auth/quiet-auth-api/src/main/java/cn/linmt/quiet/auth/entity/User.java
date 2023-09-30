@@ -1,16 +1,13 @@
 package cn.linmt.quiet.auth.entity;
 
 import cn.linmt.quiet.jpa.entity.QuietEntity;
-import com.google.common.collect.Lists;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,44 +58,48 @@ public class User extends QuietEntity implements UserDetails {
   @Column(name = "credentials_non_expired", columnDefinition = "TINYINT(1)")
   private boolean credentialsNonExpired;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<UserRole> userRoles;
+  @Column(name = "enabled", columnDefinition = "TINYINT(1)")
+  private boolean enabled;
+
+  @ManyToMany
+  @JoinTable(
+      name = "auth_user_role",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private Set<Role> roles = new HashSet<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (CollectionUtils.isEmpty(userRoles)) {
-      return Lists.newArrayList();
-    }
-    return userRoles.stream().map(UserRole::getRole).toList();
+    return roles;
   }
 
   @Override
   public String getPassword() {
-    return null;
+    return password;
   }
 
   @Override
   public String getUsername() {
-    return null;
+    return username;
   }
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return accountNonExpired;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return accountNonLocked;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return credentialsNonExpired;
   }
 
   @Override
   public boolean isEnabled() {
-    return false;
+    return enabled;
   }
 }

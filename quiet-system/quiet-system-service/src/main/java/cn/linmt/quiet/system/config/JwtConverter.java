@@ -23,18 +23,13 @@ public class JwtConverter implements Converter<Jwt, Collection<GrantedAuthority>
     Collection<GrantedAuthority> authorities = jwtGrantedAuthoritiesConverter.convert(jwt);
     if (jwt.hasClaim(ROLE_CLAIM_NAME)) {
       Object roleClaim = jwt.getClaim(ROLE_CLAIM_NAME);
-      if (roleClaim instanceof Collection) {
-        Collection<String> roles = castAuthoritiesToCollection(roleClaim);
-        if (CollectionUtils.isNotEmpty(roles)) {
-          authorities.addAll(roles.stream().map(SimpleGrantedAuthority::new).toList());
+      if (roleClaim instanceof Collection<?> roles) {
+        if (CollectionUtils.isNotEmpty(roles) && authorities != null) {
+          authorities.addAll(
+              roles.stream().map(role -> (String) role).map(SimpleGrantedAuthority::new).toList());
         }
       }
     }
     return authorities;
-  }
-
-  @SuppressWarnings("unchecked")
-  private Collection<String> castAuthoritiesToCollection(Object authorities) {
-    return (Collection<String>) authorities;
   }
 }

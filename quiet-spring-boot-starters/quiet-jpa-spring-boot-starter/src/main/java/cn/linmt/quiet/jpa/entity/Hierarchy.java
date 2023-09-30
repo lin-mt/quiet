@@ -14,6 +14,6 @@ import lombok.Setter;
 public class Hierarchy extends QuietEntity implements cn.linmt.quiet.common.type.Hierarchy<Long> {
 
   /** 父级ID */
-  @Column(name = "pid")
-  private Long pId;
+  @Column(name = "parent_id")
+  private Long parentId;
 }

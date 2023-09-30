@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public interface Hierarchy<T extends Serializable> {
 
-  T getPId();
+  T getParentId();
 }

@@ -3,7 +3,8 @@ package cn.linmt.quiet.auth.entity;
 import cn.linmt.quiet.jpa.entity.QuietEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -35,6 +36,15 @@ public class Role extends QuietEntity implements GrantedAuthority {
   @Column(name = "remark", length = 100)
   private String remark;
 
-  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<UserRole> userRoles;
+  /** 父角色 */
+  @ManyToOne
+  @JoinColumn(name = "parent_id")
+  private Role parent;
+
+  /** 子角色 */
+  @OneToMany(mappedBy = "parent")
+  private Set<Role> children = new HashSet<>();
+
+  @ManyToMany(mappedBy = "roles")
+  private Set<User> users = new HashSet<>();
 }
